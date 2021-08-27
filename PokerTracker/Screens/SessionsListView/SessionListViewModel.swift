@@ -7,9 +7,16 @@
 
 import SwiftUI
 
+let imageFromLocationDictionary = [
+    "Encore Boston Harbor" : "encore-header",
+    "Chaser's Poker Room" : "chasers-header",
+    "Boston Billiards Club" : "boston-billiards-header",
+]
+
 // Because this class is of type "ObservableObject," we can monitor changes in our other views
 class SessionsListModel: ObservableObject {
     
+    // TODO:Check how to save in UserDefaults using SwiftUI
     @Published var sessions: [PokerSession] = []
     
     func tallyBankroll() -> Int {
@@ -33,23 +40,10 @@ class SessionsListModel: ObservableObject {
     
     func addSession(location: String, game: String, stakes: String, date: String, profit: String, notes: String, imageName: String, startTime: Date, endTime: Date) {
         
-        switch location {
-        case "Encore Boston Harbor":
-            let imageName: String = "encore-header"
-            let newSession = PokerSession(location: location, game: game, stakes: stakes, date: date, profit: profit, notes: notes, imageName: imageName, startTime: startTime, endTime: endTime)
-            sessions.append(newSession)
-            
-        case "Chaser's Poker Room":
-            let imageName: String = "chasers-header"
-            let newSession = PokerSession(location: location, game: game, stakes: stakes, date: date, profit: profit, notes: notes, imageName: imageName, startTime: startTime, endTime: endTime)
-            
-        case "Boston Billiards Club":
-            let imageName: String = "boston-billiards-header"
-            let newSession = PokerSession(location: location, game: game, stakes: stakes, date: date, profit: profit, notes: notes, imageName: imageName, startTime: startTime, endTime: endTime)
-            
-        default:
-            let imageName: String = ""
-            let newSession = PokerSession(location: location, game: game, stakes: stakes, date: date, profit: profit, notes: notes, imageName: imageName, startTime: startTime, endTime: endTime)
-        }
+        let imageName = imageFromLocationDictionary[location] ?? ""
+        let newSession = PokerSession(location: location, game: game, stakes: stakes, date: date, profit: profit, notes: notes, imageName: imageName, startTime: startTime, endTime: endTime)
+        
+        sessions.append(newSession)
     }
+    
 }

@@ -7,55 +7,37 @@
 
 import SwiftUI
 
+
+struct SessionDetailViewModel {
+    let pokerSession: PokerSession
+    
+    var dateInterval: String {
+        let diffComponents = Calendar.current.dateComponents([.hour, .minute], from: pokerSession.startTime, to: pokerSession.endTime)
+        let hours = diffComponents.hour ?? 0
+        let minutes = diffComponents.minute ?? 0
+        
+        return "\(hours):\(minutes)"
+    }
+    
+}
+
 struct SessionDetailView: View {
     
-    var pokerSession: PokerSession
-    @EnvironmentObject var sessionsListViewModel: SessionsListModel
-    
-    var dateFormatter: DateFormatter {
-        let df = DateFormatter()
-        df.dateStyle = .medium
-        return df
-    }
-    
-    let formatter = DateIntervalFormatter()
-    
-    
-    var dateInterval: DateInterval {
-        let di = DateInterval(start: pokerSession.startTime, end: pokerSession.endTime)
-        return di
-    }
-    
-    
-//    let diffComponents = Calendar.current.dateComponents([.hour, .minute], from: <#T##Date#>, to: <#T##Date#>)
-//    let hours = diffComponents.hour
-//    let minutes = diffComponents.minute
-//
-    
-    var intervalFormatter: DateIntervalFormatter {
-        let formatter = DateIntervalFormatter()
-        formatter.dateStyle = .none
-        formatter.timeStyle = .short
-        return formatter
-    }
-
-    
-    
+    let viewModel: SessionDetailViewModel
 
     
     var body: some View {
-
         ScrollView (.vertical) {
             VStack(spacing: 4) {
-                Image(pokerSession.imageName)
+                Image(viewModel.pokerSession.imageName)
                     .resizable()
                     .scaledToFit()
                     .padding(.bottom)
-                Text(pokerSession.location)
+                Text(viewModel.pokerSession.location)
                     .font(.title)
                     .bold()
                 
-                Text("\(pokerSession.date)")
+                Text("\(viewModel.pokerSession.date)")
                     .font(.callout)
                     .foregroundColor(.secondary)
                     .padding(.bottom, 40)
@@ -67,13 +49,13 @@ struct SessionDetailView: View {
                     VStack {
                         Text("Duration")
                             .font(.headline)
-                        Text(intervalFormatter.string(from: pokerSession.startTime, to: pokerSession.endTime))
+                        Text(viewModel.dateInterval)
                         
                     }
                     VStack {
                         Text("Profit")
                             .font(.headline)
-                        Text("$" + String(pokerSession.profit))
+                        Text("$" + String(viewModel.pokerSession.profit))
                         
                     }
                     VStack {
@@ -92,7 +74,7 @@ struct SessionDetailView: View {
                             .padding(.bottom, 5)
                             .padding(.top, 20)
                     }
-                    Text(pokerSession.notes)
+                    Text(viewModel.pokerSession.notes)
                 }
                 .frame(
                     minWidth: 0,
@@ -112,6 +94,8 @@ struct SessionDetailView: View {
 
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionDetailView(pokerSession: MockData.sampleSession)
+//        SessionDetailView(viewModel: SessionDetailViewModel(pokerSession: MockData.sampleSession))
+        let viewModel = SessionDetailViewModel(pokerSession: PokerSession.faked(startTime: Date(), endTime: Date().adding(minutes: 360)))
+        SessionDetailView(viewModel: viewModel)
     }
 }

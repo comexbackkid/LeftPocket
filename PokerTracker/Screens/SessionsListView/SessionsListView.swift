@@ -18,7 +18,7 @@ struct SessionsView: View {
                 List {
                     ForEach(sessionsListViewModel.sessions ) { session in
                         NavigationLink(
-                            destination: SessionDetailView(pokerSession: session),
+                            destination: SessionDetailView(viewModel: SessionDetailViewModel(pokerSession: session)),
                             label: {
                                 RecentSessionsCellView(pokerSession: session)
                             })

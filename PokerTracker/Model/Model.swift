@@ -20,7 +20,38 @@ struct PokerSession: Hashable, Identifiable {
     let endTime: Date
 }
 
+extension PokerSession {
+    
+    static func faked(
+        id: UUID = UUID(),
+        location: String = imageFromLocationDictionary.first!.key,
+        game: String = "NL Texas Hold Em",
+        stakes: String = "1/2",
+        date: String = "January 1, 2021",
+        profit: String = "863",
+        notes: String = "Hero is UTG so we raise to $15. MP player 3! to $45, everyone else folds. I flat, in this game there’s no 4! so it’s a dead giveaway in this game. ($93) Flop is 8d6c3d. Hero checks to Villain who bets $35. Hero raises to $100, Villain thinks for a few moments and then calls. ($293) Turn is a Js. We have $240 in our stack & Villain covers, we think for about 10 seconds and jam. He tanks for a long time, asks if I’ll show, ultimately he lays it down. We find out he had TT. Did we play too aggressive?? MP limps, LJ limps, Hero on BTN makes it $15, they both call. ($48) Flop is KdKhTs. MP checks, LJ bets $10, I call, MP calls. ($78) Turn is Ac. MP checks, LJ checks, I bet $55 thinking they’re both super weak here. MP thinks for a moment and calls, LJ folds. ($188) River comes Qd. MP checks. Hero? We tank and ultimately check. MP is pissed and tables AK for a boat.",
+        imageName: String = "chasers-header",
+        startTime: Date = Date(),
+        endTime: Date = Date().adding(minutes: 45)) -> PokerSession {
+        return PokerSession(
+            location: location,
+            game: game,
+            stakes: stakes,
+            date: date,
+            profit: profit,
+            notes: notes,
+            imageName: imageName,
+            startTime: startTime,
+            endTime: endTime
+        )
+    }
+
+}
+
+
 struct MockData {
+    
+    static let newSession = PokerSession.faked(startTime: Date(), endTime: Date().adding(minutes: 0))
     
     static let sampleSession = PokerSession(location: "Chaser's Poker Room",
                                             game: "NL Texas Hold Em",
@@ -30,7 +61,7 @@ struct MockData {
                                             notes: "Hero is UTG so we raise to $15. MP player 3! to $45, everyone else folds. I flat, in this game there’s no 4! so it’s a dead giveaway in this game. ($93) Flop is 8d6c3d. Hero checks to Villain who bets $35. Hero raises to $100, Villain thinks for a few moments and then calls. ($293) Turn is a Js. We have $240 in our stack & Villain covers, we think for about 10 seconds and jam. He tanks for a long time, asks if I’ll show, ultimately he lays it down. We find out he had TT. Did we play too aggressive?? MP limps, LJ limps, Hero on BTN makes it $15, they both call. ($48) Flop is KdKhTs. MP checks, LJ bets $10, I call, MP calls. ($78) Turn is Ac. MP checks, LJ checks, I bet $55 thinking they’re both super weak here. MP thinks for a moment and calls, LJ folds. ($188) River comes Qd. MP checks. Hero? We tank and ultimately check. MP is pissed and tables AK for a boat.",
                                             imageName: "chasers-header",
                                             startTime: Date(),
-                                            endTime: Date())
+                                            endTime: Date().adding(minutes: 45))
                                             
 
     static let allSessions = [
@@ -83,4 +114,10 @@ struct MockData {
                      startTime: Date(),
                      endTime: Date())
     ]
+}
+
+extension Date {
+    func adding(minutes: Int) -> Date {
+        return Calendar.current.date(byAdding: .minute, value: minutes, to: self)!
+    }
 }
