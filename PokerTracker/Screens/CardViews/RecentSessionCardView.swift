@@ -10,20 +10,22 @@ import SwiftUI
 struct RecentSessionCardView: View {
     
     var pokerSession: PokerSession
-    @EnvironmentObject var sessionsListViewModel: SessionsListModel
+    @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var viewModel: SessionsListViewModel
     
     var body: some View {
         
         ZStack (alignment: .leading) {
             VStack {
-                Image(sessionsListViewModel.sessions.last.imageName)
+                Image(viewModel.sessions.last?.imageName ?? "default-image")
                     .resizable()
+                    .frame(width: 340, height: 240)
                     .aspectRatio(contentMode: .fit)
                 
                 Spacer()
                 HStack {
                     VStack (alignment: .leading, spacing: 5) {
-                        Text(sessionsListViewModel.sessions.last.location)
+                        Text(viewModel.sessions.last?.location ?? "No Recent Session")
                             .font(.title3)
                             .bold()
 
@@ -32,27 +34,26 @@ struct RecentSessionCardView: View {
                             .foregroundColor(.secondary)
                     }
                     .padding(.horizontal)
-                    Spacer()
                 }
                 Spacer()
             }
             Text("Recent Session")
                 .fontWeight(.bold)
-                .font(.system(size: 30, design: .rounded))
+                .font(.system(size: 30))
                 .foregroundColor(Color("brandWhite"))
-                .offset(y: -165)
+                .offset(y: -145)
                 .padding()
-          
         }
-        .frame(width: 350, height: 380)
-        .background(Color(.secondarySystemBackground))
+        .frame(width: 340, height: 360)
+        .background(Color(.systemBackground))
         .cornerRadius(20)
-        .shadow(color: Color(.lightGray).opacity(0.7), radius: 18, x: 0, y: 5)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.3),
+                radius: 12, x: 0, y: 5)
     }
 }
 
 struct RecentSessionCardView_Previews: PreviewProvider {
     static var previews: some View {
-        RecentSessionCardView(pokerSession: MockData.sampleSession).environmentObject(SessionsListModel())
+        RecentSessionCardView(pokerSession: MockData.sampleSession).environmentObject(SessionsListViewModel())
     }
 }

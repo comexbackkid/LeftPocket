@@ -12,7 +12,7 @@ struct PlusButton: View {
         ZStack {
             Circle()
                 .frame(width: 40, height: 40)
-                .foregroundColor(.white)
+                .foregroundColor(Color("brandWhite"))
             
             Image(systemName: "plus")
                 .resizable()
@@ -26,5 +26,6 @@ struct PlusButton: View {
 struct PlusButton_Previews: PreviewProvider {
     static var previews: some View {
         PlusButton()
+            .previewLayout(.sizeThatFits)
     }
 }

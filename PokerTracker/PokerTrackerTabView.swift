@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct PokerTrackerTabView: View {
+    
+    @AppStorage("isDarkMode") private var isDarkMode = false
+    
     var body: some View {
         TabView {
             ContentView()
@@ -28,7 +31,7 @@ struct PokerTrackerTabView: View {
                     Text("Metrics")
                 }
             
-            SettingsView()
+            SettingsView(isDarkMode: $isDarkMode)
                 .tabItem {
                     Image(systemName: "gear")
                     Text("Settings")
@@ -36,11 +39,12 @@ struct PokerTrackerTabView: View {
             
 
         }
+        .preferredColorScheme(isDarkMode ? .dark : .light)
     }
 }
 
 struct PokerTrackerTabView_Previews: PreviewProvider {
     static var previews: some View {
-        PokerTrackerTabView().environmentObject(SessionsListModel())
+        PokerTrackerTabView().environmentObject(SessionsListViewModel())
     }
 }

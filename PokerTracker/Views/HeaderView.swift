@@ -10,6 +10,7 @@ import SwiftUI
 struct HeaderView: View {
     
     @Binding var isPresented: Bool
+    @Binding var activeSheet: ActiveSheet?
 
     var body: some View {
         HStack {
@@ -31,7 +32,8 @@ struct HeaderView: View {
             Spacer()
             
             Button(action: {
-                isPresented.toggle()
+//                isPresented.toggle()
+                activeSheet = .newSession
             }, label: {
                 PlusButton()
             })
@@ -42,6 +44,6 @@ struct HeaderView: View {
 
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        HeaderView(isPresented: .constant(false))
+        HeaderView(isPresented: .constant(false), activeSheet: .constant(.newSession))
     }
 }
