@@ -19,10 +19,14 @@ struct ProfitByLocationView: View {
                     ForEach(viewModel.uniqueLocations, id: \.self) { location in
                         HStack {
                             Text(location)
+                            
                             Spacer()
-                            Text("$" + "\(viewModel.sessions.filter({$0.location == location}).reduce(0) { $0 + $1.profit})")
+                            
+                            let total = viewModel.profitByLocation(location)
+                            
+                            Text("\(total.accountingStyle())")
                                 .bold()
-                                .foregroundColor(viewModel.sessions.filter({$0.location == location}).reduce(0) { $0 + $1.profit} > 0 ? .green : viewModel.sessions.filter({$0.location == location}).reduce(0) { $0 + $1.profit} < 0 ? .red : Color(.systemGray))
+                                .modifier(AccountingView(total: total))
                         }
                     }
                     .navigationBarTitle(Text("Profit by Location"))

@@ -10,6 +10,7 @@ import SwiftUI
 struct PokerTrackerTabView: View {
     
     @AppStorage("isDarkMode") private var isDarkMode = false
+    @State var shouldShowOnboarding: Bool = true
     
     var body: some View {
         TabView {
@@ -36,10 +37,12 @@ struct PokerTrackerTabView: View {
                     Image(systemName: "gear")
                     Text("Settings")
                 }
-            
-
         }
-        .preferredColorScheme(isDarkMode ? .dark : .light)
+        .accentColor(Color("brandPrimary"))
+        .environment(\.colorScheme, isDarkMode ? .dark : .light)
+        .fullScreenCover(isPresented: $shouldShowOnboarding, content: {
+            OnboardingView(shouldShowOnboarding: $shouldShowOnboarding)
+        })
     }
 }
 

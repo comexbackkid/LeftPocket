@@ -15,7 +15,7 @@ struct LocationCardView: View {
         ZStack {
             VStack (alignment: .leading) {
                 Image(systemName: "mappin.and.ellipse")
-                    .foregroundColor(Color("brandPrimary"))
+                    .foregroundColor(.red)
                     .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                 Text("Profit by\nLocation")
                     .multilineTextAlignment(.leading)
@@ -29,11 +29,10 @@ struct LocationCardView: View {
             .frame(width: 140, height: 140)
             .padding()
         }
-        
-        .background(Color(.systemBackground))
+        .background(Color(colorScheme == .dark ? .secondarySystemBackground : .systemBackground))
         .cornerRadius(20)
-        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.4),
-                radius: 10, x: 0, y: 3)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.2),
+                radius: 6, x: 0, y: 3)
         
     }
 }

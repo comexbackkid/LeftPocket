@@ -19,30 +19,39 @@ struct ContentView: View {
             .overlay(
                 ScrollView(.vertical) {
                     VStack(spacing: 5) {
-                        HeaderView(isPresented: $isPresented, activeSheet: $activeSheet)
-                        
-                        BankrollSnapshot()
-                            .padding()
-                        
-                        MetricsCardView()
-                            .padding(.bottom, 30)
-                        
-                        Button(action: {
-                            activeSheet = .recentSession
-                        }, label: {
-                            RecentSessionCardView(pokerSession: MockData.sampleSession)
-                                .padding(.bottom, 40)
-                            
-                        })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        Spacer()
+                        HeaderView(activeSheet: $activeSheet)
                             .sheet(item: $activeSheet) { item in
                                 switch item {
                                 case .newSession: NewSessionView(isPresented: $isPresented)
                                 case .recentSession: SessionDetailView(pokerSession: viewModel.sessions.last ?? MockData.sampleSession)
                                 }
                             }
+                        
+                        BankrollSnapshot()
+                            .padding()
+                        
+                        if viewModel.sessions.isEmpty {
+                            
+                            EmptyState()
+                                .padding(.top, 80)
+                            
+                        } else {
+                        
+                        MetricsCardView()
+                            .padding(.bottom)
+                        
+                        Button(action: {
+                            activeSheet = .recentSession
+                        }, label: {
+                            RecentSessionCardView(pokerSession: viewModel.sessions.last ?? MockData.sampleSession)
+                                .padding(.bottom, 40)
+                            
+                        })
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        Spacer()
+
+                        }
                     }
                 }
             )
@@ -72,17 +81,11 @@ struct BankrollSnapshot: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     var bankroll: String {
-        let numFormatter = NumberFormatter()
-        numFormatter.numberStyle = .currency
-        numFormatter.maximumFractionDigits = 0
-        return numFormatter.string(from: NSNumber(value: viewModel.tallyBankroll())) ?? "0"
+        return viewModel.tallyBankroll().accountingStyle()
     }
     
-    var lastSession: String {
-        let numFormatter = NumberFormatter()
-        numFormatter.numberStyle = .currency
-        numFormatter.maximumFractionDigits = 0
-        return numFormatter.string(from: NSNumber(value: viewModel.sessions.last?.profit ?? 0)) ?? "0"
+    var lastSession: Int {
+        return viewModel.sessions.last?.profit ?? 0
     }
     
     var body: some View {
@@ -97,19 +100,17 @@ struct BankrollSnapshot: View {
                     .font(.system(size: 46, design: .rounded))
                     .foregroundColor(Color("brandBlack"))
                     .padding(.bottom, 4)
-                
-                HStack {
-                    Text(lastSession)
-                        .fontWeight(.bold)
-                        .font(.system(size: 24, design: .rounded))
-                }
-                .foregroundColor(viewModel.sessions.last?.profit ?? 0 > 0 ?
-                                    .green : .red)
-
                 Text("Last Session")
                     .font(.caption)
                     .opacity(0.6)
-                    .padding(.bottom, 50)
+                    
+                HStack {
+                    Text("\(lastSession.accountingStyle())")
+                        .fontWeight(.bold)
+                        .font(.system(size: 24, design: .rounded))
+                        .modifier(AccountingView(total: lastSession))
+                }
+                .padding(.bottom, 50)
             }
         }
     }

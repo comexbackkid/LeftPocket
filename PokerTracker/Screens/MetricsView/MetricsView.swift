@@ -15,11 +15,21 @@ struct MetricsView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                ZStack {
-                    Color("brandWhite")
+                
+                if viewModel.sessions.isEmpty {
+                    
+                    VStack {
+                        EmptyStateMetricsBankroll()
+                            .padding(.top, 50)
+                            .padding(.bottom, 50)
+                    }
+                }
+                
                     VStack (alignment: .leading) {
                         
-                        BankrollChartView()
+                        if !viewModel.sessions.isEmpty {
+                            BankrollChartView()
+                        }
                         
                         OverviewView(totalBankroll: viewModel.tallyBankroll(),
                                      hourlyRate: viewModel.hourlyRate(),
@@ -30,13 +40,14 @@ struct MetricsView: View {
                         
                         VStack (alignment: .leading) {
                             
-                            WeekdaySnapshotView()
+                            if !viewModel.sessions.isEmpty {
+                                WeekdaySnapshotView()
+                            }
                             
                             AdditionalMetricsView()
                         }
-                        .padding()
+                        
                     }
-                }
             }
             .navigationBarHidden(true)
         }
@@ -44,6 +55,7 @@ struct MetricsView: View {
 }
 
 struct MetricsView_Previews: PreviewProvider {
+    
     static var previews: some View {
         MetricsView().environmentObject(SessionsListViewModel())
     }
@@ -53,7 +65,7 @@ struct BankrollChartView: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
     
-    let lineChartStyle = ChartStyle(backgroundColor: .white, accentColor: Color("brandPrimary"), secondGradientColor: Color("lightBlue"), textColor: .black, legendTextColor: .gray, dropShadowColor: .white)
+    let lineChartStyle = ChartStyle(backgroundColor: Color(.systemBackground), accentColor: Color("brandPrimary"), secondGradientColor: Color("lightBlue"), textColor: .black, legendTextColor: .gray, dropShadowColor: .white)
     
     var body: some View {
         
@@ -174,8 +186,9 @@ struct WeekdaySnapshotView: View {
                          form: ChartForm.extraLarge,
                          dropShadow: false,
                          valueSpecifier: "%.0f")
-                .padding(.bottom, 50)
+                .padding(.bottom, 30)
         }
+        .padding()
     }
 }
 
@@ -188,23 +201,41 @@ struct AdditionalMetricsView: View {
             Text("Additional Metrics")
                 .font(.title)
                 .bold()
-                .padding(.bottom)
+
+                .padding(.leading)
             
-            HStack {
-                NavigationLink(
-                    destination: ProfitByLocationView(viewModel: viewModel),
-                    label: {
-                        LocationCardView()
-                    })
-                    .buttonStyle(PlainButtonStyle())
-                Spacer()
-                NavigationLink(
-                    destination: ProfitByWeekdayView(viewModel: viewModel),
-                    label: {
-                        WeekdayCardView()
-                    })
-                    .buttonStyle(PlainButtonStyle())
-            }
+            ScrollView(.horizontal, showsIndicators: false, content: {
+                HStack (spacing: 10) {
+                    NavigationLink(
+                        destination: ProfitByLocationView(viewModel: viewModel),
+                        label: {
+                            LocationCardView()
+                        })
+                        .buttonStyle(PlainButtonStyle())
+                    
+                    NavigationLink(
+                        destination: ProfitByWeekdayView(viewModel: viewModel),
+                        label: {
+                            WeekdayCardView()
+                        })
+                        .buttonStyle(PlainButtonStyle())
+                    
+                    NavigationLink(
+                        destination: ProfitByMonth(viewModel: viewModel),
+                        label: {
+                            MonthlyCardView()
+                        })
+                        .buttonStyle(PlainButtonStyle())
+                }
+                .padding(.leading)
+                .padding(.trailing)
+                .frame(height: 200)
+            })
+
+            
         }
+        .padding(.bottom, 30)
+        
+        
     }
 }

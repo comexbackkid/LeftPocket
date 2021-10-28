@@ -11,8 +11,7 @@ struct EmptyState: View {
     var body: some View {
         
         ZStack {
-            Color(.systemBackground)
-                .edgesIgnoringSafeArea(.all)
+            
             
             VStack (alignment: .center, spacing: 5) {
                 Image("empty-list")
@@ -20,12 +19,13 @@ struct EmptyState: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 200, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 
-                Text("None found!")
+                Text("No Sessions")
                     .font(.title2)
                     .bold()
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
-                Text("Add your first session")
+                Text("Add your first session now!")
+                    .opacity(0.7)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }

@@ -1,28 +1,28 @@
 //
-//  WeekdayResultsView.swift
+//  MonthlyCardView.swift
 //  PokerTracker
 //
-//  Created by Christian Nachtrieb on 10/6/21.
+//  Created by Christian Nachtrieb on 10/27/21.
 //
 
 import SwiftUI
 
-struct WeekdayCardView: View {
+struct MonthlyCardView: View {
     
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         ZStack {
             VStack (alignment: .leading) {
-                Image(systemName: "calendar")
-                    .foregroundColor(.blue)
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                Text("Profit by\nWeekday")
+                Image(systemName: "doc.text")
+                    .foregroundColor(.gray)
+                    .font(.title)
+                Text("Profit by\nMonth")
                     .multilineTextAlignment(.leading)
                     .font(.headline)
                     .padding(.bottom, 5)
                     .padding(.top, 5)
-                Text("See how you perform on a given day of the week.")
+                Text("See your results for the previous month.")
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
@@ -36,8 +36,8 @@ struct WeekdayCardView: View {
     }
 }
 
-struct WeekdayCardView_Previews: PreviewProvider {
+struct MonthlyCardView_Previews: PreviewProvider {
     static var previews: some View {
-        WeekdayCardView()
+        MonthlyCardView()
     }
 }

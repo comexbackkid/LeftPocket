@@ -11,29 +11,14 @@ struct SessionDetailView: View {
     
     @Environment(\.presentationMode) var presentationMode
     let pokerSession: PokerSession
-    
-    var dateFormatter: DateFormatter {
-        let df = DateFormatter()
-        df.dateStyle = .medium
-        return df
-    }
 
     var body: some View {
         
         ScrollView (.vertical) {
             VStack(spacing: 4) {
-                Image(pokerSession.imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .padding(.bottom)
-                Text(pokerSession.location)
-                    .font(.title)
-                    .bold()
-                Text("\(dateFormatter.string(from: pokerSession.date))")
-                    .font(.callout)
-                    .foregroundColor(.secondary)
-                    .padding(.bottom, 40)
-                
+                GraphicHeaderView(image: pokerSession.imageName,
+                                  location: pokerSession.location,
+                                  date: pokerSession.date)
                 Divider()
                     .frame(width: 180)
                 
@@ -47,8 +32,18 @@ struct SessionDetailView: View {
                             .font(.headline)
                             .padding(.bottom, 5)
                             .padding(.top, 20)
+                    
                     Text(pokerSession.notes)
+                        .contextMenu {
+                            Button(action: {
+                                UIPasteboard.general.string = self.pokerSession.notes
+                            }, label: {
+                                Text("Copy to Clipboard")
+                                Image(systemName: "doc.on.doc")
+                            })
+                        }
                         .padding(.bottom, 30)
+                    
                     Text("Miscellaneous")
                         .font(.headline)
                         .padding(.bottom, 5)
@@ -63,9 +58,10 @@ struct SessionDetailView: View {
                 )
                 .padding()
                 .padding(.bottom, 70)
+                
                 Spacer()
             }
-            
+         
 //            .overlay(Button(action: {
 //                presentationMode.wrappedValue.dismiss()
 //            }, label: {
@@ -77,24 +73,44 @@ struct SessionDetailView: View {
 }
 
 struct SessionDetailView_Previews: PreviewProvider {
+    
     static var previews: some View {
         SessionDetailView(pokerSession: MockData.sampleSession)
     }
 }
 
+struct GraphicHeaderView: View {
+    
+    var dateFormatter: DateFormatter {
+        let df = DateFormatter()
+        df.dateStyle = .medium
+        return df
+    }
+    
+    let image: String
+    let location: String
+    let date: Date
+    
+    var body: some View {
+        Image(image)
+            .resizable()
+            .scaledToFit()
+            .padding(.bottom)
+        Text(location)
+            .font(.title)
+            .bold()
+        Text("\(dateFormatter.string(from: date))")
+            .font(.callout)
+            .foregroundColor(.secondary)
+            .padding(.bottom, 40)
+    }
+}
 
 struct KeyMetrics: View {
     
     let sessionDuration: String
     let sessionProfit: Int
     let sessionHourlyRate: Int
-    
-    var currencyFormatter: NumberFormatter {
-        let numFormatter = NumberFormatter()
-        numFormatter.numberStyle = .currency
-        numFormatter.maximumFractionDigits = 0
-        return numFormatter
-    }
     
     var body: some View {
         HStack(spacing: 50) {
@@ -107,15 +123,16 @@ struct KeyMetrics: View {
             VStack {
                 Text("Profit")
                     .font(.headline)
-                Text(currencyFormatter.string(from: NSNumber(value: sessionProfit)) ?? "0")
+                Text(sessionProfit.accountingStyle())
+                    .modifier(AccountingView(total: sessionProfit))
                 
             }
             VStack {
                 Text("Hourly")
                     .font(.headline)
-                Text(currencyFormatter.string(from: NSNumber(value: sessionHourlyRate)) ?? "0")
+                Text(sessionHourlyRate.accountingStyle())
+                    .modifier(AccountingView(total: sessionProfit))
             }
-            
         }.padding()
     }
 }
@@ -169,6 +186,5 @@ struct MiscView: View {
             Text("\(vm.sessions.filter({$0.location == pokerSession.location}).count)")
                 .font(.subheadline)
         }
-        Divider()
     }
 }

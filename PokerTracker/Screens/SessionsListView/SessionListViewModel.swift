@@ -32,8 +32,6 @@ class SessionsListViewModel: ObservableObject {
         else { return }
         
         self.sessions = savedSessions
-        //        let newSessions = MockData.allSessions
-        //        sessions.append(contentsOf: newSessions)
     }
     
     func filterByDate() {
@@ -74,6 +72,30 @@ class SessionsListViewModel: ObservableObject {
         let friday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Friday" }).map({ $0.profit }).reduce(0,+)
         let saturday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Saturday" }).map({ $0.profit }).reduce(0,+)
         return [("Sun", sunday), ("Mon", monday), ("Tues", tuesday), ("Wed", wednesday), ("Thurs", thursday), ("Fri", friday), ("Sat", saturday)]
+    }
+    
+    func sessionsByLocation(_ location: String) -> [PokerSession] {
+        sessions.filter({ $0.location == location })
+    }
+    
+    func profitByLocation(_ location: String) -> Int {
+        return sessionsByLocation(location).reduce(0) { $0 + $1.profit }
+    }
+    
+    func sessionsByDayOfWeek(_ day: String) -> [PokerSession] {
+        sessions.filter({ $0.date.dayOfWeek(day: $0.date) == day })
+    }
+    
+    func profitByDayOfWeek(_ day: String) -> Int {
+        return sessionsByDayOfWeek(day).reduce(0) { $0 + $1.profit }
+    }
+    
+    func sessionsByMonth(_ month: String) -> [PokerSession] {
+        sessions.filter({ $0.date.monthOfYear(month: $0.date) == month })
+    }
+    
+    func profitByMonth(_ month: String) -> Int {
+        return sessionsByMonth(month).reduce(0) { $0 + $1.profit }
     }
     
     // Function that adds a new session to our SessionsListView from NewSessionView
@@ -151,6 +173,7 @@ class SessionsListViewModel: ObservableObject {
     }
     
     let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     
     // Dictionary that pulls the selected venue and links it to correct image name
     let imageFromLocationDictionary = [
@@ -161,5 +184,3 @@ class SessionsListViewModel: ObservableObject {
         "Foxwoods Resort & Casino" : "foxwoods-header"
     ]
 }
-
-

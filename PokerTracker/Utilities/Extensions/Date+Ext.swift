@@ -8,24 +8,32 @@
 import Foundation
 
 extension Date {
-    func adding(minutes: Int) -> Date {
-        return Calendar.current.date(byAdding: .minute, value: minutes, to: self)!
-    }
-}
-
-extension Date {
-    func daySubtracting(days: Int) -> Date {
-        return Calendar.current.date(byAdding: .day, value: days, to: self)!
-    }
-}
-
-extension Date {
-    func dayOfWeek(day: Date)-> String {
+    
+    // Returns the day of the week from a Date in String format
+    func dayOfWeek(day: Date) -> String {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "EEEE"
             let weekDay = dateFormatter.string(from: day)
             return weekDay
       }
+    
+    // Returns the month from a Date in String format
+    func monthOfYear(month: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM"
+        let month = dateFormatter.string(from: month)
+        return month
+    }
+    
+    // Using this as a default starting point for the NewSessionView
+    func daySubtracting(days: Int) -> Date {
+        return Calendar.current.date(byAdding: .day, value: days, to: self)!
+    }
+    
+    // Used in our dummy data for preview purposes only
+    func adding(minutes: Int) -> Date {
+        return Calendar.current.date(byAdding: .minute, value: minutes, to: self)!
+    }
 }
 
 extension DateComponents {
@@ -36,6 +44,7 @@ extension DateComponents {
         return hours + minuteHours
     }
     
+    // Formatted for our DetailView
     var formattedDuration: String {
         let hours = self.hour ?? 0
         let minutes = self.minute ?? 0

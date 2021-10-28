@@ -32,7 +32,7 @@ struct SessionsView: View {
                     })
                 }
                 .listStyle(PlainListStyle())
-                .navigationTitle("Recent Sessions").accentColor(.white)
+                .navigationTitle("All Sessions")
                 
                 if viewModel.sessions.isEmpty {
                     EmptyState()

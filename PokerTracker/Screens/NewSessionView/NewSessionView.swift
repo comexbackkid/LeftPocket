@@ -53,11 +53,15 @@ struct NewSessionView: View {
                             
                         DatePicker("End time", selection: $viewModel.endTime,
                                    displayedComponents: .hourAndMinute)
-                     
-                        TextField("Profit", text: $viewModel.profit)
-//                            .keyboardType(.numberPad)
+                        HStack {
+                            Text("$")
+                                .foregroundColor(.secondary)
+                            TextField("Profit or Loss", text: $viewModel.profit)
+                                .keyboardType(.numberPad)
+                        }
                     }
-                    Section(header: Text("Hand Notes")) {
+      
+                    Section(header: Text("Hand Notes (Optional)")) {
                         TextEditor(text: $viewModel.notes)
                             .frame(height: 120)
                     }

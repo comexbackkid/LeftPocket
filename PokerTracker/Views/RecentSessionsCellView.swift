@@ -26,6 +26,19 @@ struct RecentSessionsCellView: View {
     
     var body: some View {
         HStack (spacing: 4) {
+            
+            Image(systemName: "suit.spade.fill")
+                .resizable()
+                .frame(width: 18, height: 18)
+                .foregroundColor(.white)
+                
+                .background(
+                    Circle()
+                        .foregroundColor(Color("brandPrimary"))
+                        .frame(width: 36, height: 36, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                )
+                .padding(.trailing, 15)
+            
             VStack (alignment: .leading) {
                 Text(pokerSession.location)
                     .font(.subheadline)
