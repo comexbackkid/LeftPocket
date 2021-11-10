@@ -41,8 +41,17 @@ struct PokerSession: Hashable, Codable, Identifiable {
 
 
 struct MockData {
+
+//    static func getMockSessionListViewModel() -> SessionsListViewModel {
+//
+//        let mockData = SessionsListViewModel()
+//        mockData.sessions = MockData.allSessions
+//        return mockData
+//    }
     
     //    static let newSession = PokerSession.faked(startTime: Date(), endTime: Date().adding(minutes: 0))
+    
+    static let mockDailyBarChart = [("Sun", 250), ("Mon", 673), ("Tues", 468), ("Wed", 302), ("Thurs", 100), ("Fri", 555), ("Sat", 400)]
     
     static let sampleSession = PokerSession(location: "Encore Boston Harbor",
                                             game: "NL Texas Hold Em",
@@ -55,6 +64,7 @@ struct MockData {
                                             endTime: Date().adding(minutes: 95))
     
     static let allSessions = [
+        
         PokerSession(location: "Chaser's Poker Room",
                      game: "NL Texas Hold Em",
                      stakes: "1/2",

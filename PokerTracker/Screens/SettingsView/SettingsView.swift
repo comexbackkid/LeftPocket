@@ -58,7 +58,7 @@ struct SettingsView: View {
                         })
                     
                     NavigationLink(
-                        destination: Text("Help"),
+                        destination: HelpView(),
                         label: {
                             Image(systemName: "info.circle")
                                 .foregroundColor(.purple)
@@ -88,6 +88,7 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
         }
+        .accentColor(Color("brandPrimary"))
     }
 }
 
@@ -100,6 +101,7 @@ struct SettingsView_Previews: PreviewProvider {
 struct LocationsListView: View {
     
     @ObservedObject var viewModel: SettingsViewModel
+    @State var addLocationIsShowing = false
     
     var body: some View {
         VStack {
@@ -109,6 +111,15 @@ struct LocationsListView: View {
                 }
             }
             .navigationTitle("Locations")
+            .navigationBarItems(trailing:
+                                    Button(action: {
+                                        addLocationIsShowing.toggle()
+                                    }, label: {
+                                        Image(systemName: "plus")
+                                    }))
+            .sheet(isPresented: $addLocationIsShowing, content: {
+                NewLocationView(addLocationIsShowing: $addLocationIsShowing)
+            })
         }
     }
 }

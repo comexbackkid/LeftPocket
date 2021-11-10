@@ -62,7 +62,7 @@ class SessionsListViewModel: ObservableObject {
         return cumBankroll
     }
     
-    // Bar Chart displaying weekday profit totals
+    // Bar Chart displaying weekday profit totals as tuple
     func dailyChart() -> [(String, Int)] {
         let sunday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Sunday" }).map({ $0.profit }).reduce(0,+)
         let monday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Monday" }).map({ $0.profit }).reduce(0,+)
@@ -72,6 +72,18 @@ class SessionsListViewModel: ObservableObject {
         let friday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Friday" }).map({ $0.profit }).reduce(0,+)
         let saturday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Saturday" }).map({ $0.profit }).reduce(0,+)
         return [("Sun", sunday), ("Mon", monday), ("Tues", tuesday), ("Wed", wednesday), ("Thurs", thursday), ("Fri", friday), ("Sat", saturday)]
+    }
+    
+    // Custom designed Bar Chart weekday profit totals
+    func dailyBarChart() -> [Int] {
+        let sunday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Sunday" }).map({ $0.profit }).reduce(0,+)
+        let monday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Monday" }).map({ $0.profit }).reduce(0,+)
+        let tuesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Tuesday" }).map({ $0.profit }).reduce(0,+)
+        let wednesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Wednesday" }).map({ $0.profit }).reduce(0,+)
+        let thursday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Thursday" }).map({ $0.profit }).reduce(0,+)
+        let friday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Friday" }).map({ $0.profit }).reduce(0,+)
+        let saturday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Saturday" }).map({ $0.profit }).reduce(0,+)
+        return [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
     }
     
     func sessionsByLocation(_ location: String) -> [PokerSession] {
@@ -181,6 +193,7 @@ class SessionsListViewModel: ObservableObject {
         "Chaser's Poker Room" : "chasers-header",
         "Boston Billiards Club" : "boston-billiards-header",
         "The Brook" : "brook-header",
-        "Foxwoods Resort & Casino" : "foxwoods-header"
+        "Foxwoods Resort & Casino" : "foxwoods-header",
+        "Rivers Casino & Resort" : "rivers-header"
     ]
 }

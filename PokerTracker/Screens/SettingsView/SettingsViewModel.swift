@@ -35,6 +35,7 @@ class SettingsViewModel: ObservableObject {
         }
     }
     
+    
     func saveLocations(){
         if let encodedData = try? JSONEncoder().encode(self.locations){
             UserDefaults.standard.set(encodedData, forKey: "locations_list")

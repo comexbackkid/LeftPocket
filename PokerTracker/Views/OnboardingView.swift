@@ -27,7 +27,7 @@ struct OnboardingView: View {
                      shouldShowOnboarding: $shouldShowOnboarding)
             
             PageView(title: "Clean Design",
-                     subtitle: "Simplistic, modern, user interface for an easier time navigating and reviewing data.",
+                     subtitle: "Simplistic, modern user interface for an easier time navigating and reviewing data.",
                      imageName: "paintbrush",
                      showDismissButton: false,
                      shouldShowOnboarding: $shouldShowOnboarding)

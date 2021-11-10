@@ -29,8 +29,7 @@ struct NewSessionView: View {
                             Text("Encore Boston Harbor").tag("Encore Boston Harbor")
                             Text("The Brook").tag("The Brook")
                             Text("Foxwoods Resort & Casino").tag("Foxwoods Resort & Casino")
-                            Text("Poker Bro's").tag("Poker Bro's")
-                            Text("Club GG").tag("Club GG")
+                            Text("Rivers Casino & Resort").tag("Rivers Casino & Resort")
                         })
                         
                         Picker(selection: $viewModel.game, label: Text("Game"), content: {
@@ -56,8 +55,9 @@ struct NewSessionView: View {
                         HStack {
                             Text("$")
                                 .foregroundColor(.secondary)
+                                .opacity(0.8)
                             TextField("Profit or Loss", text: $viewModel.profit)
-                                .keyboardType(.numberPad)
+//                                .keyboardType(.numberPad)
                         }
                     }
       

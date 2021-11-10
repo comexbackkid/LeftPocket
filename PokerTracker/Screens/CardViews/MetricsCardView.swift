@@ -34,7 +34,6 @@ struct MetricsCardView: View {
                               valueSpecifier: "%.0f")
                 Spacer()
                 HStack {
-                    
                     VStack (alignment: .leading, spacing: 5) {
                         Text("My Metrics")
                             .font(.title3)
@@ -42,6 +41,7 @@ struct MetricsCardView: View {
                         Text("See how you've been playing and discover ways to improve your game.")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
+                            .multilineTextAlignment(.leading)
                     }
                     .padding(.horizontal)
                 }

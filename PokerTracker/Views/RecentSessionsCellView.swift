@@ -17,13 +17,6 @@ struct RecentSessionsCellView: View {
         return df
     }
     
-    var currencyFormatter: NumberFormatter {
-        let numFormatter = NumberFormatter()
-        numFormatter.numberStyle = .currency
-        numFormatter.maximumFractionDigits = 0
-        return numFormatter
-    }
-    
     var body: some View {
         HStack (spacing: 4) {
             
@@ -47,7 +40,7 @@ struct RecentSessionsCellView: View {
                     .foregroundColor(.secondary)
             }
             Spacer()
-            Text(currencyFormatter.string(from: NSNumber(value: pokerSession.profit)) ?? "0")
+            Text(pokerSession.profit.accountingStyle())
                 .font(.subheadline)
                 .bold()
                 .foregroundColor(pokerSession.profit > 0 ? .green : .red)

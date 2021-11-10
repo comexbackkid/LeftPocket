@@ -28,15 +28,16 @@ struct RecentSessionCardView: View {
                         Text(viewModel.sessions.last?.location ?? "No Recent Session")
                             .font(.title3)
                             .bold()
-
+                        
                         Text("View your most recent session to review hand notes & other details.")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }
-                    .padding(.horizontal)
                 }
+                .padding(.horizontal)
                 Spacer()
             }
+            
             Text("Recent Session")
                 .bold()
                 .font(.system(size: 30))

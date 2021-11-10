@@ -28,7 +28,7 @@ struct SessionsView: View {
                             })
                     }
                     .onDelete(perform: { indexSet in
-                        viewModel.sessions.remove(atOffsets: indexSet)
+                        viewModel.sortedSessions.remove(atOffsets: indexSet)
                     })
                 }
                 .listStyle(PlainListStyle())

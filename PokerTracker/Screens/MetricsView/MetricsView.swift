@@ -10,13 +10,13 @@ import SwiftUICharts
 
 struct MetricsView: View {
     
-    @EnvironmentObject var viewModel: SessionsListViewModel
+    @EnvironmentObject var vm: SessionsListViewModel
     
     var body: some View {
         NavigationView {
             ScrollView {
                 
-                if viewModel.sessions.isEmpty {
+                if vm.sessions.isEmpty {
                     
                     VStack {
                         EmptyStateMetricsBankroll()
@@ -27,26 +27,30 @@ struct MetricsView: View {
                 
                     VStack (alignment: .leading) {
                         
-                        if !viewModel.sessions.isEmpty {
+                        if !vm.sessions.isEmpty {
                             BankrollChartView()
                         }
                         
-                        OverviewView(totalBankroll: viewModel.tallyBankroll(),
-                                     hourlyRate: viewModel.hourlyRate(),
-                                     avgProfit: viewModel.avgProfit(),
-                                     avgSessionDuration: viewModel.avgDuration(),
-                                     numOfCashes: viewModel.numOfCashes(),
-                                     totalHours: viewModel.totalHoursPlayed())
+                        OverviewView(totalBankroll: vm.tallyBankroll(),
+                                     hourlyRate: vm.hourlyRate(),
+                                     avgProfit: vm.avgProfit(),
+                                     avgSessionDuration: vm.avgDuration(),
+                                     numOfCashes: vm.numOfCashes(),
+                                     totalHours: vm.totalHoursPlayed())
                         
                         VStack (alignment: .leading) {
                             
-                            if !viewModel.sessions.isEmpty {
-                                WeekdaySnapshotView()
+                            if !vm.sessions.isEmpty {
+                                HStack {
+                                    BarGraphView()
+                                        .frame(height: 360)
+                                }
+                                .padding(.vertical, 30)
                             }
                             
                             AdditionalMetricsView()
+                                .padding(.top)
                         }
-                        
                     }
             }
             .navigationBarHidden(true)
@@ -83,6 +87,7 @@ struct BankrollChartView: View {
         )
         .padding()
         .frame(height: 340)
+        
     }
 }
 
@@ -161,36 +166,36 @@ struct OverviewView: View {
     }
 }
 
-struct WeekdaySnapshotView: View {
-    
-    @EnvironmentObject var viewModel: SessionsListViewModel
-    
-    let barChartStyle = ChartStyle(backgroundColor: .white,
-                                   accentColor: Color("brandPrimary"),
-                                   secondGradientColor: Color("lightBlue"),
-                                   textColor: .black,
-                                   legendTextColor: .gray,
-                                   dropShadowColor: .clear)
-    var body: some View {
-        
-        VStack (alignment: .leading) {
-            Text("Weekday Snapshot")
-                .font(.title)
-                .bold()
-                .padding(.bottom)
-            
-            BarChartView(data: ChartData(values: viewModel.dailyChart()),
-                         title: "",
-                         legend: "",
-                         style: barChartStyle,
-                         form: ChartForm.extraLarge,
-                         dropShadow: false,
-                         valueSpecifier: "%.0f")
-                .padding(.bottom, 30)
-        }
-        .padding()
-    }
-}
+//struct WeekdaySnapshotView: View {
+//
+//    @EnvironmentObject var viewModel: SessionsListViewModel
+//
+//    let barChartStyle = ChartStyle(backgroundColor: .white,
+//                                   accentColor: Color("brandPrimary"),
+//                                   secondGradientColor: Color("lightBlue"),
+//                                   textColor: .black,
+//                                   legendTextColor: .gray,
+//                                   dropShadowColor: .clear)
+//    var body: some View {
+//
+//        VStack (alignment: .leading) {
+//            Text("Weekday Snapshot")
+//                .font(.title)
+//                .bold()
+//                .padding(.bottom)
+//
+//            BarChartView(data: ChartData(values: viewModel.dailyChart()),
+//                         title: "",
+//                         legend: "",
+//                         style: barChartStyle,
+//                         form: ChartForm.extraLarge,
+//                         dropShadow: false,
+//                         valueSpecifier: "%.0f")
+//                .padding(.bottom, 30)
+//        }
+//        .padding()
+//    }
+//}
 
 struct AdditionalMetricsView: View {
     
