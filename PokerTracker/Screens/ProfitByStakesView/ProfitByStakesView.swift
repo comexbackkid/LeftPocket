@@ -1,35 +1,35 @@
 //
-//  ProfitByLocationView.swift
+//  ProfitByGameView.swift
 //  PokerTracker
 //
-//  Created by Christian Nachtrieb on 10/6/21.
+//  Created by Christian Nachtrieb on 11/12/21.
 //
 
 import SwiftUI
 
-struct ProfitByLocationView: View {
-    
+struct ProfitByStakesView: View {
+
     @ObservedObject var viewModel: SessionsListViewModel
-    
+
     var body: some View {
-        
+
         ZStack {
             VStack {
                 List {
-                    ForEach(viewModel.uniqueLocations, id: \.self) { location in
+                    ForEach(viewModel.uniqueStakes, id: \.self) { stakes in
                         HStack {
-                            Text(location)
-                            
+                            Text(stakes)
+
                             Spacer()
-                            
-                            let total = viewModel.profitByLocation(location)
-                            
+
+                            let total = viewModel.profitByStakes(stakes)
+
                             Text(total.accountingStyle())
                                 .bold()
                                 .modifier(AccountingView(total: total))
                         }
                     }
-                    .navigationBarTitle(Text("Profit by Location"))
+                    .navigationBarTitle(Text("Profit by Stakes"))
                 }
                 .listStyle(InsetListStyle())
             }
@@ -40,8 +40,8 @@ struct ProfitByLocationView: View {
     }
 }
 
-struct ProfitByLocationView_Previews: PreviewProvider {
+struct ProfitByStakesView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfitByLocationView(viewModel: SessionsListViewModel())
+        ProfitByStakesView(viewModel: SessionsListViewModel())
     }
 }

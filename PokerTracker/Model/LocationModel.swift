@@ -5,7 +5,6 @@
 //  Created by Christian Nachtrieb on 10/26/21.
 //
 
-import Foundation
 import SwiftUI
 
 struct LocationModel: Decodable, Encodable, Hashable {

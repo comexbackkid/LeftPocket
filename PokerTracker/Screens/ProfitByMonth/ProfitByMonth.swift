@@ -13,6 +13,13 @@ struct ProfitByMonth: View {
     
     var body: some View {
         VStack {
+            Picker(selection: .constant(1), label: Text(""), content: {
+                Text("2020").tag(1)
+                Text("2021").tag(2)
+            })
+            .pickerStyle(SegmentedPickerStyle())
+            .padding()
+            
             List {
                 ForEach(viewModel.months, id: \.self) { month in
                     HStack {
@@ -22,7 +29,7 @@ struct ProfitByMonth: View {
                         
                         let total = viewModel.profitByMonth(month)
                         
-                        Text("\(total.accountingStyle())")
+                        Text(total.accountingStyle())
                             .bold()
                             .modifier(AccountingView(total: total))
                     }

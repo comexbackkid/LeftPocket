@@ -24,12 +24,15 @@ struct NewSessionView: View {
                     Section(header: Text("Details")) {
                         
                         Picker(selection: $viewModel.location, label: Text("Location"), content: {
-                            Text("Chaser's Poker Room").tag("Chaser's Poker Room")
-                            Text("Boston Billiards Club").tag("Boston Billiards Club")
-                            Text("Encore Boston Harbor").tag("Encore Boston Harbor")
-                            Text("The Brook").tag("The Brook")
-                            Text("Foxwoods Resort & Casino").tag("Foxwoods Resort & Casino")
-                            Text("Rivers Casino & Resort").tag("Rivers Casino & Resort")
+//                            Text("Chaser's Poker Room").tag("Chaser's Poker Room")
+//                            Text("Boston Billiards Club").tag("Boston Billiards Club")
+//                            Text("Encore Boston Harbor").tag("Encore Boston Harbor")
+//                            Text("The Brook").tag("The Brook")
+//                            Text("Foxwoods Resort & Casino").tag("Foxwoods Resort & Casino")
+//                            Text("Rivers Casino & Resort").tag("Rivers Casino & Resort")
+                            ForEach(sessionsListViewModel.userAddedLocations, id: \.self) { location in
+                                Text(location.name).tag(location.name)
+                            }
                         })
                         
                         Picker(selection: $viewModel.game, label: Text("Game"), content: {
@@ -56,8 +59,13 @@ struct NewSessionView: View {
                             Text("$")
                                 .foregroundColor(.secondary)
                                 .opacity(0.8)
-                            TextField("Profit or Loss", text: $viewModel.profit)
-//                                .keyboardType(.numberPad)
+                            TextField("Profit", text: $viewModel.profit)
+                                .keyboardType(.numberPad)
+                            Picker(selection: $viewModel.positiveNegative, label: Text(""), content: {
+                                Text("+").tag("+")
+                                Text("-").tag("-")
+                            })
+                            .pickerStyle(SegmentedPickerStyle())
                         }
                     }
       
@@ -78,6 +86,7 @@ struct NewSessionView: View {
             }
         }
         .alert(item: $viewModel.alertItem) { alertItem in
+            
             Alert(title: alertItem.title,
                   message: alertItem.message,
                   dismissButton: alertItem.dismissButton)
@@ -86,16 +95,14 @@ struct NewSessionView: View {
     
     // This needs to go into the NewSessionViewModel
     func saveButtonPressed() {
-        
         guard viewModel.isValidForm else {return}
-        
         sessionsListViewModel.addSession(location: viewModel.location,
                                          game: viewModel.game,
                                          stakes: viewModel.stakes,
                                          date: viewModel.date,
-                                         profit: Int(viewModel.profit) ?? 0,
+                                         profit: Int(viewModel.positiveNegative + viewModel.profit) ?? 0,
                                          notes: viewModel.notes,
-                                         imageName: imageName,
+//                                         imageName: imageName,
                                          startTime: viewModel.startTime,
                                          endTime: viewModel.endTime)
     }

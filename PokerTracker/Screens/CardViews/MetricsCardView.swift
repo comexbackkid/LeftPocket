@@ -23,7 +23,7 @@ struct MetricsCardView: View {
     var body: some View {
         
         ZStack (alignment: .leading) {
-            VStack {
+            VStack (alignment: .leading) {
                 LineChartView(data: viewModel.chartArray(),
                               title: "Total Bankroll",
                               legend: "Last session",

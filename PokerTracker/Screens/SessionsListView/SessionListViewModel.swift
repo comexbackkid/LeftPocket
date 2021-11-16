@@ -8,20 +8,21 @@
 import SwiftUI
 
 class SessionsListViewModel: ObservableObject {
-
     @Published var uniqueLocations: [String] = []
+    @Published var userAddedLocations: [LocationModel] = []
+    @Published var uniqueStakes: [String] = []
     @Published var sessions: [PokerSession] = [] {
         didSet {
             saveSessions()
-            filterByDate()
+            
+            // Do these need if let or guard let statements?
+            uniqueLocations = Array(Set(sessions.map { $0.location }))
+            uniqueStakes = Array(Set(sessions.map { $0.stakes }))
         }
     }
     
-    @Published var sortedSessions: [PokerSession] = []
-    
-    init() {
+    init () {
         getSessions()
-        filterByDate()
     }
     
     // Loads all sessions from UserDefaults upon app launch
@@ -34,10 +35,12 @@ class SessionsListViewModel: ObservableObject {
         self.sessions = savedSessions
     }
     
-    func filterByDate() {
-        sortedSessions = sessions.sorted(by: { $0.date > $1.date })
-        uniqueLocations = Array(Set(sessions.map { $0.location }))
+    // Saves the list of sessions into UserDefaults
+    func saveSessions() {
+        if let encodedData = try? JSONEncoder().encode(sessions) {
+            UserDefaults.standard.set(encodedData, forKey: "sessions_list")
         }
+    }
     
     // Calculate current bankroll
     func tallyBankroll() -> Int {
@@ -62,17 +65,17 @@ class SessionsListViewModel: ObservableObject {
         return cumBankroll
     }
     
-    // Bar Chart displaying weekday profit totals as tuple
-    func dailyChart() -> [(String, Int)] {
-        let sunday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Sunday" }).map({ $0.profit }).reduce(0,+)
-        let monday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Monday" }).map({ $0.profit }).reduce(0,+)
-        let tuesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Tuesday" }).map({ $0.profit }).reduce(0,+)
-        let wednesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Wednesday" }).map({ $0.profit }).reduce(0,+)
-        let thursday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Thursday" }).map({ $0.profit }).reduce(0,+)
-        let friday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Friday" }).map({ $0.profit }).reduce(0,+)
-        let saturday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Saturday" }).map({ $0.profit }).reduce(0,+)
-        return [("Sun", sunday), ("Mon", monday), ("Tues", tuesday), ("Wed", wednesday), ("Thurs", thursday), ("Fri", friday), ("Sat", saturday)]
-    }
+    // Bar Chart displaying weekday profit totals as tuple. Probably can delete this now that we have our own Bar Graph
+//    func dailyChart() -> [(String, Int)] {
+//        let sunday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Sunday" }).map({ $0.profit }).reduce(0,+)
+//        let monday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Monday" }).map({ $0.profit }).reduce(0,+)
+//        let tuesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Tuesday" }).map({ $0.profit }).reduce(0,+)
+//        let wednesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Wednesday" }).map({ $0.profit }).reduce(0,+)
+//        let thursday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Thursday" }).map({ $0.profit }).reduce(0,+)
+//        let friday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Friday" }).map({ $0.profit }).reduce(0,+)
+//        let saturday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Saturday" }).map({ $0.profit }).reduce(0,+)
+//        return [("Sun", sunday), ("Mon", monday), ("Tues", tuesday), ("Wed", wednesday), ("Thurs", thursday), ("Fri", friday), ("Sat", saturday)]
+//    }
     
     // Custom designed Bar Chart weekday profit totals
     func dailyBarChart() -> [Int] {
@@ -110,6 +113,15 @@ class SessionsListViewModel: ObservableObject {
         return sessionsByMonth(month).reduce(0) { $0 + $1.profit }
     }
     
+    func sessionsByStakes(_ stakes: String) -> [PokerSession] {
+        sessions.filter({ $0.stakes == stakes })
+    }
+    
+    func profitByStakes(_ stakes: String) -> Int {
+        return sessionsByStakes(stakes).reduce(0) { $0 + $1.profit }
+    }
+    
+    
     // Function that adds a new session to our SessionsListView from NewSessionView
     func addSession(location: String,
                     game: String,
@@ -117,26 +129,30 @@ class SessionsListViewModel: ObservableObject {
                     date: Date,
                     profit: Int,
                     notes: String,
-                    imageName: String,
+//                    imageName: String,
                     startTime: Date, endTime: Date) {
         
-        let imageName = imageFromLocationDictionary[location] ?? ""
+//        let imageName = imageFromLocationDictionary[location] ?? ""
         let newSession = PokerSession(location: location,
                                       game: game,
                                       stakes: stakes,
                                       date: date,
                                       profit: profit,
                                       notes: notes,
-                                      imageName: imageName,
+//                                      imageName: imageName,
                                       startTime: startTime, endTime: endTime)
         sessions.append(newSession)
+        sessions.sort(by: {$0.date > $1.date})
+        
     }
     
-    // Saves the list of sessions into UserDefaults
-    func saveSessions() {
-        if let encodedData = try? JSONEncoder().encode(sessions) {
-            UserDefaults.standard.set(encodedData, forKey: "sessions_list")
-        }
+    func addLocation(name: String,
+                     imageURL: String) {
+        
+        let newLocation = LocationModel(name: name,
+                                        imageURL: imageURL)
+        
+        userAddedLocations.append(newLocation)
     }
     
     // Adds up total number of profitable sessions
@@ -185,6 +201,7 @@ class SessionsListViewModel: ObservableObject {
     }
     
     let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    let daysOfWeekAbr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     
     // Dictionary that pulls the selected venue and links it to correct image name

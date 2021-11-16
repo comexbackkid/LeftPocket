@@ -10,7 +10,9 @@ import SwiftUI
 struct PokerTrackerTabView: View {
     
     @AppStorage("isDarkMode") private var isDarkMode = false
+    @AppStorage("systemThemeEnabled") private var systemThemeEnabled = false
     @State var shouldShowOnboarding: Bool = true
+
     
     var body: some View {
         TabView {
@@ -32,17 +34,24 @@ struct PokerTrackerTabView: View {
                     Text("Metrics")
                 }
             
-            SettingsView(isDarkMode: $isDarkMode)
+            SettingsView(isDarkMode: $isDarkMode, systemThemeEnabled: $systemThemeEnabled)
                 .tabItem {
                     Image(systemName: "gear")
                     Text("Settings")
                 }
         }
+        .onAppear {
+            SystemThemeManager
+                .shared
+                .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
+        }
         .accentColor(Color("brandPrimary"))
-        .environment(\.colorScheme, isDarkMode ? .dark : .light)
+//        .preferredColorScheme(systemColorScheme == .dark ? .dark : .light)
+//        .preferredColorScheme(isDarkMode ? .dark : .light)
         .fullScreenCover(isPresented: $shouldShowOnboarding, content: {
             OnboardingView(shouldShowOnboarding: $shouldShowOnboarding)
         })
+
     }
 }
 

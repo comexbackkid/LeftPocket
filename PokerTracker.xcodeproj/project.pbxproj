@@ -13,13 +13,13 @@
 		7C20CFB4271F4EB700739764 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20CFB3271F4EB700739764 /* SecondaryButton.swift */; };
 		7C2B3E6626F5488E00B84D52 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */; };
 		7C2B3E6926F565B200B84D52 /* EmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2B3E6826F565B200B84D52 /* EmptyState.swift */; };
+		7C2FC657273EF1E600E3BE0B /* ProfitByStakesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2FC656273EF1E600E3BE0B /* ProfitByStakesView.swift */; };
 		7C3F43AA27284CD800A9C842 /* NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43A927284CD800A9C842 /* NumberFormatter.swift */; };
 		7C3F43AC2728512700A9C842 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43AB2728512700A9C842 /* LocationModel.swift */; };
 		7C3F43AE272852DA00A9C842 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43AD272852DA00A9C842 /* SettingsViewModel.swift */; };
 		7C468EFB273974E6000CA4B3 /* BarGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C468EFA273974E6000CA4B3 /* BarGraphView.swift */; };
 		7C468EFD273980F7000CA4B3 /* Animations+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C468EFC273980F7000CA4B3 /* Animations+Ext.swift */; };
-		7C483256270E3F32005AAFA1 /* WeekdayCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C483255270E3F32005AAFA1 /* WeekdayCardView.swift */; };
-		7C483258270E4441005AAFA1 /* LocationCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C483257270E4441005AAFA1 /* LocationCardView.swift */; };
+		7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C483255270E3F32005AAFA1 /* FilterCardView.swift */; };
 		7C63949626C14E8300939F40 /* PokerTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63949526C14E8300939F40 /* PokerTrackerApp.swift */; };
 		7C63949826C14E8300939F40 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63949726C14E8300939F40 /* ContentView.swift */; };
 		7C63949A26C14E8400939F40 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C63949926C14E8400939F40 /* Assets.xcassets */; };
@@ -51,7 +51,6 @@
 		7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */; };
 		7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEB761E26D9A77E006170EF /* Alerts.swift */; };
 		7CEC885727298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEC885627298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift */; };
-		7CEC885927299BF200A9DAB7 /* MonthlyCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEC885827299BF200A9DAB7 /* MonthlyCardView.swift */; };
 		7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,13 +61,13 @@
 		7C20CFB3271F4EB700739764 /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
 		7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		7C2B3E6826F565B200B84D52 /* EmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyState.swift; sourceTree = "<group>"; };
+		7C2FC656273EF1E600E3BE0B /* ProfitByStakesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByStakesView.swift; sourceTree = "<group>"; };
 		7C3F43A927284CD800A9C842 /* NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
 		7C3F43AB2728512700A9C842 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
 		7C3F43AD272852DA00A9C842 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		7C468EFA273974E6000CA4B3 /* BarGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarGraphView.swift; sourceTree = "<group>"; };
 		7C468EFC273980F7000CA4B3 /* Animations+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Animations+Ext.swift"; sourceTree = "<group>"; };
-		7C483255270E3F32005AAFA1 /* WeekdayCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayCardView.swift; sourceTree = "<group>"; };
-		7C483257270E4441005AAFA1 /* LocationCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCardView.swift; sourceTree = "<group>"; };
+		7C483255270E3F32005AAFA1 /* FilterCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCardView.swift; sourceTree = "<group>"; };
 		7C63949226C14E8300939F40 /* PokerTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokerTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C63949526C14E8300939F40 /* PokerTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokerTrackerApp.swift; sourceTree = "<group>"; };
 		7C63949726C14E8300939F40 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -101,7 +100,6 @@
 		7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSessionViewModel.swift; sourceTree = "<group>"; };
 		7CEB761E26D9A77E006170EF /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		7CEC885627298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateMetricsBankroll.swift; sourceTree = "<group>"; };
-		7CEC885827299BF200A9DAB7 /* MonthlyCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyCardView.swift; sourceTree = "<group>"; };
 		7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -149,19 +147,20 @@
 		7C2614CC26D930D900986183 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				7C2FC654273EC04C00E3BE0B /* BarGraphView */,
 				7C2614CD26D9310E00986183 /* CardViews */,
 				7C2B3E6726F5659600B84D52 /* EmptyStates */,
 				7C82E13126EFC83F00E3EB6F /* MetricsView */,
-				7C82E13326EFC86A00E3EB6F /* NewSessionView */,
 				7C65B186272C3A4300AFE796 /* NewLocationView */,
+				7C82E13326EFC86A00E3EB6F /* NewSessionView */,
+				7C2FC655273EF1CE00E3BE0B /* ProfitByStakesView */,
+				7C7F4F6C270E60F3002ECF6D /* ProfitByLocationView */,
 				7C8134BE2729F1A8004E1CE1 /* ProfitByMonth */,
 				7C1F8C7E2710943B0068E8B1 /* ProfitByWeekdayView */,
-				7C7F4F6C270E60F3002ECF6D /* ProfitByLocationView */,
 				7C82E13226EFC84E00E3EB6F /* SessionDetailView */,
 				7C2614CE26D9313E00986183 /* SessionsListView */,
 				7C82E13426EFC87D00E3EB6F /* SettingsView */,
 				7C63949726C14E8300939F40 /* ContentView.swift */,
-				7C468EFA273974E6000CA4B3 /* BarGraphView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -169,9 +168,7 @@
 		7C2614CD26D9310E00986183 /* CardViews */ = {
 			isa = PBXGroup;
 			children = (
-				7C483255270E3F32005AAFA1 /* WeekdayCardView.swift */,
-				7C483257270E4441005AAFA1 /* LocationCardView.swift */,
-				7CEC885827299BF200A9DAB7 /* MonthlyCardView.swift */,
+				7C483255270E3F32005AAFA1 /* FilterCardView.swift */,
 				7CB3EBA026C345A1009E8DF3 /* MetricsCardView.swift */,
 				7C68FE4226D7CEA40019BA53 /* RecentSessionCardView.swift */,
 			);
@@ -192,12 +189,12 @@
 			children = (
 				7CB3EB9C26C3093D009E8DF3 /* RecentSessionsCellView.swift */,
 				7C6394AC26C14FA600939F40 /* HeaderView.swift */,
+				7CC20EB2272B19D200137F51 /* HelpView.swift */,
 				7C68FE4026D709530019BA53 /* PlusButton.swift */,
 				7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */,
 				7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */,
 				7C20CFB3271F4EB700739764 /* SecondaryButton.swift */,
 				7C20CFB1271E2D1600739764 /* OnboardingView.swift */,
-				7CC20EB2272B19D200137F51 /* HelpView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -235,6 +232,22 @@
 				7CEC885627298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift */,
 			);
 			path = EmptyStates;
+			sourceTree = "<group>";
+		};
+		7C2FC654273EC04C00E3BE0B /* BarGraphView */ = {
+			isa = PBXGroup;
+			children = (
+				7C468EFA273974E6000CA4B3 /* BarGraphView.swift */,
+			);
+			path = BarGraphView;
+			sourceTree = "<group>";
+		};
+		7C2FC655273EF1CE00E3BE0B /* ProfitByStakesView */ = {
+			isa = PBXGroup;
+			children = (
+				7C2FC656273EF1E600E3BE0B /* ProfitByStakesView.swift */,
+			);
+			path = ProfitByStakesView;
 			sourceTree = "<group>";
 		};
 		7C63948926C14E8300939F40 = {
@@ -428,8 +441,8 @@
 				7C8134C3272A13B6004E1CE1 /* ViewModifiers.swift in Sources */,
 				7C20CFB2271E2D1600739764 /* OnboardingView.swift in Sources */,
 				7C8834102735BB5D0093B201 /* NewLocationViewModel.swift in Sources */,
+				7C2FC657273EF1E600E3BE0B /* ProfitByStakesView.swift in Sources */,
 				7C65B188272C3A5A00AFE796 /* NewLocationView.swift in Sources */,
-				7C483258270E4441005AAFA1 /* LocationCardView.swift in Sources */,
 				7C468EFB273974E6000CA4B3 /* BarGraphView.swift in Sources */,
 				7C63949826C14E8300939F40 /* ContentView.swift in Sources */,
 				7CB3EBA126C345A1009E8DF3 /* MetricsCardView.swift in Sources */,
@@ -443,7 +456,6 @@
 				7C6394A726C14F5600939F40 /* MetricsView.swift in Sources */,
 				7C8134C02729F1BE004E1CE1 /* ProfitByMonth.swift in Sources */,
 				7C63949626C14E8300939F40 /* PokerTrackerApp.swift in Sources */,
-				7CEC885927299BF200A9DAB7 /* MonthlyCardView.swift in Sources */,
 				7C3F43AC2728512700A9C842 /* LocationModel.swift in Sources */,
 				7C468EFD273980F7000CA4B3 /* Animations+Ext.swift in Sources */,
 				7CB3EB9F26C310F5009E8DF3 /* SessionDetailView.swift in Sources */,
@@ -459,7 +471,7 @@
 				7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */,
 				7C82E13026EFC6DE00E3EB6F /* MetricsViewModel.swift in Sources */,
 				7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */,
-				7C483256270E3F32005AAFA1 /* WeekdayCardView.swift in Sources */,
+				7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */,
 				7C2B3E6926F565B200B84D52 /* EmptyState.swift in Sources */,
 				7C1F8C82271094B50068E8B1 /* ProfitByWeekdayView.swift in Sources */,
 				7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */,

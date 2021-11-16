@@ -13,6 +13,7 @@ final class NewSessionViewModel: ObservableObject {
     @Published var game: String = ""
     @Published var stakes: String = ""
     @Published var profit: String = ""
+    @Published var positiveNegative: String = "+"
     @Published var notes: String = ""
     @Published var date = Date()
     @Published var startTime: Date = Date().adding(minutes: -60)
@@ -40,3 +41,4 @@ final class NewSessionViewModel: ObservableObject {
         return true
     }
 }
+ 

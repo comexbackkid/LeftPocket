@@ -18,6 +18,7 @@ struct EmptyState: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 200, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .opacity(0.7)
                 
                 Text("No Sessions")
                     .font(.title2)

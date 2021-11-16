@@ -32,7 +32,9 @@ struct OnboardingView: View {
                      showDismissButton: false,
                      shouldShowOnboarding: $shouldShowOnboarding)
             
-            PageView(title: "Let's Go!", subtitle: "Get started by clicking below and then adding your very first poker session!", imageName: "suit.spade.fill",
+            PageView(title: "Let's Go!",
+                     subtitle: "Get started by clicking below and then adding your very first poker session!",
+                     imageName: "suit.spade.fill",
                      showDismissButton: true,
                      shouldShowOnboarding: $shouldShowOnboarding)
         }
@@ -43,7 +45,7 @@ struct OnboardingView: View {
         )
         .tabViewStyle(PageTabViewStyle())
         .edgesIgnoringSafeArea(.all)
-        //        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+        .preferredColorScheme(.light)
     }
 }
 

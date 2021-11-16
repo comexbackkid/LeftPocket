@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject var settings = SettingsViewModel()
     
+    @ObservedObject var settings = SettingsViewModel()
     @EnvironmentObject var viewModel: SessionsListViewModel
     @Binding var isDarkMode: Bool
+    @Binding var systemThemeEnabled: Bool
     
     var body: some View {
         
@@ -24,17 +25,28 @@ struct SettingsView: View {
                             .foregroundColor(.yellow)
                         Text("Dark Mode")
                     })
+                    .onChange(of: isDarkMode, perform: { _ in
+                        SystemThemeManager
+                            .shared
+                            .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
+                    })
                     
-                    Toggle(isOn: .constant(true), label: {
+                    Toggle(isOn: $systemThemeEnabled, label: {
                         Image(systemName: "gearshape.fill")
                             .foregroundColor(.gray)
                         Text("Use System Display")
                     })
+                    .onChange(of: systemThemeEnabled, perform: { _ in
+                        SystemThemeManager
+                            .shared
+                            .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
+                    })
+                    
                 }
                     
                 Section(header: Text("General")) {
                     NavigationLink(
-                        destination: LocationsListView(viewModel: settings),
+                        destination: LocationsListView(viewModel: viewModel),
                         label: {
                             Image(systemName: "mappin.and.ellipse")
                                 .foregroundColor(.red)
@@ -81,7 +93,6 @@ struct SettingsView: View {
                                 .foregroundColor(.blue)
                             Text("For Support, Tweet @chrisnachtrieb")
                         }
-                        
                     })
                     .buttonStyle(PlainButtonStyle())
                 }
@@ -94,19 +105,20 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(isDarkMode: .constant(false))
+        SettingsView(isDarkMode: .constant(false), systemThemeEnabled: .constant(false))
+            .environmentObject(SessionsListViewModel())
     }
 }
 
 struct LocationsListView: View {
     
-    @ObservedObject var viewModel: SettingsViewModel
+    @ObservedObject var viewModel: SessionsListViewModel
     @State var addLocationIsShowing = false
     
     var body: some View {
         VStack {
             List {
-                ForEach(viewModel.getLocations(), id: \.self) { location in
+                ForEach(viewModel.userAddedLocations, id: \.self) { location in
                     Text(location.name)
                 }
             }

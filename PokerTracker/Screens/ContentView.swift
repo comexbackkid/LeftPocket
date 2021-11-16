@@ -23,7 +23,7 @@ struct ContentView: View {
                             .sheet(item: $activeSheet) { item in
                                 switch item {
                                 case .newSession: NewSessionView(isPresented: $isPresented)
-                                case .recentSession: SessionDetailView(pokerSession: viewModel.sessions.last ?? MockData.sampleSession)
+                                case .recentSession: SessionDetailView(pokerSession: viewModel.sessions.first ?? MockData.sampleSession)
                                 }
                             }
                         
@@ -43,8 +43,8 @@ struct ContentView: View {
                         Button(action: {
                             activeSheet = .recentSession
                         }, label: {
-                            RecentSessionCardView(pokerSession: viewModel.sessions.last ?? MockData.sampleSession)
-                                .padding(.bottom, 40)
+                            RecentSessionCardView(pokerSession: viewModel.sessions.first ?? MockData.sampleSession)
+                                .padding(.bottom, 30)
                             
                         })
                         .buttonStyle(PlainButtonStyle())
@@ -85,7 +85,7 @@ struct BankrollSnapshot: View {
     }
     
     var lastSession: Int {
-        return viewModel.sessions.last?.profit ?? 0
+        return viewModel.sessions.first?.profit ?? 0
     }
     
     var body: some View {
@@ -110,7 +110,7 @@ struct BankrollSnapshot: View {
                         .font(.system(size: 24, design: .rounded))
                         .modifier(AccountingView(total: lastSession))
                 }
-                .padding(.bottom, 50)
+                .padding(.bottom, 40)
             }
         }
     }

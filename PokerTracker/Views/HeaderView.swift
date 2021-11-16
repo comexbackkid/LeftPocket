@@ -24,7 +24,6 @@ struct HeaderView: View {
                     .font(.caption)
                     .opacity(0.6)
                 Text("Christian!")
-                    .foregroundColor(Color("brandBlack"))
                     .bold()
             }
             

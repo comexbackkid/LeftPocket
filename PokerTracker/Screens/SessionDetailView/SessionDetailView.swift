@@ -16,7 +16,7 @@ struct SessionDetailView: View {
         
         ScrollView (.vertical) {
             VStack(spacing: 4) {
-                GraphicHeaderView(image: pokerSession.imageName,
+                GraphicHeaderView(image: "encore-header",
                                   location: pokerSession.location,
                                   date: pokerSession.date)
                 Divider()

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NewLocationView: View {
     
+    @EnvironmentObject var sessionsListViewModel: SessionsListViewModel
     @StateObject var viewModel = NewLocationViewModel()
     @Binding var addLocationIsShowing: Bool
     
@@ -22,7 +23,10 @@ struct NewLocationView: View {
                     TextField("Paste Image URL", text: $viewModel.imageLocation)
                 }
                 Section {
-                    Button(action: {}, label: {
+                    Button(action: {
+                        saveLocation()
+                        addLocationIsShowing.toggle()
+                    }, label: {
                         Text("Save Location")
                     })
                 }
@@ -30,10 +34,16 @@ struct NewLocationView: View {
             .navigationBarTitle(Text("Add New Location"))
         }
     }
+    
+    func saveLocation() {
+        sessionsListViewModel.addLocation(name: viewModel.locationName,
+                                          imageURL: viewModel.imageLocation)
+    }
 }
 
 struct NewLocationView_Previews: PreviewProvider {
     static var previews: some View {
         NewLocationView(addLocationIsShowing: .constant(true))
+            .environmentObject(SessionsListViewModel())
     }
 }

@@ -16,8 +16,9 @@ struct RecentSessionCardView: View {
     var body: some View {
         
         ZStack (alignment: .leading) {
-            VStack {
-                Image(viewModel.sessions.last?.imageName ?? "default-image")
+            VStack (alignment: .leading) {
+//                Image(viewModel.sessions.first?.imageName ?? "default-image")
+                Image("default-image")
                     .resizable()
                     .frame(width: 340, height: 240)
                     .aspectRatio(contentMode: .fit)
@@ -25,7 +26,7 @@ struct RecentSessionCardView: View {
                 Spacer()
                 HStack {
                     VStack (alignment: .leading, spacing: 5) {
-                        Text(viewModel.sessions.last?.location ?? "No Recent Session")
+                        Text(viewModel.sessions.first?.location ?? "No Recent Session")
                             .font(.title3)
                             .bold()
                         

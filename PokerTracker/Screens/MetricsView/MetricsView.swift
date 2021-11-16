@@ -10,13 +10,13 @@ import SwiftUICharts
 
 struct MetricsView: View {
     
-    @EnvironmentObject var vm: SessionsListViewModel
+    @EnvironmentObject var viewModel: SessionsListViewModel
     
     var body: some View {
         NavigationView {
             ScrollView {
                 
-                if vm.sessions.isEmpty {
+                if viewModel.sessions.isEmpty {
                     
                     VStack {
                         EmptyStateMetricsBankroll()
@@ -27,25 +27,25 @@ struct MetricsView: View {
                 
                     VStack (alignment: .leading) {
                         
-                        if !vm.sessions.isEmpty {
+                        if !viewModel.sessions.isEmpty {
                             BankrollChartView()
                         }
                         
-                        OverviewView(totalBankroll: vm.tallyBankroll(),
-                                     hourlyRate: vm.hourlyRate(),
-                                     avgProfit: vm.avgProfit(),
-                                     avgSessionDuration: vm.avgDuration(),
-                                     numOfCashes: vm.numOfCashes(),
-                                     totalHours: vm.totalHoursPlayed())
+                        OverviewView(totalBankroll: viewModel.tallyBankroll(),
+                                     hourlyRate: viewModel.hourlyRate(),
+                                     avgProfit: viewModel.avgProfit(),
+                                     avgSessionDuration: viewModel.avgDuration(),
+                                     numOfCashes: viewModel.numOfCashes(),
+                                     totalHours: viewModel.totalHoursPlayed())
                         
                         VStack (alignment: .leading) {
                             
-                            if !vm.sessions.isEmpty {
+                            if !viewModel.sessions.isEmpty {
                                 HStack {
                                     BarGraphView()
-                                        .frame(height: 360)
+                                        .frame(height: 320)
                                 }
-                                .padding(.vertical, 30)
+                                .padding(.vertical, 60)
                             }
                             
                             AdditionalMetricsView()
@@ -76,7 +76,8 @@ struct BankrollChartView: View {
         Text("Your Bankroll")
             .font(.title)
             .bold()
-            .padding()
+            .padding(.horizontal)
+            .padding(.top)
         
         LineView(data: viewModel.chartArray(),
                  //  title: "Title",
@@ -166,37 +167,6 @@ struct OverviewView: View {
     }
 }
 
-//struct WeekdaySnapshotView: View {
-//
-//    @EnvironmentObject var viewModel: SessionsListViewModel
-//
-//    let barChartStyle = ChartStyle(backgroundColor: .white,
-//                                   accentColor: Color("brandPrimary"),
-//                                   secondGradientColor: Color("lightBlue"),
-//                                   textColor: .black,
-//                                   legendTextColor: .gray,
-//                                   dropShadowColor: .clear)
-//    var body: some View {
-//
-//        VStack (alignment: .leading) {
-//            Text("Weekday Snapshot")
-//                .font(.title)
-//                .bold()
-//                .padding(.bottom)
-//
-//            BarChartView(data: ChartData(values: viewModel.dailyChart()),
-//                         title: "",
-//                         legend: "",
-//                         style: barChartStyle,
-//                         form: ChartForm.extraLarge,
-//                         dropShadow: false,
-//                         valueSpecifier: "%.0f")
-//                .padding(.bottom, 30)
-//        }
-//        .padding()
-//    }
-//}
-
 struct AdditionalMetricsView: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
@@ -206,7 +176,6 @@ struct AdditionalMetricsView: View {
             Text("Additional Metrics")
                 .font(.title)
                 .bold()
-
                 .padding(.leading)
             
             ScrollView(.horizontal, showsIndicators: false, content: {
@@ -214,21 +183,40 @@ struct AdditionalMetricsView: View {
                     NavigationLink(
                         destination: ProfitByLocationView(viewModel: viewModel),
                         label: {
-                            LocationCardView()
+                            FilterCardView(image: "mappin.and.ellipse",
+                                           imageColor: .red,
+                                           title: "Profit by\nLocation",
+                                           description: "Find out which location yields the best return.")
                         })
                         .buttonStyle(PlainButtonStyle())
                     
                     NavigationLink(
                         destination: ProfitByWeekdayView(viewModel: viewModel),
                         label: {
-                            WeekdayCardView()
+                            FilterCardView(image: "calendar",
+                                           imageColor: .blue,
+                                           title: "Profit by\nWeekday",
+                                           description: "See how you perform on a given day of the week.")
                         })
                         .buttonStyle(PlainButtonStyle())
                     
                     NavigationLink(
                         destination: ProfitByMonth(viewModel: viewModel),
                         label: {
-                            MonthlyCardView()
+                            FilterCardView(image: "doc.text",
+                                           imageColor: .purple,
+                                           title: "Profit by\nMonth",
+                                           description: "Review your results for the previous month.")
+                        })
+                        .buttonStyle(PlainButtonStyle())
+                    
+                    NavigationLink(
+                        destination: ProfitByStakesView(viewModel: viewModel),
+                        label: {
+                            FilterCardView(image: "suit.spade",
+                                           imageColor: .green,
+                                           title: "Profit by\nStakes",
+                                           description: "Compare different game types you've played.")
                         })
                         .buttonStyle(PlainButtonStyle())
                 }

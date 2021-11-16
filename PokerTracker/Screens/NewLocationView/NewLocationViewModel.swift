@@ -11,5 +11,4 @@ final class NewLocationViewModel: ObservableObject {
     
     @Published var locationName: String = ""
     @Published var imageLocation: String = ""
-
 }

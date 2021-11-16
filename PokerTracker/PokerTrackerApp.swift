@@ -19,5 +19,6 @@ struct PokerTrackerApp: App {
             PokerTrackerTabView().environmentObject(sessionsListViewModel)
         }
         
+        
     }
 }
