@@ -20,7 +20,8 @@ struct NewLocationView: View {
                 Section (header: Text("Location Info"),
                          footer: Text("Enter the name of the venue or card room, followed by a link to an image associated with the location.")) {
                     TextField("Location Name", text: $viewModel.locationName)
-                    TextField("Paste Image URL", text: $viewModel.imageLocation)
+                    TextField("Paste Image URL (Optional)", text: $viewModel.imageLocation)
+                        .autocapitalization(.none)
                 }
                 Section {
                     Button(action: {
@@ -37,7 +38,7 @@ struct NewLocationView: View {
     
     func saveLocation() {
         sessionsListViewModel.addLocation(name: viewModel.locationName,
-                                          imageURL: viewModel.imageLocation)
+                                          imageURL: viewModel.imageLocation == "" ? "default-header" : viewModel.imageLocation)
     }
 }
 

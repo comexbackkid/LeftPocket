@@ -15,13 +15,13 @@ struct OnboardingView: View {
         
         TabView {
             PageView(title: "Track Games",
-                     subtitle: "Keep track of all your poker sessions. Save your profit, location, duration, and expenses.",
+                     subtitle: "Keep track of all your poker sessions. Save your profit, locations, duration, & table stakes.",
                      imageName: "doc.text",
                      showDismissButton: false,
                      shouldShowOnboarding: $shouldShowOnboarding)
             
             PageView(title: "Analyze Progress",
-                     subtitle: "Stay on top of your progress as a poker player with useful analytics and bankroll tracking.",
+                     subtitle: "Stay on top of your progress as a poker player with useful analytics & bankroll tracking.",
                      imageName: "waveform.path.ecg",
                      showDismissButton: false,
                      shouldShowOnboarding: $shouldShowOnboarding)
@@ -33,7 +33,7 @@ struct OnboardingView: View {
                      shouldShowOnboarding: $shouldShowOnboarding)
             
             PageView(title: "Let's Go!",
-                     subtitle: "Get started by clicking below and then adding your very first poker session!",
+                     subtitle: "Get started by clicking below and then adding your first location & session.",
                      imageName: "suit.spade.fill",
                      showDismissButton: true,
                      shouldShowOnboarding: $shouldShowOnboarding)

@@ -41,7 +41,7 @@ struct HelpView: View {
                     .foregroundColor(.blue)
                     .opacity(0.5)
                 
-                Text("After you've got a few sessions under your belt you'll start to be able to track your results and bankroll.")
+                Text("After you've notched a few sessions on your belt you'll be able to visuall track your results and bankroll.")
                     .padding(.bottom)
                     .font(.callout)
             }

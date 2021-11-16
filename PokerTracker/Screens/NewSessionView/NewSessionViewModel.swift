@@ -9,7 +9,7 @@ import SwiftUI
 
 final class NewSessionViewModel: ObservableObject {
     
-    @Published var location: String = ""
+    @Published var location: LocationModel = LocationModel(name: "", imageURL: "")
     @Published var game: String = ""
     @Published var stakes: String = ""
     @Published var profit: String = ""
@@ -23,7 +23,7 @@ final class NewSessionViewModel: ObservableObject {
     
     var isValidForm: Bool {
         
-        guard !location.isEmpty else {
+        guard !location.name.isEmpty else {
             alertItem = AlertContext.inValidLocation
             return false
         }

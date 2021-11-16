@@ -15,26 +15,29 @@ struct ProfitByLocationView: View {
         
         ZStack {
             VStack {
-                List {
-                    ForEach(viewModel.uniqueLocations, id: \.self) { location in
-                        HStack {
-                            Text(location)
-                            
-                            Spacer()
-                            
-                            let total = viewModel.profitByLocation(location)
-                            
-                            Text(total.accountingStyle())
-                                .bold()
-                                .modifier(AccountingView(total: total))
+                
+                if viewModel.sessions.isEmpty {
+                    EmptyState()
+                } else {
+                    
+                    List {
+                        ForEach(viewModel.locations, id: \.self) { location in
+                            HStack {
+                                Text(location.name)
+                                
+                                Spacer()
+                                
+                                let total = viewModel.profitByLocation(location.name)
+                                
+                                Text(total.accountingStyle())
+                                    .bold()
+                                    .modifier(AccountingView(total: total))
+                            }
                         }
+                        .navigationBarTitle(Text("Profit by Location"))
                     }
-                    .navigationBarTitle(Text("Profit by Location"))
+                    .listStyle(InsetListStyle())
                 }
-                .listStyle(InsetListStyle())
-            }
-            if viewModel.sessions.isEmpty {
-                EmptyState()
             }
         }
     }

@@ -14,8 +14,6 @@ struct NewSessionView: View {
     @EnvironmentObject var sessionsListViewModel: SessionsListViewModel
     @StateObject var viewModel = NewSessionViewModel()
 
-    var imageName = "encore-header"
-
     var body: some View {
         
         NavigationView {
@@ -24,13 +22,8 @@ struct NewSessionView: View {
                     Section(header: Text("Details")) {
                         
                         Picker(selection: $viewModel.location, label: Text("Location"), content: {
-//                            Text("Chaser's Poker Room").tag("Chaser's Poker Room")
-//                            Text("Boston Billiards Club").tag("Boston Billiards Club")
-//                            Text("Encore Boston Harbor").tag("Encore Boston Harbor")
-//                            Text("The Brook").tag("The Brook")
-//                            Text("Foxwoods Resort & Casino").tag("Foxwoods Resort & Casino")
-//                            Text("Rivers Casino & Resort").tag("Rivers Casino & Resort")
-                            ForEach(sessionsListViewModel.userAddedLocations, id: \.self) { location in
+                            
+                            ForEach(sessionsListViewModel.locations, id: \.self) { location in
                                 Text(location.name).tag(location.name)
                             }
                         })
@@ -102,7 +95,6 @@ struct NewSessionView: View {
                                          date: viewModel.date,
                                          profit: Int(viewModel.positiveNegative + viewModel.profit) ?? 0,
                                          notes: viewModel.notes,
-//                                         imageName: imageName,
                                          startTime: viewModel.startTime,
                                          endTime: viewModel.endTime)
     }

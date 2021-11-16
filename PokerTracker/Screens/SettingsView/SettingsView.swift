@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SettingsView: View {
     
-    @ObservedObject var settings = SettingsViewModel()
     @EnvironmentObject var viewModel: SessionsListViewModel
     @Binding var isDarkMode: Bool
     @Binding var systemThemeEnabled: Bool
@@ -28,7 +27,8 @@ struct SettingsView: View {
                     .onChange(of: isDarkMode, perform: { _ in
                         SystemThemeManager
                             .shared
-                            .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
+                            .handleTheme(darkMode: isDarkMode,
+                                         system: systemThemeEnabled)
                     })
                     
                     Toggle(isOn: $systemThemeEnabled, label: {
@@ -39,7 +39,8 @@ struct SettingsView: View {
                     .onChange(of: systemThemeEnabled, perform: { _ in
                         SystemThemeManager
                             .shared
-                            .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
+                            .handleTheme(darkMode: isDarkMode,
+                                         system: systemThemeEnabled)
                     })
                     
                 }
@@ -116,12 +117,20 @@ struct LocationsListView: View {
     @State var addLocationIsShowing = false
     
     var body: some View {
-        VStack {
+        VStack (alignment: .leading) {
+
             List {
-                ForEach(viewModel.userAddedLocations, id: \.self) { location in
+                Section (header: Text("CURRENT LOCATIONS"),
+                         footer: Text("Add your own locations by clicking the + button in the upper right corner of the screen.")) {
+                ForEach(viewModel.locations, id: \.self) { location in
                     Text(location.name)
                 }
+                .onDelete(perform: { indexSet in
+                    viewModel.locations.remove(atOffsets: indexSet)
+                })
+                }
             }
+            .listStyle(InsetGroupedListStyle())
             .navigationTitle("Locations")
             .navigationBarItems(trailing:
                                     Button(action: {

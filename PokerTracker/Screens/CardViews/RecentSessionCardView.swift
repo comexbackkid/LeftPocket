@@ -18,7 +18,7 @@ struct RecentSessionCardView: View {
         ZStack (alignment: .leading) {
             VStack (alignment: .leading) {
 //                Image(viewModel.sessions.first?.imageName ?? "default-image")
-                Image("default-image")
+                Image(viewModel.sessions.first?.location.imageURL ?? "default-image")
                     .resizable()
                     .frame(width: 340, height: 240)
                     .aspectRatio(contentMode: .fit)
@@ -26,11 +26,11 @@ struct RecentSessionCardView: View {
                 Spacer()
                 HStack {
                     VStack (alignment: .leading, spacing: 5) {
-                        Text(viewModel.sessions.first?.location ?? "No Recent Session")
+                        Text(viewModel.sessions.first?.location.name ?? "No Recent Session")
                             .font(.title3)
                             .bold()
                         
-                        Text("View your most recent session to review hand notes & other details.")
+                        Text("See your most recent session to review hand notes & other details.")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }

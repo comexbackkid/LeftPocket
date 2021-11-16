@@ -33,7 +33,7 @@ struct RecentSessionsCellView: View {
                 .padding(.trailing, 15)
             
             VStack (alignment: .leading) {
-                Text(pokerSession.location)
+                Text(pokerSession.location.name)
                     .font(.subheadline)
                 Text("\(dateFormatter.string(from: pokerSession.date))")
                     .font(.caption)
