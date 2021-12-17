@@ -14,7 +14,7 @@ struct MetricsCardView: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     let lineChartStyle = ChartStyle(backgroundColor: .white,
-                                    accentColor: Color("brandPrimary"),
+                                    accentColor: .brandPrimary,
                                     secondGradientColor: Color("lightBlue"),
                                     textColor: .black,
                                     legendTextColor: .gray,
@@ -25,21 +25,26 @@ struct MetricsCardView: View {
         ZStack (alignment: .leading) {
             VStack (alignment: .leading) {
                 LineChartView(data: viewModel.chartArray(),
-                              title: "Total Bankroll",
-                              legend: "Last session",
+                              title: "Total Profit",
+                              legend: "Lifetime Earnings Chart",
                               style: lineChartStyle,
                               form: CGSize(width: 340, height: 240),
-                              rateValue: 24,
+                              rateValue: 0,
                               dropShadow: false,
                               valueSpecifier: "%.0f")
+                
+//                CustomChartView(sessions: viewModel.sessions)
+//                    .frame(height: 240)
+                
+                
                 Spacer()
                 HStack {
                     VStack (alignment: .leading, spacing: 5) {
                         Text("My Metrics")
                             .font(.title3)
                             .bold()
-                        Text("See how you've been playing and discover ways to improve your game.")
-                            .font(.subheadline)
+                        Text("A look at how you've been playing and ways to improve your game.")
+                            .font(.body)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.leading)
                     }

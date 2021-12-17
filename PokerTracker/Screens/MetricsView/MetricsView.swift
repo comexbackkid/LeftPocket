@@ -29,6 +29,7 @@ struct MetricsView: View {
                         
                         if !viewModel.sessions.isEmpty {
                             BankrollChartView()
+                                .padding(.top)
                         }
                         
                         OverviewView(totalBankroll: viewModel.tallyBankroll(),
@@ -45,11 +46,11 @@ struct MetricsView: View {
                                     BarGraphView()
                                         .frame(height: 320)
                                 }
-                                .padding(.vertical, 60)
+                                .padding(.vertical, 30)
                             }
                             
                             AdditionalMetricsView()
-                                .padding(.top)
+                                .padding(.top, 10)
                         }
                     }
             }
@@ -69,7 +70,11 @@ struct BankrollChartView: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
     
-    let lineChartStyle = ChartStyle(backgroundColor: Color(.systemBackground), accentColor: Color("brandPrimary"), secondGradientColor: Color("lightBlue"), textColor: .black, legendTextColor: .gray, dropShadowColor: .white)
+    let lineChartStyle = ChartStyle(backgroundColor: Color(.systemBackground),
+                                    accentColor: .brandPrimary,
+                                    secondGradientColor: Color("lightBlue"),
+                                    textColor: .black, legendTextColor: .gray,
+                                    dropShadowColor: .white)
     
     var body: some View {
         
@@ -77,7 +82,6 @@ struct BankrollChartView: View {
             .font(.title)
             .bold()
             .padding(.horizontal)
-            .padding(.top)
         
         LineView(data: viewModel.chartArray(),
                  //  title: "Title",
@@ -86,8 +90,9 @@ struct BankrollChartView: View {
                  valueSpecifier: "%.0f",
                  legendSpecifier: "%0.f"
         )
-        .padding()
-        .frame(height: 340)
+        .offset(y:-10)
+        .padding(.horizontal)
+        .frame(height: 290)
         
     }
 }
@@ -186,24 +191,24 @@ struct AdditionalMetricsView: View {
                             FilterCardView(image: "mappin.and.ellipse",
                                            imageColor: .red,
                                            title: "Profit by\nLocation",
-                                           description: "Find out which location yields the best return.")
+                                           description: "Which location yields the best return.")
                         })
                         .buttonStyle(PlainButtonStyle())
                     
                     NavigationLink(
                         destination: ProfitByWeekdayView(viewModel: viewModel),
                         label: {
-                            FilterCardView(image: "calendar",
+                            FilterCardView(image: "clock.arrow.circlepath",
                                            imageColor: .blue,
                                            title: "Profit by\nWeekday",
-                                           description: "See how you perform on a given day of the week.")
+                                           description: "Some days you're not, some you're not.")
                         })
                         .buttonStyle(PlainButtonStyle())
                     
                     NavigationLink(
-                        destination: ProfitByMonth(viewModel: viewModel),
+                        destination: ProfitByMonth(yearSelection: "2021", viewModel: viewModel),
                         label: {
-                            FilterCardView(image: "doc.text",
+                            FilterCardView(image: "calendar",
                                            imageColor: .purple,
                                            title: "Profit by\nMonth",
                                            description: "Review your results for the previous month.")
@@ -216,7 +221,7 @@ struct AdditionalMetricsView: View {
                             FilterCardView(image: "suit.spade",
                                            imageColor: .green,
                                            title: "Profit by\nStakes",
-                                           description: "Compare different game types you've played.")
+                                           description: "Which stakes do you need help with?")
                         })
                         .buttonStyle(PlainButtonStyle())
                 }
@@ -224,11 +229,7 @@ struct AdditionalMetricsView: View {
                 .padding(.trailing)
                 .frame(height: 200)
             })
-
-            
         }
         .padding(.bottom, 30)
-        
-        
     }
 }

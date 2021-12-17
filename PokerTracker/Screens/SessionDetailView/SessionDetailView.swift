@@ -183,7 +183,7 @@ struct MiscView: View {
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             Spacer()
-            Text("\(vm.sessions.filter({$0.location == pokerSession.location}).count)")
+            Text("\(vm.sessions.filter({$0.location.name == pokerSession.location.name}).count)")
                 .font(.subheadline)
         }
     }

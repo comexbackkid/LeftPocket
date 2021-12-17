@@ -22,7 +22,7 @@ struct OnboardingView: View {
             
             PageView(title: "Analyze Progress",
                      subtitle: "Stay on top of your progress as a poker player with useful analytics & bankroll tracking.",
-                     imageName: "waveform.path.ecg",
+                     imageName: "chart.line.uptrend.xyaxis",
                      showDismissButton: false,
                      shouldShowOnboarding: $shouldShowOnboarding)
             
@@ -39,7 +39,7 @@ struct OnboardingView: View {
                      shouldShowOnboarding: $shouldShowOnboarding)
         }
         .background(
-            LinearGradient(gradient: Gradient(colors: [Color("brandPrimary"), Color.purple]),
+            LinearGradient(gradient: Gradient(colors: [Color.brandPrimary, Color.purple]),
                            startPoint: .topLeading,
                            endPoint: .bottomTrailing)
         )

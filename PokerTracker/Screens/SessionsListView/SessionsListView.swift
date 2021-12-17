@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SessionsView: View {
     
-    @State private var isPresented = false
+    @State var isPresented = false
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     var body: some View {
@@ -18,19 +18,6 @@ struct SessionsView: View {
                 
                 if viewModel.sessions.isEmpty {
                     EmptyState()
-                    
-                    VStack {
-                        Spacer()
-                        Button(action: {
-                            isPresented.toggle()
-                        }, label: {
-                            SecondaryButton()
-                        })
-                        .sheet(isPresented: $isPresented, content: {
-                            NewSessionView(isPresented: $isPresented)
-                        })
-                    }
-                    .padding(.bottom)
                     
                 } else {
                     
@@ -48,22 +35,20 @@ struct SessionsView: View {
                     }
                     .listStyle(PlainListStyle())
                     .navigationTitle("All Sessions")
-                    
-                    
-                    
-                    VStack {
-                        Spacer()
-                        Button(action: {
-                            isPresented.toggle()
-                        }, label: {
-                            SecondaryButton()
-                        })
+                }
+                
+                VStack {
+                    Spacer()
+                    Button(action: {
+                        isPresented.toggle()
+                    }, label: {
+                        SecondaryButton()
+                    })
                         .sheet(isPresented: $isPresented, content: {
                             NewSessionView(isPresented: $isPresented)
                         })
-                    }
-                    .padding(.bottom)
                 }
+                .padding(.bottom)
             }
         }
     }

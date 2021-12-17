@@ -17,7 +17,6 @@ struct RecentSessionCardView: View {
         
         ZStack (alignment: .leading) {
             VStack (alignment: .leading) {
-//                Image(viewModel.sessions.first?.imageName ?? "default-image")
                 Image(viewModel.sessions.first?.location.imageURL ?? "default-image")
                     .resizable()
                     .frame(width: 340, height: 240)
@@ -31,8 +30,9 @@ struct RecentSessionCardView: View {
                             .bold()
                         
                         Text("See your most recent session to review hand notes & other details.")
-                            .font(.subheadline)
+                            .font(.body)
                             .foregroundColor(.secondary)
+                            .multilineTextAlignment(.leading)
                     }
                 }
                 .padding(.horizontal)

@@ -17,7 +17,7 @@ struct PrimaryButton: View {
             .font(.title3)
             .frame(height: 60)
             .frame(width: 300)
-            .background(Color("brandPrimary"))
+            .background(Color.brandPrimary)
             .foregroundColor(.white)
             .cornerRadius(30)
             .padding()

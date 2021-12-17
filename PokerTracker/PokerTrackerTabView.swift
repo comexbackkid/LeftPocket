@@ -29,7 +29,7 @@ struct PokerTrackerTabView: View {
             
             MetricsView()
                 .tabItem {
-                    Image(systemName: "waveform.path.ecg")
+                    Image(systemName: "chart.line.uptrend.xyaxis")
                     Text("Metrics")
                 }
             
@@ -44,11 +44,10 @@ struct PokerTrackerTabView: View {
                 .shared
                 .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
         }
-        .accentColor(Color("brandPrimary"))
+        .accentColor(.brandPrimary)
         .fullScreenCover(isPresented: $shouldShowOnboarding, content: {
             OnboardingView(shouldShowOnboarding: $shouldShowOnboarding)
         })
-
     }
 }
 

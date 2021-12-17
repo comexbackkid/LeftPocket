@@ -28,7 +28,8 @@ struct ContentView: View {
                             }
                         
                         BankrollSnapshot()
-                            .padding()
+                            .padding(.bottom)
+                            .offset(x: 0, y: -10)
                         
                         if viewModel.sessions.isEmpty {
                             

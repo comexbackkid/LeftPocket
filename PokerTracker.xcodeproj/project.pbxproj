@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		7C0208DB26F24B4900AC6151 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0208DA26F24B4900AC6151 /* Date+Ext.swift */; };
+		7C0E48DB276B9F2E005EFA62 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0E48DA276B9F2E005EFA62 /* GraphView.swift */; };
+		7C0E48DE276BB3BF005EFA62 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 7C0E48DD276BB3BF005EFA62 /* Algorithms */; };
 		7C1F8C82271094B50068E8B1 /* ProfitByWeekdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1F8C81271094B50068E8B1 /* ProfitByWeekdayView.swift */; };
 		7C20CFB2271E2D1600739764 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20CFB1271E2D1600739764 /* OnboardingView.swift */; };
 		7C20CFB4271F4EB700739764 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20CFB3271F4EB700739764 /* SecondaryButton.swift */; };
@@ -16,10 +18,10 @@
 		7C2FC657273EF1E600E3BE0B /* ProfitByStakesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2FC656273EF1E600E3BE0B /* ProfitByStakesView.swift */; };
 		7C3F43AA27284CD800A9C842 /* NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43A927284CD800A9C842 /* NumberFormatter.swift */; };
 		7C3F43AC2728512700A9C842 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43AB2728512700A9C842 /* LocationModel.swift */; };
-		7C3F43AE272852DA00A9C842 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43AD272852DA00A9C842 /* SettingsViewModel.swift */; };
 		7C468EFB273974E6000CA4B3 /* BarGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C468EFA273974E6000CA4B3 /* BarGraphView.swift */; };
 		7C468EFD273980F7000CA4B3 /* Animations+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C468EFC273980F7000CA4B3 /* Animations+Ext.swift */; };
 		7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C483255270E3F32005AAFA1 /* FilterCardView.swift */; };
+		7C59D00F276C1FE200D65D93 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C59D00E276C1FE200D65D93 /* TestView.swift */; };
 		7C63949626C14E8300939F40 /* PokerTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63949526C14E8300939F40 /* PokerTrackerApp.swift */; };
 		7C63949826C14E8300939F40 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63949726C14E8300939F40 /* ContentView.swift */; };
 		7C63949A26C14E8400939F40 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C63949926C14E8400939F40 /* Assets.xcassets */; };
@@ -29,15 +31,17 @@
 		7C6394AB26C14F6B00939F40 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6394AA26C14F6B00939F40 /* SettingsView.swift */; };
 		7C6394AD26C14FA600939F40 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6394AC26C14FA600939F40 /* HeaderView.swift */; };
 		7C65B188272C3A5A00AFE796 /* NewLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C65B187272C3A5A00AFE796 /* NewLocationView.swift */; };
+		7C6828272748000100778C7D /* SessionsContainer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7C6828252748000100778C7D /* SessionsContainer.xcdatamodeld */; };
+		7C6828292748002B00778C7D /* CoreDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6828282748002B00778C7D /* CoreDataViewModel.swift */; };
 		7C68FE3F26D670100019BA53 /* PokerTrackerTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE3E26D670100019BA53 /* PokerTrackerTabView.swift */; };
 		7C68FE4126D709530019BA53 /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE4026D709530019BA53 /* PlusButton.swift */; };
 		7C68FE4326D7CEA40019BA53 /* RecentSessionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE4226D7CEA40019BA53 /* RecentSessionCardView.swift */; };
+		7C72F5C4275AEB7600C5C567 /* LineCurves.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C72F5C3275AEB7600C5C567 /* LineCurves.swift */; };
 		7C7B2F8B26D5A2A90069F9C5 /* SessionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B2F8A26D5A2A90069F9C5 /* SessionListViewModel.swift */; };
 		7C7F4F6E270E610E002ECF6D /* ProfitByLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7F4F6D270E610E002ECF6D /* ProfitByLocationView.swift */; };
+		7C7FAC4A2752BF7F0060F656 /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7FAC492752BF7F0060F656 /* NetworkingManager.swift */; };
 		7C8134C02729F1BE004E1CE1 /* ProfitByMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8134BF2729F1BE004E1CE1 /* ProfitByMonth.swift */; };
 		7C8134C3272A13B6004E1CE1 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8134C2272A13B6004E1CE1 /* ViewModifiers.swift */; };
-		7C82E12E26EF8D8C00E3EB6F /* Text+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C82E12D26EF8D8C00E3EB6F /* Text+Ext.swift */; };
-		7C82E13026EFC6DE00E3EB6F /* MetricsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C82E12F26EFC6DE00E3EB6F /* MetricsViewModel.swift */; };
 		7C8834102735BB5D0093B201 /* NewLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */; };
 		7CB3EB9926C2CCDE009E8DF3 /* HalfModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EB9826C2CCDE009E8DF3 /* HalfModalView.swift */; };
 		7CB3EB9D26C3093D009E8DF3 /* RecentSessionsCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EB9C26C3093D009E8DF3 /* RecentSessionsCellView.swift */; };
@@ -46,16 +50,20 @@
 		7CB3EBA326C3485C009E8DF3 /* NewSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA226C3485C009E8DF3 /* NewSessionView.swift */; };
 		7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA426C352C6009E8DF3 /* Model.swift */; };
 		7CB3EBA726C3E22B009E8DF3 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA626C3E22B009E8DF3 /* BottomSheetView.swift */; };
+		7CBEF44427596A6600744F4A /* CustomChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBEF44327596A6600744F4A /* CustomChartView.swift */; };
+		7CBEF44627596DEE00744F4A /* Colors+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBEF44527596DEE00744F4A /* Colors+Ext.swift */; };
 		7CC20EB1272B183E00137F51 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 7CC20EB0272B183E00137F51 /* SwiftUICharts */; };
 		7CC20EB3272B19D200137F51 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC20EB2272B19D200137F51 /* HelpView.swift */; };
 		7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */; };
 		7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEB761E26D9A77E006170EF /* Alerts.swift */; };
 		7CEC885727298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEC885627298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift */; };
+		7CED6EA827517D7F00E18053 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED6EA727517D7F00E18053 /* Array+Ext.swift */; };
 		7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7C0208DA26F24B4900AC6151 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
+		7C0E48DA276B9F2E005EFA62 /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		7C1F8C81271094B50068E8B1 /* ProfitByWeekdayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfitByWeekdayView.swift; sourceTree = "<group>"; };
 		7C20CFB1271E2D1600739764 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		7C20CFB3271F4EB700739764 /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
@@ -64,10 +72,10 @@
 		7C2FC656273EF1E600E3BE0B /* ProfitByStakesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByStakesView.swift; sourceTree = "<group>"; };
 		7C3F43A927284CD800A9C842 /* NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
 		7C3F43AB2728512700A9C842 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
-		7C3F43AD272852DA00A9C842 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		7C468EFA273974E6000CA4B3 /* BarGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarGraphView.swift; sourceTree = "<group>"; };
 		7C468EFC273980F7000CA4B3 /* Animations+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Animations+Ext.swift"; sourceTree = "<group>"; };
 		7C483255270E3F32005AAFA1 /* FilterCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCardView.swift; sourceTree = "<group>"; };
+		7C59D00E276C1FE200D65D93 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		7C63949226C14E8300939F40 /* PokerTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokerTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C63949526C14E8300939F40 /* PokerTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokerTrackerApp.swift; sourceTree = "<group>"; };
 		7C63949726C14E8300939F40 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -79,15 +87,17 @@
 		7C6394AA26C14F6B00939F40 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		7C6394AC26C14FA600939F40 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		7C65B187272C3A5A00AFE796 /* NewLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLocationView.swift; sourceTree = "<group>"; };
+		7C6828262748000100778C7D /* SessionsContainer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SessionsContainer.xcdatamodel; sourceTree = "<group>"; };
+		7C6828282748002B00778C7D /* CoreDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataViewModel.swift; sourceTree = "<group>"; };
 		7C68FE3E26D670100019BA53 /* PokerTrackerTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokerTrackerTabView.swift; sourceTree = "<group>"; };
 		7C68FE4026D709530019BA53 /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
 		7C68FE4226D7CEA40019BA53 /* RecentSessionCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentSessionCardView.swift; sourceTree = "<group>"; };
+		7C72F5C3275AEB7600C5C567 /* LineCurves.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineCurves.swift; sourceTree = "<group>"; };
 		7C7B2F8A26D5A2A90069F9C5 /* SessionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListViewModel.swift; sourceTree = "<group>"; };
 		7C7F4F6D270E610E002ECF6D /* ProfitByLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByLocationView.swift; sourceTree = "<group>"; };
+		7C7FAC492752BF7F0060F656 /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		7C8134BF2729F1BE004E1CE1 /* ProfitByMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByMonth.swift; sourceTree = "<group>"; };
 		7C8134C2272A13B6004E1CE1 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
-		7C82E12D26EF8D8C00E3EB6F /* Text+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+Ext.swift"; sourceTree = "<group>"; };
-		7C82E12F26EFC6DE00E3EB6F /* MetricsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsViewModel.swift; sourceTree = "<group>"; };
 		7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLocationViewModel.swift; sourceTree = "<group>"; };
 		7CB3EB9826C2CCDE009E8DF3 /* HalfModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalfModalView.swift; sourceTree = "<group>"; };
 		7CB3EB9C26C3093D009E8DF3 /* RecentSessionsCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSessionsCellView.swift; sourceTree = "<group>"; };
@@ -96,10 +106,13 @@
 		7CB3EBA226C3485C009E8DF3 /* NewSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSessionView.swift; sourceTree = "<group>"; };
 		7CB3EBA426C352C6009E8DF3 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		7CB3EBA626C3E22B009E8DF3 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
+		7CBEF44327596A6600744F4A /* CustomChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomChartView.swift; sourceTree = "<group>"; };
+		7CBEF44527596DEE00744F4A /* Colors+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Ext.swift"; sourceTree = "<group>"; };
 		7CC20EB2272B19D200137F51 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSessionViewModel.swift; sourceTree = "<group>"; };
 		7CEB761E26D9A77E006170EF /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		7CEC885627298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateMetricsBankroll.swift; sourceTree = "<group>"; };
+		7CED6EA727517D7F00E18053 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
 		7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C0E48DE276BB3BF005EFA62 /* Algorithms in Frameworks */,
 				7CC20EB1272B183E00137F51 /* SwiftUICharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -129,6 +143,8 @@
 				7C8134C1272A139D004E1CE1 /* ViewModifiers */,
 				7C27D8D226F9176E001C43B4 /* Alerts */,
 				7C2614CB26D930C100986183 /* Extensions */,
+				7C7FAC492752BF7F0060F656 /* NetworkingManager.swift */,
+				7C72F5C3275AEB7600C5C567 /* LineCurves.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -136,10 +152,11 @@
 		7C2614CB26D930C100986183 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				7C82E12D26EF8D8C00E3EB6F /* Text+Ext.swift */,
+				7C468EFC273980F7000CA4B3 /* Animations+Ext.swift */,
 				7C0208DA26F24B4900AC6151 /* Date+Ext.swift */,
 				7C3F43A927284CD800A9C842 /* NumberFormatter.swift */,
-				7C468EFC273980F7000CA4B3 /* Animations+Ext.swift */,
+				7CED6EA727517D7F00E18053 /* Array+Ext.swift */,
+				7CBEF44527596DEE00744F4A /* Colors+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -187,14 +204,17 @@
 		7C2614CF26D9315F00986183 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7CB3EB9C26C3093D009E8DF3 /* RecentSessionsCellView.swift */,
+				7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */,
 				7C6394AC26C14FA600939F40 /* HeaderView.swift */,
 				7CC20EB2272B19D200137F51 /* HelpView.swift */,
-				7C68FE4026D709530019BA53 /* PlusButton.swift */,
-				7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */,
-				7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */,
-				7C20CFB3271F4EB700739764 /* SecondaryButton.swift */,
 				7C20CFB1271E2D1600739764 /* OnboardingView.swift */,
+				7C68FE4026D709530019BA53 /* PlusButton.swift */,
+				7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */,
+				7CB3EB9C26C3093D009E8DF3 /* RecentSessionsCellView.swift */,
+				7C20CFB3271F4EB700739764 /* SecondaryButton.swift */,
+				7CBEF44327596A6600744F4A /* CustomChartView.swift */,
+				7C0E48DA276B9F2E005EFA62 /* GraphView.swift */,
+				7C59D00E276C1FE200D65D93 /* TestView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -253,6 +273,8 @@
 		7C63948926C14E8300939F40 = {
 			isa = PBXGroup;
 			children = (
+				7C6828252748000100778C7D /* SessionsContainer.xcdatamodeld */,
+				7C6828282748002B00778C7D /* CoreDataViewModel.swift */,
 				7C63949426C14E8300939F40 /* PokerTracker */,
 				7C63949326C14E8300939F40 /* Products */,
 			);
@@ -328,7 +350,6 @@
 			isa = PBXGroup;
 			children = (
 				7C6394A626C14F5600939F40 /* MetricsView.swift */,
-				7C82E12F26EFC6DE00E3EB6F /* MetricsViewModel.swift */,
 			);
 			path = MetricsView;
 			sourceTree = "<group>";
@@ -354,7 +375,6 @@
 			isa = PBXGroup;
 			children = (
 				7C6394AA26C14F6B00939F40 /* SettingsView.swift */,
-				7C3F43AD272852DA00A9C842 /* SettingsViewModel.swift */,
 			);
 			path = SettingsView;
 			sourceTree = "<group>";
@@ -377,6 +397,7 @@
 			name = PokerTracker;
 			packageProductDependencies = (
 				7CC20EB0272B183E00137F51 /* SwiftUICharts */,
+				7C0E48DD276BB3BF005EFA62 /* Algorithms */,
 			);
 			productName = PokerTracker;
 			productReference = 7C63949226C14E8300939F40 /* PokerTracker.app */;
@@ -407,6 +428,7 @@
 			mainGroup = 7C63948926C14E8300939F40;
 			packageReferences = (
 				7CC20EAF272B183E00137F51 /* XCRemoteSwiftPackageReference "ChartView" */,
+				7C0E48DC276BB3BF005EFA62 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 			);
 			productRefGroup = 7C63949326C14E8300939F40 /* Products */;
 			projectDirPath = "";
@@ -434,7 +456,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C82E12E26EF8D8C00E3EB6F /* Text+Ext.swift in Sources */,
+				7C6828272748000100778C7D /* SessionsContainer.xcdatamodeld in Sources */,
 				7CC20EB3272B19D200137F51 /* HelpView.swift in Sources */,
 				7CB3EB9D26C3093D009E8DF3 /* RecentSessionsCellView.swift in Sources */,
 				7C6394A926C14F6400939F40 /* SessionsListView.swift in Sources */,
@@ -446,30 +468,36 @@
 				7C468EFB273974E6000CA4B3 /* BarGraphView.swift in Sources */,
 				7C63949826C14E8300939F40 /* ContentView.swift in Sources */,
 				7CB3EBA126C345A1009E8DF3 /* MetricsCardView.swift in Sources */,
+				7C6828292748002B00778C7D /* CoreDataViewModel.swift in Sources */,
 				7C6394AB26C14F6B00939F40 /* SettingsView.swift in Sources */,
 				7C2B3E6626F5488E00B84D52 /* PrimaryButton.swift in Sources */,
 				7C7B2F8B26D5A2A90069F9C5 /* SessionListViewModel.swift in Sources */,
 				7CB3EBA326C3485C009E8DF3 /* NewSessionView.swift in Sources */,
+				7CED6EA827517D7F00E18053 /* Array+Ext.swift in Sources */,
 				7C20CFB4271F4EB700739764 /* SecondaryButton.swift in Sources */,
 				7C0208DB26F24B4900AC6151 /* Date+Ext.swift in Sources */,
+				7CBEF44427596A6600744F4A /* CustomChartView.swift in Sources */,
 				7C3F43AA27284CD800A9C842 /* NumberFormatter.swift in Sources */,
 				7C6394A726C14F5600939F40 /* MetricsView.swift in Sources */,
+				7C0E48DB276B9F2E005EFA62 /* GraphView.swift in Sources */,
 				7C8134C02729F1BE004E1CE1 /* ProfitByMonth.swift in Sources */,
 				7C63949626C14E8300939F40 /* PokerTrackerApp.swift in Sources */,
 				7C3F43AC2728512700A9C842 /* LocationModel.swift in Sources */,
 				7C468EFD273980F7000CA4B3 /* Animations+Ext.swift in Sources */,
+				7CBEF44627596DEE00744F4A /* Colors+Ext.swift in Sources */,
 				7CB3EB9F26C310F5009E8DF3 /* SessionDetailView.swift in Sources */,
 				7C68FE3F26D670100019BA53 /* PokerTrackerTabView.swift in Sources */,
 				7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */,
+				7C7FAC4A2752BF7F0060F656 /* NetworkingManager.swift in Sources */,
+				7C72F5C4275AEB7600C5C567 /* LineCurves.swift in Sources */,
 				7C68FE4326D7CEA40019BA53 /* RecentSessionCardView.swift in Sources */,
 				7CEC885727298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift in Sources */,
+				7C59D00F276C1FE200D65D93 /* TestView.swift in Sources */,
 				7C68FE4126D709530019BA53 /* PlusButton.swift in Sources */,
 				7CB3EBA726C3E22B009E8DF3 /* BottomSheetView.swift in Sources */,
 				7CB3EB9926C2CCDE009E8DF3 /* HalfModalView.swift in Sources */,
 				7C7F4F6E270E610E002ECF6D /* ProfitByLocationView.swift in Sources */,
-				7C3F43AE272852DA00A9C842 /* SettingsViewModel.swift in Sources */,
 				7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */,
-				7C82E13026EFC6DE00E3EB6F /* MetricsViewModel.swift in Sources */,
 				7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */,
 				7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */,
 				7C2B3E6926F565B200B84D52 /* EmptyState.swift in Sources */,
@@ -533,7 +561,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -588,7 +616,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -666,6 +694,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7C0E48DC276BB3BF005EFA62 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		7CC20EAF272B183E00137F51 /* XCRemoteSwiftPackageReference "ChartView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AppPear/ChartView";
@@ -677,12 +713,30 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7C0E48DD276BB3BF005EFA62 /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C0E48DC276BB3BF005EFA62 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
 		7CC20EB0272B183E00137F51 /* SwiftUICharts */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7CC20EAF272B183E00137F51 /* XCRemoteSwiftPackageReference "ChartView" */;
 			productName = SwiftUICharts;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		7C6828252748000100778C7D /* SessionsContainer.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				7C6828262748000100778C7D /* SessionsContainer.xcdatamodel */,
+			);
+			currentVersion = 7C6828262748000100778C7D /* SessionsContainer.xcdatamodel */;
+			path = SessionsContainer.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 7C63948A26C14E8300939F40 /* Project object */;
 }

@@ -42,7 +42,6 @@ struct SettingsView: View {
                             .handleTheme(darkMode: isDarkMode,
                                          system: systemThemeEnabled)
                     })
-                    
                 }
                     
                 Section(header: Text("General")) {
@@ -55,7 +54,7 @@ struct SettingsView: View {
                         })
                     
                     NavigationLink(
-                        destination: Text("Import & Export your CSV here!"),
+                        destination: Text("Coming Soon!"),
                         label: {
                             Image(systemName: "doc.text")
                                 .foregroundColor(.green)
@@ -79,20 +78,13 @@ struct SettingsView: View {
                         })
                 }
                 
-                Section(header: Text("About")) {
-                    HStack {
-                            Text("Version")
-                            Spacer()
-                            Text("0.1")
-                        }
-                }
-                
                 Section(header: Text("Contact")) {
-                    Link(destination: URL(string: "https://twitter.com/chrisnachtrieb")!, label: {
+                    Link(destination: URL(string: "https://twitter.com/chrisnachtrieb")!,
+                         label: {
                         HStack {
                             Image(systemName: "link")
                                 .foregroundColor(.blue)
-                            Text("For Support, Tweet @chrisnachtrieb")
+                            Text("Tweet @chrisnachtrieb")
                         }
                     })
                     .buttonStyle(PlainButtonStyle())
@@ -100,7 +92,7 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
         }
-        .accentColor(Color("brandPrimary"))
+        .accentColor(.brandPrimary)
     }
 }
 

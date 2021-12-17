@@ -10,9 +10,8 @@ import SwiftUI
 struct NewSessionView: View {
     
     @Binding var isPresented: Bool
-    @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var sessionsListViewModel: SessionsListViewModel
     @StateObject var viewModel = NewSessionViewModel()
+    @EnvironmentObject var sessionsListViewModel: SessionsListViewModel
 
     var body: some View {
         
@@ -31,23 +30,23 @@ struct NewSessionView: View {
                         Picker(selection: $viewModel.game, label: Text("Game"), content: {
                             Text("NL Texas Hold Em").tag("NL Texas Hold Em")
                             Text("Pot-Limit Omaha").tag("Pot-Limit Omaha")
+                            Text("5-Card Stud").tag("5-Card Stud")
                         })
                         
                         Picker(selection: $viewModel.stakes, label: Text("Stakes") , content: {
+                            Text(".25/.50").tag(".25/.50")
+                            Text(".50/1").tag(".50/1")
                             Text("1/2").tag("1/2")
                             Text("1/3").tag("1/3")
                             Text("2/5").tag("2/5")
                             Text("5/10").tag("5/10")
                         })
                         
-                        DatePicker("Date", selection: $viewModel.date, in: ...Date(),
-                                   displayedComponents: .date)
-                        
-                        DatePicker("Start time", selection: $viewModel.startTime,
-                                   displayedComponents: .hourAndMinute)
+                        DatePicker("Start", selection: $viewModel.startTime,
+                                   displayedComponents: [. date, .hourAndMinute])
                             
-                        DatePicker("End time", selection: $viewModel.endTime,
-                                   displayedComponents: .hourAndMinute)
+                        DatePicker("End", selection: $viewModel.endTime,
+                                   displayedComponents: [. date, .hourAndMinute])
                         HStack {
                             Text("$")
                                 .foregroundColor(.secondary)
@@ -68,35 +67,23 @@ struct NewSessionView: View {
                     }
                     Section {
                         Button(action: {
-                            saveButtonPressed()
-                            presentationMode.wrappedValue.dismiss()
+                            viewModel.savedButtonPressed(viewModel: sessionsListViewModel)
+                            isPresented = viewModel.presentation ?? true
                         }, label: {
                             Text("Save Session")
                         })
                     }
                 }
                 .navigationTitle("New Session")
+                .alert(item: $viewModel.alertItem) { alertItem in
+                    
+                    Alert(title: alertItem.title,
+                          message: alertItem.message,
+                          dismissButton: alertItem.dismissButton)
+                }
             }
         }
-        .alert(item: $viewModel.alertItem) { alertItem in
-            
-            Alert(title: alertItem.title,
-                  message: alertItem.message,
-                  dismissButton: alertItem.dismissButton)
-        }
-    }
-    
-    // This needs to go into the NewSessionViewModel
-    func saveButtonPressed() {
-        guard viewModel.isValidForm else {return}
-        sessionsListViewModel.addSession(location: viewModel.location,
-                                         game: viewModel.game,
-                                         stakes: viewModel.stakes,
-                                         date: viewModel.date,
-                                         profit: Int(viewModel.positiveNegative + viewModel.profit) ?? 0,
-                                         notes: viewModel.notes,
-                                         startTime: viewModel.startTime,
-                                         endTime: viewModel.endTime)
+        .accentColor(.brandPrimary)
     }
 }
 

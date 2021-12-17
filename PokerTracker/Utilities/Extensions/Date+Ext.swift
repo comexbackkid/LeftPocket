@@ -25,13 +25,29 @@ extension Date {
         return month
     }
     
+    // Modifier to get month from a Date object
+    func getMonth() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM"
+        let month = dateFormatter.string(from: self)
+        return month
+    }
+    
+    // Retrieves the year from a Date object
+    func getYear() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY"
+        let year = dateFormatter.string(from: self)
+        return year
+    }
+    
     // Using this as a default starting point for the NewSessionView
-    func daySubtracting(days: Int) -> Date {
+    func modifyDays(days: Int) -> Date {
         return Calendar.current.date(byAdding: .day, value: days, to: self)!
     }
     
     // Used in our dummy data for preview purposes only
-    func adding(minutes: Int) -> Date {
+    func modifyTime(minutes: Int) -> Date {
         return Calendar.current.date(byAdding: .minute, value: minutes, to: self)!
     }
 }

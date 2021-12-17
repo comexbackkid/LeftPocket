@@ -26,7 +26,9 @@ class SessionsListViewModel: ObservableObject {
     }
     
     init () {
-        getSessions()
+        getMockSessions()
+        getMockLocations()
+//        getSessions()
         getLocations()
     }
     
@@ -38,6 +40,19 @@ class SessionsListViewModel: ObservableObject {
         else { return }
         
         self.sessions = savedSessions
+    }
+    
+    // Loading fake data for Preview Provider
+    func getMockSessions() {
+        let fakeSessions = MockData.allSessions.sorted(by: {$0.date > $1.date})
+        self.sessions = fakeSessions
+        
+    }
+    
+    // Loading fake locations so our filtered views can work correctly
+    func getMockLocations() {
+        let fakeLocations = MockData.allLocations
+        self.locations = fakeLocations
     }
     
     // Saves the list of sessions into UserDefaults
@@ -99,6 +114,8 @@ class SessionsListViewModel: ObservableObject {
         return [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
     }
     
+    // MARK: FILTERING OPTIONS
+    
     func sessionsByLocation(_ location: String) -> [PokerSession] {
         sessions.filter({ $0.location.name == location })
     }
@@ -149,9 +166,9 @@ class SessionsListViewModel: ObservableObject {
                                       startTime: startTime, endTime: endTime)
         sessions.append(newSession)
         sessions.sort(by: {$0.date > $1.date})
-        
     }
     
+    // Adds a new Location to the app
     func addLocation(name: String,
                      imageURL: String) {
         
@@ -164,9 +181,7 @@ class SessionsListViewModel: ObservableObject {
     // Adds up total number of profitable sessions
     func numOfCashes() -> Int {
         guard !sessions.isEmpty else { return 0 }
-        let profitableSessions = sessions.filter { session in
-            return session.profit > 0
-        }
+        let profitableSessions = sessions.filter { $0.profit > 0 }
         return profitableSessions.count
     }
     

@@ -14,7 +14,7 @@ struct SecondaryButton: View {
         ZStack {
             Circle()
                 .frame(width: 60, height: 60)
-                .foregroundColor(Color("brandPrimary"))
+                .foregroundColor(.brandPrimary)
                 .shadow(radius: 5)
             
             Image(systemName: "plus")

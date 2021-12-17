@@ -13,6 +13,7 @@ struct PlusButton: View {
             Circle()
                 .frame(width: 40, height: 40)
                 .foregroundColor(Color("brandWhite"))
+                .shadow(color: .gray.opacity(0.3), radius: 6, x: 0, y: 0)
             
             Image(systemName: "plus")
                 .resizable()

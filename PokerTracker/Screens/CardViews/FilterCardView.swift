@@ -28,9 +28,10 @@ struct FilterCardView: View {
                     .padding(.top, 5)
                 Text(description)
                     .font(.caption)
+                    .multilineTextAlignment(.leading)
                     .foregroundColor(.secondary)
             }
-            .frame(width: 140, height: 140)
+            .frame(width: 130, height: 140)
             .padding()
         }
         .background(Color(colorScheme == .dark ? .secondarySystemBackground : .systemBackground))

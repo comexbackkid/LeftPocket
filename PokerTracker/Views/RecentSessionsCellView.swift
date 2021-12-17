@@ -27,25 +27,25 @@ struct RecentSessionsCellView: View {
                 
                 .background(
                     Circle()
-                        .foregroundColor(Color("brandPrimary"))
+                        .foregroundColor(.brandPrimary)
                         .frame(width: 36, height: 36, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 )
                 .padding(.trailing, 15)
             
             VStack (alignment: .leading) {
                 Text(pokerSession.location.name)
-                    .font(.subheadline)
+                    .font(.body)
                 Text("\(dateFormatter.string(from: pokerSession.date))")
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
             Spacer()
             Text(pokerSession.profit.accountingStyle())
-                .font(.subheadline)
+                .font(.body)
                 .bold()
                 .foregroundColor(pokerSession.profit > 0 ? .green : .red)
         }
-        .padding(8)
+        .padding(10)
     }
 }
 
