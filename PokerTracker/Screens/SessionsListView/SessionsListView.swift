@@ -26,7 +26,7 @@ struct SessionsView: View {
                             NavigationLink(
                                 destination: SessionDetailView(pokerSession: session),
                                 label: {
-                                    RecentSessionsCellView(pokerSession: session)
+                                    CellView(pokerSession: session)
                                 })
                         }
                         .onDelete(perform: { indexSet in
@@ -40,6 +40,8 @@ struct SessionsView: View {
                 VStack {
                     Spacer()
                     Button(action: {
+                        let impact = UIImpactFeedbackGenerator(style: .heavy)
+                        impact.impactOccurred()
                         isPresented.toggle()
                     }, label: {
                         SecondaryButton()

@@ -9,7 +9,7 @@ import SwiftUI
 
 final class NewSessionViewModel: ObservableObject {
     
-    @Published var location: LocationModel = LocationModel(name: "", imageURL: "")
+    @Published var location: LocationModel = LocationModel(name: "", localImage: "", imageURL: "")
     @Published var game: String = ""
     @Published var stakes: String = ""
     @Published var profit: String = ""

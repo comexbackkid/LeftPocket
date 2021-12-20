@@ -24,26 +24,26 @@ struct SettingsView: View {
                             .foregroundColor(.yellow)
                         Text("Dark Mode")
                     })
-                    .onChange(of: isDarkMode, perform: { _ in
-                        SystemThemeManager
-                            .shared
-                            .handleTheme(darkMode: isDarkMode,
-                                         system: systemThemeEnabled)
-                    })
+                        .onChange(of: isDarkMode, perform: { _ in
+                            SystemThemeManager
+                                .shared
+                                .handleTheme(darkMode: isDarkMode,
+                                             system: systemThemeEnabled)
+                        })
                     
                     Toggle(isOn: $systemThemeEnabled, label: {
                         Image(systemName: "gearshape.fill")
                             .foregroundColor(.gray)
                         Text("Use System Display")
                     })
-                    .onChange(of: systemThemeEnabled, perform: { _ in
-                        SystemThemeManager
-                            .shared
-                            .handleTheme(darkMode: isDarkMode,
-                                         system: systemThemeEnabled)
-                    })
+                        .onChange(of: systemThemeEnabled, perform: { _ in
+                            SystemThemeManager
+                                .shared
+                                .handleTheme(darkMode: isDarkMode,
+                                             system: systemThemeEnabled)
+                        })
                 }
-                    
+                
                 Section(header: Text("General")) {
                     NavigationLink(
                         destination: LocationsListView(viewModel: viewModel),
@@ -87,7 +87,7 @@ struct SettingsView: View {
                             Text("Tweet @chrisnachtrieb")
                         }
                     })
-                    .buttonStyle(PlainButtonStyle())
+                        .buttonStyle(PlainButtonStyle())
                 }
             }
             .navigationTitle("Settings")
@@ -110,26 +110,28 @@ struct LocationsListView: View {
     
     var body: some View {
         VStack (alignment: .leading) {
-
+            
             List {
                 Section (header: Text("CURRENT LOCATIONS"),
-                         footer: Text("Add your own locations by clicking the + button in the upper right corner of the screen.")) {
-                ForEach(viewModel.locations, id: \.self) { location in
-                    Text(location.name)
-                }
-                .onDelete(perform: { indexSet in
-                    viewModel.locations.remove(atOffsets: indexSet)
-                })
+                         footer: Text("Add your own location, casino, home game, or mobile app by clicking the + button in the upper right corner of the screen.")) {
+                    ForEach(viewModel.locations, id: \.self) { location in
+                        Text(location.name)
+                    }
+                    .onDelete(perform: { indexSet in
+                        viewModel.locations.remove(atOffsets: indexSet)
+                    })
                 }
             }
             .listStyle(InsetGroupedListStyle())
             .navigationTitle("Locations")
             .navigationBarItems(trailing:
                                     Button(action: {
-                                        addLocationIsShowing.toggle()
-                                    }, label: {
-                                        Image(systemName: "plus")
-                                    }))
+                let impact = UIImpactFeedbackGenerator(style: .heavy)
+                impact.impactOccurred()
+                addLocationIsShowing.toggle()
+            }, label: {
+                Image(systemName: "plus")
+            }))
             .sheet(isPresented: $addLocationIsShowing, content: {
                 NewLocationView(addLocationIsShowing: $addLocationIsShowing)
             })

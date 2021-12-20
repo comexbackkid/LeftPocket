@@ -15,7 +15,7 @@ struct OnboardingView: View {
         
         TabView {
             PageView(title: "Track Games",
-                     subtitle: "Keep track of all your poker sessions. Save your profit, locations, duration, & table stakes.",
+                     subtitle: "Keep track of all your poker sessions. Enter your profit, location, duration, & table stakes.",
                      imageName: "doc.text",
                      showDismissButton: false,
                      shouldShowOnboarding: $shouldShowOnboarding)
@@ -61,7 +61,6 @@ struct PageView: View {
     var body: some View {
         
         ZStack {
-            
             if showDismissButton {
                 VStack {
                     Button(action: {
@@ -94,8 +93,6 @@ struct PageView: View {
                     .foregroundColor(Color("brandWhite"))
                     .padding(.leading, 30)
                     .padding(.trailing, 30)
-                
-                
             }
             .padding(.bottom, 140)
         }

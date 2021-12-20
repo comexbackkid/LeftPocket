@@ -201,7 +201,7 @@ struct AdditionalMetricsView: View {
                             FilterCardView(image: "clock.arrow.circlepath",
                                            imageColor: .blue,
                                            title: "Profit by\nWeekday",
-                                           description: "Some days you're not, some you're not.")
+                                           description: "Some days you're hot, some you're not.")
                         })
                         .buttonStyle(PlainButtonStyle())
                     

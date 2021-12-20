@@ -30,7 +30,9 @@ struct NewSessionView: View {
                         Picker(selection: $viewModel.game, label: Text("Game"), content: {
                             Text("NL Texas Hold Em").tag("NL Texas Hold Em")
                             Text("Pot-Limit Omaha").tag("Pot-Limit Omaha")
-                            Text("5-Card Stud").tag("5-Card Stud")
+                            Text("Seven Card Stud").tag("Seven Card Stud")
+                            Text("Five Card Draw").tag("Five Card Draw")
+                            Text("Razz").tag("Razz")
                         })
                         
                         Picker(selection: $viewModel.stakes, label: Text("Stakes") , content: {

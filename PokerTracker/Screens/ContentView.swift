@@ -42,6 +42,8 @@ struct ContentView: View {
                             .padding(.bottom)
                         
                         Button(action: {
+                            let impact = UIImpactFeedbackGenerator(style: .medium)
+                            impact.impactOccurred()
                             activeSheet = .recentSession
                         }, label: {
                             RecentSessionCardView(pokerSession: viewModel.sessions.first ?? MockData.sampleSession)
@@ -101,6 +103,7 @@ struct BankrollSnapshot: View {
                     .font(.system(size: 46, design: .rounded))
                     .foregroundColor(Color("brandBlack"))
                     .padding(.bottom, 4)
+                
                 Text("Last Session")
                     .font(.caption)
                     .opacity(0.6)

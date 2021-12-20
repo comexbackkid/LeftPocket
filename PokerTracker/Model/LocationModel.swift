@@ -10,5 +10,6 @@ import SwiftUI
 struct LocationModel: Decodable, Encodable, Hashable {
     var id = UUID()
     var name: String
+    var localImage: String
     var imageURL: String
 }

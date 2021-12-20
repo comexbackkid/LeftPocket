@@ -34,7 +34,6 @@ struct PokerSession: Hashable, Codable, Identifiable {
         let totalHours = gameDuration.durationInHours == 0 ? 1 : gameDuration.durationInHours
         return Int(Float(self.profit) / totalHours)
     }
-    
 }
 
 class SystemThemeManager {
@@ -56,9 +55,7 @@ class SystemThemeManager {
 
 struct MockData {
     
-    //    static let newSession = PokerSession.faked(startTime: Date(), endTime: Date().adding(minutes: 0))
-    
-    static let mockLocation = LocationModel(name: "MGM Springfield", imageURL: "mgmspringfield-header")
+    static let mockLocation = LocationModel(name: "MGM Springfield", localImage: "mgmspringfield-header", imageURL: "")
     static let sampleSession = PokerSession(location: mockLocation,
                                             game: "NL Texas Hold Em",
                                             stakes: "1/3",
@@ -69,16 +66,16 @@ struct MockData {
                                             endTime: Date().modifyTime(minutes: 95))
     
     static let allLocations = [
-        LocationModel(name: "MGM Springfield", imageURL: "mgmspringfield-header"),
-        LocationModel(name: "Encore Boston Harbor", imageURL: "encore-header"),
-        LocationModel(name: "Boston Billiard Club", imageURL: "boston-billiards-header"),
-        LocationModel(name: "The Brook", imageURL: "brook-header"),
-        LocationModel(name: "Foxwoods Resort & Casino", imageURL: "foxwoods-header"),
-        LocationModel(name: "Mohegan Sun Casino", imageURL: "mohegan-sun-header")
+        LocationModel(name: "MGM Springfield", localImage: "mgmspringfield-header", imageURL: ""),
+        LocationModel(name: "Encore Boston Harbor", localImage: "encore-header", imageURL: ""),
+        LocationModel(name: "Boston Billiard Club", localImage: "boston-billiards-header", imageURL: ""),
+        LocationModel(name: "The Brook", localImage: "brook-header", imageURL: ""),
+        LocationModel(name: "Foxwoods Resort & Casino", localImage: "foxwoods-header", imageURL: ""),
+        LocationModel(name: "Mohegan Sun Casino", localImage: "mohegan-sun-header", imageURL: "")
     ]
     
     static let allSessions = [
-        PokerSession(location: LocationModel(name: "MGM Springfield", imageURL: "mgmspringfield-header"),
+        PokerSession(location: allLocations[5],
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
                      date: Date().modifyDays(days: -7),
@@ -87,7 +84,7 @@ struct MockData {
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 115)),
 
-        PokerSession(location: LocationModel(name: "Encore Boston Harbor", imageURL: "encore-header"),
+        PokerSession(location: allLocations[1],
                      game: "NL Texas Hold Em",
                      stakes: "1/3",
                      date: Date().modifyDays(days: -2),
@@ -96,43 +93,43 @@ struct MockData {
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 95)),
 
-        PokerSession(location: LocationModel(name: "Boston Billiard Club", imageURL: "boston-billiards-header"),
+        PokerSession(location: allLocations[2],
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
                      date: Date().modifyDays(days: -45),
-                     profit: 150,
+                     profit: 650,
                      notes: "Hero in CO, MP & LP limp I raise $15, Villain is on BTN (younger kid, stack around $550-$600) and he 3! to $45, we call. ($94) Flop is KsQh9h. I check, he bets $35, we call. ($160) Turn is Ac. I check again, Villain pauses a moment and puts in $100. We have about $320 left. Hero???",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 80)),
 
-        PokerSession(location: LocationModel(name: "The Brook", imageURL: "brook-header"),
+        PokerSession(location: allLocations[3],
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
                      date: Date().modifyDays(days: -1),
-                     profit: 600,
+                     profit: 510,
                      notes: "MP limps, LJ limps, Hero on BTN makes it $15, they both call. ($48) Flop is KdKhTs. MP checks, LJ bets $10, I call, MP calls. ($78) Turn is Ac. MP checks, LJ checks, I bet $55 thinking they’re both super weak here. MP thinks for a moment and calls, LJ folds. ($188) River comes Qd. MP checks. Hero? We tank and ultimately check. MP is pissed and tables AK for a boat.",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 365)),
         
-        PokerSession(location: LocationModel(name: "MGM Springfield", imageURL: "mgmspringfield-header"),
+        PokerSession(location: allLocations[0],
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
                      date: Date().modifyDays(days: -36),
-                     profit: -150,
+                     profit: -255,
                      notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 340)),
 
-        PokerSession(location: LocationModel(name: "MGM Springfield", imageURL: "mgmspringfield-header"),
+        PokerSession(location: allLocations[0],
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
                      date: Date().modifyDays(days: -90),
-                     profit: 119,
+                     profit: 219,
                      notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 290)),
         
-        PokerSession(location: LocationModel(name: "Foxwoods Resort & Casino", imageURL: "foxwoods-header"),
+        PokerSession(location: allLocations[4],
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
                      date: Date().modifyDays(days: -4),
@@ -141,11 +138,11 @@ struct MockData {
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 320)),
         
-        PokerSession(location: LocationModel(name: "The Brook", imageURL: "brook-header"),
+        PokerSession(location: allLocations[3],
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
                      date: Date().modifyDays(days: -400),
-                     profit: 550,
+                     profit: 557,
                      notes: "Hero in CO, MP & LP limp I raise $15, Villain is on BTN (younger kid, stack around $550-$600) and he 3! to $45, we call. ($94) Flop is KsQh9h. I check, he bets $35, we call. ($160) Turn is Ac. I check again, Villain pauses a moment and puts in $100. We have about $320 left. Hero?",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 320))

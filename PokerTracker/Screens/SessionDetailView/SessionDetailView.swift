@@ -11,16 +11,17 @@ struct SessionDetailView: View {
     
     @Environment(\.presentationMode) var presentationMode
     let pokerSession: PokerSession
-
+    
     var body: some View {
         
         ScrollView (.vertical) {
             VStack(spacing: 4) {
-                GraphicHeaderView(image: pokerSession.location.imageURL,
+                GraphicHeaderView(image: pokerSession.location,
                                   location: pokerSession.location.name,
                                   date: pokerSession.date)
-                Divider()
-                    .frame(width: 180)
+                    .frame(maxWidth: UIScreen.main.bounds.width)
+                
+                Divider().frame(width: 180)
                 
                 KeyMetrics(sessionDuration: pokerSession.dateInterval,
                            sessionProfit: pokerSession.profit,
@@ -28,52 +29,20 @@ struct SessionDetailView: View {
                 
                 VStack(alignment: .leading) {
                     
-                    Text("Notes")
-                            .font(.headline)
-                            .padding(.bottom, 5)
-                            .padding(.top, 20)
-                    
-                    Text(pokerSession.notes)
-                        .contextMenu {
-                            Button(action: {
-                                UIPasteboard.general.string = self.pokerSession.notes
-                            }, label: {
-                                Text("Copy to Clipboard")
-                                Image(systemName: "doc.on.doc")
-                            })
-                        }
-                        .padding(.bottom, 30)
-                    
-                    Text("Miscellaneous")
-                        .font(.headline)
-                        .padding(.bottom, 5)
-                    
+                    Notes(notes: pokerSession.notes, pokerSession: pokerSession)
+       
                     MiscView(vm: SessionsListViewModel(), pokerSession: pokerSession)
                 }
-                .frame(
-                    minWidth: 0,
-                    maxWidth: .infinity,
-                    minHeight: 0,
-                    alignment: .topLeading
-                )
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, alignment: .topLeading)
                 .padding()
                 .padding(.bottom, 70)
-                
-                Spacer()
             }
-         
-//            .overlay(Button(action: {
-//                presentationMode.wrappedValue.dismiss()
-//            }, label: {
-//                DismissButton()
-//            }).padding(.trailing, 22).padding(.top, 40), alignment: .topTrailing)
         }
         .ignoresSafeArea()
     }
 }
 
 struct SessionDetailView_Previews: PreviewProvider {
-    
     static var previews: some View {
         SessionDetailView(pokerSession: MockData.sampleSession)
     }
@@ -81,28 +50,58 @@ struct SessionDetailView_Previews: PreviewProvider {
 
 struct GraphicHeaderView: View {
     
-    var dateFormatter: DateFormatter {
-        let df = DateFormatter()
-        df.dateStyle = .medium
-        return df
-    }
-    
-    let image: String
+    let image: LocationModel
     let location: String
     let date: Date
     
     var body: some View {
-        Image(image)
-            .resizable()
-            .scaledToFit()
-            .padding(.bottom)
-        Text(location)
-            .font(.title)
-            .bold()
-        Text("\(dateFormatter.string(from: date))")
-            .font(.callout)
-            .foregroundColor(.secondary)
-            .padding(.bottom, 40)
+        VStack {
+            
+            if image.imageURL != "" {
+                
+                if #available(iOS 15.0, *) {
+                    AsyncImage(url: URL(string: image.imageURL), scale: 1, transaction: Transaction(animation: .easeIn)) { phase in
+                        switch phase {
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(height: 290)
+                                .clipped()
+                                .padding(.bottom)
+                            
+                        case .failure(let error):
+                            Text(error.localizedDescription)
+                            
+                        case .empty:
+                            PlaceholderView()
+                            
+                        @unknown default:
+                            PlaceholderView()
+                        }
+                    }
+                    
+                } else {
+                    // Fallback on earlier versions
+                }
+                
+            } else {
+                Image(image.localImage == "" ? "default-header" : image.localImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 290)
+                    .clipped()
+                    .padding(.bottom)
+            }
+            
+            Text(location)
+                .font(.title)
+                .bold()
+            Text("\(date.dateStyle())")
+                .font(.callout)
+                .foregroundColor(.secondary)
+                .padding(.bottom, 40)
+        }
     }
 }
 
@@ -137,6 +136,30 @@ struct KeyMetrics: View {
     }
 }
 
+struct Notes: View {
+    
+    let notes: String
+    let pokerSession: PokerSession
+    
+    var body: some View {
+        Text("Notes")
+            .font(.headline)
+            .padding(.bottom, 5)
+            .padding(.top, 20)
+        
+        Text(notes)
+            .contextMenu {
+                Button(action: {
+                    UIPasteboard.general.string = self.pokerSession.notes
+                }, label: {
+                    Text("Copy to Clipboard")
+                    Image(systemName: "doc.on.doc")
+                })
+            }
+            .padding(.bottom, 30)
+    }
+}
+
 struct MiscView: View {
     
     @ObservedObject var vm: SessionsListViewModel
@@ -150,7 +173,10 @@ struct MiscView: View {
     }
     
     var body: some View {
-
+        Text("Miscellaneous")
+            .font(.headline)
+            .padding(.bottom, 5)
+        
         HStack {
             Text("Date")
                 .font(.subheadline)

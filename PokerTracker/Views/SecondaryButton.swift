@@ -13,18 +13,17 @@ struct SecondaryButton: View {
             
         ZStack {
             Circle()
-                .frame(width: 60, height: 60)
+                .frame(width: 50, height: 50)
                 .foregroundColor(.brandPrimary)
                 .shadow(radius: 5)
             
             Image(systemName: "plus")
                 .resizable()
                 .foregroundColor(Color("brandWhite"))
-                .frame(width: 28, height: 28)
+                .frame(width: 24, height: 24)
         }
     }
 }
-
 
 struct SecondaryButton_Previews: PreviewProvider {
     static var previews: some View {

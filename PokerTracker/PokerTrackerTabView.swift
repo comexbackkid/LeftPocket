@@ -39,15 +39,15 @@ struct PokerTrackerTabView: View {
                     Text("Settings")
                 }
         }
+        .accentColor(.brandPrimary)
+        .fullScreenCover(isPresented: $shouldShowOnboarding, content: {
+            OnboardingView(shouldShowOnboarding: $shouldShowOnboarding)
+        })
         .onAppear {
             SystemThemeManager
                 .shared
                 .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
         }
-        .accentColor(.brandPrimary)
-        .fullScreenCover(isPresented: $shouldShowOnboarding, content: {
-            OnboardingView(shouldShowOnboarding: $shouldShowOnboarding)
-        })
     }
 }
 

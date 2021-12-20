@@ -170,9 +170,11 @@ class SessionsListViewModel: ObservableObject {
     
     // Adds a new Location to the app
     func addLocation(name: String,
+                     localImage: String,
                      imageURL: String) {
         
         let newLocation = LocationModel(name: name,
+                                        localImage: localImage,
                                         imageURL: imageURL)
         
         locations.append(newLocation)

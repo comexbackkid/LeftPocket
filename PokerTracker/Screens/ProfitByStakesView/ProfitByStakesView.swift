@@ -25,7 +25,7 @@ struct ProfitByStakesView: View {
                             let total = viewModel.profitByStakes(stakes)
 
                             Text(total.accountingStyle())
-                                .bold()
+                                .fontWeight(total != 0 ? .bold : .none)
                                 .modifier(AccountingView(total: total))
                         }
                     }

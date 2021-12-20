@@ -9,15 +9,22 @@ import Foundation
 
 extension Date {
     
-    // Returns the day of the week from a Date in String format
-    func dayOfWeek(day: Date) -> String {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "EEEE"
-            let weekDay = dateFormatter.string(from: day)
-            return weekDay
-      }
+    // Displays date like "Oct 12, 2021."
+    func dateStyle() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        return dateFormatter.string(from: self)
+    }
     
-    // Returns the month from a Date in String format
+    // Returns just the day of the week from a Date in String format
+    func dayOfWeek(day: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        let weekDay = dateFormatter.string(from: day)
+        return weekDay
+    }
+    
+    // Returns just the month from a Date in String format
     func monthOfYear(month: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMMM"
@@ -25,15 +32,7 @@ extension Date {
         return month
     }
     
-    // Modifier to get month from a Date object
-    func getMonth() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM"
-        let month = dateFormatter.string(from: self)
-        return month
-    }
-    
-    // Retrieves the year from a Date object
+    // Retrieves just the year from a Date object
     func getYear() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY"
@@ -41,7 +40,15 @@ extension Date {
         return year
     }
     
-    // Using this as a default starting point for the NewSessionView
+    // Modifier to get month from a Date Object
+    func getMonth() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM"
+        let month = dateFormatter.string(from: self)
+        return month
+    }
+    
+    // Using this as a default starting point when user enters a new Session
     func modifyDays(days: Int) -> Date {
         return Calendar.current.date(byAdding: .day, value: days, to: self)!
     }

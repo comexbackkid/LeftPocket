@@ -24,7 +24,7 @@ struct ProfitByWeekdayView: View {
                         let total = viewModel.profitByDayOfWeek(day)
                         
                         Text("\(total.accountingStyle())")
-                            .bold()
+                            .fontWeight(total != 0 ? .bold : .none)
                             .modifier(AccountingView(total: total))
                     }
                 }

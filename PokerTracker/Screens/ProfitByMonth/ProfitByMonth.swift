@@ -10,6 +10,7 @@ import SwiftUI
 struct ProfitByMonth: View {
     
     @State var yearSelection: String
+    @State private var profitable = false
     @ObservedObject var viewModel: SessionsListViewModel
     
     var body: some View {
@@ -28,7 +29,7 @@ struct ProfitByMonth: View {
                         let total = sortedMonths.filter({ $0.date.getMonth() == month }).map {$0.profit}.reduce(0,+)
                         
                         Text(total.accountingStyle())
-                            .bold()
+                            .fontWeight(total != 0 ? .bold : .none)
                             .modifier(AccountingView(total: total))
                     }
                 }

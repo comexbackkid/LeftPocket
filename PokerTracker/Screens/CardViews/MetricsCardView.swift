@@ -26,7 +26,7 @@ struct MetricsCardView: View {
             VStack (alignment: .leading) {
                 LineChartView(data: viewModel.chartArray(),
                               title: "Total Profit",
-                              legend: "Lifetime Earnings Chart",
+                              legend: "Earnings Chart",
                               style: lineChartStyle,
                               form: CGSize(width: 340, height: 240),
                               rateValue: 0,
@@ -47,6 +47,7 @@ struct MetricsCardView: View {
                             .font(.body)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.leading)
+                            .lineLimit(2)
                     }
                     .padding(.horizontal)
                 }

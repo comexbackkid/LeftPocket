@@ -30,7 +30,7 @@ struct ProfitByLocationView: View {
                                 let total = viewModel.profitByLocation(location.name)
                                 
                                 Text(total.accountingStyle())
-                                    .bold()
+                                    .fontWeight(total != 0 ? .bold : .none)
                                     .modifier(AccountingView(total: total))
                             }
                         }

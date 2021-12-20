@@ -17,10 +17,35 @@ struct RecentSessionCardView: View {
         
         ZStack (alignment: .leading) {
             VStack (alignment: .leading) {
-                Image(viewModel.sessions.first?.location.imageURL ?? "default-image")
-                    .resizable()
-                    .frame(width: 340, height: 240)
-                    .aspectRatio(contentMode: .fit)
+                
+                // We need to change Scaling Mode so image doesn't distort on home screen
+                
+                if viewModel.sessions.first?.location.imageURL != "" {
+                    if #available(iOS 15.0, *) {
+                        
+                        AsyncImage(url: URL(string: viewModel.sessions.first?.location.imageURL ?? "default-header")) { image in
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 340, height: 240)
+                                .clipped()
+                            
+                        } placeholder: {
+                            PlaceholderView()
+                        }
+                        
+                    } else {
+                        // Fallback on earlier versions
+                        // What does this mean exactly? Probably need a default code snippet here.
+                    }
+                    
+                } else {
+                    Image(viewModel.sessions.first?.location.localImage ?? "default-header")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 340, height: 240)
+                        .clipped()
+                }
                 
                 Spacer()
                 HStack {
@@ -33,6 +58,7 @@ struct RecentSessionCardView: View {
                             .font(.body)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.leading)
+                            .lineLimit(2)
                     }
                 }
                 .padding(.horizontal)
@@ -41,7 +67,7 @@ struct RecentSessionCardView: View {
             
             Text("Recent Session")
                 .bold()
-                .font(.system(size: 30))
+                .font(.title)
                 .foregroundColor(Color(.white))
                 .offset(y: -145)
                 .padding()
