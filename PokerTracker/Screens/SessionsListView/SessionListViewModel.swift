@@ -32,10 +32,20 @@ class SessionsListViewModel: ObservableObject {
         getLocations()
     }
     
-    // Loads all sessions from UserDefaults upon app launch
+	var sessionsURL: URL {
+		let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, [.userDomainMask], true)[0]
+		return URL(fileURLWithPath: path).appendingPathComponent("sessions.json")
+	}
+	
+	var locationsURL: URL {
+		let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, [.userDomainMask], true)[0]
+		return URL(fileURLWithPath: path).appendingPathComponent("locations.json")
+	}
+	
+    // Loads all sessions from disk upon app launch
     func getSessions() {
         guard
-            let data = UserDefaults.standard.data(forKey: "sessions_list"),
+            let data = try? Data(contentsOf: sessionsURL),
             let savedSessions = try? JSONDecoder().decode([PokerSession].self, from: data)
         else { return }
         
@@ -55,24 +65,34 @@ class SessionsListViewModel: ObservableObject {
         self.locations = fakeLocations
     }
     
-    // Saves the list of sessions into UserDefaults
+    // Saves the list of sessions into a file
     func saveSessions() {
-        if let encodedData = try? JSONEncoder().encode(sessions) {
-            UserDefaults.standard.set(encodedData, forKey: "sessions_list")
-        }
+		 do {
+			  if let encodedData = try? JSONEncoder().encode(sessions) {
+				  try? FileManager.default.removeItem(at: sessionsURL)
+				  try encodedData.write(to: sessionsURL)
+			  }
+		 } catch {
+			 print("Failed to write out sessions, \(error)")
+		 }
     }
     
     // Saves a list of locations the user has created
     func saveLocations() {
-        if let encodedData = try? JSONEncoder().encode(locations) {
-            UserDefaults.standard.set(encodedData, forKey: "locations_list")
-        }
+		 do {
+			  if let encodedData = try? JSONEncoder().encode(locations) {
+				  try? FileManager.default.removeItem(at: locationsURL)
+				  try encodedData.write(to: locationsURL)
+			  }
+		 } catch {
+			 print("Failed to write out locations, \(error)")
+		 }
     }
     
     // Loads the locations the user has created upon app launch
     func getLocations() {
         guard
-            let data = UserDefaults.standard.data(forKey: "locations_list"),
+            let data = try? Data(contentsOf: locationsURL),
             let savedLocations = try? JSONDecoder().decode([LocationModel].self, from: data)
         else { return }
         
