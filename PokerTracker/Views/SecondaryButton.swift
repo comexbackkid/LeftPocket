@@ -19,7 +19,7 @@ struct SecondaryButton: View {
             
             Image(systemName: "plus")
                 .resizable()
-                .foregroundColor(Color("brandWhite"))
+                .foregroundColor(.white)
                 .frame(width: 24, height: 24)
         }
     }

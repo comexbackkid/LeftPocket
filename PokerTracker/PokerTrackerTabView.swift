@@ -12,7 +12,7 @@ struct PokerTrackerTabView: View {
     @AppStorage("isDarkMode") private var isDarkMode = false
     @AppStorage("systemThemeEnabled") private var systemThemeEnabled = false
     @AppStorage("shouldShowOnboarding") var shouldShowOnboarding: Bool = true
-
+    
     var body: some View {
         TabView {
             ContentView()
@@ -47,6 +47,11 @@ struct PokerTrackerTabView: View {
             SystemThemeManager
                 .shared
                 .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
+            
+            // Disables auto-transparent behavior in new update
+            let appearance = UITabBarAppearance()
+            UITabBar.appearance().scrollEdgeAppearance = appearance
+            
         }
     }
 }

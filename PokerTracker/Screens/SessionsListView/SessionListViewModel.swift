@@ -26,9 +26,9 @@ class SessionsListViewModel: ObservableObject {
     }
     
     init () {
-        getMockSessions()
-        getMockLocations()
-//        getSessions()
+//        getMockSessions()
+//        getMockLocations()
+        getSessions()
         getLocations()
     }
     
@@ -94,8 +94,9 @@ class SessionsListViewModel: ObservableObject {
         let profitsArray = sessions.map { Double($0.profit) }
         var cumBankroll = [Double]()
         var runningTotal = 0.0
+        cumBankroll.append(0.0)
         
-        for value in profitsArray {
+        for value in profitsArray.reversed() {
             runningTotal += value
             cumBankroll.append(runningTotal)
         }

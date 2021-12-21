@@ -11,7 +11,7 @@ struct EmptyStateMetricsBankroll: View {
     var body: some View {
         
             VStack (alignment: .center, spacing: 5) {
-                Image(systemName: "chart.bar.xaxis")
+                Image(systemName: "chart.line.uptrend.xyaxis")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .foregroundColor(.secondary)
@@ -23,10 +23,12 @@ struct EmptyStateMetricsBankroll: View {
                     .bold()
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
+                    .padding(.bottom)
                 Text("Add some sessions so you can begin tracking your bankroll growth!")
                     .opacity(0.7)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
+                    .padding(.horizontal, 30)
                     .multilineTextAlignment(.center)
             }
     }

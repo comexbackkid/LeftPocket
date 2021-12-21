@@ -14,31 +14,45 @@ struct SessionDetailView: View {
     
     var body: some View {
         
-        ScrollView (.vertical) {
-            VStack(spacing: 4) {
-                GraphicHeaderView(image: pokerSession.location,
-                                  location: pokerSession.location.name,
-                                  date: pokerSession.date)
-                    .frame(maxWidth: UIScreen.main.bounds.width)
-                
-                Divider().frame(width: 180)
-                
-                KeyMetrics(sessionDuration: pokerSession.dateInterval,
-                           sessionProfit: pokerSession.profit,
-                           sessionHourlyRate: pokerSession.hourlyRate)
-                
-                VStack(alignment: .leading) {
+        ZStack {
+            ScrollView (.vertical) {
+                VStack(spacing: 4) {
+                    GraphicHeaderView(image: pokerSession.location,
+                                      location: pokerSession.location.name,
+                                      date: pokerSession.date)
+                        .frame(maxWidth: UIScreen.main.bounds.width)
                     
-                    Notes(notes: pokerSession.notes, pokerSession: pokerSession)
-       
-                    MiscView(vm: SessionsListViewModel(), pokerSession: pokerSession)
+                    Divider().frame(width: 180)
+                    
+                    KeyMetrics(sessionDuration: pokerSession.dateInterval,
+                               sessionProfit: pokerSession.profit,
+                               sessionHourlyRate: pokerSession.hourlyRate)
+                    
+                    VStack(alignment: .leading) {
+                        
+                        Notes(notes: pokerSession.notes, pokerSession: pokerSession)
+                        
+                        MiscView(vm: SessionsListViewModel(), pokerSession: pokerSession)
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, alignment: .topLeading)
+                    .padding()
+                    .padding(.bottom, 70)
                 }
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, alignment: .topLeading)
-                .padding()
-                .padding(.bottom, 70)
+                
+            }
+            .ignoresSafeArea()
+            
+            // Need to figure out how to have DismissButton only show when isPresented = true
+            VStack {
+                HStack {
+                    Spacer()
+                    DismissButton()
+                        .padding(.horizontal, 30)
+                        .padding(.top, 30)
+                }
+                Spacer()
             }
         }
-        .ignoresSafeArea()
     }
 }
 
@@ -59,30 +73,25 @@ struct GraphicHeaderView: View {
             
             if image.imageURL != "" {
                 
-                if #available(iOS 15.0, *) {
-                    AsyncImage(url: URL(string: image.imageURL), scale: 1, transaction: Transaction(animation: .easeIn)) { phase in
-                        switch phase {
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(height: 290)
-                                .clipped()
-                                .padding(.bottom)
-                            
-                        case .failure(let error):
-                            Text(error.localizedDescription)
-                            
-                        case .empty:
-                            PlaceholderView()
-                            
-                        @unknown default:
-                            PlaceholderView()
-                        }
+                AsyncImage(url: URL(string: image.imageURL), scale: 1, transaction: Transaction(animation: .easeIn)) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(height: 290)
+                            .clipped()
+                            .padding(.bottom)
+                        
+                    case .failure:
+                        Image(systemName: "questionmark")
+                        
+                    case .empty:
+                        PlaceholderView()
+                        
+                    @unknown default:
+                        PlaceholderView()
                     }
-                    
-                } else {
-                    // Fallback on earlier versions
                 }
                 
             } else {
@@ -148,15 +157,8 @@ struct Notes: View {
             .padding(.top, 20)
         
         Text(notes)
-            .contextMenu {
-                Button(action: {
-                    UIPasteboard.general.string = self.pokerSession.notes
-                }, label: {
-                    Text("Copy to Clipboard")
-                    Image(systemName: "doc.on.doc")
-                })
-            }
             .padding(.bottom, 30)
+            .textSelection(.enabled)
     }
 }
 
@@ -165,12 +167,6 @@ struct MiscView: View {
     @ObservedObject var vm: SessionsListViewModel
     
     let pokerSession: PokerSession
-    
-    var dateFormatter: DateFormatter {
-        let df = DateFormatter()
-        df.dateStyle = .medium
-        return df
-    }
     
     var body: some View {
         Text("Miscellaneous")
@@ -182,7 +178,7 @@ struct MiscView: View {
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             Spacer()
-            Text("\(dateFormatter.string(from: pokerSession.date))")
+            Text("\(pokerSession.date.dateStyle())")
                 .font(.subheadline)
         }
         Divider()
@@ -212,5 +208,6 @@ struct MiscView: View {
             Text("\(vm.sessions.filter({$0.location.name == pokerSession.location.name}).count)")
                 .font(.subheadline)
         }
+        .padding(.bottom)
     }
 }

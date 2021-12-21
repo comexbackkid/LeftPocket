@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct PlusButton: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
         ZStack {
             Circle()
@@ -18,7 +21,7 @@ struct PlusButton: View {
             Image(systemName: "plus")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .foregroundColor(Color("brandBlack"))
+                .foregroundColor(colorScheme == .dark ? .white : .black)
                 .frame(width: 20, height: 20)
         }
     }

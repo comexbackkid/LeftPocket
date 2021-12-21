@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HeaderView: View {
     
-    @Binding var activeSheet: ActiveSheet?
+    @Binding var activeSheet: Sheet?
 
     var body: some View {
         HStack {

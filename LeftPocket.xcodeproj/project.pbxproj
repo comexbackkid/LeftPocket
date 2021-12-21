@@ -75,7 +75,7 @@
 		7C468EFA273974E6000CA4B3 /* BarGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarGraphView.swift; sourceTree = "<group>"; };
 		7C468EFC273980F7000CA4B3 /* Animations+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Animations+Ext.swift"; sourceTree = "<group>"; };
 		7C483255270E3F32005AAFA1 /* FilterCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCardView.swift; sourceTree = "<group>"; };
-		7C63949226C14E8300939F40 /* PokerTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokerTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C63949226C14E8300939F40 /* LeftPocket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LeftPocket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C63949526C14E8300939F40 /* PokerTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokerTrackerApp.swift; sourceTree = "<group>"; };
 		7C63949726C14E8300939F40 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7C63949926C14E8400939F40 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -280,7 +280,7 @@
 		7C63949326C14E8300939F40 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7C63949226C14E8300939F40 /* PokerTracker.app */,
+				7C63949226C14E8300939F40 /* LeftPocket.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -387,9 +387,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		7C63949126C14E8300939F40 /* PokerTracker */ = {
+		7C63949126C14E8300939F40 /* LeftPocket */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7C6394A126C14E8400939F40 /* Build configuration list for PBXNativeTarget "PokerTracker" */;
+			buildConfigurationList = 7C6394A126C14E8400939F40 /* Build configuration list for PBXNativeTarget "LeftPocket" */;
 			buildPhases = (
 				7C63948E26C14E8300939F40 /* Sources */,
 				7C63948F26C14E8300939F40 /* Frameworks */,
@@ -399,13 +399,13 @@
 			);
 			dependencies = (
 			);
-			name = PokerTracker;
+			name = LeftPocket;
 			packageProductDependencies = (
 				7CC20EB0272B183E00137F51 /* SwiftUICharts */,
 				7C0E48DD276BB3BF005EFA62 /* Algorithms */,
 			);
 			productName = PokerTracker;
-			productReference = 7C63949226C14E8300939F40 /* PokerTracker.app */;
+			productReference = 7C63949226C14E8300939F40 /* LeftPocket.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -422,7 +422,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7C63948D26C14E8300939F40 /* Build configuration list for PBXProject "PokerTracker" */;
+			buildConfigurationList = 7C63948D26C14E8300939F40 /* Build configuration list for PBXProject "LeftPocket" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -439,7 +439,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7C63949126C14E8300939F40 /* PokerTracker */,
+				7C63949126C14E8300939F40 /* LeftPocket */,
 			);
 		};
 /* End PBXProject section */
@@ -640,7 +640,7 @@
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = PokerTracker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -662,7 +662,7 @@
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = PokerTracker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -677,7 +677,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7C63948D26C14E8300939F40 /* Build configuration list for PBXProject "PokerTracker" */ = {
+		7C63948D26C14E8300939F40 /* Build configuration list for PBXProject "LeftPocket" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7C63949F26C14E8400939F40 /* Debug */,
@@ -686,7 +686,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7C6394A126C14E8400939F40 /* Build configuration list for PBXNativeTarget "PokerTracker" */ = {
+		7C6394A126C14E8400939F40 /* Build configuration list for PBXNativeTarget "LeftPocket" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7C6394A226C14E8400939F40 /* Debug */,

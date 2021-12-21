@@ -84,7 +84,7 @@ struct SettingsView: View {
                         HStack {
                             Image(systemName: "link")
                                 .foregroundColor(.blue)
-                            Text("Tweet @chrisnachtrieb")
+                            Text("Contact Support")
                         }
                     })
                         .buttonStyle(PlainButtonStyle())

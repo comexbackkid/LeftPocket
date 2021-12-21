@@ -7,10 +7,20 @@
 
 import SwiftUI
 
+// Sheet switcher
+enum Sheet: String, Identifiable {
+    
+    case newSession, recentSession
+    var id: String {
+        rawValue
+    }
+}
+
 struct ContentView: View {
     
+    @State private var showNewSession = false
     @State private var isPresented = false
-    @State var activeSheet: ActiveSheet?
+    @State var activeSheet: Sheet?
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     var body: some View {
@@ -20,12 +30,6 @@ struct ContentView: View {
                 ScrollView(.vertical) {
                     VStack(spacing: 5) {
                         HeaderView(activeSheet: $activeSheet)
-                            .sheet(item: $activeSheet) { item in
-                                switch item {
-                                case .newSession: NewSessionView(isPresented: $isPresented)
-                                case .recentSession: SessionDetailView(pokerSession: viewModel.sessions.first ?? MockData.sampleSession)
-                                }
-                            }
                         
                         BankrollSnapshot()
                             .padding(.bottom)
@@ -37,26 +41,36 @@ struct ContentView: View {
                                 .padding(.top, 80)
                             
                         } else {
-                        
-                        MetricsCardView()
-                            .padding(.bottom)
-                        
-                        Button(action: {
-                            let impact = UIImpactFeedbackGenerator(style: .medium)
-                            impact.impactOccurred()
-                            activeSheet = .recentSession
-                        }, label: {
-                            RecentSessionCardView(pokerSession: viewModel.sessions.first ?? MockData.sampleSession)
-                                .padding(.bottom, 30)
                             
-                        })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        Spacer()
-
+                            MetricsCardView()
+                                .padding(.bottom)
+                            
+                            Button(action: {
+                                let impact = UIImpactFeedbackGenerator(style: .medium)
+                                impact.impactOccurred()
+                                activeSheet = .recentSession
+                            }, label: {
+                                RecentSessionCardView(pokerSession: viewModel.sessions.first ?? MockData.sampleSession)
+                                    .padding(.bottom, 30)
+                                
+                            })
+                                .buttonStyle(PlainButtonStyle())
+                            
+                            Spacer()
+                            
                         }
                     }
                 }
+                    .sheet(item: $activeSheet) { sheet in
+                        switch sheet {
+                        case .newSession: NewSessionView(isPresented: .init(get: {
+                            activeSheet == .newSession
+                        }, set: { isPresented in
+                            activeSheet = isPresented ? .newSession : nil
+                        }))
+                        case .recentSession: SessionDetailView(pokerSession: viewModel.sessions.first ?? MockData.sampleSession)
+                        }
+                    }
             )
     }
 }
@@ -107,7 +121,7 @@ struct BankrollSnapshot: View {
                 Text("Last Session")
                     .font(.caption)
                     .opacity(0.6)
-                    
+                
                 HStack {
                     Text("\(lastSession.accountingStyle())")
                         .fontWeight(.bold)
@@ -120,11 +134,4 @@ struct BankrollSnapshot: View {
     }
 }
 
-// Sheet switcher
-enum ActiveSheet: Identifiable {
-    case newSession, recentSession
-    
-    var id: Int {
-        hashValue
-    }
-}
+
