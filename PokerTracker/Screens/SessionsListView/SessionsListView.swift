@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SessionsView: View {
     
+    @State var activeSheet: Sheet?
     @State var isPresented = false
     @EnvironmentObject var viewModel: SessionsListViewModel
     
@@ -17,14 +18,16 @@ struct SessionsView: View {
             ZStack {
                 
                 if viewModel.sessions.isEmpty {
-                    EmptyState()
+                    VStack {
+                        EmptyState()
+                        Spacer()
+                    }
                     
                 } else {
-                    
                     List {
                         ForEach(viewModel.sessions) { session in
                             NavigationLink(
-                                destination: SessionDetailView(pokerSession: session),
+                                destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session),
                                 label: {
                                     CellView(pokerSession: session)
                                 })

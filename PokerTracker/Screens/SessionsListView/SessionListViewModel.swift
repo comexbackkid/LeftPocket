@@ -10,7 +10,7 @@ import SwiftUI
 class SessionsListViewModel: ObservableObject {
     
     @Published var uniqueStakes: [String] = []
-    @Published var locations: [LocationModel] = [] {
+    @Published var locations: [LocationModel] = DefaultLocations.allLocations {
         didSet {
             saveLocations()
         }
@@ -19,8 +19,6 @@ class SessionsListViewModel: ObservableObject {
     @Published var sessions: [PokerSession] = [] {
         didSet {
             saveSessions()
-           
-            // Do these need if let or guard let statements?
             uniqueStakes = Array(Set(sessions.map { $0.stakes }))
         }
     }
@@ -32,52 +30,75 @@ class SessionsListViewModel: ObservableObject {
         getLocations()
     }
     
-    // Loads all sessions from UserDefaults upon app launch
+    // MARK: SAVING & LOADING APP DATA
+    
+    var sessionsPath: URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("sessions.json")
+    }
+    
+    var locationsPath: URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("locations.json")
+    }
+    
+    // Saves the list of sessions with FileManager
+    func saveSessions() {
+        do {
+            if let encodedData = try? JSONEncoder().encode(sessions) {
+                try? FileManager.default.removeItem(at: sessionsPath)
+                try encodedData.write(to: sessionsPath)
+            }
+        } catch {
+            print("Failed to write out sessions, \(error)")
+        }
+    }
+    
+    // Loads all sessions from FileManager upon app launch
     func getSessions() {
         guard
-            let data = UserDefaults.standard.data(forKey: "sessions_list"),
+            let data = try? Data(contentsOf: sessionsPath),
             let savedSessions = try? JSONDecoder().decode([PokerSession].self, from: data)
         else { return }
         
         self.sessions = savedSessions
     }
     
-    // Loading fake data for Preview Provider
-    func getMockSessions() {
-        let fakeSessions = MockData.allSessions.sorted(by: {$0.date > $1.date})
-        self.sessions = fakeSessions
-        
-    }
-    
-    // Loading fake locations so our filtered views can work correctly
-    func getMockLocations() {
-        let fakeLocations = MockData.allLocations
-        self.locations = fakeLocations
-    }
-    
-    // Saves the list of sessions into UserDefaults
-    func saveSessions() {
-        if let encodedData = try? JSONEncoder().encode(sessions) {
-            UserDefaults.standard.set(encodedData, forKey: "sessions_list")
-        }
-    }
-    
-    // Saves a list of locations the user has created
+    // Saves the list of locations the user has created with FileManager
     func saveLocations() {
-        if let encodedData = try? JSONEncoder().encode(locations) {
-            UserDefaults.standard.set(encodedData, forKey: "locations_list")
+        do {
+            if let encodedData = try? JSONEncoder().encode(locations) {
+                try? FileManager.default.removeItem(at: locationsPath)
+                try encodedData.write(to: locationsPath)
+            }
+        } catch {
+            print("Failed to write out locations, \(error)")
         }
     }
     
     // Loads the locations the user has created upon app launch
     func getLocations() {
         guard
-            let data = UserDefaults.standard.data(forKey: "locations_list"),
+            let data = try? Data(contentsOf: locationsPath),
             let savedLocations = try? JSONDecoder().decode([LocationModel].self, from: data)
         else { return }
         
         self.locations = savedLocations
     }
+    
+    // MARK: LOADING IN MOCK DATA FOR PREVIEW OR TESTING
+    
+    // Loading fake data for Preview Provider
+    func getMockSessions() {
+        let fakeSessions = MockData.allSessions.sorted(by: {$0.date > $1.date})
+        self.sessions = fakeSessions
+    }
+    
+    // Loading fake locations so our filtered views can work correctly
+    func getMockLocations() {
+            let fakeLocations = MockData.allLocations
+            self.locations = fakeLocations
+    }
+    
+    // MARK: CALCULATIONS AND DATA PRESENTATION
     
     // Calculate current bankroll
     func tallyBankroll() -> Int {
@@ -115,7 +136,50 @@ class SessionsListViewModel: ObservableObject {
         return [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
     }
     
-    // MARK: FILTERING OPTIONS
+    // Adds up total number of profitable sessions
+    func numOfCashes() -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        let profitableSessions = sessions.filter { $0.profit > 0 }
+        return profitableSessions.count
+    }
+    
+    // Calculate total hourly earnings rate for MetricsView
+    func hourlyRate() -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        let hoursArray = sessions.map { Int($0.gameDuration.hour ?? 0) }
+        let totalHours = hoursArray.reduce(0, +)
+        return tallyBankroll() / totalHours
+    }
+    
+    // Calculate average session duration for MetricsView
+    func avgDuration() -> String {
+        guard !sessions.isEmpty else { return "0" }
+        let hoursArray: [Int] = sessions.map { $0.gameDuration.hour ?? 0 }
+        let minutesArray: [Int] = sessions.map { $0.gameDuration.minute ?? 0 }
+        let totalHours = hoursArray.reduce(0, +) / sessions.count
+        let totalMinutes = minutesArray.reduce(0, +) / sessions.count
+        let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
+        return dateComponents.formattedDuration
+    }
+    
+    // Calculate average profit per session
+    func avgProfit() -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        return tallyBankroll() / sessions.count
+    }
+    
+    // Total hours played from all sessions
+    func totalHoursPlayed() -> String {
+        guard !sessions.isEmpty else { return "0" }
+        let hoursArray: [Int] = sessions.map { $0.gameDuration.hour ?? 0 }
+        let minutesArray: [Int] = sessions.map { $0.gameDuration.minute ?? 0 }
+        let totalHours = hoursArray.reduce(0, +) / sessions.count
+        let totalMinutes = minutesArray.reduce(0, +) / sessions.count
+        let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
+        return dateComponents.totalHours(duration: dateComponents)
+    }
+    
+    // MARK: FILTERING OPTIONS IN METRICS VIEW
     
     func sessionsByLocation(_ location: String) -> [PokerSession] {
         sessions.filter({ $0.location.name == location })
@@ -179,49 +243,6 @@ class SessionsListViewModel: ObservableObject {
                                         imageURL: imageURL)
         
         locations.append(newLocation)
-    }
-    
-    // Adds up total number of profitable sessions
-    func numOfCashes() -> Int {
-        guard !sessions.isEmpty else { return 0 }
-        let profitableSessions = sessions.filter { $0.profit > 0 }
-        return profitableSessions.count
-    }
-    
-    // Calculate total hourly earnings rate for MetricsView
-    func hourlyRate() -> Int {
-        guard !sessions.isEmpty else { return 0 }
-        let hoursArray = sessions.map { Int($0.gameDuration.hour ?? 0) }
-        let totalHours = hoursArray.reduce(0, +)
-        return tallyBankroll() / totalHours
-    }
-    
-    // Calculate average session duration for MetricsView
-    func avgDuration() -> String {
-        guard !sessions.isEmpty else { return "0" }
-        let hoursArray: [Int] = sessions.map { $0.gameDuration.hour ?? 0 }
-        let minutesArray: [Int] = sessions.map { $0.gameDuration.minute ?? 0 }
-        let totalHours = hoursArray.reduce(0, +) / sessions.count
-        let totalMinutes = minutesArray.reduce(0, +) / sessions.count
-        let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
-        return dateComponents.formattedDuration
-    }
-    
-    // Calculate average profit per session
-    func avgProfit() -> Int {
-        guard !sessions.isEmpty else { return 0 }
-        return tallyBankroll() / sessions.count
-    }
-    
-    // Total hours played from all sessions
-    func totalHoursPlayed() -> String {
-        guard !sessions.isEmpty else { return "0" }
-        let hoursArray: [Int] = sessions.map { $0.gameDuration.hour ?? 0 }
-        let minutesArray: [Int] = sessions.map { $0.gameDuration.minute ?? 0 }
-        let totalHours = hoursArray.reduce(0, +) / sessions.count
-        let totalMinutes = minutesArray.reduce(0, +) / sessions.count
-        let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
-        return dateComponents.totalHours(duration: dateComponents)
     }
     
     let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]

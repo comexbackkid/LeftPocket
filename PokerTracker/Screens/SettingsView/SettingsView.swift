@@ -16,6 +16,7 @@ struct SettingsView: View {
     var body: some View {
         
         NavigationView {
+            
             Form {
                 Section(header: Text("Display"),
                         footer: Text("Using System Display will override Dark Mode and use current device preferences.")) {
@@ -54,7 +55,7 @@ struct SettingsView: View {
                         })
                     
                     NavigationLink(
-                        destination: Text("Coming Soon!"),
+                        destination: Text("Coming soon!"),
                         label: {
                             Image(systemName: "doc.text")
                                 .foregroundColor(.green)

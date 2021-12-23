@@ -36,14 +36,13 @@ struct MetricsCardView: View {
 //                CustomChartView(sessions: viewModel.sessions)
 //                    .frame(height: 240)
                 
-                
                 Spacer()
                 HStack {
                     VStack (alignment: .leading, spacing: 5) {
                         Text("My Metrics")
                             .font(.title3)
                             .bold()
-                        Text("A look at how you've been playing and ways to improve your game.")
+                        Text("Head over to the Metrics tab and look at how you've been playing.")
                             .font(.body)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.leading)

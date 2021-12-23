@@ -18,12 +18,14 @@ struct ProfitByWeekdayView: View {
                 ForEach (viewModel.daysOfWeek, id: \.self) { day in
                     HStack {
                         Text(day)
+                            .font(.callout)
                         
                         Spacer()
                         
                         let total = viewModel.profitByDayOfWeek(day)
                         
                         Text("\(total.accountingStyle())")
+                            .font(.callout)
                             .fontWeight(total != 0 ? .bold : .none)
                             .modifier(AccountingView(total: total))
                     }

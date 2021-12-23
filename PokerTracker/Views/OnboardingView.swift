@@ -77,12 +77,12 @@ struct PageView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 120, height: 120)
-                    .foregroundColor(Color("brandWhite"))
+                    .foregroundColor(.brandWhite)
                     .opacity(0.5)
                     .padding(50)
                 
                 Text(title)
-                    .foregroundColor(Color("brandWhite"))
+                    .foregroundColor(.brandWhite)
                     .font(.title)
                     .bold()
                     .padding(.bottom, 2)
@@ -90,7 +90,7 @@ struct PageView: View {
                 Text(subtitle)
                     .font(.subheadline)
                     .opacity(0.7)
-                    .foregroundColor(Color("brandWhite"))
+                    .foregroundColor(.brandWhite)
                     .padding(.leading, 30)
                     .padding(.trailing, 30)
             }

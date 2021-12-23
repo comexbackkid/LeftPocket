@@ -211,7 +211,7 @@ struct AdditionalMetricsView: View {
                             FilterCardView(image: "calendar",
                                            imageColor: .purple,
                                            title: "Profit by\nMonth",
-                                           description: "Review your results for the previous month.")
+                                           description: "Review your year over year results.")
                         })
                         .buttonStyle(PlainButtonStyle())
                     

@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// Sheet switcher
 enum Sheet: String, Identifiable {
     
     case newSession, recentSession
@@ -18,7 +17,6 @@ enum Sheet: String, Identifiable {
 
 struct ContentView: View {
     
-    @State private var showNewSession = false
     @State private var isPresented = false
     @State var activeSheet: Sheet?
     @EnvironmentObject var viewModel: SessionsListViewModel
@@ -27,6 +25,7 @@ struct ContentView: View {
         
         BackgroundView()
             .overlay(
+                
                 ScrollView(.vertical) {
                     VStack(spacing: 5) {
                         HeaderView(activeSheet: $activeSheet)
@@ -50,14 +49,11 @@ struct ContentView: View {
                                 impact.impactOccurred()
                                 activeSheet = .recentSession
                             }, label: {
-                                RecentSessionCardView(pokerSession: viewModel.sessions.first ?? MockData.sampleSession)
+                                RecentSessionCardView(pokerSession: viewModel.sessions.first!)
                                     .padding(.bottom, 30)
-                                
                             })
                                 .buttonStyle(PlainButtonStyle())
-                            
                             Spacer()
-                            
                         }
                     }
                 }
@@ -68,7 +64,8 @@ struct ContentView: View {
                         }, set: { isPresented in
                             activeSheet = isPresented ? .newSession : nil
                         }))
-                        case .recentSession: SessionDetailView(pokerSession: viewModel.sessions.first ?? MockData.sampleSession)
+                        case .recentSession: SessionDetailView(activeSheet: $activeSheet,
+                                                               pokerSession: viewModel.sessions.first ?? MockData.sampleSession)
                         }
                     }
             )
@@ -86,7 +83,7 @@ struct BackgroundView: View {
     
     var body: some View {
         
-        LinearGradient(gradient: Gradient(colors: [Color("brandWhite"), Color("bgGray")]),
+        LinearGradient(gradient: Gradient(colors: [.brandWhite, Color("bgGray")]),
                        startPoint: .top,
                        endPoint: .bottomTrailing)
             .ignoresSafeArea()

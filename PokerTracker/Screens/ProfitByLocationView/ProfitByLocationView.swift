@@ -21,17 +21,43 @@ struct ProfitByLocationView: View {
                 } else {
                     
                     List {
+//                        HStack (spacing: 0) {
+//                            Text("Location")
+//                                .bold()
+//                            Spacer()
+//                            VStack (alignment: .trailing) {
+//                                Text("Hourly")
+//                                    .bold()
+//                            }
+//                            VStack {
+//                                Text("Total")
+//                                    .bold()
+//                            }
+//                            .frame(width: UIScreen.main.bounds.width / 5.5, alignment: .trailing)
+//                        }
+                        
                         ForEach(viewModel.locations, id: \.self) { location in
-                            HStack {
+                            HStack (spacing: 0) {
                                 Text(location.name)
+                                    .font(.callout)
                                 
                                 Spacer()
                                 
                                 let total = viewModel.profitByLocation(location.name)
                                 
-                                Text(total.accountingStyle())
-                                    .fontWeight(total != 0 ? .bold : .none)
-                                    .modifier(AccountingView(total: total))
+//                                VStack (alignment: .trailing) {
+//                                    Text("$45")
+//                                        .font(.callout)
+//                                }
+                                
+                                VStack {
+                                    Text(total.accountingStyle())
+                                        .font(.callout)
+                                        .fontWeight(total != 0 ? .bold : .none)
+                                        .modifier(AccountingView(total: total))
+                                    
+                                }
+//                                .frame(width: UIScreen.main.bounds.width / 5.5, alignment: .trailing)
                             }
                         }
                         .navigationBarTitle(Text("Profit by Location"))

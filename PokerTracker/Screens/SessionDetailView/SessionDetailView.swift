@@ -9,13 +9,16 @@ import SwiftUI
 
 struct SessionDetailView: View {
     
+    @Binding var activeSheet: Sheet?
     @Environment(\.presentationMode) var presentationMode
     let pokerSession: PokerSession
     
     var body: some View {
         
         ZStack {
+            
             ScrollView (.vertical) {
+                
                 VStack(spacing: 4) {
                     GraphicHeaderView(image: pokerSession.location,
                                       location: pokerSession.location.name,
@@ -38,19 +41,22 @@ struct SessionDetailView: View {
                     .padding()
                     .padding(.bottom, 70)
                 }
-                
             }
             .ignoresSafeArea()
             
-            // Need to figure out how to have DismissButton only show when isPresented = true
-            VStack {
-                HStack {
+            if activeSheet == .recentSession {
+                VStack {
+                    HStack {
+                        Spacer()
+                        DismissButton()
+                            .padding(.trailing, 20)
+                            .padding(.top, 20)
+                            .onTapGesture {
+                                activeSheet = nil
+                            }
+                    }
                     Spacer()
-                    DismissButton()
-                        .padding(.horizontal, 30)
-                        .padding(.top, 30)
                 }
-                Spacer()
             }
         }
     }
@@ -58,7 +64,7 @@ struct SessionDetailView: View {
 
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionDetailView(pokerSession: MockData.sampleSession)
+        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
     }
 }
 

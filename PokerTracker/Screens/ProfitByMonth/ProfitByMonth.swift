@@ -23,12 +23,14 @@ struct ProfitByMonth: View {
                 ForEach(viewModel.months, id: \.self) { month in
                     HStack {
                         Text(month)
+                            .font(.callout)
                         
                         Spacer()
                         
                         let total = sortedMonths.filter({ $0.date.getMonth() == month }).map {$0.profit}.reduce(0,+)
                         
                         Text(total.accountingStyle())
+                            .font(.callout)
                             .fontWeight(total != 0 ? .bold : .none)
                             .modifier(AccountingView(total: total))
                     }

@@ -23,6 +23,7 @@ struct HeaderView: View {
             }, label: {
                 PlusButton()
             })
+                .padding(.trailing, 10)
         }
         .padding()
     }

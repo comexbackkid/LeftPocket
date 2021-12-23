@@ -18,9 +18,10 @@ struct FilterCardView: View {
     var body: some View {
         ZStack {
             VStack (alignment: .leading) {
+                
                 Image(systemName: image)
                     .foregroundColor(imageColor)
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    .font(.title)
                 Text(title)
                     .multilineTextAlignment(.leading)
                     .font(.headline)

@@ -36,19 +36,20 @@ struct PokerSession: Hashable, Codable, Identifiable {
     }
 }
 
+// For some reason using the .currentWindow ext is not working with AppStorage and doesn't save dark/light mode state
 class SystemThemeManager {
     static let shared = SystemThemeManager()
     init() {}
     
     func handleTheme(darkMode: Bool, system: Bool) {
         
-        // We're checking to see if the Use System Defaults toggle is turned on, and if is, override our app's status to just use system defaults
         guard !system else {
+//            UIApplication.shared.currentWindow?.overrideUserInterfaceStyle = .unspecified
             UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .unspecified
             return
         }
         
-        // Otherwise, if the System toggle is off, we're going to simply turn on Dark Mode if they toggle it on
+//        UIApplication.shared.currentWindow?.overrideUserInterfaceStyle = darkMode ? .dark : .light
         UIApplication.shared.windows.first?.overrideUserInterfaceStyle = darkMode ? .dark : .light
     }
 }
@@ -71,7 +72,8 @@ struct MockData {
         LocationModel(name: "Boston Billiard Club", localImage: "boston-billiards-header", imageURL: ""),
         LocationModel(name: "The Brook", localImage: "brook-header", imageURL: ""),
         LocationModel(name: "Foxwoods Resort & Casino", localImage: "foxwoods-header", imageURL: ""),
-        LocationModel(name: "Mohegan Sun Casino", localImage: "mohegan-sun-header", imageURL: "")
+        LocationModel(name: "Mohegan Sun Casino", localImage: "mohegan-sun-header", imageURL: ""),
+        LocationModel(name: "Rivers Casino & Resort", localImage: "rivers-header", imageURL: "")
     ]
     
     static let allSessions = [

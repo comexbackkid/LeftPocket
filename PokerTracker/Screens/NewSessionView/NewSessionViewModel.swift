@@ -48,7 +48,7 @@ final class NewSessionViewModel: ObservableObject {
                              game: self.game,
                              stakes: self.stakes,
                              date: self.startTime,
-                             profit: Int(self.profit) ?? 0,
+                             profit: Int(self.positiveNegative + self.profit) ?? 0,
                              notes: self.notes,
                              startTime: self.startTime,
                              endTime: self.endTime)

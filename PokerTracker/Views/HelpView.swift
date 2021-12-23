@@ -21,7 +21,6 @@ struct HelpView: View {
                     .padding(.bottom)
                     .font(.callout)
                 
-                
                 Image(systemName: "suit.heart.fill")
                     .resizable()
                     .frame(width: 30, height: 30)
@@ -32,7 +31,6 @@ struct HelpView: View {
                 Text("Add your first Session. Include things like the location, duration, profit, and any notes you took from the session.")
                     .padding(.bottom)
                     .font(.callout)
-                
                 
                 Image(systemName: "suit.diamond.fill")
                     .resizable()
@@ -46,7 +44,7 @@ struct HelpView: View {
                     .font(.callout)
             }
             .padding(.horizontal, 40)
-            .navigationBarTitle("Using PokerTracker")
+            .navigationBarTitle("Using Left Pocket")
     }
 }
 

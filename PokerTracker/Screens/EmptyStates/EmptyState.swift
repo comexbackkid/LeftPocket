@@ -11,8 +11,6 @@ struct EmptyState: View {
     var body: some View {
         
         ZStack {
-            
-            
             VStack (alignment: .center, spacing: 5) {
                 Image("empty-list")
                     .resizable()
@@ -30,7 +28,6 @@ struct EmptyState: View {
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
-            .offset(y:-60)
         }
     }
 }

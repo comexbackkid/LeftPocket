@@ -19,12 +19,14 @@ struct ProfitByStakesView: View {
                     ForEach(viewModel.uniqueStakes, id: \.self) { stakes in
                         HStack {
                             Text(stakes)
+                                .font(.callout)
 
                             Spacer()
 
                             let total = viewModel.profitByStakes(stakes)
 
                             Text(total.accountingStyle())
+                                .font(.callout)
                                 .fontWeight(total != 0 ? .bold : .none)
                                 .modifier(AccountingView(total: total))
                         }
