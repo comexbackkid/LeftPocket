@@ -61,14 +61,7 @@ struct SettingsView: View {
                                 .foregroundColor(.green)
                             Text("Manage Data")
                         })
-                    
-                    NavigationLink(
-                        destination: Text("Leave a review!"),
-                        label: {
-                            Image(systemName: "hand.thumbsup")
-                                .foregroundColor(.orange)
-                            Text("Leave a Review")
-                        })
+
                     
                     NavigationLink(
                         destination: HelpView(),
@@ -77,6 +70,16 @@ struct SettingsView: View {
                                 .foregroundColor(.purple)
                             Text("Help")
                         })
+                    
+                    Link(destination: URL(string: "https://apps.apple.com/us/app/left-pocket/id1601858981")!,
+                         label: {
+                        HStack {
+                            Image(systemName: "hand.thumbsup")
+                                .foregroundColor(.orange)
+                            Text("Leave a Review")
+                        }
+                    })
+                        .buttonStyle(PlainButtonStyle())
                 }
                 
                 Section(header: Text("Contact")) {
