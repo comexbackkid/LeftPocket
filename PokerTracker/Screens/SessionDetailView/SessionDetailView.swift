@@ -43,6 +43,9 @@ struct SessionDetailView: View {
                 }
             }
             .ignoresSafeArea()
+            .onAppear {
+                AppReviewRequest.requestReviewIfNeeded()
+            }
             
             if activeSheet == .recentSession {
                 VStack {

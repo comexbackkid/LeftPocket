@@ -44,10 +44,10 @@ struct NewSessionView: View {
                             Text("5/10").tag("5/10")
                         })
                         
-                        DatePicker("Start", selection: $newSession.startTime,
+                        DatePicker("Start", selection: $newSession.startTime, in: ...Date.now,
                                    displayedComponents: [. date, .hourAndMinute])
                             
-                        DatePicker("End", selection: $newSession.endTime,
+                        DatePicker("End", selection: $newSession.endTime, in: ...Date.now,
                                    displayedComponents: [. date, .hourAndMinute])
                         HStack {
                             Text("$")
