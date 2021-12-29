@@ -48,6 +48,7 @@
 		7CB3EBA126C345A1009E8DF3 /* MetricsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA026C345A1009E8DF3 /* MetricsCardView.swift */; };
 		7CB3EBA326C3485C009E8DF3 /* NewSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA226C3485C009E8DF3 /* NewSessionView.swift */; };
 		7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA426C352C6009E8DF3 /* Model.swift */; };
+		7CBBE474277BA7B400986613 /* LineChartProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBBE473277BA7B400986613 /* LineChartProvider.swift */; };
 		7CBEF44427596A6600744F4A /* CustomChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBEF44327596A6600744F4A /* CustomChartView.swift */; };
 		7CBEF44627596DEE00744F4A /* Colors+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBEF44527596DEE00744F4A /* Colors+Ext.swift */; };
 		7CC20EB1272B183E00137F51 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 7CC20EB0272B183E00137F51 /* SwiftUICharts */; };
@@ -103,6 +104,7 @@
 		7CB3EBA026C345A1009E8DF3 /* MetricsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsCardView.swift; sourceTree = "<group>"; };
 		7CB3EBA226C3485C009E8DF3 /* NewSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSessionView.swift; sourceTree = "<group>"; };
 		7CB3EBA426C352C6009E8DF3 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		7CBBE473277BA7B400986613 /* LineChartProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartProvider.swift; sourceTree = "<group>"; };
 		7CBEF44327596A6600744F4A /* CustomChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomChartView.swift; sourceTree = "<group>"; };
 		7CBEF44527596DEE00744F4A /* Colors+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Ext.swift"; sourceTree = "<group>"; };
 		7CC20EB2272B19D200137F51 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 			children = (
 				7C2FC654273EC04C00E3BE0B /* BarGraphView */,
 				7C2614CD26D9310E00986183 /* CardViews */,
+				7CBBE472277BA79500986613 /* CustomChartView */,
 				7C2B3E6726F5659600B84D52 /* EmptyStates */,
 				7C82E13126EFC83F00E3EB6F /* MetricsView */,
 				7C65B186272C3A4300AFE796 /* NewLocationView */,
@@ -202,7 +205,6 @@
 			isa = PBXGroup;
 			children = (
 				7CB3EB9C26C3093D009E8DF3 /* CellView.swift */,
-				7CBEF44327596A6600744F4A /* CustomChartView.swift */,
 				7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */,
 				7C0E48DA276B9F2E005EFA62 /* GraphView.swift */,
 				7C6394AC26C14FA600939F40 /* HeaderView.swift */,
@@ -376,6 +378,15 @@
 			path = SettingsView;
 			sourceTree = "<group>";
 		};
+		7CBBE472277BA79500986613 /* CustomChartView */ = {
+			isa = PBXGroup;
+			children = (
+				7CBEF44327596A6600744F4A /* CustomChartView.swift */,
+				7CBBE473277BA7B400986613 /* LineChartProvider.swift */,
+			);
+			path = CustomChartView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -491,6 +502,7 @@
 				7CEC885727298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift in Sources */,
 				7C68FE4126D709530019BA53 /* PlusButton.swift in Sources */,
 				7C15DD39276D575600889FB2 /* PlaceholderView.swift in Sources */,
+				7CBBE474277BA7B400986613 /* LineChartProvider.swift in Sources */,
 				7C7F4F6E270E610E002ECF6D /* ProfitByLocationView.swift in Sources */,
 				7C4CE7042773560D0070B16E /* DefaultLocations.swift in Sources */,
 				7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */,

@@ -51,7 +51,6 @@ struct LeftPocketTabView: View {
             // Disables auto-transparent behavior in new update
             let appearance = UITabBarAppearance()
             UITabBar.appearance().scrollEdgeAppearance = appearance
-            
         }
     }
 }

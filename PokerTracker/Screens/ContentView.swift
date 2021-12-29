@@ -23,8 +23,8 @@ struct ContentView: View {
     
     var body: some View {
         
-        BackgroundView()
-            .overlay(
+//        BackgroundView()
+//            .overlay(
                 
                 ScrollView(.vertical) {
                     VStack(spacing: 5) {
@@ -68,24 +68,27 @@ struct ContentView: View {
                                                                pokerSession: viewModel.sessions.first ?? MockData.sampleSession)
                         }
                     }
-            )
+//            )
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(SessionsListViewModel())
+        ContentView().environmentObject(SessionsListViewModel()).preferredColorScheme(.dark)
     }
 }
 
 
 struct BackgroundView: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
         
-        LinearGradient(gradient: Gradient(colors: [.brandWhite, Color("bgGray")]),
-                       startPoint: .top,
-                       endPoint: .bottomTrailing)
+//        LinearGradient(gradient: Gradient(colors: [.brandWhite, Color("bgGray")]),
+//                       startPoint: .top,
+//                       endPoint: .bottomTrailing)
+        Color(colorScheme == .dark ? .secondarySystemBackground : .systemBackground)
             .ignoresSafeArea()
     }
 }

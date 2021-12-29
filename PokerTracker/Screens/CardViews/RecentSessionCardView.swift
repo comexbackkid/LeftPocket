@@ -18,27 +18,19 @@ struct RecentSessionCardView: View {
         ZStack (alignment: .leading) {
             VStack (alignment: .leading) {
                 
-                // We need to change Scaling Mode so image doesn't distort on home screen
-                
                 if viewModel.sessions.first?.location.imageURL != "" {
-                    if #available(iOS 15.0, *) {
-                        
-                        AsyncImage(url: URL(string: viewModel.sessions.first?.location.imageURL ?? "default-header")) { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 340, height: 240)
-                                .clipped()
-                            
-                        } placeholder: {
-                            PlaceholderView()
-                        }
-                        
-                    } else {
-                        // Fallback on earlier versions
-                        // What does this mean exactly? Probably need a default code snippet here.
-                    }
                     
+                    AsyncImage(url: URL(string: viewModel.sessions.first?.location.imageURL ?? "default-header")) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 340, height: 240)
+                            .clipped()
+                        
+                    } placeholder: {
+                        PlaceholderView()
+                    }
+                  
                 } else {
                     Image(viewModel.sessions.first?.location.localImage ?? "default-header")
                         .resizable()
@@ -73,7 +65,7 @@ struct RecentSessionCardView: View {
                 .padding()
         }
         .frame(width: 340, height: 360)
-        .background(Color(.systemBackground))
+        .background(Color(colorScheme == .dark ? .secondarySystemBackground : .systemBackground))
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.3),
                 radius: 12, x: 0, y: 5)

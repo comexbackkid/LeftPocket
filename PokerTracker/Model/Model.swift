@@ -108,7 +108,7 @@ struct MockData {
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
                      date: Date().modifyDays(days: -1),
-                     profit: 510,
+                     profit: 910,
                      notes: "MP limps, LJ limps, Hero on BTN makes it $15, they both call. ($48) Flop is KdKhTs. MP checks, LJ bets $10, I call, MP calls. ($78) Turn is Ac. MP checks, LJ checks, I bet $55 thinking they’re both super weak here. MP thinks for a moment and calls, LJ folds. ($188) River comes Qd. MP checks. Hero? We tank and ultimately check. MP is pissed and tables AK for a boat.",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 365)),
@@ -150,15 +150,14 @@ struct MockData {
                      endTime: Date().modifyTime(minutes: 320))
     ]
     
-    func mockChartArray() -> [Double] {
-        let profitsArray = MockData.allSessions.map { Double($0.profit) }
-        var cumBankroll = [Double]()
-        var runningTotal = 0.0
-        
-        for value in profitsArray {
-            runningTotal += value
-            cumBankroll.append(runningTotal)
-        }
-        return cumBankroll
-    }
+    static let mockDataCoordinates: [Point] = [
+        .init(x: 1, y: 5),
+        .init(x: 2, y: 4),
+        .init(x: 3, y: 10),
+        .init(x: 4, y: 6),
+        .init(x: 5, y: 9),
+        .init(x: 6, y: 12),
+        .init(x: 7, y: 14),
+        .init(x: 8, y: 11),
+    ]
 }

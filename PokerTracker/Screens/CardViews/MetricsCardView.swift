@@ -24,17 +24,10 @@ struct MetricsCardView: View {
         
         ZStack (alignment: .leading) {
             VStack (alignment: .leading) {
-                LineChartView(data: viewModel.chartArray(),
-                              title: "Total Profit",
-                              legend: "Earnings Chart",
-                              style: lineChartStyle,
-                              form: CGSize(width: 340, height: 240),
-                              rateValue: 0,
-                              dropShadow: false,
-                              valueSpecifier: "%.0f")
-                
-//                CustomChartView(sessions: viewModel.sessions)
-//                    .frame(height: 240)
+                                
+                CustomChartView(data: viewModel.chartCoordinates())
+                    .frame(width: 340, height: 240)
+                    .clipped()
                 
                 Spacer()
                 HStack {
@@ -52,9 +45,16 @@ struct MetricsCardView: View {
                 }
                 Spacer()
             }
+            .frame(maxWidth: 340)
+            
+            Text("Total Profit")
+                .bold()
+                .font(.title)
+                .offset(y: -145)
+                .padding()
         }
         .frame(width: 340, height: 360)
-        .background(Color(.systemBackground))
+        .background(Color(colorScheme == .dark ? .secondarySystemBackground : .systemBackground))
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.3),
                 radius: 12, x: 0, y: 5)

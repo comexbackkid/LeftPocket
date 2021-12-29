@@ -124,6 +124,11 @@ class SessionsListViewModel: ObservableObject {
         return cumBankroll
     }
     
+    // Converts our profit data into coordinates tuples for charting
+    func chartCoordinates() -> [Point] {
+        return chartArray().enumerated().map({Point(x:CGFloat($0.offset), y: $0.element)})
+    }
+    
     // Custom designed Bar Chart weekday profit totals
     func dailyBarChart() -> [Int] {
         let sunday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Sunday" }).map({ $0.profit }).reduce(0,+)

@@ -13,12 +13,12 @@ struct SecondaryButton: View {
             
         ZStack {
             Circle()
-                .frame(width: 50, height: 50)
+                .frame(width: 55, height: 55)
                 .foregroundColor(.brandPrimary)
                 .shadow(radius: 5)
             
             Image(systemName: "plus")
-                .resizable()
+                .imageScale(.medium)
                 .foregroundColor(.white)
                 .frame(width: 20, height: 20)
         }
