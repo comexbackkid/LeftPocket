@@ -54,13 +54,13 @@ struct SettingsView: View {
                             Text("Locations")
                         })
                     
-                    NavigationLink(
-                        destination: Text("Coming soon!"),
-                        label: {
-                            Image(systemName: "doc.text")
-                                .foregroundColor(.green)
-                            Text("Manage Data")
-                        })
+//                    NavigationLink(
+//                        destination: Text("Coming soon!"),
+//                        label: {
+//                            Image(systemName: "doc.text")
+//                                .foregroundColor(.green)
+//                            Text("Manage Data")
+//                        })
 
                     
                     NavigationLink(

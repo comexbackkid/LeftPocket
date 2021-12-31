@@ -10,14 +10,14 @@ import SwiftUI
 struct ProfitByMonth: View {
     
     @State var yearSelection: String
-    @State private var profitable = false
     @ObservedObject var viewModel: SessionsListViewModel
     
     var body: some View {
         
         // Array of [PokerSession] filtered by the yearSelection binding
-        let sortedMonths = viewModel.sessions.filter({ $0.date.getYear() == yearSelection })
+        let filteredMonths = viewModel.sessions.filter({ $0.date.getYear() == yearSelection })
         let allYears = viewModel.sessions.map({ $0.date.getYear() }).uniqued()
+        let yearTotal = filteredMonths.map {$0.profit}.reduce(0,+)
         
             List {
                 ForEach(viewModel.months, id: \.self) { month in
@@ -27,13 +27,26 @@ struct ProfitByMonth: View {
                         
                         Spacer()
                         
-                        let total = sortedMonths.filter({ $0.date.getMonth() == month }).map {$0.profit}.reduce(0,+)
+                        let total = filteredMonths.filter({ $0.date.getMonth() == month }).map {$0.profit}.reduce(0,+)
                         
                         Text(total.accountingStyle())
                             .font(.callout)
                             .fontWeight(total != 0 ? .bold : .none)
                             .modifier(AccountingView(total: total))
                     }
+                }
+                
+                HStack {
+                    Text("Net Profit")
+                        .font(.title2)
+                        .fontWeight(.heavy)
+                    
+                    Spacer()
+                    
+                    Text(yearTotal.accountingStyle())
+                        .font(.title2)
+                        .fontWeight(yearTotal != 0 ? .bold : .none)
+                        .modifier(AccountingView(total: yearTotal))
                 }
             }
             .navigationBarTitle(Text("Profit by Month"))

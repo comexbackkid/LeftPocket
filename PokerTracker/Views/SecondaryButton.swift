@@ -18,7 +18,7 @@ struct SecondaryButton: View {
                 .shadow(radius: 5)
             
             Image(systemName: "plus")
-                .imageScale(.medium)
+                .imageScale(.large)
                 .foregroundColor(.white)
                 .frame(width: 20, height: 20)
         }

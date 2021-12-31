@@ -10,6 +10,7 @@ import SwiftUI
 struct FilterCardView: View {
     
     @Environment(\.colorScheme) var colorScheme
+    
     let image: String
     let imageColor: Color
     let title: String

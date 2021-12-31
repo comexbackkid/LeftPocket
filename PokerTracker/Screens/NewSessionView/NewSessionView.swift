@@ -18,7 +18,7 @@ struct NewSessionView: View {
         NavigationView {
             ZStack {
                 Form {
-                    Section(header: Text("Details")) {
+                    Section(header: Text("Details"), footer: Text("Choose from the default list or add your own location from the Settings screen.")) {
                         
                         Picker(selection: $newSession.location, label: Text("Location"), content: {
                             
@@ -26,7 +26,9 @@ struct NewSessionView: View {
                                 Text(location.name).tag(location.name)
                             }
                         })
-                        
+                    }
+                    
+                    Section {
                         Picker(selection: $newSession.game, label: Text("Game"), content: {
                             Text("NL Texas Hold Em").tag("NL Texas Hold Em")
                             Text("Pot-Limit Omaha").tag("Pot-Limit Omaha")
@@ -65,7 +67,7 @@ struct NewSessionView: View {
       
                     Section(header: Text("Hand Notes (Optional)")) {
                         TextEditor(text: $newSession.notes)
-                            .frame(height: 120)
+                            .frame(height: 100)
                     }
                     Section {
                         Button(action: {

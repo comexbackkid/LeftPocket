@@ -23,8 +23,9 @@ struct EmptyStateMetricsBankroll: View {
                     .bold()
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
-                    .padding(.bottom)
+                
                 Text("Add some sessions so you can begin tracking your bankroll growth!")
+                    .frame(width: 300)
                     .opacity(0.7)
                     .font(.subheadline)
                     .foregroundColor(.secondary)

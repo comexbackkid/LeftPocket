@@ -11,6 +11,8 @@ import SwiftUI
 
 struct CustomChartView: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
     let data: [Point]
     
     var body: some View {
@@ -32,7 +34,7 @@ struct CustomChartView: View {
                 // Background
                 pathProvider.closedPath(for: geometry)
                     .fill(
-                        LinearGradient(gradient: Gradient(colors: [.white, Color("lightBlue").opacity(0.1)]),
+                        LinearGradient(gradient: Gradient(colors: [.white.opacity(colorScheme == .dark ? 0.0 : 1.0), Color("lightBlue").opacity(0.5)]),
                                        startPoint: .bottom,
                                        endPoint: .top)
                     )
@@ -43,7 +45,7 @@ struct CustomChartView: View {
                 pathProvider.path(for: geometry)
                     .trim(from: 0, to: isPresented ? 1 : 0)
                     .stroke(
-                        LinearGradient(gradient: Gradient(colors: [.brandPrimary, Color("lightBlue")]),
+                        LinearGradient(gradient: Gradient(colors: [.chartBase, .chartAccent]),
                                        startPoint: .leading,
                                        endPoint: .trailing),
                         style: StrokeStyle(lineWidth: 4)
@@ -55,34 +57,6 @@ struct CustomChartView: View {
             }
         }
     }
-    
-    
-    //    private var gridBody: some View {
-    //        GeometryReader { geometry in
-    //            Path { path in
-    //                let xStepWidth = geometry.size.width / CGFloat(self.xStepsCount)
-    //                let yStepWidth = geometry.size.height / CGFloat(self.yStepsCount)
-    //
-    //                (1...self.yStepsCount).forEach { index in
-    //                    let y = CGFloat(index) * yStepWidth
-    //                    path.move(to: .init(x: 0, y: y))
-    //                    path.addLine(to: .init(x: geometry.size.width, y: y))
-    //                }
-    //
-    //                (1...self.xStepsCount).forEach { index in
-    //                    let x = CGFloat(index) * xStepWidth
-    //                    path.move(to: .init(x: x, y: 0))
-    //                }
-    //            }
-    //            .stroke(
-    //                Color.black,
-    //                style: StrokeStyle(lineWidth: 3))
-    //        }
-    //    }
-    
-    
-    
-    
 }
 
 struct CustomChartView_Previews: PreviewProvider {

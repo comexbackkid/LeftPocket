@@ -10,13 +10,11 @@ import SwiftUI
 struct SessionDetailView: View {
     
     @Binding var activeSheet: Sheet?
-    @Environment(\.presentationMode) var presentationMode
     let pokerSession: PokerSession
     
     var body: some View {
         
         ZStack {
-            
             ScrollView (.vertical) {
                 
                 VStack(spacing: 4) {
@@ -115,6 +113,8 @@ struct GraphicHeaderView: View {
             Text(location)
                 .font(.title)
                 .bold()
+                .lineLimit(1)
+            
             Text("\(date.dateStyle())")
                 .font(.callout)
                 .foregroundColor(.secondary)

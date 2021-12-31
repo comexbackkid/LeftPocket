@@ -71,8 +71,8 @@ struct BankrollChartView: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     let lineChartStyle = ChartStyle(backgroundColor: Color(.systemBackground),
-                                    accentColor: .brandPrimary,
-                                    secondGradientColor: Color("lightBlue"),
+                                    accentColor: .chartBase,
+                                    secondGradientColor: .chartAccent,
                                     textColor: .black, legendTextColor: .gray,
                                     dropShadowColor: .white)
     

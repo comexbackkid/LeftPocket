@@ -74,7 +74,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(SessionsListViewModel()).preferredColorScheme(.dark)
+        ContentView().environmentObject(SessionsListViewModel())
     }
 }
 
@@ -85,9 +85,6 @@ struct BackgroundView: View {
     
     var body: some View {
         
-//        LinearGradient(gradient: Gradient(colors: [.brandWhite, Color("bgGray")]),
-//                       startPoint: .top,
-//                       endPoint: .bottomTrailing)
         Color(colorScheme == .dark ? .secondarySystemBackground : .systemBackground)
             .ignoresSafeArea()
     }
@@ -108,6 +105,7 @@ struct BankrollSnapshot: View {
     var body: some View {
         HStack {
             VStack {
+                
                 Text("Bankroll")
                     .font(.caption)
                     .opacity(0.6)
@@ -115,7 +113,7 @@ struct BankrollSnapshot: View {
                 Text(bankroll)
                     .fontWeight(.black)
                     .font(.system(size: 46, design: .rounded))
-                    .foregroundColor(Color("brandBlack"))
+                    .foregroundColor(.brandBlack)
                     .padding(.bottom, 4)
                 
                 Text("Last Session")

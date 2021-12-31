@@ -26,13 +26,17 @@ struct CellView: View {
                 .padding(.trailing, 15)
             
             VStack (alignment: .leading) {
+                
                 Text(pokerSession.location.name)
                     .font(.body)
+                    .lineLimit(1)
+                
                 Text("\(pokerSession.date.dateStyle())")
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
             Spacer()
+            
             Text(pokerSession.profit.accountingStyle())
                 .font(.body)
                 .bold()

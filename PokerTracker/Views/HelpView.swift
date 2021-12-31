@@ -17,7 +17,7 @@ struct HelpView: View {
                     .padding(.bottom, 10)
                     .opacity(0.5)
                 
-                Text("Begin by going to Settings and adding in some of the locations you play at.")
+                Text("Begin by going to the Settings screen and adding in some of your favorite locations you play at.")
                     .padding(.bottom)
                     .font(.callout)
                 
@@ -28,7 +28,7 @@ struct HelpView: View {
                     .padding(.bottom, 10)
                     .opacity(0.5)
                 
-                Text("Add your first Session. Include things like the location, duration, profit, and any notes you took from the session.")
+                Text("Add your first Session. Include things like the location, duration, profit, and any notes you may have took.")
                     .padding(.bottom)
                     .font(.callout)
                 
@@ -39,7 +39,7 @@ struct HelpView: View {
                     .foregroundColor(.blue)
                     .opacity(0.5)
                 
-                Text("After you've notched a few sessions you'll be able to visually track your results and bankroll metrics.")
+                Text("After you've notched a few sessions you'll be able to visually track your results, bankroll, and other helpful metrics.")
                     .padding(.bottom)
                     .font(.callout)
             }

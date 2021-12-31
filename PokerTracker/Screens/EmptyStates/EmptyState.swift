@@ -12,21 +12,29 @@ struct EmptyState: View {
         
         ZStack {
             VStack (alignment: .center, spacing: 5) {
-                Image("empty-list")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 200, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .opacity(0.7)
+                ZStack {
+                    
+                    Circle()
+                        .foregroundColor(.gray)
+                        .opacity(0.5)
+                        .frame(width: 110, height: 110)
+                    
+                    Image(systemName: "suit.club.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 60, height: 60)
+                        .foregroundColor(.white)
+                }
                 
                 Text("No Sessions")
                     .font(.title2)
                     .bold()
-                    .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
+                    .padding(.top)
+                
                 Text("Add your first session now!")
                     .opacity(0.7)
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
             }
         }
     }
