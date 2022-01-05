@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-
-
 struct CustomChartView: View {
     
     @Environment(\.colorScheme) var colorScheme
@@ -19,6 +17,7 @@ struct CustomChartView: View {
         ZStack {
             chartBody
                 .padding(.top, 50)
+                .padding(.bottom)
         }
     }
     
@@ -39,7 +38,8 @@ struct CustomChartView: View {
                                        endPoint: .top)
                     )
                     .opacity(self.isPresented ? 0.5 : 0)
-                    .animation(Animation.easeInOut(duration: 1.5).delay(0.6))
+                    .animation(.easeInOut.speed(0.25).delay(0.8), value: isPresented)
+//                    .animation(.easeInOut(duration: 1.5).delay(0.6))
                 
                 // Line
                 pathProvider.path(for: geometry)
@@ -50,7 +50,8 @@ struct CustomChartView: View {
                                        endPoint: .trailing),
                         style: StrokeStyle(lineWidth: 4)
                     )
-                    .animation(Animation.easeInOut(duration: 1.5).delay(0.3))
+                    .animation(.easeInOut(duration: 1.5).delay(0.3), value: isPresented)
+//                    .animation(Animation.easeInOut(duration: 1.5).delay(0.3))
             }
             .onAppear {
                 isPresented = true

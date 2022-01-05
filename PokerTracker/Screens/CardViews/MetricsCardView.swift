@@ -13,13 +13,6 @@ struct MetricsCardView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var viewModel: SessionsListViewModel
     
-    let lineChartStyle = ChartStyle(backgroundColor: .white,
-                                    accentColor: .brandPrimary,
-                                    secondGradientColor: Color("lightBlue"),
-                                    textColor: .black,
-                                    legendTextColor: .gray,
-                                    dropShadowColor: .white)
-    
     var body: some View {
         
         ZStack (alignment: .leading) {

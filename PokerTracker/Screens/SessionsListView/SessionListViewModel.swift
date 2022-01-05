@@ -25,7 +25,6 @@ class SessionsListViewModel: ObservableObject {
     
     init () {
         getMockSessions()
-//        getMockLocations()
 //        getSessions()
         getLocations()
     }
@@ -48,7 +47,7 @@ class SessionsListViewModel: ObservableObject {
                 try encodedData.write(to: sessionsPath)
             }
         } catch {
-            print("Failed to write out sessions, \(error)")
+            print("Failed to write out sessions \(error)")
         }
     }
     
@@ -104,9 +103,7 @@ class SessionsListViewModel: ObservableObject {
     func tallyBankroll() -> Int {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        let profits = sessions.map { $0.profit }
-        let intArray = profits.map { Int($0)}
-        let bankroll = intArray.reduce(0, +)
+        let bankroll = sessions.map { Int($0.profit) }.reduce(0, +)
         return bankroll
     }
     
@@ -181,7 +178,55 @@ class SessionsListViewModel: ObservableObject {
         let totalHours = hoursArray.reduce(0, +) / sessions.count
         let totalMinutes = minutesArray.reduce(0, +) / sessions.count
         let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
-        return dateComponents.totalHours(duration: dateComponents)
+        return dateComponents.abbreviated(duration: dateComponents)
+    }
+    
+    // MARK: CALCULATIONS FOR YEAR-END-SUMMARY VIEW
+    
+    func bankrollByYear(year: String) -> Int {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        let bankroll = sessions.filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
+        return bankroll
+    }
+    
+    func hourlyByYear(year: String) -> Int {
+        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
+        let hoursArray = sessions.filter({ $0.date.getYear() == year }).map { Int($0.gameDuration.hour ?? 0) }
+        let totalHours = hoursArray.reduce(0, +)
+        return bankrollByYear(year: year) / totalHours
+    }
+    
+    func avgProfitByYear(year: String) -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        return bankrollByYear(year: year) / sessions.filter({ $0.date.getYear() == year }).count
+    }
+    
+    func hoursPlayedByYear(year: String) -> String {
+        guard !sessions.isEmpty else { return "0" }
+        let hoursArray: [Int] = sessions.filter({ $0.date.getYear() == year }).map { $0.gameDuration.hour ?? 0 }
+        let minutesArray: [Int] = sessions.filter({ $0.date.getYear() == year }).map { $0.gameDuration.minute ?? 0 }
+        let totalHours = hoursArray.reduce(0, +) / sessions.filter({ $0.date.getYear() == year }).count
+        let totalMinutes = minutesArray.reduce(0, +) / sessions.filter({ $0.date.getYear() == year }).count
+        let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
+        return dateComponents.abbreviated(duration: dateComponents)
+    }
+    
+    func yearlyChartArray(year: String) -> [Double] {
+        let profitsArray = sessions.filter({ $0.date.getYear() == year }).map { Double($0.profit) }
+        var cumBankroll = [Double]()
+        var runningTotal = 0.0
+        cumBankroll.append(0.0)
+        
+        for value in profitsArray.reversed() {
+            runningTotal += value
+            cumBankroll.append(runningTotal)
+        }
+        return cumBankroll
+    }
+    
+    func yearlyChartCoordinates(year: String) -> [Point] {
+        return yearlyChartArray(year: year).enumerated().map({Point(x:CGFloat($0.offset), y: $0.element)})
     }
     
     // MARK: FILTERING OPTIONS IN METRICS VIEW

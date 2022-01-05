@@ -10,24 +10,26 @@ import SwiftUICharts
 
 struct MetricsView: View {
     
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.isPresented) var showMetricsSheet
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     var body: some View {
         NavigationView {
             ScrollView {
-                
-                if viewModel.sessions.isEmpty {
-                    
-                    VStack {
-                        EmptyStateMetricsBankroll()
-                            .padding(.top, 50)
-                            .padding(.bottom, 50)
-                    }
-                }
-                
-                    VStack (alignment: .leading) {
+                ZStack {
+                    if viewModel.sessions.isEmpty {
                         
+                        VStack {
+                            EmptyStateMetricsBankroll()
+                                .padding(.top, 50)
+                                .padding(.bottom, 50)
+                        }
+                    }
+                    
+                    VStack (alignment: .leading) {
                         if !viewModel.sessions.isEmpty {
+                            
                             BankrollChartView()
                                 .padding(.top)
                         }
@@ -39,20 +41,33 @@ struct MetricsView: View {
                                      numOfCashes: viewModel.numOfCashes(),
                                      totalHours: viewModel.totalHoursPlayed())
                         
-                        VStack (alignment: .leading) {
+                        if !viewModel.sessions.isEmpty {
                             
-                            if !viewModel.sessions.isEmpty {
-                                HStack {
-                                    BarGraphView()
-                                        .frame(height: 320)
-                                }
-                                .padding(.vertical, 30)
+                            BarGraphView()
+                                .padding(.vertical, 25)
+                        }
+                        
+                        AdditionalMetricsView()
+                            .padding(.top, 10) 
+                    }
+                    
+                    if showMetricsSheet {
+                        
+                        VStack {
+                            HStack {
+                                Spacer()
+                                DismissButton()
+                                    .padding(.trailing, 20)
+                                    .padding(.top, 20)
+                                    .shadow(color: Color.black.opacity(0.2), radius: 10)
+                                    .onTapGesture {
+                                        dismiss()
+                                    }
                             }
-                            
-                            AdditionalMetricsView()
-                                .padding(.top, 10)
+                            Spacer()
                         }
                     }
+                }
             }
             .navigationBarHidden(true)
         }
@@ -84,15 +99,13 @@ struct BankrollChartView: View {
             .padding(.horizontal)
         
         LineView(data: viewModel.chartArray(),
-                 //  title: "Title",
-                 //  legend: "Bankroll Tracker",
                  style: lineChartStyle,
                  valueSpecifier: "%.0f",
                  legendSpecifier: "%0.f"
         )
-        .offset(y:-10)
-        .padding(.horizontal)
-        .frame(height: 290)
+            .offset(y:-10)
+            .padding(.horizontal)
+            .frame(height: 290)
         
     }
 }

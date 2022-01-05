@@ -99,7 +99,7 @@ struct MockData {
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
                      date: Date().modifyDays(days: -45),
-                     profit: 650,
+                     profit: 450,
                      notes: "Hero in CO, MP & LP limp I raise $15, Villain is on BTN (younger kid, stack around $550-$600) and he 3! to $45, we call. ($94) Flop is KsQh9h. I check, he bets $35, we call. ($160) Turn is Ac. I check again, Villain pauses a moment and puts in $100. We have about $320 left. Hero???",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 80)),
@@ -108,7 +108,7 @@ struct MockData {
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
                      date: Date().modifyDays(days: -1),
-                     profit: 910,
+                     profit: 210,
                      notes: "MP limps, LJ limps, Hero on BTN makes it $15, they both call. ($48) Flop is KdKhTs. MP checks, LJ bets $10, I call, MP calls. ($78) Turn is Ac. MP checks, LJ checks, I bet $55 thinking they’re both super weak here. MP thinks for a moment and calls, LJ folds. ($188) River comes Qd. MP checks. Hero? We tank and ultimately check. MP is pissed and tables AK for a boat.",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 365)),
@@ -147,7 +147,25 @@ struct MockData {
                      profit: 557,
                      notes: "Hero in CO, MP & LP limp I raise $15, Villain is on BTN (younger kid, stack around $550-$600) and he 3! to $45, we call. ($94) Flop is KsQh9h. I check, he bets $35, we call. ($160) Turn is Ac. I check again, Villain pauses a moment and puts in $100. We have about $320 left. Hero?",
                      startTime: Date(),
-                     endTime: Date().modifyTime(minutes: 320))
+                     endTime: Date().modifyTime(minutes: 320)),
+        
+        PokerSession(location: allLocations[5],
+                     game: "NL Texas Hold Em",
+                     stakes: "1/2",
+                     date: Date().modifyDays(days: -1000),
+                     profit: 175,
+                     notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
+                     startTime: Date(),
+                     endTime: Date().modifyTime(minutes: 324)),
+        
+        PokerSession(location: allLocations[6],
+                     game: "NL Texas Hold Em",
+                     stakes: "1/2",
+                     date: Date().modifyDays(days: -1003),
+                     profit: -100,
+                     notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
+                     startTime: Date(),
+                     endTime: Date().modifyTime(minutes: 220)),
     ]
     
     static let mockDataCoordinates: [Point] = [

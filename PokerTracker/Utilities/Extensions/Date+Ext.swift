@@ -79,9 +79,9 @@ extension DateComponents {
         }
     }
     
-    func totalHours(duration: DateComponents) -> String {
+    func abbreviated(duration: DateComponents) -> String {
         let dateFormatter = DateComponentsFormatter()
-        dateFormatter.unitsStyle = .full
+        dateFormatter.unitsStyle = .abbreviated
         let totalHours = dateFormatter.string(from: duration)!
         return totalHours
     }

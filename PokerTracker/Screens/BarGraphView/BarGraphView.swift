@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BarGraphView: View {
     
-    //    @State var capsulesAppearing = false
+    @State private var capsulesAppearing = false
     
     @EnvironmentObject var viewModel: SessionsListViewModel
     
@@ -28,7 +28,6 @@ struct BarGraphView: View {
                 .padding(.horizontal)
                 
                 ZStack {
-                    
                     VStack {
                         ForEach(getGraphLines(), id: \.self) { line in
                             HStack(spacing: 8) {
@@ -47,46 +46,43 @@ struct BarGraphView: View {
                     .padding()
                     
                     HStack (alignment: .bottom) {
-                        
                         ForEach(0..<viewModel.dailyBarChart().count) { weekday in
-                            
                             VStack {
                                 Spacer()
                                 
                                 LinearGradient(gradient: Gradient(colors: [Color("lightGreen"), .green]),
                                                startPoint: .top,
                                                endPoint: .bottomTrailing)
-                                    .frame(width: 12,
-                                           height: CGFloat(normalizeData(value: viewModel.dailyBarChart()[weekday])) * multiplier)
+                                    .frame(height: CGFloat(normalizeData(value: viewModel.dailyBarChart()[weekday])) * multiplier)
                                     .clipShape(Capsule())
-                                    .padding(.horizontal, 5)
-                                    .opacity(0.8)
+                                    .padding(.horizontal, 13)
+//                                    .onAppear() {
+//                                        withAnimation(.easeInOut(duration: 2.0).delay(2.0)) {
+//                                            capsulesAppearing = true
+//                                        }
+//                                    }
                                 
                                 Text(viewModel.daysOfWeekAbr[weekday])
                                     .foregroundColor(.secondary)
                                     .font(.caption)
                                     .bold()
                                     .padding(.top, 10)
+                                
                             }
-                            
                             .frame(maxWidth: .infinity, maxHeight: 320)
-                            //                        .animation(.easeInOut(duration: 1))
+                            
                         }
                     }
                     .padding(.leading, 40)
                     .frame(maxWidth: .infinity)
                     .padding()
+                    
                 }
             }
-            //            .onAppear {
-            //                withAnimation {
-            //                    capsulesAppearing.toggle()
-            //                }
-            //            }
         }
     }
     
-    // Multiplier dictates how scaled the bar is
+    // Multiplier dictates how scaled the bar looks
     func calculateMultiplier(maxData: Int) -> CGFloat {
         let frameHeight = 300.0
         let howMuchToFill = 0.8

@@ -16,7 +16,7 @@ struct EmptyState: View {
                     
                     Circle()
                         .foregroundColor(.gray)
-                        .opacity(0.5)
+                        .opacity(0.3)
                         .frame(width: 110, height: 110)
                     
                     Image(systemName: "suit.club.fill")
@@ -32,8 +32,8 @@ struct EmptyState: View {
                     .multilineTextAlignment(.center)
                     .padding(.top)
                 
-                Text("Add your first session now!")
-                    .opacity(0.7)
+                Text("Click the + button to get started!")
+                    .foregroundColor(.secondary)
                     .font(.subheadline)
             }
         }

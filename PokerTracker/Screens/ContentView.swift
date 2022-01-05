@@ -18,75 +18,72 @@ enum Sheet: String, Identifiable {
 struct ContentView: View {
     
     @State private var isPresented = false
+    @State private var showMetricsAsSheet = false
     @State var activeSheet: Sheet?
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     var body: some View {
         
-//        BackgroundView()
-//            .overlay(
+        ScrollView(.vertical) {
+            VStack(spacing: 5) {
+                HeaderView(activeSheet: $activeSheet)
                 
-                ScrollView(.vertical) {
-                    VStack(spacing: 5) {
-                        HeaderView(activeSheet: $activeSheet)
-                        
-                        BankrollSnapshot()
+                BankrollSnapshot()
+                    .padding(.bottom)
+                    .offset(x: 0, y: -10)
+                
+                if viewModel.sessions.isEmpty {
+                    
+                    EmptyState()
+                        .padding(.top, 80)
+                    
+                } else {
+                    
+                    // Metrics Card Button
+                    Button(action: {
+                        let impact = UIImpactFeedbackGenerator(style: .medium)
+                        impact.impactOccurred()
+                        showMetricsAsSheet = true
+                    }, label: {
+                        MetricsCardView()
                             .padding(.bottom)
-                            .offset(x: 0, y: -10)
-                        
-                        if viewModel.sessions.isEmpty {
-                            
-                            EmptyState()
-                                .padding(.top, 80)
-                            
-                        } else {
-                            
-                            MetricsCardView()
-                                .padding(.bottom)
-                            
-                            Button(action: {
-                                let impact = UIImpactFeedbackGenerator(style: .medium)
-                                impact.impactOccurred()
-                                activeSheet = .recentSession
-                            }, label: {
-                                RecentSessionCardView(pokerSession: viewModel.sessions.first!)
-                                    .padding(.bottom, 30)
-                            })
-                                .buttonStyle(PlainButtonStyle())
-                            Spacer()
-                        }
-                    }
+                    })
+                        .buttonStyle(PlainButtonStyle())
+                    
+                    // Recent Session Card Button
+                    Button(action: {
+                        let impact = UIImpactFeedbackGenerator(style: .medium)
+                        impact.impactOccurred()
+                        activeSheet = .recentSession
+                    }, label: {
+                        RecentSessionCardView(pokerSession: viewModel.sessions.first!)
+                            .padding(.bottom, 30)
+                    })
+                        .buttonStyle(PlainButtonStyle())
+                    Spacer()
                 }
-                    .sheet(item: $activeSheet) { sheet in
-                        switch sheet {
-                        case .newSession: NewSessionView(isPresented: .init(get: {
-                            activeSheet == .newSession
-                        }, set: { isPresented in
-                            activeSheet = isPresented ? .newSession : nil
-                        }))
-                        case .recentSession: SessionDetailView(activeSheet: $activeSheet,
-                                                               pokerSession: viewModel.sessions.first ?? MockData.sampleSession)
-                        }
-                    }
-//            )
+            }
+            .fullScreenCover(isPresented: $showMetricsAsSheet) {
+                MetricsView()
+            }
+        }
+        .sheet(item: $activeSheet) { sheet in
+            switch sheet {
+            case .newSession: NewSessionView(isPresented: .init(get: {
+                activeSheet == .newSession
+            }, set: { isPresented in
+                activeSheet = isPresented ? .newSession : nil
+            }))
+            case .recentSession: SessionDetailView(activeSheet: $activeSheet,
+                                                   pokerSession: viewModel.sessions.first ?? MockData.sampleSession)
+            }
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView().environmentObject(SessionsListViewModel())
-    }
-}
-
-
-struct BackgroundView: View {
-    
-    @Environment(\.colorScheme) var colorScheme
-    
-    var body: some View {
-        
-        Color(colorScheme == .dark ? .secondarySystemBackground : .systemBackground)
-            .ignoresSafeArea()
     }
 }
 
