@@ -39,7 +39,6 @@ struct CustomChartView: View {
                     )
                     .opacity(self.isPresented ? 0.5 : 0)
                     .animation(.easeInOut.speed(0.25).delay(0.8), value: isPresented)
-//                    .animation(.easeInOut(duration: 1.5).delay(0.6))
                 
                 // Line
                 pathProvider.path(for: geometry)
@@ -50,11 +49,12 @@ struct CustomChartView: View {
                                        endPoint: .trailing),
                         style: StrokeStyle(lineWidth: 4)
                     )
-                    .animation(.easeInOut(duration: 1.5).delay(0.3), value: isPresented)
-//                    .animation(Animation.easeInOut(duration: 1.5).delay(0.3))
+                    .animation(.easeInOut(duration: 1.5).delay(0.25), value: isPresented)
             }
             .onAppear {
-                isPresented = true
+                DispatchQueue.main.async {
+                    isPresented = true
+                }
             }
         }
     }

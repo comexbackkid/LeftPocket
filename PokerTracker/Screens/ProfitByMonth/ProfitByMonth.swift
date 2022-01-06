@@ -9,15 +9,14 @@ import SwiftUI
 
 struct ProfitByMonth: View {
     
-    @State var yearSelection: String
+    @State private var yearFilter: String = Date().getYear()
     @ObservedObject var viewModel: SessionsListViewModel
     
     var body: some View {
         
         // Array of [PokerSession] filtered by the yearSelection binding
-        let filteredMonths = viewModel.sessions.filter({ $0.date.getYear() == yearSelection })
+        let filteredMonths = viewModel.sessions.filter({ $0.date.getYear() == yearFilter })
         let allYears = viewModel.sessions.map({ $0.date.getYear() }).uniqued()
-        let yearTotal = filteredMonths.map {$0.profit}.reduce(0,+)
         
             List {
                 ForEach(viewModel.months, id: \.self) { month in
@@ -35,22 +34,9 @@ struct ProfitByMonth: View {
                             .modifier(AccountingView(total: total))
                     }
                 }
-                
-                HStack {
-                    Text("Net Profit")
-                        .font(.title2)
-                        .fontWeight(.heavy)
-                    
-                    Spacer()
-                    
-                    Text(yearTotal.accountingStyle())
-                        .font(.title2)
-                        .fontWeight(yearTotal != 0 ? .bold : .none)
-                        .modifier(AccountingView(total: yearTotal))
-                }
             }
             .navigationBarTitle(Text("Profit by Month"))
-            .navigationBarItems(trailing: Picker(selection: $yearSelection, label: Text(""), content: {
+            .navigationBarItems(trailing: Picker(selection: $yearFilter, label: Text(""), content: {
                 
                 ForEach(allYears, id: \.self) { year in
                     Text(year)
@@ -63,6 +49,6 @@ struct ProfitByMonth: View {
 
 struct MonthlyReportView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfitByMonth(yearSelection: "2021", viewModel: SessionsListViewModel())
+        ProfitByMonth(viewModel: SessionsListViewModel())
     }
 }

@@ -113,7 +113,7 @@ struct BankrollSnapshot: View {
                     .foregroundColor(.brandBlack)
                     .padding(.bottom, 4)
                 
-                Text("Last Session")
+                Text("Last")
                     .font(.caption)
                     .opacity(0.6)
                 
@@ -128,5 +128,3 @@ struct BankrollSnapshot: View {
         }
     }
 }
-
-

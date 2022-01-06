@@ -32,6 +32,7 @@ struct FilterCardView: View {
                     .font(.caption)
                     .multilineTextAlignment(.leading)
                     .foregroundColor(.secondary)
+                    .lineLimit(2)
             }
             .frame(width: 130, height: 140)
             .padding()

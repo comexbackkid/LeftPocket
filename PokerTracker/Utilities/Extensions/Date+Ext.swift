@@ -40,6 +40,13 @@ extension Date {
         return year
     }
     
+    func getYearShortHand() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YY"
+        let year = dateFormatter.string(from: self)
+        return year
+    }
+    
     // Modifier to get month from a Date Object
     func getMonth() -> String {
         let dateFormatter = DateFormatter()

@@ -53,14 +53,12 @@ struct BarGraphView: View {
                                 LinearGradient(gradient: Gradient(colors: [Color("lightGreen"), .green]),
                                                startPoint: .top,
                                                endPoint: .bottomTrailing)
-                                    .frame(height: CGFloat(normalizeData(value: viewModel.dailyBarChart()[weekday])) * multiplier)
+                                    .frame(height: capsulesAppearing
+                                           ? CGFloat(normalizeData(value: viewModel.dailyBarChart()[weekday])) * multiplier
+                                           : 0)
                                     .clipShape(Capsule())
                                     .padding(.horizontal, 13)
-//                                    .onAppear() {
-//                                        withAnimation(.easeInOut(duration: 2.0).delay(2.0)) {
-//                                            capsulesAppearing = true
-//                                        }
-//                                    }
+
                                 
                                 Text(viewModel.daysOfWeekAbr[weekday])
                                     .foregroundColor(.secondary)
@@ -78,7 +76,15 @@ struct BarGraphView: View {
                     .padding()
                     
                 }
+                .onAppear {
+                    DispatchQueue.main.async {
+                        withAnimation(.easeInOut(duration: 1.5).delay(1.75)) {
+                            capsulesAppearing = true
+                        }
+                    }
+                }
             }
+
         }
     }
     

@@ -57,7 +57,7 @@ struct RecentSessionCardView: View {
                 Spacer()
             }
             
-            Text("Recent Session")
+            Text("Last Session")
                 .bold()
                 .font(.title)
                 .foregroundColor(Color(.white))

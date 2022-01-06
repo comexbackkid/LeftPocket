@@ -175,8 +175,8 @@ class SessionsListViewModel: ObservableObject {
         guard !sessions.isEmpty else { return "0" }
         let hoursArray: [Int] = sessions.map { $0.gameDuration.hour ?? 0 }
         let minutesArray: [Int] = sessions.map { $0.gameDuration.minute ?? 0 }
-        let totalHours = hoursArray.reduce(0, +) / sessions.count
-        let totalMinutes = minutesArray.reduce(0, +) / sessions.count
+        let totalHours = hoursArray.reduce(0, +)
+        let totalMinutes = minutesArray.reduce(0, +)
         let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
         return dateComponents.abbreviated(duration: dateComponents)
     }
@@ -186,6 +186,7 @@ class SessionsListViewModel: ObservableObject {
     func bankrollByYear(year: String) -> Int {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
+        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
         let bankroll = sessions.filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
         return bankroll
     }
@@ -198,16 +199,16 @@ class SessionsListViewModel: ObservableObject {
     }
     
     func avgProfitByYear(year: String) -> Int {
-        guard !sessions.isEmpty else { return 0 }
+        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
         return bankrollByYear(year: year) / sessions.filter({ $0.date.getYear() == year }).count
     }
     
     func hoursPlayedByYear(year: String) -> String {
-        guard !sessions.isEmpty else { return "0" }
+        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return "0" }
         let hoursArray: [Int] = sessions.filter({ $0.date.getYear() == year }).map { $0.gameDuration.hour ?? 0 }
         let minutesArray: [Int] = sessions.filter({ $0.date.getYear() == year }).map { $0.gameDuration.minute ?? 0 }
-        let totalHours = hoursArray.reduce(0, +) / sessions.filter({ $0.date.getYear() == year }).count
-        let totalMinutes = minutesArray.reduce(0, +) / sessions.filter({ $0.date.getYear() == year }).count
+        let totalHours = hoursArray.reduce(0, +)
+        let totalMinutes = minutesArray.reduce(0, +)
         let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
         return dateComponents.abbreviated(duration: dateComponents)
     }

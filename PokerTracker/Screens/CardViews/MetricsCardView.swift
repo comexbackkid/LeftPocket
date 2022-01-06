@@ -28,7 +28,7 @@ struct MetricsCardView: View {
                         Text("My Metrics")
                             .font(.title3)
                             .bold()
-                        Text("Head over to the Metrics tab and look at how you've been playing.")
+                        Text("Gather valuable insights into your game and find ways to improve it.")
                             .font(.body)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.leading)

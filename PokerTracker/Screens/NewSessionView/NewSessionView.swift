@@ -34,13 +34,13 @@ struct NewSessionView: View {
                             Text("Pot-Limit Omaha").tag("Pot-Limit Omaha")
                             Text("Seven Card Stud").tag("Seven Card Stud")
                             Text("Five Card Draw").tag("Five Card Draw")
-                            Text("Razz").tag("Razz")
                         })
                         
                         Picker(selection: $newSession.stakes, label: Text("Stakes") , content: {
                             Text(".25/.50").tag(".25/.50")
                             Text(".50/1").tag(".50/1")
                             Text("1/2").tag("1/2")
+                            Text("2/2").tag("2/2")
                             Text("1/3").tag("1/3")
                             Text("2/5").tag("2/5")
                             Text("5/10").tag("5/10")
@@ -65,7 +65,7 @@ struct NewSessionView: View {
                         }
                     }
       
-                    Section(header: Text("Hand Notes (Optional)")) {
+                    Section(header: Text("Session Notes (Optional)")) {
                         TextEditor(text: $newSession.notes)
                             .frame(height: 100)
                     }

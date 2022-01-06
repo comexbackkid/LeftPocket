@@ -11,7 +11,9 @@ struct PlaceholderView: View {
     var body: some View {
         ZStack {
             Color("bgGray")
+                .opacity(0.75)
                 .frame(height:290)
+            
             Image(systemName: "photo")
                 .font(.largeTitle)
                 .foregroundColor(.white)

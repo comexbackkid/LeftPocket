@@ -19,9 +19,9 @@ struct PlusButton: View {
                 .shadow(color: .gray.opacity(colorScheme == .dark ? 0.0 : 0.4), radius: 7, x: 0, y: 0)
             
             Image(systemName: "plus")
-                .imageScale(.small)
+                .imageScale(.medium)
                 .foregroundColor(colorScheme == .dark ? .white : .black)
-                .frame(width: 20, height: 20)
+                
         }
     }
 }

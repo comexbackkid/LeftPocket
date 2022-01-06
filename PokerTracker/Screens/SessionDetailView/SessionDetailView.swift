@@ -160,7 +160,7 @@ struct Notes: View {
     let pokerSession: PokerSession
     
     var body: some View {
-        Text("Notes")
+        Text("Session Notes")
             .font(.headline)
             .padding(.bottom, 5)
             .padding(.top, 20)

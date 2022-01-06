@@ -18,37 +18,38 @@ struct MetricsView: View {
         NavigationView {
             ScrollView {
                 ZStack {
-                    if viewModel.sessions.isEmpty {
-                        
-                        VStack {
-                            EmptyStateMetricsBankroll()
-                                .padding(.top, 50)
-                                .padding(.bottom, 50)
+                    VStack {
+                        if viewModel.sessions.isEmpty {
+            
+                                EmptyStateMetricsBankroll()
+                                    .padding(.top, 50)
+                                    .padding(.bottom, 50)
                         }
-                    }
-                    
-                    VStack (alignment: .leading) {
-                        if !viewModel.sessions.isEmpty {
+                        
+                        VStack (alignment: .leading) {
+                            if !viewModel.sessions.isEmpty {
+                                
+                                BankrollChartView()
+                                    .padding(.top)
+                            }
                             
-                            BankrollChartView()
-                                .padding(.top)
-                        }
-                        
-                        OverviewView(totalBankroll: viewModel.tallyBankroll(),
-                                     hourlyRate: viewModel.hourlyRate(),
-                                     avgProfit: viewModel.avgProfit(),
-                                     avgSessionDuration: viewModel.avgDuration(),
-                                     numOfCashes: viewModel.numOfCashes(),
-                                     totalHours: viewModel.totalHoursPlayed())
-                        
-                        if !viewModel.sessions.isEmpty {
+                            OverviewView(totalBankroll: viewModel.tallyBankroll(),
+                                         hourlyRate: viewModel.hourlyRate(),
+                                         avgProfit: viewModel.avgProfit(),
+                                         avgSessionDuration: viewModel.avgDuration(),
+                                         numOfCashes: viewModel.numOfCashes(),
+                                         totalHours: viewModel.totalHoursPlayed())
                             
-                            BarGraphView()
-                                .padding(.vertical, 25)
+                            if !viewModel.sessions.isEmpty {
+                                
+                                BarGraphView()
+                                    .padding(.vertical, 25)
+                                    .frame(height: 425)
+                            }
+                            
+                            AdditionalMetricsView()
+                                .padding(.top, 10)
                         }
-                        
-                        AdditionalMetricsView()
-                            .padding(.top, 10) 
                     }
                     
                     if showMetricsSheet {
@@ -71,13 +72,7 @@ struct MetricsView: View {
             }
             .navigationBarHidden(true)
         }
-    }
-}
-
-struct MetricsView_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        MetricsView().environmentObject(SessionsListViewModel())
+        .accentColor(.brandPrimary)
     }
 }
 
@@ -106,7 +101,6 @@ struct BankrollChartView: View {
             .offset(y:-10)
             .padding(.horizontal)
             .frame(height: 290)
-        
     }
 }
 
@@ -198,6 +192,28 @@ struct AdditionalMetricsView: View {
             
             ScrollView(.horizontal, showsIndicators: false, content: {
                 HStack (spacing: 10) {
+                    
+                    NavigationLink(
+                        destination: ProfitByYear(viewModel: viewModel, pbyViewModel: ProfitByYearViewModel()),
+                        label: {
+                            FilterCardView(image: "doc.text",
+                                           imageColor: .cyan,
+                                           title: "Profit by\nYear",
+                                           description: "Compare year-over-year results.")
+                        })
+                        .buttonStyle(PlainButtonStyle())
+                    
+                    NavigationLink(
+                        destination: ProfitByMonth(viewModel: viewModel),
+                        label: {
+                            FilterCardView(image: "calendar",
+                                           imageColor: .purple,
+                                           title: "Profit by\nMonth",
+                                           description: "Review your hottest win streaks.")
+                        })
+                        .buttonStyle(PlainButtonStyle())
+                    
+                    
                     NavigationLink(
                         destination: ProfitByLocationView(viewModel: viewModel),
                         label: {
@@ -219,19 +235,9 @@ struct AdditionalMetricsView: View {
                         .buttonStyle(PlainButtonStyle())
                     
                     NavigationLink(
-                        destination: ProfitByMonth(yearSelection: "2021", viewModel: viewModel),
-                        label: {
-                            FilterCardView(image: "calendar",
-                                           imageColor: .purple,
-                                           title: "Profit by\nMonth",
-                                           description: "Review your year over year results.")
-                        })
-                        .buttonStyle(PlainButtonStyle())
-                    
-                    NavigationLink(
                         destination: ProfitByStakesView(viewModel: viewModel),
                         label: {
-                            FilterCardView(image: "suit.spade",
+                            FilterCardView(image: "dollarsign.circle",
                                            imageColor: .green,
                                            title: "Profit by\nStakes",
                                            description: "Which stakes do you need help with?")
@@ -244,5 +250,12 @@ struct AdditionalMetricsView: View {
             })
         }
         .padding(.bottom, 30)
+    }
+}
+
+struct MetricsView_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        MetricsView().environmentObject(SessionsListViewModel())
     }
 }
