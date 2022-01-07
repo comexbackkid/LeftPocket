@@ -15,17 +15,21 @@ struct ProfitByYear: View {
     
     var body: some View {
         
+        let timeline = pbyViewModel.selectedTimeline
+        
         ScrollView {
             VStack {
                 ZStack {
                     
                     Color.clear
                     
-                    // We're saying if the yearSelection doesn't equal *this* year, then display data for all years
+                    // We're saying if the selectedTimeline doesn't equal *this* year, then display data for all years
                     if !pbyViewModel.isLoading {
-                        CustomChartView(data: pbyViewModel.timeline == "All"
+                        CustomChartView(data: timeline == "All"
                                         ? viewModel.chartCoordinates()
-                                        : viewModel.yearlyChartCoordinates(year: pbyViewModel.timeline))
+                                        : viewModel.yearlyChartCoordinates(year: timeline == "YTD"
+                                                                           ? Date().getYear()
+                                                                           : timeline))
                             .padding(.bottom)
                             .frame(height: 280)
                             .clipped()
@@ -38,7 +42,7 @@ struct ProfitByYear: View {
                 }
                 .frame(height: 280)
                 
-                CustomSegmentedPicker(pbyViewModel: pbyViewModel)
+                CustomPicker(pbyViewModel: pbyViewModel)
                     .padding(.bottom, 25)
                     .padding(.top)
                 
@@ -47,48 +51,61 @@ struct ProfitByYear: View {
                     HStack {
                         Text("Net Profit")
                         Spacer()
-                        Text(pbyViewModel.timeline == "All"
+                        Text(timeline == "All"
                              ? "\(viewModel.tallyBankroll().accountingStyle())"
-                             : "\(viewModel.bankrollByYear(year: pbyViewModel.timeline).accountingStyle())")
+                             : viewModel.bankrollByYear(year: timeline == "YTD"
+                                                        ? Date().getYear()
+                                                        : timeline).accountingStyle())
                             .bold()
-                            .modifier(AccountingView(total: pbyViewModel.timeline == "All"
+                            .modifier(AccountingView(total: timeline == "All"
                                                      ? viewModel.tallyBankroll()
-                                                     : viewModel.bankrollByYear(year: pbyViewModel.timeline)))
+                                                     : viewModel.bankrollByYear(year: timeline == "YTD"
+                                                                                ? Date().getYear()
+                                                                                : timeline)))
                     }
                     HStack {
                         Text("Hourly Rate")
                         Spacer()
-                        Text(pbyViewModel.timeline == "All"
+                        Text(timeline == "All"
                              ? "\(viewModel.hourlyRate().accountingStyle())"
-                             : "\(viewModel.hourlyByYear(year: pbyViewModel.timeline).accountingStyle())")
+                             : viewModel.hourlyByYear(year: timeline == "YTD"
+                                                      ? Date().getYear()
+                                                      : timeline).accountingStyle())
                             .bold()
-                            .modifier(AccountingView(total: pbyViewModel.timeline == "All"
+                            .modifier(AccountingView(total: timeline == "All"
                                                      ? viewModel.hourlyRate()
-                                                     : viewModel.hourlyByYear(year: pbyViewModel.timeline)))
+                                                     : viewModel.hourlyByYear(year: timeline == "YTD"
+                                                                              ? Date().getYear()
+                                                                              : timeline)))
                     }
-                    
                     HStack {
                         Text("Profit Per Session")
                         Spacer()
-                        Text(pbyViewModel.timeline == "All"
+                        Text(timeline == "All"
                              ? "\(viewModel.avgProfit().accountingStyle())"
-                             : "\(viewModel.avgProfitByYear(year: pbyViewModel.timeline).accountingStyle())")
+                             : viewModel.avgProfitByYear(year: timeline == "YTD"
+                                                         ? Date().getYear()
+                                                         : timeline).accountingStyle())
                             .bold()
-                            .modifier(AccountingView(total: pbyViewModel.timeline == "All"
+                            .modifier(AccountingView(total: timeline == "All"
                                                      ? viewModel.avgProfit()
-                                                     : viewModel.avgProfitByYear(year: pbyViewModel.timeline)))
+                                                     : viewModel.avgProfitByYear(year: timeline == "YTD"
+                                                                                 ? Date().getYear()
+                                                                                 : timeline)))
                     }
-                    
                     HStack {
                         Text("Total Hours")
                         Spacer()
-                        Text(pbyViewModel.timeline == "All"
+                        Text(timeline == "All"
                              ? "\(viewModel.totalHoursPlayed())"
-                             : "\(viewModel.hoursPlayedByYear(year: pbyViewModel.timeline))")
+                             : viewModel.hoursPlayedByYear(year: timeline == "YTD"
+                                                           ? Date().getYear()
+                                                           : timeline))
                     }
                     Spacer()
                     
                 }
+                .animation(nil, value: pbyViewModel.selectedTimeline)
                 .padding(30)
                 .frame(width: 340, height: 180)
                 .background(Color(colorScheme == .dark
