@@ -19,11 +19,14 @@ struct ProfitByYear: View {
             VStack {
                 ZStack {
                     
+                    Color.clear
+                    
                     // We're saying if the yearSelection doesn't equal *this* year, then display data for all years
                     if !pbyViewModel.isLoading {
                         CustomChartView(data: pbyViewModel.timeline == "All"
                                         ? viewModel.chartCoordinates()
                                         : viewModel.yearlyChartCoordinates(year: pbyViewModel.timeline))
+                            .padding(.bottom)
                             .frame(height: 280)
                             .clipped()
                         
@@ -51,7 +54,6 @@ struct ProfitByYear: View {
                             .modifier(AccountingView(total: pbyViewModel.timeline == "All"
                                                      ? viewModel.tallyBankroll()
                                                      : viewModel.bankrollByYear(year: pbyViewModel.timeline)))
-                        
                     }
                     HStack {
                         Text("Hourly Rate")

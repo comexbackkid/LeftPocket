@@ -11,7 +11,7 @@ class ProfitByYearViewModel: ObservableObject {
     
     @Published var timeline: String = Year.ytd.yearSelection() {
         didSet {
-//            loadingChart()
+            loadingChart()
         }
     }
     

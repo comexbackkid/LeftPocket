@@ -32,10 +32,10 @@ extension Date {
         return month
     }
     
-    // Retrieves just the year from a Date object
+    // Retrieves just the year from a Date object. Using lowercase helped with date filtering
     func getYear() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY"
+        dateFormatter.dateFormat = "yyyy"
         let year = dateFormatter.string(from: self)
         return year
     }

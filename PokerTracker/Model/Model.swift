@@ -170,7 +170,7 @@ struct MockData {
     
     static let mockDataCoordinates: [Point] = [
         .init(x: 1, y: 5),
-        .init(x: 2, y: 4),
+        .init(x: 2, y: -2),
         .init(x: 3, y: 10),
         .init(x: 4, y: 6),
         .init(x: 5, y: 9),
