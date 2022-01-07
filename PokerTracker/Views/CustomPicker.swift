@@ -17,6 +17,8 @@ struct CustomPicker: View {
         HStack (alignment: .center, spacing: -20) {
             ForEach(timelines, id: \.self) { timeline in
                 Button {
+                    let impact = UIImpactFeedbackGenerator(style: .light)
+                    impact.impactOccurred()
                     withAnimation {
                         pbyViewModel.selectedTimeline = timeline
                     }

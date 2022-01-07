@@ -24,8 +24,8 @@ class SessionsListViewModel: ObservableObject {
     }
     
     init () {
-        getMockSessions()
-//        getSessions()
+//        getMockSessions()
+        getSessions()
         getLocations()
     }
     
