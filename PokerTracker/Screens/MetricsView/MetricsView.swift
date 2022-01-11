@@ -129,7 +129,7 @@ struct OverviewView: View {
                             .foregroundColor(.secondary)
                         Spacer()
                         Text("$" + "\(totalBankroll)")
-                            .foregroundColor(totalBankroll > 0 ? .green : totalBankroll < 0 ? .red : .black)
+                            .foregroundColor(totalBankroll > 0 ? .green : totalBankroll < 0 ? .red : .primary)
                     }
                     Divider()
                     HStack {
@@ -137,7 +137,7 @@ struct OverviewView: View {
                             .foregroundColor(.secondary)
                         Spacer()
                         Text("$" + "\(hourlyRate)")
-                            .foregroundColor(hourlyRate > 0 ? .green : totalBankroll < 0 ? .red : .black)
+                            .foregroundColor(hourlyRate > 0 ? .green : totalBankroll < 0 ? .red : .primary)
                     }
                     Divider()
                     HStack {
@@ -145,7 +145,7 @@ struct OverviewView: View {
                             .foregroundColor(.secondary)
                         Spacer()
                         Text("$" + "\(avgProfit)")
-                            .foregroundColor(avgProfit > 0 ? .green : totalBankroll < 0 ? .red : .black)
+                            .foregroundColor(avgProfit > 0 ? .green : totalBankroll < 0 ? .red : .primary)
                     }
                 }
                 Group {
