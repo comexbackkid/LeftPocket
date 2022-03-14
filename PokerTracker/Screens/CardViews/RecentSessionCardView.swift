@@ -18,9 +18,9 @@ struct RecentSessionCardView: View {
         ZStack (alignment: .leading) {
             VStack (alignment: .leading) {
                 
-                if viewModel.sessions.first?.location.imageURL != "" {
+                if pokerSession.location.imageURL != "" {
                     
-                    AsyncImage(url: URL(string: viewModel.sessions.first?.location.imageURL ?? "default-header")) { image in
+                    AsyncImage(url: URL(string: pokerSession.location.imageURL)) { image in
                         image
                             .resizable()
                             .aspectRatio(contentMode: .fill)
@@ -32,7 +32,7 @@ struct RecentSessionCardView: View {
                     }
                   
                 } else {
-                    Image(viewModel.sessions.first?.location.localImage ?? "default-header")
+                    Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "default-header")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 340, height: 240)
@@ -42,7 +42,7 @@ struct RecentSessionCardView: View {
                 Spacer()
                 HStack {
                     VStack (alignment: .leading, spacing: 5) {
-                        Text(viewModel.sessions.first?.location.name ?? "No Recent Session")
+                        Text(pokerSession.location.name)
                             .font(.title3)
                             .bold()
                         

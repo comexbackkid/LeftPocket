@@ -102,7 +102,7 @@ struct GraphicHeaderView: View {
                 }
                 
             } else {
-                Image(image.localImage == "" ? "default-header" : image.localImage)
+                Image(image.localImage != "" ? image.localImage : "default-header")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(height: 290)
