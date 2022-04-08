@@ -32,7 +32,6 @@ struct ProfitByYear: View {
                                                                            : timeline))
                             .padding(.bottom)
                             .frame(height: 280)
-                            .clipped()
                         
                     } else {
                         ProgressView()
@@ -122,7 +121,6 @@ struct ProfitByYear: View {
         }
     }
 }
-
 
 struct ProfitByYear_Previews: PreviewProvider {
     static var previews: some View {

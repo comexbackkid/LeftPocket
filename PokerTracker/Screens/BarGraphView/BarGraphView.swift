@@ -21,7 +21,7 @@ struct BarGraphView: View {
             VStack {
                 HStack {
                     Text("Total Daily Profit")
-                        .font(.title)
+                        .font(.title2)
                         .bold()
                     Spacer()
                 }

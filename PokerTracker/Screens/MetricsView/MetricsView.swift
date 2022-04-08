@@ -18,19 +18,30 @@ struct MetricsView: View {
         NavigationView {
             ScrollView {
                 ZStack {
-                    VStack {
-                        if viewModel.sessions.isEmpty {
-            
-                                EmptyStateMetricsBankroll()
-                                    .padding(.top, 50)
-                                    .padding(.bottom, 50)
-                        }
+                    VStack (alignment: .leading) {
                         
-                        VStack (alignment: .leading) {
+                        Text("Explore your poker metrics here. Start adding sessions in order to chart your progress and bankroll.")
+                            .font(.callout)
+                            .foregroundColor(.secondary)
+                            .padding(.leading)
+                            .padding(.bottom, 40)
+                        
+                        VStack (alignment: .center, spacing: 22) {
                             if !viewModel.sessions.isEmpty {
                                 
-                                BankrollChartView()
+                                CustomChartView(data: viewModel.chartCoordinates())
                                     .padding(.top)
+                                    .frame(width: UIScreen.main.bounds.width * 0.9, height: 320)
+                                    .background(Color.white)
+                                    .cornerRadius(20)
+                                    .overlay(
+                                        VStack {
+                                            Text("Total Earnings")
+                                                .font(.title2)
+                                                .bold()
+                                                .padding()
+                                            Spacer()
+                                        } , alignment: .leading)
                             }
                             
                             OverviewView(totalBankroll: viewModel.tallyBankroll(),
@@ -41,10 +52,12 @@ struct MetricsView: View {
                                          totalHours: viewModel.totalHoursPlayed())
                             
                             if !viewModel.sessions.isEmpty {
-                                
                                 BarGraphView()
-                                    .padding(.vertical, 25)
+                                    .padding(.vertical)
                                     .frame(height: 425)
+                                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                                    .background(Color.white)
+                                    .cornerRadius(20)
                             }
                             
                             AdditionalMetricsView()
@@ -70,7 +83,9 @@ struct MetricsView: View {
                     }
                 }
             }
-            .navigationBarHidden(true)
+            .background(Color(.systemGray6))
+            .navigationBarHidden(false)
+            .navigationBarTitle("Metrics Dashboard")
         }
         .accentColor(.brandPrimary)
     }
@@ -78,7 +93,7 @@ struct MetricsView: View {
 
 struct BankrollChartView: View {
     
-    @EnvironmentObject var viewModel: SessionsListViewModel
+    let viewModel: SessionsListViewModel
     
     let lineChartStyle = ChartStyle(backgroundColor: Color(.systemBackground),
                                     accentColor: .chartBase,
@@ -114,68 +129,74 @@ struct OverviewView: View {
     let totalHours: String
     
     var body: some View {
-        VStack (alignment: .leading, spacing: 10) {
-            
-            HStack {
-                Text("Overview")
-                    .font(.title)
-                    .bold()
-                    .padding(.bottom)
-            }
-            VStack {
-                Group {
-                    HStack {
-                        Text("Total Bankroll")
-                            .foregroundColor(.secondary)
-                        Spacer()
-                        Text("$" + "\(totalBankroll)")
-                            .foregroundColor(totalBankroll > 0 ? .green : totalBankroll < 0 ? .red : .primary)
-                    }
-                    Divider()
-                    HStack {
-                        Text("Hourly Rate")
-                            .foregroundColor(.secondary)
-                        Spacer()
-                        Text("$" + "\(hourlyRate)")
-                            .foregroundColor(hourlyRate > 0 ? .green : totalBankroll < 0 ? .red : .primary)
-                    }
-                    Divider()
-                    HStack {
-                        Text("Profit Per Session")
-                            .foregroundColor(.secondary)
-                        Spacer()
-                        Text("$" + "\(avgProfit)")
-                            .foregroundColor(avgProfit > 0 ? .green : totalBankroll < 0 ? .red : .primary)
-                    }
+        VStack {
+            VStack (alignment: .leading, spacing: 10) {
+                
+                HStack {
+                    Text("Overview")
+                        .font(.title2)
+                        .bold()
+                        .padding(.bottom)
                 }
-                Group {
-                    Divider()
-                    HStack {
-                        Text("Average Session Duration")
-                            .foregroundColor(.secondary)
-                        Spacer()
-                        Text(avgSessionDuration)
+                
+                VStack {
+                    Group {
+                        HStack {
+                            Text("Total Bankroll")
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text("$" + "\(totalBankroll)")
+                                .foregroundColor(totalBankroll > 0 ? .green : totalBankroll < 0 ? .red : .primary)
+                        }
+                        Divider()
+                        HStack {
+                            Text("Hourly Rate")
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text("$" + "\(hourlyRate)")
+                                .foregroundColor(hourlyRate > 0 ? .green : totalBankroll < 0 ? .red : .primary)
+                        }
+                        Divider()
+                        HStack {
+                            Text("Profit Per Session")
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text("$" + "\(avgProfit)")
+                                .foregroundColor(avgProfit > 0 ? .green : totalBankroll < 0 ? .red : .primary)
+                        }
                     }
-                    Divider()
-                    HStack {
-                        Text("Total Number of Cashes")
-                            .foregroundColor(.secondary)
-                        Spacer()
-                        Text("\(numOfCashes)")
+                    Group {
+                        Divider()
+                        HStack {
+                            Text("Average Session Duration")
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text(avgSessionDuration)
+                        }
+                        Divider()
+                        HStack {
+                            Text("Total Number of Cashes")
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text("\(numOfCashes)")
+                        }
+                        Divider()
+                        HStack {
+                            Text("Total Hours Played")
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text(totalHours)
+                        }
                     }
-                    Divider()
-                    HStack {
-                        Text("Total Hours Played")
-                            .foregroundColor(.secondary)
-                        Spacer()
-                        Text(totalHours)
-                    }
+                    Spacer()
                 }
-                Spacer()
+                .font(.subheadline)
             }
-            .font(.subheadline)
+            .padding()
         }
-        .padding()
+        .frame(width: UIScreen.main.bounds.width * 0.9)
+        .background(Color.white)
+        .cornerRadius(20)
     }
 }
 
@@ -186,7 +207,7 @@ struct AdditionalMetricsView: View {
     var body: some View {
         VStack (alignment: .leading) {
             Text("Additional Metrics")
-                .font(.title)
+                .font(.title2)
                 .bold()
                 .padding(.leading)
             

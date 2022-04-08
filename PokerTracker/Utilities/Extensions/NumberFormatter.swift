@@ -17,3 +17,14 @@ extension Int {
         return numFormatter.string(from: NSNumber(value: self)) ?? "0"
     }
 }
+
+// Styling for CustomChart axis labels
+extension Double {
+    
+    public func chartAxisStyle() -> String {
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .currency
+        numFormatter.maximumFractionDigits = 0
+        return numFormatter.string(from: NSNumber(value: self)) ?? "0"
+    }
+}

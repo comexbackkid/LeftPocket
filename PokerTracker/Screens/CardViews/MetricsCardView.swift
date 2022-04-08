@@ -19,9 +19,7 @@ struct MetricsCardView: View {
             VStack (alignment: .leading) {
                                 
                 CustomChartView(data: viewModel.chartCoordinates())
-                    .padding(.bottom)
                     .frame(width: 340, height: 240)
-                    .clipped()
                 
                 Spacer()
                 HStack {

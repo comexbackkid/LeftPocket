@@ -10,18 +10,39 @@ import SwiftUI
 struct CustomChartView: View {
     
     @Environment(\.colorScheme) var colorScheme
+    @State private var isPresented: Bool = false
     
     let data: [Point]
     
     var body: some View {
+        
+        let maxY = Double(data.max { $0.y < $1.y }?.y ?? 0)
+        let minY = Double(data.min { $0.y < $1.y }!.y)
+        
         ZStack {
             chartBody
+//                .background(
+//                    chartBackground
+//                )
+//                .overlay(
+//                    VStack {
+//                        Text(maxY.chartAxisStyle())
+//                            .font(.caption)
+//                            .foregroundColor(.secondary)
+//                        Spacer()
+//                        Text("$8")
+//                            .font(.caption)
+//                            .foregroundColor(.secondary)
+//                        Spacer()
+//                        Text(minY.chartAxisStyle())
+//                            .font(.caption)
+//                            .foregroundColor(.secondary)
+//                    }, alignment: .leading
+//                )
                 .padding(.top, 50)
                 .padding(.bottom)
         }
     }
-    
-    @State private var isPresented: Bool = false
     
     private var chartBody: some View {
         
@@ -33,7 +54,7 @@ struct CustomChartView: View {
                 // Background
                 pathProvider.closedPath(for: geometry)
                     .fill(
-                        LinearGradient(gradient: Gradient(colors: [.white.opacity(colorScheme == .dark ? 0.0 : 1.0), Color("lightBlue").opacity(0.5)]),
+                        LinearGradient(gradient: Gradient(colors: [.white.opacity(colorScheme == .dark ? 0.0 : 0.5), Color("lightBlue").opacity(0.5)]),
                                        startPoint: .bottom,
                                        endPoint: .top)
                     )
@@ -47,7 +68,7 @@ struct CustomChartView: View {
                         LinearGradient(gradient: Gradient(colors: [.chartBase, .chartAccent]),
                                        startPoint: .leading,
                                        endPoint: .trailing),
-                        style: StrokeStyle(lineWidth: 4)
+                        style: StrokeStyle(lineWidth: 3)
                     )
                     .animation(.easeInOut(duration: 1.5).delay(0.25), value: isPresented)
             }
@@ -57,6 +78,38 @@ struct CustomChartView: View {
                 }
             }
         }
+    }
+    
+    private var chartBackground: some View {
+        
+            VStack {
+                HStack {
+                    Text("$50")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.1))
+                        .frame(height: 1)
+                }
+                Spacer()
+                HStack {
+                    Text("$50")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.1))
+                        .frame(height: 1)
+                }
+                Spacer()
+                HStack {
+                    Text("$50")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.1))
+                        .frame(height: 1)
+                }
+            }
     }
 }
 

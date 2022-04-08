@@ -55,6 +55,7 @@
 		7CC20EB3272B19D200137F51 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC20EB2272B19D200137F51 /* HelpView.swift */; };
 		7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */; };
 		7CDB04812776141C008C5233 /* AppReviewRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDB04802776141C008C5233 /* AppReviewRequest.swift */; };
+		7CDFBFA827FF2D5200BC85A1 /* NewChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDFBFA727FF2D5200BC85A1 /* NewChartView.swift */; };
 		7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEB761E26D9A77E006170EF /* Alerts.swift */; };
 		7CEC885727298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEC885627298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift */; };
 		7CED6EA827517D7F00E18053 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED6EA727517D7F00E18053 /* Array+Ext.swift */; };
@@ -111,6 +112,7 @@
 		7CC20EB2272B19D200137F51 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSessionViewModel.swift; sourceTree = "<group>"; };
 		7CDB04802776141C008C5233 /* AppReviewRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReviewRequest.swift; sourceTree = "<group>"; };
+		7CDFBFA727FF2D5200BC85A1 /* NewChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChartView.swift; sourceTree = "<group>"; };
 		7CEB761E26D9A77E006170EF /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		7CEC885627298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateMetricsBankroll.swift; sourceTree = "<group>"; };
 		7CED6EA727517D7F00E18053 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 			children = (
 				7C2FC654273EC04C00E3BE0B /* BarGraphView */,
 				7C2614CD26D9310E00986183 /* CardViews */,
+				7CDFBFA627FF2D3B00BC85A1 /* NewChart */,
 				7CBBE472277BA79500986613 /* CustomChartView */,
 				7C2B3E6726F5659600B84D52 /* EmptyStates */,
 				7C82E13126EFC83F00E3EB6F /* MetricsView */,
@@ -388,6 +391,14 @@
 			path = CustomChartView;
 			sourceTree = "<group>";
 		};
+		7CDFBFA627FF2D3B00BC85A1 /* NewChart */ = {
+			isa = PBXGroup;
+			children = (
+				7CDFBFA727FF2D5200BC85A1 /* NewChartView.swift */,
+			);
+			path = NewChart;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -483,6 +494,7 @@
 				7C7B2F8B26D5A2A90069F9C5 /* SessionListViewModel.swift in Sources */,
 				7CB3EBA326C3485C009E8DF3 /* NewSessionView.swift in Sources */,
 				7CED6EA827517D7F00E18053 /* Array+Ext.swift in Sources */,
+				7CDFBFA827FF2D5200BC85A1 /* NewChartView.swift in Sources */,
 				7C20CFB4271F4EB700739764 /* SecondaryButton.swift in Sources */,
 				7C0208DB26F24B4900AC6151 /* Date+Ext.swift in Sources */,
 				7CBEF44427596A6600744F4A /* CustomChartView.swift in Sources */,
@@ -642,7 +654,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
@@ -652,7 +664,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -667,7 +679,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
@@ -677,7 +689,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

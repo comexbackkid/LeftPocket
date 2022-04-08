@@ -14,23 +14,32 @@ struct Point {
 }
 
 struct LineChartProvider {
+    
     let data: [Point]
     var lineRadius: CGFloat = 0.5
 
-    private var maxYValue: CGFloat {
+    private var maxY: CGFloat {
         data.max { $0.y < $1.y }?.y ?? 0
     }
+    
+    private var minY: CGFloat {
+        data.min { $0.y < $1.y }!.y
+    }
 
-    private var maxXValue: CGFloat {
+    private var maxX: CGFloat {
         data.max { $0.x < $1.x }?.x ?? 0
     }
+    
+    private var yStartingPoint: CGFloat {
+        (1 - (data[0].y - minY) / (maxY - minY))
+    }
+    
 
     // Creates the line
     func path(for geometry: GeometryProxy) -> Path {
         Path { path in
 
-            path.move(to: .init(x: 0, y: geometry.size.height))
-
+            path.move(to: .init(x: 0, y: yStartingPoint * geometry.size.height))
             drawData(data, path: &path, size: geometry.size)
         }
     }
@@ -38,6 +47,7 @@ struct LineChartProvider {
     // Creates the gradient
     func closedPath(for geometry: GeometryProxy) -> Path {
         Path { path in
+            
             path.move(to: .init(x: 0, y: geometry.size.height))
             drawData(data, path: &path, size: geometry.size)
 
@@ -47,20 +57,24 @@ struct LineChartProvider {
     }
 
     private func drawData(_ data: [Point], path: inout Path, size: CGSize) {
-        var previousPoint = Point(x: 0, y: size.height)
+        
+        var previousPoint = Point(x: 0, y: yStartingPoint * size.height)
 
         self.data.forEach { point in
-            let x = (point.x / self.maxXValue) * size.width
-            let y = size.height - (point.y / self.maxYValue) * size.height
-
-            let deltaX = x - previousPoint.x
+            
+            let xPosition = (point.x / self.maxX) * size.width
+//            let yPosition = size.height - (point.y / self.maxY) * size.height
+            
+            let yAxis = maxY - minY
+            let yPosition = (1 - (point.y - minY) / yAxis) * size.height
+            let deltaX = xPosition - previousPoint.x
             let curveXOffset = deltaX * self.lineRadius
 
-            path.addCurve(to: .init(x: x, y: y),
+            path.addCurve(to: .init(x: xPosition, y: yPosition),
                           control1: .init(x: previousPoint.x + curveXOffset, y: previousPoint.y),
-                          control2: .init(x: x - curveXOffset, y: y ))
+                          control2: .init(x: xPosition - curveXOffset, y: yPosition ))
 
-            previousPoint = .init(x: x, y: y)
+            previousPoint = .init(x: xPosition, y: yPosition)
         }
     }
 }

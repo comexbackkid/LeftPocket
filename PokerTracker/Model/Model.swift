@@ -99,7 +99,7 @@ struct MockData {
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
                      date: Date().modifyDays(days: -45),
-                     profit: 450,
+                     profit: -1450,
                      notes: "Hero in CO, MP & LP limp I raise $15, Villain is on BTN (younger kid, stack around $550-$600) and he 3! to $45, we call. ($94) Flop is KsQh9h. I check, he bets $35, we call. ($160) Turn is Ac. I check again, Villain pauses a moment and puts in $100. We have about $320 left. Hero???",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 80)),
@@ -144,7 +144,7 @@ struct MockData {
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
                      date: Date().modifyDays(days: -400),
-                     profit: 557,
+                     profit: 357,
                      notes: "Hero in CO, MP & LP limp I raise $15, Villain is on BTN (younger kid, stack around $550-$600) and he 3! to $45, we call. ($94) Flop is KsQh9h. I check, he bets $35, we call. ($160) Turn is Ac. I check again, Villain pauses a moment and puts in $100. We have about $320 left. Hero?",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 320)),
@@ -168,14 +168,27 @@ struct MockData {
                      endTime: Date().modifyTime(minutes: 220)),
     ]
     
+    func chartArray() -> [Double] {
+        let profitsArray = MockData.allSessions.map { Double($0.profit) }
+        var cumBankroll = [Double]()
+        var runningTotal = 0.0
+        cumBankroll.append(0.0)
+        
+        for value in profitsArray.reversed() {
+            runningTotal += value
+            cumBankroll.append(runningTotal)
+        }
+        return cumBankroll
+    }
+    
     static let mockDataCoordinates: [Point] = [
-        .init(x: 1, y: 5),
-        .init(x: 2, y: -2),
-        .init(x: 3, y: 10),
-        .init(x: 4, y: 6),
-        .init(x: 5, y: 9),
-        .init(x: 6, y: 12),
-        .init(x: 7, y: 14),
-        .init(x: 8, y: 11),
+        .init(x: 0, y: 5),
+        .init(x: 1, y: -2),
+        .init(x: 2, y: 10),
+        .init(x: 3, y: 6),
+        .init(x: 4, y: 9),
+        .init(x: 5, y: 12),
+        .init(x: 6, y: 14),
+        .init(x: 7, y: 11),
     ]
 }
