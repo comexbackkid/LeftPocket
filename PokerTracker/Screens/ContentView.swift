@@ -39,27 +39,10 @@ struct ContentView: View {
                     
                 } else {
                     
-                    // Metrics Card Button
-                    Button(action: {
-                        let impact = UIImpactFeedbackGenerator(style: .medium)
-                        impact.impactOccurred()
-                        showMetricsAsSheet = true
-                    }, label: {
-                        MetricsCardView()
-                            .padding(.bottom)
-                    })
-                        .buttonStyle(PlainButtonStyle())
+                    metricsCard
                     
-                    // Recent Session Card Button
-                    Button(action: {
-                        let impact = UIImpactFeedbackGenerator(style: .medium)
-                        impact.impactOccurred()
-                        activeSheet = .recentSession
-                    }, label: {
-                        RecentSessionCardView(pokerSession: viewModel.sessions.first!)
-                            .padding(.bottom, 30)
-                    })
-                        .buttonStyle(PlainButtonStyle())
+                    recentSessionCard
+
                     Spacer()
                 }
             }
@@ -79,11 +62,31 @@ struct ContentView: View {
             }
         }
     }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView().environmentObject(SessionsListViewModel())
+    
+    var metricsCard: some View {
+        
+        Button(action: {
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            showMetricsAsSheet = true
+        }, label: {
+            MetricsCardView()
+                .padding(.bottom)
+        })
+            .buttonStyle(PlainButtonStyle())
+    }
+    
+    var recentSessionCard: some View {
+        
+        Button(action: {
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            activeSheet = .recentSession
+        }, label: {
+            RecentSessionCardView(pokerSession: viewModel.sessions.first!)
+                .padding(.bottom, 30)
+        })
+            .buttonStyle(PlainButtonStyle())
     }
 }
 
@@ -126,5 +129,11 @@ struct BankrollSnapshot: View {
                 .padding(.bottom, 40)
             }
         }
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView().environmentObject(SessionsListViewModel())
     }
 }

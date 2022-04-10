@@ -10,35 +10,18 @@ import SwiftUI
 struct CustomChartView: View {
     
     @Environment(\.colorScheme) var colorScheme
+    @ObservedObject var viewModel: SessionsListViewModel
     @State private var isPresented: Bool = false
     
     let data: [Point]
+    let background: Bool
     
     var body: some View {
         
-        let maxY = Double(data.max { $0.y < $1.y }?.y ?? 0)
-        let minY = Double(data.min { $0.y < $1.y }!.y)
-        
         ZStack {
             chartBody
-//                .background(
-//                    chartBackground
-//                )
-//                .overlay(
-//                    VStack {
-//                        Text(maxY.chartAxisStyle())
-//                            .font(.caption)
-//                            .foregroundColor(.secondary)
-//                        Spacer()
-//                        Text("$8")
-//                            .font(.caption)
-//                            .foregroundColor(.secondary)
-//                        Spacer()
-//                        Text(minY.chartAxisStyle())
-//                            .font(.caption)
-//                            .foregroundColor(.secondary)
-//                    }, alignment: .leading
-//                )
+                .padding(.trailing, background ? 70 : 0)
+                .background(background ? chartBackground : nil)
                 .padding(.top, 50)
                 .padding(.bottom)
         }
@@ -82,39 +65,45 @@ struct CustomChartView: View {
     
     private var chartBackground: some View {
         
+        ZStack {
             VStack {
-                HStack {
-                    Text("$50")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    Rectangle()
-                        .fill(Color.gray.opacity(0.1))
-                        .frame(height: 1)
-                }
+                Rectangle()
+                    .fill(Color.gray.opacity(0.25))
+                    .frame(height: 1)
+                
                 Spacer()
-                HStack {
-                    Text("$50")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    Rectangle()
-                        .fill(Color.gray.opacity(0.1))
-                        .frame(height: 1)
-                }
+                
+                Rectangle()
+                    .fill(Color.gray.opacity(0.25))
+                    .frame(height: 1)
+                
                 Spacer()
-                HStack {
-                    Text("$50")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    Rectangle()
-                        .fill(Color.gray.opacity(0.1))
-                        .frame(height: 1)
-                }
+                
+                Rectangle()
+                    .fill(Color.gray.opacity(0.25))
+                    .frame(height: 1)
             }
+            .padding(.trailing, 55)
+            
+            VStack {
+                Text("$\(Int(viewModel.chartArray().max() ?? 0).chartAxisStyle)")
+                    .offset(y: -8)
+                Spacer()
+                Text("$\(((Int(viewModel.chartArray().min() ?? 0) + Int(viewModel.chartArray().max() ?? 0))/2).chartAxisStyle)")
+                Spacer()
+                Text("$\(Int(viewModel.chartArray().min() ?? 0).chartAxisStyle)")
+                    .offset(y: 8)
+            }
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            .font(.caption)
+            .foregroundColor(.secondary)
+        }
+        .padding(.trailing)
     }
 }
 
 struct CustomChartView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomChartView(data: MockData.mockDataCoordinates)
+        CustomChartView(viewModel: SessionsListViewModel(), data: MockData.mockDataCoordinates, background: true)
     }
 }

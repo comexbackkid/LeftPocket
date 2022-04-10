@@ -19,12 +19,21 @@ extension Int {
 }
 
 // Styling for CustomChart axis labels
-extension Double {
+extension Int {
     
-    public func chartAxisStyle() -> String {
-        let numFormatter = NumberFormatter()
-        numFormatter.numberStyle = .currency
-        numFormatter.maximumFractionDigits = 0
-        return numFormatter.string(from: NSNumber(value: self)) ?? "0"
+    var chartAxisStyle: String {
+        let number = Double(self)
+        let thousand = number / 1000
+        let million = number / 1000000
+        
+        if million >= 1.0 {
+            return "\(round(million*10)/10)M"
+        }
+        else if thousand >= 1.0 {
+            return "\(round(thousand*10)/10)K"
+        }
+        else {
+            return "\(self)"
+        }
     }
 }

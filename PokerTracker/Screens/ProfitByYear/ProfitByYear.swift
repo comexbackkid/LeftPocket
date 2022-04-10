@@ -25,11 +25,11 @@ struct ProfitByYear: View {
                     
                     // We're saying if the selectedTimeline doesn't equal *this* year, then display data for all years
                     if !pbyViewModel.isLoading {
-                        CustomChartView(data: timeline == "All"
+                        CustomChartView(viewModel: viewModel, data: timeline == "All"
                                         ? viewModel.chartCoordinates()
                                         : viewModel.yearlyChartCoordinates(year: timeline == "YTD"
                                                                            ? Date().getYear()
-                                                                           : timeline))
+                                                                           : timeline), background: false)
                             .padding(.bottom)
                             .frame(height: 280)
                         

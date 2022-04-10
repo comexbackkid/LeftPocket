@@ -18,7 +18,7 @@ struct MetricsCardView: View {
         ZStack (alignment: .leading) {
             VStack (alignment: .leading) {
                                 
-                CustomChartView(data: viewModel.chartCoordinates())
+                CustomChartView(viewModel: viewModel, data: viewModel.chartCoordinates(), background: false)
                     .frame(width: 340, height: 240)
                 
                 Spacer()

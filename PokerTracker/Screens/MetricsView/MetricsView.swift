@@ -18,45 +18,45 @@ struct MetricsView: View {
         NavigationView {
             ScrollView {
                 ZStack {
+                    
                     VStack (alignment: .leading) {
+                        
+                        if showMetricsSheet {
+                            Text("Metrics Dashboard")
+                                .font(.largeTitle)
+                                .bold()
+                                .padding(.leading)
+                                .padding(.bottom, 8)
+                                .padding(.top, 40)
+                        }
                         
                         Text("Explore your poker metrics here. Start adding sessions in order to chart your progress and bankroll.")
                             .font(.callout)
                             .foregroundColor(.secondary)
-                            .padding(.leading)
+                            .padding(.horizontal)
                             .padding(.bottom, 40)
                         
                         VStack (alignment: .center, spacing: 22) {
+                             
                             if !viewModel.sessions.isEmpty {
                                 
-                                CustomChartView(data: viewModel.chartCoordinates())
-                                    .padding(.top)
-                                    .frame(width: UIScreen.main.bounds.width * 0.9, height: 320)
-                                    .background(Color.white)
-                                    .cornerRadius(20)
-                                    .overlay(
-                                        VStack {
-                                            Text("Total Earnings")
-                                                .font(.title2)
-                                                .bold()
-                                                .padding()
-                                            Spacer()
-                                        } , alignment: .leading)
+                                bankrollChart
                             }
                             
-                            OverviewView(totalBankroll: viewModel.tallyBankroll(),
-                                         hourlyRate: viewModel.hourlyRate(),
-                                         avgProfit: viewModel.avgProfit(),
-                                         avgSessionDuration: viewModel.avgDuration(),
-                                         numOfCashes: viewModel.numOfCashes(),
-                                         totalHours: viewModel.totalHoursPlayed())
+                            PlayerStatsView(totalBankroll: viewModel.tallyBankroll(),
+                                            hourlyRate: viewModel.hourlyRate(),
+                                            avgProfit: viewModel.avgProfit(),
+                                            avgSessionDuration: viewModel.avgDuration(),
+                                            numOfCashes: viewModel.numOfCashes(),
+                                            totalHours: viewModel.totalHoursPlayed())
                             
                             if !viewModel.sessions.isEmpty {
+                                
                                 BarGraphView()
                                     .padding(.vertical)
                                     .frame(height: 425)
                                     .frame(width: UIScreen.main.bounds.width * 0.9)
-                                    .background(Color.white)
+                                    .background(Color(.systemBackground))
                                     .cornerRadius(20)
                             }
                             
@@ -66,60 +66,61 @@ struct MetricsView: View {
                     }
                     
                     if showMetricsSheet {
-                        
-                        VStack {
-                            HStack {
-                                Spacer()
-                                DismissButton()
-                                    .padding(.trailing, 20)
-                                    .padding(.top, 20)
-                                    .shadow(color: Color.black.opacity(0.2), radius: 10)
-                                    .onTapGesture {
-                                        dismiss()
-                                    }
-                            }
-                            Spacer()
-                        }
+                        dismissButton
                     }
                 }
             }
             .background(Color(.systemGray6))
-            .navigationBarHidden(false)
+            .navigationBarHidden(showMetricsSheet ? true : false)
             .navigationBarTitle("Metrics Dashboard")
         }
         .accentColor(.brandPrimary)
     }
-}
-
-struct BankrollChartView: View {
     
-    let viewModel: SessionsListViewModel
-    
-    let lineChartStyle = ChartStyle(backgroundColor: Color(.systemBackground),
-                                    accentColor: .chartBase,
-                                    secondGradientColor: .chartAccent,
-                                    textColor: .black, legendTextColor: .gray,
-                                    dropShadowColor: .white)
-    
-    var body: some View {
+    var bankrollChart: some View {
         
-        Text("Your Bankroll")
-            .font(.title)
-            .bold()
-            .padding(.horizontal)
+        CustomChartView(viewModel: viewModel, data: viewModel.chartCoordinates(), background: true)
+            .padding(.top, 60)
+            .padding(.bottom, 20)
+            .frame(width: UIScreen.main.bounds.width * 0.9, height: 320)
+            .background(Color(.systemBackground))
+            .cornerRadius(20)
+            .overlay(
+                VStack (alignment: .leading) {
+                    HStack {
+                        Text("Current Bankroll")
+                            .font(.title2)
+                            .bold()
+                            .padding(.horizontal)
+                            .padding(.top)
+                    }
+                    
+                    Text(viewModel.yearRangeFirst() + " - " + viewModel.yearRangeRecent())
+                        .font(.callout)
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal)
+                    Spacer()
+                }, alignment: .leading)
+    }
+    
+    var dismissButton: some View {
         
-        LineView(data: viewModel.chartArray(),
-                 style: lineChartStyle,
-                 valueSpecifier: "%.0f",
-                 legendSpecifier: "%0.f"
-        )
-            .offset(y:-10)
-            .padding(.horizontal)
-            .frame(height: 290)
+        VStack {
+            HStack {
+                Spacer()
+                DismissButton()
+                    .padding(.trailing, 20)
+                    .shadow(color: Color.black.opacity(0.2), radius: 10)
+                    .onTapGesture {
+                        dismiss()
+                    }
+            }
+            Spacer()
+        }
     }
 }
 
-struct OverviewView: View {
+struct PlayerStatsView: View {
     
     let totalBankroll: Int
     let hourlyRate: Int
@@ -133,7 +134,7 @@ struct OverviewView: View {
             VStack (alignment: .leading, spacing: 10) {
                 
                 HStack {
-                    Text("Overview")
+                    Text("Player Stats")
                         .font(.title2)
                         .bold()
                         .padding(.bottom)
@@ -145,7 +146,7 @@ struct OverviewView: View {
                             Text("Total Bankroll")
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text("$" + "\(totalBankroll)")
+                            Text("\(totalBankroll.accountingStyle())")
                                 .foregroundColor(totalBankroll > 0 ? .green : totalBankroll < 0 ? .red : .primary)
                         }
                         Divider()
@@ -161,7 +162,7 @@ struct OverviewView: View {
                             Text("Profit Per Session")
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text("$" + "\(avgProfit)")
+                            Text("\(avgProfit.accountingStyle())")
                                 .foregroundColor(avgProfit > 0 ? .green : totalBankroll < 0 ? .red : .primary)
                         }
                     }
@@ -195,7 +196,7 @@ struct OverviewView: View {
             .padding()
         }
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(Color.white)
+        .background(Color(.systemBackground))
         .cornerRadius(20)
     }
 }

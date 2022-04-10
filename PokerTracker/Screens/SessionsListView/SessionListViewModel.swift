@@ -103,6 +103,7 @@ class SessionsListViewModel: ObservableObject {
     func tallyBankroll() -> Int {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
+        formatter.usesGroupingSeparator = true
         let bankroll = sessions.map { Int($0.profit) }.reduce(0, +)
         return bankroll
     }
@@ -179,6 +180,21 @@ class SessionsListViewModel: ObservableObject {
         let totalMinutes = minutesArray.reduce(0, +)
         let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
         return dateComponents.abbreviated(duration: dateComponents)
+    }
+    
+    // Gets the Year from very first session played. Used in Metrics View
+    func yearRangeFirst() -> String {
+        guard !sessions.isEmpty else { return "0" }
+        let year = sessions.sorted(by: { $0.date > $1.date })
+        return year.reversed()[0].date.getYear()
+    }
+    
+    // Gets the Year from most recent session played. Used in Metrics View
+    func yearRangeRecent() -> String {
+        
+        guard !sessions.isEmpty else { return "0" }
+        let year = sessions.sorted(by: { $0.date > $1.date })
+        return year[0].date.getYear()
     }
     
     // MARK: CALCULATIONS FOR YEAR-END-SUMMARY VIEW

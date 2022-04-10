@@ -25,7 +25,7 @@ struct FilterCardView: View {
                     .font(.title)
                 Text(title)
                     .multilineTextAlignment(.leading)
-                    .font(.headline)
+                    .font(.callout)
                     .padding(.bottom, 5)
                     .padding(.top, 5)
                 Text(description)
@@ -37,7 +37,7 @@ struct FilterCardView: View {
             .frame(width: 130, height: 140)
             .padding()
         }
-        .background(Color(colorScheme == .dark ? .secondarySystemBackground : .systemBackground))
+        .background(Color(.systemBackground))
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.2),
                 radius: 6, x: 0, y: 3)
@@ -48,7 +48,7 @@ struct FilterCardView_Previews: PreviewProvider {
     static var previews: some View {
         FilterCardView(image: "calendar",
                        imageColor: .blue,
-                       title: "Sample Title\nTwo Lines",
+                       title: "Sample Title\nSecond Lines",
                        description: "Enter the description for this card view here.")
     }
 }
