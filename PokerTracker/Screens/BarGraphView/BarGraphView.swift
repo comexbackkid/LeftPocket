@@ -36,7 +36,7 @@ struct BarGraphView: View {
                                     .foregroundColor(.secondary)
                                 
                                 Rectangle()
-                                    .fill(Color.gray.opacity(0.1))
+                                    .fill(Color.gray.opacity(0.25))
                                     .frame(height: 1)
                             }
                             .frame(maxHeight: .infinity, alignment: .bottom)
