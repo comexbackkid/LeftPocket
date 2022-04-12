@@ -42,10 +42,10 @@ struct ProfitByYear: View {
                 .frame(height: 280)
                 
                 CustomPicker(pbyViewModel: pbyViewModel)
-                    .padding(.bottom, 25)
+                    .padding(.bottom, 35)
                     .padding(.top)
                 
-                VStack (spacing: 15) {
+                VStack (spacing: 12) {
                     Spacer()
                     HStack {
                         Text("Net Profit")
@@ -104,9 +104,10 @@ struct ProfitByYear: View {
                     Spacer()
                     
                 }
+                .font(.subheadline)
                 .animation(nil, value: pbyViewModel.selectedTimeline)
                 .padding(30)
-                .frame(width: 340, height: 180)
+                .frame(width: 340, height: 160)
                 .background(Color(colorScheme == .dark
                                   ? .secondarySystemBackground
                                   : .systemBackground))

@@ -26,7 +26,6 @@ struct ProfitByWeekdayView: View {
                         
                         Text("\(total.accountingStyle())")
                             .font(.callout)
-                            .fontWeight(total != 0 ? .bold : .none)
                             .modifier(AccountingView(total: total))
                     }
                 }

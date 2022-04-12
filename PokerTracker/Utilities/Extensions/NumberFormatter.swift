@@ -37,3 +37,13 @@ extension Int {
         }
     }
 }
+
+extension Double {
+    
+    public func asPercent() -> String {
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .percent
+        numFormatter.maximumFractionDigits = 0
+        return numFormatter.string(from: NSNumber(value: self)) ?? "%0"
+    }
+}

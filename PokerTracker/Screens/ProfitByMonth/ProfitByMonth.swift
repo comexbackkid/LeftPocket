@@ -19,6 +19,7 @@ struct ProfitByMonth: View {
         let allYears = viewModel.sessions.map({ $0.date.getYear() }).uniqued()
         
             List {
+                
                 ForEach(viewModel.months, id: \.self) { month in
                     HStack {
                         Text(month)
@@ -27,11 +28,16 @@ struct ProfitByMonth: View {
                         Spacer()
                         
                         let total = filteredMonths.filter({ $0.date.getMonth() == month }).map {$0.profit}.reduce(0,+)
+                        let hourlyRate = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.hourlyRate }.reduce(0,+)
+                        
+                        Text(hourlyRate.accountingStyle() + " / hr ")
+                            .font(.callout)
+                            .modifier(AccountingView(total: total))
                         
                         Text(total.accountingStyle())
                             .font(.callout)
-                            .fontWeight(total != 0 ? .bold : .none)
                             .modifier(AccountingView(total: total))
+                            .frame(width: 90, alignment: .trailing)
                     }
                 }
             }

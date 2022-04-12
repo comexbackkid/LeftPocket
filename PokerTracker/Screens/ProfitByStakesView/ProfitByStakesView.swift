@@ -24,11 +24,16 @@ struct ProfitByStakesView: View {
                             Spacer()
 
                             let total = viewModel.profitByStakes(stakes)
+                            let hourlyRate = viewModel.hourlyByStakes(stakes: stakes, total: total)
+                            
+                            Text(hourlyRate.accountingStyle() + " / hr")
+                                .font(.callout)
+                                .modifier(AccountingView(total: total))
 
                             Text(total.accountingStyle())
                                 .font(.callout)
-                                .fontWeight(total != 0 ? .bold : .none)
                                 .modifier(AccountingView(total: total))
+                                .frame(width: 90, alignment: .trailing)
                         }
                     }
                     .navigationBarTitle(Text("Profit by Stakes"))

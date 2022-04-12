@@ -146,6 +146,13 @@ class SessionsListViewModel: ObservableObject {
         return profitableSessions.count
     }
     
+    // Returns percentage of winning seessions
+    func profitableSessions() -> String {
+        guard !sessions.isEmpty else { return "%0" }
+        let winPercentage = Double(numOfCashes()) / Double(sessions.count)
+        return winPercentage.asPercent()
+    }
+    
     // Calculate total hourly earnings rate for MetricsView
     func hourlyRate() -> Int {
         guard !sessions.isEmpty else { return 0 }
@@ -210,8 +217,20 @@ class SessionsListViewModel: ObservableObject {
     func hourlyByYear(year: String) -> Int {
         guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
         let hoursArray = sessions.filter({ $0.date.getYear() == year }).map { Int($0.gameDuration.hour ?? 0) }
-        let totalHours = hoursArray.reduce(0, +)
+        let totalHours = hoursArray.reduce(0,+)
         return bankrollByYear(year: year) / totalHours
+    }
+    
+    func hourlyByLocation(venue: String, total: Int) -> Int {
+        guard !sessions.filter({ $0.location.name == venue }).isEmpty else { return 0 }
+        let totalHours = sessions.filter({ $0.location.name == venue }).map { Int($0.gameDuration.hour ?? 0) }.reduce(0,+)
+        return total / totalHours
+    }
+    
+    func hourlyByStakes(stakes: String, total: Int) -> Int {
+        guard !sessions.filter({$0.stakes == stakes}).isEmpty else { return 0 }
+        let totalHours = sessions.filter({ $0.stakes == stakes }).map { Int($0.gameDuration.hour ?? 0) }.reduce(0,+)
+        return total / totalHours
     }
     
     func avgProfitByYear(year: String) -> Int {

@@ -48,6 +48,7 @@ struct MetricsView: View {
                                             avgProfit: viewModel.avgProfit(),
                                             avgSessionDuration: viewModel.avgDuration(),
                                             numOfCashes: viewModel.numOfCashes(),
+                                            profitableSessions: viewModel.profitableSessions(),
                                             totalHours: viewModel.totalHoursPlayed())
                             
                             if !viewModel.sessions.isEmpty {
@@ -127,6 +128,7 @@ struct PlayerStatsView: View {
     let avgProfit: Int
     let avgSessionDuration: String
     let numOfCashes: Int
+    let profitableSessions: String
     let totalHours: String
     
     var body: some View {
@@ -180,6 +182,13 @@ struct PlayerStatsView: View {
                                 .foregroundColor(.secondary)
                             Spacer()
                             Text("\(numOfCashes)")
+                        }
+                        Divider()
+                        HStack {
+                            Text("Profitable Sessions")
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text(profitableSessions)
                         }
                         Divider()
                         HStack {
