@@ -248,6 +248,18 @@ class SessionsListViewModel: ObservableObject {
         return dateComponents.abbreviated(duration: dateComponents)
     }
     
+    func totalExpenses() -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        let expenses = sessions.map { $0.expenses ?? 0 }.reduce(0,+)
+        return expenses
+    }
+    
+    func totalExpensesByYear(year: String) -> Int {
+        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
+        let expenses = sessions.filter({ $0.date.getYear() == year }).map { $0.expenses ?? 0 }.reduce(0,+)
+        return expenses
+    }
+    
     func yearlyChartArray(year: String) -> [Double] {
         let profitsArray = sessions.filter({ $0.date.getYear() == year }).map { Double($0.profit) }
         var cumBankroll = [Double]()
@@ -306,7 +318,8 @@ class SessionsListViewModel: ObservableObject {
                     date: Date,
                     profit: Int,
                     notes: String,
-                    startTime: Date, endTime: Date) {
+                    startTime: Date, endTime: Date,
+                    expenses: Int) {
         
         let newSession = PokerSession(location: location,
                                       game: game,
@@ -314,7 +327,8 @@ class SessionsListViewModel: ObservableObject {
                                       date: date,
                                       profit: profit,
                                       notes: notes,
-                                      startTime: startTime, endTime: endTime)
+                                      startTime: startTime, endTime: endTime,
+                                      expenses: expenses)
         sessions.append(newSession)
         sessions.sort(by: {$0.date > $1.date})
     }

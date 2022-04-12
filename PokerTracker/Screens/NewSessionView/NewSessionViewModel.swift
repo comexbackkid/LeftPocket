@@ -17,6 +17,7 @@ final class NewSessionViewModel: ObservableObject {
     @Published var notes: String = ""
     @Published var startTime: Date = Date().modifyTime(minutes: -300)
     @Published var endTime: Date = Date()
+    @Published var expenses: String = ""
     @Published var presentation: Bool?
     
     @Published var alertItem: AlertItem?
@@ -48,10 +49,11 @@ final class NewSessionViewModel: ObservableObject {
                              game: self.game,
                              stakes: self.stakes,
                              date: self.startTime,
-                             profit: Int(self.positiveNegative + self.profit) ?? 0,
+                             profit: (Int(self.positiveNegative + self.profit) ?? 0) - (Int(self.expenses) ?? 0),
                              notes: self.notes,
                              startTime: self.startTime,
-                             endTime: self.endTime)
+                             endTime: self.endTime,
+                             expenses: Int(self.expenses) ?? 0)
         
         // Only after the form checks out will the presentation be set to false and passed into the Binding in our View
         self.presentation = false

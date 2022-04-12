@@ -18,7 +18,8 @@ struct NewSessionView: View {
         NavigationView {
             ZStack {
                 Form {
-                    Section(header: Text("Details"), footer: Text("Choose from the default list or add your own location from the Settings screen.")) {
+                    Section(header: Text("Details"),
+                            footer: Text("Choose from the default list or add your own location from the Settings screen.")) {
                         
                         Picker(selection: $newSession.location, label: Text("Location"), content: {
                             
@@ -40,28 +41,36 @@ struct NewSessionView: View {
                             Text(".25/.50").tag(".25/.50")
                             Text(".50/1").tag(".50/1")
                             Text("1/2").tag("1/2")
-                            Text("2/2").tag("2/2")
                             Text("1/3").tag("1/3")
+                            Text("2/2").tag("2/2")
                             Text("2/5").tag("2/5")
                             Text("5/10").tag("5/10")
                         })
                         
                         DatePicker("Start", selection: $newSession.startTime, in: ...Date.now,
-                                   displayedComponents: [. date, .hourAndMinute])
+                                   displayedComponents: [.date, .hourAndMinute])
                             
                         DatePicker("End", selection: $newSession.endTime, in: ...Date.now,
-                                   displayedComponents: [. date, .hourAndMinute])
+                                   displayedComponents: [.date, .hourAndMinute])
                         HStack {
                             Text("$")
                                 .foregroundColor(.secondary)
                                 .opacity(0.8)
-                            TextField("Profit", text: $newSession.profit)
+                            TextField("Win / Loss", text: $newSession.profit)
                                 .keyboardType(.numberPad)
                             Picker(selection: $newSession.positiveNegative, label: Text(""), content: {
                                 Text("+").tag("+")
                                 Text("-").tag("-")
                             })
                             .pickerStyle(SegmentedPickerStyle())
+                        }
+                        
+                        HStack {
+                            Text("$")
+                                .foregroundColor(.secondary)
+                                .opacity(0.8)
+                            TextField("Expenses", text: $newSession.expenses)
+                                .keyboardType(.numberPad)
                         }
                     }
       

@@ -22,7 +22,7 @@ struct MetricsView: View {
                     VStack (alignment: .leading) {
                         
                         if showMetricsSheet {
-                            Text("Metrics Dashboard")
+                            Text("My Metrics")
                                 .font(.largeTitle)
                                 .bold()
                                 .padding(.leading)
@@ -73,7 +73,7 @@ struct MetricsView: View {
             }
             .background(Color(.systemGray6))
             .navigationBarHidden(showMetricsSheet ? true : false)
-            .navigationBarTitle("Metrics Dashboard")
+            .navigationBarTitle("My Metrics")
         }
         .accentColor(.brandPrimary)
     }
@@ -229,7 +229,7 @@ struct AdditionalMetricsView: View {
                         label: {
                             FilterCardView(image: "doc.text",
                                            imageColor: .cyan,
-                                           title: "Profit by\nYear",
+                                           title: "My Annual\nReport",
                                            description: "Compare year-over-year results.")
                         })
                         .buttonStyle(PlainButtonStyle())
@@ -261,7 +261,7 @@ struct AdditionalMetricsView: View {
                             FilterCardView(image: "clock.arrow.circlepath",
                                            imageColor: .blue,
                                            title: "Profit by\nWeekday",
-                                           description: "Some days you're hot, some you're not.")
+                                           description: "Snapshot of day-to-day performance.")
                         })
                         .buttonStyle(PlainButtonStyle())
                     

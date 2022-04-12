@@ -93,6 +93,15 @@ struct ProfitByYear: View {
                                                                                  : timeline)))
                     }
                     HStack {
+                        Text("Total Expenses")
+                        Spacer()
+                        Text(timeline == "All"
+                             ? "\(viewModel.totalExpenses().accountingStyle())"
+                             : viewModel.totalExpensesByYear(year: timeline == "YTD"
+                                                         ? Date().getYear()
+                                                         : timeline).accountingStyle())
+                    }
+                    HStack {
                         Text("Total Hours")
                         Spacer()
                         Text(timeline == "All"
@@ -107,7 +116,7 @@ struct ProfitByYear: View {
                 .font(.subheadline)
                 .animation(nil, value: pbyViewModel.selectedTimeline)
                 .padding(30)
-                .frame(width: 340, height: 160)
+                .frame(width: 340, height: 180)
                 .background(Color(colorScheme == .dark
                                   ? .secondarySystemBackground
                                   : .systemBackground))

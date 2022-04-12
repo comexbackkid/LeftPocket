@@ -41,7 +41,7 @@ struct ProfitByLocationView: View {
                                 Text(total.accountingStyle())
                                     .font(.callout)
                                     .modifier(AccountingView(total: total))
-                                    .frame(width: 90, alignment: .trailing)
+                                    .frame(width: 80, alignment: .trailing)
                             }
                         }
                         .navigationBarTitle(Text("Profit by Location"))

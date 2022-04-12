@@ -91,7 +91,7 @@ struct GraphicHeaderView: View {
                             .padding(.bottom)
                         
                     case .failure:
-                        Image(systemName: "questionmark")
+                        PlaceholderView()
                         
                     case .empty:
                         PlaceholderView()
@@ -102,6 +102,7 @@ struct GraphicHeaderView: View {
                 }
                 
             } else {
+                
                 Image(image.localImage != "" ? image.localImage : "default-header")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -197,6 +198,15 @@ struct MiscView: View {
                 .foregroundColor(.secondary)
             Spacer()
             Text(pokerSession.game)
+                .font(.subheadline)
+        }
+        Divider()
+        HStack {
+            Text("Expenses")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            Spacer()
+            Text(pokerSession.expenses?.accountingStyle() ?? "$0")
                 .font(.subheadline)
         }
         Divider()
