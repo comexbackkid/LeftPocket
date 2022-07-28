@@ -26,6 +26,7 @@
 		7C4CE7042773560D0070B16E /* DefaultLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4CE7032773560D0070B16E /* DefaultLocations.swift */; };
 		7C4CE7062773B2330070B16E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C4CE7052773B2330070B16E /* LaunchScreen.storyboard */; };
 		7C5997AB27872FCF00966764 /* ProfitByYearViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5997AA27872FCF00966764 /* ProfitByYearViewModel.swift */; };
+		7C5EDA1828906F25008ACFEF /* EditLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5EDA1728906F25008ACFEF /* EditLocationView.swift */; };
 		7C63949626C14E8300939F40 /* LeftPocketApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63949526C14E8300939F40 /* LeftPocketApp.swift */; };
 		7C63949826C14E8300939F40 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63949726C14E8300939F40 /* ContentView.swift */; };
 		7C63949A26C14E8400939F40 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C63949926C14E8400939F40 /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 		7C8134C02729F1BE004E1CE1 /* ProfitByMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8134BF2729F1BE004E1CE1 /* ProfitByMonth.swift */; };
 		7C8134C3272A13B6004E1CE1 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8134C2272A13B6004E1CE1 /* ViewModifiers.swift */; };
 		7C8834102735BB5D0093B201 /* NewLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */; };
+		7C897F192891BC1700E42FDA /* LocationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C897F182891BC1700E42FDA /* LocationsListView.swift */; };
 		7CB3EB9D26C3093D009E8DF3 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EB9C26C3093D009E8DF3 /* CellView.swift */; };
 		7CB3EB9F26C310F5009E8DF3 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EB9E26C310F5009E8DF3 /* SessionDetailView.swift */; };
 		7CB3EBA126C345A1009E8DF3 /* MetricsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA026C345A1009E8DF3 /* MetricsCardView.swift */; };
@@ -82,6 +84,7 @@
 		7C4CE7032773560D0070B16E /* DefaultLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLocations.swift; sourceTree = "<group>"; };
 		7C4CE7052773B2330070B16E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7C5997AA27872FCF00966764 /* ProfitByYearViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByYearViewModel.swift; sourceTree = "<group>"; };
+		7C5EDA1728906F25008ACFEF /* EditLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocationView.swift; sourceTree = "<group>"; };
 		7C63949226C14E8300939F40 /* LeftPocket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LeftPocket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C63949526C14E8300939F40 /* LeftPocketApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftPocketApp.swift; sourceTree = "<group>"; };
 		7C63949726C14E8300939F40 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -101,6 +104,7 @@
 		7C8134BF2729F1BE004E1CE1 /* ProfitByMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByMonth.swift; sourceTree = "<group>"; };
 		7C8134C2272A13B6004E1CE1 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLocationViewModel.swift; sourceTree = "<group>"; };
+		7C897F182891BC1700E42FDA /* LocationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsListView.swift; sourceTree = "<group>"; };
 		7CB3EB9C26C3093D009E8DF3 /* CellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
 		7CB3EB9E26C310F5009E8DF3 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
 		7CB3EBA026C345A1009E8DF3 /* MetricsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsCardView.swift; sourceTree = "<group>"; };
@@ -169,6 +173,8 @@
 				7C2614CD26D9310E00986183 /* CardViews */,
 				7CDFBFA627FF2D3B00BC85A1 /* NewChart */,
 				7CBBE472277BA79500986613 /* CustomChartView */,
+				7C897F172891BBFB00E42FDA /* LocationListView */,
+				7C5EDA1428905AB7008ACFEF /* EditLocationView */,
 				7C2B3E6726F5659600B84D52 /* EmptyStates */,
 				7C82E13126EFC83F00E3EB6F /* MetricsView */,
 				7C65B186272C3A4300AFE796 /* NewLocationView */,
@@ -276,6 +282,14 @@
 			path = ProfitByYear;
 			sourceTree = "<group>";
 		};
+		7C5EDA1428905AB7008ACFEF /* EditLocationView */ = {
+			isa = PBXGroup;
+			children = (
+				7C5EDA1728906F25008ACFEF /* EditLocationView.swift */,
+			);
+			path = EditLocationView;
+			sourceTree = "<group>";
+		};
 		7C63948926C14E8300939F40 = {
 			isa = PBXGroup;
 			children = (
@@ -380,6 +394,14 @@
 				7C6394AA26C14F6B00939F40 /* SettingsView.swift */,
 			);
 			path = SettingsView;
+			sourceTree = "<group>";
+		};
+		7C897F172891BBFB00E42FDA /* LocationListView */ = {
+			isa = PBXGroup;
+			children = (
+				7C897F182891BC1700E42FDA /* LocationsListView.swift */,
+			);
+			path = LocationListView;
 			sourceTree = "<group>";
 		};
 		7CBBE472277BA79500986613 /* CustomChartView */ = {
@@ -509,6 +531,7 @@
 				7C68FE3F26D670100019BA53 /* LeftPocketTabView.swift in Sources */,
 				7C4CE70227729E4D0070B16E /* UIWindow+Ext.swift in Sources */,
 				7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */,
+				7C897F192891BC1700E42FDA /* LocationsListView.swift in Sources */,
 				7C68FE4326D7CEA40019BA53 /* RecentSessionCardView.swift in Sources */,
 				7CEC885727298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift in Sources */,
 				7C5997AB27872FCF00966764 /* ProfitByYearViewModel.swift in Sources */,
@@ -519,6 +542,7 @@
 				7C4CE7042773560D0070B16E /* DefaultLocations.swift in Sources */,
 				7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */,
 				7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */,
+				7C5EDA1828906F25008ACFEF /* EditLocationView.swift in Sources */,
 				7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */,
 				7C25CB5327887D9200866511 /* CustomPicker.swift in Sources */,
 				7C2B3E6926F565B200B84D52 /* EmptyState.swift in Sources */,
@@ -654,7 +678,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
@@ -664,7 +688,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -679,7 +703,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
@@ -689,7 +713,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

@@ -29,6 +29,8 @@ class SessionsListViewModel: ObservableObject {
         getLocations()
     }
     
+
+    
     // MARK: SAVING & LOADING APP DATA
     
     var sessionsPath: URL {
@@ -70,6 +72,15 @@ class SessionsListViewModel: ObservableObject {
             }
         } catch {
             print("Failed to write out locations, \(error)")
+        }
+    }
+    
+    // Function to delete from user's list of Locations from the Settings screen
+    func delete(_ location: LocationModel) {
+        if let index = locations.firstIndex(where: { $0.id == location.id })
+        {
+            locations.remove(at: index)
+            saveLocations()
         }
     }
     

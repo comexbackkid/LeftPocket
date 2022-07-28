@@ -17,6 +17,7 @@ struct NewLocationView: View {
         
         NavigationView {
             Form {
+                
                 Section (header: Text("Information"),
                          footer: Text("Enter the name of the casino or card room, followed by a link to an image associated with the location.")) {
                     TextField("Location Name", text: $viewModel.locationName)
@@ -24,8 +25,8 @@ struct NewLocationView: View {
                     TextField("Paste Image URL (Optional)", text: $viewModel.imageURL)
                         .keyboardType(.URL)
                         .autocapitalization(.none)
-                        
                 }
+                
                 Section {
                     Button(action: {
                         saveLocation()
@@ -35,7 +36,7 @@ struct NewLocationView: View {
                     })
                 }
             }
-            .navigationBarTitle(Text("New Location"))
+            .navigationBarTitle(Text("Add Location"))
         }
         .accentColor(.brandPrimary)
     }

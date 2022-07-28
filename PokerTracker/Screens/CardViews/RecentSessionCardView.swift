@@ -29,6 +29,7 @@ struct RecentSessionCardView: View {
                         
                     } placeholder: {
                         PlaceholderView()
+                            .frame(width: 340, height: 240)
                     }
                   
                 } else {
