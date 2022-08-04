@@ -33,6 +33,12 @@ struct LeftPocketTabView: View {
                     Text("Metrics")
                 }
             
+            StudyView()
+                .tabItem {
+                    Image(systemName: "text.book.closed.fill")
+                    Text("Study")
+                }
+            
             SettingsView(isDarkMode: $isDarkMode, systemThemeEnabled: $systemThemeEnabled)
                 .tabItem {
                     Image(systemName: "gear")

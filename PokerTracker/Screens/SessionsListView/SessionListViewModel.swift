@@ -150,6 +150,13 @@ class SessionsListViewModel: ObservableObject {
         return [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
     }
     
+    // Simply counts how many sessions played by year. Used in Study section
+    func sessionsPerYear(year: String) -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        let count = sessions.filter({ $0.date.getYear() == year })
+        return count.count
+    }
+    
     // Adds up total number of profitable sessions
     func numOfCashes() -> Int {
         guard !sessions.isEmpty else { return 0 }
