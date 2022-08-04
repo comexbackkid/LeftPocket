@@ -18,7 +18,7 @@ struct LocationsListView: View {
         VStack {
             Form {
                 Section(header: Text("Current Locations"),
-                        footer: Text("Add your own Location, casino, home game, or mobile app by clicking the + button in the upper right corner of the screen. Swipe left on a Location to modify or delete it.")) {
+                        footer: Text("Add your own location, casino, or home game, by clicking the + button in the upper right corner of the screen. Swipe left on a Location to modify or delete it.")) {
                     List($viewModel.locations, id: \.self) { location in
                         LocationsRowView(location: location)
                     }
@@ -64,6 +64,8 @@ struct LocationsRowView: View {
                 } label: { Image(systemName: "trash.fill") }
                 
                 Button {
+                    let impact = UIImpactFeedbackGenerator(style: .light)
+                    impact.impactOccurred()
                     editing.toggle()
                 } label: { Image(systemName: "pencil") }
                 .tint(.yellow)

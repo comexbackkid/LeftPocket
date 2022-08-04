@@ -22,8 +22,10 @@ struct MetricsCardView: View {
                     .frame(width: 340, height: 240)
                 
                 Spacer()
+                
                 HStack {
                     VStack (alignment: .leading, spacing: 5) {
+                        
                         Text("My Metrics")
                             .font(.title3)
                             .bold()

@@ -17,6 +17,7 @@ struct DefaultLocations {
         LocationModel(name: "The Brook", localImage: "brook-header", imageURL: ""),
         LocationModel(name: "Foxwoods Resort & Casino", localImage: "foxwoods-header", imageURL: ""),
         LocationModel(name: "Mohegan Sun Casino", localImage: "mohegan-sun-header", imageURL: ""),
-        LocationModel(name: "Rivers Casino & Resort", localImage: "rivers-header", imageURL: "")
+        LocationModel(name: "Rivers Casino & Resort", localImage: "rivers-header", imageURL: ""),
+        LocationModel(name: "Turning Stone Casino", localImage: "turningstone-header", imageURL: "")
     ]
 }

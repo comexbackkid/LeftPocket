@@ -118,6 +118,8 @@ struct StudyView: View {
         VStack (spacing: 20) {
             
             Button {
+                let impact = UIImpactFeedbackGenerator(style: .light)
+                impact.impactOccurred()
                 selectedArticle = MockData.sampleArticle
                 showArticle.toggle()
             } label: {
@@ -126,6 +128,8 @@ struct StudyView: View {
             .buttonStyle(PlainButtonStyle())
 
             Button {
+                let impact = UIImpactFeedbackGenerator(style: .light)
+                impact.impactOccurred()
                 selectedArticle = MockData.sampleArticle2
                 showArticle.toggle()
             } label: {
@@ -134,6 +138,8 @@ struct StudyView: View {
             .buttonStyle(PlainButtonStyle())
 
             Button {
+                let impact = UIImpactFeedbackGenerator(style: .light)
+                impact.impactOccurred()
                 selectedArticle = MockData.sampleArticle3
                 showArticle.toggle()
             } label: {
