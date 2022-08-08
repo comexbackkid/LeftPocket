@@ -66,7 +66,7 @@ struct RecentSessionCardView: View {
                 .padding()
         }
         .frame(width: 340, height: 360)
-        .background(Color(colorScheme == .dark ? .secondarySystemBackground : .systemBackground))
+        .background(Color(.systemBackground))
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.3),
                 radius: 12, x: 0, y: 5)

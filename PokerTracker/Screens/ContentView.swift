@@ -17,10 +17,10 @@ enum Sheet: String, Identifiable {
 
 struct ContentView: View {
     
-    @State private var isPresented = false
     @State private var showMetricsAsSheet = false
     @State var activeSheet: Sheet?
     @EnvironmentObject var viewModel: SessionsListViewModel
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         
@@ -50,6 +50,7 @@ struct ContentView: View {
                 MetricsView()
             }
         }
+        .background(colorScheme == .dark ? Color(.systemGray6) : .white)
         .sheet(item: $activeSheet) { sheet in
             switch sheet {
             case .newSession: NewSessionView(isPresented: .init(get: {
@@ -135,5 +136,6 @@ struct BankrollSnapshot: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView().environmentObject(SessionsListViewModel())
+//            .preferredColorScheme(.dark)
     }
 }
