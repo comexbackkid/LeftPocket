@@ -87,7 +87,7 @@ struct StudyView: View {
                     
                     VStack (alignment: .leading) {
                         
-                        Text("Games")
+                        Text("Sessions")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         

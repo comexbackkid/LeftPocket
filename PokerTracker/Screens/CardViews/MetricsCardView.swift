@@ -29,7 +29,7 @@ struct MetricsCardView: View {
                         Text("My Metrics")
                             .font(.title3)
                             .bold()
-                        Text("Gather valuable insights into your game and find ways to improve it.")
+                        Text("Study key metrics & analysis on your play, and find ways to improve.")
                             .font(.body)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.leading)

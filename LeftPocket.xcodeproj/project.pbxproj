@@ -175,7 +175,6 @@
 		7C2614CC26D930D900986183 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				7CF53F1A289A9CCF00C26AD5 /* StudyView */,
 				7C2FC654273EC04C00E3BE0B /* BarGraphView */,
 				7C2614CD26D9310E00986183 /* CardViews */,
 				7CDFBFA627FF2D3B00BC85A1 /* NewChart */,
@@ -194,6 +193,7 @@
 				7C82E13226EFC84E00E3EB6F /* SessionDetailView */,
 				7C2614CE26D9313E00986183 /* SessionsListView */,
 				7C82E13426EFC87D00E3EB6F /* SettingsView */,
+				7CF53F1A289A9CCF00C26AD5 /* StudyView */,
 				7C63949726C14E8300939F40 /* ContentView.swift */,
 			);
 			path = Screens;
