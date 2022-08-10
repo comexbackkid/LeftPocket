@@ -8,10 +8,19 @@
 import SwiftUI
 import WidgetKit
 
+extension Int {
+    
+    public func accountingStyle() -> String {
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .currency
+        numFormatter.maximumFractionDigits = 0
+        return numFormatter.string(from: NSNumber(value: self)) ?? "0"
+    }
+}
+
 struct WidgetView : View {
     
     @Environment(\.colorScheme) var colorScheme
-    
     var entry: SimpleEntry
 
     var body: some View {
@@ -75,10 +84,11 @@ struct WidgetView : View {
             
             HStack {
                 Image(systemName: "arrowtriangle.up.fill")
-                    .foregroundColor(.green)
+                    .foregroundColor(entry.recentSessionAmount > 0 ? .green : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
+                    .rotationEffect(entry.recentSessionAmount > 0 ? .degrees(0) : .degrees(180))
                 
                 Text("$" + "\(entry.recentSessionAmount)")
-                    .foregroundColor(.green)
+                    .foregroundColor(entry.recentSessionAmount > 0 ? .green : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
                     .font(.subheadline)
                     .bold()
                 
@@ -89,6 +99,8 @@ struct WidgetView : View {
         .padding(.bottom, 12)
     }
 }
+
+
 
 struct WidgetView_Previews: PreviewProvider {
     static var previews: some View {

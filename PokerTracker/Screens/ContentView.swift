@@ -122,7 +122,7 @@ struct BankrollSnapshot: View {
                     .opacity(0.6)
                 
                 HStack {
-                    Text("\(lastSession.accountingStyle())")
+                    Text(lastSession.accountingStyle())
                         .fontWeight(.bold)
                         .font(.system(size: 24, design: .rounded))
                         .modifier(AccountingView(total: lastSession))
