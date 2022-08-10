@@ -14,4 +14,5 @@ extension Color {
     static let chartBase = Color("chartBase")
     static let chartAccent = Color("chartAccent")
     static let pickerGray = Color("pickerGray")
+    static let widgetForegroundText = Color("widgetForegroundText")
 }

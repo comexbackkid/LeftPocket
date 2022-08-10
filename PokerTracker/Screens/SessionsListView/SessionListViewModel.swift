@@ -27,9 +27,9 @@ class SessionsListViewModel: ObservableObject {
 //        getMockSessions()
         getSessions()
         getLocations()
+        writeBankrollToUserDefaults(bankroll: self.tallyBankroll(),
+                                    lastSessionAmount: self.sessions.first?.profit ?? 0)
     }
-    
-
     
     // MARK: SAVING & LOADING APP DATA
     

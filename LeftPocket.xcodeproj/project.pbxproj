@@ -7,11 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C01247728A3FF6100E6E714 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C63949926C14E8400939F40 /* Assets.xcassets */; };
 		7C0208DB26F24B4900AC6151 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0208DA26F24B4900AC6151 /* Date+Ext.swift */; };
+		7C1587F328A2DD5E00B11F77 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C1587F228A2DD5E00B11F77 /* WidgetKit.framework */; };
+		7C1587F528A2DD5E00B11F77 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C1587F428A2DD5E00B11F77 /* SwiftUI.framework */; };
+		7C1587F828A2DD5E00B11F77 /* LeftPocketWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1587F728A2DD5E00B11F77 /* LeftPocketWidget.swift */; };
+		7C1587FA28A2DD5E00B11F77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C1587F928A2DD5E00B11F77 /* Assets.xcassets */; };
+		7C1587FE28A2DD5E00B11F77 /* LeftPocketWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 7C1587F028A2DD5E00B11F77 /* LeftPocketWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7C15880628A2DDBD00B11F77 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C15880528A2DDBD00B11F77 /* Provider.swift */; };
+		7C15880828A2DDDA00B11F77 /* SimpleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C15880728A2DDDA00B11F77 /* SimpleEntry.swift */; };
+		7C15880E28A2E21F00B11F77 /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C15880D28A2E21F00B11F77 /* WidgetView.swift */; };
 		7C15DD39276D575600889FB2 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C15DD38276D575600889FB2 /* PlaceholderView.swift */; };
 		7C1F8C82271094B50068E8B1 /* ProfitByWeekdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1F8C81271094B50068E8B1 /* ProfitByWeekdayView.swift */; };
 		7C20CFB2271E2D1600739764 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20CFB1271E2D1600739764 /* OnboardingView.swift */; };
 		7C20CFB4271F4EB700739764 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20CFB3271F4EB700739764 /* SecondaryButton.swift */; };
+		7C23A4C328A3DEE100FB5604 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C23A4C228A3DEE100FB5604 /* AppGroup.swift */; };
+		7C23A4C428A3DEE100FB5604 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C23A4C228A3DEE100FB5604 /* AppGroup.swift */; };
 		7C25CB5327887D9200866511 /* CustomPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C25CB5227887D9200866511 /* CustomPicker.swift */; };
 		7C2B3E6626F5488E00B84D52 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */; };
 		7C2B3E6926F565B200B84D52 /* EmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2B3E6826F565B200B84D52 /* EmptyState.swift */; };
@@ -51,6 +62,7 @@
 		7CB3EBA126C345A1009E8DF3 /* MetricsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA026C345A1009E8DF3 /* MetricsCardView.swift */; };
 		7CB3EBA326C3485C009E8DF3 /* NewSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA226C3485C009E8DF3 /* NewSessionView.swift */; };
 		7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA426C352C6009E8DF3 /* Model.swift */; };
+		7CBB2D0E28A2EB4200A0CC99 /* Colors+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBEF44527596DEE00744F4A /* Colors+Ext.swift */; };
 		7CBBE474277BA7B400986613 /* LineChartProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBBE473277BA7B400986613 /* LineChartProvider.swift */; };
 		7CBEF44427596A6600744F4A /* CustomChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBEF44327596A6600744F4A /* CustomChartView.swift */; };
 		7CBEF44627596DEE00744F4A /* Colors+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBEF44527596DEE00744F4A /* Colors+Ext.swift */; };
@@ -67,12 +79,48 @@
 		7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		7C1587FC28A2DD5E00B11F77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7C63948A26C14E8300939F40 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7C1587EF28A2DD5E00B11F77;
+			remoteInfo = LeftPocketWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7C15880228A2DD5E00B11F77 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				7C1587FE28A2DD5E00B11F77 /* LeftPocketWidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		7C0208DA26F24B4900AC6151 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
+		7C1587F028A2DD5E00B11F77 /* LeftPocketWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LeftPocketWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C1587F228A2DD5E00B11F77 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		7C1587F428A2DD5E00B11F77 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		7C1587F728A2DD5E00B11F77 /* LeftPocketWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftPocketWidget.swift; sourceTree = "<group>"; };
+		7C1587F928A2DD5E00B11F77 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7C1587FB28A2DD5E00B11F77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C15880528A2DDBD00B11F77 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
+		7C15880728A2DDDA00B11F77 /* SimpleEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleEntry.swift; sourceTree = "<group>"; };
+		7C15880D28A2E21F00B11F77 /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
 		7C15DD38276D575600889FB2 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		7C1F8C81271094B50068E8B1 /* ProfitByWeekdayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfitByWeekdayView.swift; sourceTree = "<group>"; };
 		7C20CFB1271E2D1600739764 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		7C20CFB3271F4EB700739764 /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
+		7C23A4C028A3DB3600FB5604 /* LeftPocket.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LeftPocket.entitlements; sourceTree = "<group>"; };
+		7C23A4C128A3DB8200FB5604 /* LeftPocketWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LeftPocketWidgetExtension.entitlements; sourceTree = "<group>"; };
+		7C23A4C228A3DEE100FB5604 /* AppGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
 		7C25CB5227887D9200866511 /* CustomPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPicker.swift; sourceTree = "<group>"; };
 		7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		7C2B3E6826F565B200B84D52 /* EmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyState.swift; sourceTree = "<group>"; };
@@ -130,6 +178,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7C1587ED28A2DD5E00B11F77 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C1587F528A2DD5E00B11F77 /* SwiftUI.framework in Frameworks */,
+				7C1587F328A2DD5E00B11F77 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7C63948F26C14E8300939F40 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -141,6 +198,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7C1587F128A2DD5E00B11F77 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7C1587F228A2DD5E00B11F77 /* WidgetKit.framework */,
+				7C1587F428A2DD5E00B11F77 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7C1587F628A2DD5E00B11F77 /* LeftPocketWidget */ = {
+			isa = PBXGroup;
+			children = (
+				7C1587F728A2DD5E00B11F77 /* LeftPocketWidget.swift */,
+				7C1587F928A2DD5E00B11F77 /* Assets.xcassets */,
+				7C1587FB28A2DD5E00B11F77 /* Info.plist */,
+				7C15880528A2DDBD00B11F77 /* Provider.swift */,
+				7C15880728A2DDDA00B11F77 /* SimpleEntry.swift */,
+				7C15880D28A2E21F00B11F77 /* WidgetView.swift */,
+			);
+			path = LeftPocketWidget;
+			sourceTree = "<group>";
+		};
 		7C1F8C7E2710943B0068E8B1 /* ProfitByWeekdayView */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,6 +234,7 @@
 				7C8134C1272A139D004E1CE1 /* ViewModifiers */,
 				7C27D8D226F9176E001C43B4 /* Alerts */,
 				7C2614CB26D930C100986183 /* Extensions */,
+				7C23A4C228A3DEE100FB5604 /* AppGroup.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -301,7 +381,11 @@
 		7C63948926C14E8300939F40 = {
 			isa = PBXGroup;
 			children = (
+				7C23A4C128A3DB8200FB5604 /* LeftPocketWidgetExtension.entitlements */,
+				7C23A4C028A3DB3600FB5604 /* LeftPocket.entitlements */,
 				7C63949426C14E8300939F40 /* PokerTracker */,
+				7C1587F628A2DD5E00B11F77 /* LeftPocketWidget */,
+				7C1587F128A2DD5E00B11F77 /* Frameworks */,
 				7C63949326C14E8300939F40 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -310,6 +394,7 @@
 			isa = PBXGroup;
 			children = (
 				7C63949226C14E8300939F40 /* LeftPocket.app */,
+				7C1587F028A2DD5E00B11F77 /* LeftPocketWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -441,6 +526,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		7C1587EF28A2DD5E00B11F77 /* LeftPocketWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7C1587FF28A2DD5E00B11F77 /* Build configuration list for PBXNativeTarget "LeftPocketWidgetExtension" */;
+			buildPhases = (
+				7C1587EC28A2DD5E00B11F77 /* Sources */,
+				7C1587ED28A2DD5E00B11F77 /* Frameworks */,
+				7C1587EE28A2DD5E00B11F77 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LeftPocketWidgetExtension;
+			productName = LeftPocketWidgetExtension;
+			productReference = 7C1587F028A2DD5E00B11F77 /* LeftPocketWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		7C63949126C14E8300939F40 /* LeftPocket */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7C6394A126C14E8400939F40 /* Build configuration list for PBXNativeTarget "LeftPocket" */;
@@ -448,10 +550,12 @@
 				7C63948E26C14E8300939F40 /* Sources */,
 				7C63948F26C14E8300939F40 /* Frameworks */,
 				7C63949026C14E8300939F40 /* Resources */,
+				7C15880228A2DD5E00B11F77 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				7C1587FD28A2DD5E00B11F77 /* PBXTargetDependency */,
 			);
 			name = LeftPocket;
 			packageProductDependencies = (
@@ -467,9 +571,12 @@
 		7C63948A26C14E8300939F40 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1250;
+				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1250;
 				TargetAttributes = {
+					7C1587EF28A2DD5E00B11F77 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
 					7C63949126C14E8300939F40 = {
 						CreatedOnToolsVersion = 12.5.1;
 					};
@@ -493,11 +600,21 @@
 			projectRoot = "";
 			targets = (
 				7C63949126C14E8300939F40 /* LeftPocket */,
+				7C1587EF28A2DD5E00B11F77 /* LeftPocketWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7C1587EE28A2DD5E00B11F77 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C01247728A3FF6100E6E714 /* Assets.xcassets in Resources */,
+				7C1587FA28A2DD5E00B11F77 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7C63949026C14E8300939F40 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -511,10 +628,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7C1587EC28A2DD5E00B11F77 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CBB2D0E28A2EB4200A0CC99 /* Colors+Ext.swift in Sources */,
+				7C23A4C428A3DEE100FB5604 /* AppGroup.swift in Sources */,
+				7C15880828A2DDDA00B11F77 /* SimpleEntry.swift in Sources */,
+				7C15880628A2DDBD00B11F77 /* Provider.swift in Sources */,
+				7C15880E28A2E21F00B11F77 /* WidgetView.swift in Sources */,
+				7C1587F828A2DD5E00B11F77 /* LeftPocketWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7C63948E26C14E8300939F40 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C23A4C328A3DEE100FB5604 /* AppGroup.swift in Sources */,
 				7CC20EB3272B19D200137F51 /* HelpView.swift in Sources */,
 				7C45E1FA289AD8AC005D89CF /* StudyDetailView.swift in Sources */,
 				7CB3EB9D26C3093D009E8DF3 /* CellView.swift in Sources */,
@@ -574,7 +705,75 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		7C1587FD28A2DD5E00B11F77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7C1587EF28A2DD5E00B11F77 /* LeftPocketWidgetExtension */;
+			targetProxy = 7C1587FC28A2DD5E00B11F77 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		7C15880028A2DD5E00B11F77 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = J3YC22CPKU;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LeftPocketWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LeftPocketWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.1.4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		7C15880128A2DD5E00B11F77 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = J3YC22CPKU;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LeftPocketWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LeftPocketWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.1.4;
+				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 		7C63949F26C14E8400939F40 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -694,11 +893,13 @@
 		7C6394A226C14E8400939F40 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
@@ -708,7 +909,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -719,11 +920,13 @@
 		7C6394A326C14E8400939F40 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
@@ -733,7 +936,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -744,6 +947,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7C1587FF28A2DD5E00B11F77 /* Build configuration list for PBXNativeTarget "LeftPocketWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C15880028A2DD5E00B11F77 /* Debug */,
+				7C15880128A2DD5E00B11F77 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7C63948D26C14E8300939F40 /* Build configuration list for PBXProject "LeftPocket" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
