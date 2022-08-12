@@ -80,11 +80,14 @@ struct WidgetViewMedium: View {
             }
             
             HStack {
-                Image(systemName: "arrowtriangle.up.fill")
-                    .resizable()
-                    .frame(width: 11, height: 11)
-                    .foregroundColor(entry.recentSessionAmount > 0 ? .green : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
-                    .rotationEffect(entry.recentSessionAmount >= 0 ? .degrees(0) : .degrees(180))
+                
+                if entry.recentSessionAmount != 0 {
+                    Image(systemName: "arrowtriangle.up.fill")
+                        .resizable()
+                        .frame(width: 11, height: 11)
+                        .foregroundColor(entry.recentSessionAmount > 0 ? .green : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
+                        .rotationEffect(entry.recentSessionAmount >= 0 ? .degrees(0) : .degrees(180))
+                }
                 
                 Text(entry.recentSessionAmount.accountingStyle())
                     .foregroundColor(entry.recentSessionAmount > 0 ? .green : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
@@ -140,7 +143,7 @@ struct WidgetViewMedium_Previews: PreviewProvider {
         WidgetViewMedium(entry: SimpleEntry(date: Date(),
                                             bankroll: 63351,
                                             recentSessionAmount: 150,
-                                            chartData: FakeData.mockDataCoords,
+                                            chartData: MockData.mockDataCoords,
                                             hourlyRate: 32,
                                             totalSessions: 14))
             .previewContext(WidgetPreviewContext(family: .systemMedium))

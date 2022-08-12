@@ -8,7 +8,7 @@
 import SwiftUI
 import WidgetKit
 
-class AppGroup {
+struct AppGroup {
     
     let bankrollKey = "bankrollTotal"
     let lastSessionKey = "lastSessionAmount"

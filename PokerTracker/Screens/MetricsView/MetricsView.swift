@@ -15,6 +15,7 @@ struct MetricsView: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     var body: some View {
+        
         NavigationView {
             ScrollView {
                 ZStack {
@@ -22,7 +23,7 @@ struct MetricsView: View {
                     VStack (alignment: .leading) {
                         
                         if showMetricsSheet {
-                            Text("My Metrics")
+                            Text("Metrics")
                                 .titleStyle()
                         }
                         
@@ -69,7 +70,7 @@ struct MetricsView: View {
             }
             .background(Color(.systemGray6))
             .navigationBarHidden(showMetricsSheet ? true : false)
-            .navigationBarTitle("My Metrics")
+            .navigationBarTitle("Metrics")
         }
         .accentColor(.brandPrimary)
     }
@@ -144,7 +145,7 @@ struct PlayerStatsView: View {
                             Text("Total Bankroll")
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text("\(totalBankroll.accountingStyle())")
+                            Text(totalBankroll.accountingStyle())
                                 .foregroundColor(totalBankroll > 0 ? .green : totalBankroll < 0 ? .red : .primary)
                         }
                         Divider()
@@ -152,7 +153,7 @@ struct PlayerStatsView: View {
                             Text("Hourly Rate")
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text("$" + "\(hourlyRate)")
+                            Text(hourlyRate.accountingStyle())
                                 .foregroundColor(hourlyRate > 0 ? .green : totalBankroll < 0 ? .red : .primary)
                         }
                         Divider()
@@ -160,7 +161,7 @@ struct PlayerStatsView: View {
                             Text("Profit Per Session")
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text("\(avgProfit.accountingStyle())")
+                            Text(avgProfit.accountingStyle())
                                 .foregroundColor(avgProfit > 0 ? .green : totalBankroll < 0 ? .red : .primary)
                         }
                     }

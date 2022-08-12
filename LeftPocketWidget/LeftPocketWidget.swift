@@ -25,7 +25,7 @@ struct LeftPocketWidget: Widget {
 
 struct LeftPocketWidget_Previews: PreviewProvider {
     static var previews: some View {
-        WidgetViewSmall(entry: SimpleEntry(date: Date(), bankroll: 6000, recentSessionAmount: 150, chartData: FakeData.mockDataCoords, hourlyRate: 32, totalSessions: 14))
+        WidgetViewSmall(entry: SimpleEntry(date: Date(), bankroll: 6000, recentSessionAmount: 150, chartData: MockData.mockDataCoords, hourlyRate: 32, totalSessions: 14))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

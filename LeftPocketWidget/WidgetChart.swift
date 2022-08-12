@@ -54,7 +54,7 @@ struct WidgetChart: View {
 //    }
 //}
 
-struct FakeData {
+struct MockData {
     
     static let mockDataCoords: [Point] = [
         .init(x: 0, y: 0),
@@ -67,5 +67,8 @@ struct FakeData {
         .init(x: 7, y: 11),
     ]
     
-    static let emptyCoords: [Point] = []
+    static let emptyCoords: [Point] = [
+        .init(x: 0, y: 0),
+        .init(x: 1, y: 0)
+    ]
 }

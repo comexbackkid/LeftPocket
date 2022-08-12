@@ -32,12 +32,6 @@ class SessionsListViewModel: ObservableObject {
 //        getMockSessions()
         getSessions()
         getLocations()
-        
-        appGroup.writeToWidget(bankroll: self.tallyBankroll(),
-                               lastSessionAmount: self.sessions.first?.profit ?? 0,
-                               chartPoints: self.chartCoordinates(),
-                               hourlyRate: self.hourlyRate(),
-                               totalSessions: sessions.count)
     }
     
     let appGroup = AppGroup()

@@ -26,7 +26,7 @@ struct MetricsCardView: View {
                 HStack {
                     VStack (alignment: .leading, spacing: 5) {
                         
-                        Text("My Metrics")
+                        Text("Metrics & Analytics")
                             .font(.title3)
                             .bold()
                         Text("Study key metrics & analysis on your play, and find ways to improve.")
@@ -41,7 +41,7 @@ struct MetricsCardView: View {
             }
             .frame(maxWidth: 340)
             
-            Text("Total Profit")
+            Text("Bankroll")
                 .bold()
                 .font(.title)
                 .offset(y: -145)
