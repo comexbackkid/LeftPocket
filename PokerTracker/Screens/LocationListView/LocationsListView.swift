@@ -16,14 +16,9 @@ struct LocationsListView: View {
     var body: some View {
         
         VStack {
-            Form {
-                Section(header: Text("Current Locations"),
-                        footer: Text("Add your own location, casino, or home game, by clicking the + button in the upper right corner of the screen. Swipe left on a Location to modify or delete it.")) {
-                    List($viewModel.locations, id: \.self) { location in
-                        LocationsRowView(location: location)
-                    }
-                }
-            }
+            
+            form
+
         }
         .listStyle(InsetGroupedListStyle())
         .navigationBarTitle("My Locations")
@@ -39,6 +34,18 @@ struct LocationsListView: View {
         .sheet(isPresented: $addLocationIsShowing, content: {
             NewLocationView(addLocationIsShowing: $addLocationIsShowing)
         })
+    }
+    
+    var form: some View {
+        
+        Form {
+            Section(header: Text("Current Locations"),
+                    footer: Text("Add your own location, casino, or home game, by clicking the + button in the upper right corner of the screen. Swipe left on a Location to modify or delete it.")) {
+                List($viewModel.locations, id: \.self) { location in
+                    LocationsRowView(location: location)
+                }
+            }
+        }
     }
 }
 

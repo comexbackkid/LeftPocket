@@ -8,12 +8,12 @@
 import Foundation
 import SwiftUI
 
-struct Point {
+struct Point: Codable {
     let x: CGFloat
     let y: CGFloat
 }
 
-struct LineChartProvider {
+struct LineChartProvider: Codable {
     
     let data: [Point]
     var lineRadius: CGFloat = 0.5

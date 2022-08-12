@@ -37,7 +37,7 @@ struct CustomChartView: View {
                 // Background
                 pathProvider.closedPath(for: geometry)
                     .fill(
-                        LinearGradient(gradient: Gradient(colors: [.white.opacity(colorScheme == .dark ? 0.0 : 0.5), Color("lightBlue").opacity(0.5)]),
+                        LinearGradient(gradient: Gradient(colors: [.white.opacity(colorScheme == .dark ? 0.0 : 0.25), Color("lightBlue").opacity(0.5)]),
                                        startPoint: .bottom,
                                        endPoint: .top)
                     )

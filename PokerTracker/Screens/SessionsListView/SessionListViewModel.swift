@@ -20,6 +20,11 @@ class SessionsListViewModel: ObservableObject {
         didSet {
             saveSessions()
             uniqueStakes = Array(Set(sessions.map { $0.stakes }))
+            appGroup.writeToWidget(bankroll: self.tallyBankroll(),
+                                   lastSessionAmount: self.sessions.first?.profit ?? 0,
+                                   chartPoints: self.chartCoordinates(),
+                                   hourlyRate: self.hourlyRate(),
+                                   totalSessions: sessions.count)
         }
     }
     
@@ -27,9 +32,15 @@ class SessionsListViewModel: ObservableObject {
 //        getMockSessions()
         getSessions()
         getLocations()
-        writeBankrollToUserDefaults(bankroll: self.tallyBankroll(),
-                                    lastSessionAmount: self.sessions.first?.profit ?? 0)
+        
+        appGroup.writeToWidget(bankroll: self.tallyBankroll(),
+                               lastSessionAmount: self.sessions.first?.profit ?? 0,
+                               chartPoints: self.chartCoordinates(),
+                               hourlyRate: self.hourlyRate(),
+                               totalSessions: sessions.count)
     }
+    
+    let appGroup = AppGroup()
     
     // MARK: SAVING & LOADING APP DATA
     

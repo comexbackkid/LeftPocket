@@ -112,10 +112,10 @@ struct BankrollSnapshot: View {
                     .opacity(0.6)
                 
                 Text(bankroll)
-                    .fontWeight(.black)
-                    .font(.system(size: 46, design: .rounded))
+                    .fontWeight(.semibold)
+                    .font(.system(size: 54, design: .rounded))
                     .foregroundColor(.brandBlack)
-                    .padding(.bottom, 4)
+                    .padding(.bottom, 2)
                 
                 Text("Last")
                     .font(.caption)
@@ -123,7 +123,7 @@ struct BankrollSnapshot: View {
                 
                 HStack {
                     Text(lastSession.accountingStyle())
-                        .fontWeight(.bold)
+                        .fontWeight(.semibold)
                         .font(.system(size: 24, design: .rounded))
                         .modifier(AccountingView(total: lastSession))
                 }

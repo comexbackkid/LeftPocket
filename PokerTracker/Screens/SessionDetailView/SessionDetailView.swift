@@ -18,6 +18,7 @@ struct SessionDetailView: View {
             ScrollView (.vertical) {
                 
                 VStack(spacing: 4) {
+                    
                     GraphicHeaderView(image: pokerSession.location,
                                       location: pokerSession.location.name,
                                       date: pokerSession.date)

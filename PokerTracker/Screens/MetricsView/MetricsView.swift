@@ -23,11 +23,7 @@ struct MetricsView: View {
                         
                         if showMetricsSheet {
                             Text("My Metrics")
-                                .font(.largeTitle)
-                                .bold()
-                                .padding(.leading)
-                                .padding(.bottom, 8)
-                                .padding(.top, 40)
+                                .titleStyle()
                         }
                         
                         Text("Explore your poker metrics here. Start adding sessions in order to chart your progress and bankroll.")

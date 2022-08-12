@@ -12,4 +12,7 @@ struct SimpleEntry: TimelineEntry {
     let date: Date
     let bankroll: Int
     let recentSessionAmount: Int
+    let chartData: [Point]
+    let hourlyRate: Int
+    let totalSessions: Int
 }
