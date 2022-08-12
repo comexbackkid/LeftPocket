@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 class SessionsListViewModel: ObservableObject {
     
@@ -20,11 +21,7 @@ class SessionsListViewModel: ObservableObject {
         didSet {
             saveSessions()
             uniqueStakes = Array(Set(sessions.map { $0.stakes }))
-            appGroup.writeToWidget(bankroll: self.tallyBankroll(),
-                                   lastSessionAmount: self.sessions.first?.profit ?? 0,
-                                   chartPoints: self.chartCoordinates(),
-                                   hourlyRate: self.hourlyRate(),
-                                   totalSessions: sessions.count)
+            writeToWidget()
         }
     }
     
@@ -34,7 +31,27 @@ class SessionsListViewModel: ObservableObject {
         getLocations()
     }
     
-    let appGroup = AppGroup()
+    // MARK: WIDGET FUNCTIONS
+    
+    func writeToWidget() {
+        guard let defaults = UserDefaults(suiteName: AppGroup.keys.bankrollSuite) else {
+            print("Unable to write to User Defaults!")
+            return
+        }
+
+        defaults.set(self.tallyBankroll(), forKey: AppGroup.keys.bankrollKey)
+        defaults.set(self.sessions.first?.profit ?? 0, forKey: AppGroup.keys.lastSessionKey)
+        defaults.set(self.hourlyRate(), forKey: AppGroup.keys.hourlyKey)
+        defaults.set(self.sessions.count, forKey: AppGroup.keys.totalSessionsKey)
+
+        guard let chartData = try? JSONEncoder().encode(self.chartCoordinates()) else {
+            print("Error writing chart data")
+            return
+        }
+
+        defaults.set(chartData, forKey: AppGroup.keys.chartKey)
+        WidgetCenter.shared.reloadAllTimelines()
+    }
     
     // MARK: SAVING & LOADING APP DATA
     
@@ -99,7 +116,19 @@ class SessionsListViewModel: ObservableObject {
         self.locations = savedLocations
     }
     
-    // MARK: LOADING IN MOCK DATA FOR PREVIEW OR TESTING
+    // Adds a new Location to the app
+    func addLocation(name: String,
+                     localImage: String,
+                     imageURL: String) {
+        
+        let newLocation = LocationModel(name: name,
+                                        localImage: localImage,
+                                        imageURL: imageURL)
+        
+        locations.append(newLocation)
+    }
+    
+    // MARK: MOCK DATA FOR PREVIEW & TESTING
     
     // Loading fake data for Preview Provider
     func getMockSessions() {
@@ -113,7 +142,7 @@ class SessionsListViewModel: ObservableObject {
             self.locations = fakeLocations
     }
     
-    // MARK: CALCULATIONS AND DATA PRESENTATION
+    // MARK: CALCULATIONS & DATA PRESENTATION
     
     // Calculate current bankroll
     func tallyBankroll() -> Int {
@@ -356,17 +385,7 @@ class SessionsListViewModel: ObservableObject {
         sessions.sort(by: {$0.date > $1.date})
     }
     
-    // Adds a new Location to the app
-    func addLocation(name: String,
-                     localImage: String,
-                     imageURL: String) {
-        
-        let newLocation = LocationModel(name: name,
-                                        localImage: localImage,
-                                        imageURL: imageURL)
-        
-        locations.append(newLocation)
-    }
+
     
     let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     let daysOfWeekAbr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]

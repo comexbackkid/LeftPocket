@@ -8,33 +8,19 @@
 import SwiftUI
 import WidgetKit
 
-struct AppGroup {
+struct AppGroup: Codable {
     
-    let bankrollKey = "bankrollTotal"
-    let lastSessionKey = "lastSessionAmount"
-    let chartKey = "chartData"
-    let hourlyKey = "hourlyKey"
-    let totalSessionsKey = "sessionsKey"
-    let bankrollSuite = "group.com.chrisnachtrieb.WidgetGroup"
-
-    // Function that saves data we want transferred over to the Widget Target
-    func writeToWidget(bankroll: Int, lastSessionAmount: Int, chartPoints: [Point], hourlyRate: Int, totalSessions: Int) {
-        guard let defaults = UserDefaults(suiteName: bankrollSuite) else {
-            print("Unable to write to User Defaults!")
-            return
-        }
-        
-        defaults.set(bankroll, forKey: bankrollKey)
-        defaults.set(lastSessionAmount, forKey: lastSessionKey)
-        defaults.set(hourlyRate, forKey: hourlyKey)
-        defaults.set(totalSessions, forKey: totalSessionsKey)
-        
-        guard let chartData = try? JSONEncoder().encode(chartPoints) else {
-            print("Error writing chart data")
-            return
-        }
-        
-        defaults.set(chartData, forKey: chartKey)
-        WidgetCenter.shared.reloadAllTimelines()
-    }
+    let bankrollKey: String
+    let lastSessionKey: String
+    let chartKey: String
+    let hourlyKey: String
+    let totalSessionsKey: String
+    let bankrollSuite: String
+    
+    static let keys = AppGroup(bankrollKey: "bankrollTotal",
+                               lastSessionKey: "lastSessionAmount",
+                               chartKey: "chartData",
+                               hourlyKey: "hourlyKey",
+                               totalSessionsKey: "sessionsKey",
+                               bankrollSuite: "group.com.chrisnachtrieb.WidgetGroup")
 }

@@ -31,21 +31,19 @@ struct Provider: TimelineProvider {
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
         
-        let appGroup = AppGroup()
         var entries: [SimpleEntry] = []
         let currentDate = Date()
-        let bankroll = UserDefaults(suiteName: appGroup.bankrollSuite)?.integer(forKey: appGroup.bankrollKey) ?? 0
-        let lastSessionAmount = UserDefaults(suiteName: appGroup.bankrollSuite)?.integer(forKey: appGroup.lastSessionKey) ?? 0
-        let hourlyRate = UserDefaults(suiteName: appGroup.bankrollSuite)?.integer(forKey: appGroup.hourlyKey) ?? 0
-        let totalSessions = UserDefaults(suiteName: appGroup.bankrollSuite)?.integer(forKey: appGroup.totalSessionsKey) ?? 0
+        let bankroll = UserDefaults(suiteName: AppGroup.keys.bankrollSuite)?.integer(forKey: AppGroup.keys.bankrollKey) ?? 0
+        let lastSessionAmount = UserDefaults(suiteName: AppGroup.keys.bankrollSuite)?.integer(forKey: AppGroup.keys.lastSessionKey) ?? 0
+        let hourlyRate = UserDefaults(suiteName: AppGroup.keys.bankrollSuite)?.integer(forKey: AppGroup.keys.hourlyKey) ?? 0
+        let totalSessions = UserDefaults(suiteName: AppGroup.keys.bankrollSuite)?.integer(forKey: AppGroup.keys.totalSessionsKey) ?? 0
         
-        guard let chartData = UserDefaults(suiteName: appGroup.bankrollSuite)?.data(forKey: appGroup.chartKey) else {
+        guard let chartData = UserDefaults(suiteName: AppGroup.keys.bankrollSuite)?.data(forKey: AppGroup.keys.chartKey) else {
             print("Error loading Chart Data")
             return
         }
         
         var chartPoints: [Point] {
-            
             guard let decodedChartData = try? JSONDecoder().decode([Point].self, from: chartData) else {
                 print("Error computing Chart Points")
                 return MockData.emptyCoords
