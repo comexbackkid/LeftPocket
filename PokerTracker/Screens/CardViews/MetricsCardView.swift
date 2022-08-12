@@ -41,7 +41,7 @@ struct MetricsCardView: View {
             }
             .frame(maxWidth: 340)
             
-            Text("Bankroll")
+            Text("My Bankroll")
                 .bold()
                 .font(.title)
                 .offset(y: -145)

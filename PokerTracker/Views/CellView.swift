@@ -15,15 +15,7 @@ struct CellView: View {
         HStack (spacing: 4) {
             
             Image(systemName: "suit.club.fill")
-                .resizable()
-                .frame(width: 18, height: 18)
-                .foregroundColor(.white)
-                .background(
-                    Circle()
-                        .foregroundColor(.brandPrimary)
-                        .frame(width: 36, height: 36, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                )
-                .padding(.trailing, 15)
+                .imageRowStyle()
             
             VStack (alignment: .leading) {
                 
@@ -35,6 +27,7 @@ struct CellView: View {
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
+            
             Spacer()
             
             Text(pokerSession.profit.accountingStyle())

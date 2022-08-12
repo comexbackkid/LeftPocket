@@ -26,6 +26,7 @@ struct ContentView: View {
         
         ScrollView(.vertical) {
             VStack(spacing: 5) {
+                
                 HeaderView(activeSheet: $activeSheet)
                 
                 BankrollSnapshot()
@@ -136,6 +137,6 @@ struct BankrollSnapshot: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView().environmentObject(SessionsListViewModel())
-//            .preferredColorScheme(.dark)
+            .preferredColorScheme(.dark)
     }
 }

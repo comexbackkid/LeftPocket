@@ -53,7 +53,12 @@ struct Provider: TimelineProvider {
             return decodedChartData
         }
         
-        let entry = SimpleEntry(date: currentDate, bankroll: bankroll, recentSessionAmount: lastSessionAmount, chartData: chartPoints, hourlyRate: hourlyRate, totalSessions: totalSessions)
+        let entry = SimpleEntry(date: currentDate,
+                                bankroll: bankroll,
+                                recentSessionAmount: lastSessionAmount,
+                                chartData: chartPoints,
+                                hourlyRate: hourlyRate,
+                                totalSessions: totalSessions)
         entries.append(entry)
         
         let timeline = Timeline(entries: entries, policy: .never)
@@ -62,7 +67,7 @@ struct Provider: TimelineProvider {
 }
         
         
-        
+    
 
 
 

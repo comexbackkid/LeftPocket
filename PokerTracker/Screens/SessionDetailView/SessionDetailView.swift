@@ -19,9 +19,7 @@ struct SessionDetailView: View {
                 
                 VStack(spacing: 4) {
                     
-                    GraphicHeaderView(image: pokerSession.location,
-                                      location: pokerSession.location.name,
-                                      date: pokerSession.date)
+                    GraphicHeaderView(location: pokerSession.location, date: pokerSession.date)
                         .frame(maxWidth: UIScreen.main.bounds.width)
                     
                     Divider().frame(width: 180)
@@ -64,24 +62,17 @@ struct SessionDetailView: View {
     }
 }
 
-struct SessionDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
-    }
-}
-
 struct GraphicHeaderView: View {
     
-    let image: LocationModel
-    let location: String
+    let location: LocationModel
     let date: Date
     
     var body: some View {
         VStack {
             
-            if image.imageURL != "" {
+            if location.imageURL != "" {
                 
-                AsyncImage(url: URL(string: image.imageURL), scale: 1, transaction: Transaction(animation: .easeIn)) { phase in
+                AsyncImage(url: URL(string: location.imageURL), scale: 1, transaction: Transaction(animation: .easeIn)) { phase in
                     switch phase {
                     case .success(let image):
                         image
@@ -92,7 +83,7 @@ struct GraphicHeaderView: View {
                             .padding(.bottom)
                         
                     case .failure:
-                        PlaceholderView()
+                        FailureView()
                         
                     case .empty:
                         PlaceholderView()
@@ -104,7 +95,7 @@ struct GraphicHeaderView: View {
                 
             } else {
                 
-                Image(image.localImage != "" ? image.localImage : "default-header")
+                Image(location.localImage != "" ? location.localImage : "default-header")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(height: 290)
@@ -112,7 +103,7 @@ struct GraphicHeaderView: View {
                     .padding(.bottom)
             }
             
-            Text(location)
+            Text(location.name)
                 .font(.title)
                 .bold()
                 .lineLimit(1)
@@ -229,5 +220,11 @@ struct MiscView: View {
                 .font(.subheadline)
         }
         .padding(.bottom)
+    }
+}
+
+struct SessionDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
     }
 }

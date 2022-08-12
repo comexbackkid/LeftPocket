@@ -14,8 +14,9 @@ struct OnboardingView: View {
     var body: some View {
         
         TabView {
+            
             PageView(title: "Track Games",
-                     subtitle: "Keep track of all your poker sessions. Enter your profit, location, duration, & table stakes.",
+                     subtitle: "Keep track of all your poker sessions. Record your profit, location, game details, & expenses.",
                      imageName: "doc.text",
                      showDismissButton: false,
                      shouldShowOnboarding: $shouldShowOnboarding)

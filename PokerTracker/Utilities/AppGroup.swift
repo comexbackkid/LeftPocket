@@ -15,7 +15,7 @@ struct AppGroup {
     let chartKey = "chartData"
     let hourlyKey = "hourlyKey"
     let totalSessionsKey = "sessionsKey"
-    let bankrollSuite = "group.bankrollData"
+    let bankrollSuite = "group.com.chrisnachtrieb.WidgetGroup"
 
     // Function that saves data we want transferred over to the Widget Target
     func writeToWidget(bankroll: Int, lastSessionAmount: Int, chartPoints: [Point], hourlyRate: Int, totalSessions: Int) {

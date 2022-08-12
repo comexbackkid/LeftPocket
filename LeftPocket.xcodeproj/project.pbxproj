@@ -73,6 +73,8 @@
 		7CC20EB1272B183E00137F51 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 7CC20EB0272B183E00137F51 /* SwiftUICharts */; };
 		7CC20EB3272B19D200137F51 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC20EB2272B19D200137F51 /* HelpView.swift */; };
 		7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */; };
+		7CD7468A28A6CA8F00D5A2D0 /* Images+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD7468928A6CA8F00D5A2D0 /* Images+Ext.swift */; };
+		7CD7468C28A6CFA200D5A2D0 /* FailureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */; };
 		7CDB04812776141C008C5233 /* AppReviewRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDB04802776141C008C5233 /* AppReviewRequest.swift */; };
 		7CDFBFA827FF2D5200BC85A1 /* NewChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDFBFA727FF2D5200BC85A1 /* NewChartView.swift */; };
 		7CEA58B928A56E5000418E11 /* MainWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEA58B828A56E5000418E11 /* MainWidgetView.swift */; };
@@ -175,6 +177,8 @@
 		7CBEF44527596DEE00744F4A /* Colors+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Ext.swift"; sourceTree = "<group>"; };
 		7CC20EB2272B19D200137F51 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSessionViewModel.swift; sourceTree = "<group>"; };
+		7CD7468928A6CA8F00D5A2D0 /* Images+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+Ext.swift"; sourceTree = "<group>"; };
+		7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailureView.swift; sourceTree = "<group>"; };
 		7CDB04802776141C008C5233 /* AppReviewRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReviewRequest.swift; sourceTree = "<group>"; };
 		7CDFBFA727FF2D5200BC85A1 /* NewChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChartView.swift; sourceTree = "<group>"; };
 		7CEA58B828A56E5000418E11 /* MainWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWidgetView.swift; sourceTree = "<group>"; };
@@ -261,6 +265,7 @@
 				7CBEF44527596DEE00744F4A /* Colors+Ext.swift */,
 				7C4CE70127729E4D0070B16E /* UIWindow+Ext.swift */,
 				7C4C7BA628A4684700DBC886 /* Text+Ext.swift */,
+				7CD7468928A6CA8F00D5A2D0 /* Images+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -322,6 +327,7 @@
 				7CC20EB2272B19D200137F51 /* HelpView.swift */,
 				7C20CFB1271E2D1600739764 /* OnboardingView.swift */,
 				7C15DD38276D575600889FB2 /* PlaceholderView.swift */,
+				7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */,
 				7C68FE4026D709530019BA53 /* PlusButton.swift */,
 				7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */,
 				7C20CFB3271F4EB700739764 /* SecondaryButton.swift */,
@@ -667,6 +673,7 @@
 				7C45E1FA289AD8AC005D89CF /* StudyDetailView.swift in Sources */,
 				7CB3EB9D26C3093D009E8DF3 /* CellView.swift in Sources */,
 				7C6394A926C14F6400939F40 /* SessionsListView.swift in Sources */,
+				7CD7468C28A6CFA200D5A2D0 /* FailureView.swift in Sources */,
 				7C8134C3272A13B6004E1CE1 /* ViewModifiers.swift in Sources */,
 				7C20CFB2271E2D1600739764 /* OnboardingView.swift in Sources */,
 				7C8834102735BB5D0093B201 /* NewLocationViewModel.swift in Sources */,
@@ -714,6 +721,7 @@
 				7C5EDA1828906F25008ACFEF /* EditLocationView.swift in Sources */,
 				7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */,
 				7C25CB5327887D9200866511 /* CustomPicker.swift in Sources */,
+				7CD7468A28A6CA8F00D5A2D0 /* Images+Ext.swift in Sources */,
 				7C2B3E6926F565B200B84D52 /* EmptyState.swift in Sources */,
 				7C1F8C82271094B50068E8B1 /* ProfitByWeekdayView.swift in Sources */,
 				7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */,

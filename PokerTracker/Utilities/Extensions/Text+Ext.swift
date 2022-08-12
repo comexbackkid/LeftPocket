@@ -17,4 +17,11 @@ extension Text {
             .padding(.bottom, 8)
             .padding(.top, 40)
     }
+    
+    func subtitleStyle() -> some View {
+        self.font(.callout)
+            .foregroundColor(.secondary)
+            .padding(.horizontal)
+            .padding(.bottom, 40)
+    }
 }

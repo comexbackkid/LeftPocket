@@ -23,15 +23,13 @@ struct MetricsView: View {
                     VStack (alignment: .leading) {
                         
                         if showMetricsSheet {
+                            
                             Text("Metrics")
                                 .titleStyle()
                         }
                         
                         Text("Explore your poker metrics here. Start adding sessions in order to chart your progress and bankroll.")
-                            .font(.callout)
-                            .foregroundColor(.secondary)
-                            .padding(.horizontal)
-                            .padding(.bottom, 40)
+                            .subtitleStyle()
                         
                         VStack (alignment: .center, spacing: 22) {
                              
@@ -64,6 +62,7 @@ struct MetricsView: View {
                     }
                     
                     if showMetricsSheet {
+                        
                         dismissButton
                     }
                 }
