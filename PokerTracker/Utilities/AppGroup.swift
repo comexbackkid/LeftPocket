@@ -8,19 +8,12 @@
 import SwiftUI
 import WidgetKit
 
-struct AppGroup: Codable {
+enum AppGroup {
     
-    let bankrollKey: String
-    let lastSessionKey: String
-    let chartKey: String
-    let hourlyKey: String
-    let totalSessionsKey: String
-    let bankrollSuite: String
-    
-    static let keys = AppGroup(bankrollKey: "bankrollTotal",
-                               lastSessionKey: "lastSessionAmount",
-                               chartKey: "chartData",
-                               hourlyKey: "hourlyKey",
-                               totalSessionsKey: "sessionsKey",
-                               bankrollSuite: "group.com.chrisnachtrieb.WidgetGroup")
+    static let bankrollKey = "bankrollTotal"
+    static let lastSessionKey = "lastSessionAmount"
+    static let chartKey = "chartData"
+    static let hourlyKey = "hourlyKey"
+    static let totalSessionsKey = "sessionsKey"
+    static let bankrollSuite = "group.com.chrisnachtrieb.WidgetGroup"
 }

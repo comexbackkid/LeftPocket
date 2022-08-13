@@ -34,22 +34,22 @@ class SessionsListViewModel: ObservableObject {
     // MARK: WIDGET FUNCTIONS
     
     func writeToWidget() {
-        guard let defaults = UserDefaults(suiteName: AppGroup.keys.bankrollSuite) else {
+        guard let defaults = UserDefaults(suiteName: AppGroup.bankrollSuite) else {
             print("Unable to write to User Defaults!")
             return
         }
 
-        defaults.set(self.tallyBankroll(), forKey: AppGroup.keys.bankrollKey)
-        defaults.set(self.sessions.first?.profit ?? 0, forKey: AppGroup.keys.lastSessionKey)
-        defaults.set(self.hourlyRate(), forKey: AppGroup.keys.hourlyKey)
-        defaults.set(self.sessions.count, forKey: AppGroup.keys.totalSessionsKey)
+        defaults.set(self.tallyBankroll(), forKey: AppGroup.bankrollKey)
+        defaults.set(self.sessions.first?.profit ?? 0, forKey: AppGroup.lastSessionKey)
+        defaults.set(self.hourlyRate(), forKey: AppGroup.hourlyKey)
+        defaults.set(self.sessions.count, forKey: AppGroup.totalSessionsKey)
 
         guard let chartData = try? JSONEncoder().encode(self.chartCoordinates()) else {
             print("Error writing chart data")
             return
         }
 
-        defaults.set(chartData, forKey: AppGroup.keys.chartKey)
+        defaults.set(chartData, forKey: AppGroup.chartKey)
         WidgetCenter.shared.reloadAllTimelines()
     }
     

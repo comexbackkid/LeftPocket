@@ -33,12 +33,12 @@ struct Provider: TimelineProvider {
         
         var entries: [SimpleEntry] = []
         let currentDate = Date()
-        let bankroll = UserDefaults(suiteName: AppGroup.keys.bankrollSuite)?.integer(forKey: AppGroup.keys.bankrollKey) ?? 0
-        let lastSessionAmount = UserDefaults(suiteName: AppGroup.keys.bankrollSuite)?.integer(forKey: AppGroup.keys.lastSessionKey) ?? 0
-        let hourlyRate = UserDefaults(suiteName: AppGroup.keys.bankrollSuite)?.integer(forKey: AppGroup.keys.hourlyKey) ?? 0
-        let totalSessions = UserDefaults(suiteName: AppGroup.keys.bankrollSuite)?.integer(forKey: AppGroup.keys.totalSessionsKey) ?? 0
+        let bankroll = UserDefaults(suiteName: AppGroup.bankrollSuite)?.integer(forKey: AppGroup.bankrollKey) ?? 0
+        let lastSessionAmount = UserDefaults(suiteName: AppGroup.bankrollSuite)?.integer(forKey: AppGroup.lastSessionKey) ?? 0
+        let hourlyRate = UserDefaults(suiteName: AppGroup.bankrollSuite)?.integer(forKey: AppGroup.hourlyKey) ?? 0
+        let totalSessions = UserDefaults(suiteName: AppGroup.bankrollSuite)?.integer(forKey: AppGroup.totalSessionsKey) ?? 0
         
-        guard let chartData = UserDefaults(suiteName: AppGroup.keys.bankrollSuite)?.data(forKey: AppGroup.keys.chartKey) else {
+        guard let chartData = UserDefaults(suiteName: AppGroup.bankrollSuite)?.data(forKey: AppGroup.chartKey) else {
             print("Error loading Chart Data")
             return
         }
