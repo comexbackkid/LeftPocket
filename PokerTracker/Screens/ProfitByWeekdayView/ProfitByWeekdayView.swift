@@ -26,7 +26,7 @@ struct ProfitByWeekdayView: View {
                         
                         Text("\(total.accountingStyle())")
                             .font(.callout)
-                            .modifier(AccountingView(total: total))
+                            .profitColor(total: total)
                     }
                 }
                 .navigationBarTitle(Text("Profit by Weekday"))

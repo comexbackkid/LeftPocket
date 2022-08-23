@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StudyView: View {
     
-    @State var selectedArticle: Article = MockData.sampleArticle
+    @State var selectedArticle: Article?
     @State var showArticle: Bool = false
     @EnvironmentObject var vm: SessionsListViewModel
     @Environment(\.colorScheme) var colorScheme
@@ -66,7 +66,7 @@ struct StudyView: View {
                         Text("\(profit.accountingStyle())")
                             .bold()
                             .font(.title2)
-                            .modifier(AccountingView(total: profit))
+                            .profitColor(total: profit)
                     }
                     
                     Spacer()
@@ -80,7 +80,7 @@ struct StudyView: View {
                         Text("\(hourly.accountingStyle())")
                             .bold()
                             .font(.title2)
-                            .modifier(AccountingView(total: hourly))
+                            .profitColor(total: profit)
                     }
                     
                     Spacer()

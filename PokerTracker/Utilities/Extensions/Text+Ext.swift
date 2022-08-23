@@ -10,6 +10,7 @@ import SwiftUI
 
 extension Text {
     
+    // Common title styling for mimicking Navigation View
     func titleStyle() -> some View {
         self.font(.largeTitle)
             .bold()
@@ -18,10 +19,16 @@ extension Text {
             .padding(.top, 40)
     }
     
+    // Common styling for mimicking Navigation View
     func subtitleStyle() -> some View {
         self.font(.callout)
             .foregroundColor(.secondary)
             .padding(.horizontal)
             .padding(.bottom, 40)
+    }
+    
+    // Green or Red
+    func profitColor(total: Int) -> some View {
+        self.foregroundColor( total > 0 ? .green : total < 0 ? .red : Color(.systemGray))
     }
 }

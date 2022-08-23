@@ -11,25 +11,25 @@ struct ProfitByYear: View {
     
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var viewModel: SessionsListViewModel
-    @StateObject var pbyViewModel: ProfitByYearViewModel
+    @StateObject var vm: yearlySummaryViewModel
     
     var body: some View {
         
-        let timeline = pbyViewModel.selectedTimeline
-        
+        let newTimeline = vm.myNewTimeline
+        let netProfitTotal = vm.netProfitCalc(timeline: vm.myNewTimeline)
+        let hourlyRate = vm.hourlyCalc(timeline: vm.myNewTimeline)
+        let profitPerSession = vm.avgProfit(timeline: vm.myNewTimeline)
+        let totalExpenses = vm.expensesByYear(timeline: vm.myNewTimeline)
+        let totalHours = vm.totalHours(timeline: vm.myNewTimeline)
+
         ScrollView {
             VStack {
                 ZStack {
-                    
                     Color.clear
                     
-                    // We're saying if the selectedTimeline doesn't equal *this* year, then display data for all years
-                    if !pbyViewModel.isLoading {
-                        CustomChartView(viewModel: viewModel, data: timeline == "All"
-                                        ? viewModel.chartCoordinates()
-                                        : viewModel.yearlyChartCoordinates(year: timeline == "YTD"
-                                                                           ? Date().getYear()
-                                                                           : timeline), background: false)
+                    if !vm.isLoading {
+                        
+                        CustomChartView(viewModel: viewModel, data: vm.chartData(timeline: newTimeline), background: false)
                             .padding(.bottom)
                             .frame(height: 280)
                         
@@ -41,7 +41,7 @@ struct ProfitByYear: View {
                 }
                 .frame(height: 280)
                 
-                CustomPicker(pbyViewModel: pbyViewModel)
+                CustomPicker(vm: vm)
                     .padding(.bottom, 35)
                     .padding(.top)
                 
@@ -50,90 +50,55 @@ struct ProfitByYear: View {
                     HStack {
                         Text("Net Profit")
                         Spacer()
-                        Text(timeline == "All"
-                             ? "\(viewModel.tallyBankroll().accountingStyle())"
-                             : viewModel.bankrollByYear(year: timeline == "YTD"
-                                                        ? Date().getYear()
-                                                        : timeline).accountingStyle())
-                            .bold()
-                            .modifier(AccountingView(total: timeline == "All"
-                                                     ? viewModel.tallyBankroll()
-                                                     : viewModel.bankrollByYear(year: timeline == "YTD"
-                                                                                ? Date().getYear()
-                                                                                : timeline)))
+                        Text("\(netProfitTotal.accountingStyle())").profitColor(total: netProfitTotal)
                     }
+                    
                     HStack {
                         Text("Hourly Rate")
                         Spacer()
-                        Text(timeline == "All"
-                             ? "\(viewModel.hourlyRate().accountingStyle())"
-                             : viewModel.hourlyByYear(year: timeline == "YTD"
-                                                      ? Date().getYear()
-                                                      : timeline).accountingStyle())
-                            .bold()
-                            .modifier(AccountingView(total: timeline == "All"
-                                                     ? viewModel.hourlyRate()
-                                                     : viewModel.hourlyByYear(year: timeline == "YTD"
-                                                                              ? Date().getYear()
-                                                                              : timeline)))
+                        Text("\(hourlyRate.accountingStyle())").profitColor(total: hourlyRate)
                     }
+                    
                     HStack {
                         Text("Profit Per Session")
                         Spacer()
-                        Text(timeline == "All"
-                             ? "\(viewModel.avgProfit().accountingStyle())"
-                             : viewModel.avgProfitByYear(year: timeline == "YTD"
-                                                         ? Date().getYear()
-                                                         : timeline).accountingStyle())
-                            .bold()
-                            .modifier(AccountingView(total: timeline == "All"
-                                                     ? viewModel.avgProfit()
-                                                     : viewModel.avgProfitByYear(year: timeline == "YTD"
-                                                                                 ? Date().getYear()
-                                                                                 : timeline)))
+                        Text("\(profitPerSession.accountingStyle())").profitColor(total: profitPerSession)
                     }
+                    
                     HStack {
                         Text("Total Expenses")
                         Spacer()
-                        Text(timeline == "All"
-                             ? "\(viewModel.totalExpenses().accountingStyle())"
-                             : viewModel.totalExpensesByYear(year: timeline == "YTD"
-                                                         ? Date().getYear()
-                                                         : timeline).accountingStyle())
+                        Text("\(totalExpenses.accountingStyle())")
                     }
+                    
                     HStack {
                         Text("Total Hours")
                         Spacer()
-                        Text(timeline == "All"
-                             ? "\(viewModel.totalHoursPlayed())"
-                             : viewModel.hoursPlayedByYear(year: timeline == "YTD"
-                                                           ? Date().getYear()
-                                                           : timeline))
+                        Text(totalHours)
                     }
+                    
                     Spacer()
                     
                 }
                 .font(.subheadline)
-                .animation(nil, value: pbyViewModel.selectedTimeline)
+                .animation(nil, value: vm.myNewTimeline)
                 .padding(30)
                 .frame(width: 340, height: 180)
-                .background(Color(colorScheme == .dark
-                                  ? .secondarySystemBackground
-                                  : .systemBackground))
+                .background(Color(colorScheme == .dark ? .secondarySystemBackground : .systemBackground))
                 .cornerRadius(20)
-                .shadow(color: colorScheme == .dark
-                        ? Color(.clear)
-                        : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
-                
+                .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+
                 Spacer()
             }
             .navigationBarTitle("Yearly Summary")
         }
+        
+        
     }
 }
 
 struct ProfitByYear_Previews: PreviewProvider {
     static var previews: some View {
-        ProfitByYear(viewModel: SessionsListViewModel(), pbyViewModel: ProfitByYearViewModel())
+        ProfitByYear(viewModel: SessionsListViewModel(), vm: yearlySummaryViewModel())
     }
 }

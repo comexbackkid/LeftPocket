@@ -126,7 +126,7 @@ struct BankrollSnapshot: View {
                     Text(lastSession.accountingStyle())
                         .fontWeight(.semibold)
                         .font(.system(size: 24, design: .rounded))
-                        .modifier(AccountingView(total: lastSession))
+                        .profitColor(total: lastSession)
                 }
                 .padding(.bottom, 40)
             }

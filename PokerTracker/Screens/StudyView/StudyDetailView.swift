@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StudyDetailView: View {
     
-    @Binding var selectedArticle: Article
+    @Binding var selectedArticle: Article?
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -17,18 +17,18 @@ struct StudyDetailView: View {
         ZStack {
             ScrollView {
                 VStack {
-                    Image(selectedArticle.image)
+                    Image(selectedArticle?.image ?? MockData.sampleArticle.image)
                         .resizable()
                         .scaledToFill()
                         .frame(height: 240)
                         .padding(.bottom)
                     
                     VStack (alignment: .leading) {
-                        Text(selectedArticle.title)
+                        Text(selectedArticle?.title ?? "No Title Selected")
                             .font(.title)
                             .bold()
                         
-                        Text(selectedArticle.story)
+                        Text(selectedArticle?.story ?? "No Story Selected.")
                             .font(.body)
                             .padding(.vertical, 2)
                     }

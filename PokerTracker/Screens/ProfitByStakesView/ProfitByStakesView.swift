@@ -28,11 +28,11 @@ struct ProfitByStakesView: View {
                             
                             Text(hourlyRate.accountingStyle() + " / hr")
                                 .font(.callout)
-                                .modifier(AccountingView(total: hourlyRate))
+                                .profitColor(total: hourlyRate)
 
                             Text(total.accountingStyle())
                                 .font(.callout)
-                                .modifier(AccountingView(total: total))
+                                .profitColor(total: total)
                                 .frame(width: 80, alignment: .trailing)
                         }
                     }

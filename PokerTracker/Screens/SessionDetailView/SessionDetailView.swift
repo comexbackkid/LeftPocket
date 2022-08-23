@@ -134,14 +134,14 @@ struct KeyMetrics: View {
                 Text("Profit")
                     .font(.headline)
                 Text(sessionProfit.accountingStyle())
-                    .modifier(AccountingView(total: sessionProfit))
+                    .profitColor(total: sessionProfit)
                 
             }
             VStack {
                 Text("Hourly")
                     .font(.headline)
                 Text(sessionHourlyRate.accountingStyle())
-                    .modifier(AccountingView(total: sessionProfit))
+                    .profitColor(total: sessionProfit)
             }
         }.padding()
     }

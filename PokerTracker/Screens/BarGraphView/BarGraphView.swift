@@ -46,7 +46,7 @@ struct BarGraphView: View {
                     .padding()
                     
                     HStack (alignment: .bottom) {
-                        ForEach(0 ..< viewModel.dailyBarChart().count) { weekday in
+                        ForEach(viewModel.dailyBarChart().indices, id: \.self) { weekday in
                             VStack {
                                 Spacer()
                                 

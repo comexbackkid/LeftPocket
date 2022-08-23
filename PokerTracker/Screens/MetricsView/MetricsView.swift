@@ -221,7 +221,7 @@ struct AdditionalMetricsView: View {
                 HStack (spacing: 10) {
                     
                     NavigationLink(
-                        destination: ProfitByYear(viewModel: viewModel, pbyViewModel: ProfitByYearViewModel()),
+                        destination: ProfitByYear(viewModel: viewModel, vm: yearlySummaryViewModel()),
                         label: {
                             FilterCardView(image: "doc.text",
                                            imageColor: .cyan,
