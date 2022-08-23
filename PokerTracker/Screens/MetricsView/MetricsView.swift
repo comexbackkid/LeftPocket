@@ -144,7 +144,7 @@ struct PlayerStatsView: View {
                             Text("Total Bankroll")
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text(totalBankroll.accountingStyle())
+                            Text(totalBankroll.asCurrency())
                                 .foregroundColor(totalBankroll > 0 ? .green : totalBankroll < 0 ? .red : .primary)
                         }
                         Divider()
@@ -152,7 +152,7 @@ struct PlayerStatsView: View {
                             Text("Hourly Rate")
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text(hourlyRate.accountingStyle())
+                            Text(hourlyRate.asCurrency())
                                 .foregroundColor(hourlyRate > 0 ? .green : totalBankroll < 0 ? .red : .primary)
                         }
                         Divider()
@@ -160,7 +160,7 @@ struct PlayerStatsView: View {
                             Text("Profit Per Session")
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text(avgProfit.accountingStyle())
+                            Text(avgProfit.asCurrency())
                                 .foregroundColor(avgProfit > 0 ? .green : totalBankroll < 0 ? .red : .primary)
                         }
                     }

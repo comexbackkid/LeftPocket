@@ -86,12 +86,17 @@ struct CustomChartView: View {
             .padding(.trailing, 55)
             
             VStack {
-                Text("$\(Int(viewModel.chartArray().max() ?? 0).chartAxisStyle)")
+                
+                Text("\(Int(viewModel.chartArray().max() ?? 0).axisFormat)")
                     .offset(y: -8)
+                
                 Spacer()
-                Text("$\(((Int(viewModel.chartArray().min() ?? 0) + Int(viewModel.chartArray().max() ?? 0))/2).chartAxisStyle)")
+                
+                Text("\(((Int(viewModel.chartArray().min() ?? 0) + Int(viewModel.chartArray().max() ?? 0))/2).axisFormat)")
+                
                 Spacer()
-                Text("$\(Int(viewModel.chartArray().min() ?? 0).chartAxisStyle)")
+                
+                Text("\(Int(viewModel.chartArray().min() ?? 0).axisFormat)")
                     .offset(y: 8)
             }
             .frame(maxWidth: .infinity, alignment: .trailing)

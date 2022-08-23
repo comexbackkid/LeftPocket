@@ -97,7 +97,7 @@ struct BankrollSnapshot: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     var bankroll: String {
-        return viewModel.tallyBankroll().accountingStyle()
+        return viewModel.tallyBankroll().asCurrency()
     }
     
     var lastSession: Int {
@@ -123,7 +123,7 @@ struct BankrollSnapshot: View {
                     .opacity(0.6)
                 
                 HStack {
-                    Text(lastSession.accountingStyle())
+                    Text(lastSession.asCurrency())
                         .fontWeight(.semibold)
                         .font(.system(size: 24, design: .rounded))
                         .profitColor(total: lastSession)

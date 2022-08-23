@@ -63,9 +63,9 @@ struct StudyView: View {
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         
-                        Text("\(profit.accountingStyle())")
+                        Text("\(profit.asCurrency())")
                             .bold()
-                            .font(.title2)
+                            .font(.title3)
                             .profitColor(total: profit)
                     }
                     
@@ -77,9 +77,9 @@ struct StudyView: View {
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         
-                        Text("\(hourly.accountingStyle())")
+                        Text("\(hourly.asCurrency())")
                             .bold()
-                            .font(.title2)
+                            .font(.title3)
                             .profitColor(total: profit)
                     }
                     
@@ -93,7 +93,7 @@ struct StudyView: View {
                         
                         Text("\(games)")
                             .bold()
-                            .font(.title2)
+                            .font(.title3)
                             .foregroundColor(games == 0 ? Color(.systemGray) : .primary)
                     }
                 }

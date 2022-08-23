@@ -50,25 +50,25 @@ struct ProfitByYear: View {
                     HStack {
                         Text("Net Profit")
                         Spacer()
-                        Text("\(netProfitTotal.accountingStyle())").profitColor(total: netProfitTotal)
+                        Text("\(netProfitTotal.asCurrency())").profitColor(total: netProfitTotal)
                     }
                     
                     HStack {
                         Text("Hourly Rate")
                         Spacer()
-                        Text("\(hourlyRate.accountingStyle())").profitColor(total: hourlyRate)
+                        Text("\(hourlyRate.asCurrency())").profitColor(total: hourlyRate)
                     }
                     
                     HStack {
                         Text("Profit Per Session")
                         Spacer()
-                        Text("\(profitPerSession.accountingStyle())").profitColor(total: profitPerSession)
+                        Text("\(profitPerSession.asCurrency())").profitColor(total: profitPerSession)
                     }
                     
                     HStack {
                         Text("Total Expenses")
                         Spacer()
-                        Text("\(totalExpenses.accountingStyle())")
+                        Text("\(totalExpenses.asCurrency())")
                     }
                     
                     HStack {

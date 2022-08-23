@@ -34,11 +34,11 @@ struct ProfitByLocationView: View {
                                 let total = viewModel.profitByLocation(location.name)
                                 let hourlyRate = viewModel.hourlyByLocation(venue: location.name, total: total)
                                 
-                                Text(hourlyRate.accountingStyle() + " / hr")
+                                Text(hourlyRate.asCurrency() + " / hr")
                                     .font(.callout)
                                     .profitColor(total: hourlyRate)
                                 
-                                Text(total.accountingStyle())
+                                Text(total.asCurrency())
                                     .font(.callout)
                                     .profitColor(total: hourlyRate)
                                     .frame(width: 80, alignment: .trailing)

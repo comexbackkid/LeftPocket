@@ -133,14 +133,14 @@ struct KeyMetrics: View {
             VStack {
                 Text("Profit")
                     .font(.headline)
-                Text(sessionProfit.accountingStyle())
+                Text(sessionProfit.asCurrency())
                     .profitColor(total: sessionProfit)
                 
             }
             VStack {
                 Text("Hourly")
                     .font(.headline)
-                Text(sessionHourlyRate.accountingStyle())
+                Text(sessionHourlyRate.asCurrency())
                     .profitColor(total: sessionProfit)
             }
         }.padding()
@@ -198,7 +198,7 @@ struct MiscView: View {
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             Spacer()
-            Text(pokerSession.expenses?.accountingStyle() ?? "$0")
+            Text(pokerSession.expenses?.asCurrency() ?? "$0")
                 .font(.subheadline)
         }
         Divider()

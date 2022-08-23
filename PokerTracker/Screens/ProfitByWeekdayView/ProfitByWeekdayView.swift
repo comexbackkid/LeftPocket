@@ -24,7 +24,7 @@ struct ProfitByWeekdayView: View {
                         
                         let total = viewModel.profitByDayOfWeek(day)
                         
-                        Text("\(total.accountingStyle())")
+                        Text("\(total.asCurrency())")
                             .font(.callout)
                             .profitColor(total: total)
                     }

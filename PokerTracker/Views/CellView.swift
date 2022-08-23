@@ -30,7 +30,7 @@ struct CellView: View {
             
             Spacer()
             
-            Text(pokerSession.profit.accountingStyle())
+            Text(pokerSession.profit.asCurrency())
                 .font(.body)
                 .bold()
                 .foregroundColor(pokerSession.profit > 0 ? .green : .red)

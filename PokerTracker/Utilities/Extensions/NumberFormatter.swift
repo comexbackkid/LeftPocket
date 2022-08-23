@@ -10,7 +10,7 @@ import Foundation
 // Use to correctly position - or + and $ with Int and return as String
 extension Int {
     
-    public func accountingStyle() -> String {
+    public func asCurrency() -> String {
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = .currency
         numFormatter.maximumFractionDigits = 0
@@ -21,19 +21,20 @@ extension Int {
 // Styling for CustomChart axis labels
 extension Int {
     
-    var chartAxisStyle: String {
+    var axisFormat: String {
         let number = Double(self)
+        let sign = (self < 0) ? "-" : ""
         let thousand = number / 1000
         let million = number / 1000000
         
         if million >= 1.0 {
-            return "\(round(million*10)/10)M"
+            return "\(sign)$\(round(million*10)/10)M"
         }
         else if thousand >= 1.0 {
-            return "\(round(thousand*10)/10)K"
+            return "\(sign)$\(round(thousand*10)/10)K"
         }
         else {
-            return "\(self)"
+            return "\(sign)$\(abs(self))"
         }
     }
 }

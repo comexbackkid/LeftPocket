@@ -26,11 +26,11 @@ struct ProfitByStakesView: View {
                             let total = viewModel.profitByStakes(stakes)
                             let hourlyRate = viewModel.hourlyByStakes(stakes: stakes, total: total)
                             
-                            Text(hourlyRate.accountingStyle() + " / hr")
+                            Text(hourlyRate.asCurrency() + " / hr")
                                 .font(.callout)
                                 .profitColor(total: hourlyRate)
 
-                            Text(total.accountingStyle())
+                            Text(total.asCurrency())
                                 .font(.callout)
                                 .profitColor(total: total)
                                 .frame(width: 80, alignment: .trailing)
