@@ -32,19 +32,13 @@ struct MetricsView: View {
                             .subtitleStyle()
                         
                         VStack (alignment: .center, spacing: 22) {
-                             
+                            
                             if !viewModel.sessions.isEmpty {
                                 
                                 bankrollChart
                             }
                             
-                            PlayerStatsView(totalBankroll: viewModel.tallyBankroll(),
-                                            hourlyRate: viewModel.hourlyRate(),
-                                            avgProfit: viewModel.avgProfit(),
-                                            avgSessionDuration: viewModel.avgDuration(),
-                                            numOfCashes: viewModel.numOfCashes(),
-                                            profitableSessions: viewModel.profitableSessions(),
-                                            totalHours: viewModel.totalHoursPlayed())
+                            playerStats
                             
                             if !viewModel.sessions.isEmpty {
                                 
@@ -115,19 +109,9 @@ struct MetricsView: View {
             Spacer()
         }
     }
-}
-
-struct PlayerStatsView: View {
     
-    let totalBankroll: Int
-    let hourlyRate: Int
-    let avgProfit: Int
-    let avgSessionDuration: String
-    let numOfCashes: Int
-    let profitableSessions: String
-    let totalHours: String
-    
-    var body: some View {
+    var playerStats: some View {
+        
         VStack {
             VStack (alignment: .leading, spacing: 10) {
                 
@@ -144,24 +128,24 @@ struct PlayerStatsView: View {
                             Text("Total Bankroll")
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text(totalBankroll.asCurrency())
-                                .foregroundColor(totalBankroll > 0 ? .green : totalBankroll < 0 ? .red : .primary)
+                            Text(viewModel.tallyBankroll().asCurrency())
+                                .foregroundColor(viewModel.tallyBankroll() > 0 ? .green : viewModel.tallyBankroll() < 0 ? .red : .primary)
                         }
                         Divider()
                         HStack {
                             Text("Hourly Rate")
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text(hourlyRate.asCurrency())
-                                .foregroundColor(hourlyRate > 0 ? .green : totalBankroll < 0 ? .red : .primary)
+                            Text(viewModel.hourlyRate().asCurrency())
+                                .foregroundColor(viewModel.hourlyRate() > 0 ? .green : viewModel.tallyBankroll() < 0 ? .red : .primary)
                         }
                         Divider()
                         HStack {
                             Text("Profit Per Session")
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text(avgProfit.asCurrency())
-                                .foregroundColor(avgProfit > 0 ? .green : totalBankroll < 0 ? .red : .primary)
+                            Text(viewModel.avgProfit().asCurrency())
+                                .foregroundColor(viewModel.avgProfit() > 0 ? .green : viewModel.tallyBankroll() < 0 ? .red : .primary)
                         }
                     }
                     Group {
@@ -170,28 +154,28 @@ struct PlayerStatsView: View {
                             Text("Average Session Duration")
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text(avgSessionDuration)
+                            Text(viewModel.avgDuration())
                         }
                         Divider()
                         HStack {
                             Text("Total Number of Cashes")
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text("\(numOfCashes)")
+                            Text("\(viewModel.numOfCashes())")
                         }
                         Divider()
                         HStack {
-                            Text("Profitable Sessions")
+                            Text("Win Rate")
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text(profitableSessions)
+                            Text(viewModel.winRate())
                         }
                         Divider()
                         HStack {
                             Text("Total Hours Played")
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text(totalHours)
+                            Text(viewModel.totalHoursPlayed())
                         }
                     }
                     Spacer()
@@ -203,6 +187,7 @@ struct PlayerStatsView: View {
         .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(Color(.systemBackground))
         .cornerRadius(20)
+        
     }
 }
 
@@ -228,7 +213,7 @@ struct AdditionalMetricsView: View {
                                            title: "My Annual\nReport",
                                            description: "Compare year-over-year results.")
                         })
-                        .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(PlainButtonStyle())
                     
                     NavigationLink(
                         destination: ProfitByMonth(viewModel: viewModel),
@@ -238,7 +223,7 @@ struct AdditionalMetricsView: View {
                                            title: "Profit by\nMonth",
                                            description: "Review your hottest win streaks.")
                         })
-                        .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(PlainButtonStyle())
                     
                     
                     NavigationLink(
@@ -249,7 +234,7 @@ struct AdditionalMetricsView: View {
                                            title: "Profit by\nLocation",
                                            description: "Which location yields the best return.")
                         })
-                        .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(PlainButtonStyle())
                     
                     NavigationLink(
                         destination: ProfitByWeekdayView(viewModel: viewModel),
@@ -259,7 +244,7 @@ struct AdditionalMetricsView: View {
                                            title: "Profit by\nWeekday",
                                            description: "Snapshot of day-to-day performance.")
                         })
-                        .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(PlainButtonStyle())
                     
                     NavigationLink(
                         destination: ProfitByStakesView(viewModel: viewModel),
@@ -269,7 +254,7 @@ struct AdditionalMetricsView: View {
                                            title: "Profit by\nStakes",
                                            description: "Which stakes do you need help with?")
                         })
-                        .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(PlainButtonStyle())
                 }
                 .padding(.leading)
                 .padding(.trailing)

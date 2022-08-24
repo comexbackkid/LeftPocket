@@ -25,7 +25,7 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
-    init () {
+    init() {
 //        getMockSessions()
         getSessions()
         getLocations()
@@ -199,7 +199,7 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // Returns percentage of winning seessions
-    func profitableSessions() -> String {
+    func winRate() -> String {
         guard !sessions.isEmpty else { return "%0" }
         let winPercentage = Double(numOfCashes()) / Double(sessions.count)
         return winPercentage.asPercent()
@@ -311,6 +311,23 @@ class SessionsListViewModel: ObservableObject {
         let expenses = sessions.filter({ $0.date.getYear() == year }).map { $0.expenses ?? 0 }.reduce(0,+)
         return expenses
     }
+    
+    func numOfCashesByYear(year: String) -> Int {
+        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
+        let profitableSessions = sessions.filter({ $0.date.getYear() == year }).filter { $0.profit > 0 }
+        return profitableSessions.count
+    }
+    
+    func winRateByYear(year: String) -> String {
+        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return "%0" }
+        let wins = Double(numOfCashesByYear(year: year))
+        let sessions = Double(sessionsPerYear(year: year))
+        let winPercentage = wins / sessions
+        return winPercentage.asPercent()
+        
+    }
+    
+    // MARK: CHART FUNCTIONS
     
     func yearlyChartArray(year: String) -> [Double] {
         let profitsArray = sessions.filter({ $0.date.getYear() == year }).map { Double($0.profit) }

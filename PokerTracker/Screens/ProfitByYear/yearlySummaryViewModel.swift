@@ -17,13 +17,9 @@ class yearlySummaryViewModel: ObservableObject {
         }
     }
     
-//    @Published var selectedTimeline: String = "YTD" {
-//        didSet {
-//            loadingChart()
-//        }
-//    }
-    
     @Published var isLoading: Bool = false
+    
+    let lastYear = Date().modifyDays(days: -360).getYear()
     
     func loadingChart() {
         self.isLoading = true
@@ -49,7 +45,7 @@ class yearlySummaryViewModel: ObservableObject {
         case .ytd:
             return vm.bankrollByYear(year: Date().getYear())
         case .lastYear:
-            return vm.bankrollByYear(year: Date().modifyDays(days: -360).getYear())
+            return vm.bankrollByYear(year: lastYear)
         }
     }
     
@@ -60,7 +56,7 @@ class yearlySummaryViewModel: ObservableObject {
         case .ytd:
             return vm.hourlyByYear(year: Date().getYear())
         case .lastYear:
-            return vm.hourlyByYear(year: Date().modifyDays(days: -360).getYear())
+            return vm.hourlyByYear(year: lastYear)
         }
     }
     
@@ -71,7 +67,18 @@ class yearlySummaryViewModel: ObservableObject {
         case .ytd:
             return vm.avgProfitByYear(year: Date().getYear())
         case .lastYear:
-            return vm.avgProfitByYear(year: Date().modifyDays(days: -360).getYear())
+            return vm.avgProfitByYear(year: lastYear)
+        }
+    }
+    
+    func winRate(timeline: PickerTimeline) -> String {
+        switch timeline {
+        case .all:
+            return vm.winRate()
+        case .ytd:
+            return vm.winRateByYear(year: Date().getYear())
+        case .lastYear:
+            return vm.winRateByYear(year: lastYear)
         }
     }
     
@@ -82,7 +89,7 @@ class yearlySummaryViewModel: ObservableObject {
         case .ytd:
             return vm.totalExpensesByYear(year: Date().getYear())
         case .lastYear:
-            return vm.totalExpensesByYear(year: Date().modifyDays(days: -360).getYear())
+            return vm.totalExpensesByYear(year: lastYear)
         }
     }
     
@@ -93,7 +100,7 @@ class yearlySummaryViewModel: ObservableObject {
         case .ytd:
             return vm.hoursPlayedByYear(year: Date().getYear())
         case .lastYear:
-            return vm.hoursPlayedByYear(year: Date().modifyDays(days: -360).getYear())
+            return vm.hoursPlayedByYear(year: lastYear)
         }
     }
     
@@ -104,7 +111,7 @@ class yearlySummaryViewModel: ObservableObject {
         case .ytd:
             return vm.yearlyChartCoordinates(year: Date().getYear())
         case .lastYear:
-            return vm.yearlyChartCoordinates(year: Date().modifyDays(days: -360).getYear())
+            return vm.yearlyChartCoordinates(year: lastYear)
         }
     }
 }

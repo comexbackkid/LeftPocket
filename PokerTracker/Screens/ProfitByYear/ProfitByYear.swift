@@ -19,6 +19,7 @@ struct ProfitByYear: View {
         let netProfitTotal = vm.netProfitCalc(timeline: vm.myNewTimeline)
         let hourlyRate = vm.hourlyCalc(timeline: vm.myNewTimeline)
         let profitPerSession = vm.avgProfit(timeline: vm.myNewTimeline)
+        let winRate = vm.winRate(timeline: vm.myNewTimeline)
         let totalExpenses = vm.expensesByYear(timeline: vm.myNewTimeline)
         let totalHours = vm.totalHours(timeline: vm.myNewTimeline)
 
@@ -66,13 +67,19 @@ struct ProfitByYear: View {
                     }
                     
                     HStack {
-                        Text("Total Expenses")
+                        Text("Expenses")
                         Spacer()
                         Text("\(totalExpenses.asCurrency())")
                     }
                     
                     HStack {
-                        Text("Total Hours")
+                        Text("Win Rate")
+                        Spacer()
+                        Text(winRate)
+                    }
+                    
+                    HStack {
+                        Text("Hours Played")
                         Spacer()
                         Text(totalHours)
                     }
@@ -83,7 +90,7 @@ struct ProfitByYear: View {
                 .font(.subheadline)
                 .animation(nil, value: vm.myNewTimeline)
                 .padding(30)
-                .frame(width: 340, height: 180)
+                .frame(width: 340, height: 220)
                 .background(Color(colorScheme == .dark ? .secondarySystemBackground : .systemBackground))
                 .cornerRadius(20)
                 .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
@@ -92,13 +99,12 @@ struct ProfitByYear: View {
             }
             .navigationBarTitle("Yearly Summary")
         }
-        
-        
     }
 }
 
 struct ProfitByYear_Previews: PreviewProvider {
     static var previews: some View {
         ProfitByYear(viewModel: SessionsListViewModel(), vm: yearlySummaryViewModel())
+            .preferredColorScheme(.dark)
     }
 }
