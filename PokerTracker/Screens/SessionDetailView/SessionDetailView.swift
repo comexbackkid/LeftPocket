@@ -24,7 +24,7 @@ struct SessionDetailView: View {
                     
                     Divider().frame(width: 180)
                     
-                    KeyMetrics(sessionDuration: pokerSession.dateInterval,
+                    KeyMetrics(sessionDuration: pokerSession.playingTIme,
                                sessionProfit: pokerSession.profit,
                                sessionHourlyRate: pokerSession.hourlyRate)
                     

@@ -208,7 +208,7 @@ class SessionsListViewModel: ObservableObject {
     // Calculate total hourly earnings rate for MetricsView
     func hourlyRate() -> Int {
         guard !sessions.isEmpty else { return 0 }
-        let hoursArray = sessions.map { Int($0.gameDuration.hour ?? 0) }
+        let hoursArray = sessions.map { Int($0.sessionDuration.hour ?? 0) }
         let totalHours = hoursArray.reduce(0, +)
         return tallyBankroll() / totalHours
     }
@@ -216,8 +216,8 @@ class SessionsListViewModel: ObservableObject {
     // Calculate average session duration for MetricsView
     func avgDuration() -> String {
         guard !sessions.isEmpty else { return "0" }
-        let hoursArray: [Int] = sessions.map { $0.gameDuration.hour ?? 0 }
-        let minutesArray: [Int] = sessions.map { $0.gameDuration.minute ?? 0 }
+        let hoursArray: [Int] = sessions.map { $0.sessionDuration.hour ?? 0 }
+        let minutesArray: [Int] = sessions.map { $0.sessionDuration.minute ?? 0 }
         let totalHours = hoursArray.reduce(0, +) / sessions.count
         let totalMinutes = minutesArray.reduce(0, +) / sessions.count
         let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
@@ -233,8 +233,8 @@ class SessionsListViewModel: ObservableObject {
     // Total hours played from all sessions
     func totalHoursPlayed() -> String {
         guard !sessions.isEmpty else { return "0" }
-        let hoursArray: [Int] = sessions.map { $0.gameDuration.hour ?? 0 }
-        let minutesArray: [Int] = sessions.map { $0.gameDuration.minute ?? 0 }
+        let hoursArray: [Int] = sessions.map { $0.sessionDuration.hour ?? 0 }
+        let minutesArray: [Int] = sessions.map { $0.sessionDuration.minute ?? 0 }
         let totalHours = hoursArray.reduce(0, +)
         let totalMinutes = minutesArray.reduce(0, +)
         let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
@@ -268,20 +268,20 @@ class SessionsListViewModel: ObservableObject {
     
     func hourlyByYear(year: String) -> Int {
         guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
-        let hoursArray = sessions.filter({ $0.date.getYear() == year }).map { Int($0.gameDuration.hour ?? 0) }
+        let hoursArray = sessions.filter({ $0.date.getYear() == year }).map { Int($0.sessionDuration.hour ?? 0) }
         let totalHours = hoursArray.reduce(0,+)
         return bankrollByYear(year: year) / totalHours
     }
     
     func hourlyByLocation(venue: String, total: Int) -> Int {
         guard !sessions.filter({ $0.location.name == venue }).isEmpty else { return 0 }
-        let totalHours = sessions.filter({ $0.location.name == venue }).map { Int($0.gameDuration.hour ?? 0) }.reduce(0,+)
+        let totalHours = sessions.filter({ $0.location.name == venue }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
         return total / totalHours
     }
     
     func hourlyByStakes(stakes: String, total: Int) -> Int {
         guard !sessions.filter({$0.stakes == stakes}).isEmpty else { return 0 }
-        let totalHours = sessions.filter({ $0.stakes == stakes }).map { Int($0.gameDuration.hour ?? 0) }.reduce(0,+)
+        let totalHours = sessions.filter({ $0.stakes == stakes }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
         return total / totalHours
     }
     
@@ -292,8 +292,8 @@ class SessionsListViewModel: ObservableObject {
     
     func hoursPlayedByYear(year: String) -> String {
         guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return "0" }
-        let hoursArray: [Int] = sessions.filter({ $0.date.getYear() == year }).map { $0.gameDuration.hour ?? 0 }
-        let minutesArray: [Int] = sessions.filter({ $0.date.getYear() == year }).map { $0.gameDuration.minute ?? 0 }
+        let hoursArray: [Int] = sessions.filter({ $0.date.getYear() == year }).map { $0.sessionDuration.hour ?? 0 }
+        let minutesArray: [Int] = sessions.filter({ $0.date.getYear() == year }).map { $0.sessionDuration.minute ?? 0 }
         let totalHours = hoursArray.reduce(0, +)
         let totalMinutes = minutesArray.reduce(0, +)
         let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)

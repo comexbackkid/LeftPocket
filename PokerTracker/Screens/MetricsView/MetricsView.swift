@@ -216,7 +216,7 @@ struct AdditionalMetricsView: View {
                     .buttonStyle(PlainButtonStyle())
                     
                     NavigationLink(
-                        destination: ProfitByMonth(viewModel: viewModel),
+                        destination: ProfitByMonth(vm: viewModel),
                         label: {
                             FilterCardView(image: "calendar",
                                            imageColor: .purple,
@@ -237,10 +237,10 @@ struct AdditionalMetricsView: View {
                     .buttonStyle(PlainButtonStyle())
                     
                     NavigationLink(
-                        destination: ProfitByWeekdayView(viewModel: viewModel),
+                        destination: ProfitByWeekdayView(vm: viewModel),
                         label: {
-                            FilterCardView(image: "clock.arrow.circlepath",
-                                           imageColor: .blue,
+                            FilterCardView(image: "sun.max",
+                                           imageColor: .yellow,
                                            title: "Profit by\nWeekday",
                                            description: "Snapshot of day-to-day performance.")
                         })

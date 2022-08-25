@@ -21,19 +21,19 @@ struct PokerSession: Hashable, Codable, Identifiable {
     let endTime: Date
     let expenses: Int?
     
-    var dateInterval: String {
-        return gameDuration.formattedDuration
+    var playingTIme: String {
+        return sessionDuration.formattedDuration
     }
     
     // Individual session duration
-    var gameDuration: DateComponents {
+    var sessionDuration: DateComponents {
         let diffComponents = Calendar.current.dateComponents([.hour, .minute], from: self.startTime, to: self.endTime)
         return diffComponents
     }
     
     // Individual session hourly rate
     var hourlyRate: Int {
-        let totalHours = gameDuration.durationInHours == 0 ? 1 : gameDuration.durationInHours
+        let totalHours = sessionDuration.durationInHours == 0 ? 1 : sessionDuration.durationInHours
         return Int(Float(self.profit) / totalHours)
     }
 }

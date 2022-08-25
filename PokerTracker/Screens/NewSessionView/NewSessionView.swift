@@ -53,7 +53,9 @@ struct NewSessionView: View {
     }
     
     var gameDetailsSection: some View {
+        
         Section {
+
             Picker(selection: $newSession.game, label: Text("Game"), content: {
                 Text("NL Texas Hold Em").tag("NL Texas Hold Em")
                 Text("Pot-Limit Omaha").tag("Pot-Limit Omaha")
