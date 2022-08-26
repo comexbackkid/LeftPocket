@@ -208,9 +208,15 @@ class SessionsListViewModel: ObservableObject {
     // Calculate total hourly earnings rate for MetricsView
     func hourlyRate() -> Int {
         guard !sessions.isEmpty else { return 0 }
-        let hoursArray = sessions.map { Int($0.sessionDuration.hour ?? 0) }
-        let totalHours = hoursArray.reduce(0, +)
-        return tallyBankroll() / totalHours
+        let totalHours = sessions.map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+        let totalMinutes = Float(sessions.map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
+        
+        if totalHours < 1 {
+            return Int(Float(tallyBankroll()) / (totalMinutes / 60))
+        } else {
+            return tallyBankroll() / totalHours
+        }
+        
     }
     
     // Calculate average session duration for MetricsView
@@ -269,8 +275,15 @@ class SessionsListViewModel: ObservableObject {
     func hourlyByYear(year: String) -> Int {
         guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
         let hoursArray = sessions.filter({ $0.date.getYear() == year }).map { Int($0.sessionDuration.hour ?? 0) }
+        let minutesArray = sessions.filter({ $0.date.getYear() == year }).map { Int($0.sessionDuration.minute ?? 0) }
         let totalHours = hoursArray.reduce(0,+)
-        return bankrollByYear(year: year) / totalHours
+        let totalMinutes = Float(minutesArray.reduce(0, +))
+        
+        if totalHours < 1 {
+            return Int(Float(bankrollByYear(year: year)) / (totalMinutes / 60))
+        } else {
+            return bankrollByYear(year: year) / totalHours
+        }
     }
     
     func hourlyByLocation(venue: String, total: Int) -> Int {

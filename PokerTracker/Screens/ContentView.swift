@@ -7,13 +7,6 @@
 
 import SwiftUI
 
-enum Sheet: String, Identifiable {
-    
-    case newSession, recentSession
-    var id: String {
-        rawValue
-    }
-}
 
 struct ContentView: View {
     
@@ -25,6 +18,7 @@ struct ContentView: View {
     var body: some View {
         
         ScrollView(.vertical) {
+            
             VStack(spacing: 5) {
                 
                 HeaderView(activeSheet: $activeSheet)
@@ -108,35 +102,45 @@ struct BankrollSnapshot: View {
         HStack {
             VStack {
                 
-                Text("Bankroll")
+                Text("BANKROLL")
                     .font(.caption)
                     .opacity(0.6)
                 
                 Text(bankroll)
-                    .fontWeight(.semibold)
-                    .font(.system(size: 54, design: .rounded))
-                    .foregroundColor(.brandBlack)
+                    .fontWeight(.thin)
+                    .font(.system(size: 60, design: .rounded))
+//                    .foregroundColor(.brandBlack)
                     .padding(.bottom, 2)
                 
-                Text("Last")
+                Text("LAST")
                     .font(.caption)
                     .opacity(0.6)
                 
                 HStack {
                     Text(lastSession.asCurrency())
-                        .fontWeight(.semibold)
+                        .fontWeight(.light)
                         .font(.system(size: 24, design: .rounded))
                         .profitColor(total: lastSession)
                 }
-                .padding(.bottom, 40)
+                .padding(.bottom, 20)
+                
+                Divider().frame(width: UIScreen.main.bounds.width * 0.6)
+                    .padding(.bottom, 45)
             }
         }
+    }
+}
+
+enum Sheet: String, Identifiable {
+    
+    case newSession, recentSession
+    var id: String {
+        rawValue
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView().environmentObject(SessionsListViewModel())
-            .preferredColorScheme(.dark)
     }
 }
