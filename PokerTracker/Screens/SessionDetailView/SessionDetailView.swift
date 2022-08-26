@@ -87,9 +87,17 @@ struct GraphicHeaderView: View {
                         
                     case .empty:
                         PlaceholderView()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(height: 290)
+                            .clipped()
+                            .padding(.bottom)
                         
                     @unknown default:
                         PlaceholderView()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(height: 290)
+                            .clipped()
+                            .padding(.bottom)
                     }
                 }
                 

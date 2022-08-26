@@ -12,6 +12,7 @@ struct RecentSessionCardView: View {
     var pokerSession: PokerSession
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var viewModel: SessionsListViewModel
+    let width = UIScreen.main.bounds.width * 0.8
     
     var body: some View {
         
@@ -24,28 +25,32 @@ struct RecentSessionCardView: View {
                         image
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 340, height: 240)
+                        //                            .frame(width: 340, height: 240)
+                            .frame(width: width)
                             .clipped()
                         
                     } placeholder: {
                         PlaceholderView()
-                            .frame(width: 340, height: 240)
+                        //                            .frame(width: 340, height: 240)
+                            .clipped()
                     }
-                  
+                    
                 } else {
                     Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "default-header")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 340, height: 240)
+                    //                        .frame(width: 340, height: 240)
+                        .frame(width: width)
                         .clipped()
                 }
                 
                 Spacer()
+                
                 HStack {
                     VStack (alignment: .leading, spacing: 5) {
                         Text(pokerSession.location.name)
                             .font(.title3)
-                            .bold()
+                        //                            .bold()
                         
                         Text("See your most recent session to review hand notes & other details.")
                             .font(.body)
@@ -53,22 +58,25 @@ struct RecentSessionCardView: View {
                             .multilineTextAlignment(.leading)
                             .lineLimit(2)
                     }
+                    .padding()
                 }
-                .padding(.horizontal)
+                //                .padding(.horizontal)
+                //                .padding()
+                
                 Spacer()
             }
             
             Text("Last Session")
+                .font(.title2)
                 .bold()
-                .font(.title)
                 .foregroundColor(Color(.white))
                 .offset(y: -145)
                 .padding()
         }
-        .frame(width: 340, height: 360)
+        .frame(width: width, height: 360)
         .background(Color(.systemBackground))
         .cornerRadius(20)
-        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.3),
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.23),
                 radius: 12, x: 0, y: 5)
     }
 }

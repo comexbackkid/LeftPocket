@@ -12,6 +12,7 @@ struct MetricsCardView: View {
     
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var viewModel: SessionsListViewModel
+    let width = UIScreen.main.bounds.width * 0.8
     
     var body: some View {
         
@@ -19,7 +20,7 @@ struct MetricsCardView: View {
             VStack (alignment: .leading) {
                                 
                 CustomChartView(viewModel: viewModel, data: viewModel.chartCoordinates(), background: false)
-                    .frame(width: 340, height: 240)
+//                    .frame(width: 340, height: 240)
                 
                 Spacer()
                 
@@ -28,29 +29,33 @@ struct MetricsCardView: View {
                         
                         Text("Metrics & Analytics")
                             .font(.title3)
-                            .bold()
+//                            .bold()
+                        
                         Text("Study key metrics & analysis on your play, and find ways to improve.")
                             .font(.body)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.leading)
                             .lineLimit(2)
                     }
-                    .padding(.horizontal)
+//                    .padding(.horizontal)
+                    .padding()
                 }
+                
                 Spacer()
             }
-            .frame(maxWidth: 340)
+//            .frame(maxWidth: 340)
+            
             
             Text("My Bankroll")
+                .font(.title2)
                 .bold()
-                .font(.title)
                 .offset(y: -145)
                 .padding()
         }
-        .frame(width: 340, height: 360)
+        .frame(width: width, height: 360)
         .background(Color(.systemBackground))
         .cornerRadius(20)
-        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.3),
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.23),
                 radius: 12, x: 0, y: 5)
     }
 }
