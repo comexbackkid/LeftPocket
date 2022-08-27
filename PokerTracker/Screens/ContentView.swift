@@ -54,7 +54,7 @@ struct ContentView: View {
                 activeSheet = isPresented ? .newSession : nil
             }))
             case .recentSession: SessionDetailView(activeSheet: $activeSheet,
-                                                   pokerSession: viewModel.sessions.first ?? MockData.sampleSession)
+                                                   pokerSession: viewModel.sessions.first!)
             }
         }
     }
@@ -80,9 +80,24 @@ struct ContentView: View {
             activeSheet = .recentSession
         }, label: {
             RecentSessionCardView(pokerSession: viewModel.sessions.first!)
-                .padding(.bottom, 30)
+                
         })
-            .buttonStyle(PlainButtonStyle())
+        .padding(.bottom, 30)
+        .buttonStyle(CardButtonStyle())
+    }
+}
+
+struct CardButtonStyle: ButtonStyle {
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .overlay {
+                if configuration.isPressed {
+                    Color.black.opacity(0.1).cornerRadius(20)
+                } else {
+                    Color.clear
+                }
+            }
     }
 }
 

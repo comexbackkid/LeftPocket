@@ -44,8 +44,7 @@ struct MetricsCardView: View {
             }
             
             Text("My Bankroll")
-                .font(.title)
-//                .bold()
+                .font(.title3)
                 .offset(y: -145)
                 .padding()
         }
