@@ -21,28 +21,9 @@ struct RecentSessionCardView: View {
                 
                 if pokerSession.location.imageURL != "" {
                     
-                    AsyncImage(url: URL(string: pokerSession.location.imageURL)) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                        //                            .frame(width: 340, height: 240)
-                            .frame(width: width)
-                            .clipped()
-                        
-                    } placeholder: {
-                        PlaceholderView()
-                        //                            .frame(width: 340, height: 240)
-                            .clipped()
-                    }
+                    downloadedImage
                     
-                } else {
-                    Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "default-header")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                    //                        .frame(width: 340, height: 240)
-                        .frame(width: width)
-                        .clipped()
-                }
+                } else { localImage }
                 
                 Spacer()
                 
@@ -50,25 +31,34 @@ struct RecentSessionCardView: View {
                     VStack (alignment: .leading, spacing: 5) {
                         Text(pokerSession.location.name)
                             .font(.title3)
-                        //                            .bold()
+                            .foregroundStyle(.white)
                         
                         Text("See your most recent session to review hand notes & other details.")
-                            .font(.body)
-                            .foregroundColor(.secondary)
+                            .font(.callout)
+                            .foregroundStyle(.white)
                             .multilineTextAlignment(.leading)
                             .lineLimit(2)
                     }
                     .padding()
+                    .padding(.top, -8)
                 }
-                //                .padding(.horizontal)
-                //                .padding()
                 
                 Spacer()
             }
+            .background(
+                ZStack {
+                    
+                    if pokerSession.location.imageURL != "" {
+                        
+                        downloadedImage.overlay(.ultraThinMaterial)
+                        
+                    } else { localImage.overlay(.ultraThinMaterial) }
+                }
+            )
             
             Text("Last Session")
-                .font(.title2)
-                .bold()
+                .font(.title)
+//                .bold()
                 .foregroundColor(Color(.white))
                 .offset(y: -145)
                 .padding()
@@ -78,6 +68,33 @@ struct RecentSessionCardView: View {
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.23),
                 radius: 12, x: 0, y: 5)
+    }
+    
+    var downloadedImage: some View {
+        
+        AsyncImage(url: URL(string: pokerSession.location.imageURL)) { image in
+            image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+            //                            .frame(width: 340, height: 240)
+                .frame(width: width)
+                .clipped()
+            
+        } placeholder: {
+            PlaceholderView()
+            //                            .frame(width: 340, height: 240)
+                .clipped()
+        }
+    }
+    
+    var localImage: some View {
+        
+        Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "default-header")
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+        //                        .frame(width: 340, height: 240)
+            .frame(width: width)
+            .clipped()
     }
 }
 

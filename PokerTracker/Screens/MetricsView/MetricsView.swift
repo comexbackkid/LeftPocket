@@ -79,7 +79,7 @@ struct MetricsView: View {
             .overlay(
                 VStack (alignment: .leading) {
                     HStack {
-                        Text("Current Bankroll")
+                        Text("My Bankroll")
                             .font(.title2)
                             .bold()
                             .padding(.horizontal)
@@ -101,7 +101,7 @@ struct MetricsView: View {
                 Spacer()
                 DismissButton()
                     .padding(.trailing, 20)
-                    .shadow(color: Color.black.opacity(0.2), radius: 10)
+                    .shadow(color: Color.black.opacity(0.2), radius: 8)
                     .onTapGesture {
                         dismiss()
                     }
