@@ -14,6 +14,7 @@ struct LeftPocketTabView: View {
     @AppStorage("shouldShowOnboarding") var shouldShowOnboarding: Bool = true
     
     var body: some View {
+        
         TabView {
             ContentView()
                 .tabItem {
@@ -56,8 +57,8 @@ struct LeftPocketTabView: View {
                 .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
             
             // Disables auto-transparent behavior in new update
-            let appearance = UITabBarAppearance()
-            UITabBar.appearance().scrollEdgeAppearance = appearance
+//            let appearance = UITabBarAppearance()
+//            UITabBar.appearance().scrollEdgeAppearance = appearance
         }
     }
 }

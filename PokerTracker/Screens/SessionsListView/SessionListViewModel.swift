@@ -169,7 +169,21 @@ class SessionsListViewModel: ObservableObject {
     
     // Converts our profit data into coordinates tuples for charting
     func chartCoordinates() -> [Point] {
-        return chartArray().enumerated().map({Point(x:CGFloat($0.offset), y: $0.element)})
+        
+        var shortenedChart = [Double]()
+        
+        for (index, item) in chartArray().enumerated() {
+          if index.isMultiple(of: 2) {
+            shortenedChart.append(item)
+          }
+        }
+        
+        // If there's over 25 sessions, we will use every other data point to chart the data to smooth it out
+        if chartArray().count > 25 {
+            return shortenedChart.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
+        } else {
+            return chartArray().enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
+        }
     }
     
     // Custom designed Bar Chart weekday profit totals

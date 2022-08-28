@@ -30,11 +30,11 @@ struct RecentSessionCardView: View {
                 HStack {
                     VStack (alignment: .leading, spacing: 5) {
                         Text(pokerSession.location.name)
-                            .font(.title3)
+                            .font(.headline)
                             .foregroundStyle(.white)
                         
                         Text("See your most recent session to review hand notes & other details.")
-                            .font(.callout)
+                            .font(.subheadline)
                             .foregroundStyle(.white)
                             .multilineTextAlignment(.leading)
                             .lineLimit(2)
@@ -53,14 +53,22 @@ struct RecentSessionCardView: View {
                         downloadedImage.overlay(.ultraThinMaterial)
                         
                     } else { localImage.overlay(.ultraThinMaterial) }
-                }
-            )
+                })
             
-            Text("Last Session")
-                .font(.title3)
-                .foregroundColor(Color(.white))
-                .offset(y: -145)
-                .padding()
+            VStack (alignment: .leading) {
+                
+                Text("REVIEW")
+                    .font(.headline)
+                    .foregroundColor(.white).opacity(0.5)
+                
+                Text("Last Session")
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color(.white))
+            }
+            .offset(y: -135)
+            .padding()
+                
         }
         .frame(width: width, height: 360)
         .background(Color(.systemBackground))

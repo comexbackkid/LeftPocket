@@ -20,7 +20,7 @@ struct MetricsCardView: View {
             VStack (alignment: .leading) {
                                 
                 CustomChartView(viewModel: viewModel, data: viewModel.chartCoordinates(), background: false)
-                    .overlay(Rectangle().frame(width: nil, height: 0.1, alignment: .bottom).foregroundColor(Color.gray.opacity(0.4)), alignment: .bottom)
+                Divider()
                 
                 Spacer()
                 
@@ -28,10 +28,10 @@ struct MetricsCardView: View {
                     VStack (alignment: .leading, spacing: 5) {
                         
                         Text("Metrics & Analytics")
-                            .font(.title3)
+                            .font(.headline)
                         
                         Text("Study key metrics & analysis on your play, and find ways to improve.")
-                            .font(.callout)
+                            .font(.subheadline)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.leading)
                             .lineLimit(2)
@@ -44,7 +44,8 @@ struct MetricsCardView: View {
             }
             
             Text("My Bankroll")
-                .font(.title3)
+                .font(.title)
+                .fontWeight(.semibold)
                 .offset(y: -145)
                 .padding()
         }
