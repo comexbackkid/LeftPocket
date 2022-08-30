@@ -125,6 +125,7 @@ struct BankrollSnapshot: View {
                     .fontWeight(.thin)
                     .font(.system(size: 60, design: .rounded))
                     .padding(.bottom, 2)
+                    .opacity(0.8)
                 
                 Text("LAST")
                     .font(.caption)

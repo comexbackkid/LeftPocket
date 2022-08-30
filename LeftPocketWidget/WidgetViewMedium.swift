@@ -30,7 +30,7 @@ struct WidgetViewMedium: View {
     
     var backgroundGradient: some View {
         Color("WidgetBackground")
-            .overlay(LinearGradient(colors: [Color("WidgetBackround"), .black.opacity(colorScheme == .dark ? 0.7 : 0.1)],
+            .overlay(LinearGradient(colors: [Color("WidgetBackround"), .black.opacity(colorScheme == .dark ? 0.8 : 0.1)],
                                     startPoint: .bottomTrailing,
                                     endPoint: .topLeading))
     }

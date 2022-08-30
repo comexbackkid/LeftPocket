@@ -57,7 +57,7 @@ struct BarGraphView: View {
                                            ? CGFloat(normalizeData(value: viewModel.dailyBarChart()[weekday])) * multiplier
                                            : 0)
                                     .clipShape(Capsule())
-                                    .padding(.horizontal, 13)
+                                    .padding(.horizontal, 10)
 
                                 
                                 Text(viewModel.daysOfWeekAbr[weekday])

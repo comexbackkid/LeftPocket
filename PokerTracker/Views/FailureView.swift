@@ -9,10 +9,10 @@ import SwiftUI
 
 struct FailureView: View {
     var body: some View {
+        
         ZStack {
             Color("bgGray")
                 .opacity(0.75)
-                .frame(height:290)
             
             VStack {
                 Image(systemName: "icloud.slash")
@@ -20,7 +20,6 @@ struct FailureView: View {
                     .foregroundColor(.white)
             }
         }
-        .padding(.bottom)
     }
 }
 

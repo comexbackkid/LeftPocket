@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PlaceholderView: View {
     var body: some View {
+        
         ZStack {
             Color("bgGray")
                 .opacity(0.75)
@@ -17,7 +18,6 @@ struct PlaceholderView: View {
                 .font(.largeTitle)
                 .foregroundColor(.white)
         }
-        
     }
 }
 

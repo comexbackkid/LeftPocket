@@ -77,13 +77,13 @@ struct GraphicHeaderView: View {
                     case .success(let image):
                         image
                             .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(height: 290)
-                            .clipped()
-                            .padding(.bottom)
+                            .detailViewStyle()
                         
                     case .failure:
                         FailureView()
+                            .frame(height: 290)
+                            .clipped()
+                            .padding(.bottom)
                         
                     case .empty:
                         PlaceholderView()
@@ -105,10 +105,7 @@ struct GraphicHeaderView: View {
                 
                 Image(location.localImage != "" ? location.localImage : "default-header")
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(height: 290)
-                    .clipped()
-                    .padding(.bottom)
+                    .detailViewStyle()
             }
             
             Text(location.name)

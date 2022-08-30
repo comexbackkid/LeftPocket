@@ -46,7 +46,7 @@ struct LeftPocketTabView: View {
                     Text("Settings")
                 }
         }
-        .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
+        .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .accentColor(.brandPrimary)
         .fullScreenCover(isPresented: $shouldShowOnboarding, content: {
             OnboardingView(shouldShowOnboarding: $shouldShowOnboarding)

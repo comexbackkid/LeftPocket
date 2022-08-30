@@ -22,7 +22,7 @@ struct PokerSession: Hashable, Codable, Identifiable {
     let expenses: Int?
     
     var playingTIme: String {
-        return sessionDuration.formattedDuration
+        return sessionDuration.abbreviated(duration: self.sessionDuration)
     }
     
     // Individual session duration
@@ -270,15 +270,4 @@ Save this for those players who you know will never bluff the river. In live $1/
         .init(x: 6, y: 14),
         .init(x: 7, y: 11)
     ]
-    
-//    static let mockDataCoordinates: [Point] = [
-//        .init(x: 0, y: 5),
-//        .init(x: 1, y: -2),
-//        .init(x: 2, y: 10),
-//        .init(x: 3, y: 6),
-//        .init(x: 4, y: 9),
-//        .init(x: 5, y: 12),
-//        .init(x: 6, y: 14),
-//        .init(x: 7, y: 11),
-//    ]
 }

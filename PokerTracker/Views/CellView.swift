@@ -20,18 +20,19 @@ struct CellView: View {
             VStack (alignment: .leading) {
                 
                 Text(pokerSession.location.name)
-                    .font(.body)
+                    .font(.subheadline)
+                    .bold()
                     .lineLimit(1)
                 
                 Text("\(pokerSession.date.dateStyle())")
-                    .font(.caption)
+                    .font(.caption2)
                     .foregroundColor(.secondary)
             }
             
             Spacer()
             
             Text(pokerSession.profit.asCurrency())
-                .font(.body)
+                .font(.subheadline)
                 .bold()
                 .foregroundColor(pokerSession.profit > 0 ? .green : .red)
         }

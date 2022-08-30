@@ -20,6 +20,7 @@ struct SessionsView: View {
                 if viewModel.sessions.isEmpty {
                     VStack {
                         EmptyState()
+                        
                         Spacer()
                     }
                     

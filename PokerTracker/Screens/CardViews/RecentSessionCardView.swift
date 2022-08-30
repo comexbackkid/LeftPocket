@@ -50,9 +50,9 @@ struct RecentSessionCardView: View {
                     
                     if pokerSession.location.imageURL != "" {
                         
-                        downloadedImage.overlay(.ultraThinMaterial)
+                        downloadedImage.overlay(.thinMaterial)
                         
-                    } else { localImage.overlay(.ultraThinMaterial) }
+                    } else { localImage.overlay(.thinMaterial) }
                 })
             
             VStack (alignment: .leading) {
@@ -79,19 +79,38 @@ struct RecentSessionCardView: View {
     
     var downloadedImage: some View {
         
-        AsyncImage(url: URL(string: pokerSession.location.imageURL)) { image in
-            image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-            //                            .frame(width: 340, height: 240)
-                .frame(width: width)
-                .clipped()
+        AsyncImage(url: URL(string: pokerSession.location.imageURL), scale: 1, transaction: Transaction(animation: .easeIn)) { phase in
             
-        } placeholder: {
-            PlaceholderView()
-            //                            .frame(width: 340, height: 240)
-                .clipped()
+            switch phase {
+            case .success(let image):
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: width)
+                    .clipped()
+                
+            case .failure:
+                FailureView()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: width)
+                    .clipped()
+                
+            case .empty:
+                PlaceholderView()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: width)
+                    .clipped()
+                
+            @unknown default:
+                PlaceholderView()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: width)
+                    .clipped()
+            }
         }
+        
+        
+        
     }
     
     var localImage: some View {
@@ -99,7 +118,6 @@ struct RecentSessionCardView: View {
         Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "default-header")
             .resizable()
             .aspectRatio(contentMode: .fill)
-        //                        .frame(width: 340, height: 240)
             .frame(width: width)
             .clipped()
     }

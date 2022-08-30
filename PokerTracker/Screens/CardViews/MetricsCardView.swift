@@ -48,6 +48,7 @@ struct MetricsCardView: View {
                 .fontWeight(.semibold)
                 .offset(y: -145)
                 .padding()
+                .opacity(0.8)
         }
         .frame(width: width, height: 360)
         .background(Color(.systemBackground))
