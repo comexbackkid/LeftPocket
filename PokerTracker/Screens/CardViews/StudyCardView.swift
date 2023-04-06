@@ -23,6 +23,7 @@ struct StudyCardView: View {
                     .clipped()
                 
                 Spacer()
+                
                 HStack {
                     VStack (alignment: .leading, spacing: 5) {
                         Text(article.title)
@@ -50,7 +51,7 @@ struct StudyCardView: View {
 
 struct StudyCardView_Previews: PreviewProvider {
     static var previews: some View {
-        StudyCardView(article: MockData.sampleArticle)
+        StudyCardView(article: DefaultData.sampleArticle)
             .preferredColorScheme(.dark)
     }
 }

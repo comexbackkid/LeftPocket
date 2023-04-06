@@ -20,6 +20,8 @@ struct PokerSession: Hashable, Codable, Identifiable {
     let startTime: Date
     let endTime: Date
     let expenses: Int?
+    let isTournament: Bool?
+    let entrants: Int?
     
     var playingTIme: String {
         return sessionDuration.abbreviated(duration: self.sessionDuration)
@@ -46,25 +48,15 @@ struct Article: Hashable, Codable, Identifiable {
     let story: String
 }
 
-// For some reason using the .currentWindow ext is not working with AppStorage and doesn't save dark/light mode state
-class SystemThemeManager {
-    static let shared = SystemThemeManager()
-    init() {}
-    
-    func handleTheme(darkMode: Bool, system: Bool) {
-        
-        guard !system else {
-//            UIApplication.shared.currentWindow?.overrideUserInterfaceStyle = .unspecified
-            UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .unspecified
-            return
-        }
-        
-//        UIApplication.shared.currentWindow?.overrideUserInterfaceStyle = darkMode ? .dark : .light
-        UIApplication.shared.windows.first?.overrideUserInterfaceStyle = darkMode ? .dark : .light
-    }
+struct SessionData: Identifiable, Hashable {
+    let id = UUID()
+    let day: String
+    let profit: Int
 }
 
-struct MockData {
+struct DefaultData {
+    
+    static let defaultLocation = LocationModel(name: "TBD", localImage: "empty-location", imageURL: "")
     
     static let sampleArticle = Article(image: "variance-header",
                                        title: "Understanding Variance",
@@ -123,8 +115,29 @@ Overfolding
 
 Save this for those players who you know will never bluff the river. In live $1/2 and $1/3 games, this is most individuals. Occasionally you’ll come across a young reckless player who will 1x or 1.5x the pot on the river he senses weakness, but most of the time low stakes live players who bet the river, have it. You can save a lot of money by mucking second pairs and top pair + weak kicker in these spots.
 """)
+}
+
+// For some reason using the .currentWindow ext is not working with AppStorage and doesn't save dark/light mode state
+class SystemThemeManager {
+    static let shared = SystemThemeManager()
+    init() {}
     
-    static let mockLocation = LocationModel(name: "MGM Springfield", localImage: "mgmspringfield-header", imageURL: "")
+    func handleTheme(darkMode: Bool, system: Bool) {
+        
+        guard !system else {
+//            UIApplication.shared.currentWindow?.overrideUserInterfaceStyle = .unspecified
+            UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .unspecified
+            return
+        }
+        
+//        UIApplication.shared.currentWindow?.overrideUserInterfaceStyle = darkMode ? .dark : .light
+        UIApplication.shared.windows.first?.overrideUserInterfaceStyle = darkMode ? .dark : .light
+    }
+}
+
+struct MockData {
+    
+    static let mockLocation = LocationModel(name: "MGM Sprinfield", localImage: "mgmspringfield-header", imageURL: "")
     static let sampleSession = PokerSession(location: mockLocation,
                                             game: "NL Texas Hold Em",
                                             stakes: "1/3",
@@ -133,7 +146,9 @@ Save this for those players who you know will never bluff the river. In live $1/
                                             notes: "Hero is UTG so we raise to $15. MP player 3! to $45, everyone else folds. I flat, in this game there’s no 4! so it’s a dead giveaway in this game. ($93) Flop is 8d6c3d. Hero checks to Villain who bets $35. Hero raises to $100, Villain thinks for a few moments and then calls. ($293) Turn is a Js. We have $240 in our stack & Villain covers, we think for about 10 seconds and jam. He tanks for a long time, asks if I’ll show, ultimately he lays it down. We find out he had TT. Did we play too aggressive?? MP limps, LJ limps, Hero on BTN makes it $15, they both call. ($48) Flop is KdKhTs. MP checks, LJ bets $10, I call, MP calls. ($78) Turn is Ac. MP checks, LJ checks, I bet $55 thinking they’re both super weak here. MP thinks for a moment and calls, LJ folds. ($188) River comes Qd. MP checks. Hero? We tank and ultimately check. MP is pissed and tables AK for a boat.",
                                             startTime: Date(),
                                             endTime: Date().modifyTime(minutes: 95),
-                                            expenses: 10)
+                                            expenses: 10,
+                                            isTournament: true,
+                                            entrants: 80)
     
     static let allLocations = [
         LocationModel(name: "MGM Springfield", localImage: "mgmspringfield-header", imageURL: ""),
@@ -150,31 +165,37 @@ Save this for those players who you know will never bluff the river. In live $1/
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
                      date: Date().modifyDays(days: -12),
-                     profit: 325,
+                     profit: 327,
                      notes: "Hero is UTG so we raise to $15. MP player 3! to $45, everyone else folds. I flat, in this game there’s no 4! so it’s a dead giveaway in this game. ($93) Flop is 8d6c3d. Hero checks to Villain who bets $35. Hero raises to $100, Villain thinks for a few moments and then calls. ($293) Turn is a Js. We have $240 in our stack & Villain covers, we think for about 10 seconds and jam. He tanks for a long time, asks if I’ll show, ultimately he lays it down. We find out he had TT. Did we play too aggressive?? MP limps, LJ limps, Hero on BTN makes it $15, they both call. ($48) Flop is KdKhTs. MP checks, LJ bets $10, I call, MP calls. ($78) Turn is Ac. MP checks, LJ checks, I bet $55 thinking they’re both super weak here. MP thinks for a moment and calls, LJ folds. ($188) River comes Qd. MP checks. Hero? We tank and ultimately check. MP is pissed and tables AK for a boat.",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 115),
-                     expenses: 0),
+                     expenses: 0,
+                     isTournament: false,
+                     entrants: nil),
 
         PokerSession(location: allLocations[1],
                      game: "NL Texas Hold Em",
                      stakes: "1/3",
                      date: Date().modifyDays(days: -2),
-                     profit: 225,
+                     profit: 221,
                      notes: "MP limps, LJ limps, Hero on BTN makes it $15, they both call. ($48) Flop is KdKhTs. MP checks, LJ bets $10, I call, MP calls. ($78) Turn is Ac. MP checks, LJ checks, I bet $55 thinking they’re both super weak here. MP thinks for a moment and calls, LJ folds. ($188) River comes Qd. MP checks. Hero? We tank and ultimately check. MP is pissed and tables AK for a boat.",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 95),
-                     expenses: 7),
+                     expenses: 7,
+                     isTournament: false,
+                     entrants: nil),
 
         PokerSession(location: allLocations[2],
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
                      date: Date().modifyDays(days: -45),
-                     profit: -1450,
+                     profit: 106,
                      notes: "Hero in CO, MP & LP limp I raise $15, Villain is on BTN (younger kid, stack around $550-$600) and he 3! to $45, we call. ($94) Flop is KsQh9h. I check, he bets $35, we call. ($160) Turn is Ac. I check again, Villain pauses a moment and puts in $100. We have about $320 left. Hero???",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 80),
-                     expenses: 0),
+                     expenses: 0,
+                     isTournament: false,
+                     entrants: nil),
 
         PokerSession(location: allLocations[3],
                      game: "NL Texas Hold Em",
@@ -184,17 +205,21 @@ Save this for those players who you know will never bluff the river. In live $1/
                      notes: "MP limps, LJ limps, Hero on BTN makes it $15, they both call. ($48) Flop is KdKhTs. MP checks, LJ bets $10, I call, MP calls. ($78) Turn is Ac. MP checks, LJ checks, I bet $55 thinking they’re both super weak here. MP thinks for a moment and calls, LJ folds. ($188) River comes Qd. MP checks. Hero? We tank and ultimately check. MP is pissed and tables AK for a boat.",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 365),
-                     expenses: 8),
+                     expenses: 8,
+                     isTournament: false,
+                     entrants: nil),
         
         PokerSession(location: allLocations[0],
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
                      date: Date().modifyDays(days: -36),
-                     profit: -255,
+                     profit: 25,
                      notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 340),
-                     expenses: 12),
+                     expenses: 12,
+                     isTournament: false,
+                     entrants: nil),
 
         PokerSession(location: allLocations[0],
                      game: "NL Texas Hold Em",
@@ -204,7 +229,9 @@ Save this for those players who you know will never bluff the river. In live $1/
                      notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 290),
-                     expenses: 10),
+                     expenses: 10,
+                     isTournament: false,
+                     entrants: nil),
         
         PokerSession(location: allLocations[4],
                      game: "NL Texas Hold Em",
@@ -214,37 +241,81 @@ Save this for those players who you know will never bluff the river. In live $1/
                      notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 320),
-                     expenses: 7),
+                     expenses: 7,
+                     isTournament: true,
+                     entrants: 200),
         
         PokerSession(location: allLocations[3],
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
-                     date: Date().modifyDays(days: -400),
+                     date: Date().modifyDays(days: -200),
                      profit: 357,
                      notes: "Hero in CO, MP & LP limp I raise $15, Villain is on BTN (younger kid, stack around $550-$600) and he 3! to $45, we call. ($94) Flop is KsQh9h. I check, he bets $35, we call. ($160) Turn is Ac. I check again, Villain pauses a moment and puts in $100. We have about $320 left. Hero?",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 320),
-                     expenses: 7),
+                     expenses: 7,
+                     isTournament: false,
+                     entrants: nil),
         
         PokerSession(location: allLocations[5],
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
-                     date: Date().modifyDays(days: -1000),
+                     date: Date().modifyDays(days: -100),
                      profit: 175,
                      notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 324),
-                     expenses: 4),
+                     expenses: 4,
+                     isTournament: false,
+                     entrants: nil),
         
         PokerSession(location: allLocations[6],
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
-                     date: Date().modifyDays(days: -1003),
-                     profit: -100,
+                     date: Date().modifyDays(days: -73),
+                     profit: 100,
                      notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
                      startTime: Date(),
                      endTime: Date().modifyTime(minutes: 220),
-                     expenses: 7),
+                     expenses: 7,
+                     isTournament: false,
+                     entrants: nil),
+        
+        PokerSession(location: allLocations[6],
+                     game: "NL Texas Hold Em",
+                     stakes: "1/2",
+                     date: Date().modifyDays(days: -923),
+                     profit: 100,
+                     notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
+                     startTime: Date(),
+                     endTime: Date().modifyTime(minutes: 220),
+                     expenses: 7,
+                     isTournament: false,
+                     entrants: nil),
+        
+        PokerSession(location: allLocations[6],
+                     game: "NL Texas Hold Em",
+                     stakes: "1/2",
+                     date: Date().modifyDays(days: -300),
+                     profit: 280,
+                     notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
+                     startTime: Date(),
+                     endTime: Date().modifyTime(minutes: 220),
+                     expenses: 7,
+                     isTournament: false,
+                     entrants: nil),
+        
+        PokerSession(location: allLocations[3],
+                     game: "NL Texas Hold Em",
+                     stakes: "1/2",
+                     date: Date().modifyDays(days: -300),
+                     profit: -150,
+                     notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
+                     startTime: Date(),
+                     endTime: Date().modifyTime(minutes: 220),
+                     expenses: 7,
+                     isTournament: false,
+                     entrants: nil)
     ]
     
     func chartArray() -> [Double] {

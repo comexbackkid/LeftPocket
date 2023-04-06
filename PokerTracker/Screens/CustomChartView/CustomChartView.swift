@@ -35,14 +35,16 @@ struct CustomChartView: View {
             ZStack {
                 
                 // Background
-                pathProvider.closedPath(for: geometry)
-                    .fill(
-                        LinearGradient(gradient: Gradient(colors: [.white.opacity(colorScheme == .dark ? 0.0 : 0.25), Color("lightBlue").opacity(0.5)]),
-                                       startPoint: .bottom,
-                                       endPoint: .top)
-                    )
-                    .opacity(self.isPresented ? 0.5 : 0)
-                    .animation(.easeInOut.speed(0.25).delay(0.6), value: isPresented)
+                if data.count != 1 {
+                    pathProvider.closedPath(for: geometry)
+                        .fill(
+                            LinearGradient(gradient: Gradient(colors: [.white.opacity(colorScheme == .dark ? 0.0 : 0.25), Color("lightBlue").opacity(0.5)]),
+                                           startPoint: .bottom,
+                                           endPoint: .top)
+                        )
+                        .opacity(self.isPresented ? 0.5 : 0)
+                        .animation(.easeInOut.speed(0.25).delay(0.6), value: isPresented)
+                }
                 
                 // Line
                 pathProvider.path(for: geometry)

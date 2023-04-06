@@ -11,7 +11,7 @@ struct ProfitByYear: View {
     
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var viewModel: SessionsListViewModel
-    @StateObject var vm: yearlySummaryViewModel
+    @StateObject var vm: AnnualReportViewModel
     
     var body: some View {
         
@@ -22,10 +22,13 @@ struct ProfitByYear: View {
         let winRate = vm.winRate(timeline: vm.myNewTimeline)
         let totalExpenses = vm.expensesByYear(timeline: vm.myNewTimeline)
         let totalHours = vm.totalHours(timeline: vm.myNewTimeline)
+        let bestLocation = vm.bestLocation(timeline: vm.myNewTimeline)
+        let bestProfit = vm.bestProfit(timeline: vm.myNewTimeline)
 
         ScrollView {
             VStack {
                 ZStack {
+                    
                     Color.clear
                     
                     if !vm.isLoading {
@@ -94,17 +97,28 @@ struct ProfitByYear: View {
                 .background(Color(colorScheme == .dark ? .secondarySystemBackground : .systemBackground))
                 .cornerRadius(20)
                 .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+                
+                VStack (spacing: 30) {
+                    
+                    BestSessionView(profit: bestProfit)
+                    
+                    BestLocationView(location: bestLocation)
+                    
+                }
+                .animation(nil, value: vm.myNewTimeline)
+                .padding(.top, 20)
+                .padding(.bottom, 50)
 
                 Spacer()
             }
-            .navigationBarTitle("Yearly Summary")
+            .navigationBarTitle("Annual Report")
         }
     }
 }
 
 struct ProfitByYear_Previews: PreviewProvider {
     static var previews: some View {
-        ProfitByYear(viewModel: SessionsListViewModel(), vm: yearlySummaryViewModel())
+        ProfitByYear(viewModel: SessionsListViewModel(), vm: AnnualReportViewModel())
             .preferredColorScheme(.dark)
     }
 }

@@ -21,7 +21,7 @@ struct AlertContext {
                                            dismissButton: .default(Text("OK")))
     
     static let inValidGame = AlertItem(title: Text("Invalid Form"),
-                                       message: Text("Please select the Game type."),
+                                       message: Text("Please select the Game Type."),
                                        dismissButton: .default(Text("OK")))
     
     static let inValidStakes = AlertItem(title: Text("Invalid Form"),
@@ -31,4 +31,14 @@ struct AlertContext {
     static let inValidDate = AlertItem(title: Text("Invalid Form"),
                                        message: Text("Please select a Date."),
                                        dismissButton: .default(Text("OK")))
+    
+    static let invalidEntrants = AlertItem(title: Text("Invalid Form"),
+                                           message: Text("Please enter the number of Entrants."),
+                                           dismissButton: .default(Text("OK")))
+    
+    static let invalidBuyIn = AlertItem(title: Text("Invalid Form"),
+                                        message: Text("Please enter tournament Buy-In."),
+                                        dismissButton: .default(Text("OK")))
+    
+    
 }

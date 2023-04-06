@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class yearlySummaryViewModel: ObservableObject {
+class AnnualReportViewModel: ObservableObject {
     
     @ObservedObject var vm = SessionsListViewModel()
     
@@ -112,6 +112,28 @@ class yearlySummaryViewModel: ObservableObject {
             return vm.yearlyChartCoordinates(year: Date().getYear())
         case .lastYear:
             return vm.yearlyChartCoordinates(year: lastYear)
+        }
+    }
+    
+    func bestLocation(timeline: PickerTimeline) -> LocationModel {
+        switch timeline {
+        case .all:
+            return vm.bestLocation() ?? DefaultData.defaultLocation
+        case .ytd:
+            return vm.bestLocation(year: Date().getYear()) ?? DefaultData.defaultLocation
+        case .lastYear:
+            return vm.bestLocation(year: lastYear) ?? DefaultData.defaultLocation
+        }
+    }
+    
+    func bestProfit(timeline: PickerTimeline) -> Int {
+        switch timeline {
+        case .all:
+            return vm.bestSession() ?? 0
+        case .ytd:
+            return vm.bestSession(year: Date().getYear()) ?? 0
+        case .lastYear:
+            return vm.bestSession(year: lastYear) ?? 0
         }
     }
 }

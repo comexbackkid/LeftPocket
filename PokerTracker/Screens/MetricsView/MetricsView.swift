@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftUICharts
 
 struct MetricsView: View {
     
@@ -28,7 +27,7 @@ struct MetricsView: View {
                                 .titleStyle()
                         }
                         
-                        Text("Explore your poker metrics here. Start adding sessions in order to chart your progress and bankroll.")
+                        Text("Explore your poker metrics here. Start adding sessions in order to chart your progress and manage your bankroll.")
                             .subtitleStyle()
                         
                         VStack (alignment: .center, spacing: 22) {
@@ -42,12 +41,7 @@ struct MetricsView: View {
                             
                             if !viewModel.sessions.isEmpty {
                                 
-                                BarGraphView()
-                                    .padding(.vertical)
-                                    .frame(height: 425)
-                                    .frame(width: UIScreen.main.bounds.width * 0.9)
-                                    .background(Color(.systemBackground))
-                                    .cornerRadius(20)
+                                BarChartView(vm: viewModel)
                             }
                             
                             AdditionalMetricsView()
@@ -206,7 +200,7 @@ struct AdditionalMetricsView: View {
                 HStack (spacing: 10) {
                     
                     NavigationLink(
-                        destination: ProfitByYear(viewModel: viewModel, vm: yearlySummaryViewModel()),
+                        destination: ProfitByYear(viewModel: viewModel, vm: AnnualReportViewModel()),
                         label: {
                             FilterCardView(image: "doc.text",
                                            imageColor: .cyan,

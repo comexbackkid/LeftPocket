@@ -15,7 +15,7 @@ struct BarGraphView: View {
     
     var body: some View {
         
-        let multiplier = calculateMultiplier(maxData: viewModel.dailyBarChart().max() ?? 0)
+        let multiplier = calculateMultiplier(maxData: viewModel.barGraphByDay().max() ?? 0)
         
         VStack {
             VStack {
@@ -46,7 +46,7 @@ struct BarGraphView: View {
                     .padding()
                     
                     HStack (alignment: .bottom) {
-                        ForEach(viewModel.dailyBarChart().indices, id: \.self) { weekday in
+                        ForEach(viewModel.barGraphByDay().indices, id: \.self) { weekday in
                             VStack {
                                 Spacer()
                                 
@@ -54,7 +54,7 @@ struct BarGraphView: View {
                                                startPoint: .top,
                                                endPoint: .bottomTrailing)
                                     .frame(height: capsulesAppearing
-                                           ? CGFloat(normalizeData(value: viewModel.dailyBarChart()[weekday])) * multiplier
+                                           ? CGFloat(normalizeData(value: viewModel.barGraphByDay()[weekday])) * multiplier
                                            : 0)
                                     .clipShape(Capsule())
                                     .padding(.horizontal, 10)
@@ -64,7 +64,7 @@ struct BarGraphView: View {
                                     .foregroundColor(.secondary)
                                     .font(.caption)
                                     .bold()
-                                    .padding(.top, 10)
+                                    .padding(.top, 9)
                                 
                             }
                             .frame(maxWidth: .infinity, maxHeight: 320)
@@ -96,13 +96,13 @@ struct BarGraphView: View {
     
     // Normalizes data between 0 and 1. Should we make this a Generic func that conforms to Numeric?
     func normalizeData(value: Int) -> Double {
-        let normalized = Double(value) - Double(viewModel.dailyBarChart().min() ?? 0) / (Double(viewModel.dailyBarChart().max() ?? 1) - Double(viewModel.dailyBarChart().min() ?? 1))
+        let normalized = Double(value) - Double(viewModel.barGraphByDay().min() ?? 0) / (Double(viewModel.barGraphByDay().max() ?? 1) - Double(viewModel.barGraphByDay().min() ?? 1))
         return normalized
     }
     
     // Getting max line height for gray indicator lines
     func getMax() -> CGFloat {
-        let max = viewModel.dailyBarChart().max { $1 > $0 } ?? 0
+        let max = viewModel.barGraphByDay().max { $1 > $0 } ?? 0
         return CGFloat(max)
     }
     

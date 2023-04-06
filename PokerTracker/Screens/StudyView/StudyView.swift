@@ -22,6 +22,7 @@ struct StudyView: View {
     var body: some View {
         
         NavigationView {
+            
             ScrollView {
                 VStack (spacing: 20) {
 
@@ -56,48 +57,8 @@ struct StudyView: View {
             
             VStack {
                 
-                HStack {
-                    VStack (alignment: .leading) {
-                        
-                        Text("Profit")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        
-                        Text("\(profit.asCurrency())")
-                            .bold()
-                            .font(.title3)
-                            .profitColor(total: profit)
-                    }
-                    
-                    Spacer()
-                    
-                    VStack (alignment: .leading) {
-                        
-                        Text("Hourly")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        
-                        Text("\(hourly.asCurrency())")
-                            .bold()
-                            .font(.title3)
-                            .profitColor(total: profit)
-                    }
-                    
-                    Spacer()
-                    
-                    VStack (alignment: .leading) {
-                        
-                        Text("Sessions")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        
-                        Text("\(games)")
-                            .bold()
-                            .font(.title3)
-                            .foregroundColor(games == 0 ? Color(.systemGray) : .primary)
-                    }
-                }
-                .padding(.horizontal)
+                playerStats
+                
             }
             .frame(maxWidth: .infinity)
             .frame(height: 90)
@@ -120,33 +81,79 @@ struct StudyView: View {
             Button {
                 let impact = UIImpactFeedbackGenerator(style: .light)
                 impact.impactOccurred()
-                selectedArticle = MockData.sampleArticle
+                selectedArticle = DefaultData.sampleArticle
                 showArticle.toggle()
             } label: {
-                StudyCardView(article: MockData.sampleArticle)
+                StudyCardView(article: DefaultData.sampleArticle)
             }
             .buttonStyle(PlainButtonStyle())
 
             Button {
                 let impact = UIImpactFeedbackGenerator(style: .light)
                 impact.impactOccurred()
-                selectedArticle = MockData.sampleArticle2
+                selectedArticle = DefaultData.sampleArticle2
                 showArticle.toggle()
             } label: {
-                StudyCardView(article: MockData.sampleArticle2)
+                StudyCardView(article: DefaultData.sampleArticle2)
             }
             .buttonStyle(PlainButtonStyle())
 
             Button {
                 let impact = UIImpactFeedbackGenerator(style: .light)
                 impact.impactOccurred()
-                selectedArticle = MockData.sampleArticle3
+                selectedArticle = DefaultData.sampleArticle3
                 showArticle.toggle()
             } label: {
-                StudyCardView(article: MockData.sampleArticle3)
+                StudyCardView(article: DefaultData.sampleArticle3)
             }
             .buttonStyle(PlainButtonStyle())
         }
+    }
+    
+    var playerStats: some View {
+        
+        HStack {
+            VStack (alignment: .leading) {
+                
+                Text("Profit")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                
+                Text("\(profit.asCurrency())")
+                    .bold()
+                    .font(.title3)
+                    .profitColor(total: profit)
+            }
+            
+            Spacer()
+            
+            VStack (alignment: .leading) {
+                
+                Text("Hourly")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                
+                Text("\(hourly.asCurrency())")
+                    .bold()
+                    .font(.title3)
+                    .profitColor(total: profit)
+            }
+            
+            Spacer()
+            
+            VStack (alignment: .leading) {
+                
+                Text("Sessions")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                
+                Text("\(games)")
+                    .bold()
+                    .font(.title3)
+                    .foregroundColor(games == 0 ? Color(.systemGray) : .primary)
+            }
+        }
+        .padding(.horizontal)
     }
 }
 

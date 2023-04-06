@@ -11,7 +11,8 @@ import WidgetKit
 class SessionsListViewModel: ObservableObject {
     
     @Published var uniqueStakes: [String] = []
-    @Published var locations: [LocationModel] = DefaultLocations.allLocations {
+    @Published var locations: [LocationModel] = DefaultLocations.allLocations
+    {
         didSet {
             saveLocations()
         }
@@ -20,7 +21,7 @@ class SessionsListViewModel: ObservableObject {
     @Published var sessions: [PokerSession] = [] {
         didSet {
             saveSessions()
-            uniqueStakes = Array(Set(sessions.map { $0.stakes }))
+            setUniqueStakes()
             writeToWidget()
         }
     }
@@ -128,6 +129,10 @@ class SessionsListViewModel: ObservableObject {
         locations.append(newLocation)
     }
     
+    func setUniqueStakes() {
+        uniqueStakes = Array(Set(sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).map({ $0.stakes })))
+    }
+    
     // MARK: MOCK DATA FOR PREVIEW & TESTING
     
     // Loading fake data for Preview Provider
@@ -153,7 +158,7 @@ class SessionsListViewModel: ObservableObject {
         return bankroll
     }
     
-    // Creates an array of our running, cumulative bankroll for use with SwiftUICharts
+    // Creates an array of our running, cumulative bankroll for use with charts
     func chartArray() -> [Double] {
         let profitsArray = sessions.map { Double($0.profit) }
         var cumBankroll = [Double]()
@@ -173,21 +178,22 @@ class SessionsListViewModel: ObservableObject {
         var shortenedChart = [Double]()
         
         for (index, item) in chartArray().enumerated() {
-          if index.isMultiple(of: 2) {
-            shortenedChart.append(item)
-          }
+            if index.isMultiple(of: 2) {
+                shortenedChart.append(item)
+            }
         }
         
         // If there's over 25 sessions, we will use every other data point to chart the data to smooth it out
         if chartArray().count > 25 {
             return shortenedChart.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
+            
         } else {
             return chartArray().enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
         }
     }
     
     // Custom designed Bar Chart weekday profit totals
-    func dailyBarChart() -> [Int] {
+    func barGraphByDay() -> [Int] {
         let sunday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Sunday" }).map({ $0.profit }).reduce(0,+)
         let monday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Monday" }).map({ $0.profit }).reduce(0,+)
         let tuesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Tuesday" }).map({ $0.profit }).reduce(0,+)
@@ -198,23 +204,33 @@ class SessionsListViewModel: ObservableObject {
         return [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
     }
     
+    // Returns a tuple array for use in Swift Charts bar chart
+    func barChartByDay() -> [SessionData] {
+        let sunday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Sunday" }).map({ $0.profit }).reduce(0,+)
+        let monday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Monday" }).map({ $0.profit }).reduce(0,+)
+        let tuesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Tuesday" }).map({ $0.profit }).reduce(0,+)
+        let wednesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Wednesday" }).map({ $0.profit }).reduce(0,+)
+        let thursday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Thursday" }).map({ $0.profit }).reduce(0,+)
+        let friday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Friday" }).map({ $0.profit }).reduce(0,+)
+        let saturday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Saturday" }).map({ $0.profit }).reduce(0,+)
+        return [("Su", sunday), ("M", monday), ("T", tuesday), ("W", wednesday), ("Th", thursday), ("F", friday), ("S", saturday)].map(SessionData.init)
+    }
+    
     // Simply counts how many sessions played by year. Used in Study section
     func sessionsPerYear(year: String) -> Int {
         guard !sessions.isEmpty else { return 0 }
-        let count = sessions.filter({ $0.date.getYear() == year })
-        return count.count
+        return sessions.filter({ $0.date.getYear() == year }).count
     }
     
     // Adds up total number of profitable sessions
     func numOfCashes() -> Int {
         guard !sessions.isEmpty else { return 0 }
-        let profitableSessions = sessions.filter { $0.profit > 0 }
-        return profitableSessions.count
+        return sessions.filter { $0.profit > 0 }.count
     }
     
     // Returns percentage of winning seessions
     func winRate() -> String {
-        guard !sessions.isEmpty else { return "%0" }
+        guard !sessions.isEmpty else { return "0%" }
         let winPercentage = Double(numOfCashes()) / Double(sessions.count)
         return winPercentage.asPercent()
     }
@@ -230,7 +246,6 @@ class SessionsListViewModel: ObservableObject {
         } else {
             return tallyBankroll() / totalHours
         }
-        
     }
     
     // Calculate average session duration for MetricsView
@@ -253,11 +268,9 @@ class SessionsListViewModel: ObservableObject {
     // Total hours played from all sessions
     func totalHoursPlayed() -> String {
         guard !sessions.isEmpty else { return "0" }
-        let hoursArray: [Int] = sessions.map { $0.sessionDuration.hour ?? 0 }
-        let minutesArray: [Int] = sessions.map { $0.sessionDuration.minute ?? 0 }
-        let totalHours = hoursArray.reduce(0, +)
-        let totalMinutes = minutesArray.reduce(0, +)
-        let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
+        let totalHours = sessions.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
+        let totalMins = sessions.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
+        let dateComponents = DateComponents(hour: totalHours, minute: totalMins)
         return dateComponents.abbreviated(duration: dateComponents)
     }
     
@@ -346,12 +359,38 @@ class SessionsListViewModel: ObservableObject {
     }
     
     func winRateByYear(year: String) -> String {
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return "%0" }
+        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return "0%" }
         let wins = Double(numOfCashesByYear(year: year))
         let sessions = Double(sessionsPerYear(year: year))
         let winPercentage = wins / sessions
         return winPercentage.asPercent()
+    }
+    
+    func bestLocation(year: String? = nil) -> LocationModel? {
+        guard !sessions.isEmpty else { return DefaultData.defaultLocation }
+        if let yearFilter = year {
+            let filteredSessions = sessions.filter({ $0.date.getYear() == yearFilter }).map({ ($0.location, $0.profit) })
+            let maxProfit = Dictionary(filteredSessions, uniquingKeysWith: { $0 + $1 }).max { $0.value < $1.value }
+            return maxProfit?.key
+            
+        } else {
+            let locationTuple = sessions.map({ ($0.location, $0.profit) })
+            let maxProfit = Dictionary(locationTuple, uniquingKeysWith: { $0 + $1 }).max { $0.value < $1.value }
+            return maxProfit?.key
+        }   
+    }
+    
+    func bestSession(year: String? = nil) -> Int? {
+        guard !sessions.isEmpty else { return 0 }
+        if let yearFilter = year {
+            let filteredSessions = sessions.filter({ $0.date.getYear() == yearFilter })
+            return filteredSessions.map({ $0.profit }).max(by: { $0 < $1 })
+        }
         
+        else {
+            let bestSession = sessions.map({ $0.profit }).max(by: { $0 < $1 })
+            return bestSession
+        }
     }
     
     // MARK: CHART FUNCTIONS
@@ -373,7 +412,7 @@ class SessionsListViewModel: ObservableObject {
         return yearlyChartArray(year: year).enumerated().map({Point(x:CGFloat($0.offset), y: $0.element)})
     }
     
-    // MARK: FILTERING OPTIONS IN METRICS VIEW
+    // MARK: FILTERING CARDS IN METRICS VIEW
     
     func sessionsByLocation(_ location: String) -> [PokerSession] {
         sessions.filter({ $0.location.name == location })
@@ -407,7 +446,7 @@ class SessionsListViewModel: ObservableObject {
         return sessionsByStakes(stakes).reduce(0) { $0 + $1.profit }
     }
     
-    // Function that adds a new session to our SessionsListView from NewSessionView
+    // Function that adds a new session to variable sessions, above, from NewSessionView
     func addSession(location: LocationModel,
                     game: String,
                     stakes: String,
@@ -415,7 +454,9 @@ class SessionsListViewModel: ObservableObject {
                     profit: Int,
                     notes: String,
                     startTime: Date, endTime: Date,
-                    expenses: Int) {
+                    expenses: Int,
+                    isTournament: Bool,
+                    entrants: Int) {
         
         let newSession = PokerSession(location: location,
                                       game: game,
@@ -424,12 +465,12 @@ class SessionsListViewModel: ObservableObject {
                                       profit: profit,
                                       notes: notes,
                                       startTime: startTime, endTime: endTime,
-                                      expenses: expenses)
+                                      expenses: expenses,
+                                      isTournament: isTournament,
+                                      entrants: entrants)
         sessions.append(newSession)
         sessions.sort(by: {$0.date > $1.date})
     }
-    
-
     
     let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     let daysOfWeekAbr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]

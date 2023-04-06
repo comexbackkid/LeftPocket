@@ -26,8 +26,9 @@ struct EditLocationView: View {
             Section (header: Text("Information"),
                      footer: Text("Edit the name or Image URL to update this Location. Copy & paste the image's link directly from your mobile web browser.")) {
                 
-                TextField("\(selectedLocation.name)", text: $selectedLocation.name)
+                TextField("", text: $selectedLocation.name)
                     .submitLabel(.next)
+                
                 TextField("Paste Image URL (Optional)", text: $selectedLocation.imageURL)
                     .keyboardType(.URL)
                     .autocapitalization(.none)

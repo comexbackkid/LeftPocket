@@ -19,6 +19,8 @@ final class NewSessionViewModel: ObservableObject {
     @Published var endTime: Date = Date()
     @Published var expenses: String = ""
     @Published var presentation: Bool?
+    @Published var isTournament: Bool = false
+    @Published var entrants: String = ""
     
     @Published var alertItem: AlertItem?
     
@@ -34,11 +36,24 @@ final class NewSessionViewModel: ObservableObject {
             return false
         }
         
-        guard !stakes.isEmpty else {
-            alertItem = AlertContext.inValidStakes
-            return false
+        if isTournament == false {
+            guard !stakes.isEmpty else {
+                alertItem = AlertContext.inValidStakes
+                return false
+            }
+            
+        } else {
+            guard !entrants.isEmpty else {
+                alertItem = AlertContext.invalidEntrants
+                return false
+            }
+            
+            guard !expenses.isEmpty else {
+                alertItem = AlertContext.invalidBuyIn
+                return false
+            }
         }
-        
+ 
         return true
     }
     
@@ -53,7 +68,9 @@ final class NewSessionViewModel: ObservableObject {
                              notes: self.notes,
                              startTime: self.startTime,
                              endTime: self.endTime,
-                             expenses: Int(self.expenses) ?? 0)
+                             expenses: Int(self.expenses) ?? 0,
+                             isTournament: self.isTournament,
+                             entrants: Int(self.entrants) ?? 0)
         
         // Only after the form checks out will the presentation be set to false and passed into the Binding in our View
         self.presentation = false

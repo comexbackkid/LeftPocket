@@ -34,9 +34,11 @@ struct SettingsView: View {
         Section(header: Text("Display"),
                 footer: Text("Using System Display will override Dark Mode and use current device preferences.")) {
             Toggle(isOn: $isDarkMode, label: {
-                Image(systemName: "moon.fill")
-                    .foregroundColor(.yellow)
-                Text("Dark Mode")
+                HStack {
+                    Image(systemName: "moon.fill")
+                        .foregroundColor(.yellow)
+                    Text("Dark Mode")
+                }
             })
                 .onChange(of: isDarkMode, perform: { _ in
                     SystemThemeManager
@@ -46,9 +48,11 @@ struct SettingsView: View {
                 })
             
             Toggle(isOn: $systemThemeEnabled, label: {
-                Image(systemName: "gearshape.fill")
-                    .foregroundColor(.gray)
-                Text("Use System Display")
+                HStack {
+                    Image(systemName: "gearshape.fill")
+                        .foregroundColor(.gray)
+                    Text("Use System Display")
+                }
             })
                 .onChange(of: systemThemeEnabled, perform: { _ in
                     SystemThemeManager

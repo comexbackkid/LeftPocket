@@ -16,10 +16,10 @@ struct PrimaryButton: View {
         Text(title)
             .font(.title3)
             .frame(height: 60)
-            .frame(width: 300)
+            .frame(width: UIScreen.main.bounds.width * 0.9)
             .background(Color.brandPrimary)
             .foregroundColor(.white)
-            .cornerRadius(30)
+            .cornerRadius(10)
             .padding()
     }
 }

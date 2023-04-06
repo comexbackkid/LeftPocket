@@ -18,7 +18,7 @@ struct LocationsListView: View {
         VStack {
             
             form
-
+            
         }
         .listStyle(InsetGroupedListStyle())
         .navigationBarTitle("My Locations")
@@ -41,10 +41,10 @@ struct LocationsListView: View {
         Form {
             Section(header: Text("Current Locations"),
                     footer: Text("Add your own location, casino, or home game, by clicking the + button in the upper right corner of the screen. Swipe left on a Location to modify or delete it.")) {
-                List($viewModel.locations, id: \.self) { location in
-                    LocationsRowView(location: location)
-                }
-            }
+                
+                List(viewModel.locations.indices, id: \.self) { index in
+                    LocationsRowView(location: $viewModel.locations[index])
+                }}
         }
     }
 }
@@ -75,7 +75,7 @@ struct LocationsRowView: View {
                     impact.impactOccurred()
                     editing.toggle()
                 } label: { Image(systemName: "pencil") }
-                .tint(.yellow)
+                    .tint(.yellow)
             }
             .background {
                 NavigationLink(isActive: $editing,

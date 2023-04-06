@@ -22,7 +22,7 @@ struct LeftPocketTabView: View {
                     Text("Home")
                 }
             
-            SessionsView()
+            SessionsListView()
                 .tabItem {
                     Image(systemName: "list.bullet")
                     Text("Sessions")

@@ -48,7 +48,7 @@ struct ProfitByMonth: View {
                 Text(year)
             }
         })
-            .pickerStyle(MenuPickerStyle()))
+        .pickerStyle(MenuPickerStyle()))
         .listStyle(PlainListStyle())
     }
 }

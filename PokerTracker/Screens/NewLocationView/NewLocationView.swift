@@ -9,8 +9,8 @@ import SwiftUI
 
 struct NewLocationView: View {
     
-    @EnvironmentObject var sessionsListViewModel: SessionsListViewModel
-    @StateObject var viewModel = NewLocationViewModel()
+    @EnvironmentObject var vm: SessionsListViewModel
+    @StateObject var newLocationViewModel = NewLocationViewModel()
     @Binding var addLocationIsShowing: Bool
     
     var body: some View {
@@ -20,20 +20,30 @@ struct NewLocationView: View {
                 
                 Section (header: Text("Information"),
                          footer: Text("Enter the name of the casino or card room, followed by a link to an image associated with the location.")) {
-                    TextField("Location Name", text: $viewModel.locationName)
+                   
+                    TextField("Location Name", text: $newLocationViewModel.locationName)
                         .submitLabel(.next)
-                    TextField("Paste Image URL (Optional)", text: $viewModel.imageURL)
+                    
+                    TextField("Paste Image URL (Optional)", text: $newLocationViewModel.imageURL)
                         .keyboardType(.URL)
                         .autocapitalization(.none)
                 }
                 
                 Section {
+                    
                     Button(action: {
                         saveLocation()
                         addLocationIsShowing.toggle()
                     }, label: {
                         Text("Save Location")
                     })
+                    
+                    Button(role: .cancel) {
+                        addLocationIsShowing.toggle()
+                    } label: {
+                        Text("Cancel")
+                    }
+                    .tint(.red)
                 }
             }
             .navigationBarTitle(Text("Add Location"))
@@ -42,9 +52,9 @@ struct NewLocationView: View {
     }
     
     func saveLocation() {
-        sessionsListViewModel.addLocation(name: viewModel.locationName,
+        vm.addLocation(name: newLocationViewModel.locationName,
                                           localImage: "",
-                                          imageURL: viewModel.imageURL)
+                                          imageURL: newLocationViewModel.imageURL)
     }
 }
 

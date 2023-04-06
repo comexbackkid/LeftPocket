@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftUICharts
 
 struct MetricsCardView: View {
     
@@ -20,6 +19,7 @@ struct MetricsCardView: View {
             VStack (alignment: .leading) {
                                 
                 CustomChartView(viewModel: viewModel, data: viewModel.chartCoordinates(), background: false)
+                
                 Divider()
                 
                 Spacer()

@@ -17,7 +17,7 @@ struct StudyDetailView: View {
         ZStack {
             ScrollView {
                 VStack {
-                    Image(selectedArticle?.image ?? MockData.sampleArticle.image)
+                    Image(selectedArticle?.image ?? DefaultData.sampleArticle.image)
                         .resizable()
                         .scaledToFill()
                         .frame(height: 240)
@@ -58,7 +58,7 @@ struct StudyDetailView: View {
 
 struct StudyDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        StudyDetailView(selectedArticle: .constant(MockData.sampleArticle))
+        StudyDetailView(selectedArticle: .constant(DefaultData.sampleArticle))
             .preferredColorScheme(.dark)
     }
 }

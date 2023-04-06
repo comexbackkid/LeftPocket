@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CustomPicker: View {
     
-    @ObservedObject var vm: yearlySummaryViewModel
+    @ObservedObject var vm: AnnualReportViewModel
     @Namespace private var animation
     
     var body: some View {
@@ -68,6 +68,7 @@ struct CustomPicker: View {
                 ZStack {
                     
                     if vm.myNewTimeline == .lastYear {
+                        
                         Capsule()
                             .foregroundColor(Color.pickerGray.opacity(0.5))
                             .frame(width: 90)
@@ -119,7 +120,7 @@ struct CustomPicker: View {
 
 struct CustomPicker_Previews: PreviewProvider {
     static var previews: some View {
-        CustomPicker(vm: yearlySummaryViewModel())
+        CustomPicker(vm: AnnualReportViewModel())
     }
 }
 
