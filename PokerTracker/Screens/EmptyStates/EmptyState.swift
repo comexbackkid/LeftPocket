@@ -8,40 +8,58 @@
 import SwiftUI
 
 struct EmptyState: View {
+    
+    let screen: EmptyStateScreenType
+    
+    enum EmptyStateScreenType: String {
+        case metrics
+        case sessions
+        case locations
+    }
+    
+    func getScreen(screen: EmptyStateScreenType) -> String {
+        
+        switch screen {
+        case .metrics:
+            return "bargraphvector-transparent"
+        case .sessions:
+            return "pokerchipsvector-transparent"
+        case .locations:
+            return "locationvectorart-transparent"
+        }
+    }
+    
     var body: some View {
         
         ZStack {
+            
             VStack (alignment: .center, spacing: 5) {
+                
                 ZStack {
                     
-                    Circle()
-                        .foregroundColor(.gray)
-                        .opacity(0.3)
-                        .frame(width: 110, height: 110)
-                    
-                    Image(systemName: "suit.club.fill")
+                    Image(getScreen(screen: screen))
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 60, height: 60)
-                        .foregroundColor(.white)
+                        .frame(width: 125, height: 125)
                 }
                 
                 Text("No Sessions")
-                    .font(.title2)
+                    .cardTitleStyle()
                     .bold()
                     .multilineTextAlignment(.center)
                     .padding(.top)
                 
-                Text("Click the + button to get started!")
+                Text("Click the + to get started!")
                     .foregroundColor(.secondary)
-                    .font(.subheadline)
+                    .subHeadlineStyle()
             }
+            
+            .frame(maxWidth: .infinity)
         }
     }
 }
 
 struct EmptyState_Previews: PreviewProvider {
     static var previews: some View {
-        EmptyState()
+        EmptyState(screen: .locations)
     }
 }

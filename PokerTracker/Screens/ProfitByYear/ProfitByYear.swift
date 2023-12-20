@@ -26,7 +26,19 @@ struct ProfitByYear: View {
         let bestProfit = vm.bestProfit(timeline: vm.myNewTimeline)
 
         ScrollView {
+            
+            HStack {
+                
+                Text("Annual Report")
+                    .titleStyle()
+                    .padding(.top, -37)
+                    .padding(.horizontal)
+                
+                Spacer()
+            }
+            
             VStack {
+                
                 ZStack {
                     
                     Color.clear
@@ -53,36 +65,48 @@ struct ProfitByYear: View {
                     Spacer()
                     HStack {
                         Text("Net Profit")
+                            .bodyStyle()
+                        
                         Spacer()
                         Text("\(netProfitTotal.asCurrency())").profitColor(total: netProfitTotal)
                     }
                     
                     HStack {
                         Text("Hourly Rate")
+                            .bodyStyle()
+                        
                         Spacer()
                         Text("\(hourlyRate.asCurrency())").profitColor(total: hourlyRate)
                     }
                     
                     HStack {
                         Text("Profit Per Session")
+                            .bodyStyle()
+                        
                         Spacer()
                         Text("\(profitPerSession.asCurrency())").profitColor(total: profitPerSession)
                     }
                     
                     HStack {
                         Text("Expenses")
+                            .bodyStyle()
+                        
                         Spacer()
                         Text("\(totalExpenses.asCurrency())")
                     }
                     
                     HStack {
                         Text("Win Rate")
+                            .bodyStyle()
+                        
                         Spacer()
                         Text(winRate)
                     }
                     
                     HStack {
                         Text("Hours Played")
+                            .bodyStyle()
+                        
                         Spacer()
                         Text(totalHours)
                     }
@@ -90,11 +114,10 @@ struct ProfitByYear: View {
                     Spacer()
                     
                 }
-                .font(.subheadline)
                 .animation(nil, value: vm.myNewTimeline)
                 .padding(30)
-                .frame(width: 340, height: 220)
-                .background(Color(colorScheme == .dark ? .secondarySystemBackground : .systemBackground))
+                .frame(width: 340, height: 240)
+                .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
                 .cornerRadius(20)
                 .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
                 
@@ -104,6 +127,11 @@ struct ProfitByYear: View {
                     
                     BestLocationView(location: bestLocation)
                     
+//                    PrimaryButton(title: "Export My Data")
+//                        .onTapGesture {
+//                            viewModel.writeUserData()
+//                        }
+                    
                 }
                 .animation(nil, value: vm.myNewTimeline)
                 .padding(.top, 20)
@@ -111,8 +139,12 @@ struct ProfitByYear: View {
 
                 Spacer()
             }
-            .navigationBarTitle("Annual Report")
+            .padding(.bottom, 50)
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("")
         }
+        .background(Color.brandBlack)
+        .accentColor(.brandPrimary)
     }
 }
 

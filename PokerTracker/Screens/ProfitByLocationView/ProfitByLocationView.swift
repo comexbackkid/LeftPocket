@@ -18,7 +18,7 @@ struct ProfitByLocationView: View {
                 
                 if viewModel.sessions.isEmpty {
                     
-                    EmptyState()
+                    EmptyState(screen: .locations)
                     
                 } else {
                     
@@ -26,7 +26,7 @@ struct ProfitByLocationView: View {
                         ForEach(viewModel.locations, id: \.self) { location in
                             HStack (spacing: 0) {
                                 Text(location.name)
-                                    .font(.callout)
+                                    .calloutStyle()
                                     .lineLimit(1)
                                 
                                 Spacer()

@@ -20,8 +20,10 @@ struct BestLocationView: View {
                 VStack(alignment: .leading, spacing: 5) {
                     
                     Text("Best Location")
+                        .calloutStyle()
                     
                     Text(location.name)
+                        .headlineStyle()
                         .lineLimit(1)
                         .font(.headline)
                 }
@@ -83,7 +85,7 @@ struct BestLocationView: View {
         .font(.subheadline)
         .padding(30)
         .frame(width: 340, height: 120)
-        .background(Color(colorScheme == .dark ? .secondarySystemBackground : .systemBackground))
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
     }
@@ -92,6 +94,6 @@ struct BestLocationView: View {
 struct BestLocationView_Previews: PreviewProvider {
     static var previews: some View {
         BestLocationView(location: MockData.mockLocation)
-            .preferredColorScheme(.dark)
+//            .preferredColorScheme(.dark)
     }
 }

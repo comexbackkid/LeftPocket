@@ -16,6 +16,10 @@ struct AlertItem: Identifiable {
 
 struct AlertContext {
     
+    static let invalidSession = AlertItem(title: Text("Invalid Form"),
+                                           message: Text("Please select a Session Type."),
+                                           dismissButton: .default(Text("OK")))
+    
     static let inValidLocation = AlertItem(title: Text("Invalid Form"),
                                            message: Text("Please select a Location."),
                                            dismissButton: .default(Text("OK")))
@@ -25,7 +29,7 @@ struct AlertContext {
                                        dismissButton: .default(Text("OK")))
     
     static let inValidStakes = AlertItem(title: Text("Invalid Form"),
-                                         message: Text("Please select the correct Stakes."),
+                                         message: Text("Please select from the Stakes."),
                                          dismissButton: .default(Text("OK")))
     
     static let inValidDate = AlertItem(title: Text("Invalid Form"),
@@ -37,8 +41,12 @@ struct AlertContext {
                                            dismissButton: .default(Text("OK")))
     
     static let invalidBuyIn = AlertItem(title: Text("Invalid Form"),
-                                        message: Text("Please enter tournament Buy-In."),
+                                        message: Text("Please enter Buy-In amount."),
                                         dismissButton: .default(Text("OK")))
+    
+    static let invalidEndTime = AlertItem(title: Text("Invalid Form"),
+                                          message: Text("Your End Time cannot precede the Start Time."),
+                                          dismissButton: .default(Text("OK")))
     
     
 }

@@ -19,6 +19,7 @@ struct BestSessionView: View {
             HStack {
                 
                 Text("Biggest Win")
+                    .bodyStyle()
                 
                 Spacer()
                 
@@ -31,7 +32,7 @@ struct BestSessionView: View {
         .font(.subheadline)
         .padding(30)
         .frame(width: 340, height: 60)
-        .background(Color(colorScheme == .dark ? .secondarySystemBackground : .systemBackground))
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
     }

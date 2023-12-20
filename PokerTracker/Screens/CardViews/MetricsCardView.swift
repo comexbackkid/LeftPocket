@@ -11,27 +11,32 @@ struct MetricsCardView: View {
     
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var viewModel: SessionsListViewModel
-    let width = UIScreen.main.bounds.width * 0.8
+    let width = UIScreen.main.bounds.width * 0.9
     
     var body: some View {
         
         ZStack (alignment: .leading) {
+            
             VStack (alignment: .leading) {
-                                
-                CustomChartView(viewModel: viewModel, data: viewModel.chartCoordinates(), background: false)
-                
-                Divider()
                 
                 Spacer()
+                                
+                CustomChartView(viewModel: viewModel, data: viewModel.chartCoordinates(), background: true)
+                    .frame(height: 250)
+                
+//                Divider()
+                
+//                Spacer()
                 
                 HStack {
                     VStack (alignment: .leading, spacing: 5) {
                         
                         Text("Metrics & Analytics")
-                            .font(.headline)
+                            .headlineStyle()
                         
                         Text("Study key metrics & analysis on your play, and find ways to improve.")
-                            .font(.subheadline)
+                            .calloutStyle()
+                            .opacity(0.7)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.leading)
                             .lineLimit(2)
@@ -40,18 +45,22 @@ struct MetricsCardView: View {
                     .padding(.top, -8)
                 }
                 
-                Spacer()
+//                Spacer()
             }
             
-            Text("My Bankroll")
-                .font(.title)
-                .fontWeight(.semibold)
-                .offset(y: -145)
-                .padding()
-                .opacity(0.8)
+            VStack {
+                Text("My Bankroll")
+                    .signInTitleStyle()
+                    .fontWeight(.heavy)
+                    .padding()
+//                    .offset(y: -145)
+                
+                Spacer()
+                
+            }
         }
-        .frame(width: width, height: 360)
-        .background(Color(.systemBackground))
+        .frame(width: width, height: 390)
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.23),
                 radius: 12, x: 0, y: 5)
@@ -61,5 +70,6 @@ struct MetricsCardView: View {
 struct MetricsCardView_Previews: PreviewProvider {
     static var previews: some View {
         MetricsCardView().environmentObject(SessionsListViewModel())
+            .preferredColorScheme(.dark)
     }
 }

@@ -10,20 +10,21 @@ import Charts
 
 struct BarChartView: View {
     
+    @Environment(\.colorScheme) var colorScheme
     @ObservedObject var vm: SessionsListViewModel
-    @State private var filter: FilterType = .daily
+//    @State private var filter: FilterType = .daily
     
-    enum FilterType: String, Identifiable, CaseIterable {
-        case daily, quarterly
-        
-        var id: String { self.rawValue }
-        var component: Calendar.Component {
-            switch self {
-            case .daily: return .day
-            case .quarterly: return .quarter
-            }
-        }
-    }
+//    enum FilterType: String, Identifiable, CaseIterable {
+//        case daily, quarterly
+//
+//        var id: String { self.rawValue }
+//        var component: Calendar.Component {
+//            switch self {
+//            case .daily: return .day
+//            case .quarterly: return .quarter
+//            }
+//        }
+//    }
     
     var body: some View {
                 
@@ -31,6 +32,7 @@ struct BarChartView: View {
     
             HStack {
                 Text("Weekday Totals")
+                    .cardTitleStyle()
                     .font(.title2)
                     .bold()
                 
@@ -43,7 +45,7 @@ struct BarChartView: View {
                 
                 Chart {
                     ForEach(vm.barChartByDay(), id: \.self) { weekday in
-                        BarMark(x: .value("Time", weekday.day), y: .value("Profit", weekday.profit))
+                        BarMark(x: .value("Day", weekday.day), y: .value("Profit", weekday.profit))
                             .foregroundStyle(.pink.gradient)
                             .cornerRadius(5)
                     }
@@ -72,7 +74,7 @@ struct BarChartView: View {
         }
         .padding()
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(Color(.systemBackground))
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
         .cornerRadius(20)
     }
 }

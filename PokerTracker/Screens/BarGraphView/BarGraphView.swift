@@ -60,7 +60,7 @@ struct BarGraphView: View {
                                     .padding(.horizontal, 10)
 
                                 
-                                Text(viewModel.daysOfWeekAbr[weekday])
+                                Text(viewModel.daysOfWeekAbbreviated[weekday])
                                     .foregroundColor(.secondary)
                                     .font(.caption)
                                     .bold()

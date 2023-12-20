@@ -35,13 +35,17 @@ struct SessionDetailView: View {
                         
                         notes
                         
-                        miscellaneous
+                        details
                     }
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, alignment: .topLeading)
-                    .padding()
+                    .padding(30)
                     .padding(.bottom, 70)
                 }
             }
+            .background(.regularMaterial)
+            .background(!pokerSession.location.localImage.isEmpty
+                        ? Image(pokerSession.location.localImage)
+                        : Image("encore-header"))
             .ignoresSafeArea()
             .onAppear {
                 AppReviewRequest.requestReviewIfNeeded()
@@ -66,29 +70,38 @@ struct SessionDetailView: View {
                 }
             }
         }
+        .accentColor(.brandPrimary)
+        .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
     }
     
     var cashMetrics: some View {
         
         HStack(spacing: 50) {
+            
             VStack {
                 
-                Text("Duration")
+                Image(systemName: "timer")
                     .font(.headline)
+                    .opacity(0.3)
+                    .padding(.bottom, 1)
                 
                 Text(pokerSession.playingTIme)
             }
             
             VStack {
-                Text("Profit")
+                Image(systemName: "bag.badge.plus")
                     .font(.headline)
+                    .opacity(0.3)
+                    .padding(.bottom, 1)
                 
                 Text(pokerSession.profit.asCurrency()).profitColor(total: pokerSession.profit)
             }
             
             VStack {
-                Text("Hourly")
+                Image(systemName: "dollarsign")
                     .font(.headline)
+                    .opacity(0.3)
+                    .padding(.bottom, 1)
                 
                 Text(pokerSession.hourlyRate.asCurrency()).profitColor(total: pokerSession.hourlyRate)
             }
@@ -102,22 +115,29 @@ struct SessionDetailView: View {
         HStack(spacing: 50) {
             VStack {
                 
-                Text("Duration")
+                Image(systemName: "timer")
                     .font(.headline)
+                    .opacity(0.3)
+                    .padding(.bottom, 1)
                 
                 Text(pokerSession.playingTIme)
+                
             }
             
             VStack {
-                Text("Profit")
+                Image(systemName: "bag.badge.plus")
                     .font(.headline)
+                    .opacity(0.3)
+                    .padding(.bottom, 1)
                 
                 Text(pokerSession.profit.asCurrency()).profitColor(total: pokerSession.profit)
             }
             
             VStack {
-                Text("Entrants")
+                Image(systemName: "person.2")
                     .font(.headline)
+                    .opacity(0.3)
+                    .padding(.bottom, 1)
                 
                 Text("\(pokerSession.entrants ?? 0)")
             }
@@ -130,48 +150,65 @@ struct SessionDetailView: View {
         VStack(alignment: .leading) {
             
             Text(pokerSession.isTournament ?? false ? "Tournament Notes" : "Session Notes")
-                .font(.headline)
+                .subtitleStyle()
                 .padding(.bottom, 5)
                 .padding(.top, 20)
             
             Text(pokerSession.notes)
+                .bodyStyle()
                 .padding(.bottom, 30)
                 .textSelection(.enabled)
         }
     }
     
-    var miscellaneous: some View {
+    var details: some View {
         
         VStack (alignment: .leading) {
             
-            Text("Miscellaneous")
-                .font(.headline)
+            Text("Details")
+                .subtitleStyle()
                 .padding(.bottom, 5)
             
             HStack {
                 Text("Date")
+                    .bodyStyle()
                     .font(.subheadline)
                     .foregroundColor(.secondary)
+                
                 Spacer()
+                
                 Text("\(pokerSession.date.dateStyle())")
+                    .bodyStyle()
                     .font(.subheadline)
             }
+            
             Divider()
+            
             HStack {
                 Text("Game")
+                    .bodyStyle()
                     .font(.subheadline)
                     .foregroundColor(.secondary)
+                
                 Spacer()
+                
                 Text(pokerSession.game)
+                    .bodyStyle()
                     .font(.subheadline)
             }
+            
             Divider()
+            
             HStack {
                 Text(pokerSession.isTournament == true ? "Buy-In" : "Expenses")
+                    .bodyStyle()
                     .font(.subheadline)
                     .foregroundColor(.secondary)
+                
                 Spacer()
+                
                 Text(pokerSession.expenses?.asCurrency() ?? "$0")
+                    .bodyStyle()
                     .font(.subheadline)
             }
             Divider()
@@ -179,10 +216,14 @@ struct SessionDetailView: View {
             if pokerSession.isTournament == false {
                 HStack {
                     Text("Stakes")
+                        .bodyStyle()
                         .font(.subheadline)
                         .foregroundColor(.secondary)
+                    
                     Spacer()
+                    
                     Text(pokerSession.stakes)
+                        .bodyStyle()
                         .font(.subheadline)
                 }
                 Divider()
@@ -190,10 +231,14 @@ struct SessionDetailView: View {
             
             HStack {
                 Text("Visits")
+                    .bodyStyle()
                     .font(.subheadline)
                     .foregroundColor(.secondary)
+                
                 Spacer()
+                
                 Text("\(vm.sessions.filter({$0.location.name == pokerSession.location.name}).count)")
+                    .bodyStyle()
                     .font(.subheadline)
             }
             .padding(.bottom)
@@ -212,6 +257,7 @@ struct GraphicHeaderView: View {
             if location.imageURL != "" {
                 
                 AsyncImage(url: URL(string: location.imageURL), scale: 1, transaction: Transaction(animation: .easeIn)) { phase in
+                    
                     switch phase {
                     case .success(let image):
                         image
@@ -248,12 +294,13 @@ struct GraphicHeaderView: View {
             }
             
             Text(location.name)
-                .font(.title)
-                .bold()
+                .signInTitleStyle()
+                .fontWeight(.bold)
                 .lineLimit(1)
+                .padding(.bottom, 0.2)
             
             Text("\(date.dateStyle())")
-                .font(.callout)
+                .calloutStyle()
                 .foregroundColor(.secondary)
                 .padding(.bottom, 40)
         }
@@ -263,6 +310,7 @@ struct GraphicHeaderView: View {
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
         SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
+            .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
     }
 }

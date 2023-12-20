@@ -26,6 +26,7 @@
 		7C25CB5327887D9200866511 /* CustomPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C25CB5227887D9200866511 /* CustomPicker.swift */; };
 		7C2B3E6626F5488E00B84D52 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */; };
 		7C2B3E6926F565B200B84D52 /* EmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2B3E6826F565B200B84D52 /* EmptyState.swift */; };
+		7C2E54CB2B28CCEC00831ABA /* LeftPocketCustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2E54CA2B28CCEC00831ABA /* LeftPocketCustomTabBar.swift */; };
 		7C2FC657273EF1E600E3BE0B /* ProfitByStakesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2FC656273EF1E600E3BE0B /* ProfitByStakesView.swift */; };
 		7C3F43AA27284CD800A9C842 /* NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43A927284CD800A9C842 /* NumberFormatter.swift */; };
 		7C3F43AC2728512700A9C842 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43AB2728512700A9C842 /* LocationModel.swift */; };
@@ -40,6 +41,7 @@
 		7C4CE7042773560D0070B16E /* DefaultLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4CE7032773560D0070B16E /* DefaultLocations.swift */; };
 		7C4CE7062773B2330070B16E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C4CE7052773B2330070B16E /* LaunchScreen.storyboard */; };
 		7C5997AB27872FCF00966764 /* AnnualReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5997AA27872FCF00966764 /* AnnualReportViewModel.swift */; };
+		7C5C79962B2780210088A841 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5C79952B2780210088A841 /* UserSettings.swift */; };
 		7C5EDA1828906F25008ACFEF /* EditLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5EDA1728906F25008ACFEF /* EditLocationView.swift */; };
 		7C63949626C14E8300939F40 /* LeftPocketApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63949526C14E8300939F40 /* LeftPocketApp.swift */; };
 		7C63949826C14E8300939F40 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63949726C14E8300939F40 /* ContentView.swift */; };
@@ -60,8 +62,83 @@
 		7C85DE6528A5536300B79D8B /* LineChartProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBBE473277BA7B400986613 /* LineChartProvider.swift */; };
 		7C85DE6928A5583A00B79D8B /* WidgetViewMedium.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C85DE6828A5583A00B79D8B /* WidgetViewMedium.swift */; };
 		7C85DE6B28A55F2900B79D8B /* WidgetChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C85DE6A28A55F2900B79D8B /* WidgetChart.swift */; };
+		7C8647812B29277900F48951 /* SignInTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8647802B29277900F48951 /* SignInTest.swift */; };
+		7C8647842B2A642700F48951 /* AddNewSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8647832B2A642700F48951 /* AddNewSessionView.swift */; };
 		7C8834102735BB5D0093B201 /* NewLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */; };
 		7C897F192891BC1700E42FDA /* LocationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C897F182891BC1700E42FDA /* LocationsListView.swift */; };
+		7C9D32772B261FA700900C8C /* AdditionalMetricsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */; };
+		7CAFDFF32B2C884100B7338D /* CustomToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF22B2C884100B7338D /* CustomToggle.swift */; };
+		7CAFE0062B2CA9E300B7338D /* AsapCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */; };
+		7CAFE0072B2CA9E300B7338D /* AsapCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */; };
+		7CAFE0082B2CA9E300B7338D /* AsapCondensed-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF62B2CA9E300B7338D /* AsapCondensed-LightItalic.ttf */; };
+		7CAFE0092B2CA9E300B7338D /* AsapCondensed-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF62B2CA9E300B7338D /* AsapCondensed-LightItalic.ttf */; };
+		7CAFE00A2B2CA9E300B7338D /* AsapCondensed-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF72B2CA9E300B7338D /* AsapCondensed-ExtraLightItalic.ttf */; };
+		7CAFE00B2B2CA9E300B7338D /* AsapCondensed-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF72B2CA9E300B7338D /* AsapCondensed-ExtraLightItalic.ttf */; };
+		7CAFE00C2B2CA9E300B7338D /* AsapCondensed-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF82B2CA9E300B7338D /* AsapCondensed-MediumItalic.ttf */; };
+		7CAFE00D2B2CA9E300B7338D /* AsapCondensed-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF82B2CA9E300B7338D /* AsapCondensed-MediumItalic.ttf */; };
+		7CAFE00E2B2CA9E300B7338D /* AsapCondensed-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF92B2CA9E300B7338D /* AsapCondensed-ExtraBold.ttf */; };
+		7CAFE00F2B2CA9E300B7338D /* AsapCondensed-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF92B2CA9E300B7338D /* AsapCondensed-ExtraBold.ttf */; };
+		7CAFE0102B2CA9E300B7338D /* AsapCondensed-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFFA2B2CA9E300B7338D /* AsapCondensed-SemiBoldItalic.ttf */; };
+		7CAFE0112B2CA9E300B7338D /* AsapCondensed-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFFA2B2CA9E300B7338D /* AsapCondensed-SemiBoldItalic.ttf */; };
+		7CAFE0122B2CA9E300B7338D /* AsapCondensed-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFFB2B2CA9E300B7338D /* AsapCondensed-SemiBold.ttf */; };
+		7CAFE0132B2CA9E300B7338D /* AsapCondensed-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFFB2B2CA9E300B7338D /* AsapCondensed-SemiBold.ttf */; };
+		7CAFE0142B2CA9E300B7338D /* AsapCondensed-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFFC2B2CA9E300B7338D /* AsapCondensed-BoldItalic.ttf */; };
+		7CAFE0152B2CA9E300B7338D /* AsapCondensed-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFFC2B2CA9E300B7338D /* AsapCondensed-BoldItalic.ttf */; };
+		7CAFE0162B2CA9E300B7338D /* AsapCondensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFFD2B2CA9E300B7338D /* AsapCondensed-Regular.ttf */; };
+		7CAFE0172B2CA9E300B7338D /* AsapCondensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFFD2B2CA9E300B7338D /* AsapCondensed-Regular.ttf */; };
+		7CAFE0182B2CA9E300B7338D /* AsapCondensed-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFFE2B2CA9E300B7338D /* AsapCondensed-BlackItalic.ttf */; };
+		7CAFE0192B2CA9E300B7338D /* AsapCondensed-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFFE2B2CA9E300B7338D /* AsapCondensed-BlackItalic.ttf */; };
+		7CAFE01A2B2CA9E300B7338D /* AsapCondensed-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFFF2B2CA9E300B7338D /* AsapCondensed-ExtraLight.ttf */; };
+		7CAFE01B2B2CA9E300B7338D /* AsapCondensed-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFFF2B2CA9E300B7338D /* AsapCondensed-ExtraLight.ttf */; };
+		7CAFE01C2B2CA9E300B7338D /* AsapCondensed-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0002B2CA9E300B7338D /* AsapCondensed-Italic.ttf */; };
+		7CAFE01D2B2CA9E300B7338D /* AsapCondensed-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0002B2CA9E300B7338D /* AsapCondensed-Italic.ttf */; };
+		7CAFE01E2B2CA9E300B7338D /* AsapCondensed-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0012B2CA9E300B7338D /* AsapCondensed-Medium.ttf */; };
+		7CAFE01F2B2CA9E300B7338D /* AsapCondensed-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0012B2CA9E300B7338D /* AsapCondensed-Medium.ttf */; };
+		7CAFE0202B2CA9E300B7338D /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0022B2CA9E300B7338D /* OFL.txt */; };
+		7CAFE0212B2CA9E300B7338D /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0022B2CA9E300B7338D /* OFL.txt */; };
+		7CAFE0222B2CA9E300B7338D /* AsapCondensed-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0032B2CA9E300B7338D /* AsapCondensed-ExtraBoldItalic.ttf */; };
+		7CAFE0232B2CA9E300B7338D /* AsapCondensed-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0032B2CA9E300B7338D /* AsapCondensed-ExtraBoldItalic.ttf */; };
+		7CAFE0242B2CA9E300B7338D /* AsapCondensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0042B2CA9E300B7338D /* AsapCondensed-Bold.ttf */; };
+		7CAFE0252B2CA9E300B7338D /* AsapCondensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0042B2CA9E300B7338D /* AsapCondensed-Bold.ttf */; };
+		7CAFE0262B2CA9E300B7338D /* AsapCondensed-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0052B2CA9E300B7338D /* AsapCondensed-Black.ttf */; };
+		7CAFE0272B2CA9E300B7338D /* AsapCondensed-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0052B2CA9E300B7338D /* AsapCondensed-Black.ttf */; };
+		7CAFE03B2B2CAC1B00B7338D /* Asap-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0292B2CAC1B00B7338D /* Asap-ExtraLight.ttf */; };
+		7CAFE03C2B2CAC1B00B7338D /* Asap-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0292B2CAC1B00B7338D /* Asap-ExtraLight.ttf */; };
+		7CAFE03D2B2CAC1B00B7338D /* Asap-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE02A2B2CAC1B00B7338D /* Asap-ThinItalic.ttf */; };
+		7CAFE03E2B2CAC1B00B7338D /* Asap-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE02A2B2CAC1B00B7338D /* Asap-ThinItalic.ttf */; };
+		7CAFE03F2B2CAC1B00B7338D /* Asap-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE02B2B2CAC1B00B7338D /* Asap-Thin.ttf */; };
+		7CAFE0402B2CAC1B00B7338D /* Asap-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE02B2B2CAC1B00B7338D /* Asap-Thin.ttf */; };
+		7CAFE0412B2CAC1B00B7338D /* Asap-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE02C2B2CAC1B00B7338D /* Asap-ExtraBold.ttf */; };
+		7CAFE0422B2CAC1B00B7338D /* Asap-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE02C2B2CAC1B00B7338D /* Asap-ExtraBold.ttf */; };
+		7CAFE0432B2CAC1B00B7338D /* Asap-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE02D2B2CAC1B00B7338D /* Asap-BoldItalic.ttf */; };
+		7CAFE0442B2CAC1B00B7338D /* Asap-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE02D2B2CAC1B00B7338D /* Asap-BoldItalic.ttf */; };
+		7CAFE0452B2CAC1B00B7338D /* Asap-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE02E2B2CAC1B00B7338D /* Asap-MediumItalic.ttf */; };
+		7CAFE0462B2CAC1B00B7338D /* Asap-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE02E2B2CAC1B00B7338D /* Asap-MediumItalic.ttf */; };
+		7CAFE0472B2CAC1B00B7338D /* Asap-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE02F2B2CAC1B00B7338D /* Asap-BlackItalic.ttf */; };
+		7CAFE0482B2CAC1B00B7338D /* Asap-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE02F2B2CAC1B00B7338D /* Asap-BlackItalic.ttf */; };
+		7CAFE0492B2CAC1B00B7338D /* Asap-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0302B2CAC1B00B7338D /* Asap-Medium.ttf */; };
+		7CAFE04A2B2CAC1B00B7338D /* Asap-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0302B2CAC1B00B7338D /* Asap-Medium.ttf */; };
+		7CAFE04B2B2CAC1B00B7338D /* Asap-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0312B2CAC1B00B7338D /* Asap-Bold.ttf */; };
+		7CAFE04C2B2CAC1B00B7338D /* Asap-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0312B2CAC1B00B7338D /* Asap-Bold.ttf */; };
+		7CAFE04D2B2CAC1B00B7338D /* Asap-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0322B2CAC1B00B7338D /* Asap-LightItalic.ttf */; };
+		7CAFE04E2B2CAC1B00B7338D /* Asap-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0322B2CAC1B00B7338D /* Asap-LightItalic.ttf */; };
+		7CAFE04F2B2CAC1B00B7338D /* Asap-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0332B2CAC1B00B7338D /* Asap-ExtraLightItalic.ttf */; };
+		7CAFE0502B2CAC1B00B7338D /* Asap-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0332B2CAC1B00B7338D /* Asap-ExtraLightItalic.ttf */; };
+		7CAFE0512B2CAC1B00B7338D /* Asap-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0342B2CAC1B00B7338D /* Asap-SemiBoldItalic.ttf */; };
+		7CAFE0522B2CAC1B00B7338D /* Asap-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0342B2CAC1B00B7338D /* Asap-SemiBoldItalic.ttf */; };
+		7CAFE0532B2CAC1B00B7338D /* Asap-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0352B2CAC1B00B7338D /* Asap-Regular.ttf */; };
+		7CAFE0542B2CAC1B00B7338D /* Asap-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0352B2CAC1B00B7338D /* Asap-Regular.ttf */; };
+		7CAFE0552B2CAC1B00B7338D /* Asap-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0362B2CAC1B00B7338D /* Asap-SemiBold.ttf */; };
+		7CAFE0562B2CAC1B00B7338D /* Asap-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0362B2CAC1B00B7338D /* Asap-SemiBold.ttf */; };
+		7CAFE0572B2CAC1B00B7338D /* Asap-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0372B2CAC1B00B7338D /* Asap-Black.ttf */; };
+		7CAFE0582B2CAC1B00B7338D /* Asap-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0372B2CAC1B00B7338D /* Asap-Black.ttf */; };
+		7CAFE0592B2CAC1B00B7338D /* Asap-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0382B2CAC1B00B7338D /* Asap-ExtraBoldItalic.ttf */; };
+		7CAFE05A2B2CAC1B00B7338D /* Asap-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0382B2CAC1B00B7338D /* Asap-ExtraBoldItalic.ttf */; };
+		7CAFE05B2B2CAC1B00B7338D /* Asap-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0392B2CAC1B00B7338D /* Asap-Light.ttf */; };
+		7CAFE05C2B2CAC1B00B7338D /* Asap-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE0392B2CAC1B00B7338D /* Asap-Light.ttf */; };
+		7CAFE05D2B2CAC1B00B7338D /* Asap-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE03A2B2CAC1B00B7338D /* Asap-Italic.ttf */; };
+		7CAFE05E2B2CAC1B00B7338D /* Asap-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFE03A2B2CAC1B00B7338D /* Asap-Italic.ttf */; };
+		7CAFE0602B2DE52B00B7338D /* LocationGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAFE05F2B2DE52B00B7338D /* LocationGridView.swift */; };
 		7CB1EBDA2950DF4800FA306B /* BestSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB1EBD92950DF4800FA306B /* BestSessionView.swift */; };
 		7CB3EB9D26C3093D009E8DF3 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EB9C26C3093D009E8DF3 /* CellView.swift */; };
 		7CB3EB9F26C310F5009E8DF3 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EB9E26C310F5009E8DF3 /* SessionDetailView.swift */; };
@@ -81,7 +158,6 @@
 		7CE7DC1A28FE1AA8009F4CE9 /* SwiftChartsPractice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE7DC1928FE1AA8009F4CE9 /* SwiftChartsPractice.swift */; };
 		7CEA58B928A56E5000418E11 /* MainWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEA58B828A56E5000418E11 /* MainWidgetView.swift */; };
 		7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEB761E26D9A77E006170EF /* Alerts.swift */; };
-		7CEC885727298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEC885627298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift */; };
 		7CED6EA827517D7F00E18053 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED6EA727517D7F00E18053 /* Array+Ext.swift */; };
 		7CF53F1C289A9CE500C26AD5 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF53F1B289A9CE500C26AD5 /* StudyView.swift */; };
 		7CF53F1E289A9EA300C26AD5 /* StudyCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF53F1D289A9EA300C26AD5 /* StudyCardView.swift */; };
@@ -133,6 +209,7 @@
 		7C25CB5227887D9200866511 /* CustomPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPicker.swift; sourceTree = "<group>"; };
 		7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		7C2B3E6826F565B200B84D52 /* EmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyState.swift; sourceTree = "<group>"; };
+		7C2E54CA2B28CCEC00831ABA /* LeftPocketCustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftPocketCustomTabBar.swift; sourceTree = "<group>"; };
 		7C2FC656273EF1E600E3BE0B /* ProfitByStakesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByStakesView.swift; sourceTree = "<group>"; };
 		7C3F43A927284CD800A9C842 /* NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
 		7C3F43AB2728512700A9C842 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
@@ -147,6 +224,7 @@
 		7C4CE7032773560D0070B16E /* DefaultLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLocations.swift; sourceTree = "<group>"; };
 		7C4CE7052773B2330070B16E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7C5997AA27872FCF00966764 /* AnnualReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnualReportViewModel.swift; sourceTree = "<group>"; };
+		7C5C79952B2780210088A841 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		7C5EDA1728906F25008ACFEF /* EditLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocationView.swift; sourceTree = "<group>"; };
 		7C63949226C14E8300939F40 /* LeftPocket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LeftPocket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C63949526C14E8300939F40 /* LeftPocketApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftPocketApp.swift; sourceTree = "<group>"; };
@@ -168,8 +246,48 @@
 		7C8134C2272A13B6004E1CE1 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		7C85DE6828A5583A00B79D8B /* WidgetViewMedium.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViewMedium.swift; sourceTree = "<group>"; };
 		7C85DE6A28A55F2900B79D8B /* WidgetChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetChart.swift; sourceTree = "<group>"; };
+		7C8647802B29277900F48951 /* SignInTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInTest.swift; sourceTree = "<group>"; };
+		7C8647832B2A642700F48951 /* AddNewSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSessionView.swift; sourceTree = "<group>"; };
 		7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLocationViewModel.swift; sourceTree = "<group>"; };
 		7C897F182891BC1700E42FDA /* LocationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsListView.swift; sourceTree = "<group>"; };
+		7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalMetricsCardView.swift; sourceTree = "<group>"; };
+		7CAFDFF22B2C884100B7338D /* CustomToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToggle.swift; sourceTree = "<group>"; };
+		7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-Light.ttf"; sourceTree = "<group>"; };
+		7CAFDFF62B2CA9E300B7338D /* AsapCondensed-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-LightItalic.ttf"; sourceTree = "<group>"; };
+		7CAFDFF72B2CA9E300B7338D /* AsapCondensed-ExtraLightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		7CAFDFF82B2CA9E300B7338D /* AsapCondensed-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-MediumItalic.ttf"; sourceTree = "<group>"; };
+		7CAFDFF92B2CA9E300B7338D /* AsapCondensed-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-ExtraBold.ttf"; sourceTree = "<group>"; };
+		7CAFDFFA2B2CA9E300B7338D /* AsapCondensed-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		7CAFDFFB2B2CA9E300B7338D /* AsapCondensed-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-SemiBold.ttf"; sourceTree = "<group>"; };
+		7CAFDFFC2B2CA9E300B7338D /* AsapCondensed-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-BoldItalic.ttf"; sourceTree = "<group>"; };
+		7CAFDFFD2B2CA9E300B7338D /* AsapCondensed-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-Regular.ttf"; sourceTree = "<group>"; };
+		7CAFDFFE2B2CA9E300B7338D /* AsapCondensed-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-BlackItalic.ttf"; sourceTree = "<group>"; };
+		7CAFDFFF2B2CA9E300B7338D /* AsapCondensed-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-ExtraLight.ttf"; sourceTree = "<group>"; };
+		7CAFE0002B2CA9E300B7338D /* AsapCondensed-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-Italic.ttf"; sourceTree = "<group>"; };
+		7CAFE0012B2CA9E300B7338D /* AsapCondensed-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-Medium.ttf"; sourceTree = "<group>"; };
+		7CAFE0022B2CA9E300B7338D /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
+		7CAFE0032B2CA9E300B7338D /* AsapCondensed-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		7CAFE0042B2CA9E300B7338D /* AsapCondensed-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-Bold.ttf"; sourceTree = "<group>"; };
+		7CAFE0052B2CA9E300B7338D /* AsapCondensed-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-Black.ttf"; sourceTree = "<group>"; };
+		7CAFE0292B2CAC1B00B7338D /* Asap-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-ExtraLight.ttf"; sourceTree = "<group>"; };
+		7CAFE02A2B2CAC1B00B7338D /* Asap-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-ThinItalic.ttf"; sourceTree = "<group>"; };
+		7CAFE02B2B2CAC1B00B7338D /* Asap-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-Thin.ttf"; sourceTree = "<group>"; };
+		7CAFE02C2B2CAC1B00B7338D /* Asap-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-ExtraBold.ttf"; sourceTree = "<group>"; };
+		7CAFE02D2B2CAC1B00B7338D /* Asap-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-BoldItalic.ttf"; sourceTree = "<group>"; };
+		7CAFE02E2B2CAC1B00B7338D /* Asap-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-MediumItalic.ttf"; sourceTree = "<group>"; };
+		7CAFE02F2B2CAC1B00B7338D /* Asap-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-BlackItalic.ttf"; sourceTree = "<group>"; };
+		7CAFE0302B2CAC1B00B7338D /* Asap-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-Medium.ttf"; sourceTree = "<group>"; };
+		7CAFE0312B2CAC1B00B7338D /* Asap-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-Bold.ttf"; sourceTree = "<group>"; };
+		7CAFE0322B2CAC1B00B7338D /* Asap-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-LightItalic.ttf"; sourceTree = "<group>"; };
+		7CAFE0332B2CAC1B00B7338D /* Asap-ExtraLightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		7CAFE0342B2CAC1B00B7338D /* Asap-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		7CAFE0352B2CAC1B00B7338D /* Asap-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-Regular.ttf"; sourceTree = "<group>"; };
+		7CAFE0362B2CAC1B00B7338D /* Asap-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-SemiBold.ttf"; sourceTree = "<group>"; };
+		7CAFE0372B2CAC1B00B7338D /* Asap-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-Black.ttf"; sourceTree = "<group>"; };
+		7CAFE0382B2CAC1B00B7338D /* Asap-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		7CAFE0392B2CAC1B00B7338D /* Asap-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-Light.ttf"; sourceTree = "<group>"; };
+		7CAFE03A2B2CAC1B00B7338D /* Asap-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asap-Italic.ttf"; sourceTree = "<group>"; };
+		7CAFE05F2B2DE52B00B7338D /* LocationGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationGridView.swift; sourceTree = "<group>"; };
 		7CB1EBD92950DF4800FA306B /* BestSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestSessionView.swift; sourceTree = "<group>"; };
 		7CB3EB9C26C3093D009E8DF3 /* CellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
 		7CB3EB9E26C310F5009E8DF3 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
@@ -188,7 +306,6 @@
 		7CE7DC1928FE1AA8009F4CE9 /* SwiftChartsPractice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftChartsPractice.swift; sourceTree = "<group>"; };
 		7CEA58B828A56E5000418E11 /* MainWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWidgetView.swift; sourceTree = "<group>"; };
 		7CEB761E26D9A77E006170EF /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
-		7CEC885627298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateMetricsBankroll.swift; sourceTree = "<group>"; };
 		7CED6EA727517D7F00E18053 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
 		7CF53F1B289A9CE500C26AD5 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
 		7CF53F1D289A9EA300C26AD5 /* StudyCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyCardView.swift; sourceTree = "<group>"; };
@@ -281,9 +398,10 @@
 				7C2FC654273EC04C00E3BE0B /* BarGraphView */,
 				7C2614CD26D9310E00986183 /* CardViews */,
 				7CBBE472277BA79500986613 /* CustomChartView */,
-				7C897F172891BBFB00E42FDA /* LocationListView */,
 				7C5EDA1428905AB7008ACFEF /* EditLocationView */,
 				7C2B3E6726F5659600B84D52 /* EmptyStates */,
+				7C897F172891BBFB00E42FDA /* LocationListView */,
+				7C86477F2B29276700F48951 /* Login */,
 				7C82E13126EFC83F00E3EB6F /* MetricsView */,
 				7C65B186272C3A4300AFE796 /* NewLocationView */,
 				7C82E13326EFC86A00E3EB6F /* NewSessionView */,
@@ -325,6 +443,7 @@
 		7C2614CF26D9315F00986183 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */,
 				7CC81FB7294CBAD400E849A9 /* BestLocationView.swift */,
 				7CB1EBD92950DF4800FA306B /* BestSessionView.swift */,
 				7CB3EB9C26C3093D009E8DF3 /* CellView.swift */,
@@ -339,6 +458,7 @@
 				7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */,
 				7C20CFB3271F4EB700739764 /* SecondaryButton.swift */,
 				7C4CE7052773B2330070B16E /* LaunchScreen.storyboard */,
+				7CAFDFF22B2C884100B7338D /* CustomToggle.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -366,7 +486,6 @@
 			isa = PBXGroup;
 			children = (
 				7C2B3E6826F565B200B84D52 /* EmptyState.swift */,
-				7CEC885627298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift */,
 			);
 			path = EmptyStates;
 			sourceTree = "<group>";
@@ -438,12 +557,15 @@
 			children = (
 				7C63949526C14E8300939F40 /* LeftPocketApp.swift */,
 				7C68FE3E26D670100019BA53 /* LeftPocketTabView.swift */,
+				7C2E54CA2B28CCEC00831ABA /* LeftPocketCustomTabBar.swift */,
 				7C2614CF26D9315F00986183 /* Views */,
 				7C2614CC26D930D900986183 /* Screens */,
 				7C2614D026D9318A00986183 /* Model */,
 				7C2614CA26D930BA00986183 /* Utilities */,
 				7C63949B26C14E8400939F40 /* Preview Content */,
 				7C63949926C14E8400939F40 /* Assets.xcassets */,
+				7CAFE0282B2CAC1B00B7338D /* Asap */,
+				7CAFDFF42B2CA9E300B7338D /* Asap_Condensed */,
 				7C63949E26C14E8400939F40 /* Info.plist */,
 			);
 			path = PokerTracker;
@@ -511,6 +633,7 @@
 			children = (
 				7CB3EBA226C3485C009E8DF3 /* NewSessionView.swift */,
 				7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */,
+				7C8647832B2A642700F48951 /* AddNewSessionView.swift */,
 			);
 			path = NewSessionView;
 			sourceTree = "<group>";
@@ -519,16 +642,75 @@
 			isa = PBXGroup;
 			children = (
 				7C6394AA26C14F6B00939F40 /* SettingsView.swift */,
+				7C5C79952B2780210088A841 /* UserSettings.swift */,
 			);
 			path = SettingsView;
+			sourceTree = "<group>";
+		};
+		7C86477F2B29276700F48951 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				7C8647802B29277900F48951 /* SignInTest.swift */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 		7C897F172891BBFB00E42FDA /* LocationListView */ = {
 			isa = PBXGroup;
 			children = (
 				7C897F182891BC1700E42FDA /* LocationsListView.swift */,
+				7CAFE05F2B2DE52B00B7338D /* LocationGridView.swift */,
 			);
 			path = LocationListView;
+			sourceTree = "<group>";
+		};
+		7CAFDFF42B2CA9E300B7338D /* Asap_Condensed */ = {
+			isa = PBXGroup;
+			children = (
+				7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */,
+				7CAFDFF62B2CA9E300B7338D /* AsapCondensed-LightItalic.ttf */,
+				7CAFDFF72B2CA9E300B7338D /* AsapCondensed-ExtraLightItalic.ttf */,
+				7CAFDFF82B2CA9E300B7338D /* AsapCondensed-MediumItalic.ttf */,
+				7CAFDFF92B2CA9E300B7338D /* AsapCondensed-ExtraBold.ttf */,
+				7CAFDFFA2B2CA9E300B7338D /* AsapCondensed-SemiBoldItalic.ttf */,
+				7CAFDFFB2B2CA9E300B7338D /* AsapCondensed-SemiBold.ttf */,
+				7CAFDFFC2B2CA9E300B7338D /* AsapCondensed-BoldItalic.ttf */,
+				7CAFDFFD2B2CA9E300B7338D /* AsapCondensed-Regular.ttf */,
+				7CAFDFFE2B2CA9E300B7338D /* AsapCondensed-BlackItalic.ttf */,
+				7CAFDFFF2B2CA9E300B7338D /* AsapCondensed-ExtraLight.ttf */,
+				7CAFE0002B2CA9E300B7338D /* AsapCondensed-Italic.ttf */,
+				7CAFE0012B2CA9E300B7338D /* AsapCondensed-Medium.ttf */,
+				7CAFE0022B2CA9E300B7338D /* OFL.txt */,
+				7CAFE0032B2CA9E300B7338D /* AsapCondensed-ExtraBoldItalic.ttf */,
+				7CAFE0042B2CA9E300B7338D /* AsapCondensed-Bold.ttf */,
+				7CAFE0052B2CA9E300B7338D /* AsapCondensed-Black.ttf */,
+			);
+			path = Asap_Condensed;
+			sourceTree = "<group>";
+		};
+		7CAFE0282B2CAC1B00B7338D /* Asap */ = {
+			isa = PBXGroup;
+			children = (
+				7CAFE0292B2CAC1B00B7338D /* Asap-ExtraLight.ttf */,
+				7CAFE02A2B2CAC1B00B7338D /* Asap-ThinItalic.ttf */,
+				7CAFE02B2B2CAC1B00B7338D /* Asap-Thin.ttf */,
+				7CAFE02C2B2CAC1B00B7338D /* Asap-ExtraBold.ttf */,
+				7CAFE02D2B2CAC1B00B7338D /* Asap-BoldItalic.ttf */,
+				7CAFE02E2B2CAC1B00B7338D /* Asap-MediumItalic.ttf */,
+				7CAFE02F2B2CAC1B00B7338D /* Asap-BlackItalic.ttf */,
+				7CAFE0302B2CAC1B00B7338D /* Asap-Medium.ttf */,
+				7CAFE0312B2CAC1B00B7338D /* Asap-Bold.ttf */,
+				7CAFE0322B2CAC1B00B7338D /* Asap-LightItalic.ttf */,
+				7CAFE0332B2CAC1B00B7338D /* Asap-ExtraLightItalic.ttf */,
+				7CAFE0342B2CAC1B00B7338D /* Asap-SemiBoldItalic.ttf */,
+				7CAFE0352B2CAC1B00B7338D /* Asap-Regular.ttf */,
+				7CAFE0362B2CAC1B00B7338D /* Asap-SemiBold.ttf */,
+				7CAFE0372B2CAC1B00B7338D /* Asap-Black.ttf */,
+				7CAFE0382B2CAC1B00B7338D /* Asap-ExtraBoldItalic.ttf */,
+				7CAFE0392B2CAC1B00B7338D /* Asap-Light.ttf */,
+				7CAFE03A2B2CAC1B00B7338D /* Asap-Italic.ttf */,
+			);
+			path = Asap;
 			sourceTree = "<group>";
 		};
 		7CBBE472277BA79500986613 /* CustomChartView */ = {
@@ -634,8 +816,43 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CAFE0562B2CAC1B00B7338D /* Asap-SemiBold.ttf in Resources */,
+				7CAFE0092B2CA9E300B7338D /* AsapCondensed-LightItalic.ttf in Resources */,
+				7CAFE04A2B2CAC1B00B7338D /* Asap-Medium.ttf in Resources */,
+				7CAFE0192B2CA9E300B7338D /* AsapCondensed-BlackItalic.ttf in Resources */,
 				7C01247728A3FF6100E6E714 /* Assets.xcassets in Resources */,
+				7CAFE0072B2CA9E300B7338D /* AsapCondensed-Light.ttf in Resources */,
+				7CAFE0422B2CAC1B00B7338D /* Asap-ExtraBold.ttf in Resources */,
+				7CAFE0402B2CAC1B00B7338D /* Asap-Thin.ttf in Resources */,
+				7CAFE0252B2CA9E300B7338D /* AsapCondensed-Bold.ttf in Resources */,
+				7CAFE04C2B2CAC1B00B7338D /* Asap-Bold.ttf in Resources */,
+				7CAFE0522B2CAC1B00B7338D /* Asap-SemiBoldItalic.ttf in Resources */,
+				7CAFE04E2B2CAC1B00B7338D /* Asap-LightItalic.ttf in Resources */,
 				7C1587FA28A2DD5E00B11F77 /* Assets.xcassets in Resources */,
+				7CAFE01D2B2CA9E300B7338D /* AsapCondensed-Italic.ttf in Resources */,
+				7CAFE0212B2CA9E300B7338D /* OFL.txt in Resources */,
+				7CAFE0152B2CA9E300B7338D /* AsapCondensed-BoldItalic.ttf in Resources */,
+				7CAFE0482B2CAC1B00B7338D /* Asap-BlackItalic.ttf in Resources */,
+				7CAFE0542B2CAC1B00B7338D /* Asap-Regular.ttf in Resources */,
+				7CAFE01F2B2CA9E300B7338D /* AsapCondensed-Medium.ttf in Resources */,
+				7CAFE05E2B2CAC1B00B7338D /* Asap-Italic.ttf in Resources */,
+				7CAFE05A2B2CAC1B00B7338D /* Asap-ExtraBoldItalic.ttf in Resources */,
+				7CAFE05C2B2CAC1B00B7338D /* Asap-Light.ttf in Resources */,
+				7CAFE0112B2CA9E300B7338D /* AsapCondensed-SemiBoldItalic.ttf in Resources */,
+				7CAFE03E2B2CAC1B00B7338D /* Asap-ThinItalic.ttf in Resources */,
+				7CAFE00F2B2CA9E300B7338D /* AsapCondensed-ExtraBold.ttf in Resources */,
+				7CAFE01B2B2CA9E300B7338D /* AsapCondensed-ExtraLight.ttf in Resources */,
+				7CAFE0442B2CAC1B00B7338D /* Asap-BoldItalic.ttf in Resources */,
+				7CAFE03C2B2CAC1B00B7338D /* Asap-ExtraLight.ttf in Resources */,
+				7CAFE0232B2CA9E300B7338D /* AsapCondensed-ExtraBoldItalic.ttf in Resources */,
+				7CAFE0172B2CA9E300B7338D /* AsapCondensed-Regular.ttf in Resources */,
+				7CAFE0582B2CAC1B00B7338D /* Asap-Black.ttf in Resources */,
+				7CAFE00D2B2CA9E300B7338D /* AsapCondensed-MediumItalic.ttf in Resources */,
+				7CAFE0502B2CAC1B00B7338D /* Asap-ExtraLightItalic.ttf in Resources */,
+				7CAFE0462B2CAC1B00B7338D /* Asap-MediumItalic.ttf in Resources */,
+				7CAFE00B2B2CA9E300B7338D /* AsapCondensed-ExtraLightItalic.ttf in Resources */,
+				7CAFE0132B2CA9E300B7338D /* AsapCondensed-SemiBold.ttf in Resources */,
+				7CAFE0272B2CA9E300B7338D /* AsapCondensed-Black.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -643,9 +860,44 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CAFE0202B2CA9E300B7338D /* OFL.txt in Resources */,
+				7CAFE0432B2CAC1B00B7338D /* Asap-BoldItalic.ttf in Resources */,
+				7CAFE0122B2CA9E300B7338D /* AsapCondensed-SemiBold.ttf in Resources */,
+				7CAFE01A2B2CA9E300B7338D /* AsapCondensed-ExtraLight.ttf in Resources */,
+				7CAFE0142B2CA9E300B7338D /* AsapCondensed-BoldItalic.ttf in Resources */,
+				7CAFE01C2B2CA9E300B7338D /* AsapCondensed-Italic.ttf in Resources */,
+				7CAFE0262B2CA9E300B7338D /* AsapCondensed-Black.ttf in Resources */,
+				7CAFE0062B2CA9E300B7338D /* AsapCondensed-Light.ttf in Resources */,
+				7CAFE00E2B2CA9E300B7338D /* AsapCondensed-ExtraBold.ttf in Resources */,
+				7CAFE00A2B2CA9E300B7338D /* AsapCondensed-ExtraLightItalic.ttf in Resources */,
+				7CAFE0512B2CAC1B00B7338D /* Asap-SemiBoldItalic.ttf in Resources */,
+				7CAFE0472B2CAC1B00B7338D /* Asap-BlackItalic.ttf in Resources */,
+				7CAFE0552B2CAC1B00B7338D /* Asap-SemiBold.ttf in Resources */,
+				7CAFE0102B2CA9E300B7338D /* AsapCondensed-SemiBoldItalic.ttf in Resources */,
 				7C4CE7062773B2330070B16E /* LaunchScreen.storyboard in Resources */,
+				7CAFE03F2B2CAC1B00B7338D /* Asap-Thin.ttf in Resources */,
+				7CAFE0492B2CAC1B00B7338D /* Asap-Medium.ttf in Resources */,
+				7CAFE04B2B2CAC1B00B7338D /* Asap-Bold.ttf in Resources */,
+				7CAFE0082B2CA9E300B7338D /* AsapCondensed-LightItalic.ttf in Resources */,
+				7CAFE01E2B2CA9E300B7338D /* AsapCondensed-Medium.ttf in Resources */,
+				7CAFE0572B2CAC1B00B7338D /* Asap-Black.ttf in Resources */,
+				7CAFE05D2B2CAC1B00B7338D /* Asap-Italic.ttf in Resources */,
+				7CAFE0592B2CAC1B00B7338D /* Asap-ExtraBoldItalic.ttf in Resources */,
+				7CAFE0162B2CA9E300B7338D /* AsapCondensed-Regular.ttf in Resources */,
+				7CAFE03D2B2CAC1B00B7338D /* Asap-ThinItalic.ttf in Resources */,
 				7C63949D26C14E8400939F40 /* Preview Assets.xcassets in Resources */,
+				7CAFE0452B2CAC1B00B7338D /* Asap-MediumItalic.ttf in Resources */,
+				7CAFE0182B2CA9E300B7338D /* AsapCondensed-BlackItalic.ttf in Resources */,
+				7CAFE03B2B2CAC1B00B7338D /* Asap-ExtraLight.ttf in Resources */,
+				7CAFE04D2B2CAC1B00B7338D /* Asap-LightItalic.ttf in Resources */,
+				7CAFE0222B2CA9E300B7338D /* AsapCondensed-ExtraBoldItalic.ttf in Resources */,
 				7C63949A26C14E8400939F40 /* Assets.xcassets in Resources */,
+				7CAFE0532B2CAC1B00B7338D /* Asap-Regular.ttf in Resources */,
+				7CAFE05B2B2CAC1B00B7338D /* Asap-Light.ttf in Resources */,
+				7CAFE0412B2CAC1B00B7338D /* Asap-ExtraBold.ttf in Resources */,
+				7CAFE04F2B2CAC1B00B7338D /* Asap-ExtraLightItalic.ttf in Resources */,
+				7CAFE0242B2CA9E300B7338D /* AsapCondensed-Bold.ttf in Resources */,
+				7CAFE00C2B2CA9E300B7338D /* AsapCondensed-MediumItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -677,6 +929,7 @@
 				7CC20EB3272B19D200137F51 /* HelpView.swift in Sources */,
 				7C45E1FA289AD8AC005D89CF /* StudyDetailView.swift in Sources */,
 				7CB3EB9D26C3093D009E8DF3 /* CellView.swift in Sources */,
+				7C5C79962B2780210088A841 /* UserSettings.swift in Sources */,
 				7C6394A926C14F6400939F40 /* SessionsListView.swift in Sources */,
 				7CD7468C28A6CFA200D5A2D0 /* FailureView.swift in Sources */,
 				7C8134C3272A13B6004E1CE1 /* ViewModifiers.swift in Sources */,
@@ -684,9 +937,11 @@
 				7CE7DC1A28FE1AA8009F4CE9 /* SwiftChartsPractice.swift in Sources */,
 				7C8834102735BB5D0093B201 /* NewLocationViewModel.swift in Sources */,
 				7C2FC657273EF1E600E3BE0B /* ProfitByStakesView.swift in Sources */,
+				7CAFDFF32B2C884100B7338D /* CustomToggle.swift in Sources */,
 				7C65B188272C3A5A00AFE796 /* NewLocationView.swift in Sources */,
 				7C468EFB273974E6000CA4B3 /* BarGraphView.swift in Sources */,
 				7C63949826C14E8300939F40 /* ContentView.swift in Sources */,
+				7C2E54CB2B28CCEC00831ABA /* LeftPocketCustomTabBar.swift in Sources */,
 				7CB3EBA126C345A1009E8DF3 /* MetricsCardView.swift in Sources */,
 				7C6394AB26C14F6B00939F40 /* SettingsView.swift in Sources */,
 				7C2B3E6626F5488E00B84D52 /* PrimaryButton.swift in Sources */,
@@ -716,12 +971,13 @@
 				7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */,
 				7C897F192891BC1700E42FDA /* LocationsListView.swift in Sources */,
 				7C68FE4326D7CEA40019BA53 /* RecentSessionCardView.swift in Sources */,
-				7CEC885727298ECE00A9DAB7 /* EmptyStateMetricsBankroll.swift in Sources */,
 				7C5997AB27872FCF00966764 /* AnnualReportViewModel.swift in Sources */,
 				7C68FE4126D709530019BA53 /* PlusButton.swift in Sources */,
 				7C15DD39276D575600889FB2 /* PlaceholderView.swift in Sources */,
 				7CBBE474277BA7B400986613 /* LineChartProvider.swift in Sources */,
 				7CC81FB8294CBAD400E849A9 /* BestLocationView.swift in Sources */,
+				7C9D32772B261FA700900C8C /* AdditionalMetricsCardView.swift in Sources */,
+				7C8647842B2A642700F48951 /* AddNewSessionView.swift in Sources */,
 				7C7F4F6E270E610E002ECF6D /* ProfitByLocationView.swift in Sources */,
 				7C4CE7042773560D0070B16E /* DefaultLocations.swift in Sources */,
 				7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */,
@@ -731,8 +987,10 @@
 				7C25CB5327887D9200866511 /* CustomPicker.swift in Sources */,
 				7CD7468A28A6CA8F00D5A2D0 /* Images+Ext.swift in Sources */,
 				7C2B3E6926F565B200B84D52 /* EmptyState.swift in Sources */,
+				7CAFE0602B2DE52B00B7338D /* LocationGridView.swift in Sources */,
 				7C1F8C82271094B50068E8B1 /* ProfitByWeekdayView.swift in Sources */,
 				7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */,
+				7C8647812B29277900F48951 /* SignInTest.swift in Sources */,
 				7C6394AD26C14FA600939F40 /* HeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -862,7 +1120,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -918,7 +1176,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -943,7 +1201,7 @@
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = PokerTracker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -971,7 +1229,7 @@
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = PokerTracker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

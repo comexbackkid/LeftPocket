@@ -17,14 +17,15 @@ struct CellView: View {
             Image(systemName: "suit.club.fill")
                 .imageRowStyle()
             
-            VStack (alignment: .leading) {
+            VStack (alignment: .leading, spacing: 2) {
                 
                 Text(pokerSession.location.name)
+                    .bodyStyle()
                     .font(.subheadline)
-                    .bold()
                     .lineLimit(1)
                 
                 Text("\(pokerSession.date.dateStyle())")
+                    .captionStyle()
                     .font(.caption2)
                     .foregroundColor(.secondary)
             }
@@ -37,6 +38,8 @@ struct CellView: View {
                 .foregroundColor(pokerSession.profit > 0 ? .green : .red)
         }
         .padding(10)
+        .padding(.vertical, 4)
+        .background(Color.brandBlack)
     }
 }
 

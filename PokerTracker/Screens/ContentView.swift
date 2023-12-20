@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+enum Sheet: String, Identifiable {
+    
+    case newSession, recentSession
+    var id: String {
+        rawValue
+    }
+}
 
 struct ContentView: View {
     
@@ -15,22 +22,26 @@ struct ContentView: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     @Environment(\.colorScheme) var colorScheme
     
+    var bankroll: String {
+        return viewModel.tallyBankroll().asCurrency()
+    }
+
+    var lastSession: Int {
+        return viewModel.sessions.first?.profit ?? 0
+    }
+    
     var body: some View {
         
         ScrollView(.vertical) {
             
             VStack(spacing: 5) {
                 
-                HeaderView(activeSheet: $activeSheet)
-                
-                BankrollSnapshot()
-                    .padding(.bottom)
-                    .offset(x: 0, y: -10)
+                bankrollView
                 
                 if viewModel.sessions.isEmpty {
                     
-                    EmptyState()
-                        .padding(.top, 80)
+                    EmptyState(screen: .sessions)
+                        .padding(.top, 50)
                     
                 } else {
                     
@@ -41,12 +52,14 @@ struct ContentView: View {
                     Spacer()
                 }
             }
+            .padding(.bottom, 50)
             .fullScreenCover(isPresented: $showMetricsAsSheet) {
                 MetricsView()
             }
         }
-        .background(colorScheme == .dark ? Color(.systemGray6) : .white)
+        .background(Color.brandBlack)
         .sheet(item: $activeSheet) { sheet in
+            
             switch sheet {
             case .newSession: NewSessionView(isPresented: .init(get: {
                 activeSheet == .newSession
@@ -69,6 +82,7 @@ struct ContentView: View {
             MetricsCardView()
                 .padding(.bottom)
         })
+            .padding(.bottom, 12)
             .buttonStyle(PlainButtonStyle())
     }
     
@@ -85,36 +99,11 @@ struct ContentView: View {
         .padding(.bottom, 30)
         .buttonStyle(CardButtonStyle())
     }
-}
-
-struct CardButtonStyle: ButtonStyle {
     
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .overlay {
-                if configuration.isPressed {
-                    Color.black.opacity(0.1).cornerRadius(20)
-                } else {
-                    Color.clear
-                }
-            }
-    }
-}
-
-struct BankrollSnapshot: View {
-    
-    @EnvironmentObject var viewModel: SessionsListViewModel
-    
-    var bankroll: String {
-        return viewModel.tallyBankroll().asCurrency()
-    }
-    
-    var lastSession: Int {
-        return viewModel.sessions.first?.profit ?? 0
-    }
-    
-    var body: some View {
+    var bankrollView: some View {
+        
         HStack {
+            
             VStack {
                 
                 Text("BANKROLL")
@@ -140,19 +129,78 @@ struct BankrollSnapshot: View {
                 .padding(.bottom, 20)
                 
                 Divider().frame(width: UIScreen.main.bounds.width * 0.6)
-                    .padding(.bottom, 45)
+                    .padding(.bottom, 30)
             }
         }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 30)
     }
 }
 
-enum Sheet: String, Identifiable {
+
+
+//struct BankrollSnapshot: View {
+//
+//    @EnvironmentObject var viewModel: SessionsListViewModel
+//
+//    var bankroll: String {
+//        return viewModel.tallyBankroll().asCurrency()
+//    }
+//
+//    var lastSession: Int {
+//        return viewModel.sessions.first?.profit ?? 0
+//    }
+//
+//    var body: some View {
+//        HStack {
+//            VStack {
+//
+//                Text("BANKROLL")
+//                    .font(.caption)
+//                    .opacity(0.6)
+//
+//                Text(bankroll)
+//                    .fontWeight(.thin)
+//                    .font(.system(size: 60, design: .rounded))
+//                    .padding(.bottom, 2)
+//                    .opacity(0.8)
+//
+//                Text("LAST")
+//                    .font(.caption)
+//                    .opacity(0.6)
+//
+//                HStack {
+//                    Text(lastSession.asCurrency())
+//                        .fontWeight(.light)
+//                        .font(.system(size: 24, design: .rounded))
+//                        .profitColor(total: lastSession)
+//                }
+//                .padding(.bottom, 20)
+//
+//                Divider().frame(width: UIScreen.main.bounds.width * 0.6)
+//                    .padding(.bottom, 45)
+//            }
+//        }
+//        .padding(.bottom)
+//        .offset(x: 0, y: -10)
+//    }
+//}
+
+struct CardButtonStyle: ButtonStyle {
     
-    case newSession, recentSession
-    var id: String {
-        rawValue
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .overlay {
+                if configuration.isPressed {
+                    Color.black.opacity(0.1).cornerRadius(20)
+                } else {
+                    Color.clear
+                }
+            }
     }
 }
+
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

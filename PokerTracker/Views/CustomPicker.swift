@@ -46,7 +46,7 @@ struct CustomPicker: View {
                     Text("YTD")
                         .font(.subheadline)
                         .bold()
-                        .foregroundColor(.brandBlack)
+                        .foregroundColor(Color(.systemGray))
                         .padding(.horizontal, 40)
                 }
             }
@@ -78,7 +78,7 @@ struct CustomPicker: View {
                     Text("\(Date().modifyDays(days: -360).getYearShortHand())")
                         .font(.subheadline)
                         .bold()
-                        .foregroundColor(.brandBlack)
+                        .foregroundColor(Color(.systemGray))
                         .padding(.horizontal, 40)
                 }
             }
@@ -109,7 +109,7 @@ struct CustomPicker: View {
                     Text("ALL")
                         .font(.subheadline)
                         .bold()
-                        .foregroundColor(.brandBlack)
+                        .foregroundColor(Color(.systemGray))
                         .padding(.horizontal, 40)
                 }
             }
@@ -121,55 +121,6 @@ struct CustomPicker: View {
 struct CustomPicker_Previews: PreviewProvider {
     static var previews: some View {
         CustomPicker(vm: AnnualReportViewModel())
+//            .preferredColorScheme(.dark)
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// OLD CODE IN CAES WE NEED IT. ITERATED THROUGH A HARDCODED ARRAY OF DATES PREVIOUSLY
-
-//        let timelines = ["YTD", Date().modifyDays(days: -360).getYear(), "All"]
-
-//        HStack (alignment: .center, spacing: -20) {
-//            ForEach(timelines, id: \.self) { timeline in
-//                Button {
-//                    let impact = UIImpactFeedbackGenerator(style: .light)
-//                    impact.impactOccurred()
-//                    withAnimation {
-//                        vm.selectedTimeline = timeline
-//                    }
-//                } label: {
-//                    HStack {
-//                        ZStack {
-//
-//                            if vm.selectedTimeline == timeline {
-//                                Capsule()
-//                                    .foregroundColor(Color.pickerGray.opacity(0.5))
-//                                    .frame(width: 90)
-//                                    .matchedGeometryEffect(id: "timeline", in: animation)
-//                            }
-//
-//                            // Hack to display two digits instead of the full year. Ex 21 vs. 2021
-//                            Text(timeline.count == 4 ? Date().modifyDays(days: -365).getYearShortHand() : timeline)
-//                                .font(.subheadline)
-//                                .bold()
-//                                .foregroundColor(.brandBlack)
-//                                .padding(.horizontal, 40)
-//                        }
-//                    }
-//                    .frame(height: 50)
-//                }
-//                .buttonStyle(.plain)
-//            }
-//        }

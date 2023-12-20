@@ -12,7 +12,7 @@ struct RecentSessionCardView: View {
     var pokerSession: PokerSession
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var viewModel: SessionsListViewModel
-    let width = UIScreen.main.bounds.width * 0.8
+    let width = UIScreen.main.bounds.width * 0.9
     
     var body: some View {
         
@@ -30,11 +30,12 @@ struct RecentSessionCardView: View {
                 HStack {
                     VStack (alignment: .leading, spacing: 5) {
                         Text(pokerSession.location.name)
-                            .font(.headline)
+                            .headlineStyle()
                             .foregroundStyle(.white)
                         
-                        Text("See your most recent session to review hand notes & other details.")
-                            .font(.subheadline)
+                        Text("Quickly review your most recent session, hand notes, & profitability.")
+                            .calloutStyle()
+                            .opacity(0.7)
                             .foregroundStyle(.white)
                             .multilineTextAlignment(.leading)
                             .lineLimit(2)
@@ -62,8 +63,8 @@ struct RecentSessionCardView: View {
                     .foregroundColor(.white).opacity(0.5)
                 
                 Text("Last Session")
-                    .font(.title)
-                    .fontWeight(.semibold)
+                    .signInTitleStyle()
+                    .fontWeight(.heavy)
                     .foregroundColor(Color(.white))
             }
             .offset(y: -135)

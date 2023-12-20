@@ -19,24 +19,26 @@ final class NewSessionViewModel: ObservableObject {
     @Published var endTime: Date = Date()
     @Published var expenses: String = ""
     @Published var presentation: Bool?
-    @Published var isTournament: Bool = false
+    @Published var sessionType: SessionType?
     @Published var entrants: String = ""
+    
+    enum SessionType { case cash, tournament }
     
     @Published var alertItem: AlertItem?
     
     var isValidForm: Bool {
+        
+        guard sessionType != nil else {
+            alertItem = AlertContext.invalidSession
+            return false
+        }
         
         guard !location.name.isEmpty else {
             alertItem = AlertContext.inValidLocation
             return false
         }
         
-        guard !game.isEmpty else {
-            alertItem = AlertContext.inValidGame
-            return false
-        }
-        
-        if isTournament == false {
+        if sessionType == .cash {
             guard !stakes.isEmpty else {
                 alertItem = AlertContext.inValidStakes
                 return false
@@ -52,6 +54,16 @@ final class NewSessionViewModel: ObservableObject {
                 alertItem = AlertContext.invalidBuyIn
                 return false
             }
+        }
+        
+        guard !game.isEmpty else {
+            alertItem = AlertContext.inValidGame
+            return false
+        }
+        
+        guard endTime > startTime else {
+            alertItem = AlertContext.invalidEndTime
+            return false
         }
  
         return true
@@ -69,7 +81,7 @@ final class NewSessionViewModel: ObservableObject {
                              startTime: self.startTime,
                              endTime: self.endTime,
                              expenses: Int(self.expenses) ?? 0,
-                             isTournament: self.isTournament,
+                             isTournament: sessionType == .tournament,
                              entrants: Int(self.entrants) ?? 0)
         
         // Only after the form checks out will the presentation be set to false and passed into the Binding in our View

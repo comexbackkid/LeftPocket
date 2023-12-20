@@ -30,33 +30,43 @@ struct SessionsListView: View {
     var body: some View {
         
         NavigationView {
+            
             ZStack {
                 
                 if vm.sessions.isEmpty {
                     
                     VStack {
-                        EmptyState()
-                            .padding(.top, 40)
                         
+                        Spacer()
+                        EmptyState(screen: .sessions)
                         Spacer()
                     }
                     
                 } else {
                     
                     List {
+                        
+                        Text("All Sessions")
+                            .titleStyle()
+                            .padding(.top, -38)
+                            .padding(.horizontal)
+                            .listRowBackground(Color.brandBlack)
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        
                         ForEach(filteredSessions) { session in
                             NavigationLink(
                                 destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session),
                                 label: {
                                     CellView(pokerSession: session)
-                                })
+                                }).listRowBackground(Color.brandBlack)
                         }
                         .onDelete(perform: { indexSet in
                             vm.sessions.remove(atOffsets: indexSet)
                         })
                     }
                     .listStyle(PlainListStyle())
-                    .navigationBarTitle("All Sessions")
+                    .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         Menu {
                             Picker("", selection: $sessionFilter) {
@@ -67,30 +77,17 @@ struct SessionsListView: View {
                         } label: { Image(systemName: "slider.horizontal.3") }
                     }
                 }
-                
-                VStack {
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        let impact = UIImpactFeedbackGenerator(style: .heavy)
-                        impact.impactOccurred()
-                        isPresented.toggle()
-                    }, label: {
-                        SecondaryButton()
-                    })
-                        .sheet(isPresented: $isPresented, content: {
-                            NewSessionView(isPresented: $isPresented)
-                        })
-                }
-                .padding(.bottom)
             }
+            .accentColor(.brandPrimary)
+            .background(Color.brandBlack)
         }
+        .accentColor(.brandPrimary)
     }
 }
 
 struct SessionsView_Previews: PreviewProvider {
     static var previews: some View {
         SessionsListView().environmentObject(SessionsListViewModel())
+            .preferredColorScheme(.dark)
     }
 }

@@ -12,7 +12,7 @@ struct DefaultLocations {
     static let allLocations = [
         LocationModel(name: "MGM Springfield", localImage: "mgmspringfield-header", imageURL: ""),
         LocationModel(name: "Encore Boston Harbor", localImage: "encore-header", imageURL: ""),
-        LocationModel(name: "Boston Billiard Club", localImage: "boston-billiards-header", imageURL: ""),
+        LocationModel(name: "Gate City Casino", localImage: "boston-billiards-header", imageURL: ""),
         LocationModel(name: "Chaser's Poker Room", localImage: "chasers-header", imageURL: ""),
         LocationModel(name: "The Brook", localImage: "brook-header", imageURL: ""),
         LocationModel(name: "Foxwoods Resort & Casino", localImage: "foxwoods-header", imageURL: ""),

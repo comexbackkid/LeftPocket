@@ -19,9 +19,9 @@ struct NewSessionView: View {
             
             Form {
                 
-                Picker(selection: $newSession.isTournament, label: Text("Text")) {
-                    Text("Cash").tag(false)
-                    Text("Tournament").tag(true)
+                Picker(selection: $newSession.sessionType, label: Text("Text")) {
+                    Text("Cash").tag(Optional(NewSessionViewModel.SessionType.cash))
+                    Text("Tournament").tag(Optional(NewSessionViewModel.SessionType.tournament))
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .listRowBackground(Color(.clear))
@@ -29,7 +29,7 @@ struct NewSessionView: View {
                 
                 locationSection
                 
-                if newSession.isTournament {
+                if newSession.sessionType == .tournament {
                     
                     tournamentDetails
                     

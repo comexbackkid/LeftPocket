@@ -19,34 +19,29 @@ struct LeftPocketTabView: View {
             ContentView()
                 .tabItem {
                     Image(systemName: "house.fill")
-                    Text("Home")
                 }
             
             SessionsListView()
                 .tabItem {
                     Image(systemName: "list.bullet")
-                    Text("Sessions")
                 }
             
             MetricsView()
                 .tabItem {
-                    Image(systemName: "chart.line.uptrend.xyaxis")
-                    Text("Metrics")
+                    Image(systemName: "chart.bar.fill")
                 }
             
             StudyView()
                 .tabItem {
                     Image(systemName: "text.book.closed.fill")
-                    Text("Study")
                 }
             
-            SettingsView(isDarkMode: $isDarkMode, systemThemeEnabled: $systemThemeEnabled)
+            UserSettings(isDarkMode: $isDarkMode, systemThemeEnabled: $systemThemeEnabled)
                 .tabItem {
-                    Image(systemName: "gear")
-                    Text("Settings")
+                    Image(systemName: "gearshape.fill")
                 }
         }
-        .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
+        .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
         .accentColor(.brandPrimary)
         .fullScreenCover(isPresented: $shouldShowOnboarding, content: {
             OnboardingView(shouldShowOnboarding: $shouldShowOnboarding)
@@ -55,10 +50,6 @@ struct LeftPocketTabView: View {
             SystemThemeManager
                 .shared
                 .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
-            
-            // Disables auto-transparent behavior in new update
-//            let appearance = UITabBarAppearance()
-//            UITabBar.appearance().scrollEdgeAppearance = appearance
         }
     }
 }

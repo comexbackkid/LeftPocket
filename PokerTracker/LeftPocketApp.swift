@@ -14,7 +14,7 @@ struct LeftPocketApp: App {
     
     var body: some Scene {
         WindowGroup {
-            LeftPocketTabView().environmentObject(vm)
+            LeftPocketCustomTabBar().environmentObject(vm)
         }
     }
 }

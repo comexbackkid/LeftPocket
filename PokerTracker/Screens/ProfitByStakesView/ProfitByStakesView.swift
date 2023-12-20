@@ -19,7 +19,7 @@ struct ProfitByStakesView: View {
                     ForEach(viewModel.uniqueStakes, id: \.self) { stakes in
                         HStack {
                             Text(stakes)
-                                .font(.callout)
+                                .calloutStyle()
 
                             Spacer()
 
@@ -41,7 +41,7 @@ struct ProfitByStakesView: View {
                 .listStyle(InsetListStyle())
             }
             if viewModel.sessions.isEmpty {
-                EmptyState()
+                EmptyState(screen: .sessions)
             }
         }
     }

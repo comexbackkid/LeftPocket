@@ -14,19 +14,20 @@ struct PrimaryButton: View {
     var body: some View {
         
         Text(title)
+            .buttonTextStyle()
             .font(.title3)
-            .frame(height: 60)
+            .frame(height: 55)
             .frame(width: UIScreen.main.bounds.width * 0.9)
             .background(Color.brandPrimary)
             .foregroundColor(.white)
-            .cornerRadius(10)
+            .cornerRadius(30)
             .padding()
     }
 }
 
 struct PrimaryButton_Previews: PreviewProvider {
     static var previews: some View {
-        PrimaryButton(title: "Fake Button")
+        PrimaryButton(title: "Primary Button")
             .previewLayout(.sizeThatFits)
     }
 }

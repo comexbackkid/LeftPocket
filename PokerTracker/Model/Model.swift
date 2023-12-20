@@ -54,6 +54,18 @@ struct SessionData: Identifiable, Hashable {
     let profit: Int
 }
 
+struct UserYearlySummary: Identifiable, Codable, Hashable {
+    var id = UUID()
+    let year: String
+    let netProfit: String
+    let hourlyRate: String
+    let profitPerSession: String
+    let expenses: String
+    let winRate: String
+    let biggestWin: String
+    let bestLocation: String
+}
+
 struct DefaultData {
     
     static let defaultLocation = LocationModel(name: "TBD", localImage: "empty-location", imageURL: "")
@@ -137,7 +149,13 @@ class SystemThemeManager {
 
 struct MockData {
     
-    static let mockLocation = LocationModel(name: "MGM Sprinfield", localImage: "mgmspringfield-header", imageURL: "")
+    static func countLocation(location: LocationModel.ID) -> Int {
+        
+        let arrayOfLocations = MockData.allSessions.filter({ $0.location.id == location })
+        return arrayOfLocations.count
+    }
+    
+    static let mockLocation = LocationModel(name: "MGM Springfield", localImage: "mgmspringfield-header", imageURL: "")
     static let sampleSession = PokerSession(location: mockLocation,
                                             game: "NL Texas Hold Em",
                                             stakes: "1/3",
@@ -147,7 +165,7 @@ struct MockData {
                                             startTime: Date(),
                                             endTime: Date().modifyTime(minutes: 95),
                                             expenses: 10,
-                                            isTournament: true,
+                                            isTournament: false,
                                             entrants: 80)
     
     static let allLocations = [
@@ -157,7 +175,8 @@ struct MockData {
         LocationModel(name: "The Brook", localImage: "brook-header", imageURL: ""),
         LocationModel(name: "Foxwoods Resort & Casino", localImage: "foxwoods-header", imageURL: ""),
         LocationModel(name: "Mohegan Sun Casino", localImage: "mohegan-sun-header", imageURL: ""),
-        LocationModel(name: "Rivers Casino & Resort", localImage: "rivers-header", imageURL: "")
+        LocationModel(name: "Rivers Casino & Resort", localImage: "rivers-header", imageURL: ""),
+        LocationModel(name: "Turning Stone Casino", localImage: "turningstone-header", imageURL: "")
     ]
     
     static let allSessions = [

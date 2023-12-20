@@ -16,7 +16,6 @@ struct PlusButton: View {
             Circle()
                 .frame(width: 50, height: 50)
                 .foregroundColor(Color(colorScheme == .dark ? .black : .systemGray6))
-//                .shadow(color: .gray.opacity(colorScheme == .dark ? 0.0 : 0.2), radius: 9, x: 0, y: 0)
             
             Image(systemName: "plus")
                 .imageScale(.large)

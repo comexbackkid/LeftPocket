@@ -32,28 +32,6 @@ class SessionsListViewModel: ObservableObject {
         getLocations()
     }
     
-    // MARK: WIDGET FUNCTIONS
-    
-    func writeToWidget() {
-        guard let defaults = UserDefaults(suiteName: AppGroup.bankrollSuite) else {
-            print("Unable to write to User Defaults!")
-            return
-        }
-
-        defaults.set(self.tallyBankroll(), forKey: AppGroup.bankrollKey)
-        defaults.set(self.sessions.first?.profit ?? 0, forKey: AppGroup.lastSessionKey)
-        defaults.set(self.hourlyRate(), forKey: AppGroup.hourlyKey)
-        defaults.set(self.sessions.count, forKey: AppGroup.totalSessionsKey)
-
-        guard let chartData = try? JSONEncoder().encode(self.chartCoordinates()) else {
-            print("Error writing chart data")
-            return
-        }
-
-        defaults.set(chartData, forKey: AppGroup.chartKey)
-        WidgetCenter.shared.reloadAllTimelines()
-    }
-    
     // MARK: SAVING & LOADING APP DATA
     
     var sessionsPath: URL {
@@ -133,21 +111,13 @@ class SessionsListViewModel: ObservableObject {
         uniqueStakes = Array(Set(sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).map({ $0.stakes })))
     }
     
-    // MARK: MOCK DATA FOR PREVIEW & TESTING
-    
-    // Loading fake data for Preview Provider
-    func getMockSessions() {
-        let fakeSessions = MockData.allSessions.sorted(by: {$0.date > $1.date})
-        self.sessions = fakeSessions
+    // This is only working when you filter by .name versus the .id not sure why? Does it matter? What if the name is changed by the user?
+    func uniqueLocationCount(location: LocationModel) -> Int {
+        let array = self.sessions.filter({ $0.location.id == location.id })
+        return array.count
     }
     
-    // Loading fake locations so our filtered views can work correctly
-    func getMockLocations() {
-            let fakeLocations = MockData.allLocations
-            self.locations = fakeLocations
-    }
-    
-    // MARK: CALCULATIONS & DATA PRESENTATION
+    // MARK: CALCULATIONS & DATA PRESENTATION FOR USE IN CHARTS
     
     // Calculate current bankroll
     func tallyBankroll() -> Int {
@@ -289,7 +259,7 @@ class SessionsListViewModel: ObservableObject {
         return year[0].date.getYear()
     }
     
-    // MARK: CALCULATIONS FOR YEAR-END-SUMMARY VIEW
+    // MARK: CALCULATIONS FOR ANNUAL REPORT VIEW
     
     func bankrollByYear(year: String) -> Int {
         let formatter = NumberFormatter()
@@ -412,7 +382,7 @@ class SessionsListViewModel: ObservableObject {
         return yearlyChartArray(year: year).enumerated().map({Point(x:CGFloat($0.offset), y: $0.element)})
     }
     
-    // MARK: FILTERING CARDS IN METRICS VIEW
+    // MARK: ADDITIONAL METRICS CARDS
     
     func sessionsByLocation(_ location: String) -> [PokerSession] {
         sessions.filter({ $0.location.name == location })
@@ -472,7 +442,69 @@ class SessionsListViewModel: ObservableObject {
         sessions.sort(by: {$0.date > $1.date})
     }
     
+    // MARK: SAVING & EXPORTING USER'S SESSIONS
+    
+    // Function that saves user's yearly summary into FileManager for export
+    // Need a function to be called when button is pressed, to compile data into a JSON format and save to FileManager
+    // Then immediately after the export file modifier called to save the file to iCloud
+    
+    func pathForUserData() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[1]
+    }
+    
+    func writeUserData() {
+        
+        let dummyData = UserYearlySummary.init(year: "2022", netProfit: "3700", hourlyRate: "50", profitPerSession: "25", expenses: "98", winRate: "67%", biggestWin: "2200", bestLocation: "Chaser's Poker")
+        let url = pathForUserData().appendingPathComponent("test.json")
+        
+        do {
+            if let encodedUserData = try? JSONEncoder().encode(dummyData) {
+                try? FileManager.default.removeItem(at: url)
+                try encodedUserData.write(to: url)
+            }
+        } catch {
+            print("Failed to save user data, \(error)")
+        }
+    }
+    
+    // MARK: WIDGET FUNCTIONS
+    
+    func writeToWidget() {
+        guard let defaults = UserDefaults(suiteName: AppGroup.bankrollSuite) else {
+            print("Unable to write to User Defaults!")
+            return
+        }
+
+        defaults.set(self.tallyBankroll(), forKey: AppGroup.bankrollKey)
+        defaults.set(self.sessions.first?.profit ?? 0, forKey: AppGroup.lastSessionKey)
+        defaults.set(self.hourlyRate(), forKey: AppGroup.hourlyKey)
+        defaults.set(self.sessions.count, forKey: AppGroup.totalSessionsKey)
+
+        guard let chartData = try? JSONEncoder().encode(self.chartCoordinates()) else {
+            print("Error writing chart data")
+            return
+        }
+
+        defaults.set(chartData, forKey: AppGroup.chartKey)
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+    
+    // MARK: MOCK DATA FOR PREVIEW & TESTING
+    
+    // Loading fake data for Preview Provider
+    func getMockSessions() {
+        let fakeSessions = MockData.allSessions.sorted(by: {$0.date > $1.date})
+        self.sessions = fakeSessions
+    }
+    
+    // Loading fake locations so our filtered views can work correctly
+    func getMockLocations() {
+            let fakeLocations = MockData.allLocations
+            self.locations = fakeLocations
+    }
+    
     let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    let daysOfWeekAbr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    let daysOfWeekAbbreviated = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 }
