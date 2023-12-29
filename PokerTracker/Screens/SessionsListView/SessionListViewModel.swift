@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WidgetKit
+import RevenueCat
 
 class SessionsListViewModel: ObservableObject {
     
@@ -117,7 +118,7 @@ class SessionsListViewModel: ObservableObject {
         return array.count
     }
     
-    // MARK: CALCULATIONS & DATA PRESENTATION FOR USE IN CHARTS
+    // MARK: CALCULATIONS & DATA PRESENTATION FOR USE IN CHARTS & METRICS VIEW
     
     // Calculate current bankroll
     func tallyBankroll() -> Int {
@@ -244,21 +245,6 @@ class SessionsListViewModel: ObservableObject {
         return dateComponents.abbreviated(duration: dateComponents)
     }
     
-    // Gets the Year from very first session played. Used in Metrics View
-    func yearRangeFirst() -> String {
-        guard !sessions.isEmpty else { return "0" }
-        let year = sessions.sorted(by: { $0.date > $1.date })
-        return year.reversed()[0].date.getYear()
-    }
-    
-    // Gets the Year from most recent session played. Used in Metrics View
-    func yearRangeRecent() -> String {
-        
-        guard !sessions.isEmpty else { return "0" }
-        let year = sessions.sorted(by: { $0.date > $1.date })
-        return year[0].date.getYear()
-    }
-    
     // MARK: CALCULATIONS FOR ANNUAL REPORT VIEW
     
     func bankrollByYear(year: String) -> Int {
@@ -370,14 +356,14 @@ class SessionsListViewModel: ObservableObject {
         var cumBankroll = [Double]()
         var runningTotal = 0.0
         cumBankroll.append(0.0)
-        
+
         for value in profitsArray.reversed() {
             runningTotal += value
             cumBankroll.append(runningTotal)
         }
         return cumBankroll
     }
-    
+
     func yearlyChartCoordinates(year: String) -> [Point] {
         return yearlyChartArray(year: year).enumerated().map({Point(x:CGFloat($0.offset), y: $0.element)})
     }
@@ -392,13 +378,13 @@ class SessionsListViewModel: ObservableObject {
         return sessionsByLocation(location).reduce(0) { $0 + $1.profit }
     }
     
-    func sessionsByDayOfWeek(_ day: String) -> [PokerSession] {
-        sessions.filter({ $0.date.dayOfWeek(day: $0.date) == day })
-    }
-    
-    func profitByDayOfWeek(_ day: String) -> Int {
-        return sessionsByDayOfWeek(day).reduce(0) { $0 + $1.profit }
-    }
+//    func sessionsByDayOfWeek(_ day: String) -> [PokerSession] {
+//        sessions.filter({ $0.date.dayOfWeek(day: $0.date) == day })
+//    }
+//
+//    func profitByDayOfWeek(_ day: String) -> Int {
+//        return sessionsByDayOfWeek(day).reduce(0) { $0 + $1.profit }
+//    }
     
     func sessionsByMonth(_ month: String) -> [PokerSession] {
         sessions.filter({ $0.date.monthOfYear(month: $0.date) == month })
@@ -444,29 +430,29 @@ class SessionsListViewModel: ObservableObject {
     
     // MARK: SAVING & EXPORTING USER'S SESSIONS
     
-    // Function that saves user's yearly summary into FileManager for export
-    // Need a function to be called when button is pressed, to compile data into a JSON format and save to FileManager
+    // In the future, can we write a function that converts their Annual Summary into a CSV file?
     // Then immediately after the export file modifier called to save the file to iCloud
     
-    func pathForUserData() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[1]
-    }
     
-    func writeUserData() {
-        
-        let dummyData = UserYearlySummary.init(year: "2022", netProfit: "3700", hourlyRate: "50", profitPerSession: "25", expenses: "98", winRate: "67%", biggestWin: "2200", bestLocation: "Chaser's Poker")
-        let url = pathForUserData().appendingPathComponent("test.json")
-        
-        do {
-            if let encodedUserData = try? JSONEncoder().encode(dummyData) {
-                try? FileManager.default.removeItem(at: url)
-                try encodedUserData.write(to: url)
-            }
-        } catch {
-            print("Failed to save user data, \(error)")
-        }
-    }
+//    func pathForUserData() -> URL {
+//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//        return paths[1]
+//    }
+//    
+//    func writeUserData() {
+//        
+//        let dummyData = UserYearlySummary.init(year: "2022", netProfit: "3700", hourlyRate: "50", profitPerSession: "25", expenses: "98", winRate: "67%", biggestWin: "2200", bestLocation: "Chaser's Poker")
+//        let url = pathForUserData().appendingPathComponent("test.json")
+//        
+//        do {
+//            if let encodedUserData = try? JSONEncoder().encode(dummyData) {
+//                try? FileManager.default.removeItem(at: url)
+//                try encodedUserData.write(to: url)
+//            }
+//        } catch {
+//            print("Failed to save user data, \(error)")
+//        }
+//    }
     
     // MARK: WIDGET FUNCTIONS
     

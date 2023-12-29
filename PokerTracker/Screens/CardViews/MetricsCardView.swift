@@ -40,6 +40,7 @@ struct MetricsCardView: View {
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.leading)
                             .lineLimit(2)
+                            .padding(.bottom, 10)
                     }
                     .padding()
                     .padding(.top, -8)
@@ -70,6 +71,6 @@ struct MetricsCardView: View {
 struct MetricsCardView_Previews: PreviewProvider {
     static var previews: some View {
         MetricsCardView().environmentObject(SessionsListViewModel())
-            .preferredColorScheme(.dark)
+//            .preferredColorScheme(.dark)
     }
 }

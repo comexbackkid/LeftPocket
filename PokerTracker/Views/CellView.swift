@@ -39,7 +39,7 @@ struct CellView: View {
         }
         .padding(10)
         .padding(.vertical, 4)
-        .background(Color.brandBlack)
+        .background(Color.brandBackground)
     }
 }
 

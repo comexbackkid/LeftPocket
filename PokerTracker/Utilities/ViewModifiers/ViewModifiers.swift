@@ -17,12 +17,10 @@ struct AccountingView: ViewModifier {
     }
 }
 
-
 struct Primary: ViewModifier {
     private let font: Font
     
     init(size: CGFloat, foregroundColor: Color) {
-//        self.font = .system(size: UIFontMetrics.default.scaledValue(for: size))
         self.font = .custom("Asap-Regular", size: 18)
     }
 

@@ -11,11 +11,6 @@ import AuthenticationServices
 struct SignInTest: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @AppStorage("email") var email: String = ""
-    @AppStorage("userID") var userID: String = ""
-    @AppStorage("firstName") var firstName: String = ""
-    @AppStorage("lastName") var lastName: String = ""
-    
     @Binding var shouldShowOnboarding: Bool
     
     var body: some View {
@@ -26,108 +21,86 @@ struct SignInTest: View {
                 
                 Spacer()
                 
-                Image("leftpocket-logo-simple")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 200)
+                logo
                 
                 Spacer()
                 
-                Text("WELCOME TO LEFT POCKET")
-                    .foregroundColor(.white)
-                    .font(.caption)
-                    .fontWeight(.light)
-                    .padding(.bottom, 1)
-                
-                Text("Where you keep your important money.")
-                    .signInTitleStyle()
-                    .bold()
-                    .foregroundColor(.white)
-                    .font(.title)
-                    .padding(.bottom, 50)
+                bodyText
                 
                 Spacer()
                 
-//                appleSignInButton
+                getStartedButton
                 
-                Button {
-                    shouldShowOnboarding.toggle()
-                } label: {
-                    VStack {
-                        Text("Get Started")
-                            .buttonTextStyle()
-                            .foregroundColor(.black)
-                            .font(.title3)
-                            .fontWeight(.medium)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 55)
-                            .background(.white)
-                            .cornerRadius(30)
-                            .padding(.horizontal, 10)
-                    }
-                }
-                .buttonStyle(PlainButtonStyle())
-                
-                Text("By continuing you agree to Left Pocket's Terms of Use and [Privacy Policy](https://getleftpocket.carrd.co/#privacy)")
-                    .accentColor(.brandPrimary)
-                    .foregroundColor(.white)
-                    .font(.footnote)
-                    .padding()
-                    .multilineTextAlignment(.center)
+                disclaimerText
             }
             .padding()
         }
-        .background(LinearGradient(colors: [.black.opacity(colorScheme == .dark ? 0.4 : 0.7), .black.opacity(0.0)],
-                                   startPoint: .bottomTrailing,
-                                   endPoint: .topLeading))
-        .background(Color.onboardingBG)
+        .onBoardingBackgroundStyle(colorScheme: colorScheme)
     }
     
-    var appleSignInButton: some View {
+    var logo: some View {
+        
+        Image("leftpocket-logo-simple")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(height: 200)
+    }
+    
+    var bodyText: some View {
         
         VStack {
             
-            SignInWithAppleButton(.continue) { request in
-                
-                request.requestedScopes = [.email, .fullName]
-                
-            } onCompletion: { result in
-                
-                switch result {
-                case .success(let auth):
-                    
-                    switch auth.credential {
-                    case let credential as ASAuthorizationAppleIDCredential:
-                        
-                        // User ID
-                        let userID = credential.user
-                        
-                        // User Info
-                        let email = credential.email
-                        let firstName = credential.fullName?.givenName
-                        let lastName = credential.fullName?.familyName
-                        
-                        // Need to go through error checks for all this shit
-                        // Because we may or may not get this back from Apple, just handle the optional with blank space
-                        self.userID = userID
-                        self.email = email ?? ""
-                        self.firstName = firstName ?? ""
-                        self.lastName = lastName ?? ""
-                        
-                    default:
-                        break
-                    }
-                    
-                case .failure(let error):
-                    print(error)
-                }
-                
-            }
-            .signInWithAppleButtonStyle(.white)
+            Text("WELCOME TO LEFT POCKET")
+                .foregroundColor(.white)
+                .font(.caption)
+                .fontWeight(.light)
+                .padding(.bottom, 1)
+            
+            Text("Where you keep your important money.")
+                .signInTitleStyle()
+                .bold()
+                .foregroundColor(.white)
+                .font(.title)
+                .padding(.bottom, 50)
+            
         }
-        .cornerRadius(30)
-        .frame(height: 55)
+        
     }
+    
+    var getStartedButton: some View {
+        
+        Button {
+            
+            shouldShowOnboarding.toggle()
+            
+        } label: {
+            
+            Text("Get Started")
+                .buttonTextStyle()
+                .foregroundColor(.black)
+                .font(.title3)
+                .fontWeight(.medium)
+                .frame(maxWidth: .infinity)
+                .frame(height: 55)
+                .background(.white)
+                .cornerRadius(30)
+                .padding(.horizontal, 10)
+            
+        }
+        .buttonStyle(PlainButtonStyle())
+        
+    }
+    
+    var disclaimerText: some View {
+        
+        Text("By continuing you agree to Left Pocket's Terms of Use and [Privacy Policy](https://getleftpocket.carrd.co/#privacy)")
+            .accentColor(.brandPrimary)
+            .foregroundColor(.white)
+            .font(.footnote)
+            .padding()
+            .multilineTextAlignment(.center)
+    }
+    
 }
 
 struct SignInTest_Previews: PreviewProvider {

@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import RevenueCat
+import RevenueCatUI
 
 final class NewSessionViewModel: ObservableObject {
     

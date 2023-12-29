@@ -64,7 +64,7 @@ struct NewLocationView: View {
                 .scrollDisabled(true)
                 .navigationBarTitle(Text(""))
             }
-            .background(colorScheme == .light ? Color(.systemGray6) : .black)
+            .background(colorScheme == .light ? Color(.systemGray6) : Color(.systemGray6))
         }
         .accentColor(.brandPrimary)
     }

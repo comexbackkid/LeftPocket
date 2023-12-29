@@ -10,11 +10,14 @@ import SwiftUI
 @main
 struct LeftPocketApp: App {
     
-    @StateObject var vm: SessionsListViewModel = SessionsListViewModel()
-    
+    @StateObject var vm = SessionsListViewModel()
+    @StateObject var subManager = SubscriptionManager()
+
     var body: some Scene {
         WindowGroup {
-            LeftPocketCustomTabBar().environmentObject(vm)
+            LeftPocketCustomTabBar()
+                .environmentObject(vm)
+                .environmentObject(subManager)
         }
     }
 }

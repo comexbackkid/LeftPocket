@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RevenueCatUI
 
 struct SessionsListView: View {
     
@@ -15,8 +16,11 @@ struct SessionsListView: View {
     
     @State var activeSheet: Sheet?
     @State var isPresented = false
+    @State var showPaywall = false
     @State var sessionFilter: SessionFilter = .all
+    
     @EnvironmentObject var vm: SessionsListViewModel
+    @EnvironmentObject var subManager: SubscriptionManager
     
     var filteredSessions: [PokerSession] {
         
@@ -38,7 +42,7 @@ struct SessionsListView: View {
                     VStack {
                         
                         Spacer()
-                        EmptyState(screen: .sessions)
+                        EmptyState(image: .sessions)
                         Spacer()
                     }
                     
@@ -50,16 +54,19 @@ struct SessionsListView: View {
                             .titleStyle()
                             .padding(.top, -38)
                             .padding(.horizontal)
-                            .listRowBackground(Color.brandBlack)
+                            .listRowBackground(Color.brandBackground)
                             .listRowSeparator(.hidden)
                             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        
+                        // With Paywall offering, we're only prompting them to subscribe with the New Session Button
+                        // They can still view all their Sessions if they were previous free users
                         
                         ForEach(filteredSessions) { session in
                             NavigationLink(
                                 destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session),
                                 label: {
                                     CellView(pokerSession: session)
-                                }).listRowBackground(Color.brandBlack)
+                                }).listRowBackground(Color.brandBackground)
                         }
                         .onDelete(perform: { indexSet in
                             vm.sessions.remove(atOffsets: indexSet)
@@ -78,8 +85,10 @@ struct SessionsListView: View {
                     }
                 }
             }
+            .padding(.bottom, 50)
             .accentColor(.brandPrimary)
-            .background(Color.brandBlack)
+            .background(Color.brandBackground)
+            
         }
         .accentColor(.brandPrimary)
     }
@@ -87,7 +96,9 @@ struct SessionsListView: View {
 
 struct SessionsView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionsListView().environmentObject(SessionsListViewModel())
+        SessionsListView()
+            .environmentObject(SessionsListViewModel())
+            .environmentObject(SubscriptionManager())
             .preferredColorScheme(.dark)
     }
 }

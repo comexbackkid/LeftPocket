@@ -41,7 +41,7 @@ struct ProfitByStakesView: View {
                 .listStyle(InsetListStyle())
             }
             if viewModel.sessions.isEmpty {
-                EmptyState(screen: .sessions)
+                EmptyState(image: .sessions)
             }
         }
     }

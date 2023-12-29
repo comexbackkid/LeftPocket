@@ -11,6 +11,7 @@ import WidgetKit
 struct WidgetViewMedium: View {
     
     @Environment(\.colorScheme) var colorScheme
+    
     var entry: SimpleEntry
     
     var body: some View {

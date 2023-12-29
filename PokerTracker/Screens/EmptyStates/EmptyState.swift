@@ -9,26 +9,6 @@ import SwiftUI
 
 struct EmptyState: View {
     
-    let screen: EmptyStateScreenType
-    
-    enum EmptyStateScreenType: String {
-        case metrics
-        case sessions
-        case locations
-    }
-    
-    func getScreen(screen: EmptyStateScreenType) -> String {
-        
-        switch screen {
-        case .metrics:
-            return "bargraphvector-transparent"
-        case .sessions:
-            return "pokerchipsvector-transparent"
-        case .locations:
-            return "locationvectorart-transparent"
-        }
-    }
-    
     var body: some View {
         
         ZStack {
@@ -37,7 +17,7 @@ struct EmptyState: View {
                 
                 ZStack {
                     
-                    Image(getScreen(screen: screen))
+                    Image(getScreen(image: image))
                         .resizable()
                         .frame(width: 125, height: 125)
                 }
@@ -56,10 +36,30 @@ struct EmptyState: View {
             .frame(maxWidth: .infinity)
         }
     }
+    
+    let image: EmptyStateImageType
+    
+    enum EmptyStateImageType: String {
+        case metrics
+        case sessions
+        case locations
+    }
+    
+    func getScreen(image: EmptyStateImageType) -> String {
+        
+        switch image {
+        case .metrics:
+            return "bargraphvector-transparent"
+        case .sessions:
+            return "pokerchipsvector-transparent"
+        case .locations:
+            return "locationvectorart-transparent"
+        }
+    }
 }
 
 struct EmptyState_Previews: PreviewProvider {
     static var previews: some View {
-        EmptyState(screen: .locations)
+        EmptyState(image: .locations)
     }
 }

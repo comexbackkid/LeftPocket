@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import RevenueCat
+import RevenueCatUI
 
 struct LeftPocketCustomTabBar: View {
     
@@ -13,8 +15,12 @@ struct LeftPocketCustomTabBar: View {
     @AppStorage("systemThemeEnabled") private var systemThemeEnabled = false
     @AppStorage("shouldShowOnboarding") var shouldShowOnboarding: Bool = true
     
+    @EnvironmentObject var subManager: SubscriptionManager
+    @EnvironmentObject var viewModel: SessionsListViewModel
+    
     @State var selectedTab = 0
     @State var isPresented = false
+    @State var showPaywall = false
     
     let tabBarImages = ["house.fill", "list.bullet", "plus", "chart.bar.fill", "gearshape.fill"]
     
@@ -40,8 +46,9 @@ struct LeftPocketCustomTabBar: View {
                 case 4:
                     UserSettings(isDarkMode: $isDarkMode, systemThemeEnabled: $systemThemeEnabled)
                 
+                // Is this safe?
                 default:
-                    Text("Screen")
+                    Text("")
                 }
             }
             
@@ -54,7 +61,7 @@ struct LeftPocketCustomTabBar: View {
         }
         .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
         .onAppear {
-            shouldShowOnboarding = true
+//            shouldShowOnboarding = true
             SystemThemeManager
                 .shared
                 .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
@@ -72,7 +79,13 @@ struct LeftPocketCustomTabBar: View {
                     if index == 2 {
                         let impact = UIImpactFeedbackGenerator(style: .medium)
                         impact.impactOccurred()
-                        isPresented.toggle()
+                        
+                        // If user is NOT subscribed, AND they have 25 sessions or less we show the Paywall
+                        if !subManager.isSubscribed && viewModel.sessions.count > 24 {
+                            showPaywall = true
+                        } else {
+                            isPresented = true
+                        }
                         return
                     }
                     
@@ -88,19 +101,29 @@ struct LeftPocketCustomTabBar: View {
                     
                     Spacer()
                 }
-                .sheet(isPresented: $isPresented) {
-                    AddNewSessionView(isPresented: $isPresented)
+                .sheet(isPresented: $showPaywall) {
+                    PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                }
+                .task {
+                    for await customerInfo in Purchases.shared.customerInfoStream {
+                        showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                        await subManager.checkSubscriptionStatus()
+                    }
                 }
             }
         }
         .padding(.top)
         .background(.thickMaterial)
+        .sheet(isPresented: $isPresented) {
+            AddNewSessionView(isPresented: $isPresented)
+        }
     }
 }
 
 struct LeftPocketCustomTabBar_Previews: PreviewProvider {
     static var previews: some View {
-        LeftPocketCustomTabBar().environmentObject(SessionsListViewModel())
-//            .preferredColorScheme(.dark)
+        LeftPocketCustomTabBar()
+            .environmentObject(SessionsListViewModel())
+            .environmentObject(SubscriptionManager())
     }
 }

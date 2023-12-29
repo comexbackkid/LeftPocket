@@ -135,7 +135,7 @@ struct NewSessionView: View {
             DatePicker("Start", selection: $newSession.startTime, in: ...Date.now,
                        displayedComponents: [.date, .hourAndMinute])
             
-            DatePicker("End", selection: $newSession.endTime, in: ...Date.now,
+            DatePicker("End", selection: $newSession.endTime, in: newSession.startTime...Date.now,
                        displayedComponents: [.date, .hourAndMinute])
             HStack {
                 Text("$")

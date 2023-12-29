@@ -20,7 +20,7 @@ struct LocationsListView: View {
             form
 
         }
-        .background(Color.brandBlack)
+        .background(Color.brandBackground)
         .accentColor(.brandPrimary)
         .listStyle(InsetGroupedListStyle())
         .navigationBarTitle("My Locations")

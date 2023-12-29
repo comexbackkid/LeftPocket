@@ -51,6 +51,14 @@
 		7C6394A926C14F6400939F40 /* SessionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6394A826C14F6400939F40 /* SessionsListView.swift */; };
 		7C6394AB26C14F6B00939F40 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6394AA26C14F6B00939F40 /* SettingsView.swift */; };
 		7C6394AD26C14FA600939F40 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6394AC26C14FA600939F40 /* HeaderView.swift */; };
+		7C63FC342B35D08B00FE731C /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63FC332B35D08B00FE731C /* View+Ext.swift */; };
+		7C63FC362B35ED7200FE731C /* StoreKitConfiguration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 7C63FC352B35ED7200FE731C /* StoreKitConfiguration.storekit */; };
+		7C63FC372B35ED7200FE731C /* StoreKitConfiguration.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 7C63FC352B35ED7200FE731C /* StoreKitConfiguration.storekit */; };
+		7C63FC392B35EF1200FE731C /* StoreKitTestCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 7C63FC382B35EF1200FE731C /* StoreKitTestCertificate.cer */; };
+		7C63FC3A2B35EF1200FE731C /* StoreKitTestCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 7C63FC382B35EF1200FE731C /* StoreKitTestCertificate.cer */; };
+		7C63FC3C2B36238A00FE731C /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63FC3B2B36238A00FE731C /* UserViewModel.swift */; };
+		7C63FC3D2B36238A00FE731C /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63FC3B2B36238A00FE731C /* UserViewModel.swift */; };
+		7C63FC3F2B3640FF00FE731C /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63FC3E2B3640FF00FE731C /* SubscriptionManager.swift */; };
 		7C65B188272C3A5A00AFE796 /* NewLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C65B187272C3A5A00AFE796 /* NewLocationView.swift */; };
 		7C68FE3F26D670100019BA53 /* LeftPocketTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE3E26D670100019BA53 /* LeftPocketTabView.swift */; };
 		7C68FE4126D709530019BA53 /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE4026D709530019BA53 /* PlusButton.swift */; };
@@ -162,6 +170,9 @@
 		7CF53F1C289A9CE500C26AD5 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF53F1B289A9CE500C26AD5 /* StudyView.swift */; };
 		7CF53F1E289A9EA300C26AD5 /* StudyCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF53F1D289A9EA300C26AD5 /* StudyCardView.swift */; };
 		7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */; };
+		7CFD78A92B34DF2D00C1A9F6 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 7CFD78A82B34DF2D00C1A9F6 /* RevenueCat */; };
+		7CFD78AB2B34DF2D00C1A9F6 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7CFD78AA2B34DF2D00C1A9F6 /* RevenueCatUI */; };
+		7CFD78AD2B34E46100C1A9F6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFD78AC2B34E46100C1A9F6 /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -236,6 +247,11 @@
 		7C6394A826C14F6400939F40 /* SessionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsListView.swift; sourceTree = "<group>"; };
 		7C6394AA26C14F6B00939F40 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		7C6394AC26C14FA600939F40 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		7C63FC332B35D08B00FE731C /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
+		7C63FC352B35ED7200FE731C /* StoreKitConfiguration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = StoreKitConfiguration.storekit; sourceTree = "<group>"; };
+		7C63FC382B35EF1200FE731C /* StoreKitTestCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = StoreKitTestCertificate.cer; sourceTree = "<group>"; };
+		7C63FC3B2B36238A00FE731C /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		7C63FC3E2B3640FF00FE731C /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		7C65B187272C3A5A00AFE796 /* NewLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLocationView.swift; sourceTree = "<group>"; };
 		7C68FE3E26D670100019BA53 /* LeftPocketTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftPocketTabView.swift; sourceTree = "<group>"; };
 		7C68FE4026D709530019BA53 /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
@@ -310,6 +326,7 @@
 		7CF53F1B289A9CE500C26AD5 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
 		7CF53F1D289A9EA300C26AD5 /* StudyCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyCardView.swift; sourceTree = "<group>"; };
 		7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
+		7CFD78AC2B34E46100C1A9F6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -326,6 +343,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7CFD78AD2B34E46100C1A9F6 /* StoreKit.framework in Frameworks */,
+				7CFD78AB2B34DF2D00C1A9F6 /* RevenueCatUI in Frameworks */,
+				7CFD78A92B34DF2D00C1A9F6 /* RevenueCat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +355,7 @@
 		7C1587F128A2DD5E00B11F77 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7CFD78AC2B34E46100C1A9F6 /* StoreKit.framework */,
 				7C1587F228A2DD5E00B11F77 /* WidgetKit.framework */,
 				7C1587F428A2DD5E00B11F77 /* SwiftUI.framework */,
 			);
@@ -387,6 +408,7 @@
 				7C4CE70127729E4D0070B16E /* UIWindow+Ext.swift */,
 				7C4C7BA628A4684700DBC886 /* Text+Ext.swift */,
 				7CD7468928A6CA8F00D5A2D0 /* Images+Ext.swift */,
+				7C63FC332B35D08B00FE731C /* View+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -448,17 +470,16 @@
 				7CB1EBD92950DF4800FA306B /* BestSessionView.swift */,
 				7CB3EB9C26C3093D009E8DF3 /* CellView.swift */,
 				7C25CB5227887D9200866511 /* CustomPicker.swift */,
+				7CAFDFF22B2C884100B7338D /* CustomToggle.swift */,
 				7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */,
+				7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */,
 				7C6394AC26C14FA600939F40 /* HeaderView.swift */,
 				7CC20EB2272B19D200137F51 /* HelpView.swift */,
 				7C20CFB1271E2D1600739764 /* OnboardingView.swift */,
 				7C15DD38276D575600889FB2 /* PlaceholderView.swift */,
-				7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */,
 				7C68FE4026D709530019BA53 /* PlusButton.swift */,
 				7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */,
 				7C20CFB3271F4EB700739764 /* SecondaryButton.swift */,
-				7C4CE7052773B2330070B16E /* LaunchScreen.storyboard */,
-				7CAFDFF22B2C884100B7338D /* CustomToggle.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -469,6 +490,8 @@
 				7CB3EBA426C352C6009E8DF3 /* Model.swift */,
 				7C3F43AB2728512700A9C842 /* LocationModel.swift */,
 				7C4CE7032773560D0070B16E /* DefaultLocations.swift */,
+				7C63FC3B2B36238A00FE731C /* UserViewModel.swift */,
+				7C63FC3E2B3640FF00FE731C /* SubscriptionManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -534,6 +557,8 @@
 		7C63948926C14E8300939F40 = {
 			isa = PBXGroup;
 			children = (
+				7C63FC352B35ED7200FE731C /* StoreKitConfiguration.storekit */,
+				7C63FC382B35EF1200FE731C /* StoreKitTestCertificate.cer */,
 				7C23A4C128A3DB8200FB5604 /* LeftPocketWidgetExtension.entitlements */,
 				7C23A4C028A3DB3600FB5604 /* LeftPocket.entitlements */,
 				7C63949426C14E8300939F40 /* PokerTracker */,
@@ -555,6 +580,7 @@
 		7C63949426C14E8300939F40 /* PokerTracker */ = {
 			isa = PBXGroup;
 			children = (
+				7C4CE7052773B2330070B16E /* LaunchScreen.storyboard */,
 				7C63949526C14E8300939F40 /* LeftPocketApp.swift */,
 				7C68FE3E26D670100019BA53 /* LeftPocketTabView.swift */,
 				7C2E54CA2B28CCEC00831ABA /* LeftPocketCustomTabBar.swift */,
@@ -767,6 +793,8 @@
 			);
 			name = LeftPocket;
 			packageProductDependencies = (
+				7CFD78A82B34DF2D00C1A9F6 /* RevenueCat */,
+				7CFD78AA2B34DF2D00C1A9F6 /* RevenueCatUI */,
 			);
 			productName = PokerTracker;
 			productReference = 7C63949226C14E8300939F40 /* LeftPocket.app */;
@@ -800,6 +828,7 @@
 			mainGroup = 7C63948926C14E8300939F40;
 			packageReferences = (
 				7C0E48DC276BB3BF005EFA62 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
+				7CFD78A72B34DF2D00C1A9F6 /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			productRefGroup = 7C63949326C14E8300939F40 /* Products */;
 			projectDirPath = "";
@@ -818,6 +847,7 @@
 			files = (
 				7CAFE0562B2CAC1B00B7338D /* Asap-SemiBold.ttf in Resources */,
 				7CAFE0092B2CA9E300B7338D /* AsapCondensed-LightItalic.ttf in Resources */,
+				7C63FC3A2B35EF1200FE731C /* StoreKitTestCertificate.cer in Resources */,
 				7CAFE04A2B2CAC1B00B7338D /* Asap-Medium.ttf in Resources */,
 				7CAFE0192B2CA9E300B7338D /* AsapCondensed-BlackItalic.ttf in Resources */,
 				7C01247728A3FF6100E6E714 /* Assets.xcassets in Resources */,
@@ -850,6 +880,7 @@
 				7CAFE00D2B2CA9E300B7338D /* AsapCondensed-MediumItalic.ttf in Resources */,
 				7CAFE0502B2CAC1B00B7338D /* Asap-ExtraLightItalic.ttf in Resources */,
 				7CAFE0462B2CAC1B00B7338D /* Asap-MediumItalic.ttf in Resources */,
+				7C63FC372B35ED7200FE731C /* StoreKitConfiguration.storekit in Resources */,
 				7CAFE00B2B2CA9E300B7338D /* AsapCondensed-ExtraLightItalic.ttf in Resources */,
 				7CAFE0132B2CA9E300B7338D /* AsapCondensed-SemiBold.ttf in Resources */,
 				7CAFE0272B2CA9E300B7338D /* AsapCondensed-Black.ttf in Resources */,
@@ -881,6 +912,7 @@
 				7CAFE0082B2CA9E300B7338D /* AsapCondensed-LightItalic.ttf in Resources */,
 				7CAFE01E2B2CA9E300B7338D /* AsapCondensed-Medium.ttf in Resources */,
 				7CAFE0572B2CAC1B00B7338D /* Asap-Black.ttf in Resources */,
+				7C63FC362B35ED7200FE731C /* StoreKitConfiguration.storekit in Resources */,
 				7CAFE05D2B2CAC1B00B7338D /* Asap-Italic.ttf in Resources */,
 				7CAFE0592B2CAC1B00B7338D /* Asap-ExtraBoldItalic.ttf in Resources */,
 				7CAFE0162B2CA9E300B7338D /* AsapCondensed-Regular.ttf in Resources */,
@@ -894,6 +926,7 @@
 				7C63949A26C14E8400939F40 /* Assets.xcassets in Resources */,
 				7CAFE0532B2CAC1B00B7338D /* Asap-Regular.ttf in Resources */,
 				7CAFE05B2B2CAC1B00B7338D /* Asap-Light.ttf in Resources */,
+				7C63FC392B35EF1200FE731C /* StoreKitTestCertificate.cer in Resources */,
 				7CAFE0412B2CAC1B00B7338D /* Asap-ExtraBold.ttf in Resources */,
 				7CAFE04F2B2CAC1B00B7338D /* Asap-ExtraLightItalic.ttf in Resources */,
 				7CAFE0242B2CA9E300B7338D /* AsapCondensed-Bold.ttf in Resources */,
@@ -909,6 +942,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CBB2D0E28A2EB4200A0CC99 /* Colors+Ext.swift in Sources */,
+				7C63FC3D2B36238A00FE731C /* UserViewModel.swift in Sources */,
 				7CEA58B928A56E5000418E11 /* MainWidgetView.swift in Sources */,
 				7C85DE6928A5583A00B79D8B /* WidgetViewMedium.swift in Sources */,
 				7C23A4C428A3DEE100FB5604 /* AppGroup.swift in Sources */,
@@ -925,6 +959,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C63FC342B35D08B00FE731C /* View+Ext.swift in Sources */,
 				7C23A4C328A3DEE100FB5604 /* AppGroup.swift in Sources */,
 				7CC20EB3272B19D200137F51 /* HelpView.swift in Sources */,
 				7C45E1FA289AD8AC005D89CF /* StudyDetailView.swift in Sources */,
@@ -934,6 +969,7 @@
 				7CD7468C28A6CFA200D5A2D0 /* FailureView.swift in Sources */,
 				7C8134C3272A13B6004E1CE1 /* ViewModifiers.swift in Sources */,
 				7C20CFB2271E2D1600739764 /* OnboardingView.swift in Sources */,
+				7C63FC3C2B36238A00FE731C /* UserViewModel.swift in Sources */,
 				7CE7DC1A28FE1AA8009F4CE9 /* SwiftChartsPractice.swift in Sources */,
 				7C8834102735BB5D0093B201 /* NewLocationViewModel.swift in Sources */,
 				7C2FC657273EF1E600E3BE0B /* ProfitByStakesView.swift in Sources */,
@@ -989,6 +1025,7 @@
 				7C2B3E6926F565B200B84D52 /* EmptyState.swift in Sources */,
 				7CAFE0602B2DE52B00B7338D /* LocationGridView.swift in Sources */,
 				7C1F8C82271094B50068E8B1 /* ProfitByWeekdayView.swift in Sources */,
+				7C63FC3F2B3640FF00FE731C /* SubscriptionManager.swift in Sources */,
 				7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */,
 				7C8647812B29277900F48951 /* SignInTest.swift in Sources */,
 				7C6394AD26C14FA600939F40 /* HeaderView.swift in Sources */,
@@ -1283,7 +1320,28 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		7CFD78A72B34DF2D00C1A9F6 /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
+			requirement = {
+				kind = exactVersion;
+				version = 4.29.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7CFD78A82B34DF2D00C1A9F6 /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7CFD78A72B34DF2D00C1A9F6 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
+		};
+		7CFD78AA2B34DF2D00C1A9F6 /* RevenueCatUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7CFD78A72B34DF2D00C1A9F6 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCatUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7C63948A26C14E8300939F40 /* Project object */;
 }

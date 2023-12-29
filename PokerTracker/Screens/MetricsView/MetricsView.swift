@@ -24,7 +24,7 @@ struct MetricsView: View {
                     
                     if viewModel.sessions.isEmpty {
                         
-                        EmptyState(screen: .metrics)
+                        EmptyState(image: .metrics)
                         
                     } else {
                         
@@ -50,19 +50,17 @@ struct MetricsView: View {
                                 BarChartView(vm: viewModel)
                                 
                                 AdditionalMetricsView()
-                                    .padding(.top, 10)
-                                    .padding(.bottom, 50)
+                                    
                             }
                         }
                     }
                 }
                 .frame(maxHeight: .infinity)
-                .background(Color.brandBlack)
+                .background(Color.brandBackground)
                 .navigationBarHidden(true)
                 
-                if showMetricsSheet {
-                    dismissButton
-                }
+                if showMetricsSheet { dismissButton }
+                
             }
         }
         .accentColor(.brandPrimary)
@@ -81,7 +79,7 @@ struct MetricsView: View {
                 .calloutStyle()
             
             Spacer()
-                
+            
         }
         .padding(20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
@@ -137,8 +135,8 @@ struct MetricsView: View {
                 HStack {
                     Text("Player Stats")
                         .cardTitleStyle()
-                        .padding(.bottom)
                 }
+                .padding(.bottom)
                 
                 VStack {
                     Group {
@@ -291,6 +289,8 @@ struct AdditionalMetricsView: View {
             })
         }
         .padding(.bottom, 30)
+        .padding(.top, 10)
+        .padding(.bottom, 50)
     }
 }
 

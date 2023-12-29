@@ -127,11 +127,6 @@ struct ProfitByYear: View {
                     
                     BestLocationView(location: bestLocation)
                     
-//                    PrimaryButton(title: "Export My Data")
-//                        .onTapGesture {
-//                            viewModel.writeUserData()
-//                        }
-                    
                 }
                 .animation(nil, value: vm.myNewTimeline)
                 .padding(.top, 20)
@@ -143,7 +138,7 @@ struct ProfitByYear: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("")
         }
-        .background(Color.brandBlack)
+        .background(Color.brandBackground)
         .accentColor(.brandPrimary)
     }
 }

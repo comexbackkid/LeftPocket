@@ -6,12 +6,18 @@
 //
 
 import SwiftUI
+import RevenueCatUI
+import RevenueCat
 
 struct AddNewSessionView: View {
-    
-    @Binding var isPresented: Bool
+
     @StateObject var newSession = NewSessionViewModel()
     @EnvironmentObject var vm: SessionsListViewModel
+    @EnvironmentObject var subManager: SubscriptionManager
+    
+    @Binding var isPresented: Bool
+    @State var showPaywall = false
+    @State var isPremium = false
     
     var body: some View {
         
@@ -21,13 +27,7 @@ struct AddNewSessionView: View {
                 
                 VStack {
                     
-                    HStack {
-                        Text("New Session")
-                            .titleStyle()
-                            .padding(.horizontal)
-                        
-                        Spacer()
-                    }
+                    title
                     
                     Spacer()
                     
@@ -42,12 +42,24 @@ struct AddNewSessionView: View {
         }
         .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
         .frame(maxHeight: .infinity)
-        .background(Color.brandBlack)
+        .background(Color.brandBackground)
         .alert(item: $newSession.alertItem) { alertItem in
             
             Alert(title: alertItem.title,
                   message: alertItem.message,
                   dismissButton: alertItem.dismissButton)
+        }
+    }
+    
+    var title: some View {
+        
+        HStack {
+            
+            Text("New Session")
+                .titleStyle()
+                .padding(.horizontal)
+            
+            Spacer()
         }
         
     }
@@ -68,40 +80,8 @@ struct AddNewSessionView: View {
             
             gameSelection
             
-            HStack {
-                
-                Image(systemName: "clock")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
-                
-                DatePicker("Start", selection: $newSession.startTime, in: ...Date.now,
-                           displayedComponents: [.date, .hourAndMinute])
-                .accentColor(.brandPrimary)
-                .padding(.leading, 4)
-                .font(.custom("Asap-Regular", size: 18))
-                .datePickerStyle(CompactDatePickerStyle())
-                
-            }
-            .padding(.horizontal)
-            .padding(.bottom, 10)
+            gameTiming
             
-            HStack {
-                
-                Image(systemName: "hourglass.tophalf.filled")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
-                
-                DatePicker("End", selection: $newSession.endTime, in: ...Date.now,
-                           displayedComponents: [.date, .hourAndMinute])
-                .accentColor(.brandPrimary)
-                .padding(.leading, 4)
-                .font(.custom("Asap-Regular", size: 18))
-                .datePickerStyle(CompactDatePickerStyle())
-            }
-            .padding(.horizontal)
-            .padding(.bottom, 30)
         }
         .padding(.horizontal, 8)
     }
@@ -127,7 +107,11 @@ struct AddNewSessionView: View {
                 withAnimation {
                     Picker("Picker", selection: $newSession.sessionType.animation(.linear(duration: 0.2))) {
                         Text("Cash Game").tag(Optional(NewSessionViewModel.SessionType.cash))
-                        Text("Tournament").tag(Optional(NewSessionViewModel.SessionType.tournament))
+                        
+                        // Right now we're just choosing to hide the Tournament option unless user is subscribed
+                        if subManager.isSubscribed {
+                            Text("Tournament").tag(Optional(NewSessionViewModel.SessionType.tournament))
+                        }
                     }
                 }
    
@@ -142,6 +126,7 @@ struct AddNewSessionView: View {
                         .animation(nil, value: newSession.sessionType)
                     
                 case .tournament:
+                    
                     Text("Tournament")
                         .bodyStyle()
                         .fixedSize()
@@ -156,6 +141,7 @@ struct AddNewSessionView: View {
             }
             .foregroundColor(newSession.sessionType == nil ? .brandPrimary : .brandWhite)
             .buttonStyle(PlainButtonStyle())
+            
         }
         .padding(.horizontal)
         .padding(.bottom, 10)
@@ -305,6 +291,47 @@ struct AddNewSessionView: View {
         .padding(.bottom, 10)
     }
     
+    var gameTiming: some View {
+        
+        VStack {
+            
+            HStack {
+                
+                Image(systemName: "clock")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30)
+                
+                DatePicker("Start", selection: $newSession.startTime, in: ...Date.now,
+                           displayedComponents: [.date, .hourAndMinute])
+                .accentColor(.brandPrimary)
+                .padding(.leading, 4)
+                .font(.custom("Asap-Regular", size: 18))
+                .datePickerStyle(CompactDatePickerStyle())
+                
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 10)
+            
+            HStack {
+                
+                Image(systemName: "hourglass.tophalf.filled")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30)
+                
+                DatePicker("End", selection: $newSession.endTime, in: newSession.startTime...Date.now,
+                           displayedComponents: [.date, .hourAndMinute])
+                .accentColor(.brandPrimary)
+                .padding(.leading, 4)
+                .font(.custom("Asap-Regular", size: 18))
+                .datePickerStyle(CompactDatePickerStyle())
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 30)
+        }
+    }
+    
     var inputFields: some View {
         
         VStack {
@@ -395,7 +422,7 @@ struct AddNewSessionView: View {
     var saveButton: some View {
         
         Button {
-            let impact = UIImpactFeedbackGenerator(style: .heavy)
+            let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
             newSession.savedButtonPressed(viewModel: vm)
             isPresented = newSession.presentation ?? true
@@ -407,7 +434,9 @@ struct AddNewSessionView: View {
 
 struct AddNewSessionView_Previews: PreviewProvider {
     static var previews: some View {
-        AddNewSessionView(isPresented: .constant(true)).environmentObject(SessionsListViewModel())
+        AddNewSessionView(isPresented: .constant(true))
+            .environmentObject(SessionsListViewModel())
+            .environmentObject(SubscriptionManager())
             .preferredColorScheme(.dark)
     }
 }

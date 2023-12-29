@@ -16,14 +16,14 @@ struct SessionDetailView: View {
     var body: some View {
         
         ZStack {
+            
             ScrollView (.vertical) {
                 
                 VStack(spacing: 4) {
                     
                     GraphicHeaderView(location: pokerSession.location, date: pokerSession.date)
-                        .frame(maxWidth: UIScreen.main.bounds.width)
                     
-                    Divider().frame(width: 180)
+                    Divider().frame(width: UIScreen.main.bounds.width * 0.5)
                     
                     if pokerSession.isTournament ?? false {
                         
@@ -54,6 +54,7 @@ struct SessionDetailView: View {
             if activeSheet == .recentSession {
                 
                 VStack {
+                    
                     HStack {
                         
                         Spacer()
@@ -80,8 +81,8 @@ struct SessionDetailView: View {
             
             VStack {
                 
-                Image(systemName: "timer")
-                    .font(.headline)
+                Image(systemName: "stopwatch")
+                    .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
                 
@@ -89,8 +90,8 @@ struct SessionDetailView: View {
             }
             
             VStack {
-                Image(systemName: "bag.badge.plus")
-                    .font(.headline)
+                Image(systemName: "dollarsign")
+                    .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
                 
@@ -98,8 +99,8 @@ struct SessionDetailView: View {
             }
             
             VStack {
-                Image(systemName: "dollarsign")
-                    .font(.headline)
+                Image(systemName: "gauge.high")
+                    .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
                 
@@ -115,8 +116,8 @@ struct SessionDetailView: View {
         HStack(spacing: 50) {
             VStack {
                 
-                Image(systemName: "timer")
-                    .font(.headline)
+                Image(systemName: "stopwatch")
+                    .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
                 
@@ -125,8 +126,8 @@ struct SessionDetailView: View {
             }
             
             VStack {
-                Image(systemName: "bag.badge.plus")
-                    .font(.headline)
+                Image(systemName: "dollarsign")
+                    .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
                 
@@ -135,7 +136,7 @@ struct SessionDetailView: View {
             
             VStack {
                 Image(systemName: "person.2")
-                    .font(.headline)
+                    .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
                 
@@ -304,6 +305,7 @@ struct GraphicHeaderView: View {
                 .foregroundColor(.secondary)
                 .padding(.bottom, 40)
         }
+        .frame(maxWidth: UIScreen.main.bounds.width)
     }
 }
 

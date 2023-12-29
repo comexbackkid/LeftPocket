@@ -9,16 +9,17 @@ import SwiftUI
 
 struct LocationGridView: View {
     
-    let columns = [GridItem(.fixed(165), spacing: 20), GridItem(.fixed(165))]
-    
     @EnvironmentObject var vm: SessionsListViewModel
     @State var addLocationIsShowing = false
+    
+    let columns = [GridItem(.fixed(165), spacing: 20), GridItem(.fixed(165))]
     
     var body: some View {
         
         ScrollView(.vertical) {
             
             HStack {
+                
                 Text("My Locations")
                     .titleStyle()
                     .padding(.top, -37)
@@ -29,7 +30,7 @@ struct LocationGridView: View {
             
             if vm.locations.isEmpty {
                 
-                EmptyState(screen: .locations)
+                EmptyState(image: .locations)
                 
             } else {
                 
@@ -42,7 +43,7 @@ struct LocationGridView: View {
                 .padding(.bottom, 50)
             }
         }
-        .background(Color.brandBlack)
+        .background(Color.brandBackground)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             Button {
@@ -77,7 +78,7 @@ struct LocationGridItem: View {
                 Image(location.localImage)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 165, height: 120)
+                    .frame(width: 160, height: 120)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .overlay(RoundedRectangle(cornerRadius: 20).stroke(.white, lineWidth: 4))
                     .shadow(color: .gray.opacity(colorScheme == .light ? 0.5 : 0.0), radius: 7)

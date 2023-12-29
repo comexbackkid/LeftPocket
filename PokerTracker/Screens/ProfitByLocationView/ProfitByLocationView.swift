@@ -18,7 +18,7 @@ struct ProfitByLocationView: View {
                 
                 if viewModel.sessions.isEmpty {
                     
-                    EmptyState(screen: .locations)
+                    EmptyState(image: .locations)
                     
                 } else {
                     
@@ -44,7 +44,7 @@ struct ProfitByLocationView: View {
                                     .frame(width: 80, alignment: .trailing)
                             }
                         }
-                        .navigationBarTitle(Text("Profit by Location"))
+                        .navigationBarTitle(Text("Location Statistics"))
                     }
                     .listStyle(InsetListStyle())
                 }
