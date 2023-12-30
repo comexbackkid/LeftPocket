@@ -98,7 +98,6 @@ struct AddNewSessionView: View {
             Text("Session")
                 .bodyStyle()
                 .padding(.leading, 4)
-                .font(.callout)
             
             Spacer()
             
@@ -216,9 +215,13 @@ struct AddNewSessionView: View {
                 Picker("Picker", selection: $newSession.stakes) {
                     Text("1/2").tag("1/2")
                     Text("1/3").tag("1/3")
-                    Text("2/2").tag("2/2")
                     Text("2/5").tag("2/5")
+                    Text("5/5").tag("5/5")
                     Text("5/10").tag("5/10")
+                    Text("10/20").tag("10/20")
+                    Text("25/50").tag("25/50")
+                    Text("50/100").tag("50/100")
+                    Text("100/200").tag("100/200")
                 }
                 
             } label: {
@@ -366,7 +369,7 @@ struct AddNewSessionView: View {
                     .font(.callout)
                     .foregroundColor(newSession.expenses.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                 
-                TextField(newSession.sessionType == .tournament ? "Total Buy In" : "Expenses", text: $newSession.expenses)
+                TextField(newSession.sessionType == .tournament ? "Total Buy In" : "Expenses (Meals, tips, etc.)", text: $newSession.expenses)
                     .font(.custom("Asap-Regular", size: 17))
                     .keyboardType(.numberPad)
             }

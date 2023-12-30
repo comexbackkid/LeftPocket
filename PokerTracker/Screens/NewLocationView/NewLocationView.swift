@@ -30,7 +30,7 @@ struct NewLocationView: View {
                 Form {
                     
                     Section (header: Text("Information"),
-                             footer: Text("Enter the name of the casino or card room, followed by a link to an image associated with the location.")) {
+                             footer: Text("Enter the name of the Location, followed by the link to an image for its thumbnail & detail view. It's recommended to upload an image to Imgur.com first, and then create a hyperlink from there.")) {
                        
                         TextField("Location Name", text: $newLocationViewModel.locationName)
                             .font(.custom("Asap-Regular", size: 17))

@@ -87,6 +87,7 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // Loads the locations the user has created upon app launch
+    // Add anything that's new or isn't there already
     func getLocations() {
         guard
             let data = try? Data(contentsOf: locationsPath),

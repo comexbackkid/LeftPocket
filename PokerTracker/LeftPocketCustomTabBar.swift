@@ -80,7 +80,7 @@ struct LeftPocketCustomTabBar: View {
                         let impact = UIImpactFeedbackGenerator(style: .medium)
                         impact.impactOccurred()
                         
-                        // If user is NOT subscribed, AND they have 25 sessions or less we show the Paywall
+                        // If user is NOT subscribed, AND they reach the 25 Session limit, the Plus button will display Paywall
                         if !subManager.isSubscribed && viewModel.sessions.count > 24 {
                             showPaywall = true
                         } else {

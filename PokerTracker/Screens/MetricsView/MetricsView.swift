@@ -177,7 +177,7 @@ struct MetricsView: View {
                         Divider()
                         
                         HStack {
-                            Text("Average Session Duration")
+                            Text("Avg. Session Duration")
                                 .calloutStyle()
                                 .foregroundColor(.secondary)
                             Spacer()
@@ -187,7 +187,7 @@ struct MetricsView: View {
                         Divider()
                         
                         HStack {
-                            Text("Total Number of Cashes")
+                            Text("Total No. of Cashes")
                                 .calloutStyle()
                                 .foregroundColor(.secondary)
                             Spacer()

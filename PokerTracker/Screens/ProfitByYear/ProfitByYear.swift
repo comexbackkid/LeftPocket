@@ -22,6 +22,7 @@ struct ProfitByYear: View {
         let winRate = vm.winRate(timeline: vm.myNewTimeline)
         let totalExpenses = vm.expensesByYear(timeline: vm.myNewTimeline)
         let totalHours = vm.totalHours(timeline: vm.myNewTimeline)
+        let totalSessions = vm.sessionsPerYear(timeline: vm.myNewTimeline)
         let bestLocation = vm.bestLocation(timeline: vm.myNewTimeline)
         let bestProfit = vm.bestProfit(timeline: vm.myNewTimeline)
 
@@ -104,6 +105,14 @@ struct ProfitByYear: View {
                     }
                     
                     HStack {
+                        Text("No. of Sessions")
+                            .bodyStyle()
+                        
+                        Spacer()
+                        Text(totalSessions)
+                    }
+                    
+                    HStack {
                         Text("Hours Played")
                             .bodyStyle()
                         
@@ -116,7 +125,7 @@ struct ProfitByYear: View {
                 }
                 .animation(nil, value: vm.myNewTimeline)
                 .padding(30)
-                .frame(width: 340, height: 240)
+                .frame(width: 340, height: 270)
                 .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
                 .cornerRadius(20)
                 .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)

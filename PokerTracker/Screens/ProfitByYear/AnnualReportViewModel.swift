@@ -19,7 +19,7 @@ class AnnualReportViewModel: ObservableObject {
     
     @Published var isLoading: Bool = false
     
-    let lastYear = Date().modifyDays(days: -360).getYear()
+    let lastYear = Date().modifyDays(days: -365).getYear()
     
     func loadingChart() {
         self.isLoading = true
@@ -101,6 +101,17 @@ class AnnualReportViewModel: ObservableObject {
             return vm.hoursPlayedByYear(year: Date().getYear())
         case .lastYear:
             return vm.hoursPlayedByYear(year: lastYear)
+        }
+    }
+    
+    func sessionsPerYear(timeline: PickerTimeline) -> String {
+        switch timeline {
+        case .all:
+            return String(vm.sessions.count)
+        case .ytd:
+            return String(vm.sessionsPerYear(year: Date().getYear()))
+        case .lastYear:
+            return String(vm.sessionsPerYear(year: lastYear))
         }
     }
     

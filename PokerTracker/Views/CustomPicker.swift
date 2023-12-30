@@ -75,7 +75,7 @@ struct CustomPicker: View {
                             .matchedGeometryEffect(id: "timeline", in: animation)
                     }
 
-                    Text("\(Date().modifyDays(days: -360).getYearShortHand())")
+                    Text("\(Date().modifyDays(days: -365).getYearShortHand())")
                         .font(.subheadline)
                         .bold()
                         .foregroundColor(Color(.systemGray))
