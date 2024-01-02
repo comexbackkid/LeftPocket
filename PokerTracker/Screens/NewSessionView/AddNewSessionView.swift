@@ -219,7 +219,6 @@ struct AddNewSessionView: View {
                     Text("5/10").tag("5/10")
                     Text("10/20").tag("10/20")
                     Text("25/50").tag("25/50")
-                    Text("50/100").tag("50/100")
                     Text("100/200").tag("100/200")
                 }
                 

@@ -8,6 +8,17 @@
 import SwiftUI
 import PhotosUI
 
+extension View {
+    @ViewBuilder func errorAlert(error: Binding<Error?>) -> some View {
+        let isPresented: Binding<Bool> = Binding<Bool>(get: { error.wrappedValue != nil }, set: { newValue in if newValue { error.wrappedValue = nil} })
+        
+       self
+            .alert(error.wrappedValue?.localizedDescription ?? "A problem has occurred", isPresented: isPresented, actions: {
+                Button("OK") { }
+            })
+    }
+}
+
 struct NewLocationView: View {
     
     @Environment(\.colorScheme) var colorScheme
@@ -16,7 +27,8 @@ struct NewLocationView: View {
     @Binding var addLocationIsShowing: Bool
     
     @State private var photoPickerItem: PhotosPickerItem?
-    @State private var selectedImage: Image?
+    @State private var selectedImageData: Data?
+    @State private var photoError: Error?
     
     var body: some View {
         
@@ -34,20 +46,19 @@ struct NewLocationView: View {
                 Form {
                     
                     Section (header: Text("Information"),
-                             footer: Text("Enter the name of the Location, followed by the link to an image for its thumbnail & Detail header. It's recommended to upload an image to Imgur.com first, and then create a hyperlink from there. If no image link is given, a default graphic will be provided.")) {
+                             footer: Text("Enter the name of the Location, and import a photo of your choice for the Location header. If you don't import an image, a default graphic will be provided.")) {
                        
                         TextField("Location Name", text: $newLocationViewModel.locationName)
                             .font(.custom("Asap-Regular", size: 17))
                             .submitLabel(.next)
                         
-                        TextField("Paste Image URL (Optional)", text: $newLocationViewModel.imageURL)
-                            .font(.custom("Asap-Regular", size: 17))
-                            .keyboardType(.URL)
-                            .autocapitalization(.none)
-                        
-                        // Want to add ability for user to import a photo, instead of using a URL from the web
-                        // How do we handle the image file? Might need to adjust the LocationModel struct, add a new var "importedImage:"
-                        PhotosPicker("Import Header Photo", selection: $photoPickerItem, matching: .images)
+                        PhotosPicker(selection: $photoPickerItem) {
+                            Label(
+                                title: { Text("Import Header Photo").font(.custom("Asap-Regular", size: 17)) },
+                                icon: { Image(systemName: selectedImageData != nil ? "checkmark.circle.fill" : "photo")
+                                    .foregroundColor(selectedImageData != nil ? .green : .brandPrimary)}
+                            )
+                        }
                     }
                     
                     Section {
@@ -75,12 +86,25 @@ struct NewLocationView: View {
             .background(colorScheme == .light ? Color(.systemGray6) : Color(.systemGray6))
         }
         .accentColor(.brandPrimary)
+        .errorAlert(error: $photoError)
+        .task(id: photoPickerItem) {
+            
+            do {
+                guard let photoPickerItem else { return }
+                selectedImageData = try await photoPickerItem.loadTransferable(type: Data.self)
+      
+            } catch {
+                photoError = error
+                photoPickerItem = nil
+            }
+        }
     }
     
     func saveLocation() {
         vm.addLocation(name: newLocationViewModel.locationName,
-                                          localImage: "",
-                                          imageURL: newLocationViewModel.imageURL)
+                       localImage: "",
+                       imageURL: newLocationViewModel.imageURL,
+                       importedImage: selectedImageData)
     }
 }
 

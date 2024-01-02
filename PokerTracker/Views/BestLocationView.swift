@@ -70,9 +70,23 @@ struct BestLocationView: View {
                         }
                     }
                     
+                } else if location.importedImage != nil {
+                    
+                    if let photoData = location.importedImage,
+                       let uiImage = UIImage(data: photoData) {
+                        
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 80, height: 80)
+                            .clipped()
+                            .cornerRadius(20)
+                            .padding(.leading)
+                    }
+                    
                 } else {
                     
-                    Image(location.localImage != "" ? location.localImage : "default-header")
+                    Image(location.localImage != "" ? location.localImage : "defaultlocation-header")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 80, height: 80)

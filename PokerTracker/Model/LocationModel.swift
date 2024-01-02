@@ -12,4 +12,5 @@ struct LocationModel: Decodable, Encodable, Hashable, Identifiable {
     var name: String
     var localImage: String
     var imageURL: String
+    var importedImage: Data?
 }

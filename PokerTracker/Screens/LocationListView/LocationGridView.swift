@@ -108,14 +108,9 @@ struct LocationGridItem: View {
             
             if location.localImage != "" {
                 
-                // If the Location has a local image associated with it, just display tha timage
+                // If the Location has a local image associated with it, just display tha image
                 Image(location.localImage)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 160, height: 120)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .overlay(RoundedRectangle(cornerRadius: 20).stroke(.white, lineWidth: 4))
-                    .shadow(color: .gray.opacity(colorScheme == .light ? 0.5 : 0.0), radius: 7)
+                    .locationGridThumbnail(colorScheme: colorScheme)
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
@@ -129,22 +124,29 @@ struct LocationGridItem: View {
                 // If the provided link is not empty, go ahead and fetch the image from the URL provided by user
                 fetchLocationImage(location: location)
                 
+            } else if location.importedImage != nil {
+                
+                // If user imported their own image, call it up here by converting data to UIImage
+                if let photoData = location.importedImage,
+                   let uiImage = UIImage(data: photoData) {
+                    Image(uiImage: uiImage)
+                        .locationGridThumbnail(colorScheme: colorScheme)
+                        .contextMenu {
+                            Button(role: .destructive) {
+                                delete()
+                            } label: { Label("Delete Location", systemImage: "trash") }
+                        }
+                }
+                
             } else {
                 
                 // Otherwise, if the Location has no local image, no provided URL, show the default header
                 Image("defaultlocation-header")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 165, height: 120)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .overlay(RoundedRectangle(cornerRadius: 20).stroke(.white, lineWidth: 4))
-                    .shadow(color: .gray.opacity(colorScheme == .light ? 0.5 : 0.0), radius: 7)
+                    .locationGridThumbnail(colorScheme: colorScheme)
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
-                        } label: {
-                            Label("Delete Location", systemImage: "trash")
-                        }
+                        } label: { Label("Delete Location", systemImage: "trash") }
                     }
             }
             
@@ -170,12 +172,7 @@ struct LocationGridItem: View {
             if let image = phase.image {
                 
                 image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 165, height: 120)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .overlay(RoundedRectangle(cornerRadius: 20).stroke(.white, lineWidth: 4))
-                    .shadow(color: .gray.opacity(colorScheme == .light ? 0.5 : 0.0), radius: 7)
+                    .locationGridThumbnail(colorScheme: colorScheme)
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()

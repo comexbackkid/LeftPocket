@@ -9,10 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var showMetricsAsSheet = false
-    @State var activeSheet: Sheet?
     @EnvironmentObject var viewModel: SessionsListViewModel
     @Environment(\.colorScheme) var colorScheme
+    
+    @State private var showMetricsAsSheet = false
+    @State var activeSheet: Sheet?
     
     var bankroll: String {
         return viewModel.tallyBankroll().asCurrency()

@@ -36,6 +36,7 @@ struct SessionDetailView: View {
                         notes
                         
                         details
+                        
                     }
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, alignment: .topLeading)
                     .padding(30)
@@ -43,9 +44,9 @@ struct SessionDetailView: View {
                 }
             }
             .background(.regularMaterial)
-            .background(!pokerSession.location.localImage.isEmpty
-                        ? Image(pokerSession.location.localImage)
-                        : Image("encore-header"))
+            .background(!pokerSession.location.localImage.isEmpty 
+                        ? Image(pokerSession.location.localImage).resizable().aspectRatio(contentMode: .fill)
+                        : backgroundImage().resizable().aspectRatio(contentMode: .fill))
             .ignoresSafeArea()
             .onAppear {
                 AppReviewRequest.requestReviewIfNeeded()
@@ -74,7 +75,7 @@ struct SessionDetailView: View {
         .accentColor(.brandPrimary)
         .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
     }
-    
+
     var cashMetrics: some View {
         
         HStack(spacing: 0) {
@@ -222,7 +223,8 @@ struct SessionDetailView: View {
             }
             Divider()
             
-            if pokerSession.isTournament == false {
+            if pokerSession.isTournament != true {
+                
                 HStack {
                     Text("Stakes")
                         .bodyStyle()
@@ -253,6 +255,28 @@ struct SessionDetailView: View {
             .padding(.bottom)
         }
     }
+    
+    func backgroundImage() -> Image {
+        
+        if pokerSession.location.imageURL != "" {
+            
+            return Image("encore-header")
+            
+        } else {
+            
+            guard
+                let imageData = pokerSession.location.importedImage,
+                let uiImage = UIImage(data: imageData)
+                    
+            else {
+                
+                return Image("encore-header")
+            }
+            
+            return Image(uiImage: uiImage)
+                
+        }
+    }
 }
 
 struct GraphicHeaderView: View {
@@ -271,7 +295,6 @@ struct GraphicHeaderView: View {
                     if let image = phase.image {
                         
                         image
-                            .resizable()
                             .detailViewStyle()
                         
                     } else if phase.error != nil {
@@ -291,10 +314,18 @@ struct GraphicHeaderView: View {
                     }
                 }
                 
-            } else {
+            } else if location.importedImage != nil {
                 
+                if let photoData = location.importedImage,
+                   let uiImage = UIImage(data: photoData) {
+                    
+                    Image(uiImage: uiImage)
+                        .detailViewStyle()
+                }
+                
+            } else {
+
                 Image(location.localImage != "" ? location.localImage : "defaultlocation-header")
-                    .resizable()
                     .detailViewStyle()
             }
             
@@ -311,6 +342,8 @@ struct GraphicHeaderView: View {
         }
         .frame(maxWidth: UIScreen.main.bounds.width)
     }
+    
+    
 }
 
 struct SessionDetailView_Previews: PreviewProvider {

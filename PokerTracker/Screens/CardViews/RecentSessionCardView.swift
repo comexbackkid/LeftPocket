@@ -9,26 +9,43 @@ import SwiftUI
 
 struct RecentSessionCardView: View {
     
-    var pokerSession: PokerSession
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var viewModel: SessionsListViewModel
+    
+    var pokerSession: PokerSession
     let width = UIScreen.main.bounds.width * 0.9
     
     var body: some View {
         
         ZStack (alignment: .leading) {
+            
             VStack (alignment: .leading) {
                 
                 if pokerSession.location.imageURL != "" {
                     
                     downloadedImage
                     
-                } else { localImage }
+                } else if pokerSession.location.importedImage != nil {
+                    
+                    if let photoData = pokerSession.location.importedImage,
+                       let uiImage = UIImage(data: photoData) {
+                        
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: width)
+                            .clipped()
+                    }
+                }
+                
+                else { localImage }
                 
                 Spacer()
                 
                 HStack {
+                    
                     VStack (alignment: .leading, spacing: 5) {
+                        
                         Text(pokerSession.location.name)
                             .headlineStyle()
                             .foregroundStyle(.white)
@@ -47,11 +64,12 @@ struct RecentSessionCardView: View {
                 Spacer()
             }
             .background(
+                
                 ZStack {
                     
-                    if pokerSession.location.imageURL != "" {
+                    if pokerSession.location.importedImage != nil {
                         
-                        downloadedImage.overlay(.thinMaterial)
+                        backgroundImage().overlay(.thinMaterial)
                         
                     } else { localImage.overlay(.thinMaterial) }
                 })
@@ -104,33 +122,6 @@ struct RecentSessionCardView: View {
                     .frame(width: width)
                     .clipped()
             }
-            
-//            switch phase {
-//            case .success(let image):
-//                image
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fill)
-//                    .frame(width: width)
-//                    .clipped()
-//                
-//            case .failure:
-//                FailureView()
-//                    .aspectRatio(contentMode: .fill)
-//                    .frame(width: width)
-//                    .clipped()
-//                
-//            case .empty:
-//                PlaceholderView()
-//                    .aspectRatio(contentMode: .fill)
-//                    .frame(width: width)
-//                    .clipped()
-//                
-//            @unknown default:
-//                PlaceholderView()
-//                    .aspectRatio(contentMode: .fill)
-//                    .frame(width: width)
-//                    .clipped()
-//            }
         }
     }
     
@@ -141,6 +132,28 @@ struct RecentSessionCardView: View {
             .aspectRatio(contentMode: .fill)
             .frame(width: width)
             .clipped()
+    }
+    
+    func backgroundImage() -> Image {
+        
+        if pokerSession.location.imageURL != "" {
+            
+            return Image("encore-header")
+            
+        } else {
+            
+            guard
+                let imageData = pokerSession.location.importedImage,
+                let uiImage = UIImage(data: imageData)
+                    
+            else {
+                
+                return Image("encore-header")
+            }
+            
+            return Image(uiImage: uiImage)
+                
+        }
     }
 }
 

@@ -78,6 +78,7 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // Function to delete from user's list of Locations from the Settings screen
+    // I'm not sure we're even using this right now
     func delete(_ location: LocationModel) {
         if let index = locations.firstIndex(where: { $0.id == location.id })
         {
@@ -113,13 +114,9 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // Adds a new Location to the app
-    func addLocation(name: String,
-                     localImage: String,
-                     imageURL: String) {
+    func addLocation(name: String, localImage: String, imageURL: String, importedImage: Data?) {
         
-        let newLocation = LocationModel(name: name,
-                                        localImage: localImage,
-                                        imageURL: imageURL)
+        let newLocation = LocationModel(name: name, localImage: localImage, imageURL: imageURL, importedImage: importedImage)
         
         locations.append(newLocation)
     }
@@ -160,40 +157,38 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // Converts our profit data into coordinates tuples for charting
+    // Might need to think of a more elegant way of doing this. What if the user is a heavy user with a thousand sessions?
     func chartCoordinates() -> [Point] {
         
-        var shortenedChart = [Double]()
+        var fewSessions = [Double]()
+        var manySessions = [Double]()
         
         for (index, item) in chartArray().enumerated() {
+            
             if index.isMultiple(of: 2) {
-                shortenedChart.append(item)
+                fewSessions.append(item)
             }
+        }
+        
+        for (index, item) in chartArray().enumerated() {
             
             if index.isMultiple(of: 5) {
-                shortenedChart.append(item)
+                manySessions.append(item)
             }
         }
         
         // If there's over 25 sessions, we will use every other data point, or every 5 data points (depending) to chart the data to smooth it out
-        if chartArray().count > 25 {
-            return shortenedChart.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
+        if chartArray().count > 50 {
+            return manySessions.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
             
-        } else {
+        } else if chartArray().count > 25 {
+            return fewSessions.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
+        }
+        
+        else {
             return chartArray().enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
         }
     }
-    
-    // Custom designed Bar Chart weekday profit totals
-//    func barGraphByDay() -> [Int] {
-//        let sunday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Sunday" }).map({ $0.profit }).reduce(0,+)
-//        let monday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Monday" }).map({ $0.profit }).reduce(0,+)
-//        let tuesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Tuesday" }).map({ $0.profit }).reduce(0,+)
-//        let wednesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Wednesday" }).map({ $0.profit }).reduce(0,+)
-//        let thursday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Thursday" }).map({ $0.profit }).reduce(0,+)
-//        let friday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Friday" }).map({ $0.profit }).reduce(0,+)
-//        let saturday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Saturday" }).map({ $0.profit }).reduce(0,+)
-//        return [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
-//    }
     
     // Returns a tuple array for use in Swift Charts bar chart
     func barChartByDay() -> [SessionData] {
