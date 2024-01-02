@@ -77,7 +77,7 @@ struct SessionDetailView: View {
     
     var cashMetrics: some View {
         
-        HStack(spacing: 50) {
+        HStack(spacing: 0) {
             
             VStack {
                 
@@ -88,6 +88,7 @@ struct SessionDetailView: View {
                 
                 Text(pokerSession.playingTIme)
             }
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
             VStack {
                 Image(systemName: "dollarsign")
@@ -97,6 +98,7 @@ struct SessionDetailView: View {
                 
                 Text(pokerSession.profit.asCurrency()).profitColor(total: pokerSession.profit)
             }
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
             VStack {
                 Image(systemName: "gauge.high")
@@ -106,14 +108,16 @@ struct SessionDetailView: View {
                 
                 Text(pokerSession.hourlyRate.asCurrency()).profitColor(total: pokerSession.hourlyRate)
             }
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
         }
+        .frame(maxWidth: .infinity)
         .padding()
         
     }
     
     var tournamentMetrics: some View {
         
-        HStack(spacing: 50) {
+        HStack(spacing: 0) {
             VStack {
                 
                 Image(systemName: "stopwatch")
@@ -124,6 +128,7 @@ struct SessionDetailView: View {
                 Text(pokerSession.playingTIme)
                 
             }
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
             VStack {
                 Image(systemName: "dollarsign")
@@ -133,6 +138,7 @@ struct SessionDetailView: View {
                 
                 Text(pokerSession.profit.asCurrency()).profitColor(total: pokerSession.profit)
             }
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
             VStack {
                 Image(systemName: "person.2")
@@ -142,7 +148,9 @@ struct SessionDetailView: View {
                 
                 Text("\(pokerSession.entrants ?? 0)")
             }
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
         }
+        .frame(maxWidth: .infinity)
         .padding()
     }
     
@@ -253,32 +261,28 @@ struct GraphicHeaderView: View {
     let date: Date
     
     var body: some View {
+        
         VStack {
             
             if location.imageURL != "" {
                 
                 AsyncImage(url: URL(string: location.imageURL), scale: 1, transaction: Transaction(animation: .easeIn)) { phase in
                     
-                    switch phase {
-                    case .success(let image):
+                    if let image = phase.image {
+                        
                         image
                             .resizable()
                             .detailViewStyle()
                         
-                    case .failure:
+                    } else if phase.error != nil {
+                        
                         FailureView()
                             .frame(height: 290)
                             .clipped()
                             .padding(.bottom)
                         
-                    case .empty:
-                        PlaceholderView()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(height: 290)
-                            .clipped()
-                            .padding(.bottom)
+                    } else {
                         
-                    @unknown default:
                         PlaceholderView()
                             .aspectRatio(contentMode: .fill)
                             .frame(height: 290)
@@ -289,7 +293,7 @@ struct GraphicHeaderView: View {
                 
             } else {
                 
-                Image(location.localImage != "" ? location.localImage : "default-header")
+                Image(location.localImage != "" ? location.localImage : "defaultlocation-header")
                     .resizable()
                     .detailViewStyle()
             }

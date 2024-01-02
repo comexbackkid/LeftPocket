@@ -81,42 +81,62 @@ struct RecentSessionCardView: View {
     var downloadedImage: some View {
         
         AsyncImage(url: URL(string: pokerSession.location.imageURL), scale: 1, transaction: Transaction(animation: .easeIn)) { phase in
-            
-            switch phase {
-            case .success(let image):
+  
+            if let image = phase.image {
+                
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: width)
                     .clipped()
                 
-            case .failure:
+            } else if phase.error != nil {
+                
                 FailureView()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: width)
                     .clipped()
                 
-            case .empty:
-                PlaceholderView()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: width)
-                    .clipped()
+            } else {
                 
-            @unknown default:
                 PlaceholderView()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: width)
                     .clipped()
             }
+            
+//            switch phase {
+//            case .success(let image):
+//                image
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fill)
+//                    .frame(width: width)
+//                    .clipped()
+//                
+//            case .failure:
+//                FailureView()
+//                    .aspectRatio(contentMode: .fill)
+//                    .frame(width: width)
+//                    .clipped()
+//                
+//            case .empty:
+//                PlaceholderView()
+//                    .aspectRatio(contentMode: .fill)
+//                    .frame(width: width)
+//                    .clipped()
+//                
+//            @unknown default:
+//                PlaceholderView()
+//                    .aspectRatio(contentMode: .fill)
+//                    .frame(width: width)
+//                    .clipped()
+//            }
         }
-        
-        
-        
     }
     
     var localImage: some View {
         
-        Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "default-header")
+        Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "defaultlocation-header")
             .resizable()
             .aspectRatio(contentMode: .fill)
             .frame(width: width)

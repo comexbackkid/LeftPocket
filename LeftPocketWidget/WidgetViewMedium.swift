@@ -27,6 +27,7 @@ struct WidgetViewMedium: View {
             logo
             
         }
+        .widgetBackground(Color.clear)
     }
     
     var backgroundGradient: some View {
@@ -148,5 +149,6 @@ struct WidgetViewMedium_Previews: PreviewProvider {
                                             hourlyRate: 32,
                                             totalSessions: 14))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
+            .preferredColorScheme(.dark)
     }
 }

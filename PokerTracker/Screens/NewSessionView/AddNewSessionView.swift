@@ -17,7 +17,6 @@ struct AddNewSessionView: View {
     
     @Binding var isPresented: Bool
     @State var showPaywall = false
-    @State var isPremium = false
     
     var body: some View {
         

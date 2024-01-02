@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct NewLocationView: View {
     
@@ -13,6 +14,9 @@ struct NewLocationView: View {
     @EnvironmentObject var vm: SessionsListViewModel
     @StateObject var newLocationViewModel = NewLocationViewModel()
     @Binding var addLocationIsShowing: Bool
+    
+    @State private var photoPickerItem: PhotosPickerItem?
+    @State private var selectedImage: Image?
     
     var body: some View {
         
@@ -30,7 +34,7 @@ struct NewLocationView: View {
                 Form {
                     
                     Section (header: Text("Information"),
-                             footer: Text("Enter the name of the Location, followed by the link to an image for its thumbnail & detail view. It's recommended to upload an image to Imgur.com first, and then create a hyperlink from there.")) {
+                             footer: Text("Enter the name of the Location, followed by the link to an image for its thumbnail & Detail header. It's recommended to upload an image to Imgur.com first, and then create a hyperlink from there. If no image link is given, a default graphic will be provided.")) {
                        
                         TextField("Location Name", text: $newLocationViewModel.locationName)
                             .font(.custom("Asap-Regular", size: 17))
@@ -40,6 +44,10 @@ struct NewLocationView: View {
                             .font(.custom("Asap-Regular", size: 17))
                             .keyboardType(.URL)
                             .autocapitalization(.none)
+                        
+                        // Want to add ability for user to import a photo, instead of using a URL from the web
+                        // How do we handle the image file? Might need to adjust the LocationModel struct, add a new var "importedImage:"
+                        PhotosPicker("Import Header Photo", selection: $photoPickerItem, matching: .images)
                     }
                     
                     Section {

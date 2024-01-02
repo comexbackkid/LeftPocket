@@ -132,7 +132,7 @@ struct UserSettings: View {
                                 Text("›")
                                     .font(.title2)
                             }
-                            Text("View your saved and default locations here. Add your own venue, casino, site, or home game.")
+                            Text("View your saved and default Locations here. Add your own venue, casino, platform, app, or home game.")
                                 .calloutStyle()
                                 .opacity(0.8)
                                 .padding(.top, 1)
@@ -185,6 +185,7 @@ struct UserSettings: View {
                         .buttonStyle(PlainButtonStyle())
                         .sheet(isPresented: $showPaywall) {
                             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                                .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
                         }
                         .task {
                             for await customerInfo in Purchases.shared.customerInfoStream {
@@ -192,9 +193,6 @@ struct UserSettings: View {
                                 await subManager.checkSubscriptionStatus()
                             }
                         }
-                        
-                        // The above is working, but need to make sure this is ideal. What's with the double &&?
-                        
                     }
                 }
                 

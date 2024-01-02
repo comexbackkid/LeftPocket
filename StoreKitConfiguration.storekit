@@ -1,0 +1,79 @@
+{
+  "identifier" : "D8167671",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_applicationInternalID" : "1601858981",
+    "_developerTeamID" : "J3YC22CPKU",
+    "_lastSynchronizedDate" : 724954488.30536902
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21425788",
+      "localizations" : [
+
+      ],
+      "name" : "Premium",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "29.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6474787836",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Unlimited access to Left Pocket",
+              "displayName" : "Premium",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "lp_2999_1y",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Annual $29.99",
+          "subscriptionGroupID" : "21425788",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "3.99",
+          "familyShareable" : false,
+          "groupNumber" : 2,
+          "internalID" : "6474787947",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Unlimited access to Left Pocket",
+              "displayName" : "Premium",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "lc_399_1m",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Monthly $3.99",
+          "subscriptionGroupID" : "21425788",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 2,
+    "minor" : 0
+  }
+}

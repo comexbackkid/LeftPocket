@@ -62,6 +62,8 @@ struct MetricsView: View {
                 if showMetricsSheet { dismissButton }
                 
             }
+            .padding(.bottom, 50)
+            .background(Color.brandBackground)
         }
         .accentColor(.brandPrimary)
     }
@@ -290,7 +292,6 @@ struct AdditionalMetricsView: View {
         }
         .padding(.bottom, 30)
         .padding(.top, 10)
-        .padding(.bottom, 50)
     }
 }
 

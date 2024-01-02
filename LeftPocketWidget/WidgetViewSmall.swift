@@ -23,7 +23,9 @@ struct WidgetViewSmall : View {
             
             numbers
         }
+        .widgetBackground(Color.clear)
     }
+        
     
     var backgroundGradient: some View {
         Color("WidgetBackground")
@@ -94,6 +96,7 @@ struct WidgetViewSmall : View {
     }
 }
 
+
 extension Int {
     
     public func accountingStyle() -> String {
@@ -115,5 +118,6 @@ struct WidgetView_Previews: PreviewProvider {
                                            hourlyRate: 32,
                                            totalSessions: 14))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
+        
     }
 }

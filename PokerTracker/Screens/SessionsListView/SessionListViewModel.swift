@@ -7,7 +7,6 @@
 
 import SwiftUI
 import WidgetKit
-import RevenueCat
 
 class SessionsListViewModel: ObservableObject {
     
@@ -28,7 +27,6 @@ class SessionsListViewModel: ObservableObject {
     }
     
     init() {
-//        getMockSessions()
         getSessions()
         getLocations()
     }
@@ -65,6 +63,8 @@ class SessionsListViewModel: ObservableObject {
         self.sessions = savedSessions
     }
     
+    // MARK: LOCATION FUNCTIONS SUCH AS ADD, DELETE, & MERGE
+    
     // Saves the list of locations the user has created with FileManager
     func saveLocations() {
         do {
@@ -87,14 +87,29 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // Loads the locations the user has created upon app launch
-    // Add anything that's new or isn't there already
     func getLocations() {
         guard
             let data = try? Data(contentsOf: locationsPath),
             let savedLocations = try? JSONDecoder().decode([LocationModel].self, from: data)
+                
         else { return }
         
         self.locations = savedLocations
+    }
+    
+    // Will merge Default Locations in to the current saved Locations and also keep the same order
+    // Question is, do we absolutely need to run this? If a user deletes a default location, they presumably don't want it back?
+    // Maybe there's a "Restore to Defaults" button?
+    func mergeLocations() {
+        var modifiedLocations = self.locations
+        
+        for newLocation in DefaultLocations.allLocations {
+            if !modifiedLocations.contains(newLocation) {
+                modifiedLocations.append(newLocation)
+            }
+        }
+        
+        self.locations = modifiedLocations
     }
     
     // Adds a new Location to the app
@@ -109,14 +124,14 @@ class SessionsListViewModel: ObservableObject {
         locations.append(newLocation)
     }
     
-    func setUniqueStakes() {
-        uniqueStakes = Array(Set(sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).map({ $0.stakes })))
-    }
-    
     // This is only working when you filter by .name versus the .id not sure why? Does it matter? What if the name is changed by the user?
     func uniqueLocationCount(location: LocationModel) -> Int {
         let array = self.sessions.filter({ $0.location.id == location.id })
         return array.count
+    }
+    
+    func setUniqueStakes() {
+        uniqueStakes = Array(Set(sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).map({ $0.stakes })))
     }
     
     // MARK: CALCULATIONS & DATA PRESENTATION FOR USE IN CHARTS & METRICS VIEW
@@ -153,9 +168,13 @@ class SessionsListViewModel: ObservableObject {
             if index.isMultiple(of: 2) {
                 shortenedChart.append(item)
             }
+            
+            if index.isMultiple(of: 5) {
+                shortenedChart.append(item)
+            }
         }
         
-        // If there's over 25 sessions, we will use every other data point to chart the data to smooth it out
+        // If there's over 25 sessions, we will use every other data point, or every 5 data points (depending) to chart the data to smooth it out
         if chartArray().count > 25 {
             return shortenedChart.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
             
@@ -165,16 +184,16 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // Custom designed Bar Chart weekday profit totals
-    func barGraphByDay() -> [Int] {
-        let sunday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Sunday" }).map({ $0.profit }).reduce(0,+)
-        let monday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Monday" }).map({ $0.profit }).reduce(0,+)
-        let tuesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Tuesday" }).map({ $0.profit }).reduce(0,+)
-        let wednesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Wednesday" }).map({ $0.profit }).reduce(0,+)
-        let thursday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Thursday" }).map({ $0.profit }).reduce(0,+)
-        let friday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Friday" }).map({ $0.profit }).reduce(0,+)
-        let saturday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Saturday" }).map({ $0.profit }).reduce(0,+)
-        return [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
-    }
+//    func barGraphByDay() -> [Int] {
+//        let sunday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Sunday" }).map({ $0.profit }).reduce(0,+)
+//        let monday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Monday" }).map({ $0.profit }).reduce(0,+)
+//        let tuesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Tuesday" }).map({ $0.profit }).reduce(0,+)
+//        let wednesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Wednesday" }).map({ $0.profit }).reduce(0,+)
+//        let thursday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Thursday" }).map({ $0.profit }).reduce(0,+)
+//        let friday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Friday" }).map({ $0.profit }).reduce(0,+)
+//        let saturday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Saturday" }).map({ $0.profit }).reduce(0,+)
+//        return [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
+//    }
     
     // Returns a tuple array for use in Swift Charts bar chart
     func barChartByDay() -> [SessionData] {

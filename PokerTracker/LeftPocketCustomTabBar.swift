@@ -103,6 +103,7 @@ struct LeftPocketCustomTabBar: View {
                 }
                 .sheet(isPresented: $showPaywall) {
                     PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                        .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
                 }
                 .task {
                     for await customerInfo in Purchases.shared.customerInfoStream {

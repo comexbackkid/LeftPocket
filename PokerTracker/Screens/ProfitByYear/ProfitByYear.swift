@@ -93,7 +93,7 @@ struct ProfitByYear: View {
                             .bodyStyle()
                         
                         Spacer()
-                        Text("\(totalExpenses.asCurrency())")
+                        Text("\(totalExpenses.asCurrency())").profitColor(total: totalExpenses)
                     }
                     
                     HStack {

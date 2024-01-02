@@ -11,6 +11,7 @@ struct LocationGridView: View {
     
     @EnvironmentObject var vm: SessionsListViewModel
     @State var addLocationIsShowing = false
+    @State var showAlert = false
     
     let columns = [GridItem(.fixed(165), spacing: 20), GridItem(.fixed(165))]
     
@@ -46,19 +47,51 @@ struct LocationGridView: View {
         .background(Color.brandBackground)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            Button {
-                let impact = UIImpactFeedbackGenerator(style: .heavy)
-                impact.impactOccurred()
-                addLocationIsShowing.toggle()
+            
+            addLocationButton
                 
-            } label: {
-                Image(systemName: "plus")
-            }
-            .foregroundColor(.brandPrimary)
-            .sheet(isPresented: $addLocationIsShowing, content: {
-                NewLocationView(addLocationIsShowing: $addLocationIsShowing)
-            })
+            resetLocationsButton
         }
+    }
+    
+    var addLocationButton: some View {
+        
+        Button {
+            let impact = UIImpactFeedbackGenerator(style: .heavy)
+            impact.impactOccurred()
+            addLocationIsShowing.toggle()
+            
+        } label: {
+            Image(systemName: "plus")
+        }
+        .foregroundColor(.brandPrimary)
+        .sheet(isPresented: $addLocationIsShowing, content: {
+            NewLocationView(addLocationIsShowing: $addLocationIsShowing)
+        })
+        
+    }
+    
+    var resetLocationsButton: some View {
+        
+        Button {
+            
+            showAlert = true
+            
+        } label: {
+            Image(systemName: "gobackward")
+        }
+        .foregroundColor(.brandPrimary)
+        .alert(Text("Warning"), isPresented: $showAlert) {
+            Button("OK", role: .destructive) {
+                vm.mergeLocations()
+            }
+            Button("Cancel", role: .cancel) {
+                print("User Canceled")
+            }
+        } message: {
+            Text("This will restore the original Locations. Your custom Locations will NOT be affected.")
+        }
+        
     }
 }
 
@@ -75,6 +108,7 @@ struct LocationGridItem: View {
             
             if location.localImage != "" {
                 
+                // If the Location has a local image associated with it, just display tha timage
                 Image(location.localImage)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -90,8 +124,28 @@ struct LocationGridItem: View {
                         }
                     }
                 
-            } else {
+            } else if location.imageURL != "" {
+                
+                // If the provided link is not empty, go ahead and fetch the image from the URL provided by user
                 fetchLocationImage(location: location)
+                
+            } else {
+                
+                // Otherwise, if the Location has no local image, no provided URL, show the default header
+                Image("defaultlocation-header")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 165, height: 120)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .overlay(RoundedRectangle(cornerRadius: 20).stroke(.white, lineWidth: 4))
+                    .shadow(color: .gray.opacity(colorScheme == .light ? 0.5 : 0.0), radius: 7)
+                    .contextMenu {
+                        Button(role: .destructive) {
+                            delete()
+                        } label: {
+                            Label("Delete Location", systemImage: "trash")
+                        }
+                    }
             }
             
             Text(location.name)
@@ -113,8 +167,8 @@ struct LocationGridItem: View {
         
         AsyncImage(url: URL(string: location.imageURL), scale: 1, transaction: Transaction(animation: .easeIn)) { phase in
             
-            switch phase {
-            case .success(let image):
+            if let image = phase.image {
+                
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -130,7 +184,8 @@ struct LocationGridItem: View {
                         }
                     }
                 
-            case .failure:
+            } else if phase.error != nil {
+                
                 FailureView()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 165, height: 120)
@@ -145,15 +200,8 @@ struct LocationGridItem: View {
                         }
                     }
                 
-            case .empty:
-                PlaceholderView()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 165, height: 120)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .overlay(RoundedRectangle(cornerRadius: 20).stroke(.white, lineWidth: 4))
-                    .shadow(color: .gray.opacity(colorScheme == .light ? 0.5 : 0.0), radius: 7)
+            } else {
                 
-            @unknown default:
                 PlaceholderView()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 165, height: 120)
