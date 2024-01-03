@@ -45,7 +45,7 @@ struct HelpView: View {
                             .padding(.bottom, 10)
                             .opacity(0.5)
                         
-                        Text("Add your first Session. Include things like the location, duration, profit, and any notes you may have took.")
+                        Text("Click the plus button in the navigation bar to add a Session. Include things like the location, duration, profit, and any notes you may have taken.")
                             .calloutStyle()
                             .lineSpacing(2)
                             .padding(.bottom)
@@ -58,7 +58,7 @@ struct HelpView: View {
                             .foregroundColor(.blue)
                             .opacity(0.5)
                         
-                        Text("After you've notched a few sessions you'll be able to visually track your results, bankroll, and other helpful metrics.")
+                        Text("After you've logged a few sessions you'll be able to visually track your results, bankroll, and other helpful metrics.")
                             .calloutStyle()
                             .lineSpacing(2)
                             .padding(.bottom)
@@ -76,6 +76,7 @@ struct HelpView: View {
                         .lineSpacing(2)
                         .padding(.bottom)
                         .font(.callout)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     
                     Spacer()
                     

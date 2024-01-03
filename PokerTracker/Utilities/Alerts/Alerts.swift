@@ -48,5 +48,9 @@ struct AlertContext {
                                           message: Text("Your End Time cannot precede the Start Time."),
                                           dismissButton: .default(Text("OK")))
     
+    static let inValidLocationName = AlertItem(title: Text("Invalid Form"),
+                                           message: Text("Please enter a Location name."),
+                                           dismissButton: .default(Text("OK")))
+    
     
 }

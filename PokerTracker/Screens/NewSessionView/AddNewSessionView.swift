@@ -214,11 +214,14 @@ struct AddNewSessionView: View {
                 Picker("Picker", selection: $newSession.stakes) {
                     Text("1/2").tag("1/2")
                     Text("1/3").tag("1/3")
+                    Text("2/2").tag("2/2")
+                    Text("2/3").tag("2/3")
                     Text("2/5").tag("2/5")
                     Text("5/5").tag("5/5")
                     Text("5/10").tag("5/10")
+                    Text("10/10").tag("10/10")
                     Text("10/20").tag("10/20")
-                    Text("25/50").tag("25/50")
+                    Text("50/100").tag("50/100")
                     Text("100/200").tag("100/200")
                 }
                 
@@ -263,14 +266,14 @@ struct AddNewSessionView: View {
                 withAnimation {
                     Picker("Picker", selection: $newSession.game) {
                         Text("NL Texas Hold Em").tag("NL Texas Hold Em")
-                        Text("Pot-Limit Omaha").tag("Pot-Limit Omaha")
+                        Text("Pot Limit Omaha").tag("Pot Limit Omaha")
                         Text("Seven Card Stud").tag("Seven Card Stud")
-                        Text("Five Card Draw").tag("Five Card Draw")
+                        Text("Mixed").tag("Mixed")
                     }
                 }
                 
-                
             } label: {
+                
                 if newSession.game.isEmpty {
                     Text("Please select ›")
                         .bodyStyle()

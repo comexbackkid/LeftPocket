@@ -8,22 +8,14 @@
 import SwiftUI
 import PhotosUI
 
-extension View {
-    @ViewBuilder func errorAlert(error: Binding<Error?>) -> some View {
-        let isPresented: Binding<Bool> = Binding<Bool>(get: { error.wrappedValue != nil }, set: { newValue in if newValue { error.wrappedValue = nil} })
-        
-       self
-            .alert(error.wrappedValue?.localizedDescription ?? "A problem has occurred", isPresented: isPresented, actions: {
-                Button("OK") { }
-            })
-    }
-}
+
 
 struct NewLocationView: View {
     
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var vm: SessionsListViewModel
     @StateObject var newLocationViewModel = NewLocationViewModel()
+    
     @Binding var addLocationIsShowing: Bool
     
     @State private var photoPickerItem: PhotosPickerItem?
@@ -64,8 +56,8 @@ struct NewLocationView: View {
                     Section {
                         
                         Button(action: {
-                            saveLocation()
-                            addLocationIsShowing.toggle()
+                            newLocationViewModel.saveLocation(viewModel: vm)
+                            addLocationIsShowing = newLocationViewModel.presentation ?? true
                         }, label: {
                             Text("Save Location")
                                 .bodyStyle()
@@ -82,6 +74,12 @@ struct NewLocationView: View {
                 }
                 .scrollDisabled(true)
                 .navigationBarTitle(Text(""))
+                .alert(item: $newLocationViewModel.alertItem) { alertItem in
+                    
+                    Alert(title: alertItem.title,
+                          message: alertItem.message,
+                          dismissButton: alertItem.dismissButton)
+                }
             }
             .background(colorScheme == .light ? Color(.systemGray6) : Color(.systemGray6))
         }
@@ -99,12 +97,16 @@ struct NewLocationView: View {
             }
         }
     }
-    
-    func saveLocation() {
-        vm.addLocation(name: newLocationViewModel.locationName,
-                       localImage: "",
-                       imageURL: newLocationViewModel.imageURL,
-                       importedImage: selectedImageData)
+}
+
+extension View {
+    @ViewBuilder func errorAlert(error: Binding<Error?>) -> some View {
+        let isPresented: Binding<Bool> = Binding<Bool>(get: { error.wrappedValue != nil }, set: { newValue in if newValue { error.wrappedValue = nil} })
+        
+       self
+            .alert(error.wrappedValue?.localizedDescription ?? "A problem has occurred", isPresented: isPresented, actions: {
+                Button("OK") { }
+            })
     }
 }
 

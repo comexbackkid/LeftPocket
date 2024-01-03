@@ -62,7 +62,6 @@ struct MetricsView: View {
                 if showMetricsSheet { dismissButton }
                 
             }
-            .padding(.bottom, 50)
             .background(Color.brandBackground)
         }
         .accentColor(.brandPrimary)
@@ -238,9 +237,8 @@ struct AdditionalMetricsView: View {
         
         VStack (alignment: .leading) {
             
-            Text("In-Depth Metrics")
+            Text("Reports & Analytics")
                 .cardTitleStyle()
-                .font(.title2)
                 .bold()
                 .padding(.leading)
             
@@ -261,7 +259,7 @@ struct AdditionalMetricsView: View {
                         destination: ProfitByMonth(vm: viewModel),
                         label: {
                             AdditionalMetricsCardView(title: "Profit by Month",
-                                                      description: "View results based upon month.",
+                                                      description: "View results based on a month by \nmonth basis.",
                                                       image: "calendar",
                                                       color: .mint)
                         })
@@ -281,7 +279,7 @@ struct AdditionalMetricsView: View {
                     NavigationLink(
                         destination: ProfitByStakesView(viewModel: viewModel),
                         label: {
-                            AdditionalMetricsCardView(title: "Game Stakes", description: "Break down your game \nby table stakes", image: "dollarsign.circle", color: .green)
+                            AdditionalMetricsCardView(title: "Game Stakes", description: "Break down your game \nby table stakes.", image: "dollarsign.circle", color: .green)
                         })
                     .buttonStyle(PlainButtonStyle())
                 }
@@ -290,7 +288,7 @@ struct AdditionalMetricsView: View {
                 .frame(height: 150)
             })
         }
-        .padding(.bottom, 30)
+        .padding(.bottom, 50)
         .padding(.top, 10)
     }
 }

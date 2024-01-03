@@ -50,7 +50,7 @@ struct RecentSessionCardView: View {
                             .headlineStyle()
                             .foregroundStyle(.white)
                         
-                        Text("Quickly review your most recent session, hand notes, & profitability.")
+                        Text("Tap here to quickly review your last Session, hand notes, & key stats.")
                             .calloutStyle()
                             .opacity(0.7)
                             .foregroundStyle(.white)
@@ -69,9 +69,19 @@ struct RecentSessionCardView: View {
                     
                     if pokerSession.location.importedImage != nil {
                         
-                        backgroundImage().overlay(.thinMaterial)
+                        // If the importedImage property isn't nil, convert the data & show the image
+                        importedImage.overlay(.thinMaterial)
                         
-                    } else { localImage.overlay(.thinMaterial) }
+                    } else if pokerSession.location.imageURL != "" {
+                        
+                        // If the Location has an imageURL, most won't, then download & display the image
+                        // It may not look great if the link is messed up
+                        downloadedImage.overlay(.thinMaterial)
+                        
+                    } else {
+                        
+                        // Lastly, if none of the above pass then just display the localImage
+                        localImage.overlay(.thinMaterial) }
                 })
             
             VStack (alignment: .leading) {
@@ -127,6 +137,7 @@ struct RecentSessionCardView: View {
     
     var localImage: some View {
         
+        // We need this ternary operator as a final check to make sure no nil value for an image gets displayed
         Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "defaultlocation-header")
             .resizable()
             .aspectRatio(contentMode: .fill)
@@ -134,26 +145,19 @@ struct RecentSessionCardView: View {
             .clipped()
     }
     
-    func backgroundImage() -> Image {
+    var importedImage: some View {
         
-        if pokerSession.location.imageURL != "" {
+        guard
+            let imageData = pokerSession.location.importedImage,
+            let uiImage = UIImage(data: imageData)
             
-            return Image("encore-header")
+        else {
             
-        } else {
+            return Image("defaullocation-header")
             
-            guard
-                let imageData = pokerSession.location.importedImage,
-                let uiImage = UIImage(data: imageData)
-                    
-            else {
-                
-                return Image("encore-header")
-            }
-            
-            return Image(uiImage: uiImage)
-                
         }
+        
+        return Image(uiImage: uiImage)
     }
 }
 

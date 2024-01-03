@@ -74,7 +74,8 @@ struct LocationGridView: View {
     var resetLocationsButton: some View {
         
         Button {
-            
+            let impact = UIImpactFeedbackGenerator(style: .heavy)
+            impact.impactOccurred()
             showAlert = true
             
         } label: {
