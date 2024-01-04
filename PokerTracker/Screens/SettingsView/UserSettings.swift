@@ -132,7 +132,7 @@ struct UserSettings: View {
                                 Text("›")
                                     .font(.title2)
                             }
-                            Text("View your saved and default Locations here. Add your own venue, casino, platform, app, or home game.")
+                            Text("View your saved and default Locations here. Add your own venue, casino, platform, app, or home game. Tap & hold to delete.")
                                 .calloutStyle()
                                 .opacity(0.8)
                                 .padding(.top, 1)

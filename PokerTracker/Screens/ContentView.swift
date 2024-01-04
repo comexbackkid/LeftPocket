@@ -100,23 +100,25 @@ struct ContentView: View {
             VStack {
                 
                 Text("BANKROLL")
-                    .font(.caption)
-                    .opacity(0.6)
+                    .font(.custom("Asap-Regular", size: 13))
+//                    .font(.caption)
+                    .opacity(0.5)
                 
                 Text(bankroll)
-                    .fontWeight(.thin)
-                    .font(.system(size: 60, design: .rounded))
+//                    .fontWeight(.thin)
+                    .font(.system(size: 50, design: .rounded))
                     .padding(.bottom, 2)
                     .opacity(0.8)
                 
                 Text("LAST")
-                    .font(.caption)
-                    .opacity(0.6)
+                    .font(.custom("Asap-Regular", size: 13))
+//                    .font(.caption)
+                    .opacity(0.5)
                 
                 HStack {
                     Text(lastSession.asCurrency())
                         .fontWeight(.light)
-                        .font(.system(size: 24, design: .rounded))
+                        .font(.system(size: 20, design: .rounded))
                         .profitColor(total: lastSession)
                 }
                 .padding(.bottom, 20)

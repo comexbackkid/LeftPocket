@@ -22,7 +22,7 @@ struct MetricsCardView: View {
                 Spacer()
                                 
                 CustomChartView(viewModel: viewModel, data: viewModel.chartCoordinates(), background: true)
-                    .frame(height: 250)
+//                    .frame(height: 250)
                 
 //                Divider()
                 
@@ -31,10 +31,10 @@ struct MetricsCardView: View {
                 HStack {
                     VStack (alignment: .leading, spacing: 5) {
                         
-                        Text("Metrics & Analytics")
+                        Text("Bankroll & Metrics")
                             .headlineStyle()
                         
-                        Text("Study key metrics & analysis on your play, and find ways to improve.")
+                        Text("View your current bankroll, advanced metrics, analytics, & reports.")
                             .calloutStyle()
                             .opacity(0.7)
                             .foregroundColor(.secondary)
@@ -43,22 +43,22 @@ struct MetricsCardView: View {
                             .padding(.bottom, 10)
                     }
                     .padding()
-                    .padding(.top, -8)
+//                    .padding(.top, -8)
                 }
                 
 //                Spacer()
             }
             
-            VStack {
-                Text("My Bankroll")
-                    .signInTitleStyle()
-                    .fontWeight(.heavy)
-                    .padding()
-//                    .offset(y: -145)
-                
-                Spacer()
-                
-            }
+//            VStack {
+//                Text("My Bankroll")
+//                    .signInTitleStyle()
+//                    .fontWeight(.heavy)
+//                    .padding()
+////                    .offset(y: -145)
+//                
+//                Spacer()
+//                
+//            }
         }
         .frame(width: width, height: 390)
         .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
@@ -71,6 +71,5 @@ struct MetricsCardView: View {
 struct MetricsCardView_Previews: PreviewProvider {
     static var previews: some View {
         MetricsCardView().environmentObject(SessionsListViewModel())
-//            .preferredColorScheme(.dark)
     }
 }
