@@ -61,7 +61,6 @@ struct LeftPocketCustomTabBar: View {
         }
         .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
         .onAppear {
-//            shouldShowOnboarding = true
             SystemThemeManager
                 .shared
                 .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
@@ -96,7 +95,7 @@ struct LeftPocketCustomTabBar: View {
                     Spacer()
                     
                     Image(systemName: tabBarImages[index])
-                        .font(.system(size: 24, weight: .black))
+                        .font(.system(size: index == 2 ? 30 : 22, weight: .black))
                         .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray4) )
                     
                     Spacer()

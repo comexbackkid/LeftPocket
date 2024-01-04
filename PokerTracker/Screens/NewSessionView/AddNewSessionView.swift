@@ -16,7 +16,6 @@ struct AddNewSessionView: View {
     @EnvironmentObject var subManager: SubscriptionManager
     
     @Binding var isPresented: Bool
-    @State var showPaywall = false
     
     var body: some View {
         
@@ -156,7 +155,6 @@ struct AddNewSessionView: View {
             Text("Location")
                 .bodyStyle()
                 .padding(.leading, 4)
-                .font(.callout)
             
             Spacer()
             
@@ -206,7 +204,6 @@ struct AddNewSessionView: View {
             Text("Stakes")
                 .bodyStyle()
                 .padding(.leading, 4)
-                .font(.callout)
                
             Spacer()
             
@@ -254,10 +251,9 @@ struct AddNewSessionView: View {
                 .foregroundColor(Color(.systemGray3))
                 .frame(width: 30)
             
-            Text("Game Type")
+            Text("Game")
                 .bodyStyle()
                 .padding(.leading, 4)
-                .font(.callout)
             
             Spacer()
             

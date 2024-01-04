@@ -38,6 +38,17 @@ class AnnualReportViewModel: ObservableObject {
     
     // MARK: Functions for calculating metrics in Yearly Summary
     
+    func grossIncome(timeline: PickerTimeline) -> Int {
+        switch timeline {
+        case .all:
+            return vm.grossIncome()
+        case .ytd:
+            return vm.grossIncomeByYear(year: Date().getYear())
+        case .lastYear:
+            return vm.grossIncomeByYear(year: lastYear)
+        }
+    }
+    
     func netProfitCalc(timeline: PickerTimeline) -> Int {
         switch timeline {
         case .all:

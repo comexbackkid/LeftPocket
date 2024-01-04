@@ -25,6 +25,7 @@ struct MetricsView: View {
                     if viewModel.sessions.isEmpty {
                         
                         EmptyState(image: .metrics)
+                            .padding(.bottom, 50)
                         
                     } else {
                         

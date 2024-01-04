@@ -59,14 +59,16 @@ struct SessionsListView: View {
                             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         
                         // With Paywall offering, we're only prompting them to subscribe with the New Session Button
-                        // They can still view all their Sessions if they were previous free users
+                        // They can still view all their Sessions if they were previously free users. They just can't add new Sessions
                         
                         ForEach(filteredSessions) { session in
                             NavigationLink(
                                 destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session),
                                 label: {
                                     CellView(pokerSession: session)
-                                }).listRowBackground(Color.brandBackground)
+                                })
+                            .listRowBackground(Color.brandBackground)
+                            .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
                         }
                         .onDelete(perform: { indexSet in
                             vm.sessions.remove(atOffsets: indexSet)

@@ -16,6 +16,7 @@ struct ProfitByYear: View {
     var body: some View {
         
         let newTimeline = vm.myNewTimeline
+        let grossIncome = vm.grossIncome(timeline: vm.myNewTimeline)
         let netProfitTotal = vm.netProfitCalc(timeline: vm.myNewTimeline)
         let hourlyRate = vm.hourlyCalc(timeline: vm.myNewTimeline)
         let profitPerSession = vm.avgProfit(timeline: vm.myNewTimeline)
@@ -48,7 +49,7 @@ struct ProfitByYear: View {
                         
                         CustomChartView(viewModel: viewModel, data: vm.chartData(timeline: newTimeline), background: false)
                             .padding(.bottom)
-                            .frame(height: 280)
+                            .frame(height: 250)
                         
                     } else {
                         ProgressView()
@@ -56,14 +57,34 @@ struct ProfitByYear: View {
                             .progressViewStyle(CircularProgressViewStyle(tint: .brandPrimary))
                     }
                 }
-                .frame(height: 280)
+                .frame(height: 250)
                 
                 CustomPicker(vm: vm)
                     .padding(.bottom, 35)
                     .padding(.top)
                 
                 VStack (spacing: 12) {
+                    
                     Spacer()
+                    HStack {
+                        Text("Gross Income")
+                            .bodyStyle()
+                        
+                        Spacer()
+                        Text("\(grossIncome.asCurrency())").profitColor(total: grossIncome)
+                    }
+                    
+                    
+                    
+                    HStack {
+                        Text("Expenses")
+                            .bodyStyle()
+                        
+                        Spacer()
+                        Text("\(totalExpenses.asCurrency())")
+                            .foregroundColor(totalExpenses > 0 ? .red : Color(.systemGray))
+                    }
+                    
                     HStack {
                         Text("Net Profit")
                             .bodyStyle()
@@ -71,6 +92,8 @@ struct ProfitByYear: View {
                         Spacer()
                         Text("\(netProfitTotal.asCurrency())").profitColor(total: netProfitTotal)
                     }
+                    
+                    Divider().padding(.vertical)
                     
                     HStack {
                         Text("Hourly Rate")
@@ -86,15 +109,6 @@ struct ProfitByYear: View {
                         
                         Spacer()
                         Text("\(profitPerSession.asCurrency())").profitColor(total: profitPerSession)
-                    }
-                    
-                    HStack {
-                        Text("Expenses")
-                            .bodyStyle()
-                        
-                        Spacer()
-                        Text("\(totalExpenses.asCurrency())")
-                            .foregroundColor(totalExpenses > 0 ? .red : Color(.systemGray))
                     }
                     
                     HStack {
@@ -126,7 +140,7 @@ struct ProfitByYear: View {
                 }
                 .animation(nil, value: vm.myNewTimeline)
                 .padding(30)
-                .frame(width: 340, height: 270)
+                .frame(width: 340, height: 350)
                 .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
                 .cornerRadius(20)
                 .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)

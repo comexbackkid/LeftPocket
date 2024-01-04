@@ -177,7 +177,8 @@ class SessionsListViewModel: ObservableObject {
             }
         }
         
-        // If there's over 25 sessions, we will use every other data point, or every 5 data points (depending) to chart the data to smooth it out
+        // If there's over 25 sessions, we will use every other data point to build the chart.
+        // If there's over 50 sessions, we count by 5's in order to smooth out the chart and make it appear less erratic
         if chartArray().count > 50 {
             return manySessions.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
             
@@ -261,6 +262,22 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // MARK: CALCULATIONS FOR ANNUAL REPORT VIEW
+    
+    func grossIncome() -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        let netProfit = sessions.map { Int($0.profit) }.reduce(0, +)
+        let totalExpenses = sessions.map { Int($0.expenses ?? 0) }.reduce(0, +)
+        let grossIncome = netProfit + totalExpenses
+        return grossIncome
+    }
+    
+    func grossIncomeByYear(year: String) -> Int {
+        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
+        let netProfit = sessions.filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
+        let totalExpenses = sessions.filter({ $0.date.getYear() == year }).map { Int($0.expenses ?? 0) }.reduce(0, +)
+        let grossIncome = netProfit + totalExpenses
+        return grossIncome
+    }
     
     func bankrollByYear(year: String) -> Int {
         let formatter = NumberFormatter()

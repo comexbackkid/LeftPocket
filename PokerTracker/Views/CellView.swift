@@ -21,12 +21,10 @@ struct CellView: View {
                 
                 Text(pokerSession.location.name)
                     .bodyStyle()
-                    .font(.subheadline)
                     .lineLimit(1)
                 
                 Text("\(pokerSession.date.dateStyle())")
                     .captionStyle()
-                    .font(.caption2)
                     .foregroundColor(.secondary)
             }
             
@@ -38,7 +36,7 @@ struct CellView: View {
                 .foregroundColor(pokerSession.profit > 0 ? .green : .red)
         }
         .padding(10)
-        .padding(.vertical, 4)
+        .padding(.vertical, 3)
         .background(Color.brandBackground)
     }
 }
