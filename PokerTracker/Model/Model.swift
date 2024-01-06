@@ -54,18 +54,6 @@ struct SessionData: Identifiable, Hashable {
     let profit: Int
 }
 
-//struct UserYearlySummary: Identifiable, Codable, Hashable {
-//    var id = UUID()
-//    let year: String
-//    let netProfit: String
-//    let hourlyRate: String
-//    let profitPerSession: String
-//    let expenses: String
-//    let winRate: String
-//    let biggestWin: String
-//    let bestLocation: String
-//}
-
 struct DefaultData {
     
     static let defaultLocation = LocationModel(name: "TBD", localImage: "empty-location", imageURL: "")

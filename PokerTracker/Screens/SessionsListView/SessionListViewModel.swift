@@ -263,6 +263,11 @@ class SessionsListViewModel: ObservableObject {
     
     // MARK: CALCULATIONS FOR ANNUAL REPORT VIEW
     
+    func allSessionDataByYear(year: String) -> [PokerSession] {
+        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return [] }
+        return sessions.filter({ $0.date.getYear() == year })
+    }
+    
     func grossIncome() -> Int {
         guard !sessions.isEmpty else { return 0 }
         let netProfit = sessions.map { Int($0.profit) }.reduce(0, +)

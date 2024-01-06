@@ -12,6 +12,8 @@ struct ProfitByYear: View {
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var viewModel: SessionsListViewModel
     @StateObject var vm: AnnualReportViewModel
+    @StateObject var exportUtility = CSVConversion()
+    @State private var showError: Bool = false
     
     var body: some View {
         
@@ -151,11 +153,13 @@ struct ProfitByYear: View {
                     
                     BestLocationView(location: bestLocation)
                     
+                    exportButton
+
                 }
                 .animation(nil, value: vm.myNewTimeline)
                 .padding(.top, 20)
                 .padding(.bottom, 50)
-
+                
                 Spacer()
             }
             .padding(.bottom, 50)
@@ -165,6 +169,49 @@ struct ProfitByYear: View {
         .background(Color.brandBackground)
         .accentColor(.brandPrimary)
     }
+    
+    var exportButton: some View {
+        
+        Button {
+            
+            do {
+                
+                let fileURL = try CSVConversion.exportCSV(from: viewModel.allSessionDataByYear(year: vm.lastYear))
+                shareFile(fileURL)
+                
+            } catch {
+                
+                exportUtility.errorMsg = "\(error.localizedDescription)"
+                showError.toggle()
+            }
+            
+        } label: {
+            PrimaryButton(title: "Export Last Year's Results")
+        }
+        .alert(isPresented: $showError) {
+            Alert(title: Text("Uh oh!"), message: Text(exportUtility.errorMsg ?? ""), dismissButton: .default(Text("OK")))
+        }
+        
+        //                    Button {
+        //                        if let fileURL = CSVConversion.exportCSV(data: viewModel.allSessionDataByYear(year: vm.lastYear)) {
+        //                            shareFile(fileURL)
+        //                        }
+        //
+        //                    } label: {
+        //                        PrimaryButton(title: "Export Last Year's Results")
+        //                    }
+        
+    }
+
+    func shareFile(_ fileURL: URL) {
+        let activityViewController = UIActivityViewController(
+            activityItems: [fileURL],
+            applicationActivities: nil
+        )
+        
+        UIApplication.shared.windows.first?.rootViewController?.present(activityViewController, animated: true, completion: nil)
+    }
+
 }
 
 struct ProfitByYear_Previews: PreviewProvider {

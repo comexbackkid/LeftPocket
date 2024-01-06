@@ -16,7 +16,9 @@ struct UserSettings: View {
     
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
+    @StateObject var exportUtility = CSVConversion()
     
+    @State private var showError: Bool = false
     @State private var showPaywall = false
     
     var body: some View {
@@ -147,7 +149,21 @@ struct UserSettings: View {
                     
                     if subManager.isSubscribed {
                         
-                        ShareLink(item: vm.sessionsPath) {
+                        Button {
+                            
+                            do {
+                                
+                                let fileURL = try CSVConversion.exportCSV(from: vm.sessions)
+                                shareFile(fileURL)
+                                
+                            } catch {
+                                
+                                exportUtility.errorMsg = "\(error.localizedDescription)"
+                                showError.toggle()
+                                
+                            }
+                            
+                        } label: {
                             
                             HStack {
                                 Text("Export My Data")
@@ -159,8 +175,27 @@ struct UserSettings: View {
                                 Text("›")
                                     .font(.title2)
                             }
+                            
                         }
                         .buttonStyle(PlainButtonStyle())
+                        .alert(isPresented: $showError) {
+                            Alert(title: Text("Uh oh!"), message: Text(exportUtility.errorMsg ?? ""), dismissButton: .default(Text("OK")))
+                        }
+                        
+//                        ShareLink(item: vm.sessionsPath) {
+//                            
+//                            HStack {
+//                                Text("Export My Data")
+//                                    .subtitleStyle()
+//                                    .bold()
+//                                
+//                                Spacer()
+//                                
+//                                Text("›")
+//                                    .font(.title2)
+//                            }
+//                        }
+//                        .buttonStyle(PlainButtonStyle())
                 
                     } else {
                         
@@ -223,6 +258,15 @@ struct UserSettings: View {
                 }).buttonStyle(PlainButtonStyle())
         }
         
+    }
+    
+    func shareFile(_ fileURL: URL) {
+        let activityViewController = UIActivityViewController(
+            activityItems: [fileURL],
+            applicationActivities: nil
+        )
+        
+        UIApplication.shared.windows.first?.rootViewController?.present(activityViewController, animated: true, completion: nil)
     }
     
     var externalLinks: some View {

@@ -106,7 +106,7 @@ struct ContentView: View {
                 
                 Text(bankroll)
 //                    .fontWeight(.thin)
-                    .font(.system(size: 50, design: .rounded))
+                    .font(.system(size: 60, design: .rounded))
                     .padding(.bottom, 2)
                     .opacity(0.8)
                 
@@ -121,10 +121,10 @@ struct ContentView: View {
                         .font(.system(size: 20, design: .rounded))
                         .profitColor(total: lastSession)
                 }
-                .padding(.bottom, 20)
+                .padding(.bottom, 50)
                 
-                Divider().frame(width: UIScreen.main.bounds.width * 0.6)
-                    .padding(.bottom, 30)
+//                Divider().frame(width: UIScreen.main.bounds.width * 0.6)
+//                    .padding(.bottom, 30)
             }
         }
         .frame(maxWidth: .infinity)
