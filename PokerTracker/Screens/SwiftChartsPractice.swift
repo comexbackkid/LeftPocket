@@ -1,4 +1,4 @@
-//
+
 //  SwiftChartsPractice.swift
 //  LeftPocket
 //
@@ -40,7 +40,7 @@ struct SwiftChartsPractice: View {
         .init(date: Date.from(year: 2023, month: 4, day: 2), profit: 246),
         .init(date: Date.from(year: 2023, month: 5, day: 18), profit: 500),
         .init(date: Date.from(year: 2023, month: 11, day: 11), profit: 412),
-        .init(date: Date.from(year: 2023, month: 12, day: 11), profit: 480)
+        .init(date: Date.from(year: 2023, month: 12, day: 11), profit: 480),
     ]
     
     @ObservedObject var vm: SessionsListViewModel

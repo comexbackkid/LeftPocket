@@ -12,26 +12,6 @@ class CSVConversion: ObservableObject {
     
     @Published var errorMsg: String?
 
-    // Old Version
-//    static func exportCSV(data: [PokerSession]) -> URL? {
-//        
-//        let csvText = convertToCSV(data: data)
-//        let fileURL = getDocumentsDirectory().appendingPathComponent("Year_End_Results.csv", conformingTo: .commaSeparatedText)
-//        try? FileManager.default.removeItem(at: fileURL)
-//
-//        do {
-//            try csvText.write(to: fileURL, atomically: true, encoding: .utf8)
-//            return fileURL
-//            
-//        } catch {
-//            print("Error writing to file: \(error)")
-//        }
-//        
-//        return nil
-//    }
-    
-    // New Version
-    // Throws errors now
     static func exportCSV(from sessions: [PokerSession]) throws -> URL {
         
             guard !sessions.isEmpty else {
@@ -54,7 +34,7 @@ class CSVConversion: ObservableObject {
 
     static private func convertToCSV(data: [PokerSession]) -> String {
         
-        var csvText = "Location,Game,Stakes,Date,Profit,Notes,Start Time,End Time,Expenses,Tournament,Entrants\n"
+        var csvText = "Location,Game,Stakes,Date,Profit,Expenses,Start Time,End Time,Tournament,Entrants,Notes\n"
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
@@ -66,14 +46,14 @@ class CSVConversion: ObservableObject {
                 let stakes = "\"\(escapeQuotes(session.stakes))\""
                 let date = "\"\(dateFormatter.string(from: session.date))\""
                 let profit = "\(session.profit)"
-                let notes = "\"\(escapeQuotes(session.notes))\""
+                let expenses = "\"\(session.expenses ?? 0)\""
                 let startTime = "\"\(dateFormatter.string(from: session.startTime))\""
                 let endTime = "\"\(dateFormatter.string(from: session.endTime))\""
-                let expenses = "\"\(session.expenses ?? 0)\""
                 let isTournament = "\"\(session.isTournament ?? false)\""
                 let entrants = "\"\(session.entrants ?? 0)\""
+                let notes = "\"\(escapeQuotes(session.notes))\""
 
-                let rowText = "\(location),\(game),\(stakes),\(date),\(profit),\(notes),\(startTime),\(endTime),\(expenses),\(isTournament),\(entrants)\n"
+                let rowText = "\(location),\(game),\(stakes),\(date),\(profit),\(expenses),\(startTime),\(endTime),\(isTournament),\(entrants),\(notes)\n"
                 csvText.append(rowText)
             }
         
@@ -104,6 +84,7 @@ extension CSVConversion {
         case exportFailed
         
         var errorDescription: String? {
+            
             switch self {
             case .invalidData:
                 return "There are no Sessions to export!"

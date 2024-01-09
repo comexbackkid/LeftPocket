@@ -261,6 +261,15 @@ class SessionsListViewModel: ObservableObject {
         return dateComponents.abbreviated(duration: dateComponents)
     }
     
+    // Formatted specifically for home screen dashboard
+    func totalHoursPlayedHomeScreen() -> String {
+        guard !sessions.isEmpty else { return "0" }
+        let totalHours = sessions.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
+        let totalMins = sessions.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
+        let dateComponents = DateComponents(hour: totalHours, minute: totalMins)
+        return String(Int(dateComponents.durationInHours).abbreviateHourTotal)
+    }
+    
     // MARK: CALCULATIONS FOR ANNUAL REPORT VIEW
     
     func allSessionDataByYear(year: String) -> [PokerSession] {

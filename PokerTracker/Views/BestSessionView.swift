@@ -18,7 +18,7 @@ struct BestSessionView: View {
         VStack (spacing: 12) {
             HStack {
                 
-                Text("Biggest Win")
+                Text("Biggest Session")
                     .bodyStyle()
                 
                 Spacer()

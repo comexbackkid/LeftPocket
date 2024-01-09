@@ -43,7 +43,7 @@ struct CustomChartView: View {
                                            endPoint: .top)
                         )
                         .opacity(self.isPresented ? 0.5 : 0)
-                        .animation(.easeInOut.speed(0.25).delay(0.6), value: isPresented)
+                        .animation(.easeInOut.speed(0.25).delay(0.7), value: isPresented)
                 }
                 
                 // Line
@@ -112,5 +112,6 @@ struct CustomChartView: View {
 struct CustomChartView_Previews: PreviewProvider {
     static var previews: some View {
         CustomChartView(viewModel: SessionsListViewModel(), data: MockData.mockDataCoordinates, background: true)
+            .preferredColorScheme(.dark)
     }
 }

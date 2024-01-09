@@ -6,14 +6,20 @@
 //
 
 import SwiftUI
+import RevenueCat
+import RevenueCatUI
 
 struct ProfitByYear: View {
     
     @Environment(\.colorScheme) var colorScheme
+    
+    @EnvironmentObject var subManager: SubscriptionManager
     @ObservedObject var viewModel: SessionsListViewModel
     @StateObject var vm: AnnualReportViewModel
     @StateObject var exportUtility = CSVConversion()
+    
     @State private var showError: Bool = false
+    @State private var showPaywall = false
     
     var body: some View {
         
@@ -68,6 +74,7 @@ struct ProfitByYear: View {
                 VStack (spacing: 12) {
                     
                     Spacer()
+                    
                     HStack {
                         Text("Gross Income")
                             .bodyStyle()
@@ -75,8 +82,6 @@ struct ProfitByYear: View {
                         Spacer()
                         Text("\(grossIncome.asCurrency())").profitColor(total: grossIncome)
                     }
-                    
-                    
                     
                     HStack {
                         Text("Expenses")
@@ -174,15 +179,24 @@ struct ProfitByYear: View {
         
         Button {
             
-            do {
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            
+            if subManager.isSubscribed {
+                do {
+                    
+                    let fileURL = try CSVConversion.exportCSV(from: viewModel.allSessionDataByYear(year: vm.lastYear))
+                    shareFile(fileURL)
+                    
+                } catch {
+                    
+                    exportUtility.errorMsg = "\(error.localizedDescription)"
+                    showError.toggle()
+                }
+            } else {
                 
-                let fileURL = try CSVConversion.exportCSV(from: viewModel.allSessionDataByYear(year: vm.lastYear))
-                shareFile(fileURL)
+                showPaywall = true
                 
-            } catch {
-                
-                exportUtility.errorMsg = "\(error.localizedDescription)"
-                showError.toggle()
             }
             
         } label: {
@@ -191,16 +205,15 @@ struct ProfitByYear: View {
         .alert(isPresented: $showError) {
             Alert(title: Text("Uh oh!"), message: Text(exportUtility.errorMsg ?? ""), dismissButton: .default(Text("OK")))
         }
-        
-        //                    Button {
-        //                        if let fileURL = CSVConversion.exportCSV(data: viewModel.allSessionDataByYear(year: vm.lastYear)) {
-        //                            shareFile(fileURL)
-        //                        }
-        //
-        //                    } label: {
-        //                        PrimaryButton(title: "Export Last Year's Results")
-        //                    }
-        
+        .sheet(isPresented: $showPaywall) {
+            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+        }
+        .task {
+            for await customerInfo in Purchases.shared.customerInfoStream {
+                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                await subManager.checkSubscriptionStatus()
+            }
+        }
     }
 
     func shareFile(_ fileURL: URL) {
@@ -217,6 +230,7 @@ struct ProfitByYear: View {
 struct ProfitByYear_Previews: PreviewProvider {
     static var previews: some View {
         ProfitByYear(viewModel: SessionsListViewModel(), vm: AnnualReportViewModel())
+            .environmentObject(SubscriptionManager())
             .preferredColorScheme(.dark)
     }
 }

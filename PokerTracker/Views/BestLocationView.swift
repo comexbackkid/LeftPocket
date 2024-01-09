@@ -17,6 +17,7 @@ struct BestLocationView: View {
         
         VStack (spacing: 12) {
             HStack {
+                
                 VStack(alignment: .leading, spacing: 5) {
                     
                     Text("Best Location")

@@ -151,6 +151,9 @@ struct UserSettings: View {
                         
                         Button {
                             
+                            let impact = UIImpactFeedbackGenerator(style: .medium)
+                            impact.impactOccurred()
+                            
                             do {
                                 
                                 let fileURL = try CSVConversion.exportCSV(from: vm.sessions)
@@ -181,25 +184,13 @@ struct UserSettings: View {
                         .alert(isPresented: $showError) {
                             Alert(title: Text("Uh oh!"), message: Text(exportUtility.errorMsg ?? ""), dismissButton: .default(Text("OK")))
                         }
-                        
-//                        ShareLink(item: vm.sessionsPath) {
-//                            
-//                            HStack {
-//                                Text("Export My Data")
-//                                    .subtitleStyle()
-//                                    .bold()
-//                                
-//                                Spacer()
-//                                
-//                                Text("›")
-//                                    .font(.title2)
-//                            }
-//                        }
-//                        .buttonStyle(PlainButtonStyle())
                 
                     } else {
                         
                         Button {
+                            
+                            let impact = UIImpactFeedbackGenerator(style: .medium)
+                            impact.impactOccurred()
                             
                             showPaywall = true
                                 
@@ -220,7 +211,6 @@ struct UserSettings: View {
                         .buttonStyle(PlainButtonStyle())
                         .sheet(isPresented: $showPaywall) {
                             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                                .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
                         }
                         .task {
                             for await customerInfo in Purchases.shared.customerInfoStream {
@@ -258,15 +248,6 @@ struct UserSettings: View {
                 }).buttonStyle(PlainButtonStyle())
         }
         
-    }
-    
-    func shareFile(_ fileURL: URL) {
-        let activityViewController = UIActivityViewController(
-            activityItems: [fileURL],
-            applicationActivities: nil
-        )
-        
-        UIApplication.shared.windows.first?.rootViewController?.present(activityViewController, animated: true, completion: nil)
     }
     
     var externalLinks: some View {
@@ -321,6 +302,15 @@ struct UserSettings: View {
             .buttonStyle(PlainButtonStyle())
             
         }
+    }
+    
+    func shareFile(_ fileURL: URL) {
+        let activityViewController = UIActivityViewController(
+            activityItems: [fileURL],
+            applicationActivities: nil
+        )
+        
+        UIApplication.shared.windows.first?.rootViewController?.present(activityViewController, animated: true, completion: nil)
     }
 }
 

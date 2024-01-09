@@ -48,43 +48,75 @@ struct SessionsListView: View {
                     
                 } else {
                     
-                    List {
+                    if !filteredSessions.isEmpty {
                         
-                        Text("All Sessions")
-                            .titleStyle()
-                            .padding(.top, -38)
-                            .padding(.horizontal)
-                            .listRowBackground(Color.brandBackground)
-                            .listRowSeparator(.hidden)
-                            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                        
-                        // With Paywall offering, we're only prompting them to subscribe with the New Session Button
-                        // They can still view all their Sessions if they were previously free users. They just can't add new Sessions
-                        
-                        ForEach(filteredSessions) { session in
-                            NavigationLink(
-                                destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session),
-                                label: {
-                                    CellView(pokerSession: session)
-                                })
-                            .listRowBackground(Color.brandBackground)
-                            .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
-                        }
-                        .onDelete(perform: { indexSet in
-                            vm.sessions.remove(atOffsets: indexSet)
-                        })
-                    }
-                    .listStyle(PlainListStyle())
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        Menu {
-                            Picker("", selection: $sessionFilter) {
-                                ForEach(SessionFilter.allCases, id: \.self) {
-                                    Text($0.rawValue.capitalized).tag($0)
-                                }
+                        List {
+                            
+                            Text("All Sessions")
+                                .titleStyle()
+                                .padding(.top, -38)
+                                .padding(.horizontal)
+                                .listRowBackground(Color.brandBackground)
+                                .listRowSeparator(.hidden)
+                                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            
+                            // With Paywall offering, we're only prompting them to subscribe with the New Session Button
+                            // They can still view all their Sessions if they were previously free users. They just can't add new Sessions
+                            
+                            ForEach(filteredSessions) { session in
+                                NavigationLink(
+                                    destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session),
+                                    label: {
+                                        CellView(pokerSession: session)
+                                    })
+                                .listRowBackground(Color.brandBackground)
+                                .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
                             }
-                        } label: { Image(systemName: "slider.horizontal.3") }
+                            .onDelete(perform: { indexSet in
+                                vm.sessions.remove(atOffsets: indexSet)
+                            })
+                        }
+                        .listStyle(PlainListStyle())
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbar {
+                            Menu {
+                                Picker("", selection: $sessionFilter) {
+                                    ForEach(SessionFilter.allCases, id: \.self) {
+                                        Text($0.rawValue.capitalized).tag($0)
+                                    }
+                                }
+                            } label: { Image(systemName: "slider.horizontal.3") }
+                        }
+                        
+                    } else {
+                        
+                        VStack (alignment: .leading) {
+                            
+                            Text("All Sessions")
+                                .titleStyle()
+                                .padding(.top, -38)
+                                .padding(.horizontal)
+                                .listRowBackground(Color.brandBackground)
+                                .listRowSeparator(.hidden)
+                                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            
+                            Spacer()
+                            EmptyState(image: .sessions)
+                            Spacer()
+                        }
+                        .toolbar {
+                            Menu {
+                                Picker("", selection: $sessionFilter) {
+                                    ForEach(SessionFilter.allCases, id: \.self) {
+                                        Text($0.rawValue.capitalized).tag($0)
+                                    }
+                                }
+                            } label: { Image(systemName: "slider.horizontal.3") }
+                        }
+                        
                     }
+                    
+
                 }
             }
             .padding(.bottom, 50)

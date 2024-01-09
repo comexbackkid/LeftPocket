@@ -13,7 +13,7 @@ struct RecentSessionCardView: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     var pokerSession: PokerSession
-    let width = UIScreen.main.bounds.width * 0.9
+    let width = UIScreen.main.bounds.width * 0.85
     
     var body: some View {
         

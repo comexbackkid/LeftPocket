@@ -15,14 +15,6 @@ struct ContentView: View {
     @State private var showMetricsAsSheet = false
     @State var activeSheet: Sheet?
     
-    var bankroll: String {
-        return viewModel.tallyBankroll().asCurrency()
-    }
-
-    var lastSession: Int {
-        return viewModel.sessions.first?.profit ?? 0
-    }
-    
     var body: some View {
         
         ScrollView(.vertical) {
@@ -38,6 +30,8 @@ struct ContentView: View {
                     
                 } else {
                     
+                    quickMetrics
+                    
                     metricsCard
                     
                     recentSessionCard
@@ -50,7 +44,11 @@ struct ContentView: View {
                 MetricsView()
             }
         }
-        .background(Color.brandBackground)
+        .background(
+            RadialGradient(colors: [.brandBackground, Color("newWhite").opacity(0.3)],
+                           center: .topLeading,
+                           startRadius: 500,
+                           endRadius: 5))
         .sheet(item: $activeSheet) { sheet in
             
             switch sheet {
@@ -63,6 +61,59 @@ struct ContentView: View {
                                                    pokerSession: viewModel.sessions.first!)
             }
         }
+    }
+    
+    var bankroll: String {
+        return viewModel.tallyBankroll().asCurrency()
+    }
+    
+    var lastSession: Int {
+        return viewModel.sessions.first?.profit ?? 0
+    }
+    
+    var quickMetrics: some View {
+        
+        HStack (spacing: 20) {
+            
+            VStack (spacing: 3) {
+                Text(String(viewModel.sessions.count))
+                    .font(.system(size: 22, design: .rounded))
+                    .bold()
+                    .opacity(0.75)
+                
+                Text(viewModel.sessions.count == 1 ? "Session" : "Sessions")
+                    .captionStyle()
+                    .fontWeight(.thin)
+            }
+            
+            Divider()
+            
+            VStack (spacing: 3) {
+                Text(String(viewModel.winRate()))
+                    .font(.system(size: 22, design: .rounded))
+                    .bold()
+                    .opacity(0.75)
+                
+                Text("Win Rate")
+                    .captionStyle()
+                    .fontWeight(.thin)
+            }
+            
+            Divider()
+            
+            VStack (spacing: 3) {
+                Text(viewModel.totalHoursPlayedHomeScreen())
+                    .font(.system(size: 22, design: .rounded))
+                    .bold()
+                    .opacity(0.75)
+                
+                Text("Hours")
+                    .captionStyle()
+                    .fontWeight(.thin)
+            }
+        }
+        .padding(.bottom, 30)
+        
     }
     
     var metricsCard: some View {
@@ -101,34 +152,36 @@ struct ContentView: View {
                 
                 Text("BANKROLL")
                     .font(.custom("Asap-Regular", size: 13))
-//                    .font(.caption)
                     .opacity(0.5)
                 
                 Text(bankroll)
-//                    .fontWeight(.thin)
                     .font(.system(size: 60, design: .rounded))
-                    .padding(.bottom, 2)
-                    .opacity(0.8)
+                    .opacity(0.75)
                 
-                Text("LAST")
-                    .font(.custom("Asap-Regular", size: 13))
-//                    .font(.caption)
-                    .opacity(0.5)
+//                Text("LAST")
+//                    .font(.custom("Asap-Regular", size: 13))
+//                    .opacity(0.5)
                 
                 HStack {
+                    
+                    Image(systemName: "arrowtriangle.up.fill")
+                        .resizable()
+                        .frame(width: 11, height: 11)
+                        .foregroundColor(lastSession > 0 ? .green : lastSession < 0 ? .red : Color(.systemGray))
+                        .rotationEffect(lastSession >= 0 ? .degrees(0) : .degrees(180))
+                    
                     Text(lastSession.asCurrency())
                         .fontWeight(.light)
                         .font(.system(size: 20, design: .rounded))
                         .profitColor(total: lastSession)
+                    
                 }
-                .padding(.bottom, 50)
-                
-//                Divider().frame(width: UIScreen.main.bounds.width * 0.6)
-//                    .padding(.bottom, 30)
+                .padding(.top, -40)
             }
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 30)
+        .padding(.bottom, 20)
     }
 }
 
@@ -142,6 +195,7 @@ enum Sheet: String, Identifiable {
 
 struct CardViewButtonStyle: ButtonStyle {
     
+    // This just removes some weird button styling from our custom card view that couldn't otherwise be made
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .overlay {
@@ -157,5 +211,6 @@ struct CardViewButtonStyle: ButtonStyle {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView().environmentObject(SessionsListViewModel())
+            .preferredColorScheme(.dark)
     }
 }
