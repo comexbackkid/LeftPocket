@@ -73,12 +73,12 @@ struct ContentView: View {
     
     var quickMetrics: some View {
         
-        HStack (spacing: 20) {
+        HStack (spacing: 18) {
             
             VStack (spacing: 3) {
                 Text(String(viewModel.sessions.count))
                     .font(.system(size: 22, design: .rounded))
-                    .bold()
+//                    .bold()
                     .opacity(0.75)
                 
                 Text(viewModel.sessions.count == 1 ? "Session" : "Sessions")
@@ -91,7 +91,7 @@ struct ContentView: View {
             VStack (spacing: 3) {
                 Text(String(viewModel.winRate()))
                     .font(.system(size: 22, design: .rounded))
-                    .bold()
+//                    .bold()
                     .opacity(0.75)
                 
                 Text("Win Rate")
@@ -104,7 +104,7 @@ struct ContentView: View {
             VStack (spacing: 3) {
                 Text(viewModel.totalHoursPlayedHomeScreen())
                     .font(.system(size: 22, design: .rounded))
-                    .bold()
+//                    .bold()
                     .opacity(0.75)
                 
                 Text("Hours")

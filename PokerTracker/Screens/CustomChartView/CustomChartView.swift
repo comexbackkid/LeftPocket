@@ -68,21 +68,23 @@ struct CustomChartView: View {
     private var chartBackground: some View {
         
         ZStack {
+            
             VStack {
+
                 Rectangle()
-                    .fill(Color.gray.opacity(0.25))
+                    .fill(Color.gray.opacity(0.20))
+                    .frame(height: 1)
+                
+                Spacer()
+  
+                Rectangle()
+                    .fill(Color.gray.opacity(0.20))
                     .frame(height: 1)
                 
                 Spacer()
                 
                 Rectangle()
-                    .fill(Color.gray.opacity(0.25))
-                    .frame(height: 1)
-                
-                Spacer()
-                
-                Rectangle()
-                    .fill(Color.gray.opacity(0.25))
+                    .fill(Color.gray.opacity(0.20))
                     .frame(height: 1)
             }
             .padding(.trailing, 55)
@@ -106,6 +108,15 @@ struct CustomChartView: View {
             .foregroundColor(.secondary)
         }
         .padding(.trailing)
+    }
+}
+
+struct Line:Shape{
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: rect.width, y: 0))
+        return path
     }
 }
 
