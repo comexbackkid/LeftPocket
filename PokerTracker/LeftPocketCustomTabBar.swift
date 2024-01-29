@@ -81,10 +81,13 @@ struct LeftPocketCustomTabBar: View {
                         
                         // If user is NOT subscribed, AND they reach the 25 Session limit, the Plus button will display Paywall
                         if !subManager.isSubscribed && viewModel.sessions.count > 24 {
+                            
                             showPaywall = true
                         } else {
+                            
                             isPresented = true
                         }
+                        
                         return
                     }
                     

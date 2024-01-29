@@ -19,7 +19,7 @@ struct NewLocationView: View {
     @Binding var addLocationIsShowing: Bool
     
     @State private var photoPickerItem: PhotosPickerItem?
-    @State private var selectedImageData: Data?
+//    @State private var selectedImageData: Data?
     @State private var photoError: Error?
     
     var body: some View {
@@ -47,8 +47,8 @@ struct NewLocationView: View {
                         PhotosPicker(selection: $photoPickerItem) {
                             Label(
                                 title: { Text("Import Header Photo").font(.custom("Asap-Regular", size: 17)) },
-                                icon: { Image(systemName: selectedImageData != nil ? "checkmark.circle.fill" : "photo")
-                                    .foregroundColor(selectedImageData != nil ? .green : .brandPrimary)}
+                                icon: { Image(systemName: newLocationViewModel.importedImage != nil ? "checkmark.circle.fill" : "photo")
+                                    .foregroundColor(newLocationViewModel.importedImage != nil ? .green : .brandPrimary)}
                             )
                         }
                     }
@@ -89,7 +89,7 @@ struct NewLocationView: View {
             
             do {
                 guard let photoPickerItem else { return }
-                selectedImageData = try await photoPickerItem.loadTransferable(type: Data.self)
+                newLocationViewModel.importedImage = try await photoPickerItem.loadTransferable(type: Data.self)
       
             } catch {
                 photoError = error

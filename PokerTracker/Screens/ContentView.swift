@@ -26,7 +26,7 @@ struct ContentView: View {
                 if viewModel.sessions.isEmpty {
                     
                     EmptyState(image: .sessions)
-                        .padding(.top, 50)
+                        .padding(.top, 85)
                     
                 } else {
                     
@@ -158,25 +158,27 @@ struct ContentView: View {
                     .font(.system(size: 60, design: .rounded))
                     .opacity(0.75)
                 
-//                Text("LAST")
-//                    .font(.custom("Asap-Regular", size: 13))
-//                    .opacity(0.5)
-                
-                HStack {
+                if !viewModel.sessions.isEmpty {
                     
-                    Image(systemName: "arrowtriangle.up.fill")
-                        .resizable()
-                        .frame(width: 11, height: 11)
-                        .foregroundColor(lastSession > 0 ? .green : lastSession < 0 ? .red : Color(.systemGray))
-                        .rotationEffect(lastSession >= 0 ? .degrees(0) : .degrees(180))
-                    
-                    Text(lastSession.asCurrency())
-                        .fontWeight(.light)
-                        .font(.system(size: 20, design: .rounded))
-                        .profitColor(total: lastSession)
+                    HStack {
+                        
+                        Image(systemName: "arrowtriangle.up.fill")
+                            .resizable()
+                            .frame(width: 11, height: 11)
+                            .foregroundColor(lastSession > 0 ? .green : lastSession < 0 ? .red : Color(.systemGray))
+                            .rotationEffect(lastSession >= 0 ? .degrees(0) : .degrees(180))
+                        
+                        Text(lastSession.asCurrency())
+                            .fontWeight(.light)
+                            .font(.system(size: 20, design: .rounded))
+                            .profitColor(total: lastSession)
+                        
+                    }
+                    .padding(.top, -40)
                     
                 }
-                .padding(.top, -40)
+                
+
             }
         }
         .frame(maxWidth: .infinity)
