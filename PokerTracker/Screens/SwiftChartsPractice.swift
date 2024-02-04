@@ -8,23 +8,6 @@
 import SwiftUI
 import Charts
 
-//let viewMonths: [ViewMonth] = [
-//    .init(date: Date.from(year: 2023, month: 1, day: 1), viewCount: 100),
-//    .init(date: Date.from(year: 2023, month: 2, day: 1), viewCount: 190),
-//    .init(date: Date.from(year: 2023, month: 3, day: 1), viewCount: 230),
-//    .init(date: Date.from(year: 2023, month: 4, day: 1), viewCount: 78),
-//    .init(date: Date.from(year: 2023, month: 5, day: 1), viewCount: 120),
-//    .init(date: Date.from(year: 2023, month: 6, day: 1), viewCount: 320),
-//    .init(date: Date.from(year: 2023, month: 7, day: 1), viewCount: 220)
-//]
-
-
-struct fakeSession: Identifiable {
-    var id = UUID()
-    let month: String
-    let profit: Double
-}
-
 struct dummySession: Identifiable {
     var id = UUID()
     let date: Date
@@ -43,7 +26,6 @@ struct SwiftChartsPractice: View {
         .init(date: Date.from(year: 2023, month: 12, day: 11), profit: 480),
     ]
     
-    @ObservedObject var vm: SessionsListViewModel
     @State private var selection: FilterType = .monthly
     
     enum FilterType: String, Identifiable, CaseIterable {
@@ -59,25 +41,11 @@ struct SwiftChartsPractice: View {
         }
     }
     
-    var gradientColor: LinearGradient {
-        LinearGradient(
-            gradient: Gradient(
-                colors: [
-                    Color.blue.opacity(0.8),
-                    Color.blue.opacity(0.01),
-                ]
-            ),
-            startPoint: .top,
-            endPoint: .bottom
-        )
-    }
-    
     var body: some View {
         
         VStack (alignment: .leading) {
-            if #available(iOS 16.0, *) {
-                
                 VStack {
+                    
                     Chart {
                         ForEach(dummyData) { session in
                             LineMark(x: .value("Month", session.date.getMonth()),
@@ -90,7 +58,7 @@ struct SwiftChartsPractice: View {
                             .foregroundStyle(LinearGradient(colors: [.blue.opacity(0.3), .blue.opacity(0.03), .blue.opacity(0.00)], startPoint: .top, endPoint: .bottom))
                             
                         }
-                        .interpolationMethod(.cardinal)
+                        .interpolationMethod(.catmullRom(alpha: 0))
                     }
                     .chartXAxis(.hidden)
                     .chartXAxis {
@@ -188,9 +156,6 @@ struct SwiftChartsPractice: View {
 //                                }
                 
                 
-            } else {
-                // Fallback on earlier versions
-            }
         }
         .padding()
     }
@@ -198,7 +163,7 @@ struct SwiftChartsPractice: View {
 
 struct SwiftChartsPractice_Previews: PreviewProvider {
     static var previews: some View {
-        SwiftChartsPractice(vm: SessionsListViewModel())
+        SwiftChartsPractice()
     }
 }
 

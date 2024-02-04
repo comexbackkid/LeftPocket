@@ -11,7 +11,7 @@ import AuthenticationServices
 struct SignInTest: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @Binding var shouldShowOnboarding: Bool
+    @Binding var showWelcomeScreen: Bool
     
     var body: some View {
         
@@ -71,7 +71,7 @@ struct SignInTest: View {
         
         Button {
             
-            shouldShowOnboarding.toggle()
+            showWelcomeScreen.toggle()
             
         } label: {
             
@@ -105,7 +105,6 @@ struct SignInTest: View {
 
 struct SignInTest_Previews: PreviewProvider {
     static var previews: some View {
-        SignInTest(shouldShowOnboarding: .constant(true))
-//            .preferredColorScheme(.dark)
+        SignInTest(showWelcomeScreen: .constant(true))
     }
 }

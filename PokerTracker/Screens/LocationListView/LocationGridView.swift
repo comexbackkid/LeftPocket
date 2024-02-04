@@ -100,7 +100,7 @@ struct LocationGridItem: View {
     
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var vm: SessionsListViewModel
-    
+
     let location: LocationModel
     
     var body: some View {

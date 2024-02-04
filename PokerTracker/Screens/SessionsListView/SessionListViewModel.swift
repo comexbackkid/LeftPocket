@@ -222,6 +222,23 @@ class SessionsListViewModel: ObservableObject {
         return winPercentage.asPercent()
     }
     
+    // Standard deviation function on a per session basis
+    func standardDeviation() -> Int {
+        
+        guard sessions.count > 1 else {
+            // Not enough data points to calculate standard deviation
+            return 0
+        }
+
+        let profitArray = sessions.map { $0.profit }
+        let mean = profitArray.reduce(0, +) / profitArray.count
+        let variance = profitArray.reduce(0) { (result, profit) in
+            result + pow(Double(profit - mean), 2)
+        } / Double(profitArray.count - 1)
+
+        return Int(sqrt(variance))
+    }
+    
     // Calculate total hourly earnings rate for MetricsView
     func hourlyRate() -> Int {
         guard !sessions.isEmpty else { return 0 }

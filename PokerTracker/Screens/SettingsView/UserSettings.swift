@@ -122,9 +122,9 @@ struct UserSettings: View {
                 destination: LocationGridView(),
                 label: {
                     HStack {
-                        
                         VStack (alignment: .leading) {
                             HStack {
+                                
                                 Text("Locations")
                                     .subtitleStyle()
                                     .bold()
@@ -134,6 +134,7 @@ struct UserSettings: View {
                                 Text("›")
                                     .font(.title2)
                             }
+                            
                             Text("View your saved and default Locations here. Add your own venue, casino, platform, app, or home game. Tap & hold to delete.")
                                 .calloutStyle()
                                 .opacity(0.8)
@@ -141,7 +142,8 @@ struct UserSettings: View {
                         }
                         Spacer()
                     }
-                }).buttonStyle(PlainButtonStyle())
+                })
+            .buttonStyle(PlainButtonStyle())
             
             HStack {
                 
@@ -151,7 +153,7 @@ struct UserSettings: View {
                         
                         Button {
                             
-                            let impact = UIImpactFeedbackGenerator(style: .medium)
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
                             impact.impactOccurred()
                             
                             do {
@@ -189,7 +191,7 @@ struct UserSettings: View {
                         
                         Button {
                             
-                            let impact = UIImpactFeedbackGenerator(style: .medium)
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
                             impact.impactOccurred()
                             
                             showPaywall = true
@@ -245,9 +247,34 @@ struct UserSettings: View {
                         
                         Spacer()
                     }
-                }).buttonStyle(PlainButtonStyle())
+                })
+            .buttonStyle(PlainButtonStyle())
+            
+            if !subManager.isSubscribed {
+                
+                Button {
+                    
+                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                    impact.impactOccurred()
+                    
+                    showPaywall = true
+                    
+                } label: {
+                    
+                    HStack {
+                        Text("Upgrade to Premium")
+                            .subtitleStyle()
+                            .bold()
+                        
+                        Spacer()
+                        
+                        Text("›")
+                            .font(.title2)
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
         }
-        
     }
     
     var externalLinks: some View {
@@ -276,13 +303,13 @@ struct UserSettings: View {
             })
             .buttonStyle(PlainButtonStyle())
             
-            Link(destination: URL(string: "https://twitter.com/chrisnachtrieb")!,
+            Link(destination: URL(string: "mailto:leftpocketpoker@gmail.com")!,
                  label: {
                 HStack {
                     
                     VStack (alignment: .leading) {
                         HStack {
-                            Text("Contact Support")
+                            Text("Email Support")
                                 .subtitleStyle()
                                 .bold()
                             
@@ -300,7 +327,6 @@ struct UserSettings: View {
                 }
             })
             .buttonStyle(PlainButtonStyle())
-            
         }
     }
     

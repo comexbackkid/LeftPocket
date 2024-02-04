@@ -13,7 +13,7 @@ struct LeftPocketCustomTabBar: View {
     
     @AppStorage("isDarkMode") private var isDarkMode = false
     @AppStorage("systemThemeEnabled") private var systemThemeEnabled = false
-    @AppStorage("shouldShowOnboarding") var shouldShowOnboarding: Bool = true
+    @AppStorage("shouldShowOnboarding") var paywallWelcome: Bool = true
     
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var viewModel: SessionsListViewModel
@@ -65,9 +65,12 @@ struct LeftPocketCustomTabBar: View {
                 .shared
                 .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
         }
-        .fullScreenCover(isPresented: $shouldShowOnboarding, content: {
-            SignInTest(shouldShowOnboarding: $shouldShowOnboarding)
-        })
+        
+        // Attempting to show Paywall immediately and earlier in the user's journey
+//        .sheet(isPresented: $paywallWelcome, content: {
+//            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+//                .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
+//        })
     }
     
     var tabBar: some View {
@@ -90,6 +93,9 @@ struct LeftPocketCustomTabBar: View {
                         
                         return
                     }
+                    
+                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                    impact.impactOccurred()
                     
                     selectedTab = index
                     

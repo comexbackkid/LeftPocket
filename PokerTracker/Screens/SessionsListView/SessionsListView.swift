@@ -113,10 +113,7 @@ struct SessionsListView: View {
                                 }
                             } label: { Image(systemName: "slider.horizontal.3") }
                         }
-                        
                     }
-                    
-
                 }
             }
             .padding(.bottom, 50)

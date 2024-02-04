@@ -172,6 +172,17 @@ struct MetricsView: View {
                             Text(viewModel.avgProfit().asCurrency())
                                 .foregroundColor(viewModel.avgProfit() > 0 ? .green : viewModel.tallyBankroll() < 0 ? .red : .primary)
                         }
+                        
+                        Divider()
+                        
+                        HStack {
+                            Text("Std. Dev. Per Session")
+                                .calloutStyle()
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text("\(viewModel.standardDeviation().asCurrency())")
+                                .foregroundColor(viewModel.standardDeviation() > 0 ? .green : viewModel.standardDeviation() < 0 ? .red : .primary)
+                        }
                     }
                     
                     Group {
