@@ -20,6 +20,7 @@ struct UserSettings: View {
     
     @State private var showError: Bool = false
     @State private var showPaywall = false
+    @State private var exportCounter = 1
     
     var body: some View {
 
@@ -108,6 +109,7 @@ struct UserSettings: View {
                         .opacity(0.8)
                         .padding(.top, 1)
                 }
+                
                 Spacer()
                 
             }
@@ -149,7 +151,7 @@ struct UserSettings: View {
                 
                 VStack (alignment: .leading) {
                     
-                    if subManager.isSubscribed {
+                    if subManager.isSubscribed || exportCounter != 0 {
                         
                         Button {
                             
@@ -159,7 +161,9 @@ struct UserSettings: View {
                             do {
                                 
                                 let fileURL = try CSVConversion.exportCSV(from: vm.sessions)
-                                shareFile(fileURL)
+                                shareFile(fileURL) {
+                                    exportCounter = 0
+                                }
                                 
                             } catch {
                                 
@@ -171,16 +175,30 @@ struct UserSettings: View {
                         } label: {
                             
                             HStack {
-                                Text("Export My Data")
-                                    .subtitleStyle()
-                                    .bold()
-                                
+                                VStack (alignment: .leading) {
+                                    HStack {
+                                        
+                                        Text("Export My Data")
+                                            .subtitleStyle()
+                                            .bold()
+                                        
+                                        Spacer()
+                                        
+                                        Text("›")
+                                            .font(.title2)
+                                    }
+                                    
+                                    if !subManager.isSubscribed {
+                                        
+                                        Text("Upgrade to Left Pocket Pro for unlimited exports. You have \(exportCounter) exports remaining.")
+                                            .calloutStyle()
+                                            .opacity(0.8)
+                                            .padding(.top, 1)
+                                        
+                                    }
+                                }
                                 Spacer()
-                                
-                                Text("›")
-                                    .font(.title2)
                             }
-                            
                         }
                         .buttonStyle(PlainButtonStyle())
                         .alert(isPresented: $showError) {
@@ -200,14 +218,25 @@ struct UserSettings: View {
                         } label: {
                             
                             HStack {
-                                Text("Export My Data")
-                                    .subtitleStyle()
-                                    .bold()
-                                
+                                VStack (alignment: .leading) {
+                                    HStack {
+                                        
+                                        Text("Export My Data")
+                                            .subtitleStyle()
+                                            .bold()
+                                        
+                                        Spacer()
+                                        
+                                        Text("›")
+                                            .font(.title2)
+                                    }
+                                    
+                                    Text("Upgrade to Left Pocket Pro for unlimited exports. You have \(exportCounter) exports remaining.")
+                                        .calloutStyle()
+                                        .opacity(0.8)
+                                        .padding(.top, 1)
+                                }
                                 Spacer()
-                                
-                                Text("›")
-                                    .font(.title2)
                             }
                         }
                         .buttonStyle(PlainButtonStyle())
@@ -262,7 +291,7 @@ struct UserSettings: View {
                 } label: {
                     
                     HStack {
-                        Text("Upgrade to Premium")
+                        Text("Upgrade to Pro")
                             .subtitleStyle()
                             .bold()
                         
@@ -330,11 +359,20 @@ struct UserSettings: View {
         }
     }
     
-    func shareFile(_ fileURL: URL) {
+    func shareFile(_ fileURL: URL, completion: @escaping () -> Void) {
         let activityViewController = UIActivityViewController(
             activityItems: [fileURL],
             applicationActivities: nil
         )
+        
+        activityViewController.completionWithItemsHandler = { activityType, completed, _, _ in
+                // Check if the activity was completed successfully
+                if completed {
+                    
+                    // Run the second parameter, "completion" after success. It takes in a function or action of some kind
+                    completion()
+                }
+            }
         
         UIApplication.shared.windows.first?.rootViewController?.present(activityViewController, animated: true, completion: nil)
     }

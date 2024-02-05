@@ -13,7 +13,7 @@
 		7C1587F528A2DD5E00B11F77 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C1587F428A2DD5E00B11F77 /* SwiftUI.framework */; };
 		7C1587F828A2DD5E00B11F77 /* LeftPocketWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1587F728A2DD5E00B11F77 /* LeftPocketWidget.swift */; };
 		7C1587FA28A2DD5E00B11F77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C1587F928A2DD5E00B11F77 /* Assets.xcassets */; };
-		7C1587FE28A2DD5E00B11F77 /* LeftPocketWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 7C1587F028A2DD5E00B11F77 /* LeftPocketWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7C1587FE28A2DD5E00B11F77 /* LeftPocketWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7C1587F028A2DD5E00B11F77 /* LeftPocketWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7C15880628A2DDBD00B11F77 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C15880528A2DDBD00B11F77 /* Provider.swift */; };
 		7C15880828A2DDDA00B11F77 /* SimpleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C15880728A2DDDA00B11F77 /* SimpleEntry.swift */; };
 		7C15880E28A2E21F00B11F77 /* WidgetViewSmall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C15880D28A2E21F00B11F77 /* WidgetViewSmall.swift */; };
@@ -189,15 +189,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		7C15880228A2DD5E00B11F77 /* Embed App Extensions */ = {
+		7C15880228A2DD5E00B11F77 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				7C1587FE28A2DD5E00B11F77 /* LeftPocketWidgetExtension.appex in Embed App Extensions */,
+				7C1587FE28A2DD5E00B11F77 /* LeftPocketWidgetExtension.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -791,7 +791,7 @@
 				7C63948E26C14E8300939F40 /* Sources */,
 				7C63948F26C14E8300939F40 /* Frameworks */,
 				7C63949026C14E8300939F40 /* Resources */,
-				7C15880228A2DD5E00B11F77 /* Embed App Extensions */,
+				7C15880228A2DD5E00B11F77 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -813,8 +813,9 @@
 		7C63948A26C14E8300939F40 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1340;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1510;
 				TargetAttributes = {
 					7C1587EF28A2DD5E00B11F77 = {
 						CreatedOnToolsVersion = 13.4.1;
@@ -1153,6 +1154,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1215,6 +1217,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
