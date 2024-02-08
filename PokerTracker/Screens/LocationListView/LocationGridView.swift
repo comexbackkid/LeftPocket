@@ -13,6 +13,7 @@ struct LocationGridView: View {
     @State var addLocationIsShowing = false
     @State var showAlert = false
     
+    let deleteTip = DeleteLocationTip()
     let columns = [GridItem(.fixed(165), spacing: 20), GridItem(.fixed(165))]
     
     var body: some View {
@@ -52,6 +53,7 @@ struct LocationGridView: View {
                 
             resetLocationsButton
         }
+        
     }
     
     var addLocationButton: some View {
@@ -68,8 +70,8 @@ struct LocationGridView: View {
         .sheet(isPresented: $addLocationIsShowing, content: {
             NewLocationView(addLocationIsShowing: $addLocationIsShowing)
         })
-        
     }
+    
     
     var resetLocationsButton: some View {
         
@@ -102,6 +104,7 @@ struct LocationGridItem: View {
     @EnvironmentObject var vm: SessionsListViewModel
 
     let location: LocationModel
+    let deleteTip = DeleteLocationTip()
     
     var body: some View {
         
@@ -119,6 +122,7 @@ struct LocationGridItem: View {
                             Label("Delete Location", systemImage: "trash")
                         }
                     }
+                    .popoverTip(deleteTip)
                 
             } else if location.imageURL != "" {
                 
@@ -163,6 +167,7 @@ struct LocationGridItem: View {
                 .lineLimit(1)
                 .padding(.bottom, 20)
         }
+        
     }
     
     // Need to set up testing with broken image links to make sure this works

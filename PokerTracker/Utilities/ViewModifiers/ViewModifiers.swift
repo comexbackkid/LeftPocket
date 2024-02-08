@@ -18,6 +18,7 @@ struct AccountingView: ViewModifier {
 }
 
 struct Primary: ViewModifier {
+    
     private let font: Font
     
     init(size: CGFloat, foregroundColor: Color) {

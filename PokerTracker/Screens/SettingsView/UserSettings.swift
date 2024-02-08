@@ -73,6 +73,7 @@ struct UserSettings: View {
                         
                         Toggle("", isOn: $isDarkMode)
                             .onChange(of: isDarkMode, perform: { _ in
+                                
                                 SystemThemeManager
                                     .shared
                                     .handleTheme(darkMode: isDarkMode,
@@ -240,19 +241,76 @@ struct UserSettings: View {
                             }
                         }
                         .buttonStyle(PlainButtonStyle())
-                        .sheet(isPresented: $showPaywall) {
-                            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                        }
-                        .task {
-                            for await customerInfo in Purchases.shared.customerInfoStream {
-                                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
-                                await subManager.checkSubscriptionStatus()
-                            }
-                        }
+                        
                     }
                 }
                 
                 Spacer()
+            }
+            
+            if subManager.isSubscribed {
+                
+                NavigationLink(
+                    destination: ImportView()) {
+                        HStack {
+                            VStack (alignment: .leading) {
+                                HStack {
+                                    
+                                    Text("Import Data")
+                                        .subtitleStyle()
+                                        .bold()
+                                    
+                                    Spacer()
+                                    
+                                    Text("›")
+                                        .font(.title2)
+                                }
+                            }
+                            
+                            Spacer()
+                        }
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                
+            } else {
+                
+                Button {
+                    
+                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                    impact.impactOccurred()
+                    
+                    showPaywall = true
+                    
+                } label: {
+                    
+                    HStack {
+                        VStack (alignment: .leading) {
+                            HStack {
+                                
+                                Text("Import Data")
+                                    .subtitleStyle()
+                                    .bold()
+                                
+                                Spacer()
+                                
+                                Text("›")
+                                    .font(.title2)
+                            }
+                        }
+                        
+                        Spacer()
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
+                .sheet(isPresented: $showPaywall) {
+                    PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                }
+                .task {
+                    for await customerInfo in Purchases.shared.customerInfoStream {
+                        showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                        await subManager.checkSubscriptionStatus()
+                    }
+                }
             }
             
             NavigationLink(

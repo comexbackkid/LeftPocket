@@ -22,6 +22,13 @@ struct SessionsListView: View {
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
     
+    var sessionsTitle: String {
+        switch sessionFilter {
+        case .all: "All Sessions"
+        case .cash: "Cash Sessions"
+        case .tournament: "Tournament Sessions"
+        }
+    }
     var filteredSessions: [PokerSession] {
         
         switch sessionFilter {
@@ -30,6 +37,7 @@ struct SessionsListView: View {
         case .tournament: return vm.sessions.filter({ $0.isTournament == true })
         }
     }
+    let filterTip = FilterSessionsTip()
     
     var body: some View {
         
@@ -52,13 +60,7 @@ struct SessionsListView: View {
                         
                         List {
                             
-                            Text("All Sessions")
-                                .titleStyle()
-                                .padding(.top, -38)
-                                .padding(.horizontal)
-                                .listRowBackground(Color.brandBackground)
-                                .listRowSeparator(.hidden)
-                                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            screenTitle
                             
                             // With Paywall offering, we're only prompting them to subscribe with the New Session Button
                             // They can still view all their Sessions if they were previously free users. They just can't add new Sessions
@@ -85,20 +87,22 @@ struct SessionsListView: View {
                                         Text($0.rawValue.capitalized).tag($0)
                                     }
                                 }
-                            } label: { Image(systemName: "slider.horizontal.3") }
+                            } label: {
+                                Image(systemName: "slider.horizontal.3")
+                            }
+                            .onTapGesture {
+                                Task {
+                                    await FilterSessionsTip.pressedFilter.donate()
+                                }
+                            }
+                            .popoverTip(filterTip)
                         }
                         
                     } else {
                         
                         VStack (alignment: .leading) {
                             
-                            Text("All Sessions")
-                                .titleStyle()
-                                .padding(.top, -38)
-                                .padding(.horizontal)
-                                .listRowBackground(Color.brandBackground)
-                                .listRowSeparator(.hidden)
-                                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            screenTitle
                             
                             Spacer()
                             EmptyState(image: .sessions)
@@ -119,9 +123,20 @@ struct SessionsListView: View {
             .padding(.bottom, 50)
             .accentColor(.brandPrimary)
             .background(Color.brandBackground)
-            
         }
         .accentColor(.brandPrimary)
+    }
+    
+    var screenTitle: some View {
+        
+        Text(sessionsTitle)
+            .titleStyle()
+            .padding(.top, -38)
+            .padding(.horizontal)
+            .listRowBackground(Color.brandBackground)
+            .listRowSeparator(.hidden)
+            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        
     }
 }
 

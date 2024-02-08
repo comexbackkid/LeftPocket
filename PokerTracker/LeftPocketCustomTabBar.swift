@@ -8,6 +8,7 @@
 import SwiftUI
 import RevenueCat
 import RevenueCatUI
+import TipKit
 
 struct LeftPocketCustomTabBar: View {
     
@@ -23,6 +24,7 @@ struct LeftPocketCustomTabBar: View {
     @State var showPaywall = false
     
     let tabBarImages = ["house.fill", "list.bullet", "plus", "chart.bar.fill", "gearshape.fill"]
+    let addSessionTip = AddSessionTip()
     
     var body: some View {
         
@@ -56,6 +58,9 @@ struct LeftPocketCustomTabBar: View {
                 
                 Spacer()
                 
+                TipView(addSessionTip, arrowEdge: .bottom)
+                    .padding(.horizontal)
+                
                 tabBar
             }
         }
@@ -74,13 +79,19 @@ struct LeftPocketCustomTabBar: View {
     }
     
     var tabBar: some View {
+        
         HStack {
             ForEach(0..<5) { index in
+                
                 Button {
             
                     if index == 2 {
                         let impact = UIImpactFeedbackGenerator(style: .medium)
                         impact.impactOccurred()
+                        
+                        Task {
+                            await AddSessionTip.sessionCount.donate()
+                        }
                         
                         // If user is NOT subscribed, AND they reach the 25 Session limit, the Plus button will display Paywall
                         if !subManager.isSubscribed && viewModel.sessions.count > 24 {

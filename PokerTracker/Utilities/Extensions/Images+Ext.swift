@@ -12,7 +12,8 @@ extension Image {
     
     // Session List View styling the club logo
     func imageRowStyle() -> some View {
-        self.resizable()
+        self
+            .resizable()
             .frame(width: 18, height: 18)
             .foregroundColor(.white)
             .background(

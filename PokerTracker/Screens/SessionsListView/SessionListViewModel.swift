@@ -278,6 +278,23 @@ class SessionsListViewModel: ObservableObject {
         return dateComponents.abbreviated(duration: dateComponents)
     }
     
+    // User's longest win streak
+    func winStreak() -> Int {
+        var consecutiveCount = 0
+        var maxConsecutiveCount = 0
+
+        for session in sessions {
+            if session.profit > 0 {
+                consecutiveCount += 1
+                maxConsecutiveCount = max(maxConsecutiveCount, consecutiveCount)
+            } else {
+                consecutiveCount = 0
+            }
+        }
+
+        return maxConsecutiveCount
+    }
+    
     // Formatted specifically for home screen dashboard
     func totalHoursPlayedHomeScreen() -> String {
         guard !sessions.isEmpty else { return "0" }

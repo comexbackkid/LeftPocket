@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 import SwiftUI
 
 struct PokerSession: Hashable, Codable, Identifiable {

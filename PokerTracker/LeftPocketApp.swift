@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 @main
 struct LeftPocketApp: App {
@@ -24,4 +25,14 @@ struct LeftPocketApp: App {
                 .environmentObject(subManager)
         }
     }
+    
+    init() {
+        configureTips()
+    }
+    
+    func configureTips() {
+            try? Tips.resetDatastore()
+            try? Tips.configure([.datastoreLocation(TipKitConfig.storeLocation),
+                                 .displayFrequency(TipKitConfig.displayFrequency)])
+        }
 }

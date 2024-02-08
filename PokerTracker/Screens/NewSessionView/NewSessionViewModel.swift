@@ -8,6 +8,7 @@
 import SwiftUI
 import RevenueCat
 import RevenueCatUI
+import TipKit
 
 final class NewSessionViewModel: ObservableObject {
     
@@ -86,7 +87,13 @@ final class NewSessionViewModel: ObservableObject {
                              isTournament: sessionType == .tournament,
                              entrants: Int(self.entrants) ?? 0)
         
-        // Only after the form checks out will the presentation be set to false and passed into the Binding in our View
+        Task {
+            
+            // Counting how many times the user adds a Session. Will display Tip after they enter two
+            await FilterSessionsTip.sessionCount.donate()
+        }
+        
+        // Only after the form checks out will the presentation be set to false and the sheet will dismiss
         self.presentation = false
     }
 }
