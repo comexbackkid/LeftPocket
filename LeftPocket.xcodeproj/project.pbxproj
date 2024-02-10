@@ -33,7 +33,6 @@
 		7C3F43AC2728512700A9C842 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43AB2728512700A9C842 /* LocationModel.swift */; };
 		7C4254A12784E25C00B5DA79 /* ProfitByYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4254A02784E25C00B5DA79 /* ProfitByYear.swift */; };
 		7C45B06D29428F0E00587078 /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45B06C29428F0E00587078 /* BarChartView.swift */; };
-		7C45E1FA289AD8AC005D89CF /* StudyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45E1F9289AD8AC005D89CF /* StudyDetailView.swift */; };
 		7C463C232B487B040095E6C6 /* CSVConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C463C222B487B040095E6C6 /* CSVConversion.swift */; };
 		7C468EFB273974E6000CA4B3 /* BarGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C468EFA273974E6000CA4B3 /* BarGraphView.swift */; };
 		7C468EFD273980F7000CA4B3 /* Animations+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C468EFC273980F7000CA4B3 /* Animations+Ext.swift */; };
@@ -170,7 +169,6 @@
 		7CEA58B928A56E5000418E11 /* MainWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEA58B828A56E5000418E11 /* MainWidgetView.swift */; };
 		7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEB761E26D9A77E006170EF /* Alerts.swift */; };
 		7CED6EA827517D7F00E18053 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED6EA727517D7F00E18053 /* Array+Ext.swift */; };
-		7CF53F1C289A9CE500C26AD5 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF53F1B289A9CE500C26AD5 /* StudyView.swift */; };
 		7CF53F1E289A9EA300C26AD5 /* StudyCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF53F1D289A9EA300C26AD5 /* StudyCardView.swift */; };
 		7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */; };
 		7CFD78A92B34DF2D00C1A9F6 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 7CFD78A82B34DF2D00C1A9F6 /* RevenueCat */; };
@@ -230,7 +228,6 @@
 		7C3F43AB2728512700A9C842 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
 		7C4254A02784E25C00B5DA79 /* ProfitByYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByYear.swift; sourceTree = "<group>"; };
 		7C45B06C29428F0E00587078 /* BarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartView.swift; sourceTree = "<group>"; };
-		7C45E1F9289AD8AC005D89CF /* StudyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyDetailView.swift; sourceTree = "<group>"; };
 		7C463C222B487B040095E6C6 /* CSVConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVConversion.swift; sourceTree = "<group>"; };
 		7C468EFA273974E6000CA4B3 /* BarGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarGraphView.swift; sourceTree = "<group>"; };
 		7C468EFC273980F7000CA4B3 /* Animations+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Animations+Ext.swift"; sourceTree = "<group>"; };
@@ -329,7 +326,6 @@
 		7CEA58B828A56E5000418E11 /* MainWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWidgetView.swift; sourceTree = "<group>"; };
 		7CEB761E26D9A77E006170EF /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		7CED6EA727517D7F00E18053 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
-		7CF53F1B289A9CE500C26AD5 /* StudyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
 		7CF53F1D289A9EA300C26AD5 /* StudyCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyCardView.swift; sourceTree = "<group>"; };
 		7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
 		7CFD78AC2B34E46100C1A9F6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -442,7 +438,6 @@
 				7C82E13226EFC84E00E3EB6F /* SessionDetailView */,
 				7C2614CE26D9313E00986183 /* SessionsListView */,
 				7C82E13426EFC87D00E3EB6F /* SettingsView */,
-				7CF53F1A289A9CCF00C26AD5 /* StudyView */,
 				7C63949726C14E8300939F40 /* ContentView.swift */,
 				7CE7DC1928FE1AA8009F4CE9 /* SwiftChartsPractice.swift */,
 			);
@@ -757,15 +752,6 @@
 			path = CustomChartView;
 			sourceTree = "<group>";
 		};
-		7CF53F1A289A9CCF00C26AD5 /* StudyView */ = {
-			isa = PBXGroup;
-			children = (
-				7CF53F1B289A9CE500C26AD5 /* StudyView.swift */,
-				7C45E1F9289AD8AC005D89CF /* StudyDetailView.swift */,
-			);
-			path = StudyView;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -973,7 +959,6 @@
 				7C63FC342B35D08B00FE731C /* View+Ext.swift in Sources */,
 				7C23A4C328A3DEE100FB5604 /* AppGroup.swift in Sources */,
 				7CC20EB3272B19D200137F51 /* HelpView.swift in Sources */,
-				7C45E1FA289AD8AC005D89CF /* StudyDetailView.swift in Sources */,
 				7CB3EB9D26C3093D009E8DF3 /* CellView.swift in Sources */,
 				7C5C79962B2780210088A841 /* UserSettings.swift in Sources */,
 				7C6394A926C14F6400939F40 /* SessionsListView.swift in Sources */,
@@ -992,7 +977,6 @@
 				7C6394AB26C14F6B00939F40 /* SettingsView.swift in Sources */,
 				7C2B3E6626F5488E00B84D52 /* PrimaryButton.swift in Sources */,
 				7C4254A12784E25C00B5DA79 /* ProfitByYear.swift in Sources */,
-				7CF53F1C289A9CE500C26AD5 /* StudyView.swift in Sources */,
 				7CDB04812776141C008C5233 /* AppReviewRequest.swift in Sources */,
 				7C7B2F8B26D5A2A90069F9C5 /* SessionListViewModel.swift in Sources */,
 				7CB3EBA326C3485C009E8DF3 /* NewSessionView.swift in Sources */,
@@ -1064,7 +1048,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1077,7 +1061,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0;
+				MARKETING_VERSION = 3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1095,7 +1079,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1108,7 +1092,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0;
+				MARKETING_VERSION = 3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1247,7 +1231,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1258,7 +1242,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0;
+				MARKETING_VERSION = 3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1275,7 +1259,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1286,7 +1270,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0;
+				MARKETING_VERSION = 3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

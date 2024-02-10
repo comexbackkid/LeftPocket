@@ -11,7 +11,7 @@ import RevenueCatUI
 struct SessionsListView: View {
     
     enum SessionFilter: String, CaseIterable {
-        case all, cash, tournament
+        case all, cash, tournaments
     }
     
     @State var activeSheet: Sheet?
@@ -26,7 +26,7 @@ struct SessionsListView: View {
         switch sessionFilter {
         case .all: "All Sessions"
         case .cash: "Cash Sessions"
-        case .tournament: "Tournament Sessions"
+        case .tournaments: "Tournaments"
         }
     }
     var filteredSessions: [PokerSession] {
@@ -34,7 +34,7 @@ struct SessionsListView: View {
         switch sessionFilter {
         case .all: return vm.sessions
         case .cash: return vm.sessions.filter({ $0.isTournament == nil || $0.isTournament == false  })
-        case .tournament: return vm.sessions.filter({ $0.isTournament == true })
+        case .tournaments: return vm.sessions.filter({ $0.isTournament == true })
         }
     }
     let filterTip = FilterSessionsTip()
@@ -47,12 +47,7 @@ struct SessionsListView: View {
                 
                 if vm.sessions.isEmpty {
                     
-                    VStack {
-                        
-                        Spacer()
-                        EmptyState(image: .sessions)
-                        Spacer()
-                    }
+                    emptyView
                     
                 } else {
                     
@@ -91,9 +86,7 @@ struct SessionsListView: View {
                                 Image(systemName: "slider.horizontal.3")
                             }
                             .onTapGesture {
-                                Task {
-                                    await FilterSessionsTip.pressedFilter.donate()
-                                }
+                                filterTip.invalidate(reason: .actionPerformed)
                             }
                             .popoverTip(filterTip)
                         }
@@ -125,6 +118,16 @@ struct SessionsListView: View {
             .background(Color.brandBackground)
         }
         .accentColor(.brandPrimary)
+    }
+    
+    var emptyView: some View {
+        
+        VStack {
+            Spacer()
+            EmptyState(image: .sessions)
+            Spacer()
+        }
+        
     }
     
     var screenTitle: some View {

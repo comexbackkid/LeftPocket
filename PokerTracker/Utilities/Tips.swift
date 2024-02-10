@@ -18,14 +18,17 @@ struct DeleteLocationTip: Tip {
         Text("Long press on a Location's thumbnail if you want to delete it.")
     }
     
-    var image: Image? {
-        Image(systemName: "hand.tap")
-    }
+//    var image: Image? {
+//        Image(systemName: "hand.tap")
+//    }
 }
 
 struct AddSessionTip: Tip {
     
     static let sessionCount = Event(id: "clickedAddSessionButton")
+    
+    @Parameter
+    static var newUser: Bool = true
     
     var title: Text {
         Text("Add a Session")
@@ -35,15 +38,20 @@ struct AddSessionTip: Tip {
         Text("Tap here to start logging your poker sessions and hand notes.")
     }
     
-    var image: Image? {
-        Image(systemName: "hand.point.up.left")
-    }
+//    var image: Image? {
+//        Image(systemName: "plus.circle")
+//    }
     
-    // Only show this tip when the user has never pressed the Add Session Button
+    // Show this tip when the user has never pressed the Add Session Button.
+    // Also checking user status, if they are NOT a new user then we don't show the tip because they know what they're doing.
     var rules: [Rule] {
         
         #Rule(Self.sessionCount) { event in
             event.donations.count == 0
+        }
+        
+        #Rule(Self.$newUser) {
+            $0 == true
         }
     }
 }
@@ -51,7 +59,6 @@ struct AddSessionTip: Tip {
 struct FilterSessionsTip: Tip {
     
     static let sessionCount = Event(id: "addedSession")
-    static let pressedFilter = Event(id: "filteredSessionList")
     
     var title: Text {
         Text("Filter Sessions")
@@ -61,9 +68,9 @@ struct FilterSessionsTip: Tip {
         Text("Tap here to filter by Cash games, or Tournaments.")
     }
     
-    var image: Image? {
-        Image(systemName: "square.stack.3d.down.right")
-    }
+//    var image: Image? {
+//        Image(systemName: "square.stack.3d.down.right")
+//    }
     
     // After the user saves two Sessions, show the Tip
     // Dismissed by user, or as soon as they click the Filter button in the toolbar, tip won't show up.
@@ -71,10 +78,6 @@ struct FilterSessionsTip: Tip {
         
         #Rule(Self.sessionCount) { event in
             event.donations.count >= 2
-        }
-        
-        #Rule(Self.pressedFilter) { event in
-            event.donations.count == 0
         }
     }
 }

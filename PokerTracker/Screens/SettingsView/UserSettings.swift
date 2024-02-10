@@ -18,9 +18,10 @@ struct UserSettings: View {
     @EnvironmentObject var subManager: SubscriptionManager
     @StateObject var exportUtility = CSVConversion()
     
+    @AppStorage("exportCounter") var exportCounter: Int = 1
+    
     @State private var showError: Bool = false
     @State private var showPaywall = false
-    @State private var exportCounter = 1
     
     var body: some View {
 
@@ -138,7 +139,7 @@ struct UserSettings: View {
                                     .font(.title2)
                             }
                             
-                            Text("View your saved and default Locations here. Add your own venue, casino, platform, app, or home game. Tap & hold to delete.")
+                            Text("View saved & default Locations here. Add your own venue, casino, platform, or home game. If you want to delete a Location, tap & hold its thumbnail.")
                                 .calloutStyle()
                                 .opacity(0.8)
                                 .padding(.top, 1)
@@ -191,14 +192,13 @@ struct UserSettings: View {
                                     
                                     if !subManager.isSubscribed {
                                         
-                                        Text("Upgrade to Left Pocket Pro for unlimited exports. You have \(exportCounter) exports remaining.")
+                                        Text("Upgrade to Left Pocket Pro for unlimited exports. You have \(exportCounter) " + "export\(exportCounter > 0 ? "" : "s") remaining.")
                                             .calloutStyle()
                                             .opacity(0.8)
                                             .padding(.top, 1)
                                         
                                     }
                                 }
-                                Spacer()
                             }
                         }
                         .buttonStyle(PlainButtonStyle())
@@ -232,86 +232,86 @@ struct UserSettings: View {
                                             .font(.title2)
                                     }
                                     
-                                    Text("Upgrade to Left Pocket Pro for unlimited exports. You have \(exportCounter) exports remaining.")
+                                    Text("Upgrade to Left Pocket Pro for unlimited exports. You have \(exportCounter) " + "export\(exportCounter > 0 ? "" : "s") remaining.")
                                         .calloutStyle()
                                         .opacity(0.8)
                                         .padding(.top, 1)
                                 }
-                                Spacer()
                             }
                         }
                         .buttonStyle(PlainButtonStyle())
-                        
                     }
                 }
                 
                 Spacer()
             }
             
-            if subManager.isSubscribed {
-                
-                NavigationLink(
-                    destination: ImportView()) {
-                        HStack {
-                            VStack (alignment: .leading) {
-                                HStack {
-                                    
-                                    Text("Import Data")
-                                        .subtitleStyle()
-                                        .bold()
-                                    
-                                    Spacer()
-                                    
-                                    Text("›")
-                                        .font(.title2)
-                                }
-                            }
-                            
-                            Spacer()
-                        }
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                
-            } else {
-                
-                Button {
-                    
-                    let impact = UIImpactFeedbackGenerator(style: .soft)
-                    impact.impactOccurred()
-                    
-                    showPaywall = true
-                    
-                } label: {
-                    
-                    HStack {
-                        VStack (alignment: .leading) {
-                            HStack {
-                                
-                                Text("Import Data")
-                                    .subtitleStyle()
-                                    .bold()
-                                
-                                Spacer()
-                                
-                                Text("›")
-                                    .font(.title2)
-                            }
-                        }
-                        
-                        Spacer()
-                    }
-                }
-                .buttonStyle(PlainButtonStyle())
-                .sheet(isPresented: $showPaywall) {
-                    PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                }
-                .task {
-                    for await customerInfo in Purchases.shared.customerInfoStream {
-                        showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
-                        await subManager.checkSubscriptionStatus()
-                    }
-                }
-            }
+            // MARK: Future Feature Release Coming Soon
+            
+//            if subManager.isSubscribed {
+//                
+//                NavigationLink(
+//                    destination: ImportView()) {
+//                        HStack {
+//                            VStack (alignment: .leading) {
+//                                HStack {
+//                                    
+//                                    Text("Import Data")
+//                                        .subtitleStyle()
+//                                        .bold()
+//                                    
+//                                    Spacer()
+//                                    
+//                                    Text("›")
+//                                        .font(.title2)
+//                                }
+//                            }
+//                            
+//                            Spacer()
+//                        }
+//                    }
+//                    .buttonStyle(PlainButtonStyle())
+//                
+//            } else {
+//                
+//                Button {
+//                    
+//                    let impact = UIImpactFeedbackGenerator(style: .soft)
+//                    impact.impactOccurred()
+//                    
+//                    showPaywall = true
+//                    
+//                } label: {
+//                    
+//                    HStack {
+//                        VStack (alignment: .leading) {
+//                            HStack {
+//                                
+//                                Text("Import Data")
+//                                    .subtitleStyle()
+//                                    .bold()
+//                                
+//                                Spacer()
+//                                
+//                                Text("›")
+//                                    .font(.title2)
+//                            }
+//                        }
+//                        
+//                        Spacer()
+//                    }
+//                }
+//                .buttonStyle(PlainButtonStyle())
+//                .sheet(isPresented: $showPaywall) {
+//                    PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+//                }
+//                .task {
+//                    for await customerInfo in Purchases.shared.customerInfoStream {
+//                        showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+//                        await subManager.checkSubscriptionStatus()
+//                    }
+//                }
+//            }
             
             NavigationLink(
                 destination: HelpView(),
@@ -358,8 +358,20 @@ struct UserSettings: View {
                         Text("›")
                             .font(.title2)
                     }
+                    
+                    Spacer()
                 }
                 .buttonStyle(PlainButtonStyle())
+            }
+            
+        }
+        .sheet(isPresented: $showPaywall) {
+            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+        }
+        .task {
+            for await customerInfo in Purchases.shared.customerInfoStream {
+                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                await subManager.checkSubscriptionStatus()
             }
         }
     }
@@ -404,6 +416,7 @@ struct UserSettings: View {
                             
                             Image(systemName: "link").foregroundColor(.brandPrimary)
                         }
+                        
                         Text("Click here to reach out to the developer for any bugs or future feature requests.")
                             .calloutStyle()
                             .opacity(0.8)
@@ -424,6 +437,7 @@ struct UserSettings: View {
         )
         
         activityViewController.completionWithItemsHandler = { activityType, completed, _, _ in
+            
                 // Check if the activity was completed successfully
                 if completed {
                     

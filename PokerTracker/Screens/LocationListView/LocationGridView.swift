@@ -72,7 +72,6 @@ struct LocationGridView: View {
         })
     }
     
-    
     var resetLocationsButton: some View {
         
         Button {
@@ -118,6 +117,7 @@ struct LocationGridItem: View {
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
+                            deleteTip.invalidate(reason: .actionPerformed)
                         } label: {
                             Label("Delete Location", systemImage: "trash")
                         }
@@ -139,6 +139,7 @@ struct LocationGridItem: View {
                         .contextMenu {
                             Button(role: .destructive) {
                                 delete()
+                                deleteTip.invalidate(reason: .actionPerformed)
                             } label: { Label("Delete Location", systemImage: "trash") }
                         }
                 }
@@ -151,6 +152,7 @@ struct LocationGridItem: View {
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
+                            deleteTip.invalidate(reason: .actionPerformed)
                         } label: { Label("Delete Location", systemImage: "trash") }
                     }
             }
@@ -182,6 +184,7 @@ struct LocationGridItem: View {
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
+                            deleteTip.invalidate(reason: .actionPerformed)
                         } label: {
                             Label("Delete Location", systemImage: "trash")
                         }
@@ -198,6 +201,7 @@ struct LocationGridItem: View {
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
+                            deleteTip.invalidate(reason: .actionPerformed)
                         } label: {
                             Label("Delete Location", systemImage: "trash")
                         }
@@ -214,6 +218,7 @@ struct LocationGridItem: View {
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
+                            deleteTip.invalidate(reason: .actionPerformed)
                         } label: {
                             Label("Delete Location", systemImage: "trash")
                         }

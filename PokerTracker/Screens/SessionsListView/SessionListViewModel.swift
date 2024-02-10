@@ -269,6 +269,19 @@ class SessionsListViewModel: ObservableObject {
         return tallyBankroll() / sessions.count
     }
     
+    // Calculate average cost of Tournament buy in's
+    func avgTournamentBuyIn() -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        guard sessions.contains(where: { $0.isTournament == true }) else {
+            return 0
+        }
+        
+        let tournamentBuyIns = sessions.filter { $0.isTournament == true }.map { $0.expenses ?? 0 }.reduce(0, +)
+        let count = sessions.filter { $0.isTournament == true }.count
+        
+        return tournamentBuyIns / count
+    }
+    
     // Total hours played from all sessions
     func totalHoursPlayed() -> String {
         guard !sessions.isEmpty else { return "0" }

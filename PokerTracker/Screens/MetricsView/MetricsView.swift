@@ -190,6 +190,16 @@ struct MetricsView: View {
                         Divider()
                         
                         HStack {
+                            Text("Avg. Tournament Buy In")
+                                .calloutStyle()
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text("\(viewModel.avgTournamentBuyIn().asCurrency())")
+                        }
+                        
+                        Divider()
+                        
+                        HStack {
                             Text("Avg. Session Duration")
                                 .calloutStyle()
                                 .foregroundColor(.secondary)
@@ -237,7 +247,6 @@ struct MetricsView: View {
         .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
         .cornerRadius(20)
-        
     }
 }
 

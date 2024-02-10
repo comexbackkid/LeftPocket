@@ -14,7 +14,6 @@ struct LeftPocketCustomTabBar: View {
     
     @AppStorage("isDarkMode") private var isDarkMode = false
     @AppStorage("systemThemeEnabled") private var systemThemeEnabled = false
-    @AppStorage("shouldShowOnboarding") var paywallWelcome: Bool = true
     
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var viewModel: SessionsListViewModel
@@ -48,7 +47,6 @@ struct LeftPocketCustomTabBar: View {
                 case 4:
                     UserSettings(isDarkMode: $isDarkMode, systemThemeEnabled: $systemThemeEnabled)
                 
-                // Is this safe?
                 default:
                     Text("")
                 }
@@ -66,16 +64,15 @@ struct LeftPocketCustomTabBar: View {
         }
         .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
         .onAppear {
+            
+            // Handles matching the user's iPhone system display settings
             SystemThemeManager
                 .shared
                 .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
+            
+            // If user has been using the app, we tell the Tips they are not a new user
+            AddSessionTip.newUser = viewModel.sessions.count > 0 ? false : true
         }
-        
-        // Attempting to show Paywall immediately and earlier in the user's journey
-//        .sheet(isPresented: $paywallWelcome, content: {
-//            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-//                .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
-//        })
     }
     
     var tabBar: some View {
