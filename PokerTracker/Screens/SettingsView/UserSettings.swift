@@ -73,14 +73,13 @@ struct UserSettings: View {
                             .bold()
                         
                         Toggle("", isOn: $isDarkMode)
-                            .onChange(of: isDarkMode, perform: { _ in
+                            .tint(.brandPrimary)
+                            .onChange(of: isDarkMode) {
                                 
                                 SystemThemeManager
                                     .shared
-                                    .handleTheme(darkMode: isDarkMode,
-                                                 system: systemThemeEnabled)
-                            })
-                            .tint(.brandPrimary)
+                                    .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
+                            }
                     }
                 }
                 
@@ -97,13 +96,13 @@ struct UserSettings: View {
                             .bold()
                         
                         Toggle("", isOn: $systemThemeEnabled)
-                            .onChange(of: systemThemeEnabled, perform: { _ in
+                            .tint(.brandPrimary)
+                            .onChange(of: isDarkMode) {
+                                
                                 SystemThemeManager
                                     .shared
-                                    .handleTheme(darkMode: isDarkMode,
-                                                 system: systemThemeEnabled)
-                            })
-                            .tint(.brandPrimary)
+                                    .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
+                            }
                     }
                     
                     Text("Using System Display will override Dark Mode and use your current device preferences.")
@@ -322,6 +321,30 @@ struct UserSettings: View {
                             
                             HStack {
                                 Text("How-To Guide")
+                                    .subtitleStyle()
+                                    .bold()
+                                
+                                Spacer()
+                                
+                                Text("›")
+                                    .font(.title2)
+                            }
+                        }
+                        
+                        Spacer()
+                    }
+                })
+            .buttonStyle(PlainButtonStyle())
+            
+            NavigationLink(
+                destination: SessionDefaultsView(),
+                label: {
+                    HStack {
+                        
+                        VStack (alignment: .leading) {
+                            
+                            HStack {
+                                Text("Session Defaults")
                                     .subtitleStyle()
                                     .bold()
                                 

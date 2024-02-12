@@ -119,29 +119,36 @@ struct ContentView: View {
     var metricsCard: some View {
         
         Button(action: {
+            
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
             showMetricsAsSheet = true
+            
         }, label: {
+            
             MetricsCardView()
                 .padding(.bottom)
         })
-            .padding(.bottom, 12)
-            .buttonStyle(PlainButtonStyle())
+        .padding(.bottom, 12)
+        .buttonStyle(PlainButtonStyle())
+        .zIndex(1.0)
     }
     
     var recentSessionCard: some View {
         
         Button(action: {
+            
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
+            
             activeSheet = .recentSession
+            
         }, label: {
+            
             RecentSessionCardView(pokerSession: viewModel.sessions.first!)
-                
         })
-        .padding(.bottom, 30)
         .buttonStyle(CardViewButtonStyle())
+        .padding(.bottom, 30)
     }
     
     var bankrollView: some View {
@@ -201,8 +208,10 @@ struct CardViewButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .overlay {
+                
                 if configuration.isPressed {
                     Color.black.opacity(0.1).cornerRadius(20)
+                    
                 } else {
                     Color.clear
                 }

@@ -10,10 +10,6 @@ import RevenueCatUI
 
 struct SessionsListView: View {
     
-    enum SessionFilter: String, CaseIterable {
-        case all, cash, tournaments
-    }
-    
     @State var activeSheet: Sheet?
     @State var isPresented = false
     @State var showPaywall = false
@@ -21,6 +17,10 @@ struct SessionsListView: View {
     
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
+    
+    enum SessionFilter: String, CaseIterable {
+        case all, cash, tournaments
+    }
     
     var sessionsTitle: String {
         switch sessionFilter {
@@ -76,19 +76,11 @@ struct SessionsListView: View {
                         .listStyle(PlainListStyle())
                         .navigationBarTitleDisplayMode(.inline)
                         .toolbar {
-                            Menu {
-                                Picker("", selection: $sessionFilter) {
-                                    ForEach(SessionFilter.allCases, id: \.self) {
-                                        Text($0.rawValue.capitalized).tag($0)
-                                    }
+                            toolbarItem
+                                .onTapGesture {
+                                    filterTip.invalidate(reason: .actionPerformed)
                                 }
-                            } label: {
-                                Image(systemName: "slider.horizontal.3")
-                            }
-                            .onTapGesture {
-                                filterTip.invalidate(reason: .actionPerformed)
-                            }
-                            .popoverTip(filterTip)
+                                .popoverTip(filterTip)
                         }
                         
                     } else {
@@ -102,13 +94,7 @@ struct SessionsListView: View {
                             Spacer()
                         }
                         .toolbar {
-                            Menu {
-                                Picker("", selection: $sessionFilter) {
-                                    ForEach(SessionFilter.allCases, id: \.self) {
-                                        Text($0.rawValue.capitalized).tag($0)
-                                    }
-                                }
-                            } label: { Image(systemName: "slider.horizontal.3") }
+                            toolbarItem
                         }
                     }
                 }
@@ -118,6 +104,17 @@ struct SessionsListView: View {
             .background(Color.brandBackground)
         }
         .accentColor(.brandPrimary)
+    }
+    
+    var toolbarItem: some View {
+        
+        Menu {
+            Picker("", selection: $sessionFilter) {
+                ForEach(SessionFilter.allCases, id: \.self) {
+                    Text($0.rawValue.capitalized).tag($0)
+                }
+            }
+        } label: { Image(systemName: "slider.horizontal.3") }
     }
     
     var emptyView: some View {

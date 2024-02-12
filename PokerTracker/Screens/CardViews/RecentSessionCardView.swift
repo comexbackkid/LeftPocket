@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct RecentSessionCardView: View {
     

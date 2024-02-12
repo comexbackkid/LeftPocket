@@ -8,6 +8,7 @@
 import SwiftUI
 import Charts
 
+
 struct dummySession: Identifiable {
     var id = UUID()
     let date: Date
@@ -16,11 +17,14 @@ struct dummySession: Identifiable {
 
 struct SwiftChartsPractice: View {
     
+    @EnvironmentObject var vm: SessionsListViewModel
+    
     let dummyData: [dummySession] = [
         .init(date: Date.from(year: 2023, month: 1, day: 1), profit: 100),
         .init(date: Date.from(year: 2023, month: 2, day: 12), profit: 55),
         .init(date: Date.from(year: 2023, month: 3, day: 20), profit: 376),
-        .init(date: Date.from(year: 2023, month: 4, day: 2), profit: 246),
+        .init(date: Date.from(year: 2023, month: 4, day: 2), profit: 80),
+        .init(date: Date.from(year: 2023, month: 4, day: 6), profit: 246),
         .init(date: Date.from(year: 2023, month: 5, day: 18), profit: 500),
         .init(date: Date.from(year: 2023, month: 11, day: 11), profit: 412),
         .init(date: Date.from(year: 2023, month: 12, day: 11), profit: 480),
@@ -47,15 +51,15 @@ struct SwiftChartsPractice: View {
                 VStack {
                     
                     Chart {
-                        ForEach(dummyData) { session in
-                            LineMark(x: .value("Month", session.date.getMonth()),
+                        ForEach(Array(dummyData.enumerated()), id: \.element.id) { index, session in
+                            LineMark(x: .value("Month", index),
                                      y: .value("Profit", session.profit))
-                            .lineStyle(.init(lineWidth: 2.5, lineCap: .round, lineJoin: .round))
+                            .lineStyle(.init(lineWidth: 3.0, lineCap: .round, lineJoin: .round))
                             .foregroundStyle(LinearGradient(colors: [.purple.opacity(0.05), .blue], startPoint: .bottomLeading, endPoint: .topTrailing))
                             
-                            AreaMark(x: .value("Month", session.date.getMonth()),
-                                     y: .value("Profit", session.profit))
-                            .foregroundStyle(LinearGradient(colors: [.blue.opacity(0.3), .blue.opacity(0.03), .blue.opacity(0.00)], startPoint: .top, endPoint: .bottom))
+//                            AreaMark(x: .value("Month", session.date.getMonth()),
+//                                     y: .value("Profit", session.profit))
+//                            .foregroundStyle(LinearGradient(colors: [.blue.opacity(0.3), .blue.opacity(0.03), .blue.opacity(0.00)], startPoint: .top, endPoint: .bottom))
                             
                         }
                         .interpolationMethod(.catmullRom(alpha: 0))

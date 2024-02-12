@@ -24,10 +24,9 @@ final class NewSessionViewModel: ObservableObject {
     @Published var presentation: Bool?
     @Published var sessionType: SessionType?
     @Published var entrants: String = ""
-    
-    enum SessionType { case cash, tournament }
-    
     @Published var alertItem: AlertItem?
+    
+    enum SessionType: String, Codable { case cash, tournament }
     
     var isValidForm: Bool {
         
@@ -95,5 +94,35 @@ final class NewSessionViewModel: ObservableObject {
         
         // Only after the form checks out will the presentation be set to false and the sheet will dismiss
         self.presentation = false
+    }
+    
+    func loadUserDefaults() {
+        
+        let defaults = UserDefaults.standard
+        
+        guard
+            let encodedSessionType = defaults.object(forKey: "sessionTypeDefault") as? Data,
+            let decodedSessionType = try? JSONDecoder().decode(SessionType.self, from: encodedSessionType)
+                
+        else { return }
+        
+        sessionType = decodedSessionType
+        
+        guard
+            let encodedLocation = defaults.object(forKey: "locationDefault") as? Data,
+            let decodedLocation = try? JSONDecoder().decode(LocationModel.self, from: encodedLocation)
+                
+        else { return }
+        
+        location = decodedLocation
+        
+        guard
+            let encodedStakes = defaults.string(forKey: "stakesDefault"),
+            let encodedGame = defaults.string(forKey: "gameDefault")
+                
+        else { return }
+        
+        stakes = encodedStakes
+        game = encodedGame
     }
 }

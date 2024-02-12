@@ -521,32 +521,6 @@ class SessionsListViewModel: ObservableObject {
         sessions.sort(by: {$0.date > $1.date})
     }
     
-    // MARK: SAVING & EXPORTING USER'S SESSIONS
-    
-    // In the future, can we write a function that converts their Annual Summary into a CSV file?
-    // Then immediately after the export file modifier called to save the file to iCloud
-    
-    
-//    func pathForUserData() -> URL {
-//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-//        return paths[1]
-//    }
-//    
-//    func writeUserData() {
-//        
-//        let dummyData = UserYearlySummary.init(year: "2022", netProfit: "3700", hourlyRate: "50", profitPerSession: "25", expenses: "98", winRate: "67%", biggestWin: "2200", bestLocation: "Chaser's Poker")
-//        let url = pathForUserData().appendingPathComponent("test.json")
-//        
-//        do {
-//            if let encodedUserData = try? JSONEncoder().encode(dummyData) {
-//                try? FileManager.default.removeItem(at: url)
-//                try encodedUserData.write(to: url)
-//            }
-//        } catch {
-//            print("Failed to save user data, \(error)")
-//        }
-//    }
-    
     // MARK: WIDGET FUNCTIONS
     
     func writeToWidget() {

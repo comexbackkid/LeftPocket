@@ -41,6 +41,9 @@ struct AddNewSessionView: View {
         .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
         .frame(maxHeight: .infinity)
         .background(Color.brandBackground)
+        .onAppear {
+            newSession.loadUserDefaults()
+        }
         .alert(item: $newSession.alertItem) { alertItem in
             
             Alert(title: alertItem.title,
