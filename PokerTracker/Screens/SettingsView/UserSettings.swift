@@ -97,12 +97,12 @@ struct UserSettings: View {
                         
                         Toggle("", isOn: $systemThemeEnabled)
                             .tint(.brandPrimary)
-                            .onChange(of: isDarkMode) {
+                            .onChange(of: systemThemeEnabled, perform: { _ in
                                 
                                 SystemThemeManager
                                     .shared
                                     .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
-                            }
+                            })
                     }
                     
                     Text("Using System Display will override Dark Mode and use your current device preferences.")
@@ -247,70 +247,70 @@ struct UserSettings: View {
             
             // MARK: Future Feature Release Coming Soon
             
-//            if subManager.isSubscribed {
-//                
-//                NavigationLink(
-//                    destination: ImportView()) {
-//                        HStack {
-//                            VStack (alignment: .leading) {
-//                                HStack {
-//                                    
-//                                    Text("Import Data")
-//                                        .subtitleStyle()
-//                                        .bold()
-//                                    
-//                                    Spacer()
-//                                    
-//                                    Text("›")
-//                                        .font(.title2)
-//                                }
-//                            }
-//                            
-//                            Spacer()
-//                        }
-//                    }
-//                    .buttonStyle(PlainButtonStyle())
-//                
-//            } else {
-//                
-//                Button {
-//                    
-//                    let impact = UIImpactFeedbackGenerator(style: .soft)
-//                    impact.impactOccurred()
-//                    
-//                    showPaywall = true
-//                    
-//                } label: {
-//                    
-//                    HStack {
-//                        VStack (alignment: .leading) {
-//                            HStack {
-//                                
-//                                Text("Import Data")
-//                                    .subtitleStyle()
-//                                    .bold()
-//                                
-//                                Spacer()
-//                                
-//                                Text("›")
-//                                    .font(.title2)
-//                            }
-//                        }
-//                        
-//                        Spacer()
-//                    }
-//                }
-//                .buttonStyle(PlainButtonStyle())
-//                .sheet(isPresented: $showPaywall) {
-//                    PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-//                }
-//                .task {
-//                    for await customerInfo in Purchases.shared.customerInfoStream {
-//                        showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
-//                        await subManager.checkSubscriptionStatus()
-//                    }
-//                }
-//            }
+            if subManager.isSubscribed {
+                
+                NavigationLink(
+                    destination: ImportView()) {
+                        HStack {
+                            VStack (alignment: .leading) {
+                                HStack {
+                                    
+                                    Text("Import Data")
+                                        .subtitleStyle()
+                                        .bold()
+                                    
+                                    Spacer()
+                                    
+                                    Text("›")
+                                        .font(.title2)
+                                }
+                            }
+                            
+                            Spacer()
+                        }
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                
+            } else {
+                
+                Button {
+                    
+                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                    impact.impactOccurred()
+                    
+                    showPaywall = true
+                    
+                } label: {
+                    
+                    HStack {
+                        VStack (alignment: .leading) {
+                            HStack {
+                                
+                                Text("Import Data")
+                                    .subtitleStyle()
+                                    .bold()
+                                
+                                Spacer()
+                                
+                                Text("›")
+                                    .font(.title2)
+                            }
+                        }
+                        
+                        Spacer()
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
+                .sheet(isPresented: $showPaywall) {
+                    PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                }
+                .task {
+                    for await customerInfo in Purchases.shared.customerInfoStream {
+                        showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                        await subManager.checkSubscriptionStatus()
+                    }
+                }
+            }
             
             NavigationLink(
                 destination: HelpView(),

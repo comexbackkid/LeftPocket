@@ -67,6 +67,22 @@ extension Date {
     }
 }
 
+// Used in charting with Swift Charts
+extension Date {
+    static func from(year: Int, month: Int, day: Int) -> Date {
+        let components = DateComponents(year: year, month: month, day: day)
+        return Calendar.current.date(from: components)!
+    }
+}
+
+// Used in charting with Swift Charts
+extension Calendar {
+    func startOfMonth(for date: Date) -> Date {
+        let components = self.dateComponents([.year, .month], from: date)
+        return self.date(from: components)!
+    }
+}
+
 extension DateComponents {
     
     var durationInHours: Float {

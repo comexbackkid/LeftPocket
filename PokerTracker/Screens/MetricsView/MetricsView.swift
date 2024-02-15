@@ -42,13 +42,19 @@ struct MetricsView: View {
                                     Spacer()
                                 }
                                 
-                                toolTip
+                                ToolTipView(image: "lightbulb",
+                                            message: "Measure your performance & track progress from this screen.",
+                                            color: .yellow)
                                 
                                 bankrollChart
                                 
                                 playerStats
                                 
-                                BarChartView(vm: viewModel)
+                                ToolTipView(image: "calendar",
+                                            message: "Your best month so far this year has been \(viewModel.bestMonth).",
+                                            color: .cyan)
+                                
+                                barChart
                                 
                                 AdditionalMetricsView()
                                     
@@ -66,27 +72,6 @@ struct MetricsView: View {
             .background(Color.brandBackground)
         }
         .accentColor(.brandPrimary)
-    }
-    
-    var toolTip: some View {
-        
-        HStack {
-            
-            Image(systemName: "lightbulb")
-                .foregroundColor(.yellow)
-                .font(.system(size: 25, weight: .bold))
-                .padding(.trailing, 10)
-            
-            Text("Measure your performance & track progress from this screen.")
-                .calloutStyle()
-            
-            Spacer()
-            
-        }
-        .padding(20)
-        .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
-        .cornerRadius(20)
     }
     
     var bankrollChart: some View {
@@ -111,6 +96,16 @@ struct MetricsView: View {
                     Spacer()
                     
                 }, alignment: .leading)
+    }
+    
+    var barChart: some View {
+        
+        BarChartByYear()
+            .padding()
+            .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+            .cornerRadius(20)
+        
     }
     
     var dismissButton: some View {
@@ -244,6 +239,36 @@ struct MetricsView: View {
             .padding()
         }
         
+        .frame(width: UIScreen.main.bounds.width * 0.9)
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+        .cornerRadius(20)
+    }
+}
+
+struct ToolTipView: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    
+    let image: String
+    let message: String
+    let color: Color
+    
+    var body: some View {
+        
+        HStack {
+            
+            Image(systemName: image)
+                .foregroundColor(color)
+                .font(.system(size: 25, weight: .bold))
+                .padding(.trailing, 10)
+            
+            Text(message)
+                .calloutStyle()
+            
+            Spacer()
+            
+        }
+        .padding(20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
         .cornerRadius(20)

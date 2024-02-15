@@ -442,7 +442,7 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
-    // MARK: CHART FUNCTIONS
+    // MARK: CHARTING FUNCTIONS
     
     func yearlyChartArray(year: String) -> [Double] {
         let profitsArray = sessions.filter({ $0.date.getYear() == year }).map { Double($0.profit) }
@@ -461,6 +461,45 @@ class SessionsListViewModel: ObservableObject {
         return yearlyChartArray(year: year).enumerated().map({Point(x:CGFloat($0.offset), y: $0.element)})
     }
     
+    // Used in ToolTipView for Bar Chart in Metrics View
+    func mostProfitableMonth(in sessions: [PokerSession]) -> String {
+        
+        // Create a dictionary to store total profit for each month
+        var monthlyProfits: [Int: Int] = [:]
+        
+        let currentYear = Calendar.current.component(.year, from: Date())
+        
+        // Iterate through sessions and accumulate profit for each month
+        for session in sessions {
+            
+            let yearOfSession = Calendar.current.component(.year, from: session.date)
+            
+            // Check if the session is from the current year
+            if yearOfSession == currentYear {
+                let month = Calendar.current.component(.month, from: session.date)
+                monthlyProfits[month, default: 0] += session.profit
+            }
+        }
+        
+        // Find the month with the highest profit
+        if let mostProfitableMonth = monthlyProfits.max(by: { $0.value < $1.value }) {
+            let monthFormatter = DateFormatter()
+            monthFormatter.dateFormat = "MMMM"
+            let monthString = monthFormatter.monthSymbols[mostProfitableMonth.key - 1]
+            
+            return monthString
+            
+        } else {
+            return "No data available"
+        }
+    }
+    
+    var bestMonth: String {
+        
+        mostProfitableMonth(in: sessions)
+        
+    }
+    
     // MARK: ADDITIONAL METRICS CARDS
     
     func sessionsByLocation(_ location: String) -> [PokerSession] {
@@ -471,13 +510,13 @@ class SessionsListViewModel: ObservableObject {
         return sessionsByLocation(location).reduce(0) { $0 + $1.profit }
     }
     
-//    func sessionsByDayOfWeek(_ day: String) -> [PokerSession] {
-//        sessions.filter({ $0.date.dayOfWeek(day: $0.date) == day })
-//    }
-//
-//    func profitByDayOfWeek(_ day: String) -> Int {
-//        return sessionsByDayOfWeek(day).reduce(0) { $0 + $1.profit }
-//    }
+    func sessionsByDayOfWeek(_ day: String) -> [PokerSession] {
+        sessions.filter({ $0.date.dayOfWeek(day: $0.date) == day })
+    }
+
+    func profitByDayOfWeek(_ day: String) -> Int {
+        return sessionsByDayOfWeek(day).reduce(0) { $0 + $1.profit }
+    }
     
     func sessionsByMonth(_ month: String) -> [PokerSession] {
         sessions.filter({ $0.date.monthOfYear(month: $0.date) == month })

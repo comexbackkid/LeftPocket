@@ -16,14 +16,12 @@ struct SessionDefaultsView: View {
     @State private var location = LocationModel(name: "", localImage: "", imageURL: "")
     @State private var stakes = ""
     @State private var game = ""
-    
-    @State private var resultMessage: String? = ""
+    @State private var resultMessage: String = ""
+    @State private var errorMessage: String?
     
     enum SessionType: String, Codable { case cash, tournament }
     
     var body: some View {
-        
-        GeometryReader { geo in
             
             ScrollView (.vertical) {
                 
@@ -37,28 +35,31 @@ struct SessionDefaultsView: View {
                     
                     saveDefaultsButton
                     
-                    if let resultMessage {
+                    if let errorMessage {
                         
                         VStack {
-                            
-                            Spacer()
-                            
+                            Text("Uh oh! There was a problem.")
+                            Text(errorMessage)
+                            Image(systemName: "x.circle")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .padding(.top, 1)
+                                .foregroundColor(.red)
+                        }
+                        
+                    } else if !resultMessage.isEmpty {
+                        
+                        VStack {
+                            Text("Success!")
                             Text(resultMessage)
-                            
-                            if !resultMessage.isEmpty {
-                                
-                                Image(systemName: "checkmark.circle")
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                                    .padding(.top, 1)
-                                    .foregroundColor(.green)
-                            }
-                            
-                            Spacer()
+                            Image(systemName: "checkmark.circle")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .padding(.top, 1)
+                                .foregroundColor(.green)
                         }
                     }
                 }
-                .frame(height: geo.size.height)
                 .background(Color.brandBackground)
             }
             .onAppear {
@@ -70,7 +71,6 @@ struct SessionDefaultsView: View {
                 
                 resetDefaultsButton
             }
-        }
     }
     
     var title: some View {
@@ -294,6 +294,7 @@ struct SessionDefaultsView: View {
         } label: {
             PrimaryButton(title: "Save Defaults")
         }
+        .padding(.bottom, 20)
         
     }
     
@@ -355,9 +356,9 @@ struct SessionDefaultsView: View {
         
         switch saveResult {
         case .success:
-            resultMessage = "Session Defaults saved successfully!"
+            resultMessage = "Session Defaults have been saved"
         case .failure(let error):
-            resultMessage = "\(error.localizedDescription)"
+            errorMessage = "\(error.localizedDescription)"
         }
     }
     

@@ -13,22 +13,48 @@ struct ImportView: View {
     
     @EnvironmentObject var vm: SessionsListViewModel
     @State private var showFileImporter = false
+    @State private var errorMessage: String?
+    @State private var showSuccessMessage: Bool = false
     
     var body: some View {
         
-        ScrollView (.vertical) {
-            
-            VStack {
+            ScrollView (.vertical) {
                 
-                title
-                
-                bodyText
-                
-                importButton
-                
+                VStack {
+                    
+                    title
+                    
+                    bodyText
+                    
+                    importButton
+                    
+                    if let errorMessage {
+                        
+                        VStack {
+                            Text("Uh oh! There was a problem.")
+                            Text(errorMessage)
+                            Image(systemName: "x.circle")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .padding(.top, 1)
+                                .foregroundColor(.red)
+                        }
+                        
+                    } else if showSuccessMessage {
+                        
+                        VStack {
+                            Text("Success!")
+                            Text("All sessions imported successfully")
+                            Image(systemName: "checkmark.circle")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .padding(.top, 1)
+                                .foregroundColor(.green)
+                        }
+                    }
+                }
             }
-        }
-        .background(Color.brandBackground)
+            .background(Color.brandBackground)
     }
     
     var title: some View {
@@ -52,24 +78,23 @@ struct ImportView: View {
             Text("Please Read Carefully")
                 .subtitleStyle()
                 .bold()
-                .padding(.top, 50)
+                .padding(.top, 10)
             
-            Text("Currently, Left Pocket only supports data in CSV format exported from Poker Bankroll Tracker. DO NOT modify their CSV file. The file should be set to 'UTF-8' and field separator set to 'comma.' Make sure to follow the steps below.\n")
-                .calloutStyle()
+            Text("Currently, Left Pocket only supports data in CSV format exported from Poker Bankroll Tracker. You will need to slightly modify the contents of the file in order for it to import correctly. Make sure to follow the steps below. __IMPORTING CSV DATA WILL OVERWRITE ANY EXISTING SESSIONS__.\n")
+                .bodyStyle()
                 .opacity(0.8)
                 .padding(.top, 1)
             
             VStack (alignment: .leading) {
                 
-                Text("__1.__ Export CSV from Poker Bankroll Tracker\n__2.__ Save file to a folder in your iCloud Drive\n__3.__ Click the Import CSV Data button below\n__4.__ Your old poker data should populate and appear in the Sessions List view, using the default header image.")
+                Text("1. Export CSV from Poker Bankroll Tracker\n2. Open the CSV on your computer. In the notes column, you'll need to __remove ALL COMMAS and SOFT RETURNS__. All text must be on one line.\n3. Export this new file to a folder in your iCloud Drive, using UTF-8 encoding.\n4. Tap the Import CSV Data button below.")
                     .calloutStyle()
                     .opacity(0.8)
                     .lineSpacing(5)
-                    .padding(.vertical, 20)
+                    .padding(.bottom, 20)
             }
         }
         .padding(.horizontal)
-        
     }
     
     var importButton: some View {
@@ -83,21 +108,65 @@ struct ImportView: View {
             PrimaryButton(title: "Import CSV Data")
             
         }
+        .padding(.bottom, 20)
         .fileImporter(isPresented: $showFileImporter,
                       allowedContentTypes: [.plainText, .commaSeparatedText],
                       onCompletion: { result in
-            
+                        
             do {
                 let selectedURL = try result.get()
                 let csvData = try Data(contentsOf: selectedURL)
                 let csvImporter = CSVImporter()
                 let importedSessions = try csvImporter.importCSV(data: csvData)
+                
+                // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
                 vm.sessions = importedSessions
+                showSuccessMessage.toggle()
+                
+            } catch let error as URLError {
+                
+                // Handle URLError from the fileImporter
+                errorMessage = "URL Error: \(error.localizedDescription)"
+                print("URL Error: \(error)")
+                
+            } catch let error as CSVImporter.ImportError {
+                
+                // Handle specific CSV import errors from our class
+                switch error {
+                case .invalidData:
+                    errorMessage = "Error: Invalid Data"
+                case .parsingFailed:
+                    errorMessage = "Error: Parsing Failed"
+                case .saveFailed:
+                    errorMessage = "Error: Failed to Save Data"
+                }
+                print("CSV Import Error: \(error)")
                 
             } catch {
+                
+                // Handle other errors
+                errorMessage = error.localizedDescription
                 print("Error importing file: \(error)")
             }
         })
+        
+//        .fileImporter(isPresented: $showFileImporter,
+//                      allowedContentTypes: [.plainText, .commaSeparatedText],
+//                      onCompletion: { result in
+//            
+//            do {
+//                let selectedURL = try result.get()
+//                let csvData = try Data(contentsOf: selectedURL)
+//                let csvImporter = CSVImporter()
+//                let importedSessions = try csvImporter.importCSV(data: csvData)
+//                vm.sessions = importedSessions
+//                
+//            } catch {
+//                
+//                errorMessage = error.localizedDescription
+//                print("Error importing file: \(error)")
+//            }
+//        })
         
     }
 }

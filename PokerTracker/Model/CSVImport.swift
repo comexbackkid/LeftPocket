@@ -47,9 +47,13 @@ class CSVImporter {
                 let endTime = convertToDate(columns[1].trimmingCharacters(in: .init(charactersIn: "\"")))
                 let expenses = Int(columns[27])
                 
-                // Need a more elegant way to handle the optionals here. Date especially.
+                // Tournament Data
+                let sessionType = columns[4].trimmingCharacters(in: .init(charactersIn: "\""))
+                let entrants = Int(columns[31]) ?? 0
+                let buyIn = Int(columns[9]) ?? 0
+                
                 // What are we doing with handling tournaments?
-                // This probably won't work because if you have expenses it changes column count to 45. Why? Is it nil data in the exported CSV?
+                // Need to figure out how to handle the buyIn being the same as expenses
                 let session = PokerSession(location: location,
                                            game: game,
                                            stakes: stakes,
@@ -58,16 +62,17 @@ class CSVImporter {
                                            notes: notes,
                                            startTime: startTime ?? Date().modifyTime(minutes: -360),
                                            endTime: endTime ?? Date(),
-                                           expenses: expenses,
-                                           isTournament: false,
-                                           entrants: 0)
+                                           expenses: sessionType == "Tournament" ? buyIn : expenses,
+                                           isTournament: sessionType == "Tournament" ? true : false,
+                                           entrants: entrants)
                 
                 importedSessions.append(session)
-                print("Columns: \(columns.count)")
                 
             } else {
                 
-                print("Columns are fucked up. Count: \(columns.count)")
+                throw ImportError.parsingFailed
+                print("Column count: \(columns.count)")
+                
             }
         }
         
