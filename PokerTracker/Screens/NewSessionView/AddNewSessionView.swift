@@ -429,6 +429,7 @@ struct AddNewSessionView: View {
             impact.impactOccurred()
             newSession.savedButtonPressed(viewModel: vm)
             isPresented = newSession.presentation ?? true
+            
         } label: {
             PrimaryButton(title: "Save Session")
         }

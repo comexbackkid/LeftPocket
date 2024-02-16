@@ -100,7 +100,7 @@ struct MetricsView: View {
     
     var barChart: some View {
         
-        BarChartByYear()
+        BarChartByYear(showTitle: true)
             .padding()
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
@@ -292,7 +292,7 @@ struct AdditionalMetricsView: View {
                 HStack (spacing: 10) {
                     
                     NavigationLink(
-                        destination: ProfitByYear(viewModel: viewModel, vm: AnnualReportViewModel()),
+                        destination: ProfitByYear(vm: AnnualReportViewModel()),
                         label: {
                             AdditionalMetricsCardView(title: "Annual Report",
                                                       description: "Review results and stats for \na given year.",

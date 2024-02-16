@@ -75,23 +75,23 @@ struct ImportView: View {
         
         VStack (alignment: .leading) {
             
-            Text("Please Read Carefully")
+            Text("Please Read Carefully ✋")
                 .subtitleStyle()
                 .bold()
                 .padding(.top, 10)
             
-            Text("Currently, Left Pocket only supports data in CSV format exported from Poker Bankroll Tracker. You will need to slightly modify the contents of the file in order for it to import correctly. Make sure to follow the steps below. __IMPORTING CSV DATA WILL OVERWRITE ANY EXISTING SESSIONS__.\n")
+            Text("Currently, Left Pocket only supports data in CSV format exported from Poker Bankroll Tracker. You may need to lightly modify the contents of the file. Make sure to follow the steps below closely.")
                 .bodyStyle()
                 .opacity(0.8)
                 .padding(.top, 1)
             
             VStack (alignment: .leading) {
                 
-                Text("1. Export CSV from Poker Bankroll Tracker\n2. Open the CSV on your computer. In the notes column, you'll need to __remove ALL COMMAS and SOFT RETURNS__. All text must be on one line.\n3. Export this new file to a folder in your iCloud Drive, using UTF-8 encoding.\n4. Tap the Import CSV Data button below.")
+                Text("1. Export CSV from Poker Bankroll Tracker\n2. Open the CSV on your computer. In the notes column, you'll need to __remove ALL COMMAS and SOFT RETURNS__. Text must be on one line.\n3. Export this new file to a folder in your iCloud Drive, using UTF-8 encoding.\n4. Tap the Import CSV Data button below.")
                     .calloutStyle()
                     .opacity(0.8)
                     .lineSpacing(5)
-                    .padding(.bottom, 20)
+                    .padding(.vertical, 20)
             }
         }
         .padding(.horizontal)
@@ -101,6 +101,8 @@ struct ImportView: View {
         
         Button {
             
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
             showFileImporter = true
             
         } label: {
@@ -120,7 +122,8 @@ struct ImportView: View {
                 let importedSessions = try csvImporter.importCSV(data: csvData)
                 
                 // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
-                vm.sessions = importedSessions
+                vm.sessions += importedSessions
+                vm.sessions.sort(by: {$0.date > $1.date})
                 showSuccessMessage.toggle()
                 
             } catch let error as URLError {

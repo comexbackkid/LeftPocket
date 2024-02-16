@@ -14,7 +14,7 @@ struct ProfitByYear: View {
     @Environment(\.colorScheme) var colorScheme
     
     @EnvironmentObject var subManager: SubscriptionManager
-    @ObservedObject var viewModel: SessionsListViewModel
+    @EnvironmentObject var viewModel: SessionsListViewModel
     @StateObject var vm: AnnualReportViewModel
     @StateObject var exportUtility = CSVConversion()
     
@@ -49,23 +49,27 @@ struct ProfitByYear: View {
             
             VStack {
                 
-                ZStack {
-                    
-                    Color.clear
-                    
-                    if !vm.isLoading {
-                        
-                        CustomChartView(viewModel: viewModel, data: vm.chartData(timeline: newTimeline), background: false)
-                            .padding(.bottom)
-                            .frame(height: 250)
-                        
-                    } else {
-                        ProgressView()
-                            .scaleEffect(2)
-                            .progressViewStyle(CircularProgressViewStyle(tint: .brandPrimary))
-                    }
-                }
-                .frame(height: 250)
+                CustomChartView(viewModel: viewModel, data: vm.chartData(timeline: newTimeline), background: false)
+                    .padding(.bottom)
+                    .frame(height: 250)
+                
+                // MARK: DECIDING IF WE WANT TO ADD MORE CHARTS HERE
+                
+//                CustomChartView(viewModel: viewModel, data: viewModel.chartCoordinates(), background: false)
+//                    .padding()
+//                    .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+//                    .cornerRadius(20)
+//                    .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+//                    .frame(width: UIScreen.main.bounds.width * 0.9, height: 125)
+//                
+//                BarChartByYear(showTitle: false)
+//                    .chartXAxis(.hidden)
+//                    .chartYAxis(.hidden)
+//                    .padding(30)
+//                    .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+//                    .cornerRadius(20)
+//                    .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+//                    .frame(width: UIScreen.main.bounds.width * 0.9, height: 125)
                 
                 CustomPicker(vm: vm)
                     .padding(.bottom, 35)
@@ -147,7 +151,7 @@ struct ProfitByYear: View {
                 }
                 .animation(nil, value: vm.myNewTimeline)
                 .padding(30)
-                .frame(width: 340, height: 350)
+                .frame(width: UIScreen.main.bounds.width * 0.9, height: 350)
                 .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
                 .cornerRadius(20)
                 .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
@@ -229,8 +233,9 @@ struct ProfitByYear: View {
 
 struct ProfitByYear_Previews: PreviewProvider {
     static var previews: some View {
-        ProfitByYear(viewModel: SessionsListViewModel(), vm: AnnualReportViewModel())
+        ProfitByYear(vm: AnnualReportViewModel())
             .environmentObject(SubscriptionManager())
+            .environmentObject(SessionsListViewModel())
             .preferredColorScheme(.dark)
     }
 }

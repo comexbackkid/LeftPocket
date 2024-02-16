@@ -11,22 +11,9 @@ class AnnualReportViewModel: ObservableObject {
     
     @ObservedObject var vm = SessionsListViewModel()
     
-    @Published var myNewTimeline: PickerTimeline = .ytd {
-        didSet {
-            loadingChart()
-        }
-    }
-    
-    @Published var isLoading: Bool = false
+    @Published var myNewTimeline: PickerTimeline = .ytd
     
     let lastYear = Date().modifyDays(days: -365).getYear()
-    
-    func loadingChart() {
-        self.isLoading = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.isLoading = false
-        }
-    }
     
     enum PickerTimeline: String, CaseIterable {
         case all = "ALL"

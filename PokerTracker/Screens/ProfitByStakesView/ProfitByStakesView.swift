@@ -35,11 +35,17 @@ struct ProfitByStakesView: View {
                                 .profitColor(total: total)
                                 .frame(width: 80, alignment: .trailing)
                         }
+                        .padding(.vertical, 10)
+                        .listRowBackground(Color.brandBackground)
                     }
+                    .navigationBarTitleDisplayMode(.inline)
                     .navigationBarTitle(Text("Profit by Stakes"))
                 }
-                .listStyle(InsetListStyle())
+                .listStyle(PlainListStyle())
+                .background(Color.brandBackground)
+                
             }
+            
             if viewModel.sessions.isEmpty {
                 EmptyState(image: .sessions)
             }
@@ -49,6 +55,9 @@ struct ProfitByStakesView: View {
 
 struct ProfitByStakesView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfitByStakesView(viewModel: SessionsListViewModel())
+        NavigationView {
+            ProfitByStakesView(viewModel: SessionsListViewModel())
+                .preferredColorScheme(.dark)
+        }
     }
 }

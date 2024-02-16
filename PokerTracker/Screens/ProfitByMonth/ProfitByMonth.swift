@@ -39,8 +39,12 @@ struct ProfitByMonth: View {
                         .font(.callout)
                         .frame(width: 80, alignment: .trailing)
                 }
+                .padding(.vertical, 10)
+                .listRowBackground(Color.brandBackground)
             }
         }
+        .padding(.bottom, 50)
+        .navigationBarTitleDisplayMode(.inline)
         .navigationBarTitle(Text("Profit by Month"))
         .navigationBarItems(trailing: Picker(selection: $yearFilter, label: Text(""), content: {
             
@@ -50,11 +54,16 @@ struct ProfitByMonth: View {
         })
         .pickerStyle(MenuPickerStyle()))
         .listStyle(PlainListStyle())
+        .background(Color.brandBackground)
     }
 }
 
 struct MonthlyReportView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfitByMonth(vm: SessionsListViewModel())
+        NavigationView {
+            ProfitByMonth(vm: SessionsListViewModel())
+                .preferredColorScheme(.dark)
+        }
+        
     }
 }

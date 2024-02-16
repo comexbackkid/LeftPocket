@@ -13,6 +13,7 @@ struct BarChartByYear: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     @State private var selectedMonth: Date?
     
+    let showTitle: Bool
     let firstDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 1, day: 1)
     let lastDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 12, day: 31)
     
@@ -32,14 +33,17 @@ struct BarChartByYear: View {
         
         VStack (alignment: .leading) {
             
-            HStack {
-                Text("Monthly Totals")
-                    .cardTitleStyle()
-                
-                Spacer()
-                
+            if showTitle {
+                HStack {
+                    Text("Monthly Totals")
+                        .cardTitleStyle()
+                    
+                    Spacer()
+                    
+                }
+                .padding(.bottom, 40)
             }
-            .padding(.bottom, 40)
+            
             
             Chart {
                 
@@ -126,7 +130,7 @@ struct BarChartByYear: View {
 }
 
 #Preview {
-    BarChartByYear()
+    BarChartByYear(showTitle: true)
         .environmentObject(SessionsListViewModel())
         .frame(height: 350)
         .padding()

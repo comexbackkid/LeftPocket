@@ -23,6 +23,7 @@ struct ProfitByLocationView: View {
                 } else {
                     
                     List {
+                        
                         ForEach(viewModel.locations, id: \.self) { location in
                             HStack (spacing: 0) {
                                 Text(location.name)
@@ -43,10 +44,15 @@ struct ProfitByLocationView: View {
                                     .profitColor(total: hourlyRate)
                                     .frame(width: 80, alignment: .trailing)
                             }
+                            .padding(.vertical, 10)
+                            .listRowBackground(Color.brandBackground)
                         }
+                        .navigationBarTitleDisplayMode(.inline)
                         .navigationBarTitle(Text("Location Statistics"))
                     }
-                    .listStyle(InsetListStyle())
+                    .padding(.bottom, 50)
+                    .listStyle(PlainListStyle())
+                    .background(Color.brandBackground)
                 }
             }
         }
@@ -55,6 +61,10 @@ struct ProfitByLocationView: View {
 
 struct ProfitByLocationView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfitByLocationView(viewModel: SessionsListViewModel())
+        NavigationView {
+            ProfitByLocationView(viewModel: SessionsListViewModel())
+                .preferredColorScheme(.dark)
+        }
+        
     }
 }
