@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MetricsView: View {
     
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @Environment(\.isPresented) var showMetricsSheet
     @EnvironmentObject var viewModel: SessionsListViewModel
@@ -16,48 +17,59 @@ struct MetricsView: View {
     var body: some View {
         
         NavigationView {
-            ScrollView {
-                ZStack {
+            
+            ZStack {
+                
+                VStack {
                     
-                    VStack (alignment: .leading) {
+                    if viewModel.sessions.isEmpty {
                         
-                        if showMetricsSheet {
+                        EmptyState(image: .metrics)
+                            .padding(.bottom, 50)
+                        
+                    } else {
+                        
+                        ScrollView {
                             
-                            Text("Metrics")
-                                .titleStyle()
-                        }
-                        
-                        Text("Explore your poker metrics here. Start adding sessions in order to chart your progress and manage your bankroll.")
-                            .subtitleStyle()
-                        
-                        VStack (alignment: .center, spacing: 22) {
-                            
-                            if !viewModel.sessions.isEmpty {
+                            VStack (spacing: 22) {
+                                
+                                HStack {
+                                    
+                                    Text("Metrics")
+                                        .titleStyle()
+                                        .padding(.horizontal)
+                                    
+                                    Spacer()
+                                }
+                                
+                                ToolTipView(image: "lightbulb",
+                                            message: "Measure your performance & track progress from this screen.",
+                                            color: .yellow)
                                 
                                 bankrollChart
-                            }
-                            
-                            playerStats
-                            
-                            if !viewModel.sessions.isEmpty {
                                 
-                                BarChartView(vm: viewModel)
+                                playerStats
+                                
+                                ToolTipView(image: "calendar",
+                                            message: "Your best month so far this year has been \(viewModel.bestMonth).",
+                                            color: .cyan)
+                                
+                                barChart
+                                
+                                AdditionalMetricsView()
+                                    
                             }
-                            
-                            AdditionalMetricsView()
-                                .padding(.top, 10)
                         }
                     }
-                    
-                    if showMetricsSheet {
-                        
-                        dismissButton
-                    }
                 }
+                .frame(maxHeight: .infinity)
+                .background(Color.brandBackground)
+                .navigationBarHidden(true)
+                
+                if showMetricsSheet { dismissButton }
+                
             }
-            .background(Color(.systemGray6))
-            .navigationBarHidden(showMetricsSheet ? true : false)
-            .navigationBarTitle("Metrics")
+            .background(Color.brandBackground)
         }
         .accentColor(.brandPrimary)
     }
@@ -65,27 +77,35 @@ struct MetricsView: View {
     var bankrollChart: some View {
         
         CustomChartView(viewModel: viewModel, data: viewModel.chartCoordinates(), background: true)
-            .padding(.top, 60)
+            .padding(.top, 25)
             .padding(.bottom, 20)
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 320)
-            .background(Color(.systemBackground))
+            .frame(width: UIScreen.main.bounds.width * 0.9, height: 300)
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
             .cornerRadius(20)
             .overlay(
                 VStack (alignment: .leading) {
                     HStack {
                         Text("My Bankroll")
+                            .cardTitleStyle()
                             .font(.title2)
                             .bold()
                             .padding(.horizontal)
                             .padding(.top)
                     }
                     
-                    Text(viewModel.yearRangeFirst() + " - " + viewModel.yearRangeRecent())
-                        .font(.callout)
-                        .foregroundColor(.secondary)
-                        .padding(.horizontal)
                     Spacer()
+                    
                 }, alignment: .leading)
+    }
+    
+    var barChart: some View {
+        
+        BarChartByYear(showTitle: true)
+            .padding()
+            .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+            .cornerRadius(20)
+        
     }
     
     var dismissButton: some View {
@@ -95,7 +115,7 @@ struct MetricsView: View {
                 Spacer()
                 DismissButton()
                     .padding(.trailing, 20)
-                    .shadow(color: Color.black.opacity(0.2), radius: 8)
+                    .shadow(color: Color.black.opacity(0.1), radius: 8)
                     .onTapGesture {
                         dismiss()
                     }
@@ -111,62 +131,102 @@ struct MetricsView: View {
                 
                 HStack {
                     Text("Player Stats")
-                        .font(.title2)
-                        .bold()
-                        .padding(.bottom)
+                        .cardTitleStyle()
                 }
+                .padding(.bottom)
                 
                 VStack {
                     Group {
                         HStack {
                             Text("Total Bankroll")
+                                .calloutStyle()
                                 .foregroundColor(.secondary)
                             Spacer()
                             Text(viewModel.tallyBankroll().asCurrency())
                                 .foregroundColor(viewModel.tallyBankroll() > 0 ? .green : viewModel.tallyBankroll() < 0 ? .red : .primary)
                         }
+                        
                         Divider()
+                        
                         HStack {
                             Text("Hourly Rate")
+                                .calloutStyle()
                                 .foregroundColor(.secondary)
                             Spacer()
                             Text(viewModel.hourlyRate().asCurrency())
                                 .foregroundColor(viewModel.hourlyRate() > 0 ? .green : viewModel.tallyBankroll() < 0 ? .red : .primary)
                         }
+                        
                         Divider()
+                        
                         HStack {
                             Text("Profit Per Session")
+                                .calloutStyle()
                                 .foregroundColor(.secondary)
                             Spacer()
                             Text(viewModel.avgProfit().asCurrency())
                                 .foregroundColor(viewModel.avgProfit() > 0 ? .green : viewModel.tallyBankroll() < 0 ? .red : .primary)
                         }
-                    }
-                    Group {
+                        
                         Divider()
+                        
                         HStack {
-                            Text("Average Session Duration")
+                            Text("Std. Dev. Per Session")
+                                .calloutStyle()
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text("\(viewModel.standardDeviation().asCurrency())")
+                                .foregroundColor(viewModel.standardDeviation() > 0 ? .green : viewModel.standardDeviation() < 0 ? .red : .primary)
+                        }
+                    }
+                    
+                    Group {
+                        
+                        Divider()
+                        
+                        HStack {
+                            Text("Avg. Tournament Buy In")
+                                .calloutStyle()
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text("\(viewModel.avgTournamentBuyIn().asCurrency())")
+                        }
+                        
+                        Divider()
+                        
+                        HStack {
+                            Text("Avg. Session Duration")
+                                .calloutStyle()
                                 .foregroundColor(.secondary)
                             Spacer()
                             Text(viewModel.avgDuration())
                         }
+                        
                         Divider()
+                        
                         HStack {
-                            Text("Total Number of Cashes")
+                            Text("Total No. of Cashes")
+                                .calloutStyle()
                                 .foregroundColor(.secondary)
                             Spacer()
                             Text("\(viewModel.numOfCashes())")
                         }
+                        
                         Divider()
+                        
                         HStack {
                             Text("Win Rate")
+                                .calloutStyle()
                                 .foregroundColor(.secondary)
                             Spacer()
                             Text(viewModel.winRate())
                         }
+                        
                         Divider()
+                        
                         HStack {
                             Text("Total Hours Played")
+                                .calloutStyle()
                                 .foregroundColor(.secondary)
                             Spacer()
                             Text(viewModel.totalHoursPlayed())
@@ -178,10 +238,40 @@ struct MetricsView: View {
             }
             .padding()
         }
-        .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(Color(.systemBackground))
-        .cornerRadius(20)
         
+        .frame(width: UIScreen.main.bounds.width * 0.9)
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+        .cornerRadius(20)
+    }
+}
+
+struct ToolTipView: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    
+    let image: String
+    let message: String
+    let color: Color
+    
+    var body: some View {
+        
+        HStack {
+            
+            Image(systemName: image)
+                .foregroundColor(color)
+                .font(.system(size: 25, weight: .bold))
+                .padding(.trailing, 10)
+            
+            Text(message)
+                .calloutStyle()
+            
+            Spacer()
+            
+        }
+        .padding(20)
+        .frame(width: UIScreen.main.bounds.width * 0.9)
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+        .cornerRadius(20)
     }
 }
 
@@ -190,9 +280,11 @@ struct AdditionalMetricsView: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     var body: some View {
+        
         VStack (alignment: .leading) {
-            Text("Additional Metrics")
-                .font(.title2)
+            
+            Text("Reports & Analytics")
+                .cardTitleStyle()
                 .bold()
                 .padding(.leading)
             
@@ -200,22 +292,22 @@ struct AdditionalMetricsView: View {
                 HStack (spacing: 10) {
                     
                     NavigationLink(
-                        destination: ProfitByYear(viewModel: viewModel, vm: AnnualReportViewModel()),
+                        destination: ProfitByYear(vm: AnnualReportViewModel()),
                         label: {
-                            FilterCardView(image: "doc.text",
-                                           imageColor: .cyan,
-                                           title: "My Annual\nReport",
-                                           description: "Compare year-over-year results.")
+                            AdditionalMetricsCardView(title: "Annual Report",
+                                                      description: "Review results and stats for \na given year.",
+                                                      image: "list.clipboard",
+                                                      color: .blue)
                         })
                     .buttonStyle(PlainButtonStyle())
                     
                     NavigationLink(
                         destination: ProfitByMonth(vm: viewModel),
                         label: {
-                            FilterCardView(image: "calendar",
-                                           imageColor: .purple,
-                                           title: "Profit by\nMonth",
-                                           description: "Review your hottest win streaks.")
+                            AdditionalMetricsCardView(title: "Profit by Month",
+                                                      description: "View results based on a month by \nmonth basis.",
+                                                      image: "calendar",
+                                                      color: .mint)
                         })
                     .buttonStyle(PlainButtonStyle())
                     
@@ -223,39 +315,27 @@ struct AdditionalMetricsView: View {
                     NavigationLink(
                         destination: ProfitByLocationView(viewModel: viewModel),
                         label: {
-                            FilterCardView(image: "mappin.and.ellipse",
-                                           imageColor: .red,
-                                           title: "Profit by\nLocation",
-                                           description: "Which location yields the best return.")
-                        })
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    NavigationLink(
-                        destination: ProfitByWeekdayView(vm: viewModel),
-                        label: {
-                            FilterCardView(image: "sun.max",
-                                           imageColor: .yellow,
-                                           title: "Profit by\nWeekday",
-                                           description: "Snapshot of day-to-day performance.")
+                            AdditionalMetricsCardView(title: "Location Statistics",
+                                                      description: "View your profit or loss for every \nlocation you've played at.",
+                                                      image: "mappin.and.ellipse",
+                                                      color: .red)
                         })
                     .buttonStyle(PlainButtonStyle())
                     
                     NavigationLink(
                         destination: ProfitByStakesView(viewModel: viewModel),
                         label: {
-                            FilterCardView(image: "dollarsign.circle",
-                                           imageColor: .green,
-                                           title: "Profit by\nStakes",
-                                           description: "Which stakes do you need help with?")
+                            AdditionalMetricsCardView(title: "Game Stakes", description: "Break down your game \nby table stakes.", image: "dollarsign.circle", color: .green)
                         })
                     .buttonStyle(PlainButtonStyle())
                 }
                 .padding(.leading)
                 .padding(.trailing)
-                .frame(height: 200)
+                .frame(height: 150)
             })
         }
-        .padding(.bottom, 30)
+        .padding(.bottom, 50)
+        .padding(.top, 10)
     }
 }
 
@@ -263,5 +343,6 @@ struct MetricsView_Previews: PreviewProvider {
     
     static var previews: some View {
         MetricsView().environmentObject(SessionsListViewModel())
+            .preferredColorScheme(.dark)
     }
 }

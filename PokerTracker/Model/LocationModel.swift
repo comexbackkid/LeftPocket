@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct LocationModel: Decodable, Encodable, Hashable {
-    var id = UUID()
+struct LocationModel: Decodable, Encodable, Hashable, Identifiable {
+    var id: String { name }
     var name: String
     var localImage: String
     var imageURL: String
+    var importedImage: Data?
 }

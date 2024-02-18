@@ -43,7 +43,7 @@ struct CustomChartView: View {
                                            endPoint: .top)
                         )
                         .opacity(self.isPresented ? 0.5 : 0)
-                        .animation(.easeInOut.speed(0.25).delay(0.6), value: isPresented)
+                        .animation(.easeInOut.speed(0.25).delay(0.7), value: isPresented)
                 }
                 
                 // Line
@@ -68,21 +68,23 @@ struct CustomChartView: View {
     private var chartBackground: some View {
         
         ZStack {
+            
             VStack {
+
                 Rectangle()
-                    .fill(Color.gray.opacity(0.25))
+                    .fill(Color.gray.opacity(0.20))
+                    .frame(height: 1)
+                
+                Spacer()
+  
+                Rectangle()
+                    .fill(Color.gray.opacity(0.20))
                     .frame(height: 1)
                 
                 Spacer()
                 
                 Rectangle()
-                    .fill(Color.gray.opacity(0.25))
-                    .frame(height: 1)
-                
-                Spacer()
-                
-                Rectangle()
-                    .fill(Color.gray.opacity(0.25))
+                    .fill(Color.gray.opacity(0.20))
                     .frame(height: 1)
             }
             .padding(.trailing, 55)
@@ -109,8 +111,18 @@ struct CustomChartView: View {
     }
 }
 
+struct Line:Shape{
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: rect.width, y: 0))
+        return path
+    }
+}
+
 struct CustomChartView_Previews: PreviewProvider {
     static var previews: some View {
         CustomChartView(viewModel: SessionsListViewModel(), data: MockData.mockDataCoordinates, background: true)
+            .preferredColorScheme(.dark)
     }
 }

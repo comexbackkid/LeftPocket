@@ -27,31 +27,8 @@ class SessionsListViewModel: ObservableObject {
     }
     
     init() {
-//        getMockSessions()
         getSessions()
         getLocations()
-    }
-    
-    // MARK: WIDGET FUNCTIONS
-    
-    func writeToWidget() {
-        guard let defaults = UserDefaults(suiteName: AppGroup.bankrollSuite) else {
-            print("Unable to write to User Defaults!")
-            return
-        }
-
-        defaults.set(self.tallyBankroll(), forKey: AppGroup.bankrollKey)
-        defaults.set(self.sessions.first?.profit ?? 0, forKey: AppGroup.lastSessionKey)
-        defaults.set(self.hourlyRate(), forKey: AppGroup.hourlyKey)
-        defaults.set(self.sessions.count, forKey: AppGroup.totalSessionsKey)
-
-        guard let chartData = try? JSONEncoder().encode(self.chartCoordinates()) else {
-            print("Error writing chart data")
-            return
-        }
-
-        defaults.set(chartData, forKey: AppGroup.chartKey)
-        WidgetCenter.shared.reloadAllTimelines()
     }
     
     // MARK: SAVING & LOADING APP DATA
@@ -86,6 +63,8 @@ class SessionsListViewModel: ObservableObject {
         self.sessions = savedSessions
     }
     
+    // MARK: LOCATION FUNCTIONS SUCH AS ADD, DELETE, & MERGE
+    
     // Saves the list of locations the user has created with FileManager
     func saveLocations() {
         do {
@@ -99,6 +78,7 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // Function to delete from user's list of Locations from the Settings screen
+    // I'm not sure we're even using this right now
     func delete(_ location: LocationModel) {
         if let index = locations.firstIndex(where: { $0.id == location.id })
         {
@@ -112,42 +92,46 @@ class SessionsListViewModel: ObservableObject {
         guard
             let data = try? Data(contentsOf: locationsPath),
             let savedLocations = try? JSONDecoder().decode([LocationModel].self, from: data)
+                
         else { return }
         
         self.locations = savedLocations
     }
     
-    // Adds a new Location to the app
-    func addLocation(name: String,
-                     localImage: String,
-                     imageURL: String) {
+    // Will merge Default Locations in to the current saved Locations and also keep the same order
+    // Question is, do we absolutely need to run this? If a user deletes a default location, they presumably don't want it back?
+    // Maybe there's a "Restore to Defaults" button?
+    func mergeLocations() {
+        var modifiedLocations = self.locations
         
-        let newLocation = LocationModel(name: name,
-                                        localImage: localImage,
-                                        imageURL: imageURL)
+        for newLocation in DefaultLocations.allLocations {
+            if !modifiedLocations.contains(newLocation) {
+                modifiedLocations.append(newLocation)
+            }
+        }
+        
+        self.locations = modifiedLocations
+    }
+    
+    // Adds a new Location to the app
+    func addLocation(name: String, localImage: String, imageURL: String, importedImage: Data?) {
+        
+        let newLocation = LocationModel(name: name, localImage: localImage, imageURL: imageURL, importedImage: importedImage)
         
         locations.append(newLocation)
+    }
+    
+    // This is only working when you filter by .name versus the .id not sure why? Does it matter? What if the name is changed by the user?
+    func uniqueLocationCount(location: LocationModel) -> Int {
+        let array = self.sessions.filter({ $0.location.id == location.id })
+        return array.count
     }
     
     func setUniqueStakes() {
         uniqueStakes = Array(Set(sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).map({ $0.stakes })))
     }
     
-    // MARK: MOCK DATA FOR PREVIEW & TESTING
-    
-    // Loading fake data for Preview Provider
-    func getMockSessions() {
-        let fakeSessions = MockData.allSessions.sorted(by: {$0.date > $1.date})
-        self.sessions = fakeSessions
-    }
-    
-    // Loading fake locations so our filtered views can work correctly
-    func getMockLocations() {
-            let fakeLocations = MockData.allLocations
-            self.locations = fakeLocations
-    }
-    
-    // MARK: CALCULATIONS & DATA PRESENTATION
+    // MARK: CALCULATIONS & DATA PRESENTATION FOR USE IN CHARTS & METRICS VIEW
     
     // Calculate current bankroll
     func tallyBankroll() -> Int {
@@ -173,35 +157,38 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // Converts our profit data into coordinates tuples for charting
+    // Might need to think of a more elegant way of doing this. What if the user is a heavy user with a thousand sessions?
     func chartCoordinates() -> [Point] {
         
-        var shortenedChart = [Double]()
+        var fewSessions = [Double]()
+        var manySessions = [Double]()
         
         for (index, item) in chartArray().enumerated() {
+            
             if index.isMultiple(of: 2) {
-                shortenedChart.append(item)
+                fewSessions.append(item)
             }
         }
         
-        // If there's over 25 sessions, we will use every other data point to chart the data to smooth it out
-        if chartArray().count > 25 {
-            return shortenedChart.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
+        for (index, item) in chartArray().enumerated() {
             
-        } else {
+            if index.isMultiple(of: 5) {
+                manySessions.append(item)
+            }
+        }
+        
+        // If there's over 25 sessions, we will use every other data point to build the chart.
+        // If there's over 50 sessions, we count by 5's in order to smooth out the chart and make it appear less erratic
+        if chartArray().count > 50 {
+            return manySessions.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
+            
+        } else if chartArray().count > 25 {
+            return fewSessions.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
+        }
+        
+        else {
             return chartArray().enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
         }
-    }
-    
-    // Custom designed Bar Chart weekday profit totals
-    func barGraphByDay() -> [Int] {
-        let sunday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Sunday" }).map({ $0.profit }).reduce(0,+)
-        let monday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Monday" }).map({ $0.profit }).reduce(0,+)
-        let tuesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Tuesday" }).map({ $0.profit }).reduce(0,+)
-        let wednesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Wednesday" }).map({ $0.profit }).reduce(0,+)
-        let thursday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Thursday" }).map({ $0.profit }).reduce(0,+)
-        let friday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Friday" }).map({ $0.profit }).reduce(0,+)
-        let saturday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Saturday" }).map({ $0.profit }).reduce(0,+)
-        return [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
     }
     
     // Returns a tuple array for use in Swift Charts bar chart
@@ -235,6 +222,23 @@ class SessionsListViewModel: ObservableObject {
         return winPercentage.asPercent()
     }
     
+    // Standard deviation function on a per session basis
+    func standardDeviation() -> Int {
+        
+        guard sessions.count > 1 else {
+            // Not enough data points to calculate standard deviation
+            return 0
+        }
+
+        let profitArray = sessions.map { $0.profit }
+        let mean = profitArray.reduce(0, +) / profitArray.count
+        let variance = profitArray.reduce(0) { (result, profit) in
+            result + pow(Double(profit - mean), 2)
+        } / Double(profitArray.count - 1)
+
+        return Int(sqrt(variance))
+    }
+    
     // Calculate total hourly earnings rate for MetricsView
     func hourlyRate() -> Int {
         guard !sessions.isEmpty else { return 0 }
@@ -265,6 +269,19 @@ class SessionsListViewModel: ObservableObject {
         return tallyBankroll() / sessions.count
     }
     
+    // Calculate average cost of Tournament buy in's
+    func avgTournamentBuyIn() -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        guard sessions.contains(where: { $0.isTournament == true }) else {
+            return 0
+        }
+        
+        let tournamentBuyIns = sessions.filter { $0.isTournament == true }.map { $0.expenses ?? 0 }.reduce(0, +)
+        let count = sessions.filter { $0.isTournament == true }.count
+        
+        return tournamentBuyIns / count
+    }
+    
     // Total hours played from all sessions
     func totalHoursPlayed() -> String {
         guard !sessions.isEmpty else { return "0" }
@@ -274,22 +291,54 @@ class SessionsListViewModel: ObservableObject {
         return dateComponents.abbreviated(duration: dateComponents)
     }
     
-    // Gets the Year from very first session played. Used in Metrics View
-    func yearRangeFirst() -> String {
-        guard !sessions.isEmpty else { return "0" }
-        let year = sessions.sorted(by: { $0.date > $1.date })
-        return year.reversed()[0].date.getYear()
+    // User's longest win streak
+    func winStreak() -> Int {
+        var consecutiveCount = 0
+        var maxConsecutiveCount = 0
+
+        for session in sessions {
+            if session.profit > 0 {
+                consecutiveCount += 1
+                maxConsecutiveCount = max(maxConsecutiveCount, consecutiveCount)
+            } else {
+                consecutiveCount = 0
+            }
+        }
+
+        return maxConsecutiveCount
     }
     
-    // Gets the Year from most recent session played. Used in Metrics View
-    func yearRangeRecent() -> String {
-        
+    // Formatted specifically for home screen dashboard
+    func totalHoursPlayedHomeScreen() -> String {
         guard !sessions.isEmpty else { return "0" }
-        let year = sessions.sorted(by: { $0.date > $1.date })
-        return year[0].date.getYear()
+        let totalHours = sessions.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
+        let totalMins = sessions.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
+        let dateComponents = DateComponents(hour: totalHours, minute: totalMins)
+        return String(Int(dateComponents.durationInHours).abbreviateHourTotal)
     }
     
-    // MARK: CALCULATIONS FOR YEAR-END-SUMMARY VIEW
+    // MARK: CALCULATIONS FOR ANNUAL REPORT VIEW
+    
+    func allSessionDataByYear(year: String) -> [PokerSession] {
+        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return [] }
+        return sessions.filter({ $0.date.getYear() == year })
+    }
+    
+    func grossIncome() -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        let netProfit = sessions.map { Int($0.profit) }.reduce(0, +)
+        let totalExpenses = sessions.map { Int($0.expenses ?? 0) }.reduce(0, +)
+        let grossIncome = netProfit + totalExpenses
+        return grossIncome
+    }
+    
+    func grossIncomeByYear(year: String) -> Int {
+        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
+        let netProfit = sessions.filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
+        let totalExpenses = sessions.filter({ $0.date.getYear() == year }).map { Int($0.expenses ?? 0) }.reduce(0, +)
+        let grossIncome = netProfit + totalExpenses
+        return grossIncome
+    }
     
     func bankrollByYear(year: String) -> Int {
         let formatter = NumberFormatter()
@@ -393,26 +442,65 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
-    // MARK: CHART FUNCTIONS
+    // MARK: CHARTING FUNCTIONS
     
     func yearlyChartArray(year: String) -> [Double] {
         let profitsArray = sessions.filter({ $0.date.getYear() == year }).map { Double($0.profit) }
         var cumBankroll = [Double]()
         var runningTotal = 0.0
         cumBankroll.append(0.0)
-        
+
         for value in profitsArray.reversed() {
             runningTotal += value
             cumBankroll.append(runningTotal)
         }
         return cumBankroll
     }
-    
+
     func yearlyChartCoordinates(year: String) -> [Point] {
         return yearlyChartArray(year: year).enumerated().map({Point(x:CGFloat($0.offset), y: $0.element)})
     }
     
-    // MARK: FILTERING CARDS IN METRICS VIEW
+    // Used in ToolTipView for Bar Chart in Metrics View
+    func mostProfitableMonth(in sessions: [PokerSession]) -> String {
+        
+        // Create a dictionary to store total profit for each month
+        var monthlyProfits: [Int: Int] = [:]
+        
+        let currentYear = Calendar.current.component(.year, from: Date())
+        
+        // Iterate through sessions and accumulate profit for each month
+        for session in sessions {
+            
+            let yearOfSession = Calendar.current.component(.year, from: session.date)
+            
+            // Check if the session is from the current year
+            if yearOfSession == currentYear {
+                let month = Calendar.current.component(.month, from: session.date)
+                monthlyProfits[month, default: 0] += session.profit
+            }
+        }
+        
+        // Find the month with the highest profit
+        if let mostProfitableMonth = monthlyProfits.max(by: { $0.value < $1.value }) {
+            let monthFormatter = DateFormatter()
+            monthFormatter.dateFormat = "MMMM"
+            let monthString = monthFormatter.monthSymbols[mostProfitableMonth.key - 1]
+            
+            return monthString
+            
+        } else {
+            return "No data available"
+        }
+    }
+    
+    var bestMonth: String {
+        
+        mostProfitableMonth(in: sessions)
+        
+    }
+    
+    // MARK: ADDITIONAL METRICS CARDS
     
     func sessionsByLocation(_ location: String) -> [PokerSession] {
         sessions.filter({ $0.location.name == location })
@@ -425,7 +513,7 @@ class SessionsListViewModel: ObservableObject {
     func sessionsByDayOfWeek(_ day: String) -> [PokerSession] {
         sessions.filter({ $0.date.dayOfWeek(day: $0.date) == day })
     }
-    
+
     func profitByDayOfWeek(_ day: String) -> Int {
         return sessionsByDayOfWeek(day).reduce(0) { $0 + $1.profit }
     }
@@ -472,7 +560,43 @@ class SessionsListViewModel: ObservableObject {
         sessions.sort(by: {$0.date > $1.date})
     }
     
+    // MARK: WIDGET FUNCTIONS
+    
+    func writeToWidget() {
+        guard let defaults = UserDefaults(suiteName: AppGroup.bankrollSuite) else {
+            print("Unable to write to User Defaults!")
+            return
+        }
+
+        defaults.set(self.tallyBankroll(), forKey: AppGroup.bankrollKey)
+        defaults.set(self.sessions.first?.profit ?? 0, forKey: AppGroup.lastSessionKey)
+        defaults.set(self.hourlyRate(), forKey: AppGroup.hourlyKey)
+        defaults.set(self.sessions.count, forKey: AppGroup.totalSessionsKey)
+
+        guard let chartData = try? JSONEncoder().encode(self.chartCoordinates()) else {
+            print("Error writing chart data")
+            return
+        }
+
+        defaults.set(chartData, forKey: AppGroup.chartKey)
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+    
+    // MARK: MOCK DATA FOR PREVIEW & TESTING
+    
+    // Loading fake data for Preview Provider
+    func getMockSessions() {
+        let fakeSessions = MockData.allSessions.sorted(by: {$0.date > $1.date})
+        self.sessions = fakeSessions
+    }
+    
+    // Loading fake locations so our filtered views can work correctly
+    func getMockLocations() {
+            let fakeLocations = MockData.allLocations
+            self.locations = fakeLocations
+    }
+    
     let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    let daysOfWeekAbr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    let daysOfWeekAbbreviated = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 }

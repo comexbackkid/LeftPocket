@@ -27,9 +27,11 @@ struct EditLocationView: View {
                      footer: Text("Edit the name or Image URL to update this Location. Copy & paste the image's link directly from your mobile web browser.")) {
                 
                 TextField("", text: $selectedLocation.name)
+                    .font(.custom("Asap-Regular", size: 17))
                     .submitLabel(.next)
                 
                 TextField("Paste Image URL (Optional)", text: $selectedLocation.imageURL)
+                    .font(.custom("Asap-Regular", size: 17))
                     .keyboardType(.URL)
                     .autocapitalization(.none)
             }
@@ -40,6 +42,7 @@ struct EditLocationView: View {
                     presentationMode.wrappedValue.dismiss()
                 }, label: {
                     Text("Save Changes")
+                        .bodyStyle()
                 })
                 
                 Button {
@@ -47,6 +50,7 @@ struct EditLocationView: View {
                     presentationMode.wrappedValue.dismiss()
                 } label: {
                     Text("Cancel")
+                        .bodyStyle()
                 }
                 .tint(.red)
             }

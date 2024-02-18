@@ -6,6 +6,8 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Left Pocket</string>
+	<key>CFBundleDocumentTypes</key>
+	<array/>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -20,8 +22,35 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSApplicationCategoryType</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string></string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string></string>
+			<key>UTTypeTagSpecification</key>
+			<dict/>
+		</dict>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>AsapCondensed-Regular.ttf</string>
+		<string>AsapCondensed-Light.ttf</string>
+		<string>AsapCondensed-Medium.ttf</string>
+		<string>AsapCondensed-Bold.ttf</string>
+		<string>Asap-Regular.ttf</string>
+		<string>Asap-Black.ttf</string>
+		<string>Asap-Bold.ttf</string>
+		<string>Asap-Light.ttf</string>
+		<string>Asap-Thin.ttf</string>
+		<string>Asap-SemiBold.ttf</string>
+		<string>Asap-Medium.ttf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -47,6 +76,33 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string></string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string></string>
+			<key>UTTypeTagSpecification</key>
+			<dict/>
+		</dict>
+	</array>
+	<key>UTImportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array/>
+			<key>UTTypeIconFiles</key>
+			<array/>
+			<key>UTTypeIdentifier</key>
+			<string>public.comma-separated-values-text</string>
+			<key>UTTypeTagSpecification</key>
+			<dict/>
+		</dict>
+		<dict/>
 	</array>
 </dict>
 </plist>

@@ -14,7 +14,6 @@ struct ProfitByWeekdayView: View {
     
     var body: some View {
         
-        
         let filteredDays = vm.sessions.filter({ $0.date.getYear() == yearFilter })
         let allYears = vm.sessions.map({ $0.date.getYear() }).uniqued()
         

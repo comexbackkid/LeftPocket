@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-
 struct ContentView: View {
+    
+    @EnvironmentObject var viewModel: SessionsListViewModel
+    @Environment(\.colorScheme) var colorScheme
     
     @State private var showMetricsAsSheet = false
     @State var activeSheet: Sheet?
-    @EnvironmentObject var viewModel: SessionsListViewModel
-    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         
@@ -21,18 +21,16 @@ struct ContentView: View {
             
             VStack(spacing: 5) {
                 
-                HeaderView(activeSheet: $activeSheet)
-                
-                BankrollSnapshot()
-                    .padding(.bottom)
-                    .offset(x: 0, y: -10)
+                bankrollView
                 
                 if viewModel.sessions.isEmpty {
                     
-                    EmptyState()
-                        .padding(.top, 80)
+                    EmptyState(image: .sessions)
+                        .padding(.top, 85)
                     
                 } else {
+                    
+                    quickMetrics
                     
                     metricsCard
                     
@@ -41,12 +39,18 @@ struct ContentView: View {
                     Spacer()
                 }
             }
+            .padding(.bottom, 50)
             .fullScreenCover(isPresented: $showMetricsAsSheet) {
                 MetricsView()
             }
         }
-        .background(colorScheme == .dark ? Color(.systemGray6) : .white)
+        .background(
+            RadialGradient(colors: [.brandBackground, Color("newWhite").opacity(0.3)],
+                           center: .topLeading,
+                           startRadius: 500,
+                           endRadius: 5))
         .sheet(item: $activeSheet) { sheet in
+            
             switch sheet {
             case .newSession: NewSessionView(isPresented: .init(get: {
                 activeSheet == .newSession
@@ -59,52 +63,6 @@ struct ContentView: View {
         }
     }
     
-    var metricsCard: some View {
-        
-        Button(action: {
-            let impact = UIImpactFeedbackGenerator(style: .medium)
-            impact.impactOccurred()
-            showMetricsAsSheet = true
-        }, label: {
-            MetricsCardView()
-                .padding(.bottom)
-        })
-            .buttonStyle(PlainButtonStyle())
-    }
-    
-    var recentSessionCard: some View {
-        
-        Button(action: {
-            let impact = UIImpactFeedbackGenerator(style: .medium)
-            impact.impactOccurred()
-            activeSheet = .recentSession
-        }, label: {
-            RecentSessionCardView(pokerSession: viewModel.sessions.first!)
-                
-        })
-        .padding(.bottom, 30)
-        .buttonStyle(CardButtonStyle())
-    }
-}
-
-struct CardButtonStyle: ButtonStyle {
-    
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .overlay {
-                if configuration.isPressed {
-                    Color.black.opacity(0.1).cornerRadius(20)
-                } else {
-                    Color.clear
-                }
-            }
-    }
-}
-
-struct BankrollSnapshot: View {
-    
-    @EnvironmentObject var viewModel: SessionsListViewModel
-    
     var bankroll: String {
         return viewModel.tallyBankroll().asCurrency()
     }
@@ -113,36 +71,126 @@ struct BankrollSnapshot: View {
         return viewModel.sessions.first?.profit ?? 0
     }
     
-    var body: some View {
+    var quickMetrics: some View {
+        
+        HStack (spacing: 18) {
+            
+            VStack (spacing: 3) {
+                Text(String(viewModel.sessions.count))
+                    .font(.system(size: 22, design: .rounded))
+//                    .bold()
+                    .opacity(0.75)
+                
+                Text(viewModel.sessions.count == 1 ? "Session" : "Sessions")
+                    .captionStyle()
+                    .fontWeight(.thin)
+            }
+            
+            Divider()
+            
+            VStack (spacing: 3) {
+                Text(String(viewModel.winRate()))
+                    .font(.system(size: 22, design: .rounded))
+//                    .bold()
+                    .opacity(0.75)
+                
+                Text("Win Rate")
+                    .captionStyle()
+                    .fontWeight(.thin)
+            }
+            
+            Divider()
+            
+            VStack (spacing: 3) {
+                Text(viewModel.totalHoursPlayedHomeScreen())
+                    .font(.system(size: 22, design: .rounded))
+//                    .bold()
+                    .opacity(0.75)
+                
+                Text("Hours")
+                    .captionStyle()
+                    .fontWeight(.thin)
+            }
+        }
+        .padding(.bottom, 30)
+        
+    }
+    
+    var metricsCard: some View {
+        
+        Button(action: {
+            
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            showMetricsAsSheet = true
+            
+        }, label: {
+            
+            MetricsCardView()
+                .padding(.bottom)
+        })
+        .padding(.bottom, 12)
+        .buttonStyle(PlainButtonStyle())
+        .zIndex(1.0)
+    }
+    
+    var recentSessionCard: some View {
+        
+        Button(action: {
+            
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            
+            activeSheet = .recentSession
+            
+        }, label: {
+            
+            RecentSessionCardView(pokerSession: viewModel.sessions.first!)
+        })
+        .buttonStyle(CardViewButtonStyle())
+        .padding(.bottom, 30)
+    }
+    
+    var bankrollView: some View {
+        
         HStack {
+            
             VStack {
                 
                 Text("BANKROLL")
-                    .font(.caption)
-                    .opacity(0.6)
+                    .font(.custom("Asap-Regular", size: 13))
+                    .opacity(0.5)
                 
                 Text(bankroll)
-                    .fontWeight(.thin)
                     .font(.system(size: 60, design: .rounded))
-                    .padding(.bottom, 2)
-                    .opacity(0.8)
+                    .opacity(0.75)
                 
-                Text("LAST")
-                    .font(.caption)
-                    .opacity(0.6)
-                
-                HStack {
-                    Text(lastSession.asCurrency())
-                        .fontWeight(.light)
-                        .font(.system(size: 24, design: .rounded))
-                        .profitColor(total: lastSession)
+                if !viewModel.sessions.isEmpty {
+                    
+                    HStack {
+                        
+                        Image(systemName: "arrowtriangle.up.fill")
+                            .resizable()
+                            .frame(width: 11, height: 11)
+                            .foregroundColor(lastSession > 0 ? .green : lastSession < 0 ? .red : Color(.systemGray))
+                            .rotationEffect(lastSession >= 0 ? .degrees(0) : .degrees(180))
+                        
+                        Text(lastSession.asCurrency())
+                            .fontWeight(.light)
+                            .font(.system(size: 20, design: .rounded))
+                            .profitColor(total: lastSession)
+                        
+                    }
+                    .padding(.top, -40)
+                    
                 }
-                .padding(.bottom, 20)
                 
-                Divider().frame(width: UIScreen.main.bounds.width * 0.6)
-                    .padding(.bottom, 45)
+
             }
         }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 30)
+        .padding(.bottom, 20)
     }
 }
 
@@ -154,8 +202,26 @@ enum Sheet: String, Identifiable {
     }
 }
 
+struct CardViewButtonStyle: ButtonStyle {
+    
+    // This just removes some weird button styling from our custom card view that couldn't otherwise be made
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .overlay {
+                
+                if configuration.isPressed {
+                    Color.black.opacity(0.1).cornerRadius(20)
+                    
+                } else {
+                    Color.clear
+                }
+            }
+    }
+}
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView().environmentObject(SessionsListViewModel())
+            .preferredColorScheme(.dark)
     }
 }

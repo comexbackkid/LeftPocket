@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import RevenueCat
+import RevenueCatUI
+import TipKit
 
 final class NewSessionViewModel: ObservableObject {
     
@@ -19,24 +22,25 @@ final class NewSessionViewModel: ObservableObject {
     @Published var endTime: Date = Date()
     @Published var expenses: String = ""
     @Published var presentation: Bool?
-    @Published var isTournament: Bool = false
+    @Published var sessionType: SessionType?
     @Published var entrants: String = ""
-    
     @Published var alertItem: AlertItem?
     
+    enum SessionType: String, Codable { case cash, tournament }
+    
     var isValidForm: Bool {
+        
+        guard sessionType != nil else {
+            alertItem = AlertContext.invalidSession
+            return false
+        }
         
         guard !location.name.isEmpty else {
             alertItem = AlertContext.inValidLocation
             return false
         }
         
-        guard !game.isEmpty else {
-            alertItem = AlertContext.inValidGame
-            return false
-        }
-        
-        if isTournament == false {
+        if sessionType == .cash {
             guard !stakes.isEmpty else {
                 alertItem = AlertContext.inValidStakes
                 return false
@@ -52,6 +56,16 @@ final class NewSessionViewModel: ObservableObject {
                 alertItem = AlertContext.invalidBuyIn
                 return false
             }
+        }
+        
+        guard !game.isEmpty else {
+            alertItem = AlertContext.inValidGame
+            return false
+        }
+        
+        guard endTime > startTime else {
+            alertItem = AlertContext.invalidEndTime
+            return false
         }
  
         return true
@@ -69,10 +83,46 @@ final class NewSessionViewModel: ObservableObject {
                              startTime: self.startTime,
                              endTime: self.endTime,
                              expenses: Int(self.expenses) ?? 0,
-                             isTournament: self.isTournament,
+                             isTournament: sessionType == .tournament,
                              entrants: Int(self.entrants) ?? 0)
         
-        // Only after the form checks out will the presentation be set to false and passed into the Binding in our View
+        Task {
+            
+            // Counting how many times the user adds a Session. Will display Tip after they enter two
+            await FilterSessionsTip.sessionCount.donate()
+        }
+        
+        // Only after the form checks out will the presentation be set to false and the sheet will dismiss
         self.presentation = false
+    }
+    
+    func loadUserDefaults() {
+        
+        let defaults = UserDefaults.standard
+        
+        guard
+            let encodedSessionType = defaults.object(forKey: "sessionTypeDefault") as? Data,
+            let decodedSessionType = try? JSONDecoder().decode(SessionType.self, from: encodedSessionType)
+                
+        else { return }
+        
+        sessionType = decodedSessionType
+        
+        guard
+            let encodedLocation = defaults.object(forKey: "locationDefault") as? Data,
+            let decodedLocation = try? JSONDecoder().decode(LocationModel.self, from: encodedLocation)
+                
+        else { return }
+        
+        location = decodedLocation
+        
+        guard
+            let encodedStakes = defaults.string(forKey: "stakesDefault"),
+            let encodedGame = defaults.string(forKey: "gameDefault")
+                
+        else { return }
+        
+        stakes = encodedStakes
+        game = encodedGame
     }
 }

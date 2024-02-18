@@ -11,22 +11,9 @@ class AnnualReportViewModel: ObservableObject {
     
     @ObservedObject var vm = SessionsListViewModel()
     
-    @Published var myNewTimeline: PickerTimeline = .ytd {
-        didSet {
-            loadingChart()
-        }
-    }
+    @Published var myNewTimeline: PickerTimeline = .ytd
     
-    @Published var isLoading: Bool = false
-    
-    let lastYear = Date().modifyDays(days: -360).getYear()
-    
-    func loadingChart() {
-        self.isLoading = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.isLoading = false
-        }
-    }
+    let lastYear = Date().modifyDays(days: -365).getYear()
     
     enum PickerTimeline: String, CaseIterable {
         case all = "ALL"
@@ -37,6 +24,17 @@ class AnnualReportViewModel: ObservableObject {
     }
     
     // MARK: Functions for calculating metrics in Yearly Summary
+    
+    func grossIncome(timeline: PickerTimeline) -> Int {
+        switch timeline {
+        case .all:
+            return vm.grossIncome()
+        case .ytd:
+            return vm.grossIncomeByYear(year: Date().getYear())
+        case .lastYear:
+            return vm.grossIncomeByYear(year: lastYear)
+        }
+    }
     
     func netProfitCalc(timeline: PickerTimeline) -> Int {
         switch timeline {
@@ -101,6 +99,17 @@ class AnnualReportViewModel: ObservableObject {
             return vm.hoursPlayedByYear(year: Date().getYear())
         case .lastYear:
             return vm.hoursPlayedByYear(year: lastYear)
+        }
+    }
+    
+    func sessionsPerYear(timeline: PickerTimeline) -> String {
+        switch timeline {
+        case .all:
+            return String(vm.sessions.count)
+        case .ytd:
+            return String(vm.sessionsPerYear(year: Date().getYear()))
+        case .lastYear:
+            return String(vm.sessionsPerYear(year: lastYear))
         }
     }
     

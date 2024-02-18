@@ -16,14 +16,14 @@ struct SessionDetailView: View {
     var body: some View {
         
         ZStack {
+            
             ScrollView (.vertical) {
                 
                 VStack(spacing: 4) {
                     
                     GraphicHeaderView(location: pokerSession.location, date: pokerSession.date)
-                        .frame(maxWidth: UIScreen.main.bounds.width)
                     
-                    Divider().frame(width: 180)
+                    Divider().frame(width: UIScreen.main.bounds.width * 0.5)
                     
                     if pokerSession.isTournament ?? false {
                         
@@ -35,13 +35,18 @@ struct SessionDetailView: View {
                         
                         notes
                         
-                        miscellaneous
+                        details
+                        
                     }
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, alignment: .topLeading)
-                    .padding()
+                    .padding(30)
                     .padding(.bottom, 70)
                 }
             }
+            .background(.regularMaterial)
+            .background(!pokerSession.location.localImage.isEmpty 
+                        ? Image(pokerSession.location.localImage).resizable().aspectRatio(contentMode: .fill)
+                        : backgroundImage().resizable().aspectRatio(contentMode: .fill))
             .ignoresSafeArea()
             .onAppear {
                 AppReviewRequest.requestReviewIfNeeded()
@@ -50,6 +55,7 @@ struct SessionDetailView: View {
             if activeSheet == .recentSession {
                 
                 VStack {
+                    
                     HStack {
                         
                         Spacer()
@@ -66,62 +72,86 @@ struct SessionDetailView: View {
                 }
             }
         }
+        .accentColor(.brandPrimary)
+        .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
     }
-    
+
     var cashMetrics: some View {
         
-        HStack(spacing: 50) {
+        HStack(spacing: 0) {
+            
             VStack {
                 
-                Text("Duration")
-                    .font(.headline)
+                Image(systemName: "stopwatch")
+                    .font(.title2)
+                    .opacity(0.3)
+                    .padding(.bottom, 1)
                 
                 Text(pokerSession.playingTIme)
             }
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
             VStack {
-                Text("Profit")
-                    .font(.headline)
+                Image(systemName: "dollarsign")
+                    .font(.title2)
+                    .opacity(0.3)
+                    .padding(.bottom, 1)
                 
                 Text(pokerSession.profit.asCurrency()).profitColor(total: pokerSession.profit)
             }
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
             VStack {
-                Text("Hourly")
-                    .font(.headline)
+                Image(systemName: "gauge.high")
+                    .font(.title2)
+                    .opacity(0.3)
+                    .padding(.bottom, 1)
                 
                 Text(pokerSession.hourlyRate.asCurrency()).profitColor(total: pokerSession.hourlyRate)
             }
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
         }
+        .frame(maxWidth: .infinity)
         .padding()
         
     }
     
     var tournamentMetrics: some View {
         
-        HStack(spacing: 50) {
+        HStack(spacing: 0) {
             VStack {
                 
-                Text("Duration")
-                    .font(.headline)
+                Image(systemName: "stopwatch")
+                    .font(.title2)
+                    .opacity(0.3)
+                    .padding(.bottom, 1)
                 
                 Text(pokerSession.playingTIme)
+                
             }
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
             VStack {
-                Text("Profit")
-                    .font(.headline)
+                Image(systemName: "dollarsign")
+                    .font(.title2)
+                    .opacity(0.3)
+                    .padding(.bottom, 1)
                 
                 Text(pokerSession.profit.asCurrency()).profitColor(total: pokerSession.profit)
             }
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
             VStack {
-                Text("Entrants")
-                    .font(.headline)
+                Image(systemName: "person.2")
+                    .font(.title2)
+                    .opacity(0.3)
+                    .padding(.bottom, 1)
                 
                 Text("\(pokerSession.entrants ?? 0)")
             }
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
         }
+        .frame(maxWidth: .infinity)
         .padding()
     }
     
@@ -130,59 +160,81 @@ struct SessionDetailView: View {
         VStack(alignment: .leading) {
             
             Text(pokerSession.isTournament ?? false ? "Tournament Notes" : "Session Notes")
-                .font(.headline)
+                .subtitleStyle()
                 .padding(.bottom, 5)
                 .padding(.top, 20)
             
             Text(pokerSession.notes)
+                .bodyStyle()
                 .padding(.bottom, 30)
                 .textSelection(.enabled)
         }
     }
     
-    var miscellaneous: some View {
+    var details: some View {
         
         VStack (alignment: .leading) {
             
-            Text("Miscellaneous")
-                .font(.headline)
+            Text("Details")
+                .subtitleStyle()
                 .padding(.bottom, 5)
             
             HStack {
                 Text("Date")
+                    .bodyStyle()
                     .font(.subheadline)
                     .foregroundColor(.secondary)
+                
                 Spacer()
+                
                 Text("\(pokerSession.date.dateStyle())")
+                    .bodyStyle()
                     .font(.subheadline)
             }
+            
             Divider()
+            
             HStack {
                 Text("Game")
+                    .bodyStyle()
                     .font(.subheadline)
                     .foregroundColor(.secondary)
+                
                 Spacer()
+                
                 Text(pokerSession.game)
+                    .bodyStyle()
                     .font(.subheadline)
             }
+            
             Divider()
+            
             HStack {
                 Text(pokerSession.isTournament == true ? "Buy-In" : "Expenses")
+                    .bodyStyle()
                     .font(.subheadline)
                     .foregroundColor(.secondary)
+                
                 Spacer()
+                
                 Text(pokerSession.expenses?.asCurrency() ?? "$0")
+                    .bodyStyle()
                     .font(.subheadline)
             }
             Divider()
             
-            if pokerSession.isTournament == false {
+            if pokerSession.isTournament != true {
+                
                 HStack {
                     Text("Stakes")
+                        .bodyStyle()
                         .font(.subheadline)
                         .foregroundColor(.secondary)
+                    
                     Spacer()
+                    
                     Text(pokerSession.stakes)
+                        .bodyStyle()
                         .font(.subheadline)
                 }
                 Divider()
@@ -190,13 +242,39 @@ struct SessionDetailView: View {
             
             HStack {
                 Text("Visits")
+                    .bodyStyle()
                     .font(.subheadline)
                     .foregroundColor(.secondary)
+                
                 Spacer()
+                
                 Text("\(vm.sessions.filter({$0.location.name == pokerSession.location.name}).count)")
+                    .bodyStyle()
                     .font(.subheadline)
             }
             .padding(.bottom)
+        }
+    }
+    
+    func backgroundImage() -> Image {
+        
+        if pokerSession.location.imageURL != "" {
+            
+            return Image("encore-header")
+            
+        } else {
+            
+            guard
+                let imageData = pokerSession.location.importedImage,
+                let uiImage = UIImage(data: imageData)
+                    
+            else {
+                
+                return Image("encore-header")
+            }
+            
+            return Image(uiImage: uiImage)
+                
         }
     }
 }
@@ -207,31 +285,27 @@ struct GraphicHeaderView: View {
     let date: Date
     
     var body: some View {
+        
         VStack {
             
             if location.imageURL != "" {
                 
                 AsyncImage(url: URL(string: location.imageURL), scale: 1, transaction: Transaction(animation: .easeIn)) { phase in
-                    switch phase {
-                    case .success(let image):
+                    
+                    if let image = phase.image {
+                        
                         image
-                            .resizable()
                             .detailViewStyle()
                         
-                    case .failure:
+                    } else if phase.error != nil {
+                        
                         FailureView()
                             .frame(height: 290)
                             .clipped()
                             .padding(.bottom)
                         
-                    case .empty:
-                        PlaceholderView()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(height: 290)
-                            .clipped()
-                            .padding(.bottom)
+                    } else {
                         
-                    @unknown default:
                         PlaceholderView()
                             .aspectRatio(contentMode: .fill)
                             .frame(height: 290)
@@ -240,29 +314,42 @@ struct GraphicHeaderView: View {
                     }
                 }
                 
-            } else {
+            } else if location.importedImage != nil {
                 
-                Image(location.localImage != "" ? location.localImage : "default-header")
-                    .resizable()
+                if let photoData = location.importedImage,
+                   let uiImage = UIImage(data: photoData) {
+                    
+                    Image(uiImage: uiImage)
+                        .detailViewStyle()
+                }
+                
+            } else {
+
+                Image(location.localImage != "" ? location.localImage : "defaultlocation-header")
                     .detailViewStyle()
             }
             
             Text(location.name)
-                .font(.title)
-                .bold()
+                .signInTitleStyle()
+                .fontWeight(.bold)
                 .lineLimit(1)
+                .padding(.bottom, 0.2)
             
             Text("\(date.dateStyle())")
-                .font(.callout)
+                .calloutStyle()
                 .foregroundColor(.secondary)
                 .padding(.bottom, 40)
         }
+        .frame(maxWidth: UIScreen.main.bounds.width)
     }
+    
+    
 }
 
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
         SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
+            .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
     }
 }

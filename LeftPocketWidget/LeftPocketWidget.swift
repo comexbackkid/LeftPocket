@@ -20,6 +20,19 @@ struct LeftPocketWidget: Widget {
         .configurationDisplayName("Bankroll Management")
         .description("A snapshot of your poker bankroll.")
         .supportedFamilies([.systemSmall, .systemMedium])
+        .contentMarginsDisabled()
+    }
+}
+
+extension View {
+    func widgetBackground(_ backgroundView: some View) -> some View {
+        if #available(iOSApplicationExtension 17.0, *) {
+            return containerBackground(for: .widget) {
+                backgroundView
+            }
+        } else {
+            return background(backgroundView)
+        }
     }
 }
 

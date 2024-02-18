@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 import SwiftUI
 
 struct PokerSession: Hashable, Codable, Identifiable {
@@ -40,84 +39,6 @@ struct PokerSession: Hashable, Codable, Identifiable {
     }
 }
 
-struct Article: Hashable, Codable, Identifiable {
-    var id = UUID()
-    let image: String
-    let title: String
-    let snippet: String
-    let story: String
-}
-
-struct SessionData: Identifiable, Hashable {
-    let id = UUID()
-    let day: String
-    let profit: Int
-}
-
-struct DefaultData {
-    
-    static let defaultLocation = LocationModel(name: "TBD", localImage: "empty-location", imageURL: "")
-    
-    static let sampleArticle = Article(image: "variance-header",
-                                       title: "Understanding Variance",
-                                       snippet: "You must remember to not use variance as an excuse not to study, learn, and avoiding ways to improve your game.",
-                                       story: """
-"The risk of complaining about bad luck is that you tend to ignore your mistakes or the details of how you’re being outplayed."
-
-Let that line resonate for a minute. For those that don’t know already, variance is the difference between how much money you expect to win on average over the long run and the results you are seeing in the short term. In other words, how unlucky OR how lucky you’re running. Variance is what causes long periods of winning sessions, as well as long periods of losing sessions.
-
-There’s an inherit risk with looking too deep into variance, however.
-
-You must remember to not use variance as an excuse not to study, learn, and avoiding ways to improve your game. It can become all too easy to simply chalk up a couple of losing sessions to variance and move on. Instead, what you should be doing after every game (good and bad) is reviewing what went right, and what went wrong.
-
-Resources
-The Mental Game of Poker, by: Jared Tendler, M.S.
-""")
-    
-    static let sampleArticle2 = Article(image: "handhistory-header",
-                                       title: "Hand Histories",
-                                       snippet: "It is imperative for any poker player who takes the game seriously to record their hand histories.",
-                                       story: """
-It is imperative for any poker player who takes the game seriously to record their hand histories.
-
-Obviously if you’re a live player, writing down every single hand is going to nearly impossible unless of course you’re some type of a vlogger or YouTube professional. For everyone else, the best recommendation is capture as many significant hands as you can. These might be spots that really made you think hard, or where a large sum of money was involved… heading in either direction.
-
-Don’t only write down your losing hands.
-
-Yes, those are important to study, but almost as important are your winning hands. It can be just as costly to continue playing sub-optimally as it is not knowing what to do in a spot. By thinking that you played a hand perfect when in fact you didn’t, you’re cementing in bad habits and forming unbiased views about your play.
-
-Format your hand histories the same every time so they’re easy to read, especially if you post them on public forums. A clean, consistent format will usually result in more strategic feedback. A pen & paper is a little unrealistic to bring to a casino or card room, so we recommend a simple Notes app on your phone to simply jot down the key details.
-
-Important things to document might include your effective stack size, position, bet amounts, pot sizes at each street, and how many players in the hand.
-
-Hand analysis is the bread and butter of your off-table work, and repeating this quick method will undoubtedly make you a much stronger player. If you are serious about getting better at poker, I think you should analyze at least one hand every day to keep your skills sharp and your trajectory upward. In LeftPocket, there’s a handy Notes section with each recorded session where you can simply paste your hand histories in from your session to store them safely and to review at a later date.
-""")
-    
-    static let sampleArticle3 = Article(image: "exploitplay-header",
-                                       title: "Playing Exploitatively",
-                                       snippet: "Exploitative strategies, when executed correctly and against the right opponent, make way more money.",
-                                       story: """
-Exploitative strategies, when executed correctly and against the right opponent, make way more money. Nowhere is this more true than at low stakes live where opponents are pretty transparent in their tendencies.
-
-Below are a couple of quick adjustments you can make in your game to play a little less balanced, and more exploitative.
-
-Change Your Opening Range
-
-Do this based on either how tight or how loose players are around you. A good example might be low-mid suited connectors when you have calling stations behind you. Since they’re not folding pre flop, and you have no showdown value if you miss, you will have a truly difficult time getting them off any pairs, especially if they make top pair. Save your money and fold here.
-
-Bet Sizing
-
-If you know players in the big blind have a wide range and won’t 3-bet you often, feel free to up your raise higher knowing that you’re making more money in the long term by raising the cost of admission.
-
-These players will happily defend hands like TJo, Ax, and 56-suited in horrible position. Get paid here.
-
-Overfolding
-
-Save this for those players who you know will never bluff the river. In live $1/2 and $1/3 games, this is most individuals. Occasionally you’ll come across a young reckless player who will 1x or 1.5x the pot on the river he senses weakness, but most of the time low stakes live players who bet the river, have it. You can save a lot of money by mucking second pairs and top pair + weak kicker in these spots.
-""")
-}
-
-// For some reason using the .currentWindow ext is not working with AppStorage and doesn't save dark/light mode state
 class SystemThemeManager {
     static let shared = SystemThemeManager()
     init() {}
@@ -135,9 +56,26 @@ class SystemThemeManager {
     }
 }
 
+struct SessionData: Identifiable, Hashable {
+    let id = UUID()
+    let day: String
+    let profit: Int
+}
+
+struct DefaultData {
+    
+    static let defaultLocation = LocationModel(name: "TBD", localImage: "empty-location", imageURL: "")
+}
+
 struct MockData {
     
-    static let mockLocation = LocationModel(name: "MGM Sprinfield", localImage: "mgmspringfield-header", imageURL: "")
+    static func countLocation(location: LocationModel.ID) -> Int {
+        
+        let arrayOfLocations = MockData.allSessions.filter({ $0.location.id == location })
+        return arrayOfLocations.count
+    }
+    
+    static let mockLocation = LocationModel(name: "MGM Springfield", localImage: "mgmspringfield-header", imageURL: "")
     static let sampleSession = PokerSession(location: mockLocation,
                                             game: "NL Texas Hold Em",
                                             stakes: "1/3",
@@ -147,7 +85,7 @@ struct MockData {
                                             startTime: Date(),
                                             endTime: Date().modifyTime(minutes: 95),
                                             expenses: 10,
-                                            isTournament: true,
+                                            isTournament: false,
                                             entrants: 80)
     
     static let allLocations = [
@@ -157,7 +95,8 @@ struct MockData {
         LocationModel(name: "The Brook", localImage: "brook-header", imageURL: ""),
         LocationModel(name: "Foxwoods Resort & Casino", localImage: "foxwoods-header", imageURL: ""),
         LocationModel(name: "Mohegan Sun Casino", localImage: "mohegan-sun-header", imageURL: ""),
-        LocationModel(name: "Rivers Casino & Resort", localImage: "rivers-header", imageURL: "")
+        LocationModel(name: "Rivers Casino & Resort", localImage: "rivers-header", imageURL: ""),
+        LocationModel(name: "Turning Stone Casino", localImage: "turningstone-header", imageURL: "")
     ]
     
     static let allSessions = [

@@ -19,9 +19,9 @@ struct NewSessionView: View {
             
             Form {
                 
-                Picker(selection: $newSession.isTournament, label: Text("Text")) {
-                    Text("Cash").tag(false)
-                    Text("Tournament").tag(true)
+                Picker(selection: $newSession.sessionType, label: Text("Text")) {
+                    Text("Cash").tag(Optional(NewSessionViewModel.SessionType.cash))
+                    Text("Tournament").tag(Optional(NewSessionViewModel.SessionType.tournament))
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .listRowBackground(Color(.clear))
@@ -29,7 +29,7 @@ struct NewSessionView: View {
                 
                 locationSection
                 
-                if newSession.isTournament {
+                if newSession.sessionType == .tournament {
                     
                     tournamentDetails
                     
@@ -135,7 +135,7 @@ struct NewSessionView: View {
             DatePicker("Start", selection: $newSession.startTime, in: ...Date.now,
                        displayedComponents: [.date, .hourAndMinute])
             
-            DatePicker("End", selection: $newSession.endTime, in: ...Date.now,
+            DatePicker("End", selection: $newSession.endTime, in: newSession.startTime...Date.now,
                        displayedComponents: [.date, .hourAndMinute])
             HStack {
                 Text("$")

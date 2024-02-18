@@ -18,15 +18,16 @@ struct ProfitByLocationView: View {
                 
                 if viewModel.sessions.isEmpty {
                     
-                    EmptyState()
+                    EmptyState(image: .locations)
                     
                 } else {
                     
                     List {
+                        
                         ForEach(viewModel.locations, id: \.self) { location in
                             HStack (spacing: 0) {
                                 Text(location.name)
-                                    .font(.callout)
+                                    .calloutStyle()
                                     .lineLimit(1)
                                 
                                 Spacer()
@@ -43,10 +44,15 @@ struct ProfitByLocationView: View {
                                     .profitColor(total: hourlyRate)
                                     .frame(width: 80, alignment: .trailing)
                             }
+                            .padding(.vertical, 10)
+                            .listRowBackground(Color.brandBackground)
                         }
-                        .navigationBarTitle(Text("Profit by Location"))
+                        .navigationBarTitleDisplayMode(.inline)
+                        .navigationBarTitle(Text("Location Statistics"))
                     }
-                    .listStyle(InsetListStyle())
+                    .padding(.bottom, 50)
+                    .listStyle(PlainListStyle())
+                    .background(Color.brandBackground)
                 }
             }
         }
@@ -55,6 +61,10 @@ struct ProfitByLocationView: View {
 
 struct ProfitByLocationView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfitByLocationView(viewModel: SessionsListViewModel())
+        NavigationView {
+            ProfitByLocationView(viewModel: SessionsListViewModel())
+                .preferredColorScheme(.dark)
+        }
+        
     }
 }

@@ -6,35 +6,54 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct RecentSessionCardView: View {
     
-    var pokerSession: PokerSession
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var viewModel: SessionsListViewModel
-    let width = UIScreen.main.bounds.width * 0.8
+    
+    var pokerSession: PokerSession
+    let width = UIScreen.main.bounds.width * 0.85
     
     var body: some View {
         
         ZStack (alignment: .leading) {
+            
             VStack (alignment: .leading) {
                 
                 if pokerSession.location.imageURL != "" {
                     
                     downloadedImage
                     
-                } else { localImage }
+                } else if pokerSession.location.importedImage != nil {
+                    
+                    if let photoData = pokerSession.location.importedImage,
+                       let uiImage = UIImage(data: photoData) {
+                        
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: width)
+                            .clipped()
+                    }
+                }
+                
+                else { localImage }
                 
                 Spacer()
                 
                 HStack {
+                    
                     VStack (alignment: .leading, spacing: 5) {
+                        
                         Text(pokerSession.location.name)
-                            .font(.headline)
+                            .headlineStyle()
                             .foregroundStyle(.white)
                         
-                        Text("See your most recent session to review hand notes & other details.")
-                            .font(.subheadline)
+                        Text("Tap here to quickly review your last Session, hand notes, & key stats.")
+                            .calloutStyle()
+                            .opacity(0.7)
                             .foregroundStyle(.white)
                             .multilineTextAlignment(.leading)
                             .lineLimit(2)
@@ -46,13 +65,24 @@ struct RecentSessionCardView: View {
                 Spacer()
             }
             .background(
+                
                 ZStack {
                     
-                    if pokerSession.location.imageURL != "" {
+                    if pokerSession.location.importedImage != nil {
                         
+                        // If the importedImage property isn't nil, convert the data & show the image
+                        importedImage.overlay(.thinMaterial)
+                        
+                    } else if pokerSession.location.imageURL != "" {
+                        
+                        // If the Location has an imageURL, most won't, then download & display the image
+                        // It may not look great if the link is messed up
                         downloadedImage.overlay(.thinMaterial)
                         
-                    } else { localImage.overlay(.thinMaterial) }
+                    } else {
+                        
+                        // Lastly, if none of the above pass then just display the localImage
+                        localImage.overlay(.thinMaterial) }
                 })
             
             VStack (alignment: .leading) {
@@ -62,8 +92,8 @@ struct RecentSessionCardView: View {
                     .foregroundColor(.white).opacity(0.5)
                 
                 Text("Last Session")
-                    .font(.title)
-                    .fontWeight(.semibold)
+                    .signInTitleStyle()
+                    .fontWeight(.heavy)
                     .foregroundColor(Color(.white))
             }
             .offset(y: -135)
@@ -80,46 +110,55 @@ struct RecentSessionCardView: View {
     var downloadedImage: some View {
         
         AsyncImage(url: URL(string: pokerSession.location.imageURL), scale: 1, transaction: Transaction(animation: .easeIn)) { phase in
-            
-            switch phase {
-            case .success(let image):
+  
+            if let image = phase.image {
+                
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: width)
                     .clipped()
                 
-            case .failure:
+            } else if phase.error != nil {
+                
                 FailureView()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: width)
                     .clipped()
                 
-            case .empty:
-                PlaceholderView()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: width)
-                    .clipped()
+            } else {
                 
-            @unknown default:
                 PlaceholderView()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: width)
                     .clipped()
             }
         }
-        
-        
-        
     }
     
     var localImage: some View {
         
-        Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "default-header")
+        // We need this ternary operator as a final check to make sure no nil value for an image gets displayed
+        Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "defaultlocation-header")
             .resizable()
             .aspectRatio(contentMode: .fill)
             .frame(width: width)
             .clipped()
+    }
+    
+    var importedImage: some View {
+        
+        guard
+            let imageData = pokerSession.location.importedImage,
+            let uiImage = UIImage(data: imageData)
+            
+        else {
+            
+            return Image("defaullocation-header")
+            
+        }
+        
+        return Image(uiImage: uiImage)
     }
 }
 
