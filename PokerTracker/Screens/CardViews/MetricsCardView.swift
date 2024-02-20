@@ -22,7 +22,10 @@ struct MetricsCardView: View {
                 
                 Spacer()
                                 
-                CustomChartView(viewModel: viewModel, data: viewModel.chartCoordinates(), background: true)
+//                CustomChartView(viewModel: viewModel, data: viewModel.chartCoordinates(), background: true)
+                SwiftLineChartsPractice(showTitle: false, overlayAnnotation: true)
+                    .padding(.top, 25)
+                    .padding(.horizontal, 20)
                 
                 HStack {
                     VStack (alignment: .leading, spacing: 5) {

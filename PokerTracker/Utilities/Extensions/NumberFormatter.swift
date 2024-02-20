@@ -21,11 +21,12 @@ extension Int {
 // Styling for CustomChart axis labels
 extension Int {
     
+    // I changed this recently adding the abs() to thousand and million because negative chart values weren't working
     var axisFormat: String {
         let number = Double(self)
         let sign = (self < 0) ? "-" : ""
-        let thousand = number / 1000
-        let million = number / 1000000
+        let thousand = abs(number) / 1000
+        let million = abs(number) / 1000000
         
         if million >= 1.0 {
             return "\(sign)$\(round(million*10)/10)M"
