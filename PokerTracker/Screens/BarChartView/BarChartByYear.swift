@@ -55,7 +55,6 @@ struct BarChartByYear: View {
                         .opacity(selectedMonth == nil || selectedMonth?.getMonth() == monthlyTotal.month.getMonth() ? 1 : 0.5)
                 }
                 
-                // When seeing only last year's results, the annotation line marker lets you select beyond December. Don't want that.
                 if let selectedMonth {
                     
                     RuleMark(x: .value("Selected Date", selectedMonth, unit: .month))
@@ -80,6 +79,7 @@ struct BarChartByYear: View {
                     AxisValueLabel() {
                         if let intValue = value.as(Int.self) {
                             Text(intValue.axisFormat)
+                                .captionStyle()
                                 .padding(.trailing, 15)
                         }
                     }

@@ -54,6 +54,7 @@ struct ImportView: View {
                     }
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
             .background(Color.brandBackground)
     }
     
@@ -80,7 +81,7 @@ struct ImportView: View {
                 .bold()
                 .padding(.top, 10)
             
-            Text("Currently, Left Pocket only supports data in CSV format exported from Poker Bankroll Tracker. You may need to lightly modify the contents of the file. Make sure to follow the steps below closely.")
+            Text("Currently, Left Pocket only supports data in CSV format exported from Poker Bankroll Tracker. You may need to lightly modify the contents of the file. Please follow the steps below closely.")
                 .bodyStyle()
                 .opacity(0.8)
                 .padding(.top, 1)

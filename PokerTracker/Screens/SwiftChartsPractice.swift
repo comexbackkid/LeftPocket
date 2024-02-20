@@ -117,16 +117,18 @@ struct SwiftLineChartsPractice: View {
                 if let selectedIndex {
                     
                     // Annotation is complicated. Here's how it breaks down if we're choosing to show overlayAnnotation.
-                    // If there's over 2 sessions logged, AND we're selecting in the first 3 indices, move the annotation to the trailing side.
-                    // Or, if there are over 10 sessions logged, and we're selecting in the first 7 indices, again, move to trailing side.
+                    // If there's exactly 2 sessions logged, AND we select the first index, annotation moves to trailing side.
+                    // Or, if there's over 2 sessions logged, AND we're selecting in the first 2 indices, move the annotation to the trailing side.
+                    // Or, if there are over 8 sessions logged, and we're selecting in the first 6 indices, again, move to trailing side.
                     // Otherwise the annotation display overlays our RuleMark and it looks stupid.
                     
                     RuleMark(x: .value("Selected Date", selectedIndex))
                         .lineStyle(StrokeStyle(lineWidth: 10, lineCap: .round))
                         .foregroundStyle(.gray.opacity(0.2))
                         .annotation(position: overlayAnnotation 
-                                    ?  ((0...2).contains(selectedIndex) && convertedData.count > 2)
-                                    || ((0...6).contains(selectedIndex) && convertedData.count > 10)
+                                    ?  (selectedIndex == 0 && convertedData.count == 2)
+                                    || ((0...1).contains(selectedIndex) && convertedData.count > 2)
+                                    || ((0...5).contains(selectedIndex) && convertedData.count > 8)
                                     || ((0...15).contains(selectedIndex) && convertedData.count > 25)
                                     ?  .trailing : .leading
                                     :  .top,
@@ -154,6 +156,7 @@ struct SwiftLineChartsPractice: View {
                     AxisValueLabel() {
                         if let intValue = value.as(Int.self) {
                             Text(intValue.axisFormat)
+                                .captionStyle()
                                 .padding(.leading, 25)
                         }
                     }
