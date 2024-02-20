@@ -76,26 +76,34 @@ struct MetricsView: View {
     
     var bankrollChart: some View {
         
-        CustomChartView(viewModel: viewModel, data: viewModel.chartCoordinates(), background: true)
-            .padding(.top, 25)
-            .padding(.bottom, 20)
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 300)
+        SwiftLineChartsPractice(showTitle: true, overlayAnnotation: false)
+            .padding(.top)
+            .padding(.bottom, 40)
+            .padding(.horizontal)
+            .frame(width: UIScreen.main.bounds.width * 0.9, height: 340)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
             .cornerRadius(20)
-            .overlay(
-                VStack (alignment: .leading) {
-                    HStack {
-                        Text("My Bankroll")
-                            .cardTitleStyle()
-                            .font(.title2)
-                            .bold()
-                            .padding(.horizontal)
-                            .padding(.top)
-                    }
-                    
-                    Spacer()
-                    
-                }, alignment: .leading)
+        
+//        CustomChartView(viewModel: viewModel, data: viewModel.chartCoordinates(), background: true)
+//            .padding(.top, 25)
+//            .padding(.bottom, 20)
+//            .frame(width: UIScreen.main.bounds.width * 0.9, height: 300)
+//            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+//            .cornerRadius(20)
+//            .overlay(
+//                VStack (alignment: .leading) {
+//                    HStack {
+//                        Text("My Bankroll")
+//                            .cardTitleStyle()
+//                            .font(.title2)
+//                            .bold()
+//                            .padding(.horizontal)
+//                            .padding(.top)
+//                    }
+//                    
+//                    Spacer()
+//                    
+//                }, alignment: .leading)
     }
     
     var barChart: some View {
@@ -136,6 +144,7 @@ struct MetricsView: View {
                 .padding(.bottom)
                 
                 VStack {
+                    
                     Group {
                         HStack {
                             Text("Total Bankroll")
@@ -154,7 +163,7 @@ struct MetricsView: View {
                                 .foregroundColor(.secondary)
                             Spacer()
                             Text(viewModel.hourlyRate().asCurrency())
-                                .foregroundColor(viewModel.hourlyRate() > 0 ? .green : viewModel.tallyBankroll() < 0 ? .red : .primary)
+                                .foregroundColor(viewModel.hourlyRate() > 0 ? .green : viewModel.hourlyRate() < 0 ? .red : .primary)
                         }
                         
                         Divider()
@@ -165,7 +174,7 @@ struct MetricsView: View {
                                 .foregroundColor(.secondary)
                             Spacer()
                             Text(viewModel.avgProfit().asCurrency())
-                                .foregroundColor(viewModel.avgProfit() > 0 ? .green : viewModel.tallyBankroll() < 0 ? .red : .primary)
+                                .foregroundColor(viewModel.avgProfit() > 0 ? .green : viewModel.avgProfit() < 0 ? .red : .primary)
                         }
                         
                         Divider()

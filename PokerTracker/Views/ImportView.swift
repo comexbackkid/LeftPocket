@@ -14,7 +14,7 @@ struct ImportView: View {
     @EnvironmentObject var vm: SessionsListViewModel
     @State private var showFileImporter = false
     @State private var errorMessage: String?
-    @State private var showSuccessMessage: Bool = false
+    @State private var showSuccessMessage: String?
     
     var body: some View {
         
@@ -40,11 +40,11 @@ struct ImportView: View {
                                 .foregroundColor(.red)
                         }
                         
-                    } else if showSuccessMessage {
+                    } else if let showSuccessMessage {
                         
                         VStack {
                             Text("Success!")
-                            Text("All sessions imported successfully")
+                            Text(showSuccessMessage)
                             Image(systemName: "checkmark.circle")
                                 .resizable()
                                 .frame(width: 50, height: 50)
@@ -124,7 +124,7 @@ struct ImportView: View {
                 // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
                 vm.sessions += importedSessions
                 vm.sessions.sort(by: {$0.date > $1.date})
-                showSuccessMessage.toggle()
+                showSuccessMessage = "All sessions imported successfully."
                 
             } catch let error as URLError {
                 
@@ -152,25 +152,6 @@ struct ImportView: View {
                 print("Error importing file: \(error)")
             }
         })
-        
-//        .fileImporter(isPresented: $showFileImporter,
-//                      allowedContentTypes: [.plainText, .commaSeparatedText],
-//                      onCompletion: { result in
-//            
-//            do {
-//                let selectedURL = try result.get()
-//                let csvData = try Data(contentsOf: selectedURL)
-//                let csvImporter = CSVImporter()
-//                let importedSessions = try csvImporter.importCSV(data: csvData)
-//                vm.sessions = importedSessions
-//                
-//            } catch {
-//                
-//                errorMessage = error.localizedDescription
-//                print("Error importing file: \(error)")
-//            }
-//        })
-        
     }
 }
 

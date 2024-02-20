@@ -22,16 +22,15 @@ struct BarChartByYear: View {
         sessionsByMonth(sessions: viewModel.sessions)
 
     }
-
-    var profitAnnotation: Int {
+    var profitAnnotation: Int? {
         
-        profitByMonth(month: selectedMonth!, data: viewModel.sessions)
+        profitByMonth(month: selectedMonth ?? Date(), data: viewModel.sessions)
         
     }
     
     var body: some View {
         
-        VStack (alignment: .leading) {
+        VStack {
             
             if showTitle {
                 HStack {
@@ -43,7 +42,6 @@ struct BarChartByYear: View {
                 }
                 .padding(.bottom, 40)
             }
-            
             
             Chart {
                 
@@ -59,11 +57,12 @@ struct BarChartByYear: View {
                 
                 // When seeing only last year's results, the annotation line marker lets you select beyond December. Don't want that.
                 if let selectedMonth {
+                    
                     RuleMark(x: .value("Selected Date", selectedMonth, unit: .month))
                         .foregroundStyle(.gray.opacity(0.3))
                         .zIndex(-1)
                         .annotation(position: .top, spacing: 7, overflowResolution: .init(x: .fit(to: .chart))) {
-                            Text(profitAnnotation.asCurrency())
+                            Text(profitAnnotation?.asCurrency() ?? "$0")
                                 .captionStyle()
                                 .padding(10)
                                 .background(.gray.opacity(0.1))
@@ -71,6 +70,7 @@ struct BarChartByYear: View {
                         }
                 }
             }
+            .sensoryFeedback(.selection, trigger: profitAnnotation)
             .chartXScale(domain: [firstDay, lastDay])
             .chartXSelection(value: $selectedMonth)
             .chartYAxis {

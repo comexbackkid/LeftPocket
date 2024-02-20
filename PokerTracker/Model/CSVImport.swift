@@ -70,8 +70,8 @@ class CSVImporter {
                 
             } else {
                 
-                throw ImportError.parsingFailed
                 print("Column count: \(columns.count)")
+                throw ImportError.parsingFailed
                 
             }
         }

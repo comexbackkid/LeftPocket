@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfitByLocationView: View {
     
+    @State private var yearFilter: String = Date().getYear()
     @ObservedObject var viewModel: SessionsListViewModel
     
     var body: some View {
@@ -22,6 +23,10 @@ struct ProfitByLocationView: View {
                     
                 } else {
                     
+                    // Array of [PokerSession] filtered by the yearSelection binding
+                    let filteredByYear = viewModel.sessions.filter({ $0.date.getYear() == yearFilter })
+                    let allYears = viewModel.sessions.map({ $0.date.getYear() }).uniqued()
+                    
                     List {
                         
                         ForEach(viewModel.locations, id: \.self) { location in
@@ -32,8 +37,9 @@ struct ProfitByLocationView: View {
                                 
                                 Spacer()
                                 
-                                let total = viewModel.profitByLocation(location.name)
-                                let hourlyRate = viewModel.hourlyByLocation(venue: location.name, total: total)
+                                // Still won't grab data if Sessions are imported from a CSV
+                                let total = filteredByYear.filter({ $0.location.name == location.name }).map({ $0.profit }).reduce(0,+)
+                                let hourlyRate = filteredByYear.filter({ $0.location.name == location.name }).map({ $0.hourlyRate }).reduce(0,+)
                                 
                                 Text(hourlyRate.asCurrency() + " / hr")
                                     .font(.callout)
@@ -41,7 +47,7 @@ struct ProfitByLocationView: View {
                                 
                                 Text(total.asCurrency())
                                     .font(.callout)
-                                    .profitColor(total: hourlyRate)
+                                    .profitColor(total: total)
                                     .frame(width: 80, alignment: .trailing)
                             }
                             .padding(.vertical, 10)
@@ -53,6 +59,13 @@ struct ProfitByLocationView: View {
                     .padding(.bottom, 50)
                     .listStyle(PlainListStyle())
                     .background(Color.brandBackground)
+                    .toolbar {
+                        Picker("Picker", selection: $yearFilter) {
+                            ForEach(allYears, id: \.self) { year in
+                                Text(year)
+                            }
+                        }
+                    }
                 }
             }
         }
