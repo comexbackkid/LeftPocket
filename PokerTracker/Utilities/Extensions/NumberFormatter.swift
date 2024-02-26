@@ -65,3 +65,13 @@ extension Double {
         return numFormatter.string(from: NSNumber(value: self)) ?? "%0"
     }
 }
+
+extension Float {
+    
+    public func asPercent() -> String {
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .percent
+        numFormatter.maximumFractionDigits = 0
+        return numFormatter.string(from: NSNumber(value: self)) ?? "%0"
+    }
+}

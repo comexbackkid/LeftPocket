@@ -14,6 +14,29 @@ struct MetricsView: View {
     @Environment(\.isPresented) var showMetricsSheet
     @EnvironmentObject var viewModel: SessionsListViewModel
     
+    func calculateTargetBankrollSize(from uniqueStakes: [String]) -> Int? {
+        guard let lastStake = uniqueStakes.last,
+              let lastSlashIndex = lastStake.lastIndex(of: "/"), // Find the index of the last slash
+              let bigBlind = Int(lastStake[lastSlashIndex...].trimmingCharacters(in: .punctuationCharacters)) else {
+            return nil
+        }
+
+        return bigBlind * 4000
+    }
+    
+    func calculateProgressPercentage(currentBankroll: Int, targetBankroll: Int) -> Float {
+        return Float(currentBankroll) / Float(targetBankroll)
+    }
+    
+    var newProgress: Float {
+        
+        let targetBankroll = calculateTargetBankrollSize(from: viewModel.uniqueStakes)
+        return calculateProgressPercentage(currentBankroll: viewModel.tallyBankroll(), targetBankroll: targetBankroll ?? 0)
+        
+    }
+    
+    var progress: Float = 0.66
+    
     var body: some View {
         
         NavigationView {
@@ -47,6 +70,8 @@ struct MetricsView: View {
                                             color: .yellow)
                                 
                                 bankrollChart
+                                
+                                BankrollProgressView(progress: newProgress)
                                 
                                 playerStats
                                 

@@ -128,7 +128,9 @@ class SessionsListViewModel: ObservableObject {
     }
     
     func setUniqueStakes() {
-        uniqueStakes = Array(Set(sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).map({ $0.stakes })))
+//        uniqueStakes = Array(Set(sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).map({ $0.stakes })))
+        let sortedSessions = sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).sorted(by: { $0.date > $1.date })
+        uniqueStakes = Array(Set(sortedSessions.map({ $0.stakes })))
     }
     
     // MARK: CALCULATIONS & DATA PRESENTATION FOR USE IN CHARTS & METRICS VIEW
