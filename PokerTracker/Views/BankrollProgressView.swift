@@ -43,11 +43,10 @@ struct BankrollProgressView: View {
     }
     
     @Environment(\.colorScheme) var colorScheme
-    
-    let progress: Float
+    @Binding var progressIndicator: Float
     
     var statusUpdate: ProgressStatus {
-        ProgressStatus(progress: progress)
+        ProgressStatus(progress: progressIndicator)
     }
     
     var body: some View {
@@ -62,15 +61,16 @@ struct BankrollProgressView: View {
                     .foregroundColor(.gray.opacity(0.1))
                     
                 Circle()
-                    .trim(from: 0, to: CGFloat(min(self.progress, 1.0)))
-                    .stroke(style: StrokeStyle(lineWidth: 8, lineCap: .round))
+                    .trim(from: 0, to: CGFloat(min(self.progressIndicator, 1.0)))
+                    .stroke(style: StrokeStyle(lineWidth: 8, lineCap: .round, lineJoin: .round))
                     .frame(width: 50, height: 50)
                     .rotationEffect(.degrees(-90))
-                    .foregroundStyle(LinearGradient(colors: [.mint, .mint.opacity(0.4), ],
+                    .foregroundStyle(LinearGradient(colors: [.mint, .mint.opacity(0.6)],
                                                     startPoint: .leading,
                                                     endPoint: .bottom))
+                    .animation(.easeInOut(duration: 2.0), value: progressIndicator)
                 
-                Text("\(progress.asPercent())")
+                Text("\(progressIndicator.asPercent())")
                     .captionStyle()
             }
             
@@ -89,7 +89,7 @@ struct BankrollProgressView: View {
 }
 
 #Preview {
-    BankrollProgressView(progress: 0.62)
+    BankrollProgressView(progressIndicator: .constant(0.66))
         .background(Color.brandBackground)
         .preferredColorScheme(.dark)
 }

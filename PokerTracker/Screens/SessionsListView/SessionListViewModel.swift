@@ -11,6 +11,7 @@ import WidgetKit
 class SessionsListViewModel: ObservableObject {
     
     @Published var uniqueStakes: [String] = []
+    @Published var stakesProgress: Float = 0.0
     @Published var locations: [LocationModel] = DefaultLocations.allLocations
     {
         didSet {
@@ -23,6 +24,7 @@ class SessionsListViewModel: ObservableObject {
             saveSessions()
             setUniqueStakes()
             writeToWidget()
+            updateProgress()
         }
     }
     
@@ -131,6 +133,31 @@ class SessionsListViewModel: ObservableObject {
 //        uniqueStakes = Array(Set(sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).map({ $0.stakes })))
         let sortedSessions = sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).sorted(by: { $0.date > $1.date })
         uniqueStakes = Array(Set(sortedSessions.map({ $0.stakes })))
+    }
+    
+    // MARK: FUNCTIONS FOR CIRCLE PROGRESS INDICATOR IN METRICS VIEW
+    
+    // Calculates target bankroll size given what size stakes were last played by the user
+    func calculateTargetBankrollSize(from uniqueStakes: [String]) -> Int? {
+        guard let lastStake = uniqueStakes.last,
+              let lastSlashIndex = lastStake.lastIndex(of: "/"),
+              let bigBlind = Int(lastStake[lastSlashIndex...].trimmingCharacters(in: .punctuationCharacters)) else {
+            
+            return nil
+        }
+
+        // Number recommended by professionals, you want 40 buy-in's before advancing. 1 buy-in equals 100 big blinds. So, 100 x 40 = 4000
+        return bigBlind * 4000
+    }
+    
+    func calculateProgressPercentage(currentBankroll: Int, targetBankroll: Int) -> Float {
+        return Float(currentBankroll) / Float(targetBankroll)
+    }
+    
+    // Called when Sessions is updated, will update the progress status for the stakes progress indicator
+    func updateProgress() {
+        let targetBankroll = calculateTargetBankrollSize(from: uniqueStakes)
+        self.stakesProgress = calculateProgressPercentage(currentBankroll: tallyBankroll(), targetBankroll: targetBankroll ?? 0)
     }
     
     // MARK: CALCULATIONS & DATA PRESENTATION FOR USE IN CHARTS & METRICS VIEW
