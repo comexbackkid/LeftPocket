@@ -10,7 +10,7 @@ import SwiftUI
 struct BankrollProgressView: View {
     
     enum ProgressStatus: CustomStringConvertible {
-        case notQuiteReady
+        case notReady
         case nearlyReady
         case ready
         case undefined
@@ -18,7 +18,7 @@ struct BankrollProgressView: View {
         init(progress: Float) {
             switch progress {
             case ..<0.5:
-                self = .notQuiteReady
+                self = .notReady
             case 0.5..<0.8:
                 self = .nearlyReady
             case 0.8...:
@@ -30,12 +30,12 @@ struct BankrollProgressView: View {
 
         var description: String {
             switch self {
-            case .notQuiteReady:
-                return "You're not quite ready to move up in stakes."
+            case .notReady:
+                return "You're not quite ready to move up in stakes yet."
             case .nearlyReady:
                 return "Keep going! You're almost ready to move up in stakes."
             case .ready:
-                return "Congratulations! You can now move up in stakes."
+                return "Congratulations! You can now safely move up in stakes."
             case .undefined:
                 return "Progress undefined"
             }

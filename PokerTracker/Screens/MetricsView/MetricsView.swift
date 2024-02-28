@@ -93,27 +93,6 @@ struct MetricsView: View {
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 340)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
             .cornerRadius(20)
-        
-//        CustomChartView(viewModel: viewModel, data: viewModel.chartCoordinates(), background: true)
-//            .padding(.top, 25)
-//            .padding(.bottom, 20)
-//            .frame(width: UIScreen.main.bounds.width * 0.9, height: 300)
-//            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
-//            .cornerRadius(20)
-//            .overlay(
-//                VStack (alignment: .leading) {
-//                    HStack {
-//                        Text("My Bankroll")
-//                            .cardTitleStyle()
-//                            .font(.title2)
-//                            .bold()
-//                            .padding(.horizontal)
-//                            .padding(.top)
-//                    }
-//                    
-//                    Spacer()
-//                    
-//                }, alignment: .leading)
     }
     
     var barChart: some View {

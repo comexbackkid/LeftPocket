@@ -158,7 +158,7 @@ class SessionsListViewModel: ObservableObject {
         self.stakesProgress = Float(tallyBankroll()) / Float(targetBankroll)
     }
     
-    // MARK: CALCULATIONS & DATA PRESENTATION FOR USE IN CHARTS & METRICS VIEW
+    // MARK: CALCULATIONS & DATA PRESENTATION FOR CHARTS & METRICS VIEW
     
     // Calculate current bankroll
     func tallyBankroll() -> Int {

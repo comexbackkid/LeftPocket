@@ -44,15 +44,11 @@ struct ContentView: View {
                 MetricsView()
             }
         }
-        .background(
-            RadialGradient(colors: [.brandBackground, Color("newWhite").opacity(0.3)],
-                           center: .topLeading,
-                           startRadius: 500,
-                           endRadius: 5))
+        .background { homeBackground.ignoresSafeArea() }
         .sheet(item: $activeSheet) { sheet in
             
             switch sheet {
-            case .newSession: NewSessionView(isPresented: .init(get: {
+            case .newSession: AddNewSessionView(isPresented: .init(get: {
                 activeSheet == .newSession
             }, set: { isPresented in
                 activeSheet = isPresented ? .newSession : nil
@@ -191,6 +187,15 @@ struct ContentView: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 30)
         .padding(.bottom, 20)
+    }
+    
+    var homeBackground: some View {
+        
+        RadialGradient(colors: [.brandBackground, Color("newWhite").opacity(0.3)],
+                       center: .topLeading,
+                       startRadius: 500,
+                       endRadius: 5)
+        
     }
 }
 
