@@ -213,8 +213,8 @@ struct AddNewSessionView: View {
             Menu {
                 Picker("Picker", selection: $newSession.stakes) {
                     Text("1/2").tag("1/2")
-                    Text("1/3").tag("1/3")
                     Text("2/2").tag("2/2")
+                    Text("1/3").tag("1/3")
                     Text("2/3").tag("2/3")
                     Text("2/5").tag("2/5")
                     Text("5/5").tag("5/5")

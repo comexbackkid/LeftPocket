@@ -8,12 +8,6 @@
 import SwiftUI
 import Charts
 
-struct DummySession: Identifiable, Hashable {
-    var id = UUID()
-    let date: Date
-    let profit: Int
-}
-
 struct SwiftLineChartsPractice: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
@@ -24,44 +18,6 @@ struct SwiftLineChartsPractice: View {
     
     let showTitle: Bool
     let overlayAnnotation: Bool
-    let dummyData: [DummySession] = [
-        
-        DummySession(date: Date.from(year: 2023, month: 1, day: 11), profit: 150),
-        DummySession(date: Date.from(year: 2023, month: 1, day: 15), profit: 90),
-        DummySession(date: Date.from(year: 2023, month: 2, day: 1), profit: -70),
-        DummySession(date: Date.from(year: 2023, month: 3, day: 2), profit: 224),
-        DummySession(date: Date.from(year: 2023, month: 3, day: 8), profit: 20),
-        DummySession(date: Date.from(year: 2023, month: 4, day: 3), profit: -100),
-        DummySession(date: Date.from(year: 2023, month: 4, day: 10), profit: 412),
-        DummySession(date: Date.from(year: 2023, month: 4, day: 17), profit: 105),
-        DummySession(date: Date.from(year: 2023, month: 5, day: 16), profit: 89),
-        DummySession(date: Date.from(year: 2023, month: 6, day: 2), profit: -750),
-        DummySession(date: Date.from(year: 2023, month: 6, day: 9), profit: -411),
-        DummySession(date: Date.from(year: 2023, month: 6, day: 14), profit: 480),
-        DummySession(date: Date.from(year: 2023, month: 6, day: 29), profit: 100),
-        DummySession(date: Date.from(year: 2023, month: 8, day: 11), profit: 234),
-        DummySession(date: Date.from(year: 2023, month: 8, day: 12), profit: -122),
-        DummySession(date: Date.from(year: 2023, month: 9, day: 8), profit: 175),
-        DummySession(date: Date.from(year: 2023, month: 11, day: 11), profit: 40),
-        DummySession(date: Date.from(year: 2023, month: 12, day: 1), profit: 75),
-        DummySession(date: Date.from(year: 2024, month: 1, day: 15), profit: 90),
-        DummySession(date: Date.from(year: 2024, month: 2, day: 1), profit: -20),
-        DummySession(date: Date.from(year: 2024, month: 3, day: 2), profit: 224),
-        DummySession(date: Date.from(year: 2024, month: 3, day: 8), profit: 20),
-        DummySession(date: Date.from(year: 2024, month: 4, day: 3), profit: -100),
-//        DummySession(date: Date.from(year: 2024, month: 4, day: 10), profit: 412),
-//        DummySession(date: Date.from(year: 2024, month: 4, day: 17), profit: 105),
-//        DummySession(date: Date.from(year: 2024, month: 5, day: 16), profit: 89),
-//        DummySession(date: Date.from(year: 2024, month: 6, day: 2), profit: -75),
-//        DummySession(date: Date.from(year: 2024, month: 6, day: 9), profit: -211),
-//        DummySession(date: Date.from(year: 2024, month: 6, day: 14), profit: -480),
-//        DummySession(date: Date.from(year: 2024, month: 6, day: 29), profit: 100),
-//        DummySession(date: Date.from(year: 2024, month: 8, day: 11), profit: 234),
-//        DummySession(date: Date.from(year: 2024, month: 8, day: 12), profit: -122),
-//        DummySession(date: Date.from(year: 2024, month: 9, day: 8), profit: 175),
-//        DummySession(date: Date.from(year: 2024, month: 11, day: 11), profit: 40),
-//        DummySession(date: Date.from(year: 2024, month: 12, day: 1), profit: -175),
-    ]
     
     var profitAnnotation: Int? {
         
@@ -71,10 +27,9 @@ struct SwiftLineChartsPractice: View {
         
         // Start with zero as our initial data point so chart doesn't look goofy
         var originalDataPoint = [0]
-        let newDataPoints = calculateCumulativeProfit2(sessions: viewModel.sessions)
+        let newDataPoints = calculateCumulativeProfit(sessions: viewModel.sessions)
         originalDataPoint += newDataPoints
         return originalDataPoint
-        
     }
     
     var body: some View {
@@ -143,9 +98,11 @@ struct SwiftLineChartsPractice: View {
                 }
             }
             .onAppear {
-                showChart = true
+                withAnimation {
+                    showChart = true
+                }
             }
-            .animation(.easeIn(duration: 1.5), value: showChart)
+            .animation(.easeIn(duration: 1.2), value: showChart)
             .sensoryFeedback(.selection, trigger: selectedIndex)
             .chartXSelection(value: $selectedIndex)
             .chartXAxis(.hidden)
@@ -165,7 +122,7 @@ struct SwiftLineChartsPractice: View {
         }
     }
     
-    func calculateCumulativeProfit2(sessions: [PokerSession]) -> [Int] {
+    func calculateCumulativeProfit(sessions: [PokerSession]) -> [Int] {
         
         // We run this so tha twe can just use the Index as our X Axis value. Keeps spacing uniform and neat looking.
         // Then, in chart configuration we just plot along the Index value, and Int is our cumulative profit amount.

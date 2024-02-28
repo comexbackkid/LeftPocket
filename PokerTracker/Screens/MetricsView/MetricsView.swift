@@ -62,7 +62,7 @@ struct MetricsView: View {
                                 
                                 ToolTipView(image: "calendar",
                                             message: "Your best month so far this year has been \(viewModel.bestMonth).",
-                                            color: .brown)
+                                            color: .brandPrimary)
                                 
                                 barChart
                                 

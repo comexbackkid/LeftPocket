@@ -11,6 +11,8 @@ extension Color {
     static let brandPrimary = Color("brandPrimary")
     static let brandWhite = Color("brandWhite")
     static let brandBackground = Color("brandBlack")
+    static let lightBlue = Color("lightBlue")
+    static let salmon = Color("salmon")
     static let onboardingBG = Color("onboardingBG")
     static let chartBase = Color("chartBase")
     static let chartAccent = Color("chartAccent")

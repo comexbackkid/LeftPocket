@@ -24,7 +24,7 @@ class SessionsListViewModel: ObservableObject {
             saveSessions()
             setUniqueStakes()
             writeToWidget()
-            updateProgress()
+            updateStakesProgress()
         }
     }
     
@@ -80,7 +80,6 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // Function to delete from user's list of Locations from the Settings screen
-    // I'm not sure we're even using this right now
     func delete(_ location: LocationModel) {
         if let index = locations.firstIndex(where: { $0.id == location.id })
         {
@@ -130,7 +129,6 @@ class SessionsListViewModel: ObservableObject {
     }
     
     func setUniqueStakes() {
-//        uniqueStakes = Array(Set(sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).map({ $0.stakes })))
         let sortedSessions = sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).sorted(by: { $0.date > $1.date })
         uniqueStakes = Array(Set(sortedSessions.map({ $0.stakes })))
     }
@@ -138,26 +136,26 @@ class SessionsListViewModel: ObservableObject {
     // MARK: FUNCTIONS FOR CIRCLE PROGRESS INDICATOR IN METRICS VIEW
     
     // Calculates target bankroll size given what size stakes were last played by the user
-    func calculateTargetBankrollSize(from uniqueStakes: [String]) -> Int? {
-        guard let lastStake = uniqueStakes.last,
+    func calculateTargetBankrollSize(from pokerSessions: [PokerSession]) -> Int? {
+        guard let lastStake = pokerSessions.filter({ $0.isTournament == false || $0.isTournament == nil }).sorted(by: { $0.date > $1.date }).map({ $0.stakes }).first,
               let lastSlashIndex = lastStake.lastIndex(of: "/"),
               let bigBlind = Int(lastStake[lastSlashIndex...].trimmingCharacters(in: .punctuationCharacters)) else {
             
             return nil
         }
 
-        // Number recommended by professionals, you want 40 buy-in's before advancing. 1 buy-in equals 100 big blinds. So, 100 x 40 = 4000
-        return bigBlind * 4000
-    }
-    
-    func calculateProgressPercentage(currentBankroll: Int, targetBankroll: Int) -> Float {
-        return Float(currentBankroll) / Float(targetBankroll)
+        // You want to have 60 buy-in's of your current stakes before advancing. 1 buy-in equals 100 big blinds. So, 100 x 60 = 6000 as our simple multiplier
+        return bigBlind * 6000
     }
     
     // Called when Sessions is updated, will update the progress status for the stakes progress indicator
-    func updateProgress() {
-        let targetBankroll = calculateTargetBankrollSize(from: uniqueStakes)
-        self.stakesProgress = calculateProgressPercentage(currentBankroll: tallyBankroll(), targetBankroll: targetBankroll ?? 0)
+    func updateStakesProgress() {
+        
+        guard let targetBankroll = calculateTargetBankrollSize(from: sessions) else {
+            return
+        }
+        
+        self.stakesProgress = Float(tallyBankroll()) / Float(targetBankroll)
     }
     
     // MARK: CALCULATIONS & DATA PRESENTATION FOR USE IN CHARTS & METRICS VIEW
@@ -186,7 +184,6 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // Converts our profit data into coordinates tuples for charting
-    // Might need to think of a more elegant way of doing this. What if the user is a heavy user with a thousand sessions?
     func chartCoordinates() -> [Point] {
         
         var fewSessions = [Double]()
@@ -220,19 +217,7 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
-    // Returns a tuple array for use in Swift Charts bar chart
-    func barChartByDay() -> [SessionData] {
-        let sunday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Sunday" }).map({ $0.profit }).reduce(0,+)
-        let monday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Monday" }).map({ $0.profit }).reduce(0,+)
-        let tuesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Tuesday" }).map({ $0.profit }).reduce(0,+)
-        let wednesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Wednesday" }).map({ $0.profit }).reduce(0,+)
-        let thursday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Thursday" }).map({ $0.profit }).reduce(0,+)
-        let friday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Friday" }).map({ $0.profit }).reduce(0,+)
-        let saturday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Saturday" }).map({ $0.profit }).reduce(0,+)
-        return [("Su", sunday), ("M", monday), ("T", tuesday), ("W", wednesday), ("Th", thursday), ("F", friday), ("S", saturday)].map(SessionData.init)
-    }
-    
-    // Simply counts how many sessions played by year. Used in Study section
+    // Simply counts how many sessions played each year
     func sessionsPerYear(year: String) -> Int {
         guard !sessions.isEmpty else { return 0 }
         return sessions.filter({ $0.date.getYear() == year }).count
