@@ -504,7 +504,7 @@ class SessionsListViewModel: ObservableObject {
             return monthString
             
         } else {
-            return "No data available"
+            return "Undetermined"
         }
     }
     

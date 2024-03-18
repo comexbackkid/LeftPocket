@@ -16,7 +16,9 @@ struct SwiftLineChartsPractice: View {
     @State private var animationProgress: CGFloat = 0.0
     @State private var showChart: Bool = false
     
+    var dateRange: [PokerSession]
     let showTitle: Bool
+    let showYAxis: Bool
     let overlayAnnotation: Bool
     
     var profitAnnotation: Int? {
@@ -27,7 +29,7 @@ struct SwiftLineChartsPractice: View {
         
         // Start with zero as our initial data point so chart doesn't look goofy
         var originalDataPoint = [0]
-        let newDataPoints = calculateCumulativeProfit(sessions: viewModel.sessions)
+        let newDataPoints = calculateCumulativeProfit(sessions: dateRange)
         originalDataPoint += newDataPoints
         return originalDataPoint
     }
@@ -71,12 +73,6 @@ struct SwiftLineChartsPractice: View {
                 
                 if let selectedIndex {
                     
-                    // Annotation is complicated. Here's how it breaks down if we're choosing to show overlayAnnotation.
-                    // If there's exactly 2 sessions logged, AND we select the first index, annotation moves to trailing side.
-                    // Or, if there's over 2 sessions logged, AND we're selecting in the first 2 indices, move the annotation to the trailing side.
-                    // Or, if there are over 8 sessions logged, and we're selecting in the first 6 indices, again, move to trailing side.
-                    // Otherwise the annotation display overlays our RuleMark and it looks stupid.
-                    
                     RuleMark(x: .value("Selected Date", selectedIndex))
                         .lineStyle(StrokeStyle(lineWidth: 10, lineCap: .round))
                         .foregroundStyle(.gray.opacity(0.2))
@@ -89,6 +85,7 @@ struct SwiftLineChartsPractice: View {
                                     :  .top,
                                     spacing: overlayAnnotation ? 12 : 8,
                                     overflowResolution: .init(x: .fit(to: .chart))) {
+                            
                             Text(profitAnnotation?.asCurrency() ?? "$0")
                                 .captionStyle()
                                 .padding(10)
@@ -111,10 +108,12 @@ struct SwiftLineChartsPractice: View {
                 AxisMarks(position: .trailing, values: .automatic(desiredCount: 4)) { value in
                     AxisGridLine().foregroundStyle(.gray.opacity(0.25))
                     AxisValueLabel() {
-                        if let intValue = value.as(Int.self) {
-                            Text(intValue.axisFormat)
-                                .captionStyle()
-                                .padding(.leading, 25)
+                        if showYAxis {
+                            if let intValue = value.as(Int.self) {
+                                Text(intValue.axisFormat)
+                                    .captionStyle()
+                                    .padding(.leading, 25)
+                            }
                         }
                     }
                 }
@@ -152,7 +151,7 @@ struct SwiftLineChartsPractice: View {
 struct SwiftChartsPractice_Previews: PreviewProvider {
     
     static var previews: some View {
-        SwiftLineChartsPractice(showTitle: true, overlayAnnotation: true)
+        SwiftLineChartsPractice(dateRange: SessionsListViewModel().sessions, showTitle: true, showYAxis: true, overlayAnnotation: true)
             .environmentObject(SessionsListViewModel())
             .preferredColorScheme(.dark)
             .frame(height: 350)

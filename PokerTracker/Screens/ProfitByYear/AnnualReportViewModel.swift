@@ -25,6 +25,17 @@ class AnnualReportViewModel: ObservableObject {
     
     // MARK: Functions for calculating metrics in Yearly Summary
     
+    func chartRange(timeline: PickerTimeline) -> [PokerSession] {
+        switch timeline {
+        case .all:
+            vm.sessions
+        case .ytd:
+            vm.allSessionDataByYear(year: Date().getYear())
+        case .lastYear:
+            vm.allSessionDataByYear(year: lastYear)
+        }
+    }
+    
     func grossIncome(timeline: PickerTimeline) -> Int {
         switch timeline {
         case .all:

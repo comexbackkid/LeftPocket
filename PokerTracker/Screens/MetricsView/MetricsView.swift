@@ -86,7 +86,7 @@ struct MetricsView: View {
     
     var bankrollChart: some View {
         
-        SwiftLineChartsPractice(showTitle: true, overlayAnnotation: false)
+        SwiftLineChartsPractice(dateRange: viewModel.sessions, showTitle: true, showYAxis: true, overlayAnnotation: false)
             .padding(.top)
             .padding(.bottom, 40)
             .padding(.horizontal)
@@ -293,7 +293,7 @@ struct AdditionalMetricsView: View {
                         destination: ProfitByYear(vm: AnnualReportViewModel()),
                         label: {
                             AdditionalMetricsCardView(title: "Annual Report",
-                                                      description: "Review results and stats for \na given year.",
+                                                      description: "Review & export results from the \nprevious year.",
                                                       image: "list.clipboard",
                                                       color: .blue)
                         })

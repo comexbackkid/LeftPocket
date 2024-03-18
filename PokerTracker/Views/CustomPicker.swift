@@ -44,8 +44,8 @@ struct CustomPicker: View {
                     }
 
                     Text("YTD")
-                        .font(.subheadline)
-                        .bold()
+                        .subHeadlineStyle()
+                        .fontWeight(.semibold)
                         .foregroundColor(Color(.systemGray))
                         .padding(.horizontal, 40)
                 }
@@ -76,8 +76,8 @@ struct CustomPicker: View {
                     }
 
                     Text("\(Date().modifyDays(days: -365).getYearShortHand())")
-                        .font(.subheadline)
-                        .bold()
+                        .subHeadlineStyle()
+                        .fontWeight(.semibold)
                         .foregroundColor(Color(.systemGray))
                         .padding(.horizontal, 40)
                 }
@@ -107,8 +107,8 @@ struct CustomPicker: View {
                     }
                     
                     Text("ALL")
-                        .font(.subheadline)
-                        .bold()
+                        .subHeadlineStyle()
+                        .fontWeight(.semibold)
                         .foregroundColor(Color(.systemGray))
                         .padding(.horizontal, 40)
                 }
