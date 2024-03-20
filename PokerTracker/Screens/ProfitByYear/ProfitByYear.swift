@@ -24,35 +24,18 @@ struct ProfitByYear: View {
     var body: some View {
         
 //        let newTimeline = vm.myNewTimeline
-        let chartRange = vm.chartRange(timeline: vm.myNewTimeline)
-        let grossIncome = vm.grossIncome(timeline: vm.myNewTimeline)
-        let netProfitTotal = vm.netProfitCalc(timeline: vm.myNewTimeline)
-        let hourlyRate = vm.hourlyCalc(timeline: vm.myNewTimeline)
-        let profitPerSession = vm.avgProfit(timeline: vm.myNewTimeline)
-        let winRate = vm.winRate(timeline: vm.myNewTimeline)
-        let totalExpenses = vm.expensesByYear(timeline: vm.myNewTimeline)
-        let totalHours = vm.totalHours(timeline: vm.myNewTimeline)
-        let totalSessions = vm.sessionsPerYear(timeline: vm.myNewTimeline)
-        let bestLocation = vm.bestLocation(timeline: vm.myNewTimeline)
-        let bestProfit = vm.bestProfit(timeline: vm.myNewTimeline)
 
         ScrollView {
             
-            HStack {
-                
-                Text("Annual Report")
-                    .titleStyle()
-                    .padding(.top, -37)
-                    .padding(.horizontal)
-                
-                Spacer()
-            }
+            title
             
             VStack {
                 
 //                CustomChartView(viewModel: viewModel, data: vm.chartData(timeline: newTimeline), background: false)
 //                    .padding(.bottom)
 //                    .frame(height: 250)
+                
+                let chartRange = vm.chartRange(timeline: vm.myNewTimeline)
                 
                 SwiftLineChartsPractice(dateRange: chartRange, showTitle: false, showYAxis: true, overlayAnnotation: true)
                     .animation(nil, value: chartRange)
@@ -64,93 +47,9 @@ struct ProfitByYear: View {
                     .padding(.bottom, 35)
                     .padding(.top)
                 
-                VStack (spacing: 12) {
-                    
-                    Spacer()
-                    
-                    HStack {
-                        Text("Gross Income")
-                        
-                        Spacer()
-                        Text("\(grossIncome.asCurrency())").profitColor(total: grossIncome)
-                    }
-                    
-                    HStack {
-                        Text("Expenses")
-                        
-                        Spacer()
-                        Text("\(totalExpenses.asCurrency())")
-                            .foregroundColor(totalExpenses > 0 ? .red : Color(.systemGray))
-                    }
-                    
-                    HStack {
-                        Text("Net Profit")
-                        
-                        Spacer()
-                        Text("\(netProfitTotal.asCurrency())").profitColor(total: netProfitTotal)
-                    }
-                    
-                    Divider().padding(.vertical)
-                    
-                    HStack {
-                        Text("Hourly Rate")
-                        
-                        Spacer()
-                        Text("\(hourlyRate.asCurrency())").profitColor(total: hourlyRate)
-                    }
-                    
-                    HStack {
-                        Text("Profit Per Session")
-                        
-                        Spacer()
-                        Text("\(profitPerSession.asCurrency())").profitColor(total: profitPerSession)
-                    }
-                    
-                    HStack {
-                        Text("Win Rate")
-                        
-                        Spacer()
-                        Text(winRate)
-                    }
-                    
-                    HStack {
-                        Text("No. of Sessions")
-                        
-                        Spacer()
-                        Text(totalSessions)
-                    }
-                    
-                    HStack {
-                        Text("Hours Played")
-                        
-                        Spacer()
-                        Text(totalHours)
-                    }
-                    
-                    Spacer()
-                    
-                }
-                .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
-                .lineSpacing(2.5)
-                .animation(nil, value: vm.myNewTimeline)
-                .padding(30)
-                .frame(width: UIScreen.main.bounds.width * 0.9, height: 350)
-                .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
-                .cornerRadius(20)
-                .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+                incomeReport
                 
-                VStack (spacing: 30) {
-                    
-                    BestSessionView(profit: bestProfit)
-                    
-                    BestLocationView(location: bestLocation)
-                    
-                    exportButton
-
-                }
-                .animation(nil, value: vm.myNewTimeline)
-                .padding(.top, 20)
-                .padding(.bottom, 50)
+                bestPlays
                 
                 Spacer()
             }
@@ -160,6 +59,128 @@ struct ProfitByYear: View {
         }
         .background(Color.brandBackground)
         .accentColor(.brandPrimary)
+    }
+    
+    var title: some View {
+        
+        HStack {
+            
+            Text("Annual Report")
+                .titleStyle()
+                .padding(.top, -37)
+                .padding(.horizontal)
+            
+            Spacer()
+        }
+        
+    }
+    
+    var incomeReport: some View {
+        
+        VStack (spacing: 12) {
+            
+            let grossIncome = vm.grossIncome(timeline: vm.myNewTimeline)
+            let netProfitTotal = vm.netProfitCalc(timeline: vm.myNewTimeline)
+            let hourlyRate = vm.hourlyCalc(timeline: vm.myNewTimeline)
+            let profitPerSession = vm.avgProfit(timeline: vm.myNewTimeline)
+            let winRate = vm.winRate(timeline: vm.myNewTimeline)
+            let totalExpenses = vm.expensesByYear(timeline: vm.myNewTimeline)
+            let totalHours = vm.totalHours(timeline: vm.myNewTimeline)
+            let totalSessions = vm.sessionsPerYear(timeline: vm.myNewTimeline)
+            
+            Spacer()
+            
+            HStack {
+                Text("Gross Income")
+                
+                Spacer()
+                Text("\(grossIncome.asCurrency())").profitColor(total: grossIncome)
+            }
+            
+            HStack {
+                Text("Expenses")
+                
+                Spacer()
+                Text("\(totalExpenses.asCurrency())")
+                    .foregroundColor(totalExpenses > 0 ? .red : Color(.systemGray))
+            }
+            
+            HStack {
+                Text("Net Profit")
+                
+                Spacer()
+                Text("\(netProfitTotal.asCurrency())").profitColor(total: netProfitTotal)
+            }
+            
+            Divider().padding(.vertical)
+            
+            HStack {
+                Text("Hourly Rate")
+                
+                Spacer()
+                Text("\(hourlyRate.asCurrency())").profitColor(total: hourlyRate)
+            }
+            
+            HStack {
+                Text("Profit Per Session")
+                
+                Spacer()
+                Text("\(profitPerSession.asCurrency())").profitColor(total: profitPerSession)
+            }
+            
+            HStack {
+                Text("Win Rate")
+                
+                Spacer()
+                Text(winRate)
+            }
+            
+            HStack {
+                Text("No. of Sessions")
+                
+                Spacer()
+                Text(totalSessions)
+            }
+            
+            HStack {
+                Text("Hours Played")
+                
+                Spacer()
+                Text(totalHours)
+            }
+            
+            Spacer()
+            
+        }
+        .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+        .lineSpacing(2.5)
+        .animation(nil, value: vm.myNewTimeline)
+        .padding(30)
+        .frame(width: UIScreen.main.bounds.width * 0.9, height: 350)
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+        .cornerRadius(20)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+        
+    }
+    
+    var bestPlays: some View {
+        
+        VStack (spacing: 30) {
+            
+            let bestLocation = vm.bestLocation(timeline: vm.myNewTimeline)
+            let bestProfit = vm.bestProfit(timeline: vm.myNewTimeline)
+            
+            BestSessionView(profit: bestProfit)
+            
+            BestLocationView(location: bestLocation)
+            
+            exportButton
+
+        }
+        .animation(nil, value: vm.myNewTimeline)
+        .padding(.top, 20)
+        .padding(.bottom, 50)
+        
     }
     
     var exportButton: some View {

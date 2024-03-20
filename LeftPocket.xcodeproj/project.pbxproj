@@ -62,6 +62,8 @@
 		7C68FE3F26D670100019BA53 /* LeftPocketTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE3E26D670100019BA53 /* LeftPocketTabView.swift */; };
 		7C68FE4126D709530019BA53 /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE4026D709530019BA53 /* PlusButton.swift */; };
 		7C68FE4326D7CEA40019BA53 /* RecentSessionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE4226D7CEA40019BA53 /* RecentSessionCardView.swift */; };
+		7C6E75BB2BAA16BE006173A4 /* LiveSessionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E75BA2BAA16BE006173A4 /* LiveSessionCounter.swift */; };
+		7C6E75BE2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E75BD2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift */; };
 		7C7B2F8B26D5A2A90069F9C5 /* SessionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B2F8A26D5A2A90069F9C5 /* SessionListViewModel.swift */; };
 		7C7F4F6E270E610E002ECF6D /* ProfitByLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7F4F6D270E610E002ECF6D /* ProfitByLocationView.swift */; };
 		7C8134C02729F1BE004E1CE1 /* ProfitByMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8134BF2729F1BE004E1CE1 /* ProfitByMonth.swift */; };
@@ -259,6 +261,8 @@
 		7C68FE3E26D670100019BA53 /* LeftPocketTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftPocketTabView.swift; sourceTree = "<group>"; };
 		7C68FE4026D709530019BA53 /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
 		7C68FE4226D7CEA40019BA53 /* RecentSessionCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentSessionCardView.swift; sourceTree = "<group>"; };
+		7C6E75BA2BAA16BE006173A4 /* LiveSessionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionCounter.swift; sourceTree = "<group>"; };
+		7C6E75BD2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionCounterViewModel.swift; sourceTree = "<group>"; };
 		7C7B2F8A26D5A2A90069F9C5 /* SessionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListViewModel.swift; sourceTree = "<group>"; };
 		7C7F4F6D270E610E002ECF6D /* ProfitByLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByLocationView.swift; sourceTree = "<group>"; };
 		7C8134BF2729F1BE004E1CE1 /* ProfitByMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByMonth.swift; sourceTree = "<group>"; };
@@ -423,6 +427,7 @@
 		7C2614CC26D930D900986183 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				7C6E75BC2BAA1DBD006173A4 /* LiveSessionCounter */,
 				7C45B06B29428EEB00587078 /* BarChartView */,
 				7C2614CD26D9310E00986183 /* CardViews */,
 				7CBBE472277BA79500986613 /* CustomChartView */,
@@ -614,6 +619,15 @@
 				7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */,
 			);
 			path = NewLocationView;
+			sourceTree = "<group>";
+		};
+		7C6E75BC2BAA1DBD006173A4 /* LiveSessionCounter */ = {
+			isa = PBXGroup;
+			children = (
+				7C6E75BA2BAA16BE006173A4 /* LiveSessionCounter.swift */,
+				7C6E75BD2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift */,
+			);
+			path = LiveSessionCounter;
 			sourceTree = "<group>";
 		};
 		7C7F4F6C270E60F3002ECF6D /* ProfitByLocationView */ = {
@@ -986,7 +1000,9 @@
 				7C3F43AA27284CD800A9C842 /* NumberFormatter.swift in Sources */,
 				7C45B06D29428F0E00587078 /* BarChartView.swift in Sources */,
 				7CA7F8182B6FFAA700F976EE /* CSVImport.swift in Sources */,
+				7C6E75BB2BAA16BE006173A4 /* LiveSessionCounter.swift in Sources */,
 				7C6394A726C14F5600939F40 /* MetricsView.swift in Sources */,
+				7C6E75BE2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift in Sources */,
 				7C8134C02729F1BE004E1CE1 /* ProfitByMonth.swift in Sources */,
 				7CDE9FC72B78F6CC00B4AA33 /* SessionDefaultsView.swift in Sources */,
 				7CB1EBDA2950DF4800FA306B /* BestSessionView.swift in Sources */,

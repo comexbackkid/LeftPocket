@@ -35,7 +35,7 @@ struct AddSessionTip: Tip {
     }
     
     var message: Text? {
-        Text("Tap here to start logging your poker sessions and hand notes.")
+        Text("Tap here to start logging your poker sessions. Long press to start a live session.")
     }
     
 //    var image: Image? {

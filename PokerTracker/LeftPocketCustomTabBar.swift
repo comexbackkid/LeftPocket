@@ -17,10 +17,12 @@ struct LeftPocketCustomTabBar: View {
     
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var viewModel: SessionsListViewModel
+    @EnvironmentObject var timerViewModel: TimerViewModel
     
     @State var selectedTab = 0
     @State var isPresented = false
     @State var showPaywall = false
+    @State var isCounting = false
     
     let tabBarImages = ["house.fill", "list.bullet", "plus", "chart.bar.fill", "gearshape.fill"]
     let addSessionTip = AddSessionTip()
@@ -59,7 +61,11 @@ struct LeftPocketCustomTabBar: View {
                 TipView(addSessionTip, arrowEdge: .bottom)
                     .padding(.horizontal)
                 
-                tabBar
+                if isCounting {
+                    LiveSessionCounter()
+                }
+                
+                tabBarNew
             }
         }
         .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
@@ -135,6 +141,120 @@ struct LeftPocketCustomTabBar: View {
             AddNewSessionView(isPresented: $isPresented)
         }
     }
+    
+    var tabBarNew: some View {
+        
+        HStack {
+            
+            ForEach(0..<5) { index in
+                
+                // Draw a standard button as long as the index isn't the Add New Session image
+                if index != 2 {
+                    
+                    Button {
+                        let impact = UIImpactFeedbackGenerator(style: .medium)
+                        impact.impactOccurred()
+                        
+                        selectedTab = index
+                        
+                    } label: {
+                        
+                        Spacer()
+                        
+                        Image(systemName: tabBarImages[index])
+                            .font(.system(size: index == 2 ? 30 : 22, weight: .black))
+                            .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray4))
+                        
+                        Spacer()
+                    }
+                    
+                } else {
+                    
+                    // The Add New Session is actually a Menu with a button label
+                    // This allows for a Context Menu style but without the buggy animations
+                    Menu {
+
+                        if !isCounting {
+                            Button {
+                                let impact = UIImpactFeedbackGenerator(style: .soft)
+                                impact.impactOccurred()
+                                
+                                Task {
+                                    await AddSessionTip.sessionCount.donate()
+                                }
+                                
+                                // If user is NOT subscribed, AND they reach the 25 Session limit, the Plus button will display Paywall
+                                if !subManager.isSubscribed && viewModel.sessions.count > 24 {
+                                    showPaywall = true
+                                    
+                                } else { isPresented = true }
+                                
+                                return
+                                
+                            } label: {
+                                Text("Add Completed Session")
+                                Image(systemName: "calendar")
+                            }
+                            
+                            Button {
+                                
+                                let impact = UIImpactFeedbackGenerator(style: .soft)
+                                impact.impactOccurred()
+                                
+                                timerViewModel.startSession()
+                                isCounting = true
+                                
+                            } label: {
+                                
+                                Text("Start a Live Session")
+                                Image(systemName: "timer")
+                            }
+                        }
+
+                    } label: {
+                        
+                        Spacer()
+                        
+                        Image(systemName: isCounting ? "stop.fill" : "plus")
+                            .font(.system(size: 30, weight: .black))
+                            .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray4))
+                        
+                        Spacer()
+                        
+                    } primaryAction: {
+                        
+                        // Primary action is ALWAYS to bring up the Add New Session sheet, even if counting
+                        let impact = UIImpactFeedbackGenerator(style: .medium)
+                        impact.impactOccurred()
+                        
+                        Task {
+                            await AddSessionTip.sessionCount.donate()
+                        }
+                        
+                        // If user is NOT subscribed, AND they reach the 25 Session limit, the Plus button will display Paywall
+                        if !subManager.isSubscribed && viewModel.sessions.count > 24 {
+                            showPaywall = true
+                            
+                        } else {
+                            
+                            isCounting = false
+                            timerViewModel.stopTimer()
+                            isPresented = true
+                        }
+                        
+                        return
+                        
+                    }
+                }
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top)
+        .background(.thickMaterial)
+        .sheet(isPresented: $isPresented, onDismiss: { timerViewModel.resetTimer() }) {
+            AddNewSessionView(isPresented: $isPresented)
+        }
+    }
 }
 
 struct LeftPocketCustomTabBar_Previews: PreviewProvider {
@@ -142,5 +262,7 @@ struct LeftPocketCustomTabBar_Previews: PreviewProvider {
         LeftPocketCustomTabBar()
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
+            .environmentObject(TimerViewModel())
+            .preferredColorScheme(.dark)
     }
 }

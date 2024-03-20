@@ -14,6 +14,7 @@ struct AddNewSessionView: View {
     @StateObject var newSession = NewSessionViewModel()
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
+    @EnvironmentObject var timerViewModel: TimerViewModel
     
     @Binding var isPresented: Bool
     
@@ -43,6 +44,9 @@ struct AddNewSessionView: View {
         .background(Color.brandBackground)
         .onAppear {
             newSession.loadUserDefaults()
+            if let liveSessionStartTime = timerViewModel.liveSessionStartTime {
+                newSession.startTime = liveSessionStartTime
+            }
         }
         .alert(item: $newSession.alertItem) { alertItem in
             
@@ -396,7 +400,7 @@ struct AddNewSessionView: View {
             }
             
             TextEditor(text: $newSession.notes)
-                .font(.callout)
+                .font(.custom("Asap-Regular", size: 17))
                 .padding(12)
                 .frame(height: 130, alignment: .top)
                 .scrollContentBackground(.hidden)
@@ -428,6 +432,7 @@ struct AddNewSessionView: View {
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
             newSession.savedButtonPressed(viewModel: vm)
+            timerViewModel.liveSessionStartTime = nil
             isPresented = newSession.presentation ?? true
             
         } label: {
@@ -441,6 +446,7 @@ struct AddNewSessionView_Previews: PreviewProvider {
         AddNewSessionView(isPresented: .constant(true))
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
+            .environmentObject(TimerViewModel())
             .preferredColorScheme(.dark)
     }
 }

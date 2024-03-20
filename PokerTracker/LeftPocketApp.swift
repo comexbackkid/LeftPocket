@@ -13,6 +13,7 @@ struct LeftPocketApp: App {
     
     @StateObject var vm = SessionsListViewModel()
     @StateObject var subManager = SubscriptionManager()
+    @StateObject private var timerViewModel = TimerViewModel()
     @AppStorage("shouldShowOnboarding") var showWelcomeScreen: Bool = true
 
     var body: some Scene {
@@ -23,6 +24,7 @@ struct LeftPocketApp: App {
                 })
                 .environmentObject(vm)
                 .environmentObject(subManager)
+                .environmentObject(timerViewModel)
         }
     }
     
