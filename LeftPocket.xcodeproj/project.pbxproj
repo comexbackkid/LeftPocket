@@ -59,6 +59,10 @@
 		7C63FC3F2B3640FF00FE731C /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63FC3E2B3640FF00FE731C /* SubscriptionManager.swift */; };
 		7C65B188272C3A5A00AFE796 /* NewLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C65B187272C3A5A00AFE796 /* NewLocationView.swift */; };
 		7C6769E22B8CD300006ACB7D /* BankrollProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6769E12B8CD300006ACB7D /* BankrollProgressView.swift */; };
+		7C67DDB52BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C67DDB42BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift */; };
+		7C67DDB62BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C67DDB42BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift */; };
+		7C67DDBA2BAB2977008C7029 /* LiveSessionWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C67DDB82BAB2977008C7029 /* LiveSessionWidget.swift */; };
+		7C67DDBC2BAB9BD2008C7029 /* WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C67DDBB2BAB9BD2008C7029 /* WidgetBundle.swift */; };
 		7C68FE3F26D670100019BA53 /* LeftPocketTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE3E26D670100019BA53 /* LeftPocketTabView.swift */; };
 		7C68FE4126D709530019BA53 /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE4026D709530019BA53 /* PlusButton.swift */; };
 		7C68FE4326D7CEA40019BA53 /* RecentSessionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE4226D7CEA40019BA53 /* RecentSessionCardView.swift */; };
@@ -258,6 +262,9 @@
 		7C63FC3E2B3640FF00FE731C /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		7C65B187272C3A5A00AFE796 /* NewLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLocationView.swift; sourceTree = "<group>"; };
 		7C6769E12B8CD300006ACB7D /* BankrollProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankrollProgressView.swift; sourceTree = "<group>"; };
+		7C67DDB42BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionWidgetAttributes.swift; sourceTree = "<group>"; };
+		7C67DDB82BAB2977008C7029 /* LiveSessionWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionWidget.swift; sourceTree = "<group>"; };
+		7C67DDBB2BAB9BD2008C7029 /* WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetBundle.swift; sourceTree = "<group>"; };
 		7C68FE3E26D670100019BA53 /* LeftPocketTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftPocketTabView.swift; sourceTree = "<group>"; };
 		7C68FE4026D709530019BA53 /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
 		7C68FE4226D7CEA40019BA53 /* RecentSessionCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentSessionCardView.swift; sourceTree = "<group>"; };
@@ -376,6 +383,7 @@
 			isa = PBXGroup;
 			children = (
 				7C1587F728A2DD5E00B11F77 /* LeftPocketWidget.swift */,
+				7C67DDB82BAB2977008C7029 /* LiveSessionWidget.swift */,
 				7C1587F928A2DD5E00B11F77 /* Assets.xcassets */,
 				7C1587FB28A2DD5E00B11F77 /* Info.plist */,
 				7C15880528A2DDBD00B11F77 /* Provider.swift */,
@@ -384,6 +392,8 @@
 				7C15880D28A2E21F00B11F77 /* WidgetViewSmall.swift */,
 				7C85DE6828A5583A00B79D8B /* WidgetViewMedium.swift */,
 				7C85DE6A28A55F2900B79D8B /* WidgetChart.swift */,
+				7C67DDB42BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift */,
+				7C67DDBB2BAB9BD2008C7029 /* WidgetBundle.swift */,
 			);
 			path = LeftPocketWidget;
 			sourceTree = "<group>";
@@ -950,6 +960,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CBB2D0E28A2EB4200A0CC99 /* Colors+Ext.swift in Sources */,
+				7C67DDB62BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift in Sources */,
 				7CA7F8162B6FF5FB00F976EE /* Tips.swift in Sources */,
 				7CEA58B928A56E5000418E11 /* MainWidgetView.swift in Sources */,
 				7C85DE6928A5583A00B79D8B /* WidgetViewMedium.swift in Sources */,
@@ -959,7 +970,9 @@
 				7C85DE6528A5536300B79D8B /* LineChartProvider.swift in Sources */,
 				7C15880628A2DDBD00B11F77 /* Provider.swift in Sources */,
 				7C15880E28A2E21F00B11F77 /* WidgetViewSmall.swift in Sources */,
+				7C67DDBC2BAB9BD2008C7029 /* WidgetBundle.swift in Sources */,
 				7C1587F828A2DD5E00B11F77 /* LeftPocketWidget.swift in Sources */,
+				7C67DDBA2BAB2977008C7029 /* LiveSessionWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1032,6 +1045,7 @@
 				7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */,
 				7C5EDA1828906F25008ACFEF /* EditLocationView.swift in Sources */,
 				7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */,
+				7C67DDB52BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift in Sources */,
 				7C25CB5327887D9200866511 /* CustomPicker.swift in Sources */,
 				7CD7468A28A6CA8F00D5A2D0 /* Images+Ext.swift in Sources */,
 				7C2B3E6926F565B200B84D52 /* EmptyState.swift in Sources */,

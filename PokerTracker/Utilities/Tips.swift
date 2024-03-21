@@ -17,10 +17,6 @@ struct DeleteLocationTip: Tip {
     var message: Text? {
         Text("Long press on a Location's thumbnail if you want to delete it.")
     }
-    
-//    var image: Image? {
-//        Image(systemName: "hand.tap")
-//    }
 }
 
 struct AddSessionTip: Tip {
@@ -35,12 +31,8 @@ struct AddSessionTip: Tip {
     }
     
     var message: Text? {
-        Text("Tap here to start logging your poker sessions. Long press to start a live session.")
+        Text("Tap here to log a poker sessions. Long press to activate a live session.")
     }
-    
-//    var image: Image? {
-//        Image(systemName: "plus.circle")
-//    }
     
     // Show this tip when the user has never pressed the Add Session Button.
     // Also checking user status, if they are NOT a new user then we don't show the tip because they know what they're doing.
@@ -67,10 +59,6 @@ struct FilterSessionsTip: Tip {
     var message: Text? {
         Text("Tap here to filter by Cash games, or Tournaments.")
     }
-    
-//    var image: Image? {
-//        Image(systemName: "square.stack.3d.down.right")
-//    }
     
     // After the user saves two Sessions, show the Tip
     // Dismissed by user, or as soon as they click the Filter button in the toolbar, tip won't show up.

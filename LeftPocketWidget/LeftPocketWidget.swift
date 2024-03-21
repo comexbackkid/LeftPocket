@@ -8,7 +8,6 @@
 import WidgetKit
 import SwiftUI
 
-@main
 struct LeftPocketWidget: Widget {
     
     let kind: String = "LeftPocketWidget"
@@ -24,6 +23,7 @@ struct LeftPocketWidget: Widget {
     }
 }
 
+// Fixes background padding issues in iOS 17
 extension View {
     func widgetBackground(_ backgroundView: some View) -> some View {
         if #available(iOSApplicationExtension 17.0, *) {

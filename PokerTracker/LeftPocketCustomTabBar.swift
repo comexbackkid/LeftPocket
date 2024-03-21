@@ -9,11 +9,13 @@ import SwiftUI
 import RevenueCat
 import RevenueCatUI
 import TipKit
+import ActivityKit
 
 struct LeftPocketCustomTabBar: View {
     
     @AppStorage("isDarkMode") private var isDarkMode = false
     @AppStorage("systemThemeEnabled") private var systemThemeEnabled = false
+    @AppStorage("isCounting") private var isCounting = false
     
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var viewModel: SessionsListViewModel
@@ -22,7 +24,7 @@ struct LeftPocketCustomTabBar: View {
     @State var selectedTab = 0
     @State var isPresented = false
     @State var showPaywall = false
-    @State var isCounting = false
+//    @State var isCounting = false
     
     let tabBarImages = ["house.fill", "list.bullet", "plus", "chart.bar.fill", "gearshape.fill"]
     let addSessionTip = AddSessionTip()

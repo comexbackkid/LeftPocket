@@ -6,8 +6,6 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Left Pocket</string>
-	<key>CFBundleDocumentTypes</key>
-	<array/>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -36,6 +34,8 @@
 		</dict>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSSupportsLiveActivities</key>
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
