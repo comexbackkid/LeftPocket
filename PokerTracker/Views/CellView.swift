@@ -11,11 +11,15 @@ struct CellView: View {
     
     let pokerSession: PokerSession
     
+    @Binding var viewStyle: ViewStyle
+    
     var body: some View {
         HStack (spacing: 4) {
             
-            Image(systemName: "suit.club.fill")
-                .imageRowStyle()
+            if viewStyle == .standard {
+                Image(systemName: "suit.club.fill")
+                    .imageRowStyle()
+            }
             
             VStack (alignment: .leading, spacing: 2) {
                 
@@ -23,9 +27,11 @@ struct CellView: View {
                     .bodyStyle()
                     .lineLimit(1)
                 
-                Text("\(pokerSession.date.dateStyle())")
-                    .captionStyle()
-                    .foregroundColor(.secondary)
+                if viewStyle == .standard {
+                    Text("\(pokerSession.date.dateStyle())")
+                        .captionStyle()
+                        .foregroundColor(.secondary)
+                }
             }
             
             Spacer()
@@ -35,15 +41,16 @@ struct CellView: View {
                 .bold()
                 .foregroundColor(pokerSession.profit > 0 ? .green : .red)
         }
-        .padding(10)
-        .padding(.vertical, 3)
+        .padding(viewStyle == .compact ? 5 : 10)
+        .padding(.vertical, viewStyle == .compact ? 0 : 3)
         .background(Color.brandBackground)
     }
 }
 
 struct CellView_Previews: PreviewProvider {
     static var previews: some View {
-        CellView(pokerSession: MockData.sampleSession)
+        CellView(pokerSession: MockData.sampleSession, viewStyle: .constant(.standard))
             .previewLayout(.sizeThatFits)
+            .preferredColorScheme(.dark)
     }
 }

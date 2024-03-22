@@ -70,6 +70,17 @@ struct FilterSessionsTip: Tip {
     }
 }
 
+//struct ChartTip: Tip {
+//    
+//    var title: Text {
+//        Text("Enhanced Charts")
+//    }
+//    
+//    var message: Text? {
+//        Text("Tap & hold on charts to view more detailed info.")
+//    }
+//}
+
 public struct TipKitConfig {
         
     public static var storeLocation: Tips.ConfigurationOption.DatastoreLocation {

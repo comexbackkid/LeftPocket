@@ -26,19 +26,21 @@ struct LeftPocketLiveSessionTimer: Widget {
                 expandedContent(contentState: context.state, isStale: context.isStale)
                 
             } compactLeading: {
-                Image("logo-tiny")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .clipShape(Circle())
-                    .frame(width: 25)
                 
-            } compactTrailing: {
                 Image(systemName: "timer")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(height: 20)
                     .bold()
                     .foregroundColor(.brandPrimary)
+
+            } compactTrailing: {
+                
+                Image("logo-tiny")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .clipShape(Circle())
+                    .frame(width: 25)
                 
             } minimal: {
                 Image("logo-tiny")
@@ -125,7 +127,9 @@ struct LiveSessionTimerView: View {
     
     var backgroundGradient: some View {
         Color("onboardingBG")
-            .overlay(LinearGradient(colors: [.clear, colorScheme == .light ? .black.opacity(0.6) : .brandWhite.opacity(0.025)], startPoint: .topLeading, endPoint: .bottomTrailing))
+            .overlay(LinearGradient(colors: [colorScheme == .light ? .clear
+                                             : .black.opacity(0.2), colorScheme == .light ? .black.opacity(0.6)
+                                             : .white.opacity(0.1)], startPoint: .topLeading, endPoint: .bottomTrailing))
     }
 }
 
@@ -133,6 +137,6 @@ struct LocationActivityView_Previews: PreviewProvider {
     
     static var previews: some View {
         LiveSessionWidgetAttributes(eventDescription: "Live Session")
-            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .content)
+            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .dynamicIsland(.compact))
     }
 }

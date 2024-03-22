@@ -22,8 +22,6 @@ struct ProfitByYear: View {
     @State private var showPaywall = false
     
     var body: some View {
-        
-//        let newTimeline = vm.myNewTimeline
 
         ScrollView {
             
@@ -31,18 +29,35 @@ struct ProfitByYear: View {
             
             VStack {
                 
-//                CustomChartView(viewModel: viewModel, data: vm.chartData(timeline: newTimeline), background: false)
-//                    .padding(.bottom)
-//                    .frame(height: 250)
-                
                 let chartRange = vm.chartRange(timeline: vm.myNewTimeline)
                 
-                SwiftLineChartsPractice(dateRange: chartRange, showTitle: false, showYAxis: true, overlayAnnotation: true)
+                if chartRange.isEmpty {
+                    
+                    VStack {
+                        Image("bargraphvector-transparent")
+                            .resizable()
+                            .frame(width: 125, height: 125)
+                        
+                        Text("No Sessions")
+                            .cardTitleStyle()
+                            .bold()
+                            .multilineTextAlignment(.center)
+                            .padding(.top)
+                    }
                     .animation(nil, value: chartRange)
-                    .padding(.horizontal, 30)
                     .frame(height: 250)
                     .padding(.vertical)
-                
+                    
+                    
+                } else {
+                    
+                    SwiftLineChartsPractice(dateRange: chartRange, showTitle: false, showYAxis: true, overlayAnnotation: true)
+                        .animation(nil, value: chartRange)
+                        .padding(.horizontal, 30)
+                        .frame(height: 250)
+                        .padding(.vertical)
+                }
+
                 CustomPicker(vm: vm)
                     .padding(.bottom, 35)
                     .padding(.top)

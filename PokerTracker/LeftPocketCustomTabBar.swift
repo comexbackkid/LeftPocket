@@ -24,7 +24,6 @@ struct LeftPocketCustomTabBar: View {
     @State var selectedTab = 0
     @State var isPresented = false
     @State var showPaywall = false
-//    @State var isCounting = false
     
     let tabBarImages = ["house.fill", "list.bullet", "plus", "chart.bar.fill", "gearshape.fill"]
     let addSessionTip = AddSessionTip()
@@ -83,6 +82,7 @@ struct LeftPocketCustomTabBar: View {
         }
     }
     
+    // TODO: Delete once fully test tabBarNew
     var tabBar: some View {
         
         HStack {

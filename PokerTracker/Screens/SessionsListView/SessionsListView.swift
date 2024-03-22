@@ -8,7 +8,13 @@
 import SwiftUI
 import RevenueCatUI
 
+enum ViewStyle: String, CaseIterable {
+    case standard, compact
+}
+
 struct SessionsListView: View {
+    
+    @AppStorage("viewStyle") var viewStyle: ViewStyle = .standard
     
     @State var activeSheet: Sheet?
     @State var isPresented = false
@@ -22,6 +28,12 @@ struct SessionsListView: View {
         case all, cash, tournaments
     }
     
+    var viewStyles: String {
+        switch viewStyle {
+        case .compact: "Compact View"
+        case .standard: "Standard View"
+        }
+    }
     var sessionsTitle: String {
         switch sessionFilter {
         case .all: "All Sessions"
@@ -64,7 +76,7 @@ struct SessionsListView: View {
                                 NavigationLink(
                                     destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session),
                                     label: {
-                                        CellView(pokerSession: session)
+                                        CellView(pokerSession: session, viewStyle: $viewStyle)
                                     })
                                 .listRowBackground(Color.brandBackground)
                                 .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
@@ -114,7 +126,18 @@ struct SessionsListView: View {
                     Text($0.rawValue.capitalized).tag($0)
                 }
             }
-        } label: { Image(systemName: "slider.horizontal.3") }
+            
+            Divider()
+            
+            Picker("", selection: $viewStyle) {
+                ForEach(ViewStyle.allCases, id: \.self) {
+                    Text($0.rawValue.capitalized).tag($0)
+                }
+            }
+            
+        } label: {
+            Image(systemName: "slider.horizontal.3")
+        }
     }
     
     var emptyView: some View {
@@ -124,7 +147,6 @@ struct SessionsListView: View {
             EmptyState(image: .sessions)
             Spacer()
         }
-        
     }
     
     var screenTitle: some View {

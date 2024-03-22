@@ -331,7 +331,7 @@ struct SessionDefaultsView: View {
         
         switch resetResult {
         case .success:
-            resultMessage = "Session Defaults reset!"
+            resultMessage = "Session Defaults reset."
         case .failure(let error):
             resultMessage = "\(error.localizedDescription)"
         }
@@ -356,7 +356,7 @@ struct SessionDefaultsView: View {
         
         switch saveResult {
         case .success:
-            resultMessage = "Session Defaults have been saved"
+            resultMessage = "Session Defaults have been saved."
         case .failure(let error):
             errorMessage = "\(error.localizedDescription)"
         }

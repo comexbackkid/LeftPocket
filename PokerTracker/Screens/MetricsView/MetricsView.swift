@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 struct MetricsView: View {
     
@@ -47,7 +48,7 @@ struct MetricsView: View {
                                 ToolTipView(image: "lightbulb",
                                             message: "Measure your performance & track progress from this screen.",
                                             color: .yellow)
-                                
+   
                                 bankrollChart
                                 
                                 BankrollProgressView(progressIndicator: $progressIndicator)
