@@ -11,6 +11,9 @@ import RevenueCatUI
 enum ViewStyle: String, CaseIterable {
     case standard, compact
 }
+enum SessionFilter: String, CaseIterable {
+    case all, cash, tournaments
+}
 
 struct SessionsListView: View {
     
@@ -23,10 +26,6 @@ struct SessionsListView: View {
     
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
-    
-    enum SessionFilter: String, CaseIterable {
-        case all, cash, tournaments
-    }
     
     var viewStyles: String {
         switch viewStyle {

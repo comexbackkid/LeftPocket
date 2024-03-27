@@ -16,11 +16,11 @@ struct MetricsView: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     @State var progressIndicator: Float = 0.0
+    @State var sessionFilter: SessionFilter = .all
     
     var body: some View {
         
         NavigationView {
-            
             ZStack {
                 
                 VStack {
@@ -130,117 +130,323 @@ struct MetricsView: View {
                 HStack {
                     Text("Player Stats")
                         .cardTitleStyle()
+                    
+                    Spacer()
+
+                    Picker("", selection: $sessionFilter) {
+                        ForEach(SessionFilter.allCases, id: \.self) {
+                            Text($0.rawValue.capitalized).tag($0)
+                                
+                        }
+                    }
                 }
                 .padding(.bottom)
                 
-                VStack {
-                    
-                    Group {
-                        HStack {
-                            Text("Total Bankroll")
-                                .calloutStyle()
-                                .foregroundColor(.secondary)
-                            Spacer()
-                            Text(viewModel.tallyBankroll().asCurrency())
-                                .foregroundColor(viewModel.tallyBankroll() > 0 ? .green : viewModel.tallyBankroll() < 0 ? .red : .primary)
-                        }
-                        
-                        Divider()
-                        
-                        HStack {
-                            Text("Hourly Rate")
-                                .calloutStyle()
-                                .foregroundColor(.secondary)
-                            Spacer()
-                            Text(viewModel.hourlyRate().asCurrency())
-                                .foregroundColor(viewModel.hourlyRate() > 0 ? .green : viewModel.hourlyRate() < 0 ? .red : .primary)
-                        }
-                        
-                        Divider()
-                        
-                        HStack {
-                            Text("Profit Per Session")
-                                .calloutStyle()
-                                .foregroundColor(.secondary)
-                            Spacer()
-                            Text(viewModel.avgProfit().asCurrency())
-                                .foregroundColor(viewModel.avgProfit() > 0 ? .green : viewModel.avgProfit() < 0 ? .red : .primary)
-                        }
-                        
-                        Divider()
-                        
-                        HStack {
-                            Text("Std. Dev. Per Session")
-                                .calloutStyle()
-                                .foregroundColor(.secondary)
-                            Spacer()
-                            Text("\(viewModel.standardDeviation().asCurrency())")
-                                .foregroundColor(viewModel.standardDeviation() > 0 ? .green : viewModel.standardDeviation() < 0 ? .red : .primary)
-                        }
-                    }
-                    
-                    Group {
-                        
-                        Divider()
-                        
-                        HStack {
-                            Text("Avg. Tournament Buy In")
-                                .calloutStyle()
-                                .foregroundColor(.secondary)
-                            Spacer()
-                            Text("\(viewModel.avgTournamentBuyIn().asCurrency())")
-                        }
-                        
-                        Divider()
-                        
-                        HStack {
-                            Text("Avg. Session Duration")
-                                .calloutStyle()
-                                .foregroundColor(.secondary)
-                            Spacer()
-                            Text(viewModel.avgDuration())
-                        }
-                        
-                        Divider()
-                        
-                        HStack {
-                            Text("Total No. of Cashes")
-                                .calloutStyle()
-                                .foregroundColor(.secondary)
-                            Spacer()
-                            Text("\(viewModel.numOfCashes())")
-                        }
-                        
-                        Divider()
-                        
-                        HStack {
-                            Text("Win Rate")
-                                .calloutStyle()
-                                .foregroundColor(.secondary)
-                            Spacer()
-                            Text(viewModel.winRate())
-                        }
-                        
-                        Divider()
-                        
-                        HStack {
-                            Text("Total Hours Played")
-                                .calloutStyle()
-                                .foregroundColor(.secondary)
-                            Spacer()
-                            Text(viewModel.totalHoursPlayed())
-                        }
-                    }
-                    Spacer()
+                switch sessionFilter {
+                case .all:
+                    AllStats(sessionFilter: sessionFilter, viewModel: viewModel)
+                case .cash:
+                    CashStats(sessionFilter: sessionFilter, viewModel: viewModel)
+                case .tournaments:
+                    TournamentStats(sessionFilter: sessionFilter, viewModel: viewModel)
                 }
-                .font(.subheadline)
             }
             .padding()
         }
-        
         .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
         .cornerRadius(20)
+    }
+}
+
+struct AllStats: View {
+    
+    let sessionFilter: SessionFilter
+    let viewModel: SessionsListViewModel
+    
+    var body: some View {
+        
+        VStack {
+            
+            HStack {
+                Text("Total Bankroll")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.tallyBankroll(bankroll: sessionFilter).asCurrency())
+                    .foregroundColor(viewModel.tallyBankroll(bankroll: sessionFilter) > 0 ? .green
+                                     : viewModel.tallyBankroll(bankroll: sessionFilter) < 0 ? .red
+                                     : .primary)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Hourly Rate")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.hourlyRate(bankroll: sessionFilter).asCurrency())
+                    .foregroundColor(viewModel.hourlyRate(bankroll: sessionFilter) > 0 ? .green
+                                     : viewModel.hourlyRate(bankroll: sessionFilter) < 0 ? .red
+                                     : .primary)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Profit Per Session")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.avgProfit(bankroll: sessionFilter).asCurrency())
+                    .foregroundColor(viewModel.avgProfit(bankroll: sessionFilter) > 0 ? .green
+                                     : viewModel.avgProfit(bankroll: sessionFilter) < 0 ? .red
+                                     : .primary)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Avg. Duration")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.avgDuration(bankroll: sessionFilter))
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Total No. of Sessions")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text("\(viewModel.sessions.count)")
+            }
+            
+            Divider()
+            
+            // Win Rate is wrong, it's just calculating everything
+            HStack {
+                Text("Win Rate")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.totalWinRate())
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Total Hours Played")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.totalHoursPlayed(bankroll: sessionFilter))
+            }
+            
+        }
+        .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
+    }
+}
+
+struct CashStats: View {
+    
+    let sessionFilter: SessionFilter
+    let viewModel: SessionsListViewModel
+    
+    var body: some View {
+        
+        VStack {
+            
+            HStack {
+                Text("Bankroll")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.tallyBankroll(bankroll: sessionFilter).asCurrency())
+                    .foregroundColor(viewModel.tallyBankroll(bankroll: sessionFilter) > 0 ? .green 
+                                     : viewModel.tallyBankroll(bankroll: sessionFilter) < 0 ? .red
+                                     : .primary)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Hourly Rate")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.hourlyRate(bankroll: sessionFilter).asCurrency())
+                    .foregroundColor(viewModel.hourlyRate(bankroll: sessionFilter) > 0 ? .green 
+                                     : viewModel.hourlyRate(bankroll: sessionFilter) < 0 ? .red
+                                     : .primary)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Profit Per Session")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.avgProfit(bankroll: sessionFilter).asCurrency())
+                    .foregroundColor(viewModel.avgProfit(bankroll: sessionFilter) > 0 ? .green
+                                     : viewModel.avgProfit(bankroll: sessionFilter) < 0 ? .red
+                                     : .primary)
+            }
+            
+            Divider()
+            
+//            HStack {
+//                Text("Std. Dev. Per Session")
+//                    .calloutStyle()
+//                    .foregroundColor(.secondary)
+//                Spacer()
+//                Text("\(viewModel.standardDeviation().asCurrency())")
+//                    .foregroundColor(viewModel.standardDeviation() > 0 ? .green : viewModel.standardDeviation() < 0 ? .red : .primary)
+//            }
+//            
+//            Divider()
+            
+            HStack {
+                Text("Avg. Duration")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.avgDuration(bankroll: sessionFilter))
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("No. of Cashes")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text("\(viewModel.numOfCashes())")
+            }
+            
+            Divider()
+            
+            // Needs to filter just for cash games
+            HStack {
+                Text("Win Rate")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.winRate())
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Hours Played")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.totalHoursPlayed(bankroll: sessionFilter))
+            }
+        }
+        .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
+    }
+}
+
+struct TournamentStats: View {
+    
+    let sessionFilter: SessionFilter
+    let viewModel: SessionsListViewModel
+    
+    var body: some View {
+        
+        VStack {
+            
+            HStack {
+                Text("Bankroll")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.tallyBankroll(bankroll: sessionFilter).asCurrency())
+                    .foregroundColor(viewModel.tallyBankroll(bankroll: sessionFilter) > 0 ? .green 
+                                     : viewModel.tallyBankroll(bankroll: sessionFilter) < 0 ? .red
+                                     : .primary)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Hourly Rate")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.hourlyRate(bankroll: sessionFilter).asCurrency())
+                    .foregroundColor(viewModel.hourlyRate(bankroll: sessionFilter) > 0 ? .green 
+                                     : viewModel.hourlyRate(bankroll: sessionFilter) < 0 ? .red
+                                     : .primary)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Avg. Duration")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.avgDuration(bankroll: sessionFilter))
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Avg. Buy In")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text("$" + "\(viewModel.avgTournamentBuyIn())")
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Total Buy Ins")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text("\(viewModel.sessions.filter({ $0.isTournament == true }).count)")
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("ITM Ratio")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.inTheMoneyRatio())
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("ROI")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.tournamentReturnOnInvestment())
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Hours Played")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(viewModel.totalHoursPlayed(bankroll: sessionFilter))
+            }
+        }
+        .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
     }
 }
 

@@ -89,7 +89,5 @@ struct BankrollProgressView: View {
 }
 
 #Preview {
-    BankrollProgressView(progressIndicator: .constant(0.66))
-//        .background(Color.brandBackground)
-//        .preferredColorScheme(.dark)
+    BankrollProgressView(progressIndicator: .constant(0.77))
 }

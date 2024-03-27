@@ -50,7 +50,7 @@ class AnnualReportViewModel: ObservableObject {
     func netProfitCalc(timeline: PickerTimeline) -> Int {
         switch timeline {
         case .all:
-            return vm.tallyBankroll()
+            return vm.tallyBankroll(bankroll: .all)
         case .ytd:
             return vm.bankrollByYear(year: Date().getYear())
         case .lastYear:
@@ -61,7 +61,7 @@ class AnnualReportViewModel: ObservableObject {
     func hourlyCalc(timeline: PickerTimeline) -> Int {
         switch timeline {
         case .all:
-            return vm.hourlyRate()
+            return vm.hourlyRate(bankroll: .all)
         case .ytd:
             return vm.hourlyByYear(year: Date().getYear())
         case .lastYear:
@@ -72,7 +72,7 @@ class AnnualReportViewModel: ObservableObject {
     func avgProfit(timeline: PickerTimeline) -> Int {
         switch timeline {
         case .all:
-            return vm.avgProfit()
+            return vm.avgProfit(bankroll: .all)
         case .ytd:
             return vm.avgProfitByYear(year: Date().getYear())
         case .lastYear:
@@ -105,7 +105,7 @@ class AnnualReportViewModel: ObservableObject {
     func totalHours(timeline: PickerTimeline) -> String {
         switch timeline {
         case .all:
-            return vm.totalHoursPlayed()
+            return vm.totalHoursPlayed(bankroll: .all)
         case .ytd:
             return vm.hoursPlayedByYear(year: Date().getYear())
         case .lastYear:

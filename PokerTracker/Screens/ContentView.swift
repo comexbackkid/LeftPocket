@@ -60,7 +60,7 @@ struct ContentView: View {
     }
     
     var bankroll: String {
-        return viewModel.tallyBankroll().asCurrency()
+        return viewModel.tallyBankroll(bankroll: .all).asCurrency()
     }
     
     var lastSession: Int {
@@ -74,7 +74,6 @@ struct ContentView: View {
             VStack (spacing: 3) {
                 Text(String(viewModel.sessions.count))
                     .font(.system(size: 22, design: .rounded))
-//                    .bold()
                     .opacity(0.75)
                 
                 Text(viewModel.sessions.count == 1 ? "Session" : "Sessions")
@@ -85,9 +84,8 @@ struct ContentView: View {
             Divider()
             
             VStack (spacing: 3) {
-                Text(String(viewModel.winRate()))
+                Text(String(viewModel.totalWinRate()))
                     .font(.system(size: 22, design: .rounded))
-//                    .bold()
                     .opacity(0.75)
                 
                 Text("Win Rate")
@@ -100,7 +98,6 @@ struct ContentView: View {
             VStack (spacing: 3) {
                 Text(viewModel.totalHoursPlayedHomeScreen())
                     .font(.system(size: 22, design: .rounded))
-//                    .bold()
                     .opacity(0.75)
                 
                 Text("Hours")

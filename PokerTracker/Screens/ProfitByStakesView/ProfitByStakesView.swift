@@ -46,7 +46,7 @@ struct ProfitByStakesView: View {
                 
             }
             
-            if viewModel.sessions.isEmpty {
+            if viewModel.sessions.filter({ $0.isTournament == false }).isEmpty {
                 EmptyState(image: .sessions)
             }
         }

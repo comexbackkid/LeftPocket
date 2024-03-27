@@ -12,7 +12,7 @@ struct SessionDefaultsView: View {
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var vm: SessionsListViewModel
     
-    @State private var sessionType: SessionType?
+    @State private var sessionType: SessionType = .cash
     @State private var location = LocationModel(name: "", localImage: "", imageURL: "")
     @State private var stakes = ""
     @State private var game = ""
@@ -138,13 +138,9 @@ struct SessionDefaultsView: View {
                             .bodyStyle()
                             .fixedSize()
                             .lineLimit(1)
-                    default:
-                        Text("Please select ›")
-                            .bodyStyle()
-                            .lineLimit(1)
                     }
                 }
-                .foregroundColor(sessionType == nil ? .brandPrimary : .brandWhite)
+                .foregroundColor(.brandWhite)
                 .buttonStyle(PlainButtonStyle())
             }
             .padding(.bottom, 10)
@@ -314,7 +310,7 @@ struct SessionDefaultsView: View {
     
     func resetUserDefaults() {
         
-        sessionType = nil
+        sessionType = .cash
         location = LocationModel(name: "", localImage: "", imageURL: "")
         stakes = ""
         game = ""

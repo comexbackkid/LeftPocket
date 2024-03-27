@@ -254,8 +254,13 @@ struct LeftPocketCustomTabBar: View {
                     }
                     .task {
                         for await customerInfo in Purchases.shared.customerInfoStream {
+                            
                             showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
                             await subManager.checkSubscriptionStatus()
+                            
+                            if !subManager.isSubscribed && viewModel.sessions.count == 2 || viewModel.sessions.count == 15 {
+                                showPaywall = true
+                            }
                         }
                     }
                 }
