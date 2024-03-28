@@ -169,7 +169,7 @@ class SessionsListViewModel: ObservableObject {
         case .all:
             return sessions.map { Int($0.profit) }.reduce(0, +)
         case .cash:
-            return sessions.filter({ $0.isTournament == false }).map { Int($0.profit) }.reduce(0, +)
+            return sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).map { Int($0.profit) }.reduce(0, +)
         case .tournaments:
             return sessions.filter({ $0.isTournament == true }).map { Int($0.profit) }.reduce(0, +)
         }
@@ -231,16 +231,16 @@ class SessionsListViewModel: ObservableObject {
     
     // Adds up total number of profitable cash sessions
     func numOfCashes() -> Int {
-        guard !sessions.filter({ $0.isTournament == false }).isEmpty else { return 0 }
+        guard !sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).isEmpty else { return 0 }
         
-        let sessionsArray = sessions.filter({ $0.isTournament == false })
+        let sessionsArray = sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
         return sessionsArray.filter { $0.profit > 0 }.count
     }
     
     // Returns percentage of winning seessions
     func winRate() -> String {
-        guard !sessions.filter({ $0.isTournament == false }).isEmpty else { return "0%" }
-        let cashSessions = sessions.filter({ $0.isTournament == false })
+        guard !sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).isEmpty else { return "0%" }
+        let cashSessions = sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
         let winPercentage = Double(numOfCashes()) / Double(cashSessions.count)
         return winPercentage.asPercent()
     }
@@ -283,9 +283,9 @@ class SessionsListViewModel: ObservableObject {
                 return tallyBankroll(bankroll: .all) / totalHours
             }
         case .cash:
-            guard !sessions.filter({ $0.isTournament == false }).isEmpty else { return 0 }
-            let totalHours = sessions.filter({ $0.isTournament == false }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
-            let totalMinutes = Float(sessions.filter({ $0.isTournament == false }).map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
+            guard !sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).isEmpty else { return 0 }
+            let totalHours = sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+            let totalMinutes = Float(sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
             if totalHours < 1 {
                 return Int(Float(tallyBankroll(bankroll: bankroll)) / (totalMinutes / 60))
             } else {
@@ -311,7 +311,7 @@ class SessionsListViewModel: ObservableObject {
             case .all:
                 return sessions
             case .cash:
-                return sessions.filter({ $0.isTournament == false })
+                return sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
             case .tournaments:
                 return sessions.filter({ $0.isTournament == true })
             }
@@ -334,8 +334,8 @@ class SessionsListViewModel: ObservableObject {
             guard !sessions.isEmpty else { return 0 }
             return tallyBankroll(bankroll: bankroll) / sessions.count
         case .cash:
-            guard !sessions.filter({ $0.isTournament == false }).isEmpty else { return 0 }
-            return tallyBankroll(bankroll: bankroll) / sessions.filter({ $0.isTournament == false }).count
+            guard !sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).isEmpty else { return 0 }
+            return tallyBankroll(bankroll: bankroll) / sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).count
         case .tournaments:
             guard !sessions.filter({ $0.isTournament == true }).isEmpty else { return 0 }
             return tallyBankroll(bankroll: bankroll) / sessions.filter({ $0.isTournament == true }).count
@@ -363,7 +363,7 @@ class SessionsListViewModel: ObservableObject {
             case .all:
                 return sessions
             case .cash:
-                return sessions.filter({ $0.isTournament == false })
+                return sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
             case .tournaments:
                 return sessions.filter({ $0.isTournament == true })
             }

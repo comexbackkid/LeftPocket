@@ -199,6 +199,7 @@ struct ContentView: View {
 enum Sheet: String, Identifiable {
     
     case newSession, recentSession
+    
     var id: String {
         rawValue
     }

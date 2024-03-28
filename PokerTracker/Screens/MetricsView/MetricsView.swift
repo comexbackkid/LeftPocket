@@ -133,11 +133,16 @@ struct MetricsView: View {
                     
                     Spacer()
 
-                    Picker("", selection: $sessionFilter) {
-                        ForEach(SessionFilter.allCases, id: \.self) {
-                            Text($0.rawValue.capitalized).tag($0)
-                                
+                    Menu {
+                        Picker("", selection: $sessionFilter) {
+                            ForEach(SessionFilter.allCases, id: \.self) {
+                                Text($0.rawValue.capitalized).tag($0)
+                                    
+                            }
                         }
+                    } label: {
+                        Text(sessionFilter.rawValue.capitalized + " ›")
+                            .bodyStyle()
                     }
                 }
                 .padding(.bottom)
