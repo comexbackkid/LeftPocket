@@ -16,7 +16,8 @@ struct Provider: TimelineProvider {
                     recentSessionAmount: 150,
                     chartData: MockData.mockDataCoords,
                     hourlyRate: 32,
-                    totalSessions: 14)
+                    totalSessions: 14,
+                    currency: "USD")
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
@@ -25,7 +26,8 @@ struct Provider: TimelineProvider {
                                 recentSessionAmount: 150,
                                 chartData: MockData.mockDataCoords,
                                 hourlyRate: 32,
-                                totalSessions: 14)
+                                totalSessions: 14,
+                                currency: "USD")
         completion(entry)
     }
 
@@ -37,6 +39,7 @@ struct Provider: TimelineProvider {
         let lastSessionAmount = UserDefaults(suiteName: AppGroup.bankrollSuite)?.integer(forKey: AppGroup.lastSessionKey) ?? 0
         let hourlyRate = UserDefaults(suiteName: AppGroup.bankrollSuite)?.integer(forKey: AppGroup.hourlyKey) ?? 0
         let totalSessions = UserDefaults(suiteName: AppGroup.bankrollSuite)?.integer(forKey: AppGroup.totalSessionsKey) ?? 0
+        let currency = UserDefaults(suiteName: AppGroup.bankrollSuite)?.string(forKey: AppGroup.currencyKey) ?? "USD"
         
         guard let chartData = UserDefaults(suiteName: AppGroup.bankrollSuite)?.data(forKey: AppGroup.chartKey) else {
             print("Error loading Chart Data")
@@ -56,7 +59,8 @@ struct Provider: TimelineProvider {
                                 recentSessionAmount: lastSessionAmount,
                                 chartData: chartPoints,
                                 hourlyRate: hourlyRate,
-                                totalSessions: totalSessions)
+                                totalSessions: totalSessions,
+                                currency: currency)
         entries.append(entry)
         
         let timeline = Timeline(entries: entries, policy: .never)

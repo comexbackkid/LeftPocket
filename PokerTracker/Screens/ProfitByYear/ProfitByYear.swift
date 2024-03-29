@@ -122,6 +122,15 @@ struct ProfitByYear: View {
             }
             
             HStack {
+                Text("(Includes Tournament Buy Ins)")
+                    .captionStyle()
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+            }
+            
+            HStack {
                 Text("Net Profit")
                 
                 Spacer()

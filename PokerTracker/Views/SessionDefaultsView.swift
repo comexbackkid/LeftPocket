@@ -353,6 +353,7 @@ struct SessionDefaultsView: View {
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
             saveToUserDefaults()
+            vm.writeToWidget()
             
         } label: {
             PrimaryButton(title: "Save Defaults")

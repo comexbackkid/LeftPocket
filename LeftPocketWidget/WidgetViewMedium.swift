@@ -47,7 +47,7 @@ struct WidgetViewMedium: View {
                     Text("Hourly Rate")
                         .foregroundColor(.secondary)
                         .font(.caption)
-                    Text(entry.hourlyRate.accountingStyle())
+                    Text(entry.hourlyRate, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                         .foregroundColor(.widgetForegroundText)
                         .font(.system(.subheadline, design: .rounded))
                 }
@@ -74,7 +74,7 @@ struct WidgetViewMedium: View {
                 Spacer()
             }
             HStack {
-                Text(entry.bankroll.accountingStyle())
+                Text(entry.bankroll, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                     .foregroundColor(.widgetForegroundText)
                     .font(.system(.title, design: .rounded))
                 
@@ -91,7 +91,7 @@ struct WidgetViewMedium: View {
                         .rotationEffect(entry.recentSessionAmount >= 0 ? .degrees(0) : .degrees(180))
                 }
                 
-                Text(entry.recentSessionAmount.accountingStyle())
+                Text(entry.recentSessionAmount, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                     .foregroundColor(entry.recentSessionAmount > 0 ? .green : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
                     .font(.subheadline)
                     .bold()
@@ -147,7 +147,8 @@ struct WidgetViewMedium_Previews: PreviewProvider {
                                             recentSessionAmount: 150,
                                             chartData: MockData.mockDataCoords,
                                             hourlyRate: 32,
-                                            totalSessions: 14))
+                                            totalSessions: 14,
+                                            currency: "EUR"))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
             .preferredColorScheme(.dark)
     }

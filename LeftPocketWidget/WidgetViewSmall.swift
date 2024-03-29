@@ -66,7 +66,7 @@ struct WidgetViewSmall : View {
                 Spacer()
             }
             HStack {
-                Text(entry.bankroll.accountingStyle())
+                Text(entry.bankroll, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                     .foregroundColor(.widgetForegroundText)
                     .font(.system(.title, design: .rounded))
                 
@@ -82,7 +82,7 @@ struct WidgetViewSmall : View {
                         .rotationEffect(entry.recentSessionAmount >= 0 ? .degrees(0) : .degrees(180))
                 }
                 
-                Text(entry.recentSessionAmount.accountingStyle())
+                Text(entry.recentSessionAmount, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                     .foregroundColor(entry.recentSessionAmount > 0 ? .green : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
                     .font(.subheadline)
                     .bold()
@@ -116,7 +116,8 @@ struct WidgetView_Previews: PreviewProvider {
                                            recentSessionAmount: 150,
                                            chartData: MockData.mockDataCoords,
                                            hourlyRate: 32,
-                                           totalSessions: 14))
+                                           totalSessions: 14,
+                                           currency: "EUR"))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
         
     }

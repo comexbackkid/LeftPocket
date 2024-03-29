@@ -16,7 +16,7 @@ struct MetricsView: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     @State var progressIndicator: Float = 0.0
-    @State var sessionFilter: SessionFilter = .all
+    @State var sessionFilter: SessionFilter = .cash
     
     var body: some View {
         
@@ -300,6 +300,19 @@ struct CashStats: View {
                     .foregroundColor(viewModel.avgProfit(bankroll: sessionFilter) > 0 ? .green
                                      : viewModel.avgProfit(bankroll: sessionFilter) < 0 ? .red
                                      : .primary)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("BB Per Hour")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text("\(viewModel.bigBlindperHour())")
+//                    .foregroundColor(viewModel.hourlyRate(bankroll: sessionFilter) > 0 ? .green
+//                                     : viewModel.hourlyRate(bankroll: sessionFilter) < 0 ? .red
+//                                     : .primary)
             }
             
             Divider()

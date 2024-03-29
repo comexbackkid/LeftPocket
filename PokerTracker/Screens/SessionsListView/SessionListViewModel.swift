@@ -12,7 +12,7 @@ class SessionsListViewModel: ObservableObject {
     
     @Published var uniqueStakes: [String] = []
     @Published var stakesProgress: Float = 0.0
-    @Published var userCurrency: CurrencyType = .EUR
+    @Published var userCurrency: CurrencyType = .USD
     @Published var locations: [LocationModel] = DefaultLocations.allLocations
     {
         didSet {
@@ -176,6 +176,21 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // MARK: CALCULATIONS & DATA PRESENTATION FOR CHARTS & METRICS VIEW
+    
+    // Calculate player's Big Blind per Hour rate
+    func bigBlindperHour() -> Int {
+        guard let lastStake = sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).sorted(by: { $0.date > $1.date }).map({ $0.stakes }).first,
+              let lastSlashIndex = lastStake.lastIndex(of: "/"),
+              let bigBlind = Int(lastStake[lastSlashIndex...].trimmingCharacters(in: .punctuationCharacters)) else {
+            
+            return 0
+        }
+        
+        let hourlyRate = self.hourlyRate(bankroll: .cash)
+        let bigBlindperHour = Double(hourlyRate) / Double(bigBlind)
+        
+        return Int(round(bigBlindperHour))
+    }
     
     // Calculate current bankroll
     func tallyBankroll(bankroll: SessionFilter) -> Int {
@@ -698,6 +713,7 @@ class SessionsListViewModel: ObservableObject {
         defaults.set(self.sessions.first?.profit ?? 0, forKey: AppGroup.lastSessionKey)
         defaults.set(self.hourlyRate(bankroll: .all), forKey: AppGroup.hourlyKey)
         defaults.set(self.sessions.count, forKey: AppGroup.totalSessionsKey)
+        defaults.set(self.userCurrency.rawValue, forKey: AppGroup.currencyKey)
 
         guard let chartData = try? JSONEncoder().encode(self.chartCoordinates()) else {
             print("Error writing chart data")
