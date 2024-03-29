@@ -12,6 +12,7 @@ class SessionsListViewModel: ObservableObject {
     
     @Published var uniqueStakes: [String] = []
     @Published var stakesProgress: Float = 0.0
+    @Published var userCurrency: CurrencyType = .EUR
     @Published var locations: [LocationModel] = DefaultLocations.allLocations
     {
         didSet {
@@ -31,6 +32,7 @@ class SessionsListViewModel: ObservableObject {
     init() {
         getSessions()
         getLocations()
+        loadCurrency()
     }
     
     // MARK: SAVING & LOADING APP DATA
@@ -131,6 +133,21 @@ class SessionsListViewModel: ObservableObject {
     func setUniqueStakes() {
         let sortedSessions = sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).sorted(by: { $0.date > $1.date })
         uniqueStakes = Array(Set(sortedSessions.map({ $0.stakes })))
+    }
+    
+    // MARK: LOADING PREFERRED CURRENCY
+    
+    func loadCurrency() {
+        let defaults = UserDefaults.standard
+        
+        guard
+            let data = defaults.object(forKey: "currencyDefault") as? Data,
+            let currency = try? JSONDecoder().decode(CurrencyType.self, from: data)
+                
+        else { return }
+        
+        userCurrency = currency
+        
     }
     
     // MARK: FUNCTIONS FOR CIRCLE PROGRESS INDICATOR IN METRICS VIEW

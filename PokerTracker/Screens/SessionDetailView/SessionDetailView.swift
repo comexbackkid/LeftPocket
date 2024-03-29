@@ -92,12 +92,12 @@ struct SessionDetailView: View {
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
             VStack {
-                Image(systemName: "dollarsign")
+                Image(systemName: "trophy")
                     .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
                 
-                Text(pokerSession.profit.asCurrency()).profitColor(total: pokerSession.profit)
+                Text(pokerSession.profit, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0))).profitColor(total: pokerSession.profit)
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
@@ -107,7 +107,7 @@ struct SessionDetailView: View {
                     .opacity(0.3)
                     .padding(.bottom, 1)
                 
-                Text(pokerSession.hourlyRate.asCurrency()).profitColor(total: pokerSession.hourlyRate)
+                Text(pokerSession.hourlyRate, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0))).profitColor(total: pokerSession.hourlyRate)
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
         }
@@ -132,7 +132,7 @@ struct SessionDetailView: View {
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
             VStack {
-                Image(systemName: "dollarsign")
+                Image(systemName: "trophy")
                     .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
@@ -217,7 +217,7 @@ struct SessionDetailView: View {
                 
                 Spacer()
                 
-                Text(pokerSession.expenses?.asCurrency() ?? "$0")
+                Text(pokerSession.expenses ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                     .bodyStyle()
                     .font(.subheadline)
             }

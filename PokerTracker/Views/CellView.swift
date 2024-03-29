@@ -10,6 +10,7 @@ import SwiftUI
 struct CellView: View {
     
     let pokerSession: PokerSession
+    let currency: CurrencyType
     
     @Binding var viewStyle: ViewStyle
     
@@ -36,7 +37,7 @@ struct CellView: View {
             
             Spacer()
             
-            Text(pokerSession.profit.asCurrency())
+            Text(pokerSession.profit, format: .currency(code: currency.rawValue).precision(.fractionLength(0)))
                 .font(.subheadline)
                 .bold()
                 .foregroundColor(pokerSession.profit > 0 ? .green : .red)
@@ -49,7 +50,7 @@ struct CellView: View {
 
 struct CellView_Previews: PreviewProvider {
     static var previews: some View {
-        CellView(pokerSession: MockData.sampleSession, viewStyle: .constant(.standard))
+        CellView(pokerSession: MockData.sampleSession, currency: .EUR, viewStyle: .constant(.standard))
             .previewLayout(.sizeThatFits)
             .preferredColorScheme(.dark)
     }

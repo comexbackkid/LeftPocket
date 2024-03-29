@@ -61,7 +61,7 @@ struct BarChartByYear: View {
                         .foregroundStyle(.gray.opacity(0.3))
                         .zIndex(-1)
                         .annotation(position: .top, spacing: 7, overflowResolution: .init(x: .fit(to: .chart))) {
-                            Text(profitAnnotation?.asCurrency() ?? "$0")
+                            Text(profitAnnotation ?? 0, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                                 .captionStyle()
                                 .padding(10)
                                 .background(.gray.opacity(0.1))
@@ -78,7 +78,7 @@ struct BarChartByYear: View {
                         .foregroundStyle(.gray.opacity(0.2))
                     AxisValueLabel() {
                         if let intValue = value.as(Int.self) {
-                            Text(intValue.axisFormat)
+                            Text(intValue.axisShortHand(viewModel.userCurrency))
                                 .captionStyle()
                                 .padding(.trailing, 15)
                         }
@@ -89,7 +89,7 @@ struct BarChartByYear: View {
                 AxisMarks {
                     AxisValueLabel(format: .dateTime.month(.abbreviated),
                                    horizontalSpacing: sessionProfitByMonth.isEmpty ? 25 : 0,
-                                   verticalSpacing: 15)
+                                   verticalSpacing: 15).font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
                 }
             }
         }

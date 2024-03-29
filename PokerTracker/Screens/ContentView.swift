@@ -59,8 +59,8 @@ struct ContentView: View {
         }
     }
     
-    var bankroll: String {
-        return viewModel.tallyBankroll(bankroll: .all).asCurrency()
+    var bankroll: Int {
+        return viewModel.tallyBankroll(bankroll: .all)
     }
     
     var lastSession: Int {
@@ -154,9 +154,15 @@ struct ContentView: View {
                     .font(.custom("Asap-Regular", size: 13))
                     .opacity(0.5)
                 
-                Text(bankroll)
+                Text(bankroll, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .font(.system(size: 60, design: .rounded))
                     .opacity(0.75)
+                
+                // Toying with supporting currencies
+                
+//                Text(viewModel.tallyBankroll(bankroll: .all), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+//                    .font(.system(size: 60, design: .rounded))
+//                    .opacity(0.75)
                 
                 if !viewModel.sessions.isEmpty {
                     
@@ -168,17 +174,14 @@ struct ContentView: View {
                             .foregroundColor(lastSession > 0 ? .green : lastSession < 0 ? .red : Color(.systemGray))
                             .rotationEffect(lastSession >= 0 ? .degrees(0) : .degrees(180))
                         
-                        Text(lastSession.asCurrency())
+                        Text(lastSession, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                             .fontWeight(.light)
                             .font(.system(size: 20, design: .rounded))
                             .profitColor(total: lastSession)
                         
                     }
                     .padding(.top, -40)
-                    
                 }
-                
-
             }
         }
         .frame(maxWidth: .infinity)

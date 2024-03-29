@@ -12,6 +12,7 @@ struct BestSessionView: View {
     @Environment(\.colorScheme) var colorScheme
     
     let profit: Int
+    let currency: CurrencyType
     
     var body: some View {
         
@@ -23,7 +24,7 @@ struct BestSessionView: View {
                 
                 Spacer()
                 
-                Text(profit.asCurrency())
+                Text(profit, format: .currency(code: currency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: profit)
                     .lineLimit(1)
                     .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
@@ -43,6 +44,6 @@ struct BestSessionView: View {
 
 struct BestSessionView_Previews: PreviewProvider {
     static var previews: some View {
-        BestSessionView(profit: 1200)
+        BestSessionView(profit: 1200, currency: .EUR)
     }
 }

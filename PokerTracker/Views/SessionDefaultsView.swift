@@ -7,6 +7,39 @@
 
 import SwiftUI
 
+enum CurrencyType: String, CaseIterable, Identifiable, Codable {
+    case USD
+    case EUR
+    case GBP
+    case BRL
+    case MXN
+    case CNY
+    
+    var id: String { self.rawValue }
+    
+    var name: String {
+        switch self {
+        case .USD: return "US Dollar"
+        case .EUR: return "Euro"
+        case .GBP: return "British Pound"
+        case .BRL: return "Brazilian Real"
+        case .MXN: return "Mexican Peso"
+        case .CNY: return "Chinese Yuan"
+        }
+    }
+    
+    var symbol: String {
+        switch self {
+        case .USD: return "$"
+        case .EUR: return "€"
+        case .GBP: return "£"
+        case .BRL: return "R$"
+        case .MXN: return "MX$"
+        case .CNY: return "¥"
+        }
+    }
+}
+
 struct SessionDefaultsView: View {
     
     @EnvironmentObject var subManager: SubscriptionManager
@@ -16,6 +49,7 @@ struct SessionDefaultsView: View {
     @State private var location = LocationModel(name: "", localImage: "", imageURL: "")
     @State private var stakes = ""
     @State private var game = ""
+    @State private var currency: CurrencyType = .USD
     @State private var resultMessage: String = ""
     @State private var errorMessage: String?
     
@@ -274,6 +308,39 @@ struct SessionDefaultsView: View {
             }
             .padding(.bottom, 10)
             
+            HStack {
+                
+                Image(systemName: "creditcard.circle")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30)
+                
+                Text("Currency")
+                    .bodyStyle()
+                    .padding(.leading, 4)
+                
+                Spacer()
+                
+                Menu {
+                    
+                    Picker("Picker", selection: $currency) {
+                        ForEach(CurrencyType.allCases) {
+                            Text($0.symbol).tag($0)
+                        }
+                    }
+                    
+                } label: {
+                    
+                    Text(currency.name)
+                        .bodyStyle()
+                        .fixedSize()
+                        .lineLimit(1)
+                }
+                .foregroundColor(.brandWhite)
+                .buttonStyle(PlainButtonStyle())
+            }
+            .padding(.bottom, 10)
+            
         }
         .padding(.horizontal, 25)
         .padding(.top, 5)
@@ -314,6 +381,7 @@ struct SessionDefaultsView: View {
         location = LocationModel(name: "", localImage: "", imageURL: "")
         stakes = ""
         game = ""
+        currency = .USD
         
         let defaults = UserDefaults.standard
         let resetResult = Result {
@@ -322,6 +390,7 @@ struct SessionDefaultsView: View {
             defaults.removeObject(forKey: "locationDefault")
             defaults.removeObject(forKey: "stakesDefault")
             defaults.removeObject(forKey: "gameDefault")
+            defaults.removeObject(forKey: "currencyDefault")
             
         }
         
@@ -346,8 +415,13 @@ struct SessionDefaultsView: View {
                 defaults.set(encodedLocation, forKey: "locationDefault")
             }
             
+            if let encodedCurrency = try? JSONEncoder().encode(currency) {
+                defaults.set(encodedCurrency, forKey: "currencyDefault")
+            }
+            
             defaults.set(stakes, forKey: "stakesDefault")
             defaults.set(game, forKey: "gameDefault")
+            vm.loadCurrency()
         }
         
         switch saveResult {
@@ -377,6 +451,14 @@ struct SessionDefaultsView: View {
         else { return }
         
         location = decodedLocation
+        
+        guard
+            let encodedCurrency = defaults.object(forKey: "currencyDefault") as? Data,
+            let decodedCurrency = try? JSONDecoder().decode(CurrencyType.self, from: encodedCurrency)
+                
+        else { return }
+        
+        currency = decodedCurrency
         
         guard
             let encodedStakes = defaults.string(forKey: "stakesDefault"),

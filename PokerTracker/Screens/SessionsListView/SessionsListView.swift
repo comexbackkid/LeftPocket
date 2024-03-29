@@ -75,7 +75,7 @@ struct SessionsListView: View {
                                 NavigationLink(
                                     destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session),
                                     label: {
-                                        CellView(pokerSession: session, viewStyle: $viewStyle)
+                                        CellView(pokerSession: session, currency: vm.userCurrency, viewStyle: $viewStyle)
                                     })
                                 .listRowBackground(Color.brandBackground)
                                 .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))

@@ -345,7 +345,7 @@ struct AddNewSessionView: View {
             
             HStack (alignment: .top) {
                 HStack {
-                    Text("$")
+                    Text(vm.userCurrency.symbol)
                         .font(.callout)
                         .foregroundColor(newSession.profit.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
@@ -361,6 +361,7 @@ struct AddNewSessionView: View {
                 .padding(.bottom, 10)
                 
                 if newSession.sessionType != .tournament {
+                    
                     CustomToggle(vm: newSession)
                         .padding(.trailing)
                         .transition(.opacity.combined(with: .asymmetric(insertion: .push(from: .trailing),
@@ -369,7 +370,7 @@ struct AddNewSessionView: View {
             }
             
             HStack {
-                Text("$")
+                Text(vm.userCurrency.symbol)
                     .font(.callout)
                     .foregroundColor(newSession.expenses.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                 

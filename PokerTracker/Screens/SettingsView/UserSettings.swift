@@ -148,6 +148,57 @@ struct UserSettings: View {
                 })
             .buttonStyle(PlainButtonStyle())
             
+            NavigationLink(
+                destination: SessionDefaultsView(),
+                label: {
+                    HStack {
+                        
+                        VStack (alignment: .leading) {
+                            
+                            HStack {
+                                Text("Session Defaults")
+                                    .subtitleStyle()
+                                    .bold()
+                                
+                                Spacer()
+                                
+                                Text("›")
+                                    .font(.title2)
+                            }
+                        }
+                        
+                        Spacer()
+                    }
+                })
+            .buttonStyle(PlainButtonStyle())
+            
+            if !subManager.isSubscribed {
+                
+                Button {
+                    
+                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                    impact.impactOccurred()
+                    
+                    showPaywall = true
+                    
+                } label: {
+                    
+                    HStack {
+                        Text("Upgrade to Pro")
+                            .subtitleStyle()
+                            .bold()
+                        
+                        Spacer()
+                        
+                        Text("›")
+                            .font(.title2)
+                    }
+                    
+                    Spacer()
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+            
             HStack {
                 
                 VStack (alignment: .leading) {
@@ -245,8 +296,6 @@ struct UserSettings: View {
                 Spacer()
             }
             
-            // MARK: Future Feature Release Coming Soon
-            
             if subManager.isSubscribed {
                 
                 NavigationLink(
@@ -335,58 +384,6 @@ struct UserSettings: View {
                     }
                 })
             .buttonStyle(PlainButtonStyle())
-            
-            NavigationLink(
-                destination: SessionDefaultsView(),
-                label: {
-                    HStack {
-                        
-                        VStack (alignment: .leading) {
-                            
-                            HStack {
-                                Text("Session Defaults")
-                                    .subtitleStyle()
-                                    .bold()
-                                
-                                Spacer()
-                                
-                                Text("›")
-                                    .font(.title2)
-                            }
-                        }
-                        
-                        Spacer()
-                    }
-                })
-            .buttonStyle(PlainButtonStyle())
-            
-            if !subManager.isSubscribed {
-                
-                Button {
-                    
-                    let impact = UIImpactFeedbackGenerator(style: .soft)
-                    impact.impactOccurred()
-                    
-                    showPaywall = true
-                    
-                } label: {
-                    
-                    HStack {
-                        Text("Upgrade to Pro")
-                            .subtitleStyle()
-                            .bold()
-                        
-                        Spacer()
-                        
-                        Text("›")
-                            .font(.title2)
-                    }
-                    
-                    Spacer()
-                }
-                .buttonStyle(PlainButtonStyle())
-            }
-            
         }
         .sheet(isPresented: $showPaywall) {
             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))

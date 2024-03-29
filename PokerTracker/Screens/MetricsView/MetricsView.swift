@@ -178,7 +178,7 @@ struct AllStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(viewModel.tallyBankroll(bankroll: sessionFilter).asCurrency())
+                Text(viewModel.tallyBankroll(bankroll: sessionFilter), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .foregroundColor(viewModel.tallyBankroll(bankroll: sessionFilter) > 0 ? .green
                                      : viewModel.tallyBankroll(bankroll: sessionFilter) < 0 ? .red
                                      : .primary)
@@ -191,7 +191,7 @@ struct AllStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(viewModel.hourlyRate(bankroll: sessionFilter).asCurrency())
+                Text(viewModel.hourlyRate(bankroll: sessionFilter), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .foregroundColor(viewModel.hourlyRate(bankroll: sessionFilter) > 0 ? .green
                                      : viewModel.hourlyRate(bankroll: sessionFilter) < 0 ? .red
                                      : .primary)
@@ -204,7 +204,7 @@ struct AllStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(viewModel.avgProfit(bankroll: sessionFilter).asCurrency())
+                Text(viewModel.avgProfit(bankroll: sessionFilter), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .foregroundColor(viewModel.avgProfit(bankroll: sessionFilter) > 0 ? .green
                                      : viewModel.avgProfit(bankroll: sessionFilter) < 0 ? .red
                                      : .primary)
@@ -270,8 +270,8 @@ struct CashStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(viewModel.tallyBankroll(bankroll: sessionFilter).asCurrency())
-                    .foregroundColor(viewModel.tallyBankroll(bankroll: sessionFilter) > 0 ? .green 
+                Text(viewModel.tallyBankroll(bankroll: sessionFilter), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .foregroundColor(viewModel.tallyBankroll(bankroll: sessionFilter) > 0 ? .green
                                      : viewModel.tallyBankroll(bankroll: sessionFilter) < 0 ? .red
                                      : .primary)
             }
@@ -283,8 +283,8 @@ struct CashStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(viewModel.hourlyRate(bankroll: sessionFilter).asCurrency())
-                    .foregroundColor(viewModel.hourlyRate(bankroll: sessionFilter) > 0 ? .green 
+                Text(viewModel.hourlyRate(bankroll: sessionFilter), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .foregroundColor(viewModel.hourlyRate(bankroll: sessionFilter) > 0 ? .green
                                      : viewModel.hourlyRate(bankroll: sessionFilter) < 0 ? .red
                                      : .primary)
             }
@@ -296,7 +296,7 @@ struct CashStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(viewModel.avgProfit(bankroll: sessionFilter).asCurrency())
+                Text(viewModel.avgProfit(bankroll: sessionFilter), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .foregroundColor(viewModel.avgProfit(bankroll: sessionFilter) > 0 ? .green
                                      : viewModel.avgProfit(bankroll: sessionFilter) < 0 ? .red
                                      : .primary)
@@ -372,8 +372,8 @@ struct TournamentStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(viewModel.tallyBankroll(bankroll: sessionFilter).asCurrency())
-                    .foregroundColor(viewModel.tallyBankroll(bankroll: sessionFilter) > 0 ? .green 
+                Text(viewModel.tallyBankroll(bankroll: sessionFilter), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .foregroundColor(viewModel.tallyBankroll(bankroll: sessionFilter) > 0 ? .green
                                      : viewModel.tallyBankroll(bankroll: sessionFilter) < 0 ? .red
                                      : .primary)
             }
@@ -385,8 +385,8 @@ struct TournamentStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(viewModel.hourlyRate(bankroll: sessionFilter).asCurrency())
-                    .foregroundColor(viewModel.hourlyRate(bankroll: sessionFilter) > 0 ? .green 
+                Text(viewModel.hourlyRate(bankroll: sessionFilter), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .foregroundColor(viewModel.hourlyRate(bankroll: sessionFilter) > 0 ? .green
                                      : viewModel.hourlyRate(bankroll: sessionFilter) < 0 ? .red
                                      : .primary)
             }
@@ -408,7 +408,7 @@ struct TournamentStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text("$" + "\(viewModel.avgTournamentBuyIn())")
+                Text(viewModel.avgTournamentBuyIn(), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
             }
             
             Divider()

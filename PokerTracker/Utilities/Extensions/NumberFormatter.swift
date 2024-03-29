@@ -21,7 +21,23 @@ extension Int {
 // Styling for CustomChart axis labels
 extension Int {
     
-    // I changed this recently adding the abs() to thousand and million because negative chart values weren't working
+    func axisShortHand(_ symbol: CurrencyType) -> String {
+        let number = Double(self)
+        let sign = (self < 0) ? "-" : ""
+        let thousand = abs(number) / 1000
+        let million = abs(number) / 1000000
+        
+        if million >= 1.0 {
+            return "\(sign)\(symbol.symbol)\(round(million*10)/10)M"
+        }
+        else if thousand >= 1.0 {
+            return "\(sign)\(symbol.symbol)\(round(thousand*10)/10)K"
+        }
+        else {
+            return "\(sign)\(symbol.symbol)\(abs(self))"
+        }
+    }
+    
     var axisFormat: String {
         let number = Double(self)
         let sign = (self < 0) ? "-" : ""

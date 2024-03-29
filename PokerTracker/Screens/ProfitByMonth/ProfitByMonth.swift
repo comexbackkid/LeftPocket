@@ -30,11 +30,11 @@ struct ProfitByMonth: View {
                     let total = filteredMonths.filter({ $0.date.getMonth() == month }).map {$0.profit}.reduce(0,+)
                     let hourlyRate = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.hourlyRate }.reduce(0,+)
                     
-                    Text(hourlyRate.asCurrency() + " / hr ")
+                    Text("\(hourlyRate, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0))) / hr")
                         .profitColor(total: hourlyRate)
                         .font(.callout)
                     
-                    Text(total.asCurrency())
+                    Text(total, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                         .profitColor(total: total)
                         .font(.callout)
                         .frame(width: 80, alignment: .trailing)

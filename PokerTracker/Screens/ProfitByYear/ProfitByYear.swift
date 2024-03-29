@@ -109,14 +109,15 @@ struct ProfitByYear: View {
                 Text("Gross Income")
                 
                 Spacer()
-                Text("\(grossIncome.asCurrency())").profitColor(total: grossIncome)
+                Text(grossIncome, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: grossIncome)
             }
             
             HStack {
                 Text("Expenses")
                 
                 Spacer()
-                Text("\(totalExpenses.asCurrency())")
+                Text(totalExpenses, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .foregroundColor(totalExpenses > 0 ? .red : Color(.systemGray))
             }
             
@@ -124,7 +125,8 @@ struct ProfitByYear: View {
                 Text("Net Profit")
                 
                 Spacer()
-                Text("\(netProfitTotal.asCurrency())").profitColor(total: netProfitTotal)
+                Text(netProfitTotal, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: netProfitTotal)
             }
             
             Divider().padding(.vertical)
@@ -133,14 +135,16 @@ struct ProfitByYear: View {
                 Text("Hourly Rate")
                 
                 Spacer()
-                Text("\(hourlyRate.asCurrency())").profitColor(total: hourlyRate)
+                Text(hourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: hourlyRate)
             }
             
             HStack {
                 Text("Profit Per Session")
                 
                 Spacer()
-                Text("\(profitPerSession.asCurrency())").profitColor(total: profitPerSession)
+                Text(profitPerSession, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: profitPerSession)
             }
             
             HStack {
@@ -185,7 +189,7 @@ struct ProfitByYear: View {
             let bestLocation = vm.bestLocation(timeline: vm.myNewTimeline)
             let bestProfit = vm.bestProfit(timeline: vm.myNewTimeline)
             
-            BestSessionView(profit: bestProfit)
+            BestSessionView(profit: bestProfit, currency: viewModel.userCurrency)
             
             BestLocationView(location: bestLocation)
             

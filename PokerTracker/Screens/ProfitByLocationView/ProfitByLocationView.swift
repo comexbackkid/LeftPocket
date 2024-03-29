@@ -41,11 +41,11 @@ struct ProfitByLocationView: View {
                                 let total = filteredByYear.filter({ $0.location.name == location.name }).map({ $0.profit }).reduce(0,+)
                                 let hourlyRate = filteredByYear.filter({ $0.location.name == location.name }).map({ $0.hourlyRate }).reduce(0,+)
                                 
-                                Text(hourlyRate.asCurrency() + " / hr")
+                                Text("\(hourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))) / hr")
                                     .font(.callout)
                                     .profitColor(total: hourlyRate)
                                 
-                                Text(total.asCurrency())
+                                Text(total, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                                     .font(.callout)
                                     .profitColor(total: total)
                                     .frame(width: 80, alignment: .trailing)
