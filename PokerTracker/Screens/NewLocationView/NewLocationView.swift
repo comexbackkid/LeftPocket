@@ -19,7 +19,6 @@ struct NewLocationView: View {
     @Binding var addLocationIsShowing: Bool
     
     @State private var photoPickerItem: PhotosPickerItem?
-//    @State private var selectedImageData: Data?
     @State private var photoError: Error?
     
     var body: some View {
@@ -103,7 +102,7 @@ extension View {
     @ViewBuilder func errorAlert(error: Binding<Error?>) -> some View {
         let isPresented: Binding<Bool> = Binding<Bool>(get: { error.wrappedValue != nil }, set: { newValue in if newValue { error.wrappedValue = nil} })
         
-       self
+        self
             .alert(error.wrappedValue?.localizedDescription ?? "A problem has occurred", isPresented: isPresented, actions: {
                 Button("OK") { }
             })

@@ -31,7 +31,7 @@ struct AddSessionTip: Tip {
     }
     
     var message: Text? {
-        Text("Tap here to log a poker sessions. Long press to activate a live session.")
+        Text("Tap here to log a poker session. Long press to activate a live session.")
     }
     
     // Show this tip when the user has never pressed the Add Session Button.

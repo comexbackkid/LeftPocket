@@ -97,7 +97,8 @@ struct SessionDetailView: View {
                     .opacity(0.3)
                     .padding(.bottom, 1)
                 
-                Text(pokerSession.profit, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0))).profitColor(total: pokerSession.profit)
+                Text(pokerSession.profit, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: pokerSession.profit)
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
@@ -137,7 +138,8 @@ struct SessionDetailView: View {
                     .opacity(0.3)
                     .padding(.bottom, 1)
                 
-                Text(pokerSession.profit.asCurrency()).profitColor(total: pokerSession.profit)
+                Text(pokerSession.profit, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: pokerSession.profit)
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             

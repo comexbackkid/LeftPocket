@@ -12,6 +12,8 @@ import TipKit
 
 final class NewSessionViewModel: ObservableObject {
     
+    enum SessionType: String, Codable { case cash, tournament }
+    
     @Published var location: LocationModel = LocationModel(name: "", localImage: "", imageURL: "")
     @Published var game: String = ""
     @Published var stakes: String = ""
@@ -25,8 +27,8 @@ final class NewSessionViewModel: ObservableObject {
     @Published var sessionType: SessionType?
     @Published var entrants: String = ""
     @Published var alertItem: AlertItem?
-    
-    enum SessionType: String, Codable { case cash, tournament }
+    @Published var buyIn: String = ""
+    @Published var cashOut: String = ""
     
     var isValidForm: Bool {
         
@@ -40,6 +42,7 @@ final class NewSessionViewModel: ObservableObject {
             return false
         }
         
+        // Run this check if it's a Cash game
         if sessionType == .cash {
             guard !stakes.isEmpty else {
                 alertItem = AlertContext.inValidStakes
@@ -47,6 +50,8 @@ final class NewSessionViewModel: ObservableObject {
             }
             
         } else {
+            
+            // Run this check for Tournaments
             guard !entrants.isEmpty else {
                 alertItem = AlertContext.invalidEntrants
                 return false
@@ -79,6 +84,7 @@ final class NewSessionViewModel: ObservableObject {
                              stakes: self.stakes,
                              date: self.startTime,
                              profit: (Int(self.positiveNegative + self.profit) ?? 0) - (Int(self.expenses) ?? 0),
+//                             profit: (Int(self.cashOut) ?? 0) - (Int(self.buyIn) ?? 0) - (Int(self.expenses) ?? 0),
                              notes: self.notes,
                              startTime: self.startTime,
                              endTime: self.endTime,

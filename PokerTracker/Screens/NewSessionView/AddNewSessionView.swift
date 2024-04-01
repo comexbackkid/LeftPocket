@@ -17,6 +17,8 @@ struct AddNewSessionView: View {
     @EnvironmentObject var timerViewModel: TimerViewModel
     
     @Binding var isPresented: Bool
+    @State var addLocationIsShowing = false
+    @State var showPaywall = false
     
     var body: some View {
         
@@ -107,16 +109,22 @@ struct AddNewSessionView: View {
             Spacer()
             
             Menu {
-                
-                withAnimation {
-                    Picker("Picker", selection: $newSession.sessionType.animation(.linear(duration: 0.2))) {
-                        Text("Cash Game").tag(Optional(NewSessionViewModel.SessionType.cash))
-                        
-                        // Right now we're just choosing to hide the Tournament option unless user is subscribed
-                        if subManager.isSubscribed {
-                            Text("Tournament").tag(Optional(NewSessionViewModel.SessionType.tournament))
-                        }
+                    
+                Button("Cash Game") {
+                    
+                    withAnimation {
+                        newSession.sessionType = .cash
                     }
+                }
+                
+                Button("Tournament") {
+                    
+                    if subManager.isSubscribed {
+                        withAnimation {
+                            newSession.sessionType = .tournament
+                        }
+                        
+                    } else { showPaywall = true }
                 }
    
             } label: {
@@ -149,6 +157,18 @@ struct AddNewSessionView: View {
         }
         .padding(.horizontal)
         .padding(.bottom, 10)
+        .sheet(isPresented: $showPaywall) {
+            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
+        }
+        .task {
+            for await customerInfo in Purchases.shared.customerInfoStream {
+                
+                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                await subManager.checkSubscriptionStatus()
+                
+            }
+        }
     }
     
     var locationSelection: some View {
@@ -170,6 +190,15 @@ struct AddNewSessionView: View {
                 Picker("Picker", selection: $newSession.location) {
                     ForEach(vm.locations) { location in
                         Text(location.name).tag(location)
+                    }
+                    
+                }
+                Button {
+                    addLocationIsShowing.toggle()
+                } label: {
+                    HStack {
+                        Text("Add Location")
+                        Image(systemName: "mappin.and.ellipse")
                     }
                 }
                 
@@ -197,6 +226,9 @@ struct AddNewSessionView: View {
         }
         .padding(.horizontal)
         .padding(.bottom, 10)
+        .sheet(isPresented: $addLocationIsShowing, content: {
+            NewLocationView(addLocationIsShowing: $addLocationIsShowing)
+        })
         
     }
     
@@ -344,6 +376,8 @@ struct AddNewSessionView: View {
         
         VStack {
             
+            // MARK: CURRENT PROFIT / LOSS TEXTFIELD
+            
             HStack (alignment: .top) {
                 HStack {
                     Text(vm.userCurrency.symbol)
@@ -358,7 +392,7 @@ struct AddNewSessionView: View {
                 .background(.gray.opacity(0.2))
                 .cornerRadius(15)
                 .padding(.leading)
-                .padding(.trailing, 10)
+                .padding(.trailing, newSession.sessionType == .tournament ? 16 : 10)
                 .padding(.bottom, 10)
                 
                 if newSession.sessionType != .tournament {
@@ -370,14 +404,58 @@ struct AddNewSessionView: View {
                 }
             }
             
+            // MARK: ATTEMPT AT NEW PROFIT / LOSS TEXTFIELD WITH BUY IN AND CASH OUT FIELDS
+            
+//            HStack (alignment: .top) {
+//                
+//                // Buy In
+//                if newSession.sessionType != .tournament {
+//                    HStack {
+//                        Text(vm.userCurrency.symbol)
+//                            .font(.callout)
+//                            .foregroundColor(newSession.buyIn.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+//                        
+//                        TextField(newSession.sessionType == .tournament ? "Winnings" : "Buy In", text: $newSession.buyIn)
+//                            .font(.custom("Asap-Regular", size: 17))
+//                            .keyboardType(.numberPad)
+//                    }
+//                    .padding(18)
+//                    .background(.gray.opacity(0.2))
+//                    .cornerRadius(15)
+//                    .padding(.leading)
+//                    .padding(.trailing, 10)
+//                    .padding(.bottom, 10)
+//                    .transition(.opacity.combined(with: .asymmetric(insertion: .push(from: .leading),
+//                                                                                           removal: .scale(scale: 0, anchor: .topLeading))))
+//                }
+//                
+//                // Cash Out
+//                HStack {
+//                    Text(vm.userCurrency.symbol)
+//                        .font(.callout)
+//                        .foregroundColor(newSession.cashOut.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+//                    
+//                    TextField(newSession.sessionType == .tournament ? "Winnings" : "Cash Out", text: $newSession.cashOut)
+//                        .font(.custom("Asap-Regular", size: 17))
+//                        .keyboardType(.numberPad)
+//                }
+//                .padding(18)
+//                .background(.gray.opacity(0.2))
+//                .cornerRadius(15)
+//                .padding(.leading, newSession.sessionType == .tournament ? 16 : 0)
+//                .padding(.trailing)
+//                .padding(.bottom, 10)
+//
+//            }
+            
             HStack {
                 Text(vm.userCurrency.symbol)
                     .font(.callout)
                     .foregroundColor(newSession.expenses.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                 
                 TextField(newSession.sessionType == .tournament ? "Total Buy In" : "Expenses (Meals, tips, etc.)", text: $newSession.expenses)
-                    .font(.custom("Asap-Regular", size: 17))
-                    .keyboardType(.numberPad)
+                                    .font(.custom("Asap-Regular", size: 17))
+                                    .keyboardType(.numberPad)
             }
             .padding(18)
             .background(.gray.opacity(0.2))
