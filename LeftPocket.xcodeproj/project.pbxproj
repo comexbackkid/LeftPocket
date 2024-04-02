@@ -34,7 +34,6 @@
 		7C3F43AA27284CD800A9C842 /* NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43A927284CD800A9C842 /* NumberFormatter.swift */; };
 		7C3F43AC2728512700A9C842 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43AB2728512700A9C842 /* LocationModel.swift */; };
 		7C4254A12784E25C00B5DA79 /* ProfitByYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4254A02784E25C00B5DA79 /* ProfitByYear.swift */; };
-		7C45B06D29428F0E00587078 /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C45B06C29428F0E00587078 /* BarChartView.swift */; };
 		7C463C232B487B040095E6C6 /* CSVConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C463C222B487B040095E6C6 /* CSVConversion.swift */; };
 		7C468EFD273980F7000CA4B3 /* Animations+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C468EFC273980F7000CA4B3 /* Animations+Ext.swift */; };
 		7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C483255270E3F32005AAFA1 /* FilterCardView.swift */; };
@@ -65,7 +64,6 @@
 		7C67DDB62BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C67DDB42BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift */; };
 		7C67DDBA2BAB2977008C7029 /* LiveSessionWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C67DDB82BAB2977008C7029 /* LiveSessionWidget.swift */; };
 		7C67DDBC2BAB9BD2008C7029 /* WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C67DDBB2BAB9BD2008C7029 /* WidgetBundle.swift */; };
-		7C68FE3F26D670100019BA53 /* LeftPocketTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE3E26D670100019BA53 /* LeftPocketTabView.swift */; };
 		7C68FE4126D709530019BA53 /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE4026D709530019BA53 /* PlusButton.swift */; };
 		7C68FE4326D7CEA40019BA53 /* RecentSessionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE4226D7CEA40019BA53 /* RecentSessionCardView.swift */; };
 		7C6E75BB2BAA16BE006173A4 /* LiveSessionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E75BA2BAA16BE006173A4 /* LiveSessionCounter.swift */; };
@@ -77,7 +75,7 @@
 		7C85DE6528A5536300B79D8B /* LineChartProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBBE473277BA7B400986613 /* LineChartProvider.swift */; };
 		7C85DE6928A5583A00B79D8B /* WidgetViewMedium.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C85DE6828A5583A00B79D8B /* WidgetViewMedium.swift */; };
 		7C85DE6B28A55F2900B79D8B /* WidgetChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C85DE6A28A55F2900B79D8B /* WidgetChart.swift */; };
-		7C8647812B29277900F48951 /* SignInTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8647802B29277900F48951 /* SignInTest.swift */; };
+		7C8647812B29277900F48951 /* WelcomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8647802B29277900F48951 /* WelcomeScreen.swift */; };
 		7C8647842B2A642700F48951 /* AddNewSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8647832B2A642700F48951 /* AddNewSessionView.swift */; };
 		7C8834102735BB5D0093B201 /* NewLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */; };
 		7C897F192891BC1700E42FDA /* LocationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C897F182891BC1700E42FDA /* LocationsListView.swift */; };
@@ -178,7 +176,6 @@
 		7CEA58B928A56E5000418E11 /* MainWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEA58B828A56E5000418E11 /* MainWidgetView.swift */; };
 		7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEB761E26D9A77E006170EF /* Alerts.swift */; };
 		7CED6EA827517D7F00E18053 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED6EA727517D7F00E18053 /* Array+Ext.swift */; };
-		7CF53F1E289A9EA300C26AD5 /* StudyCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF53F1D289A9EA300C26AD5 /* StudyCardView.swift */; };
 		7CFB683A2B7CFC92005AB81F /* BarChartByYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */; };
 		7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */; };
 		7CFD78A92B34DF2D00C1A9F6 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 7CFD78A82B34DF2D00C1A9F6 /* RevenueCat */; };
@@ -238,7 +235,6 @@
 		7C3F43A927284CD800A9C842 /* NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
 		7C3F43AB2728512700A9C842 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
 		7C4254A02784E25C00B5DA79 /* ProfitByYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByYear.swift; sourceTree = "<group>"; };
-		7C45B06C29428F0E00587078 /* BarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartView.swift; sourceTree = "<group>"; };
 		7C463C222B487B040095E6C6 /* CSVConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVConversion.swift; sourceTree = "<group>"; };
 		7C468EFC273980F7000CA4B3 /* Animations+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Animations+Ext.swift"; sourceTree = "<group>"; };
 		7C483255270E3F32005AAFA1 /* FilterCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCardView.swift; sourceTree = "<group>"; };
@@ -268,7 +264,6 @@
 		7C67DDB42BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionWidgetAttributes.swift; sourceTree = "<group>"; };
 		7C67DDB82BAB2977008C7029 /* LiveSessionWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionWidget.swift; sourceTree = "<group>"; };
 		7C67DDBB2BAB9BD2008C7029 /* WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetBundle.swift; sourceTree = "<group>"; };
-		7C68FE3E26D670100019BA53 /* LeftPocketTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftPocketTabView.swift; sourceTree = "<group>"; };
 		7C68FE4026D709530019BA53 /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
 		7C68FE4226D7CEA40019BA53 /* RecentSessionCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentSessionCardView.swift; sourceTree = "<group>"; };
 		7C6E75BA2BAA16BE006173A4 /* LiveSessionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionCounter.swift; sourceTree = "<group>"; };
@@ -279,7 +274,7 @@
 		7C8134C2272A13B6004E1CE1 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
 		7C85DE6828A5583A00B79D8B /* WidgetViewMedium.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViewMedium.swift; sourceTree = "<group>"; };
 		7C85DE6A28A55F2900B79D8B /* WidgetChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetChart.swift; sourceTree = "<group>"; };
-		7C8647802B29277900F48951 /* SignInTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInTest.swift; sourceTree = "<group>"; };
+		7C8647802B29277900F48951 /* WelcomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreen.swift; sourceTree = "<group>"; };
 		7C8647832B2A642700F48951 /* AddNewSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSessionView.swift; sourceTree = "<group>"; };
 		7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLocationViewModel.swift; sourceTree = "<group>"; };
 		7C897F182891BC1700E42FDA /* LocationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsListView.swift; sourceTree = "<group>"; };
@@ -343,7 +338,6 @@
 		7CEA58B828A56E5000418E11 /* MainWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWidgetView.swift; sourceTree = "<group>"; };
 		7CEB761E26D9A77E006170EF /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		7CED6EA727517D7F00E18053 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
-		7CF53F1D289A9EA300C26AD5 /* StudyCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyCardView.swift; sourceTree = "<group>"; };
 		7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartByYear.swift; sourceTree = "<group>"; };
 		7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
 		7CFD78AC2B34E46100C1A9F6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -447,7 +441,7 @@
 				7C5EDA1428905AB7008ACFEF /* EditLocationView */,
 				7C2B3E6726F5659600B84D52 /* EmptyStates */,
 				7C897F172891BBFB00E42FDA /* LocationListView */,
-				7C86477F2B29276700F48951 /* Login */,
+				7C86477F2B29276700F48951 /* WelcomeScreen */,
 				7C82E13126EFC83F00E3EB6F /* MetricsView */,
 				7C65B186272C3A4300AFE796 /* NewLocationView */,
 				7C82E13326EFC86A00E3EB6F /* NewSessionView */,
@@ -471,7 +465,6 @@
 				7C483255270E3F32005AAFA1 /* FilterCardView.swift */,
 				7CB3EBA026C345A1009E8DF3 /* MetricsCardView.swift */,
 				7C68FE4226D7CEA40019BA53 /* RecentSessionCardView.swift */,
-				7CF53F1D289A9EA300C26AD5 /* StudyCardView.swift */,
 			);
 			path = CardViews;
 			sourceTree = "<group>";
@@ -560,7 +553,6 @@
 		7C45B06B29428EEB00587078 /* BarChartView */ = {
 			isa = PBXGroup;
 			children = (
-				7C45B06C29428F0E00587078 /* BarChartView.swift */,
 				7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */,
 			);
 			path = BarChartView;
@@ -602,7 +594,6 @@
 			children = (
 				7C4CE7052773B2330070B16E /* LaunchScreen.storyboard */,
 				7C63949526C14E8300939F40 /* LeftPocketApp.swift */,
-				7C68FE3E26D670100019BA53 /* LeftPocketTabView.swift */,
 				7C2E54CA2B28CCEC00831ABA /* LeftPocketCustomTabBar.swift */,
 				7C2614CF26D9315F00986183 /* Views */,
 				7C2614CC26D930D900986183 /* Screens */,
@@ -703,12 +694,12 @@
 			path = SettingsView;
 			sourceTree = "<group>";
 		};
-		7C86477F2B29276700F48951 /* Login */ = {
+		7C86477F2B29276700F48951 /* WelcomeScreen */ = {
 			isa = PBXGroup;
 			children = (
-				7C8647802B29277900F48951 /* SignInTest.swift */,
+				7C8647802B29277900F48951 /* WelcomeScreen.swift */,
 			);
-			path = Login;
+			path = WelcomeScreen;
 			sourceTree = "<group>";
 		};
 		7C897F172891BBFB00E42FDA /* LocationListView */ = {
@@ -1017,7 +1008,6 @@
 				7C0208DB26F24B4900AC6151 /* Date+Ext.swift in Sources */,
 				7CBEF44427596A6600744F4A /* CustomChartView.swift in Sources */,
 				7C3F43AA27284CD800A9C842 /* NumberFormatter.swift in Sources */,
-				7C45B06D29428F0E00587078 /* BarChartView.swift in Sources */,
 				7CA7F8182B6FFAA700F976EE /* CSVImport.swift in Sources */,
 				7C6E75BB2BAA16BE006173A4 /* LiveSessionCounter.swift in Sources */,
 				7C6394A726C14F5600939F40 /* MetricsView.swift in Sources */,
@@ -1027,13 +1017,11 @@
 				7CB1EBDA2950DF4800FA306B /* BestSessionView.swift in Sources */,
 				7C63949626C14E8300939F40 /* LeftPocketApp.swift in Sources */,
 				7C3F43AC2728512700A9C842 /* LocationModel.swift in Sources */,
-				7CF53F1E289A9EA300C26AD5 /* StudyCardView.swift in Sources */,
 				7CA7F8152B6FF5FB00F976EE /* Tips.swift in Sources */,
 				7C468EFD273980F7000CA4B3 /* Animations+Ext.swift in Sources */,
 				7CBEF44627596DEE00744F4A /* Colors+Ext.swift in Sources */,
 				7CB3EB9F26C310F5009E8DF3 /* SessionDetailView.swift in Sources */,
 				7C4C7BA728A4684700DBC886 /* Text+Ext.swift in Sources */,
-				7C68FE3F26D670100019BA53 /* LeftPocketTabView.swift in Sources */,
 				7C4CE70227729E4D0070B16E /* UIWindow+Ext.swift in Sources */,
 				7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */,
 				7C897F192891BC1700E42FDA /* LocationsListView.swift in Sources */,
@@ -1060,7 +1048,7 @@
 				7C1F8C82271094B50068E8B1 /* ProfitByWeekdayView.swift in Sources */,
 				7C63FC3F2B3640FF00FE731C /* SubscriptionManager.swift in Sources */,
 				7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */,
-				7C8647812B29277900F48951 /* SignInTest.swift in Sources */,
+				7C8647812B29277900F48951 /* WelcomeScreen.swift in Sources */,
 				7C6394AD26C14FA600939F40 /* HeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

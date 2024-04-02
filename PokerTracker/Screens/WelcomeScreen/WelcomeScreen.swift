@@ -8,7 +8,7 @@
 import SwiftUI
 import AuthenticationServices
 
-struct SignInTest: View {
+struct WelcomeScreen: View {
     
     @Environment(\.colorScheme) var colorScheme
     @Binding var showWelcomeScreen: Bool
@@ -93,7 +93,7 @@ struct SignInTest: View {
     
     var disclaimerText: some View {
         
-        Text("By continuing you agree to Left Pocket's Terms of Use and [Privacy Policy](https://getleftpocket.carrd.co/#privacy)")
+        Text("By continuing you agree to Left Pocket's Terms of Use and [Privacy Policy](https://getleftpocket.com/#privacy)")
             .accentColor(.brandPrimary)
             .foregroundColor(.white)
             .font(.footnote)
@@ -105,6 +105,6 @@ struct SignInTest: View {
 
 struct SignInTest_Previews: PreviewProvider {
     static var previews: some View {
-        SignInTest(showWelcomeScreen: .constant(true))
+        WelcomeScreen(showWelcomeScreen: .constant(true))
     }
 }

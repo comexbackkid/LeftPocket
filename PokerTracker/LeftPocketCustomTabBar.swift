@@ -66,7 +66,7 @@ struct LeftPocketCustomTabBar: View {
                     LiveSessionCounter()
                 }
                 
-                tabBarNew
+                tabBar
             }
         }
         .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
@@ -82,75 +82,12 @@ struct LeftPocketCustomTabBar: View {
         }
     }
     
-    // TODO: Delete once fully test tabBarNew
-//    var tabBar: some View {
-//        
-//        HStack {
-//            ForEach(0..<5) { index in
-//                
-//                Button {
-//            
-//                    if index == 2 {
-//                        let impact = UIImpactFeedbackGenerator(style: .medium)
-//                        impact.impactOccurred()
-//                        
-//                        Task {
-//                            await AddSessionTip.sessionCount.donate()
-//                        }
-//                        
-//                        // If user is NOT subscribed, AND they reach the 25 Session limit, the Plus button will display Paywall
-//                        if !subManager.isSubscribed && viewModel.sessions.count > 24 {
-//                            
-//                            showPaywall = true
-//                        } else {
-//                            
-//                            isPresented = true
-//                        }
-//                        
-//                        return
-//                    }
-//                    
-//                    let impact = UIImpactFeedbackGenerator(style: .soft)
-//                    impact.impactOccurred()
-//                    
-//                    selectedTab = index
-//                    
-//                } label: {
-//                    
-//                    Spacer()
-//                    
-//                    Image(systemName: tabBarImages[index])
-//                        .font(.system(size: index == 2 ? 30 : 22, weight: .black))
-//                        .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray4) )
-//                    
-//                    Spacer()
-//                }
-//                .sheet(isPresented: $showPaywall) {
-//                    PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-//                        .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
-//                }
-//                .task {
-//                    for await customerInfo in Purchases.shared.customerInfoStream {
-//                        showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
-//                        await subManager.checkSubscriptionStatus()
-//                    }
-//                }
-//            }
-//        }
-//        .padding(.top)
-//        .background(.thickMaterial)
-//        .sheet(isPresented: $isPresented) {
-//            AddNewSessionView(isPresented: $isPresented)
-//        }
-//    }
-    
-    var tabBarNew: some View {
+    var tabBar: some View {
         
         HStack {
             
             ForEach(0..<5) { index in
                 
-                // Draw a standard button as long as the index isn't the Add New Session image
                 if index != 2 {
                     
                     Button {
@@ -172,8 +109,7 @@ struct LeftPocketCustomTabBar: View {
                     
                 } else {
                     
-                    // The Add New Session is actually a Menu with a button label
-                    // This allows for a Context Menu style but without the buggy animations
+                    // Using a Menu here because the Context Menu style effect works cleaner & has smoother animation
                     Menu {
 
                         if !isCounting {
@@ -185,11 +121,15 @@ struct LeftPocketCustomTabBar: View {
                                     await AddSessionTip.sessionCount.donate()
                                 }
                                 
-                                // If user is NOT subscribed, AND they reach the 25 Session limit, the Plus button will display Paywall
-                                if !subManager.isSubscribed && viewModel.sessions.count > 24 {
+                                // If user is NOT subscribed, AND they're over the monthly allowance, the Plus button will display Paywall
+                                if !subManager.isSubscribed && !viewModel.canLogNewSession() {
+                                    
                                     showPaywall = true
                                     
-                                } else { isPresented = true }
+                                } else {
+                                    
+                                    isPresented = true
+                                }
                                 
                                 return
                                 
@@ -203,8 +143,16 @@ struct LeftPocketCustomTabBar: View {
                                 let impact = UIImpactFeedbackGenerator(style: .soft)
                                 impact.impactOccurred()
                                 
-                                timerViewModel.startSession()
-                                isCounting = true
+                                // If user is NOT subscribed, AND they're over the monthly allowance, the Plus button will display Paywall
+                                if !subManager.isSubscribed && !viewModel.canLogNewSession() {
+                                    
+                                    showPaywall = true
+                                    
+                                } else {
+                                    
+                                    timerViewModel.startSession()
+                                    isCounting = true
+                                }
                                 
                             } label: {
                                 
@@ -233,8 +181,8 @@ struct LeftPocketCustomTabBar: View {
                             await AddSessionTip.sessionCount.donate()
                         }
                         
-                        // If user is NOT subscribed, AND they reach the 25 Session limit, the Plus button will display Paywall
-                        if !subManager.isSubscribed && viewModel.sessions.count > 24 {
+                        // If user is NOT subscribed, AND they're over the monthly allowance, the Plus button will display Paywall
+                        if !subManager.isSubscribed && !viewModel.canLogNewSession() {
                             
                             showPaywall = true
                             

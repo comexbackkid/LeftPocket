@@ -13,6 +13,7 @@ class SessionsListViewModel: ObservableObject {
     @Published var uniqueStakes: [String] = []
     @Published var stakesProgress: Float = 0.0
     @Published var userCurrency: CurrencyType = .USD
+    @Published var sessionCounts: Int = 0
     @Published var locations: [LocationModel] = DefaultLocations.allLocations
     {
         didSet {
@@ -102,8 +103,6 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // Will merge Default Locations in to the current saved Locations and also keep the same order
-    // Question is, do we absolutely need to run this? If a user deletes a default location, they presumably don't want it back?
-    // Maybe there's a "Restore to Defaults" button?
     func mergeLocations() {
         var modifiedLocations = self.locations
         
@@ -724,6 +723,28 @@ class SessionsListViewModel: ObservableObject {
         WidgetCenter.shared.reloadAllTimelines()
     }
     
+    // MARK: COUNT USER ACTIVITY FOR PAYWALL LOGIC
+    
+    func sessionsLoggedThisMonth(sessions: [PokerSession]) -> Int {
+        let calendar = Calendar.current
+        let currentDate = Date()
+        let currentMonth = calendar.component(.month, from: currentDate)
+        let currentYear = calendar.component(.year, from: currentDate)
+        
+        return sessions.filter { session in
+            let sessionDate = session.date
+            let sessionMonth = calendar.component(.month, from: sessionDate)
+            let sessionYear = calendar.component(.year, from: sessionDate)
+            return sessionMonth == currentMonth && sessionYear == currentYear
+        }.count
+    }
+    
+    // Returns false if the user tries to add a 6th session for the month
+    func canLogNewSession() -> Bool {
+        let loggedThisMonth = sessionsLoggedThisMonth(sessions: self.sessions)
+        return loggedThisMonth < 5
+    }
+    
     // MARK: MOCK DATA FOR PREVIEW & TESTING
     
     // Loading fake data for Preview Provider
@@ -739,6 +760,5 @@ class SessionsListViewModel: ObservableObject {
     }
     
     let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    let daysOfWeekAbbreviated = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 }

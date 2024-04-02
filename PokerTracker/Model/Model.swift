@@ -22,6 +22,7 @@ struct PokerSession: Hashable, Codable, Identifiable {
     let isTournament: Bool?
     let entrants: Int?
     
+    // Individual session playing time formatted for Detail View
     var playingTIme: String {
         return sessionDuration.abbreviated(duration: self.sessionDuration)
     }
@@ -69,12 +70,6 @@ struct DefaultData {
 
 struct MockData {
     
-    static func countLocation(location: LocationModel.ID) -> Int {
-        
-        let arrayOfLocations = MockData.allSessions.filter({ $0.location.id == location })
-        return arrayOfLocations.count
-    }
-    
     static let mockLocation = LocationModel(name: "MGM Springfield", localImage: "mgmspringfield-header", imageURL: "")
     static let sampleSession = PokerSession(location: mockLocation,
                                             game: "NL Texas Hold Em",
@@ -112,54 +107,6 @@ struct MockData {
                      isTournament: false,
                      entrants: nil),
 
-        PokerSession(location: allLocations[1],
-                     game: "NL Texas Hold Em",
-                     stakes: "1/3",
-                     date: Date().modifyDays(days: -2),
-                     profit: 221,
-                     notes: "MP limps, LJ limps, Hero on BTN makes it $15, they both call. ($48) Flop is KdKhTs. MP checks, LJ bets $10, I call, MP calls. ($78) Turn is Ac. MP checks, LJ checks, I bet $55 thinking they’re both super weak here. MP thinks for a moment and calls, LJ folds. ($188) River comes Qd. MP checks. Hero? We tank and ultimately check. MP is pissed and tables AK for a boat.",
-                     startTime: Date(),
-                     endTime: Date().modifyTime(minutes: 95),
-                     expenses: 7,
-                     isTournament: false,
-                     entrants: nil),
-
-        PokerSession(location: allLocations[2],
-                     game: "NL Texas Hold Em",
-                     stakes: "1/2",
-                     date: Date().modifyDays(days: -45),
-                     profit: 106,
-                     notes: "Hero in CO, MP & LP limp I raise $15, Villain is on BTN (younger kid, stack around $550-$600) and he 3! to $45, we call. ($94) Flop is KsQh9h. I check, he bets $35, we call. ($160) Turn is Ac. I check again, Villain pauses a moment and puts in $100. We have about $320 left. Hero???",
-                     startTime: Date(),
-                     endTime: Date().modifyTime(minutes: 80),
-                     expenses: 0,
-                     isTournament: false,
-                     entrants: nil),
-
-        PokerSession(location: allLocations[3],
-                     game: "NL Texas Hold Em",
-                     stakes: "1/2",
-                     date: Date().modifyDays(days: -1),
-                     profit: 210,
-                     notes: "MP limps, LJ limps, Hero on BTN makes it $15, they both call. ($48) Flop is KdKhTs. MP checks, LJ bets $10, I call, MP calls. ($78) Turn is Ac. MP checks, LJ checks, I bet $55 thinking they’re both super weak here. MP thinks for a moment and calls, LJ folds. ($188) River comes Qd. MP checks. Hero? We tank and ultimately check. MP is pissed and tables AK for a boat.",
-                     startTime: Date(),
-                     endTime: Date().modifyTime(minutes: 365),
-                     expenses: 8,
-                     isTournament: false,
-                     entrants: nil),
-        
-        PokerSession(location: allLocations[0],
-                     game: "NL Texas Hold Em",
-                     stakes: "1/2",
-                     date: Date().modifyDays(days: -36),
-                     profit: 25,
-                     notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
-                     startTime: Date(),
-                     endTime: Date().modifyTime(minutes: 340),
-                     expenses: 12,
-                     isTournament: false,
-                     entrants: nil),
-
         PokerSession(location: allLocations[0],
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
@@ -194,69 +141,10 @@ struct MockData {
                      endTime: Date().modifyTime(minutes: 320),
                      expenses: 7,
                      isTournament: false,
-                     entrants: nil),
-        
-        PokerSession(location: allLocations[5],
-                     game: "NL Texas Hold Em",
-                     stakes: "1/2",
-                     date: Date().modifyDays(days: -100),
-                     profit: 175,
-                     notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
-                     startTime: Date(),
-                     endTime: Date().modifyTime(minutes: 324),
-                     expenses: 4,
-                     isTournament: false,
-                     entrants: nil),
-        
-        PokerSession(location: allLocations[6],
-                     game: "NL Texas Hold Em",
-                     stakes: "1/2",
-                     date: Date().modifyDays(days: -73),
-                     profit: 100,
-                     notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
-                     startTime: Date(),
-                     endTime: Date().modifyTime(minutes: 220),
-                     expenses: 7,
-                     isTournament: false,
-                     entrants: nil),
-        
-        PokerSession(location: allLocations[6],
-                     game: "NL Texas Hold Em",
-                     stakes: "1/2",
-                     date: Date().modifyDays(days: -923),
-                     profit: 100,
-                     notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
-                     startTime: Date(),
-                     endTime: Date().modifyTime(minutes: 220),
-                     expenses: 7,
-                     isTournament: false,
-                     entrants: nil),
-        
-        PokerSession(location: allLocations[6],
-                     game: "NL Texas Hold Em",
-                     stakes: "1/2",
-                     date: Date().modifyDays(days: -300),
-                     profit: 280,
-                     notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
-                     startTime: Date(),
-                     endTime: Date().modifyTime(minutes: 220),
-                     expenses: 7,
-                     isTournament: false,
-                     entrants: nil),
-        
-        PokerSession(location: allLocations[3],
-                     game: "NL Texas Hold Em",
-                     stakes: "1/2",
-                     date: Date().modifyDays(days: -300),
-                     profit: -150,
-                     notes: "Two limpers, I raise to $12 from SB, BB folds, UTG+1 (primary villain) calls, BTN calls. ($38) Flop is QcTc4h. I check, everyone checks. Turn is a 9h. We check, UTG+1 checks, BTN bets $20. We call. UTG+1 raises to $80. BTN folds, we call. ($218) River is a 6h. I check, villain bets $140. Hero?",
-                     startTime: Date(),
-                     endTime: Date().modifyTime(minutes: 220),
-                     expenses: 7,
-                     isTournament: false,
                      entrants: nil)
     ]
     
+    // Used to generate our custom line chart that's used in the Home Screen Widget
     func chartArray() -> [Double] {
         let profitsArray = MockData.allSessions.map { Double($0.profit) }
         var cumBankroll = [Double]()
@@ -270,6 +158,7 @@ struct MockData {
         return cumBankroll
     }
     
+    // Used for testing & visual testing with our custom chart for Widget
     static let mockDataCoordinates: [Point] = [
         .init(x: 0, y: 5),
         .init(x: 1, y: -2),

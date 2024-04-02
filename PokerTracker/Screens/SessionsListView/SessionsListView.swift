@@ -68,9 +68,6 @@ struct SessionsListView: View {
                             
                             screenTitle
                             
-                            // With Paywall offering, we're only prompting them to subscribe with the New Session Button
-                            // They can still view all their Sessions if they were previously free users. They just can't add new Sessions
-                            
                             ForEach(filteredSessions) { session in
                                 NavigationLink(
                                     destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session),

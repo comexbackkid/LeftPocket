@@ -111,7 +111,6 @@ struct AddNewSessionView: View {
             Menu {
                     
                 Button("Cash Game") {
-                    
                     withAnimation {
                         newSession.sessionType = .cash
                     }
@@ -135,7 +134,9 @@ struct AddNewSessionView: View {
                         .bodyStyle()
                         .fixedSize()
                         .lineLimit(1)
-                        .animation(nil, value: newSession.sessionType)
+                        .transaction { transaction in
+                            transaction.animation = nil
+                        }
                     
                 case .tournament:
                     
@@ -143,17 +144,22 @@ struct AddNewSessionView: View {
                         .bodyStyle()
                         .fixedSize()
                         .lineLimit(1)
-                        .animation(nil, value: newSession.sessionType)
+                        .transaction { transaction in
+                            transaction.animation = nil
+                        }
                     
                 default:
                     Text("Please select ›")
                         .bodyStyle()
+                        .fixedSize()
                         .lineLimit(1)
+                        .transaction { transaction in
+                            transaction.animation = nil
+                        }
                 }
             }
             .foregroundColor(newSession.sessionType == nil ? .brandPrimary : .brandWhite)
             .buttonStyle(PlainButtonStyle())
-            
         }
         .padding(.horizontal)
         .padding(.bottom, 10)
@@ -166,7 +172,6 @@ struct AddNewSessionView: View {
                 
                 showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
                 await subManager.checkSubscriptionStatus()
-                
             }
         }
     }
@@ -186,19 +191,19 @@ struct AddNewSessionView: View {
             Spacer()
             
             Menu {
-                                    
-                Picker("Picker", selection: $newSession.location) {
-                    ForEach(vm.locations) { location in
-                        Text(location.name).tag(location)
-                    }
-                    
-                }
+                
                 Button {
                     addLocationIsShowing.toggle()
                 } label: {
                     HStack {
                         Text("Add Location")
                         Image(systemName: "mappin.and.ellipse")
+                    }
+                }
+                                    
+                Picker("Picker", selection: $newSession.location) {
+                    ForEach(vm.locations) { location in
+                        Text(location.name).tag(location)
                     }
                 }
                 
@@ -259,7 +264,6 @@ struct AddNewSessionView: View {
                     Text("10/20").tag("10/20")
                     Text("20/40").tag("20/40")
                     Text("25/50").tag("25/50")
-                    Text("50/100").tag("50/100")
                 }
                 
             } label: {
