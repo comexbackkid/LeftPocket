@@ -48,7 +48,6 @@ struct ProfitByYear: View {
                     .frame(height: 250)
                     .padding(.vertical)
                     
-                    
                 } else {
                     
                     SwiftLineChartsPractice(dateRange: chartRange, showTitle: false, showYAxis: true, overlayAnnotation: true)
@@ -102,8 +101,6 @@ struct ProfitByYear: View {
             let totalExpenses = vm.expensesByYear(timeline: vm.myNewTimeline)
             let totalHours = vm.totalHours(timeline: vm.myNewTimeline)
             let totalSessions = vm.sessionsPerYear(timeline: vm.myNewTimeline)
-            
-            Spacer()
             
             HStack {
                 Text("Gross Income")
@@ -176,15 +173,12 @@ struct ProfitByYear: View {
                 Spacer()
                 Text(totalHours)
             }
-            
-            Spacer()
-            
         }
         .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
         .lineSpacing(2.5)
         .animation(nil, value: vm.myNewTimeline)
         .padding(30)
-        .frame(width: UIScreen.main.bounds.width * 0.9, height: 350)
+        .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)

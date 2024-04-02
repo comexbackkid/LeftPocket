@@ -9,66 +9,145 @@ import SwiftUI
 
 struct ProfitByLocationView: View {
     
-    @State private var yearFilter: String = Date().getYear()
+    @Environment(\.colorScheme) var colorScheme
+    
+    @State private var yearFilter = Date().getYear()
+    
     @ObservedObject var viewModel: SessionsListViewModel
     
     var body: some View {
         
-        ZStack {
-            VStack {
-                
-                if viewModel.sessions.isEmpty {
+        ScrollView {
+            ZStack {
+                VStack {
                     
-                    EmptyState(image: .locations)
-                    
-                } else {
-                    
-                    // Array of [PokerSession] filtered by the yearSelection binding
-                    let filteredByYear = viewModel.sessions.filter({ $0.date.getYear() == yearFilter })
-                    let allYears = viewModel.sessions.map({ $0.date.getYear() }).uniqued()
-                    
-                    List {
+                    if viewModel.sessions.isEmpty {
                         
-                        ForEach(viewModel.locations, id: \.self) { location in
-                            HStack (spacing: 0) {
-                                Text(location.name)
-                                    .calloutStyle()
-                                    .lineLimit(1)
-                                
-                                Spacer()
-                                
-                                // Still won't grab data if Sessions are imported from a CSV
-                                let total = filteredByYear.filter({ $0.location.name == location.name }).map({ $0.profit }).reduce(0,+)
-                                let hourlyRate = filteredByYear.filter({ $0.location.name == location.name }).map({ $0.hourlyRate }).reduce(0,+)
-                                
-                                Text("\(hourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))) / hr")
-                                    .font(.callout)
-                                    .profitColor(total: hourlyRate)
-                                
-                                Text(total, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                                    .font(.callout)
-                                    .profitColor(total: total)
-                                    .frame(width: 80, alignment: .trailing)
-                            }
-                            .padding(.vertical, 10)
-                            .listRowBackground(Color.brandBackground)
+                        EmptyState(image: .locations)
+                        
+                    } else {
+
+                        VStack (spacing: 10) {
+                            
+                            headerInfo
+                            
+                            Divider()
+                                .padding(.bottom, 10)
+                            
+                            locationTotals
+                            
                         }
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationBarTitle(Text("Location Statistics"))
+                        .padding(30)
+                        .frame(width: UIScreen.main.bounds.width * 0.9)
+                        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+                        .cornerRadius(20)
+                        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+                        .padding(.top, 50)
+                        
+                        yearTotal
                     }
-                    .padding(.bottom, 50)
-                    .listStyle(PlainListStyle())
-                    .background(Color.brandBackground)
-                    .toolbar {
-                        Picker("Picker", selection: $yearFilter) {
-                            ForEach(allYears, id: \.self) { year in
-                                Text(year)
-                            }
-                        }
+                    
+                    HStack {
+                        Spacer()
                     }
                 }
             }
         }
+        .background(Color.brandBackground)
+    }
+    
+    var headerInfo: some View {
+        
+        VStack (spacing: 7) {
+            
+            HStack {
+                Text("Select Year")
+                    .bodyStyle()
+                    .bold()
+                
+                Spacer()
+                
+                let allYears = viewModel.sessions.map({ $0.date.getYear() }).uniqued()
+                
+                Menu {
+                    Picker("", selection: $yearFilter) {
+                        ForEach(allYears, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                } label: {
+                    Text(yearFilter + " ›")
+                        .bodyStyle()
+                }
+                .accentColor(Color.brandPrimary)
+            }
+            
+            HStack {
+                Text("Total Sessions")
+                    .bodyStyle()
+                    .bold()
+                
+                Spacer()
+                
+                Text("\(viewModel.sessions.filter({ $0.date.getYear() == yearFilter }).count)")
+                    .bodyStyle()
+            }
+        }
+        .padding(.bottom, 10)
+    }
+    
+    var locationTotals: some View {
+        
+        ForEach(viewModel.locations, id: \.self) { location in
+            HStack (spacing: 0) {
+                Text(location.name)
+                    .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+                    .lineLimit(1)
+                
+                Spacer()
+                
+                // Still won't grab data if Sessions are imported from a CSV
+                let filteredByYear = viewModel.sessions.filter({ $0.date.getYear() == yearFilter })
+                let total = filteredByYear.filter({ $0.location.name == location.name }).map({ $0.profit }).reduce(0,+)
+//                let hourlyRate = filteredByYear.filter({ $0.location.name == location.name }).map({ $0.hourlyRate }).reduce(0,+)
+                
+                Text(total, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+                    .profitColor(total: total)
+                    .frame(width: 80, alignment: .trailing)
+            }
+        }
+    }
+    
+    var yearTotal: some View {
+        
+        VStack {
+            
+            let bankrollTotalByYear = viewModel.bankrollByYear(year: yearFilter)
+            
+            HStack {
+                Image(systemName: "trophy.fill")
+                    .foregroundColor(Color(.systemGray))
+                
+                Text("Total")
+                    
+                Spacer()
+                
+                Text(bankrollTotalByYear, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: bankrollTotalByYear)
+            }
+        }
+        .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+        .padding(.horizontal, 30)
+        .padding(.vertical, 20)
+        .frame(width: UIScreen.main.bounds.width * 0.9)
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+        .cornerRadius(20)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+        .padding(.top, 15)
+        
     }
 }
 

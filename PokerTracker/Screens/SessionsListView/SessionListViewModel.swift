@@ -670,8 +670,8 @@ class SessionsListViewModel: ObservableObject {
         sessions.filter({ $0.stakes == stakes })
     }
     
-    func profitByStakes(_ stakes: String) -> Int {
-        return sessionsByStakes(stakes).reduce(0) { $0 + $1.profit }
+    func profitByStakes(_ stakes: String, year: String) -> Int {
+        return sessionsByStakes(stakes).filter({ $0.date.getYear() == year }).reduce(0) { $0 + $1.profit }
     }
     
     // Function that adds a new session to variable sessions, above, from NewSessionView
