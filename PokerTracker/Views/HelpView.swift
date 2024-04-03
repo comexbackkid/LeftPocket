@@ -6,9 +6,31 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct HelpView: View {
+    
+//    @State private var player: AVPlayer?
+    
     var body: some View {
+        
+//        let url = Bundle.main.url(forResource: "test-video", withExtension: "mp4")
+//
+//        Group {
+//            if let url = url {
+//                
+//                VideoPlayer(player: player)
+//                    .ignoresSafeArea()
+//                    .onAppear {
+//                        
+//                        self.player = AVPlayer(url: url)
+//                        self.player?.play()
+//                    }
+//            } else {
+//                
+//                Text("Error. Video file not found.")
+//            }
+//        }
         
         ScrollView (.vertical) {
             

@@ -14,7 +14,7 @@ import ActivityKit
 struct LeftPocketCustomTabBar: View {
     
     @AppStorage("isDarkMode") private var isDarkMode = false
-    @AppStorage("systemThemeEnabled") private var systemThemeEnabled = false
+    @AppStorage("systemThemeEnabled") private var systemThemeEnabled = true
     @AppStorage("isCounting") private var isCounting = false
     
     @EnvironmentObject var subManager: SubscriptionManager

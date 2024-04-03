@@ -21,6 +21,8 @@ struct ContentView: View {
             
             VStack(spacing: 5) {
                 
+                productUpdatesIcon
+                
                 bankrollView
                 
                 if viewModel.sessions.isEmpty {
@@ -48,13 +50,8 @@ struct ContentView: View {
         .sheet(item: $activeSheet) { sheet in
             
             switch sheet {
-            case .newSession: AddNewSessionView(isPresented: .init(get: {
-                activeSheet == .newSession
-            }, set: { isPresented in
-                activeSheet = isPresented ? .newSession : nil
-            }))
-            case .recentSession: SessionDetailView(activeSheet: $activeSheet,
-                                                   pokerSession: viewModel.sessions.first!)
+            case .productUpdates: ProductUpdates(activeSheet: $activeSheet)
+            case .recentSession: SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
             }
         }
     }
@@ -65,6 +62,23 @@ struct ContentView: View {
     
     var lastSession: Int {
         return viewModel.sessions.first?.profit ?? 0
+    }
+    
+    var productUpdatesIcon: some View {
+        
+        HStack {
+            Button {
+                activeSheet = .productUpdates
+            } label: {
+                Image(systemName: "bell.fill")
+                    .opacity(0.75)
+            }
+            .buttonStyle(.plain)
+            
+            Spacer()
+        }
+        .padding(.horizontal, 30)
+        .padding(.bottom, -20)
     }
     
     var quickMetrics: some View {
@@ -158,12 +172,6 @@ struct ContentView: View {
                     .font(.system(size: 60, design: .rounded))
                     .opacity(0.75)
                 
-                // Toying with supporting currencies
-                
-//                Text(viewModel.tallyBankroll(bankroll: .all), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-//                    .font(.system(size: 60, design: .rounded))
-//                    .opacity(0.75)
-                
                 if !viewModel.sessions.isEmpty {
                     
                     HStack {
@@ -201,7 +209,7 @@ struct ContentView: View {
 
 enum Sheet: String, Identifiable {
     
-    case newSession, recentSession
+    case productUpdates, recentSession
     
     var id: String {
         rawValue
