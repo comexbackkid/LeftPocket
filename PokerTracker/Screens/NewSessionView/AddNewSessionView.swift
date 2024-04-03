@@ -37,7 +37,6 @@ struct AddNewSessionView: View {
                     inputFields
                     
                     saveButton
-                    
                 }
             }
         }
@@ -372,7 +371,7 @@ struct AddNewSessionView: View {
                 .datePickerStyle(CompactDatePickerStyle())
             }
             .padding(.horizontal)
-            .padding(.bottom, 30)
+            .padding(.bottom, 16)
         }
     }
     

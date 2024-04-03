@@ -21,7 +21,7 @@ struct ContentView: View {
             
             VStack(spacing: 5) {
                 
-                productUpdatesIcon
+//                productUpdatesIcon
                 
                 bankrollView
                 

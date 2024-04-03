@@ -45,7 +45,7 @@ struct SessionDefaultsView: View {
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var vm: SessionsListViewModel
     
-    @State private var sessionType: SessionType = .cash
+    @State private var sessionType: SessionType?
     @State private var location = LocationModel(name: "", localImage: "", imageURL: "")
     @State private var stakes = ""
     @State private var game = ""
@@ -102,7 +102,6 @@ struct SessionDefaultsView: View {
             .background(Color.brandBackground)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                
                 resetDefaultsButton
             }
     }
@@ -157,6 +156,10 @@ struct SessionDefaultsView: View {
                             Text("Tournament").tag(Optional(SessionDefaultsView.SessionType.tournament))
                         }
                     }
+                    .onChange(of: sessionType) {
+                        errorMessage = nil
+                        resultMessage = ""
+                    }
                     
                 } label: {
                     
@@ -172,9 +175,14 @@ struct SessionDefaultsView: View {
                             .bodyStyle()
                             .fixedSize()
                             .lineLimit(1)
+                        
+                    case .none:
+                        Text("Please select ›")
+                            .bodyStyle()
+                            .lineLimit(1)
                     }
                 }
-                .foregroundColor(.brandWhite)
+                .foregroundColor(sessionType == nil ? .brandPrimary : .brandWhite)
                 .buttonStyle(PlainButtonStyle())
             }
             .padding(.bottom, 10)
@@ -199,6 +207,10 @@ struct SessionDefaultsView: View {
                         ForEach(vm.locations) { location in
                             Text(location.name).tag(location)
                         }
+                    }
+                    .onChange(of: location) {
+                        errorMessage = nil
+                        resultMessage = ""
                     }
                     
                 } label: {
@@ -247,6 +259,10 @@ struct SessionDefaultsView: View {
                         Text("50/100").tag("50/100")
                         Text("100/200").tag("100/200")
                     }
+                    .onChange(of: stakes) {
+                        errorMessage = nil
+                        resultMessage = ""
+                    }
                     
                 } label: {
                     
@@ -288,6 +304,10 @@ struct SessionDefaultsView: View {
                         Text("Seven Card Stud").tag("Seven Card Stud")
                         Text("Mixed").tag("Mixed")
                     }
+                    .onChange(of: game) {
+                        errorMessage = nil
+                        resultMessage = ""
+                    }
                     
                 } label: {
                     
@@ -327,6 +347,10 @@ struct SessionDefaultsView: View {
                         ForEach(CurrencyType.allCases) {
                             Text($0.symbol).tag($0)
                         }
+                    }
+                    .onChange(of: currency) {
+                        errorMessage = nil
+                        resultMessage = ""
                     }
                     
                 } label: {
@@ -378,7 +402,7 @@ struct SessionDefaultsView: View {
     
     func resetUserDefaults() {
         
-        sessionType = .cash
+        sessionType = nil
         location = LocationModel(name: "", localImage: "", imageURL: "")
         stakes = ""
         game = ""
@@ -392,7 +416,6 @@ struct SessionDefaultsView: View {
             defaults.removeObject(forKey: "stakesDefault")
             defaults.removeObject(forKey: "gameDefault")
             defaults.removeObject(forKey: "currencyDefault")
-            
         }
         
         switch resetResult {

@@ -35,7 +35,7 @@ struct WelcomeScreen: View {
             }
             .padding()
         }
-        .onBoardingBackgroundStyle(colorScheme: colorScheme)
+        .onBoardingBackgroundStyle(colorScheme: .light)
     }
     
     var logo: some View {

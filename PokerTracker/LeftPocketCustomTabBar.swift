@@ -206,7 +206,8 @@ struct LeftPocketCustomTabBar: View {
                             showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
                             await subManager.checkSubscriptionStatus()
                             
-                            if !subManager.isSubscribed && viewModel.sessions.count == 2 || viewModel.sessions.count == 15 {
+                            // Random nudge, once they've logged 3x sessions we ask them to upgrade to Pro
+                            if !subManager.isSubscribed && viewModel.sessions.count == 3 {
                                 showPaywall = true
                             }
                         }

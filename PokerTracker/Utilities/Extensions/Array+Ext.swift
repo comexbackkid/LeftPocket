@@ -7,7 +7,7 @@
 
 import Foundation
 
-// Allowing us to remove duplicates from an Array. Being used in ProfityByMonth view
+// Allowing us to remove duplicates from an Array.
 public extension Array where Element: Hashable {
     func uniqued() -> [Element] {
         var seen = Set<Element>()

@@ -23,6 +23,7 @@ struct SessionsListView: View {
     @State var isPresented = false
     @State var showPaywall = false
     @State var sessionFilter: SessionFilter = .all
+    @State var locationFilter: LocationModel?
     
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
@@ -42,12 +43,23 @@ struct SessionsListView: View {
     }
     var filteredSessions: [PokerSession] {
         
+        var result = vm.sessions
+        
         switch sessionFilter {
-        case .all: return vm.sessions
-        case .cash: return vm.sessions.filter({ $0.isTournament == nil || $0.isTournament == false  })
-        case .tournaments: return vm.sessions.filter({ $0.isTournament == true })
+        case .all: break
+        case .cash: result = result.filter({ $0.isTournament == nil || $0.isTournament == false  })
+        case .tournaments: result = result.filter({ $0.isTournament == true })
         }
+        
+        // Can't get this to work at all
+        if let locationFilter = locationFilter {
+            result = result.filter { $0.location.id == locationFilter.id }
+            print("Location selected: \(locationFilter.name)")
+        }
+        
+        return result
     }
+
     let filterTip = FilterSessionsTip()
     
     var body: some View {
@@ -78,13 +90,22 @@ struct SessionsListView: View {
                                 .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
                             }
                             .onDelete(perform: { indexSet in
-                                vm.sessions.remove(atOffsets: indexSet)
+                                let sessionIdsToDelete = indexSet.map { filteredSessions[$0].id }
+                                for sessionId in sessionIdsToDelete {
+                                    if let index = vm.sessions.firstIndex(where: { $0.id == sessionId }) {
+                                        vm.sessions.remove(at: index)
+                                    }
+                                }
                             })
+//                            .onDelete(perform: { indexSet in
+//                                vm.sessions.remove(atOffsets: indexSet)
+//                            })
                         }
                         .listStyle(PlainListStyle())
                         .navigationBarTitleDisplayMode(.inline)
                         .toolbar {
-                            toolbarItem
+                            toolbarLocationFilter
+                            toolbarFilter
                                 .onTapGesture {
                                     filterTip.invalidate(reason: .actionPerformed)
                                 }
@@ -102,7 +123,8 @@ struct SessionsListView: View {
                             Spacer()
                         }
                         .toolbar {
-                            toolbarItem
+                            toolbarLocationFilter
+                            toolbarFilter
                         }
                     }
                 }
@@ -114,7 +136,24 @@ struct SessionsListView: View {
         .accentColor(.brandPrimary)
     }
     
-    var toolbarItem: some View {
+    var toolbarLocationFilter: some View {
+        
+        Menu {
+            Button("All") {
+                locationFilter = nil
+            }
+        
+            Picker("", selection: $locationFilter) {
+                ForEach(vm.sessions.map({ $0.location }).uniqued(), id: \.self) { location in
+                    Text(location.name).tag(location as LocationModel?)
+                }
+            }
+        } label: {
+            Image(systemName: "mappin.and.ellipse")
+        }
+    }
+    
+    var toolbarFilter: some View {
         
         Menu {
             Picker("", selection: $sessionFilter) {

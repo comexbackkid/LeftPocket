@@ -16,7 +16,8 @@ struct ProductUpdates: View {
         let featureOne = "• Support for multiple currencies"
         let featureTwo = "• Re-designed reports views for locations, days of the week, and stakes"
         let featureThree = "• Filter Player Stats by cash or tournament"
-        let featureFour = "• Minor bug fixes"
+        let featureFour = "• Add a new location directly from New Session screen"
+        let featureFive = "• Minor bug fixes"
         
         ZStack {
             
@@ -25,8 +26,6 @@ struct ProductUpdates: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .padding(.bottom, 5)
-//                    .ignoresSafeArea(edges: .top)
-                
                 
                 VStack {
                     
@@ -47,6 +46,7 @@ struct ProductUpdates: View {
                             Text(featureTwo)
                             Text(featureThree)
                             Text(featureFour)
+                            Text(featureFive)
                         }
                         Spacer()
                     }
@@ -60,8 +60,6 @@ struct ProductUpdates: View {
             }
         }
         .background(Image("defaultlocation-header").resizable().offset(y: 175).overlay(.regularMaterial))
-        
-        
     }
 }
 

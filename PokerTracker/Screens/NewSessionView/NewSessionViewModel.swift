@@ -24,7 +24,7 @@ final class NewSessionViewModel: ObservableObject {
     @Published var endTime: Date = Date()
     @Published var expenses: String = ""
     @Published var presentation: Bool?
-    @Published var sessionType: SessionType? = .cash
+    @Published var sessionType: SessionType?
     @Published var entrants: String = ""
     @Published var alertItem: AlertItem?
     @Published var buyIn: String = ""
