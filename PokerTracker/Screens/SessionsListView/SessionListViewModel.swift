@@ -177,18 +177,33 @@ class SessionsListViewModel: ObservableObject {
     // MARK: CALCULATIONS & DATA PRESENTATION FOR CHARTS & METRICS VIEW
     
     // Calculate player's Big Blind per Hour rate
-    func bigBlindperHour() -> Int {
-        guard let lastStake = sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).sorted(by: { $0.date > $1.date }).map({ $0.stakes }).first,
+    func bigBlindperHour(year: String? = nil, hourly: Int? = nil) -> Double {
+        
+        let filteredSessions: [PokerSession]
+        
+        if let year = year {
+            filteredSessions = sessions.filter({ $0.date.getYear() == year })
+        } else {
+            filteredSessions = sessions
+        }
+        
+        guard !filteredSessions.isEmpty else { return 0 }
+        
+        guard let lastStake = filteredSessions.filter({ $0.isTournament == false || $0.isTournament == nil }).sorted(by: { $0.date > $1.date }).map({ $0.stakes }).first,
               let lastSlashIndex = lastStake.lastIndex(of: "/"),
               let bigBlind = Int(lastStake[lastSlashIndex...].trimmingCharacters(in: .punctuationCharacters)) else {
             
             return 0
         }
         
-        let hourlyRate = self.hourlyRate(bankroll: .cash)
-        let bigBlindperHour = Double(hourlyRate) / Double(bigBlind)
-        
-        return Int(round(bigBlindperHour))
+        if let hourly {
+            return Double(hourly) / Double(bigBlind)
+        } else {
+            let hourlyRate = self.hourlyRate(bankroll: .cash)
+            let bigBlindperHour = Double(hourlyRate) / Double(bigBlind)
+            
+            return bigBlindperHour
+        }
     }
     
     // Calculate current bankroll

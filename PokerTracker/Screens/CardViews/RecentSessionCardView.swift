@@ -49,6 +49,7 @@ struct RecentSessionCardView: View {
                         
                         Text(pokerSession.location.name)
                             .headlineStyle()
+                            .lineLimit(1)
                             .foregroundStyle(.white)
                         
                         Text("Tap here to quickly review your last Session, hand notes, & key stats.")

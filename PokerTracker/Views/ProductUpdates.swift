@@ -13,11 +13,13 @@ struct ProductUpdates: View {
     
     var body: some View {
         
-        let featureOne = "• Support for multiple currencies"
-        let featureTwo = "• Re-designed reports views for locations, days of the week, and stakes"
-        let featureThree = "• Filter Player Stats by cash or tournament"
-        let featureFour = "• Add a new location directly from New Session screen"
-        let featureFive = "• Minor bug fixes"
+        let updates = [
+            "Support for multiple currencies",
+            "Re-designed reports views for locations, days of the week, and stakes",
+            "Filter Player Stats by cash or tournament",
+            "Add a new location directly from New Session screen",
+            "Minor bug fixes"
+        ]
         
         ZStack {
             
@@ -42,15 +44,18 @@ struct ProductUpdates: View {
                                 .padding(.bottom, 5)
                                 .padding(.top, 10)
                             
-                            Text(featureOne)
-                            Text(featureTwo)
-                            Text(featureThree)
-                            Text(featureFour)
-                            Text(featureFive)
+                            ForEach(updates, id: \.self) { feature in
+                                HStack (alignment: .firstTextBaseline) {
+                                    Image(systemName: "checkmark")
+                                        .resizable()
+                                        .frame(width: 10, height: 10)
+                                    Text(feature)
+                                }
+                            }
                         }
                         Spacer()
                     }
-                    .font(.custom("Asap-Regular", size: 16, relativeTo: .body))
+                    .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
                     .lineSpacing(2.5)
                     .padding(.vertical, 5)
                     

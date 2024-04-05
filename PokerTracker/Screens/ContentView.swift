@@ -176,11 +176,11 @@ struct ContentView: View {
                     
                     HStack {
                         
-                        Image(systemName: "arrowtriangle.up.fill")
+                        Image(systemName: "arrow.up.right")
                             .resizable()
-                            .frame(width: 11, height: 11)
+                            .frame(width: 13, height: 13)
                             .foregroundColor(lastSession > 0 ? .green : lastSession < 0 ? .red : Color(.systemGray))
-                            .rotationEffect(lastSession >= 0 ? .degrees(0) : .degrees(180))
+                            .rotationEffect(lastSession >= 0 ? .degrees(0) : .degrees(90))
                         
                         Text(lastSession, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                             .fontWeight(.light)

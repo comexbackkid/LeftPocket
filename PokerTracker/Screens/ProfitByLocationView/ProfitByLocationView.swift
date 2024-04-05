@@ -12,6 +12,7 @@ struct ProfitByLocationView: View {
     @Environment(\.colorScheme) var colorScheme
     
     @State private var yearFilter = Date().getYear()
+    @State private var metricFilter = "Total"
     
     @ObservedObject var viewModel: SessionsListViewModel
     
@@ -85,14 +86,22 @@ struct ProfitByLocationView: View {
             }
             
             HStack {
-                Text("Total Sessions")
+                Text("Select Metric")
                     .bodyStyle()
                     .bold()
                 
                 Spacer()
                 
-                Text("\(viewModel.sessions.filter({ $0.date.getYear() == yearFilter }).count)")
-                    .bodyStyle()
+                Menu {
+                    Picker("", selection: $metricFilter) {
+                        Text("Total").tag("Total")
+                        Text("Hourly").tag("Hourly")
+                    }
+                } label: {
+                    Text(metricFilter + " ›")
+                        .bodyStyle()
+                }
+                .accentColor(Color.brandPrimary)
             }
         }
         .padding(.bottom, 10)
@@ -111,24 +120,32 @@ struct ProfitByLocationView: View {
                 // Still won't grab data if Sessions are imported from a CSV
                 let filteredByYear = viewModel.sessions.filter({ $0.date.getYear() == yearFilter })
                 let total = filteredByYear.filter({ $0.location.name == location.name }).map({ $0.profit }).reduce(0,+)
-//                let hourlyRate = filteredByYear.filter({ $0.location.name == location.name }).map({ $0.hourlyRate }).reduce(0,+)
+                let hourlyRate = filteredByYear.filter({ $0.location.name == location.name }).map({ $0.hourlyRate }).reduce(0,+)
                 
-                Text(total, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
-                    .profitColor(total: total)
-                    .frame(width: 80, alignment: .trailing)
+                if metricFilter == "Total" {
+                    Text(total, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                        .profitColor(total: total)
+                        .frame(width: 80, alignment: .trailing)
+                } else {
+                    Text("\(hourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))) / hr")
+                        .profitColor(total: hourlyRate)
+                        .frame(width: 80, alignment: .trailing)
+                }
+                
             }
+            .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
         }
     }
     
     var yearTotal: some View {
         
-        VStack {
+        VStack (spacing: 7) {
             
             let bankrollTotalByYear = viewModel.bankrollByYear(year: yearFilter)
             
             HStack {
                 Image(systemName: "trophy.fill")
+                    .frame(width: 20)
                     .foregroundColor(Color(.systemGray))
                 
                 Text("Total")
@@ -137,6 +154,19 @@ struct ProfitByLocationView: View {
                 
                 Text(bankrollTotalByYear, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: bankrollTotalByYear)
+            }
+            
+            HStack {
+                Image(systemName: "suit.club.fill")
+                    .frame(width: 20)
+                    .foregroundColor(Color(.systemGray))
+                
+                Text("Sessions")
+                
+                Spacer()
+                
+                Text("\(viewModel.sessions.filter({ $0.date.getYear() == yearFilter }).count)")
+                    .bodyStyle()
             }
         }
         .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
@@ -147,7 +177,6 @@ struct ProfitByLocationView: View {
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
         .padding(.top, 15)
-        
     }
 }
 

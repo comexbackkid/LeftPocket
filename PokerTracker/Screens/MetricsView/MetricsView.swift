@@ -309,24 +309,10 @@ struct CashStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text("\(viewModel.bigBlindperHour())")
-//                    .foregroundColor(viewModel.hourlyRate(bankroll: sessionFilter) > 0 ? .green
-//                                     : viewModel.hourlyRate(bankroll: sessionFilter) < 0 ? .red
-//                                     : .primary)
+                Text("\(viewModel.bigBlindperHour(), specifier: "%.2f")")
             }
             
             Divider()
-            
-//            HStack {
-//                Text("Std. Dev. Per Session")
-//                    .calloutStyle()
-//                    .foregroundColor(.secondary)
-//                Spacer()
-//                Text("\(viewModel.standardDeviation().asCurrency())")
-//                    .foregroundColor(viewModel.standardDeviation() > 0 ? .green : viewModel.standardDeviation() < 0 ? .red : .primary)
-//            }
-//            
-//            Divider()
             
             HStack {
                 Text("Avg. Duration")

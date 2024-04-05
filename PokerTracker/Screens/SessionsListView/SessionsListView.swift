@@ -54,7 +54,6 @@ struct SessionsListView: View {
         // Can't get this to work at all
         if let locationFilter = locationFilter {
             result = result.filter { $0.location.id == locationFilter.id }
-            print("Location selected: \(locationFilter.name)")
         }
         
         return result

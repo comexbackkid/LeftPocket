@@ -12,6 +12,8 @@ struct ProfitByMonth: View {
     @Environment(\.colorScheme) var colorScheme
     
     @State private var yearFilter: String = Date().getYear()
+    @State private var metricFilter = "Total"
+    
     @ObservedObject var vm: SessionsListViewModel
     
     var body: some View {
@@ -73,14 +75,22 @@ struct ProfitByMonth: View {
             }
             
             HStack {
-                Text("Total Sessions")
+                Text("Select Metric")
                     .bodyStyle()
                     .bold()
                 
                 Spacer()
                 
-                Text("\(vm.sessions.filter({ $0.date.getYear() == yearFilter }).count)")
-                    .bodyStyle()
+                Menu {
+                    Picker("", selection: $metricFilter) {
+                        Text("Total").tag("Total")
+                        Text("Hourly").tag("Hourly")
+                    }
+                } label: {
+                    Text(metricFilter + " ›")
+                        .bodyStyle()
+                }
+                .accentColor(Color.brandPrimary)
             }
         }
         .padding(.bottom, 10)
@@ -96,25 +106,31 @@ struct ProfitByMonth: View {
                 
                 let filteredMonths = vm.sessions.filter({ $0.date.getYear() == yearFilter })
                 let total = filteredMonths.filter({ $0.date.getMonth() == month }).map {$0.profit}.reduce(0,+)
-//                        let hourlyRate = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.hourlyRate }.reduce(0,+)
+                let hourlyRate = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.hourlyRate }.reduce(0,+)
                 
-                Text(total, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .profitColor(total: total)
-                    .frame(width: 80, alignment: .trailing)
+                if metricFilter == "Total" {
+                    Text(total, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                        .profitColor(total: total)
+                        .frame(width: 80, alignment: .trailing)
+                } else {
+                    Text("\(hourlyRate, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0))) / hr")
+                        .profitColor(total: hourlyRate)
+                        .frame(width: 80, alignment: .trailing)
+                }
             }
             .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
         }
-        
     }
     
     var yearTotal: some View {
         
-        VStack {
+        VStack (spacing: 7) {
             
             let bankrollTotalByYear = vm.bankrollByYear(year: yearFilter)
             
             HStack {
                 Image(systemName: "trophy.fill")
+                    .frame(width: 20)
                     .foregroundColor(Color(.systemGray))
                 
                 Text("Total")
@@ -123,6 +139,19 @@ struct ProfitByMonth: View {
                 
                 Text(bankrollTotalByYear, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: bankrollTotalByYear)
+            }
+            
+            HStack {
+                Image(systemName: "suit.club.fill")
+                    .frame(width: 20)
+                    .foregroundColor(Color(.systemGray))
+                
+                Text("Sessions")
+                
+                Spacer()
+                
+                Text("\(vm.sessions.filter({ $0.date.getYear() == yearFilter }).count)")
+                    .bodyStyle()
             }
         }
         .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
@@ -144,6 +173,5 @@ struct MonthlyReportView_Previews: PreviewProvider {
                 .environmentObject(SessionsListViewModel())
                 .preferredColorScheme(.dark)
         }
-        
     }
 }

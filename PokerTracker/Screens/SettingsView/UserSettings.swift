@@ -362,7 +362,7 @@ struct UserSettings: View {
             }
             
             NavigationLink(
-                destination: HelpView(),
+                destination: UsingLeftPocket(),
                 label: {
                     HStack {
                         
