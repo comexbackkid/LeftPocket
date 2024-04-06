@@ -21,8 +21,7 @@ struct MetricsCardView: View {
             VStack (alignment: .leading) {
                 
                 Spacer()
-                                
-//                CustomChartView(viewModel: viewModel, data: viewModel.chartCoordinates(), background: true)
+         
                 SwiftLineChartsPractice(dateRange: viewModel.sessions, showTitle: false, showYAxis: true, overlayAnnotation: true)
                     .padding(.top, 25)
                     .padding(.horizontal, 20)

@@ -83,6 +83,9 @@ struct ProfitByLocationView: View {
                         .bodyStyle()
                 }
                 .accentColor(Color.brandPrimary)
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
             }
             
             HStack {
@@ -102,6 +105,9 @@ struct ProfitByLocationView: View {
                         .bodyStyle()
                 }
                 .accentColor(Color.brandPrimary)
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
             }
         }
         .padding(.bottom, 10)

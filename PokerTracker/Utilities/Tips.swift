@@ -8,6 +8,7 @@
 import SwiftUI
 import TipKit
 
+@available(iOS 17.0, *)
 struct DeleteLocationTip: Tip {
     
     var title: Text {
@@ -15,10 +16,15 @@ struct DeleteLocationTip: Tip {
     }
     
     var message: Text? {
-        Text("Long press on a Location's thumbnail if you want to delete it.")
+        Text("Long press on a Location's thumbnail to delete it. To add your own, tap the Plus button above.")
+    }
+    
+    var image: Image? {
+        Image(systemName: "mappin.and.ellipse")
     }
 }
 
+@available(iOS 17.0, *)
 struct AddSessionTip: Tip {
     
     static let sessionCount = Event(id: "clickedAddSessionButton")
@@ -32,6 +38,10 @@ struct AddSessionTip: Tip {
     
     var message: Text? {
         Text("Tap here to log a poker session. Long press to activate a live session.")
+    }
+    
+    var image: Image? {
+        Image(systemName: "suit.club.fill")
     }
     
     // Show this tip when the user has never pressed the Add Session Button.
@@ -48,6 +58,7 @@ struct AddSessionTip: Tip {
     }
 }
 
+@available(iOS 17.0, *)
 struct FilterSessionsTip: Tip {
     
     static let sessionCount = Event(id: "addedSession")
@@ -57,7 +68,11 @@ struct FilterSessionsTip: Tip {
     }
     
     var message: Text? {
-        Text("Tap here to filter by Cash games, or Tournaments.")
+        Text("Use these menu buttons to filter your sessions by cash games, tournaments, & more.")
+    }
+    
+    var image: Image? {
+        Image(systemName: "slider.horizontal.3")
     }
     
     // After the user saves two Sessions, show the Tip
@@ -81,6 +96,7 @@ struct FilterSessionsTip: Tip {
 //    }
 //}
 
+@available(iOS 17.0, *)
 public struct TipKitConfig {
         
     public static var storeLocation: Tips.ConfigurationOption.DatastoreLocation {

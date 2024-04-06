@@ -157,6 +157,9 @@ struct AddNewSessionView: View {
                         }
                 }
             }
+            .transaction { transaction in
+                transaction.animation = nil
+            }
             .foregroundColor(newSession.sessionType == nil ? .brandPrimary : .brandWhite)
             .buttonStyle(PlainButtonStyle())
         }
@@ -218,6 +221,7 @@ struct AddNewSessionView: View {
                     Text(newSession.location.name)
                         .bodyStyle()
                         .lineLimit(1)
+                        .fixedSize()
                 }
             }
             .animation(nil, value: newSession.location)
@@ -272,6 +276,7 @@ struct AddNewSessionView: View {
                 } else {
                     Text(newSession.stakes)
                         .bodyStyle()
+                        .fixedSize()
                 }
             }
             .foregroundColor(newSession.stakes.isEmpty ? .brandPrimary : .brandWhite)
@@ -324,8 +329,10 @@ struct AddNewSessionView: View {
                         .fixedSize()
                         .lineLimit(1)
                         .animation(nil, value: newSession.game)
-                        
                 }
+            }
+            .transaction { transaction in
+                transaction.animation = nil
             }
             .foregroundColor(newSession.game.isEmpty ? .brandPrimary : .brandWhite)
             .buttonStyle(PlainButtonStyle())

@@ -144,6 +144,9 @@ struct MetricsView: View {
                         Text(sessionFilter.rawValue.capitalized + " ›")
                             .bodyStyle()
                     }
+                    .transaction { transaction in
+                        transaction.animation = nil
+                    }
                 }
                 .padding(.bottom)
                 

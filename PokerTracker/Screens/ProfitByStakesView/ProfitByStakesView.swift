@@ -81,6 +81,9 @@ struct ProfitByStakesView: View {
                         .bodyStyle()
                 }
                 .accentColor(Color.brandPrimary)
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
             }
             
             HStack {
@@ -100,9 +103,10 @@ struct ProfitByStakesView: View {
                         .bodyStyle()
                 }
                 .accentColor(Color.brandPrimary)
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
             }
-            
-            
         }
         .padding(.bottom, 10)
     }

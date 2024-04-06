@@ -43,56 +43,106 @@ struct BarChartByYear: View {
                 .padding(.bottom, 40)
             }
             
-            Chart {
-                
-                // The reason for the ForEach statement is because it's the only way to use the 'if let' statement getting
-                // values from RuleMark and using it as an overlay
-                ForEach(sessionProfitByMonth, id: \.month) { monthlyTotal in
-                    
-                    BarMark(x: .value("Month", monthlyTotal.month, unit: .month), y: .value("Profit", monthlyTotal.profit))
-                        .cornerRadius(5)
-                        .foregroundStyle(Color.pink.gradient)
-                        .opacity(selectedMonth == nil || selectedMonth?.getMonth() == monthlyTotal.month.getMonth() ? 1 : 0.5)
-                }
-                
-                if let selectedMonth {
-                    
-                    RuleMark(x: .value("Selected Date", selectedMonth, unit: .month))
-                        .foregroundStyle(.gray.opacity(0.3))
-                        .zIndex(-1)
-                        .annotation(position: .top, spacing: 7, overflowResolution: .init(x: .fit(to: .chart))) {
-                            Text(profitAnnotation ?? 0, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                                .captionStyle()
-                                .padding(10)
-                                .background(.gray.opacity(0.1))
-                                .cornerRadius(10)
-                        }
-                }
+            if #available(iOS 17.0, *) {
+                barChart
+            } else {
+                barChartOldVersion
             }
+        }
+    }
+    
+    @available(iOS 17, *)
+    var barChart: some View {
+        
+        Chart {
+            
+            // The reason for the ForEach statement is because it's the only way to use the 'if let' statement getting
+            // values from RuleMark and using it as an overlay
+            ForEach(sessionProfitByMonth, id: \.month) { monthlyTotal in
+                
+                BarMark(x: .value("Month", monthlyTotal.month, unit: .month), y: .value("Profit", monthlyTotal.profit))
+                    .cornerRadius(5)
+                    .foregroundStyle(Color.pink.gradient)
+                    .opacity(selectedMonth == nil || selectedMonth?.getMonth() == monthlyTotal.month.getMonth() ? 1 : 0.5)
+            }
+            
+            if let selectedMonth {
+                
+                RuleMark(x: .value("Selected Date", selectedMonth, unit: .month))
+                    .foregroundStyle(.gray.opacity(0.3))
+                    .zIndex(-1)
+                    .annotation(position: .top, spacing: 7, overflowResolution: .init(x: .fit(to: .chart))) {
+                        Text(profitAnnotation ?? 0, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                            .captionStyle()
+                            .padding(10)
+                            .background(.gray.opacity(0.1))
+                            .cornerRadius(10)
+                    }
+                
+            }
+        }
             .sensoryFeedback(.selection, trigger: profitAnnotation)
-            .chartXScale(domain: [firstDay, lastDay])
             .chartXSelection(value: $selectedMonth)
-            .chartYAxis {
-                AxisMarks(position: .leading) { value in
-                    AxisGridLine()
-                        .foregroundStyle(.gray.opacity(0.2))
-                    AxisValueLabel() {
-                        if let intValue = value.as(Int.self) {
-                            Text(intValue.axisShortHand(viewModel.userCurrency))
-                                .captionStyle()
-                                .padding(.trailing, 15)
-                        }
+        .chartXScale(domain: [firstDay, lastDay])
+        .chartYAxis {
+            AxisMarks(position: .leading) { value in
+                AxisGridLine()
+                    .foregroundStyle(.gray.opacity(0.2))
+                AxisValueLabel() {
+                    if let intValue = value.as(Int.self) {
+                        Text(intValue.axisShortHand(viewModel.userCurrency))
+                            .captionStyle()
+                            .padding(.trailing, 15)
                     }
                 }
             }
-            .chartXAxis {
-                AxisMarks {
-                    AxisValueLabel(format: .dateTime.month(.abbreviated),
-                                   horizontalSpacing: sessionProfitByMonth.isEmpty ? 25 : 0,
-                                   verticalSpacing: 15).font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
+        }
+        .chartXAxis {
+            AxisMarks {
+                AxisValueLabel(format: .dateTime.month(.abbreviated),
+                               horizontalSpacing: sessionProfitByMonth.isEmpty ? 25 : 0,
+                               verticalSpacing: 15).font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
+            }
+        }
+        
+    }
+    
+    var barChartOldVersion: some View {
+        
+        Chart {
+            
+            // The reason for the ForEach statement is because it's the only way to use the 'if let' statement getting
+            // values from RuleMark and using it as an overlay
+            ForEach(sessionProfitByMonth, id: \.month) { monthlyTotal in
+                
+                BarMark(x: .value("Month", monthlyTotal.month, unit: .month), y: .value("Profit", monthlyTotal.profit))
+                    .cornerRadius(5)
+                    .foregroundStyle(Color.pink.gradient)
+                    .opacity(selectedMonth == nil || selectedMonth?.getMonth() == monthlyTotal.month.getMonth() ? 1 : 0.5)
+            }
+        }
+        .chartXScale(domain: [firstDay, lastDay])
+        .chartYAxis {
+            AxisMarks(position: .leading) { value in
+                AxisGridLine()
+                    .foregroundStyle(.gray.opacity(0.2))
+                AxisValueLabel() {
+                    if let intValue = value.as(Int.self) {
+                        Text(intValue.axisShortHand(viewModel.userCurrency))
+                            .captionStyle()
+                            .padding(.trailing, 15)
+                    }
                 }
             }
         }
+        .chartXAxis {
+            AxisMarks {
+                AxisValueLabel(format: .dateTime.month(.abbreviated),
+                               horizontalSpacing: sessionProfitByMonth.isEmpty ? 25 : 0,
+                               verticalSpacing: 15).font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
+            }
+        }
+        
     }
     
     // Formats data so we have the profit totals of every month, i.e. only 12 total items in the array. Checks current year only

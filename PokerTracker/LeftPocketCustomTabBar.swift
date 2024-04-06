@@ -14,7 +14,7 @@ import ActivityKit
 struct LeftPocketCustomTabBar: View {
     
     @AppStorage("isDarkMode") private var isDarkMode = false
-    @AppStorage("systemThemeEnabled") private var systemThemeEnabled = true
+    @AppStorage("systemThemeEnabled") private var systemThemeEnabled = false
     @AppStorage("isCounting") private var isCounting = false
     
     @EnvironmentObject var subManager: SubscriptionManager
@@ -26,7 +26,7 @@ struct LeftPocketCustomTabBar: View {
     @State var showPaywall = false
     
     let tabBarImages = ["house.fill", "list.bullet", "plus", "chart.bar.fill", "gearshape.fill"]
-    let addSessionTip = AddSessionTip()
+    
     
     var body: some View {
         
@@ -59,8 +59,13 @@ struct LeftPocketCustomTabBar: View {
                 
                 Spacer()
                 
-                TipView(addSessionTip, arrowEdge: .bottom)
-                    .padding(.horizontal)
+                if #available(iOS 17.0, *) {
+                    let addSessionTip = AddSessionTip()
+                    
+                    TipView(addSessionTip, arrowEdge: .bottom)
+                        .padding(.horizontal, 20)
+                        .accentColor(.brandPrimary)
+                }
                 
                 if isCounting {
                     LiveSessionCounter()
@@ -78,7 +83,9 @@ struct LeftPocketCustomTabBar: View {
                 .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
             
             // If user has been using the app, we tell the Tips they are not a new user
-            AddSessionTip.newUser = viewModel.sessions.count > 0 ? false : true
+            if #available(iOS 17.0, *) {
+                AddSessionTip.newUser = viewModel.sessions.count > 0 ? false : true
+            }
         }
     }
     
@@ -118,7 +125,9 @@ struct LeftPocketCustomTabBar: View {
                                 impact.impactOccurred()
                                 
                                 Task {
-                                    await AddSessionTip.sessionCount.donate()
+                                    if #available(iOS 17.0, *) {
+                                        await AddSessionTip.sessionCount.donate()
+                                    }
                                 }
                                 
                                 // If user is NOT subscribed, AND they're over the monthly allowance, the Plus button will display Paywall
@@ -178,7 +187,9 @@ struct LeftPocketCustomTabBar: View {
                         impact.impactOccurred()
                         
                         Task {
-                            await AddSessionTip.sessionCount.donate()
+                            if #available(iOS 17.0, *) {
+                                await AddSessionTip.sessionCount.donate()
+                            }
                         }
                         
                         // If user is NOT subscribed, AND they're over the monthly allowance, the Plus button will display Paywall

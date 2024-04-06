@@ -148,7 +148,7 @@ struct WidgetViewMedium_Previews: PreviewProvider {
                                             chartData: MockData.mockDataCoords,
                                             hourlyRate: 32,
                                             totalSessions: 14,
-                                            currency: "EUR"))
+                                            currency: "USD"))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
             .preferredColorScheme(.dark)
     }

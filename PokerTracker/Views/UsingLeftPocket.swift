@@ -27,7 +27,7 @@ struct UsingLeftPocket: View {
                 }
                 
                 HStack {
-                    Text("Get the most out of Left Pocket so you can put the most back into your bankroll.")
+                    Text("Get the most out of Left Pocket, so you can put the most back into your bankroll.")
                         .calloutStyle()
                         .opacity(0.8)
                         .padding(.horizontal)
@@ -323,6 +323,18 @@ struct LoggingSessionsDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
+                        Text("Enter all of the details from your session, and optionally paste in or type any notes or hand history into the Notes field")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                    
+                    HStack {
+                        Image(systemName: "5.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
                         Text("Tap Save Session")
                             .bodyStyle()
                             .padding(.leading, 6)
@@ -524,7 +536,7 @@ struct ChartsDocumentation: View {
                     Text("**Chart Locations**\nFrom the Dashboard & Metrics view you can get a look at your bankroll progress as a line chart. In the Metrics view, you will also find a bar chart of your net profits by month. Additionally, there is a line chart in the Annual Report that can be filtered by year.")
                         .bodyStyle()
                     
-                    Text("**Interactivity**\nAll of the charts in Left Pocket are interactive. Simply tap + hold on the chart for an annotation.")
+                    Text("**Interactivity**\nIf you're on the latest version of iOS, all of the charts in Left Pocket are interactive. Simply tap + hold on the chart for an annotation with more detail to appear.")
                         .bodyStyle()
                   
                     Text("If you need additional help, feel free to reach out to Support via email.")
@@ -809,6 +821,6 @@ struct LocationsDocumentation: View {
 }
 
 #Preview {
-    BrowseAndFilterDocumentation()
+    LoggingSessionsDocumentation()
         .preferredColorScheme(.dark)
 }

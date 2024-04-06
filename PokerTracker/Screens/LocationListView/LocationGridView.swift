@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 struct LocationGridView: View {
     
@@ -13,7 +14,6 @@ struct LocationGridView: View {
     @State var addLocationIsShowing = false
     @State var showAlert = false
     
-    let deleteTip = DeleteLocationTip()
     let columns = [GridItem(.fixed(165), spacing: 20), GridItem(.fixed(165))]
     
     var body: some View {
@@ -28,6 +28,13 @@ struct LocationGridView: View {
                     .padding(.horizontal)
                 
                 Spacer()
+            }
+            
+            if #available(iOS 17.0, *) {
+                let deleteTip = DeleteLocationTip()
+                TipView(deleteTip)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom)
             }
             
             if vm.locations.isEmpty {
@@ -103,7 +110,7 @@ struct LocationGridItem: View {
     @EnvironmentObject var vm: SessionsListViewModel
 
     let location: LocationModel
-    let deleteTip = DeleteLocationTip()
+    
     
     var body: some View {
         
@@ -111,18 +118,20 @@ struct LocationGridItem: View {
             
             if location.localImage != "" {
                 
+                if #available(iOS 17.0, *) {
+                    let deleteTip = DeleteLocationTip()
+                }
+                
                 // If the Location has a local image associated with it, just display tha image
                 Image(location.localImage)
                     .locationGridThumbnail(colorScheme: colorScheme)
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
-                            deleteTip.invalidate(reason: .actionPerformed)
                         } label: {
                             Label("Delete Location", systemImage: "trash")
                         }
                     }
-                    .popoverTip(deleteTip)
                 
             } else if location.imageURL != "" {
                 
@@ -130,6 +139,10 @@ struct LocationGridItem: View {
                 fetchLocationImage(location: location)
                 
             } else if location.importedImage != nil {
+                
+                if #available(iOS 17.0, *) {
+                    let deleteTip = DeleteLocationTip()
+                }
                 
                 // If user imported their own image, call it up here by converting data to UIImage
                 if let photoData = location.importedImage,
@@ -139,12 +152,15 @@ struct LocationGridItem: View {
                         .contextMenu {
                             Button(role: .destructive) {
                                 delete()
-                                deleteTip.invalidate(reason: .actionPerformed)
                             } label: { Label("Delete Location", systemImage: "trash") }
                         }
                 }
                 
             } else {
+                
+                if #available(iOS 17.0, *) {
+                    let deleteTip = DeleteLocationTip()
+                }
                 
                 // Otherwise, if the Location has no local image, no provided URL, show the default header
                 Image("defaultlocation-header")
@@ -152,7 +168,6 @@ struct LocationGridItem: View {
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
-                            deleteTip.invalidate(reason: .actionPerformed)
                         } label: { Label("Delete Location", systemImage: "trash") }
                     }
             }
@@ -179,18 +194,25 @@ struct LocationGridItem: View {
             
             if let image = phase.image {
                 
+                if #available(iOS 17.0, *) {
+                    let deleteTip = DeleteLocationTip()
+                }
+                
                 image
                     .locationGridThumbnail(colorScheme: colorScheme)
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
-                            deleteTip.invalidate(reason: .actionPerformed)
                         } label: {
                             Label("Delete Location", systemImage: "trash")
                         }
                     }
                 
             } else if phase.error != nil {
+                
+                if #available(iOS 17.0, *) {
+                    let deleteTip = DeleteLocationTip()
+                }
                 
                 FailureView()
                     .aspectRatio(contentMode: .fill)
@@ -201,13 +223,16 @@ struct LocationGridItem: View {
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
-                            deleteTip.invalidate(reason: .actionPerformed)
                         } label: {
                             Label("Delete Location", systemImage: "trash")
                         }
                     }
                 
             } else {
+                
+                if #available(iOS 17.0, *) {
+                    let deleteTip = DeleteLocationTip()
+                }
                 
                 PlaceholderView()
                     .aspectRatio(contentMode: .fill)
@@ -218,7 +243,6 @@ struct LocationGridItem: View {
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
-                            deleteTip.invalidate(reason: .actionPerformed)
                         } label: {
                             Label("Delete Location", systemImage: "trash")
                         }
@@ -239,10 +263,6 @@ struct LocationGridView_Previews: PreviewProvider {
         NavigationView {
             LocationGridView()
                 .environmentObject(SessionsListViewModel())
-            //            LocationGridItem(image: "encore-header", name: "Encore Boston Harbor", count: 3)
-            //                            .preferredColorScheme(.dark)
         }
     }
 }
-
-

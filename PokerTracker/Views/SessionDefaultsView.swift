@@ -156,10 +156,14 @@ struct SessionDefaultsView: View {
                             Text("Tournament").tag(Optional(SessionDefaultsView.SessionType.tournament))
                         }
                     }
-                    .onChange(of: sessionType) {
+                    .onChange(of: sessionType, perform: { value in
                         errorMessage = nil
                         resultMessage = ""
-                    }
+                    })
+//                    .onChange(of: sessionType) {
+//                        errorMessage = nil
+//                        resultMessage = ""
+//                    }
                     
                 } label: {
                     
@@ -184,6 +188,9 @@ struct SessionDefaultsView: View {
                 }
                 .foregroundColor(sessionType == nil ? .brandPrimary : .brandWhite)
                 .buttonStyle(PlainButtonStyle())
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
             }
             .padding(.bottom, 10)
             .padding(.top, 10)
@@ -208,10 +215,14 @@ struct SessionDefaultsView: View {
                             Text(location.name).tag(location)
                         }
                     }
-                    .onChange(of: location) {
+                    .onChange(of: location, perform: { value in
                         errorMessage = nil
                         resultMessage = ""
-                    }
+                    })
+//                    .onChange(of: location) {
+//                        errorMessage = nil
+//                        resultMessage = ""
+//                    }
                     
                 } label: {
                     
@@ -225,10 +236,14 @@ struct SessionDefaultsView: View {
                         Text(location.name)
                             .bodyStyle()
                             .lineLimit(1)
+                            .fixedSize()
                     }
                 }
                 .foregroundColor(location.name.isEmpty ? .brandPrimary : .brandWhite)
                 .buttonStyle(PlainButtonStyle())
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
             }
             .padding(.bottom, 10)
             
@@ -259,10 +274,14 @@ struct SessionDefaultsView: View {
                         Text("50/100").tag("50/100")
                         Text("100/200").tag("100/200")
                     }
-                    .onChange(of: stakes) {
+                    .onChange(of: stakes, perform: { value in
                         errorMessage = nil
                         resultMessage = ""
-                    }
+                    })
+//                    .onChange(of: stakes) {
+//                        errorMessage = nil
+//                        resultMessage = ""
+//                    }
                     
                 } label: {
                     
@@ -280,6 +299,9 @@ struct SessionDefaultsView: View {
                 }
                 .foregroundColor(stakes.isEmpty ? .brandPrimary : .brandWhite)
                 .buttonStyle(PlainButtonStyle())
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
             }
             .padding(.bottom, 10)
             
@@ -304,10 +326,14 @@ struct SessionDefaultsView: View {
                         Text("Seven Card Stud").tag("Seven Card Stud")
                         Text("Mixed").tag("Mixed")
                     }
-                    .onChange(of: game) {
+                    .onChange(of: game, perform: { value in
                         errorMessage = nil
                         resultMessage = ""
-                    }
+                    })
+//                    .onChange(of: game) {
+//                        errorMessage = nil
+//                        resultMessage = ""
+//                    }
                     
                 } label: {
                     
@@ -325,6 +351,9 @@ struct SessionDefaultsView: View {
                 }
                 .foregroundColor(game.isEmpty ? .brandPrimary : .brandWhite)
                 .buttonStyle(PlainButtonStyle())
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
             }
             .padding(.bottom, 10)
             
@@ -348,10 +377,14 @@ struct SessionDefaultsView: View {
                             Text($0.symbol).tag($0)
                         }
                     }
-                    .onChange(of: currency) {
+                    .onChange(of: currency, perform: { value in
                         errorMessage = nil
                         resultMessage = ""
-                    }
+                    })
+//                    .onChange(of: currency) {
+//                        errorMessage = nil
+//                        resultMessage = ""
+//                    }
                     
                 } label: {
                     
@@ -362,6 +395,9 @@ struct SessionDefaultsView: View {
                 }
                 .foregroundColor(.brandWhite)
                 .buttonStyle(PlainButtonStyle())
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
             }
             .padding(.bottom, 10)
             
@@ -461,6 +497,14 @@ struct SessionDefaultsView: View {
         let defaults = UserDefaults.standard
         
         guard
+            let encodedCurrency = defaults.object(forKey: "currencyDefault") as? Data,
+            let decodedCurrency = try? JSONDecoder().decode(CurrencyType.self, from: encodedCurrency)
+                
+        else { return }
+        
+        currency = decodedCurrency
+        
+        guard
             let encodedSessionType = defaults.object(forKey: "sessionTypeDefault") as? Data,
             let decodedSessionType = try? JSONDecoder().decode(SessionType.self, from: encodedSessionType)
                 
@@ -475,14 +519,6 @@ struct SessionDefaultsView: View {
         else { return }
         
         location = decodedLocation
-        
-        guard
-            let encodedCurrency = defaults.object(forKey: "currencyDefault") as? Data,
-            let decodedCurrency = try? JSONDecoder().decode(CurrencyType.self, from: encodedCurrency)
-                
-        else { return }
-        
-        currency = decodedCurrency
         
         guard
             let encodedStakes = defaults.string(forKey: "stakesDefault"),

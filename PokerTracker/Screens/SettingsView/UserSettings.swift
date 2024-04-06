@@ -74,12 +74,17 @@ struct UserSettings: View {
                         
                         Toggle("", isOn: $isDarkMode)
                             .tint(.brandPrimary)
-                            .onChange(of: isDarkMode) {
-                                
+                            .onChange(of: isDarkMode, perform: { value in
                                 SystemThemeManager
                                     .shared
                                     .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
-                            }
+                            })
+//                            .onChange(of: isDarkMode) {
+//                                
+//                                SystemThemeManager
+//                                    .shared
+//                                    .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
+//                            }
                     }
                 }
                 

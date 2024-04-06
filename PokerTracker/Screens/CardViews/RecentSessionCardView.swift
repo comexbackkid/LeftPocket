@@ -22,24 +22,30 @@ struct RecentSessionCardView: View {
             
             VStack (alignment: .leading) {
                 
-                if pokerSession.location.imageURL != "" {
-                    
-                    downloadedImage
-                    
-                } else if pokerSession.location.importedImage != nil {
-                    
-                    if let photoData = pokerSession.location.importedImage,
-                       let uiImage = UIImage(data: photoData) {
+                VStack {
+                    if pokerSession.location.imageURL != "" {
                         
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: width)
-                            .clipped()
+                        downloadedImage
+                        
+                    } else if pokerSession.location.importedImage != nil {
+                        
+                        if let photoData = pokerSession.location.importedImage,
+                           let uiImage = UIImage(data: photoData) {
+                            
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: width)
+                                .clipped()
+                        }
+                    }
+                    
+                    else { 
+                        localImage
                     }
                 }
-                
-                else { localImage }
+                .frame(maxHeight: 250)
+                .clipped()
                 
                 Spacer()
                 
@@ -142,7 +148,8 @@ struct RecentSessionCardView: View {
         // We need this ternary operator as a final check to make sure no nil value for an image gets displayed
         Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "defaultlocation-header")
             .resizable()
-            .aspectRatio(contentMode: .fill)
+//            .aspectRatio(contentMode: .fill)
+            .scaledToFill()
             .frame(width: width)
             .clipped()
     }
@@ -160,6 +167,7 @@ struct RecentSessionCardView: View {
         }
         
         return Image(uiImage: uiImage)
+        
     }
 }
 

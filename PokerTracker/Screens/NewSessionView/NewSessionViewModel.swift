@@ -76,32 +76,6 @@ final class NewSessionViewModel: ObservableObject {
         return true
     }
     
-    func savedButtonPressed(viewModel: SessionsListViewModel) {
-        
-        guard self.isValidForm else { return }
-        viewModel.addSession(location: self.location,
-                             game: self.game,
-                             stakes: self.stakes,
-                             date: self.startTime,
-                             profit: (Int(self.positiveNegative + self.profit) ?? 0) - (Int(self.expenses) ?? 0),
-//                             profit: (Int(self.cashOut) ?? 0) - (Int(self.buyIn) ?? 0) - (Int(self.expenses) ?? 0),
-                             notes: self.notes,
-                             startTime: self.startTime,
-                             endTime: self.endTime,
-                             expenses: Int(self.expenses) ?? 0,
-                             isTournament: sessionType == .tournament,
-                             entrants: Int(self.entrants) ?? 0)
-        
-        Task {
-            
-            // Counting how many times the user adds a Session. Will display Tip after they enter two
-            await FilterSessionsTip.sessionCount.donate()
-        }
-        
-        // Only after the form checks out will the presentation be set to false and the sheet will dismiss
-        self.presentation = false
-    }
-    
     func loadUserDefaults() {
         
         let defaults = UserDefaults.standard
@@ -130,5 +104,33 @@ final class NewSessionViewModel: ObservableObject {
         
         stakes = encodedStakes
         game = encodedGame
+    }
+    
+    func savedButtonPressed(viewModel: SessionsListViewModel) {
+        
+        guard self.isValidForm else { return }
+        viewModel.addSession(location: self.location,
+                             game: self.game,
+                             stakes: self.stakes,
+                             date: self.startTime,
+                             profit: (Int(self.positiveNegative + self.profit) ?? 0) - (Int(self.expenses) ?? 0),
+//                             profit: (Int(self.cashOut) ?? 0) - (Int(self.buyIn) ?? 0) - (Int(self.expenses) ?? 0),
+                             notes: self.notes,
+                             startTime: self.startTime,
+                             endTime: self.endTime,
+                             expenses: Int(self.expenses) ?? 0,
+                             isTournament: sessionType == .tournament,
+                             entrants: Int(self.entrants) ?? 0)
+        
+        Task {
+            
+            // Counting how many times the user adds a Session. Will display Tip after they enter two
+            if #available(iOS 17.0, *) {
+                await FilterSessionsTip.sessionCount.donate()
+            }
+        }
+        
+        // Only after the form checks out will the presentation be set to false and the sheet will dismiss
+        self.presentation = false
     }
 }

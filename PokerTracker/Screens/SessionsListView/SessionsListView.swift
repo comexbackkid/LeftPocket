@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RevenueCatUI
+import TipKit
 
 enum ViewStyle: String, CaseIterable {
     case standard, compact
@@ -22,6 +23,7 @@ struct SessionsListView: View {
     @State var activeSheet: Sheet?
     @State var isPresented = false
     @State var showPaywall = false
+    @State var showTip = false
     @State var sessionFilter: SessionFilter = .all
     @State var locationFilter: LocationModel?
     
@@ -58,8 +60,6 @@ struct SessionsListView: View {
         
         return result
     }
-
-    let filterTip = FilterSessionsTip()
     
     var body: some View {
         
@@ -74,9 +74,9 @@ struct SessionsListView: View {
                 } else {
                     
                     if !filteredSessions.isEmpty {
-                        
+
                         List {
-                            
+
                             screenTitle
                             
                             ForEach(filteredSessions) { session in
@@ -96,19 +96,30 @@ struct SessionsListView: View {
                                     }
                                 }
                             })
-//                            .onDelete(perform: { indexSet in
-//                                vm.sessions.remove(atOffsets: indexSet)
-//                            })
                         }
                         .listStyle(PlainListStyle())
                         .navigationBarTitleDisplayMode(.inline)
                         .toolbar {
                             toolbarLocationFilter
                             toolbarFilter
-                                .onTapGesture {
-                                    filterTip.invalidate(reason: .actionPerformed)
+                        }
+                        
+                        if #available(iOS 17.0, *) {
+                            VStack {
+                                if showTip {
+                                    let filterTip = FilterSessionsTip()
+                                    
+                                    TipView(filterTip)
+                                        .padding(20)
                                 }
-                                .popoverTip(filterTip)
+                                
+                                Spacer()
+                            }
+                            .onAppear {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    showTip = true
+                                }
+                            }
                         }
                         
                     } else {
