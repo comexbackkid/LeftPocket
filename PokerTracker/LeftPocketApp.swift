@@ -35,7 +35,7 @@ struct LeftPocketApp: App {
     
     func configureTips() {
         if #available(iOS 17.0, *) {
-            //            try? Tips.resetDatastore()
+//            try? Tips.resetDatastore()
             try? Tips.configure([.datastoreLocation(TipKitConfig.storeLocation),
                                  .displayFrequency(TipKitConfig.displayFrequency)])
         }

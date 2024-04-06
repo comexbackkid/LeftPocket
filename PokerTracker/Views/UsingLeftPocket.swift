@@ -738,7 +738,7 @@ struct LocationsDocumentation: View {
                     Spacer()
                 }
                 
-                Text("Six locations come pre-loaded onto Left Pocket by default, however you can easily add your own custom locations and photos along with them. Locations can be added from two different places.\n\nTo add a location:")
+                Text("Six locations come pre-loaded onto Left Pocket by default, however you can easily add your own custom locations. Locations can be added from two different places.\n\nTo add a location:")
                     .bodyStyle()
                     .padding(.bottom, 20)
                 
