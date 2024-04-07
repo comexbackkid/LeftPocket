@@ -308,11 +308,11 @@ struct CashStats: View {
             Divider()
             
             HStack {
-                Text("BB Per Hour")
+                Text("Avg. Big Blinds / Hr")
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text("\(viewModel.bigBlindperHour(), specifier: "%.2f")")
+                Text("\(viewModel.bbPerHour(), specifier: "%.2f")")
             }
             
             Divider()

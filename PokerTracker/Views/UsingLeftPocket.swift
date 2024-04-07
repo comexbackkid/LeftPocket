@@ -27,7 +27,7 @@ struct UsingLeftPocket: View {
                 }
                 
                 HStack {
-                    Text("Get the most out of Left Pocket, so you can put the most back into your bankroll.")
+                    Text("Read through the following documentation to get the most out of Left Pocket, so that you can put the most into your’s.")
                         .calloutStyle()
                         .opacity(0.8)
                         .padding(.horizontal)

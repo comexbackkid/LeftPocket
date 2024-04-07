@@ -53,7 +53,6 @@ struct SessionsListView: View {
         case .tournaments: result = result.filter({ $0.isTournament == true })
         }
         
-        // Can't get this to work at all
         if let locationFilter = locationFilter {
             result = result.filter { $0.location.id == locationFilter.id }
         }
@@ -116,7 +115,7 @@ struct SessionsListView: View {
                                 Spacer()
                             }
                             .onAppear {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                     showTip = true
                                 }
                             }

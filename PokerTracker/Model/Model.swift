@@ -38,6 +38,17 @@ struct PokerSession: Hashable, Codable, Identifiable {
         let totalHours = sessionDuration.durationInHours == 0 ? 1 : sessionDuration.durationInHours
         return Int(Float(self.profit) / totalHours)
     }
+    
+    // Individual big blind per hour rate 
+    var bigBlindPerHour: Double {
+        guard let lastSlashIndex = stakes.lastIndex(of: "/"),
+              let bigBlind = Int(stakes[lastSlashIndex...].trimmingCharacters(in: .punctuationCharacters)) else {
+              
+            return 0
+        }
+        
+        return Double(hourlyRate) / Double(bigBlind)
+    }
 }
 
 class SystemThemeManager {

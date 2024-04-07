@@ -101,7 +101,7 @@ struct ProfitByYear: View {
             let totalExpenses = vm.expensesByYear(timeline: vm.myNewTimeline)
             let totalHours = vm.totalHours(timeline: vm.myNewTimeline)
             let totalSessions = vm.sessionsPerYear(timeline: vm.myNewTimeline)
-            let bigBlindPerHr = vm.bigBlindPerHr(timeline: vm.myNewTimeline)
+//            let bigBlindPerHr = vm.bigBlindPerHr(timeline: vm.myNewTimeline)
             
             HStack {
                 Text("Gross Income")

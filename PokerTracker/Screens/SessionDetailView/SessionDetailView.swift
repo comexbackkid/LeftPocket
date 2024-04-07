@@ -82,7 +82,7 @@ struct SessionDetailView: View {
             
             VStack {
                 
-                Image(systemName: "stopwatch")
+                Image(systemName: "clock")
                     .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
@@ -99,6 +99,7 @@ struct SessionDetailView: View {
                 
                 Text(pokerSession.profit, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: pokerSession.profit)
+                
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
@@ -112,6 +113,7 @@ struct SessionDetailView: View {
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
         }
+        .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
         .frame(maxWidth: .infinity)
         .padding()
         
@@ -122,7 +124,7 @@ struct SessionDetailView: View {
         HStack(spacing: 0) {
             VStack {
                 
-                Image(systemName: "stopwatch")
+                Image(systemName: "clock")
                     .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
@@ -153,6 +155,7 @@ struct SessionDetailView: View {
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
         }
+        .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
         .frame(maxWidth: .infinity)
         .padding()
     }
@@ -184,14 +187,12 @@ struct SessionDetailView: View {
             HStack {
                 Text("Date")
                     .bodyStyle()
-                    .font(.subheadline)
                     .foregroundColor(.secondary)
                 
                 Spacer()
                 
                 Text("\(pokerSession.date.dateStyle())")
                     .bodyStyle()
-                    .font(.subheadline)
             }
             
             Divider()
@@ -199,14 +200,12 @@ struct SessionDetailView: View {
             HStack {
                 Text("Game")
                     .bodyStyle()
-                    .font(.subheadline)
                     .foregroundColor(.secondary)
                 
                 Spacer()
                 
                 Text(pokerSession.game)
                     .bodyStyle()
-                    .font(.subheadline)
             }
             
             Divider()
@@ -214,14 +213,12 @@ struct SessionDetailView: View {
             HStack {
                 Text(pokerSession.isTournament == true ? "Buy-In" : "Expenses")
                     .bodyStyle()
-                    .font(.subheadline)
                     .foregroundColor(.secondary)
                 
                 Spacer()
                 
                 Text(pokerSession.expenses ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                     .bodyStyle()
-                    .font(.subheadline)
             }
             Divider()
             
@@ -230,14 +227,24 @@ struct SessionDetailView: View {
                 HStack {
                     Text("Stakes")
                         .bodyStyle()
-                        .font(.subheadline)
                         .foregroundColor(.secondary)
                     
                     Spacer()
                     
                     Text(pokerSession.stakes)
                         .bodyStyle()
-                        .font(.subheadline)
+                }
+                Divider()
+                
+                HStack {
+                    Text("Big Blinds / Hr")
+                        .bodyStyle()
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
+                    
+                    Text("\(pokerSession.bigBlindPerHour, specifier: "%.2f")")
+                        .bodyStyle()
                 }
                 Divider()
             }
@@ -245,14 +252,12 @@ struct SessionDetailView: View {
             HStack {
                 Text("Visits")
                     .bodyStyle()
-                    .font(.subheadline)
                     .foregroundColor(.secondary)
                 
                 Spacer()
                 
                 Text("\(vm.sessions.filter({$0.location.name == pokerSession.location.name}).count)")
                     .bodyStyle()
-                    .font(.subheadline)
             }
             .padding(.bottom)
         }

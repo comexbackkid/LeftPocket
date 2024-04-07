@@ -16,6 +16,7 @@ class CSVImporter {
         case saveFailed
     }
     
+    // Currently only handling Poker Bankroll Tracker app
     func importCSV(data: Data) throws -> [PokerSession] {
         
         guard let csvString = String(data: data, encoding: .utf8) else {
@@ -52,7 +53,6 @@ class CSVImporter {
                 let entrants = Int(columns[31]) ?? 0
                 let buyIn = Int(columns[9]) ?? 0
                 
-                // What are we doing with handling tournaments?
                 // Need to figure out how to handle the buyIn being the same as expenses
                 let session = PokerSession(location: location,
                                            game: game,

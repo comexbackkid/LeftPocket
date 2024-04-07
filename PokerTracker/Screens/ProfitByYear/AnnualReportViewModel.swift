@@ -157,14 +157,14 @@ class AnnualReportViewModel: ObservableObject {
         }
     }
     
-    func bigBlindPerHr(timeline: PickerTimeline, hourly: Int? = nil) -> Double {
-        switch timeline {
-        case .all:
-            vm.bigBlindperHour()
-        case .ytd:
-            vm.bigBlindperHour(year: Date().getYear(), hourly: hourlyCalc(timeline: timeline))
-        case .lastYear:
-            vm.bigBlindperHour(year: lastYear, hourly: hourlyCalc(timeline: timeline))
-        }
-    }
+//    func bigBlindPerHr(timeline: PickerTimeline, hourly: Int? = nil) -> Double {
+//        switch timeline {
+//        case .all:
+//            vm.bigBlindperHour()
+//        case .ytd:
+//            vm.bigBlindperHour(year: Date().getYear(), hourly: hourlyCalc(timeline: timeline))
+//        case .lastYear:
+//            vm.bigBlindperHour(year: lastYear, hourly: hourlyCalc(timeline: timeline))
+//        }
+//    }
 }
