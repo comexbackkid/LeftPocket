@@ -25,7 +25,7 @@ struct UserSettings: View {
     
     var body: some View {
 
-        NavigationView {
+        NavigationStack {
             
             ScrollView(.vertical) {
                 

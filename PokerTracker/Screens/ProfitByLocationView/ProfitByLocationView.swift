@@ -115,31 +115,36 @@ struct ProfitByLocationView: View {
     
     var locationTotals: some View {
         
-        ForEach(viewModel.locations, id: \.self) { location in
-            HStack (spacing: 0) {
-                Text(location.name)
-                    .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
-                    .lineLimit(1)
-                
-                Spacer()
-                
-                // Still won't grab data if Sessions are imported from a CSV
-                let filteredByYear = viewModel.sessions.filter({ $0.date.getYear() == yearFilter })
-                let total = filteredByYear.filter({ $0.location.name == location.name }).map({ $0.profit }).reduce(0,+)
-                let hourlyRate = filteredByYear.filter({ $0.location.name == location.name }).map({ $0.hourlyRate }).reduce(0,+)
-                
-                if metricFilter == "Total" {
-                    Text(total, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                        .profitColor(total: total)
-                        .frame(width: 80, alignment: .trailing)
-                } else {
-                    Text("\(hourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))) / hr")
-                        .profitColor(total: hourlyRate)
-                        .frame(width: 80, alignment: .trailing)
+        VStack (spacing: 10) {
+            
+            let locationList = viewModel.sessions.map({ $0.location }).uniqued()
+            
+            ForEach(locationList, id: \.self) { location in
+                HStack (spacing: 0) {
+                    Text(location.name)
+                        .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+                        .lineLimit(1)
+                    
+                    Spacer()
+                    
+                    // Still won't grab data if Sessions are imported from a CSV
+                    let filteredByYear = viewModel.sessions.filter({ $0.date.getYear() == yearFilter })
+                    let total = filteredByYear.filter({ $0.location.name == location.name }).map({ $0.profit }).reduce(0,+)
+                    let hourlyRate = filteredByYear.filter({ $0.location.name == location.name }).map({ $0.hourlyRate }).reduce(0,+)
+                    
+                    if metricFilter == "Total" {
+                        Text(total, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                            .profitColor(total: total)
+                            .frame(width: 80, alignment: .trailing)
+                    } else {
+                        Text("\(hourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))) / hr")
+                            .profitColor(total: hourlyRate)
+                            .frame(width: 80, alignment: .trailing)
+                    }
+                    
                 }
-                
+                .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
             }
-            .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
         }
     }
     

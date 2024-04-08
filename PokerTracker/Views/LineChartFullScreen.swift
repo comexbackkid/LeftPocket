@@ -10,30 +10,50 @@ import SwiftUI
 struct LineChartFullScreen: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
+    @Environment(\.dismiss) var dismiss
+    
+    @Binding var lineChartFullScreen: Bool
     
     var body: some View {
         
-        NavigationView {
-            VStack {
-                SwiftLineChartsPractice(dateRange: viewModel.sessions, 
-                                        showTitle: false,
-                                        showYAxis: true,
-                                        overlayAnnotation: true)
-                .transaction { transaction in
-                    transaction.animation = .none
-                }
-                
-            }
+        VStack {
+            SwiftLineChartsPractice(dateRange: viewModel.sessions,
+                                    showTitle: false,
+                                    showYAxis: true,
+                                    overlayAnnotation: true)
+            
+            // Swap width and height to match landscape dimensions
             .transaction { transaction in
                 transaction.animation = .none
             }
-        .padding(.bottom, 50)
         }
+        .padding(50)
+        .overlay {
+            HStack {
+                VStack {
+                    dismissButton
+                    Spacer()
+                }
+                Spacer()
+            }
+            .padding(35)
+        }
+        .rotationEffect(.degrees(90)) // Rotate 90 degrees
+        .frame(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
+    }
+    
+    var dismissButton: some View {
         
+        Button {
+            dismiss.callAsFunction()
+        } label: {
+            DismissButton()
+        }
     }
 }
 
 #Preview {
-    LineChartFullScreen()
+    LineChartFullScreen(lineChartFullScreen: .constant(true))
         .environmentObject(SessionsListViewModel())
+        .preferredColorScheme(.dark)
 }

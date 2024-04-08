@@ -31,6 +31,7 @@
 		7C2FC657273EF1E600E3BE0B /* ProfitByStakesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2FC656273EF1E600E3BE0B /* ProfitByStakesView.swift */; };
 		7C31E26A2BB6E7FB00D90F44 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C31E2692BB6E7FB00D90F44 /* PrivacyInfo.xcprivacy */; };
 		7C31E26B2BB6E7FB00D90F44 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C31E2692BB6E7FB00D90F44 /* PrivacyInfo.xcprivacy */; };
+		7C3738372BC4838900699819 /* BarChartByStakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3738362BC4838900699819 /* BarChartByStakes.swift */; };
 		7C3F43AA27284CD800A9C842 /* NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43A927284CD800A9C842 /* NumberFormatter.swift */; };
 		7C3F43AC2728512700A9C842 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43AB2728512700A9C842 /* LocationModel.swift */; };
 		7C4254A12784E25C00B5DA79 /* ProfitByYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4254A02784E25C00B5DA79 /* ProfitByYear.swift */; };
@@ -233,6 +234,7 @@
 		7C2E6BF82B711C89002C01C9 /* ImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportView.swift; sourceTree = "<group>"; };
 		7C2FC656273EF1E600E3BE0B /* ProfitByStakesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByStakesView.swift; sourceTree = "<group>"; };
 		7C31E2692BB6E7FB00D90F44 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		7C3738362BC4838900699819 /* BarChartByStakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartByStakes.swift; sourceTree = "<group>"; };
 		7C3F43A927284CD800A9C842 /* NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
 		7C3F43AB2728512700A9C842 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
 		7C4254A02784E25C00B5DA79 /* ProfitByYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByYear.swift; sourceTree = "<group>"; };
@@ -558,6 +560,7 @@
 			isa = PBXGroup;
 			children = (
 				7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */,
+				7C3738362BC4838900699819 /* BarChartByStakes.swift */,
 			);
 			path = BarChartView;
 			sourceTree = "<group>";
@@ -1039,6 +1042,7 @@
 				7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */,
 				7C897F192891BC1700E42FDA /* LocationsListView.swift in Sources */,
 				7C68FE4326D7CEA40019BA53 /* RecentSessionCardView.swift in Sources */,
+				7C3738372BC4838900699819 /* BarChartByStakes.swift in Sources */,
 				7C5997AB27872FCF00966764 /* AnnualReportViewModel.swift in Sources */,
 				7C68FE4126D709530019BA53 /* PlusButton.swift in Sources */,
 				7C15DD39276D575600889FB2 /* PlaceholderView.swift in Sources */,

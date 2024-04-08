@@ -14,6 +14,7 @@ class SessionsListViewModel: ObservableObject {
     @Published var stakesProgress: Float = 0.0
     @Published var userCurrency: CurrencyType = .USD
     @Published var sessionCounts: Int = 0
+    @Published var lineChartFullScreen = false
     @Published var locations: [LocationModel] = DefaultLocations.allLocations
     {
         didSet {

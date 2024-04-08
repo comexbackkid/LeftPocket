@@ -71,6 +71,9 @@ struct MetricsView: View {
                                     
                             }
                         }
+                        .fullScreenCover(isPresented: $viewModel.lineChartFullScreen, content: {
+                            LineChartFullScreen(lineChartFullScreen: $viewModel.lineChartFullScreen)
+                        })
                     }
                 }
                 .frame(maxHeight: .infinity)

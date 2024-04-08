@@ -47,6 +47,14 @@ struct SwiftLineChartsPractice: View {
                     
                     Spacer()
                     
+                    Button {
+                        viewModel.lineChartFullScreen.toggle()
+                    } label: {
+                        Image(systemName: "arrow.up.left.and.down.right.and.arrow.up.right.and.down.left")
+                    }
+                    .tint(.brandPrimary)
+                    .padding(.horizontal, 5)
+                    
                     Menu {
                         Picker("", selection: $sessionFilter) {
                             ForEach(SessionFilter.allCases, id: \.self) {

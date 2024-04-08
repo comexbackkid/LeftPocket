@@ -28,7 +28,7 @@ struct UsingLeftPocket: View {
                 
                 HStack {
                     Text("Read through the following documentation to get the most out of Left Pocket, so that you can put the most into your’s.")
-                        .calloutStyle()
+                        .bodyStyle()
                         .opacity(0.8)
                         .padding(.horizontal)
                         .padding(.bottom, 30)
@@ -814,10 +814,9 @@ struct LocationsDocumentation: View {
 }
 
 #Preview {
-    NavigationView {
-        UsingLeftPocket()
-            .preferredColorScheme(.dark)
-    }
+    UsingLeftPocket()
+        .preferredColorScheme(.dark)
+    
 }
 
 #Preview {
