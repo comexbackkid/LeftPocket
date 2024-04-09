@@ -74,7 +74,7 @@ struct LeftPocketCustomTabBar: View {
                 tabBar
             }
         }
-        .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
+        .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .onAppear {
             
             // Handles matching the user's iPhone system display settings
@@ -209,7 +209,7 @@ struct LeftPocketCustomTabBar: View {
                     }
                     .sheet(isPresented: $showPaywall) {
                         PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                            .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
+                            .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
                     }
                     .task {
                         for await customerInfo in Purchases.shared.customerInfoStream {

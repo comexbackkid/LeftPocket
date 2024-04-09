@@ -53,7 +53,7 @@ struct ImportView: View {
                 .bold()
                 .padding(.top, 10)
             
-            Text("Currently, Left Pocket only supports data in CSV format exported from Poker Bankroll Tracker & Pokerbase. Every poker app formats their CSV data differently and you may be required to lightly modify the contents of the file.\n\n__WARNING:__ Importing data will erase & overwrite any existing sessions you've saved on Left Pocket.")
+            Text("Currently, Left Pocket supports data in CSV format exported from Poker Bankroll Tracker, Poker Analytics, & Pokerbase. Every poker app formats their CSV data differently, and you may be required to lightly modify the contents of the file.\n\n__WARNING:__ Importing data will erase & overwrite any existing sessions you've saved on Left Pocket.")
                 .bodyStyle()
                 .opacity(0.8)
                 .padding(.top, 1)
@@ -79,6 +79,36 @@ struct ImportView: View {
                                 .foregroundColor(.secondary)
                             
                             Text("Poker Bankroll Tracker")
+                                .bodyStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Divider()
+            
+            NavigationLink {
+                PokerAnalyticsImportView()
+            } label: {
+                HStack {
+                    VStack (alignment: .leading) {
+                        HStack {
+                            
+                            Image(systemName: "tray.and.arrow.down.fill")
+                                .frame(width: 20)
+                                .fontWeight(.black)
+                                .padding(.trailing, 5)
+                                .foregroundColor(.secondary)
+                            
+                            Text("Poker Analytics")
                                 .bodyStyle()
                                 .bold()
                             
@@ -612,16 +642,146 @@ struct LeftPocketImportView: View {
     }
 }
 
+struct PokerAnalyticsImportView: View {
+    
+    @EnvironmentObject var vm: SessionsListViewModel
+    
+    @State private var showFileImporter = false
+    @State private var errorMessage: String?
+    @State private var showSuccessMessage: String?
+    
+    var body: some View {
+        
+        ScrollView (.vertical) {
+            
+            VStack (alignment: .leading) {
+                
+                Text("Poker Analytics Import")
+                    .subtitleStyle()
+                    .bold()
+                    .padding(.top, 10)
+                
+                Text("Please be sure to follow each step and read carefully. Poker Analytics allows for exporting of session comments and you will need to account for how the text is formatted.")
+                    .bodyStyle()
+                    .opacity(0.8)
+                    .padding(.top, 1)
+                
+                VStack (alignment: .leading, spacing: 20) {
+                    
+                    Text("1. Export Sessions (CSV) from Poker Analytics.")
+                        
+                    Text("2. Open the CSV on your computer. In the Comment column, you'll need to __remove ALL COMMAS and SOFT RETURNS__. Text must be on one line.")
+                    
+                    Text("3. Export this new file to a folder in your iCloud Drive, using UTF-8 encoding.")
+                    
+                    Text("4. Tap the Import CSV Data button below.")
+                }
+                .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
+                .opacity(0.8)
+                .lineSpacing(5)
+                .padding(.vertical, 20)
+            }
+            .padding(.horizontal)
+            
+            importButton
+            
+            if let errorMessage {
+                
+                VStack {
+                    Text("Uh oh! There was a problem.")
+                    Text(errorMessage)
+                    Image(systemName: "x.circle")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .padding(.top, 1)
+                        .foregroundColor(.red)
+                }
+                
+            } else if let showSuccessMessage {
+                
+                VStack {
+                    Text("Success!")
+                    Text(showSuccessMessage)
+                    Image(systemName: "checkmark.circle")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .padding(.top, 1)
+                        .foregroundColor(.green)
+                }
+            }
+            
+            HStack {
+                Spacer()
+            }
+        }
+        .background(Color.brandBackground)
+    }
+    
+    var importButton: some View {
+        
+        Button {
+            
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            showFileImporter = true
+            
+        } label: {
+            
+            PrimaryButton(title: "Import CSV Data")
+            
+        }
+        .padding(.bottom, 20)
+        .fileImporter(isPresented: $showFileImporter,
+                      allowedContentTypes: [.plainText, .commaSeparatedText],
+                      onCompletion: { result in
+                        
+            do {
+                let selectedURL = try result.get()
+                let csvData = try Data(contentsOf: selectedURL)
+                let csvImporter = CSVImporter()
+                let importedSessions = try csvImporter.importCSVFromPokerAnalytics(data: csvData)
+                
+                // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
+                vm.sessions += importedSessions
+                vm.sessions.sort(by: {$0.date > $1.date})
+                showSuccessMessage = "All sessions imported successfully."
+                
+            } catch let error as URLError {
+                
+                // Handle URLError from the fileImporter
+                errorMessage = "URL Error: \(error.localizedDescription)"
+                print("URL Error: \(error)")
+                
+            } catch let error as CSVImporter.ImportError {
+                
+                // Handle specific CSV import errors from our class
+                switch error {
+                case .invalidData:
+                    errorMessage = "Error: Invalid Data"
+                case .parsingFailed:
+                    errorMessage = "Error: Parsing Failed"
+                case .saveFailed:
+                    errorMessage = "Error: Failed to Save Data"
+                }
+                print("CSV Import Error: \(error)")
+                
+            } catch {
+                
+                // Handle other errors
+                errorMessage = error.localizedDescription
+                print("Error importing file: \(error)")
+            }
+        })
+    }
+}
+
 struct ImportView_Previews: PreviewProvider {
     static var previews: some View {
         ImportView()
             .preferredColorScheme(.dark)
-        LeftPocketImportView()
-            .preferredColorScheme(.dark)
         PokerBankrollTrackerImportView()
             .preferredColorScheme(.dark)
-        PokerbaseImportView()
+        PokerAnalyticsImportView()
             .preferredColorScheme(.dark)
-        
     }
 }

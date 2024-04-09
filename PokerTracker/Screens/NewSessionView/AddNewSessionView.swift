@@ -40,7 +40,7 @@ struct AddNewSessionView: View {
                 }
             }
         }
-        .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
+        .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .frame(maxHeight: .infinity)
         .background(Color.brandBackground)
         .onAppear {
@@ -167,7 +167,7 @@ struct AddNewSessionView: View {
         .padding(.bottom, 10)
         .sheet(isPresented: $showPaywall) {
             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
+                .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         }
         .task {
             for await customerInfo in Purchases.shared.customerInfoStream {

@@ -41,6 +41,10 @@ struct UserSettings: View {
                     
                     externalLinks
                     
+                    Divider()
+                    
+                    appVersion
+                    
                     Spacer()
                 }
                 .padding(.horizontal)
@@ -455,6 +459,17 @@ struct UserSettings: View {
         }
     }
     
+    var appVersion: some View {
+        HStack {
+            
+            Text("Left Pocket v" + getAppVersion())
+                .captionStyle()
+                .opacity(0.8)
+            
+            Spacer()
+        }
+    }
+    
     func shareFile(_ fileURL: URL, completion: @escaping () -> Void) {
         let activityViewController = UIActivityViewController(
             activityItems: [fileURL],
@@ -472,6 +487,13 @@ struct UserSettings: View {
             }
         
         UIApplication.shared.windows.first?.rootViewController?.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    func getAppVersion() -> String {
+        if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            return appVersion
+        }
+        return "Unknown"
     }
 }
 

@@ -73,7 +73,7 @@ struct SessionDetailView: View {
             }
         }
         .accentColor(.brandPrimary)
-        .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
+        .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
     }
 
     var cashMetrics: some View {

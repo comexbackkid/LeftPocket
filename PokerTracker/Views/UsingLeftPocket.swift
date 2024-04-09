@@ -189,6 +189,36 @@ struct UsingLeftPocket: View {
                     Divider()
                     
                     NavigationLink {
+                        ImportDocumentation()
+                    } label: {
+                        HStack {
+                            VStack (alignment: .leading) {
+                                HStack {
+                                    
+                                    Image(systemName: "doc.text.fill")
+                                        .frame(width: 20)
+                                        .fontWeight(.black)
+                                        .padding(.trailing, 5)
+                                        .foregroundColor(.secondary)
+                                    
+                                    Text("Importing Data")
+                                        .bodyStyle()
+                                        .bold()
+                                    
+                                    Spacer()
+                                    
+                                    Text("›")
+                                        .font(.title2)
+                                }
+                            }
+                            Spacer()
+                        }
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    Divider()
+                    
+                    NavigationLink {
                         WidgetsDocumentation()
                     } label: {
                         HStack {
@@ -459,7 +489,7 @@ struct MetricsDocumentation: View {
                     Spacer()
                 }
                 
-                Text("Left Pocket offers a variety of advanced metrics & analytics to help with your study and progress as a player. \n\nTo begin:")
+                Text("Left Pocket offers a variety of advanced metrics & analytics to help with your study and progress as a player.More metrics and data points are added regularly, most recently Big Blind / Hr. If you have any suggestions feel free to reach out to Support.\n\nTo begin:")
                     .bodyStyle()
                     .padding(.bottom, 20)
                 
@@ -627,6 +657,86 @@ struct ReportsDocumentation: View {
                             .foregroundColor(Color.brandPrimary)
                         
                         Text("All reports can be toggled to display hourly rate or total amount.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                    
+                    Text("If you need additional help, feel free to reach out to Support via email.")
+                        .bodyStyle()
+                }
+            }
+            .padding(.horizontal)
+        }
+        .background(Color.brandBackground)
+    }
+}
+
+struct ImportDocumentation: View {
+    
+    var body: some View {
+        
+        ScrollView (.vertical) {
+            
+            VStack (alignment: .leading) {
+                
+                HStack {
+                    Text("Importing Data")
+                        .cardTitleStyle()
+                        .padding(.top)
+                        .padding(.bottom, 20)
+                    
+                    Spacer()
+                }
+                
+                Text("In addition to Left Pocket exports, you can also import exported CSV data from other poker bankroll apps like Pokerbase, Poker Bankroll Tracker, & Poker Analytics. It's best to start your journey here if you have a lot of past session data you want migrated over.\n\nTo import data:")
+                    .bodyStyle()
+                    .padding(.bottom, 20)
+                
+                VStack (alignment: .leading, spacing: 25) {
+                    HStack {
+                        Image(systemName: "1.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Go to Settings & tap Import Data")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                    
+                    HStack {
+                        Image(systemName: "2.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Choose from the list the app that you're exporting data from, and carefully follow the directions provided")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                    
+                    HStack {
+                        Image(systemName: "3.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Having an iCloud account already set up on your iPhone will speed up the entire process")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                    
+                    HStack {
+                        Image(systemName: "4.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Imported sessions and their relevant data will be loaded into Left Pocket")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -820,6 +930,6 @@ struct LocationsDocumentation: View {
 }
 
 #Preview {
-    LoggingSessionsDocumentation()
+    MetricsDocumentation()
         .preferredColorScheme(.dark)
 }

@@ -29,33 +29,7 @@ struct ProfitByYear: View {
             
             VStack {
                 
-                let chartRange = vm.chartRange(timeline: vm.myNewTimeline)
-                
-                if chartRange.isEmpty {
-                    
-                    VStack {
-                        Image("bargraphvector-transparent")
-                            .resizable()
-                            .frame(width: 125, height: 125)
-                        
-                        Text("No Sessions")
-                            .cardTitleStyle()
-                            .bold()
-                            .multilineTextAlignment(.center)
-                            .padding(.top)
-                    }
-                    .animation(nil, value: chartRange)
-                    .frame(height: 250)
-                    .padding(.vertical)
-                    
-                } else {
-                    
-                    SwiftLineChartsPractice(dateRange: chartRange, showTitle: false, showYAxis: true, overlayAnnotation: true)
-                        .animation(nil, value: chartRange)
-                        .padding(.horizontal, 30)
-                        .frame(height: 250)
-                        .padding(.vertical)
-                }
+                lineChart
 
                 CustomPicker(vm: vm)
                     .padding(.bottom, 35)
@@ -64,6 +38,10 @@ struct ProfitByYear: View {
                 incomeReport
                 
                 bestPlays
+                
+                barChart
+                
+                exportButton
                 
                 Spacer()
             }
@@ -87,6 +65,40 @@ struct ProfitByYear: View {
             Spacer()
         }
         
+    }
+    
+    var lineChart: some View {
+        
+        VStack {
+            
+            let chartRange = vm.chartRange(timeline: vm.myNewTimeline)
+            
+            if chartRange.isEmpty {
+                
+                VStack {
+                    Image("bargraphvector-transparent")
+                        .resizable()
+                        .frame(width: 125, height: 125)
+                    
+                    Text("No Sessions")
+                        .cardTitleStyle()
+                        .bold()
+                        .multilineTextAlignment(.center)
+                        .padding(.top)
+                }
+                .animation(nil, value: chartRange)
+                .frame(height: 250)
+                .padding(.vertical)
+                
+            } else {
+                
+                SwiftLineChartsPractice(dateRange: chartRange, showTitle: false, showYAxis: true, overlayAnnotation: true)
+                    .animation(nil, value: chartRange)
+                    .padding(.horizontal, 30)
+                    .frame(height: 250)
+                    .padding(.vertical)
+            }
+        }
     }
     
     var incomeReport: some View {
@@ -186,6 +198,23 @@ struct ProfitByYear: View {
         
     }
     
+    var barChart: some View {
+        
+        VStack {
+            
+            let dateRange = vm.chartRange(timeline: vm.myNewTimeline)
+            
+            BarChartWeeklySessionCount(showTitle: true, dateRange: dateRange)
+                .padding(30)
+                .frame(width: UIScreen.main.bounds.width * 0.9, height: 220)
+                .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+                .cornerRadius(20)
+                .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+                .padding(.top, 20)
+        }
+        
+    }
+    
     var bestPlays: some View {
         
         VStack (spacing: 30) {
@@ -196,13 +225,11 @@ struct ProfitByYear: View {
             BestSessionView(profit: bestProfit, currency: viewModel.userCurrency)
             
             BestLocationView(location: bestLocation)
-            
-            exportButton
 
         }
         .animation(nil, value: vm.myNewTimeline)
         .padding(.top, 20)
-        .padding(.bottom, 50)
+//        .padding(.bottom, 50)
         
     }
     
@@ -233,6 +260,7 @@ struct ProfitByYear: View {
         } label: {
             PrimaryButton(title: "Export Last Year's Results")
         }
+        .padding(.top)
         .alert(isPresented: $showError) {
             Alert(title: Text("Uh oh!"), message: Text(exportUtility.errorMsg ?? ""), dismissButton: .default(Text("OK")))
         }

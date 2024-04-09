@@ -198,6 +198,69 @@ class CSVImporter {
         return importedSessions
     }
     
+    // Import from Poker Analytics 6 app
+    func importCSVFromPokerAnalytics(data: Data) throws -> [PokerSession] {
+        
+        let csvString: String? = String(data: data, encoding: .utf8) ?? String(data: data, encoding: .ascii)
+        
+        guard let csvContent = csvString else {
+                throw ImportError.invalidData
+            }
+        
+        var importedSessions: [PokerSession] = []
+        let rows = csvContent.components(separatedBy: "\n")
+        
+        // Iterate through rows in the CSV ignoring the first row
+        for rowIndex in 1..<rows.count {
+            
+            let row = rows[rowIndex].trimmingCharacters(in: .whitespacesAndNewlines)
+            if row.isEmpty { continue }
+            let columns = row.components(separatedBy: ",")
+
+            if columns.count == 27 {
+                
+                // Extract only relevant data and create a PokerSession object
+                let game = columns[13].trimmingCharacters(in: .init(charactersIn: "\""))
+                let location = LocationModel(name: columns[15].trimmingCharacters(in: .init(charactersIn: "\"")), localImage: "", imageURL: "")
+                let stakes = columns[19].trimmingCharacters(in: .init(charactersIn: "\""))
+                let date = convertToDateFromPokerAnalytics(columns[0].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let profit = columns[9].trimmingCharacters(in: .init(charactersIn: "\""))
+                let notes = ""
+                let startTime = convertToDateFromPokerAnalytics(columns[0].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let endTime = convertToDateFromPokerAnalytics(columns[1].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let expenses = Int(columns[10].trimmingCharacters(in: .init(charactersIn: "\"")))
+                
+                // Tournament Data
+                let sessionType = columns[3].trimmingCharacters(in: .init(charactersIn: "\""))
+                let entrants = Int(columns[23].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
+                let buyIn = Int(columns[6].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
+                
+                // Need to figure out how to handle the buyIn being the same as expenses
+                let session = PokerSession(location: location,
+                                           game: game,
+                                           stakes: stakes,
+                                           date: date ?? Date(),
+                                           profit: Int(profit) ?? 0,
+                                           notes: notes,
+                                           startTime: startTime ?? Date().modifyTime(minutes: -360),
+                                           endTime: endTime ?? Date(),
+                                           expenses: sessionType == "Tournament" ? buyIn : expenses,
+                                           isTournament: sessionType == "Tournament" ? true : false,
+                                           entrants: entrants)
+                
+                importedSessions.append(session)
+                
+            } else {
+                
+                print("Column count: \(columns.count)")
+                throw ImportError.parsingFailed
+                
+            }
+        }
+        
+        return importedSessions
+    }
+    
     // Poker Bankroll Tracker date conversion
     func convertToDate(_ rawDate: String) -> Date? {
         
@@ -232,6 +295,20 @@ class CSVImporter {
     func convertToDateFromLeftPocket(_ rawDate: String) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // Ensures the date format is interpreted correctly
+        dateFormatter.timeZone = TimeZone.current // Adjusts for the device's current timezone
+
+        if let date = dateFormatter.date(from: rawDate) {
+            return date
+        } else {
+            print("Error: Unable to convert string to Date.")
+            return nil
+        }
+    }
+    
+    func convertToDateFromPokerAnalytics(_ rawDate: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy HH:mm:ss" // Updated format to match input string
         dateFormatter.locale = Locale(identifier: "en_US_POSIX") // Ensures the date format is interpreted correctly
         dateFormatter.timeZone = TimeZone.current // Adjusts for the device's current timezone
 
