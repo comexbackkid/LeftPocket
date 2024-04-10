@@ -44,18 +44,22 @@ struct WidgetViewMedium: View {
             HStack(spacing: 40) {
                 
                 VStack(alignment: .leading) {
+                    
                     Text("Hourly Rate")
                         .foregroundColor(.secondary)
-                        .font(.caption)
+                        .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
+                    
                     Text(entry.hourlyRate, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                         .foregroundColor(.widgetForegroundText)
                         .font(.system(.subheadline, design: .rounded))
                 }
                 
                 VStack (alignment: .leading) {
+                    
                     Text("Sessions")
                         .foregroundColor(.secondary)
-                        .font(.caption)
+                        .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
+                    
                     Text("\(entry.totalSessions)")
                         .foregroundColor(.widgetForegroundText)
                         .font(.system(.subheadline, design: .rounded))
@@ -69,8 +73,9 @@ struct WidgetViewMedium: View {
 
             HStack {
                 Text("My Bankroll")
+                    .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
                     .foregroundColor(.secondary)
-                    .font(.caption)
+
                 Spacer()
             }
             HStack {
@@ -84,11 +89,11 @@ struct WidgetViewMedium: View {
             HStack {
                 
                 if entry.recentSessionAmount != 0 {
-                    Image(systemName: "arrowtriangle.up.fill")
+                    Image(systemName: "arrow.up.right")
                         .resizable()
                         .frame(width: 11, height: 11)
                         .foregroundColor(entry.recentSessionAmount > 0 ? .green : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
-                        .rotationEffect(entry.recentSessionAmount >= 0 ? .degrees(0) : .degrees(180))
+                        .rotationEffect(entry.recentSessionAmount >= 0 ? .degrees(0) : .degrees(90))
                 }
                 
                 Text(entry.recentSessionAmount, format: .currency(code: entry.currency).precision(.fractionLength(0)))

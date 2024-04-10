@@ -48,27 +48,22 @@ struct BarChartWeeklySessionCount: View {
                 .padding(.bottom, 40)
             }
             
-            if #available(iOS 17.0, *) {
-                barChart
-            }
+            barChart
+
         }
     }
     
-    @available(iOS 17, *)
     var barChart: some View {
         
         Chart {
-           
             
             ForEach(sessionsByWeek, id: \.weekOfYear) { weekData in
                 
                 BarMark(x: .value("Week", weekData.weekOfYear), y: .value("Count", weekData.sessionCount), width: 3)
-                    .cornerRadius(20)
+                    .cornerRadius(30)
                     .foregroundStyle(.cyan.gradient)
             }
         }
-//        .sensoryFeedback(.selection, trigger: profitAnnotation)
-//        .chartXSelection(value: $selectedMonth)
         .chartXScale(domain: [1, 52])
         .chartXAxis(.hidden)
         .chartYAxis {
@@ -84,6 +79,20 @@ struct BarChartWeeklySessionCount: View {
                 }
             }
         }
+//        .overlay(alignment: .bottomLeading) {
+//                // Starting label
+//                Text("Jan 1")
+//                .captionStyle()
+//                .opacity(0.5)
+//                .offset(x: 5, y: 35)
+//            }
+//            .overlay(alignment: .bottomTrailing) {
+//                // Ending label
+//                Text("Dec 31")
+//                    .captionStyle()
+//                    .opacity(0.5)
+//                    .offset(x: -5, y: 35)
+//            }
     }
 }
 

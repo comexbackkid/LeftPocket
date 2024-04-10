@@ -39,15 +39,22 @@ struct NewLocationView: View {
                     Section (header: Text("Information"),
                              footer: Text("Enter the name of the Location, and import a photo of your choice for the Location header. If you don't import an image, a default graphic will be provided.")) {
                        
-                        TextField("Location Name", text: $newLocationViewModel.locationName)
-                            .font(.custom("Asap-Regular", size: 17))
-                            .submitLabel(.next)
+                        HStack {
+                            Image(systemName: "textformat.alt")
+                                .font(.title2).frame(width: 25)
+                                .foregroundColor(.secondary)
+                                .padding(.trailing, 10)
+                            
+                            TextField("Location Name", text: $newLocationViewModel.locationName)
+                                .font(.custom("Asap-Regular", size: 17))
+                                .submitLabel(.next)
+                        }
                         
                         PhotosPicker(selection: $photoPickerItem) {
                             Label(
-                                title: { Text("Import Header Photo").font(.custom("Asap-Regular", size: 17)) },
+                                title: { Text("Location Photo (Optional)").font(.custom("Asap-Regular", size: 17)) },
                                 icon: { Image(systemName: newLocationViewModel.importedImage != nil ? "checkmark.circle.fill" : "photo")
-                                    .foregroundColor(newLocationViewModel.importedImage != nil ? .green : .brandPrimary)}
+                                    .foregroundColor(newLocationViewModel.importedImage != nil ? .green : .secondary)}
                             )
                         }
                     }

@@ -55,7 +55,6 @@ struct ImportView: View {
             
             Text("Currently, Left Pocket supports data in CSV format exported from Poker Bankroll Tracker, Poker Analytics, & Pokerbase. Every poker app formats their CSV data differently, and you may be required to lightly modify the contents of the file.\n\n__WARNING:__ Importing data will erase & overwrite any existing sessions you've saved on Left Pocket.")
                 .bodyStyle()
-                .opacity(0.8)
                 .padding(.top, 1)
         }
         .padding(.horizontal)
@@ -213,22 +212,62 @@ struct PokerBankrollTrackerImportView: View {
                 
                 Text("Please be sure to follow each step and read carefully. Poker Bankroll Tracker allows for exporting of session notes and you will need to account for how the text is formatted.")
                     .bodyStyle()
-                    .opacity(0.8)
                     .padding(.top, 1)
                 
                 VStack (alignment: .leading, spacing: 20) {
                     
-                    Text("1. Export CSV from Poker Bankroll Tracker.")
+                    HStack {
                         
+                        Image(systemName: "1.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Export CSV from Poker Bankroll Tracker.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
                     
-                    Text("2. Open the CSV on your computer. In the notes column, you'll need to __remove ALL COMMAS and SOFT RETURNS__. Text must be on one line.")
+                    HStack {
+                        
+                        Image(systemName: "1.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Open the CSV on your computer. In the notes column, you'll need to __remove ALL COMMAS and SOFT RETURNS__. Text must be on one line.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
                     
-                    Text("3. Export this new file to a folder in your iCloud Drive, using UTF-8 encoding.")
+                    HStack {
+                        
+                        Image(systemName: "3.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Export this new file to a folder in your iCloud Drive, using UTF-8 encoding.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
                     
-                    Text("4. Tap the Import CSV Data button below.")
+                    HStack {
+                        
+                        Image(systemName: "4.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Tap the Import CSV Data button below.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
                 }
-                .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
-                .opacity(0.8)
                 .lineSpacing(5)
                 .padding(.vertical, 20)
             }
@@ -348,21 +387,62 @@ struct PokerbaseImportView: View {
                 
                 Text("Please be sure to follow each step and read carefully. At this time Pokerbase exports do not include tournament info, stakes, or notes. If your sessions were only one stake, you can select it from the picker below & it'll be applied to your entire import.")
                     .bodyStyle()
-                    .opacity(0.8)
                     .padding(.top, 1)
                 
                 VStack (alignment: .leading, spacing: 20) {
                     
-                    Text("1. Generate a report & include every column.")
+                    HStack {
+                        
+                        Image(systemName: "1.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Generate a report & include every column.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
                     
-                    Text("2. Save the CSV file to a folder in your iCloud Drive using UTF-8 encoding.")
+                    HStack {
+                        
+                        Image(systemName: "2.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Save the CSV file to a folder in your iCloud Drive using UTF-8 encoding.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
                     
-                    Text("3. Choose from the game stakes below.")
+                    HStack {
+                        
+                        Image(systemName: "3.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Choose from the game stakes below.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
                     
-                    Text("4. Tap the Import CSV Data button below.")
+                    HStack {
+                        
+                        Image(systemName: "4.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Tap the Import CSV Data button below.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
                 }
-                .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
-                .opacity(0.8)
                 .lineSpacing(5)
                 .padding(.top, 20)
             }
@@ -531,20 +611,50 @@ struct LeftPocketImportView: View {
                 
                 Text("If you have backed up data from a previous Left Pocket CSV export you can import the data from this screen. Follow the steps below.")
                     .bodyStyle()
-                    .opacity(0.8)
                     .padding(.top, 1)
                 
                 VStack (alignment: .leading, spacing: 20) {
                     
-                    Text("1. Save the CSV file to your iCloud Drive.")
+                    HStack {
+                        
+                        Image(systemName: "1.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Save the CSV file to your iCloud Drive.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
                     
-                    Text("2. Do NOT change or modify the contents of the CSV file.")
+                    HStack {
+                        
+                        Image(systemName: "2.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Do NOT change or modify the contents of the CSV file.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
                     
-                    Text("3. Tap the Import CSV Data button below.")
+                    HStack {
+                        
+                        Image(systemName: "3.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Tap the Import CSV Data button below.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
 
                 }
-                .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
-                .opacity(0.8)
                 .lineSpacing(5)
                 .padding(.vertical, 20)
             }
@@ -663,21 +773,62 @@ struct PokerAnalyticsImportView: View {
                 
                 Text("Please be sure to follow each step and read carefully. Poker Analytics allows for exporting of session comments and you will need to account for how the text is formatted.")
                     .bodyStyle()
-                    .opacity(0.8)
                     .padding(.top, 1)
                 
                 VStack (alignment: .leading, spacing: 20) {
                     
-                    Text("1. Export Sessions (CSV) from Poker Analytics.")
+                    HStack {
                         
-                    Text("2. Open the CSV on your computer. In the Comment column, you'll need to __remove ALL COMMAS and SOFT RETURNS__. Text must be on one line.")
+                        Image(systemName: "1.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Export Sessions (CSV) from Poker Analytics.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                        
+                    HStack {
+                        
+                        Image(systemName: "2.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Open the CSV on your computer. In the Comment column, you'll need to __remove ALL COMMAS and SOFT RETURNS__. Text must be on one line.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
                     
-                    Text("3. Export this new file to a folder in your iCloud Drive, using UTF-8 encoding.")
+                    HStack {
+                        
+                        Image(systemName: "3.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Export this new file to a folder in your iCloud Drive, using UTF-8 encoding.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
                     
-                    Text("4. Tap the Import CSV Data button below.")
+                    HStack {
+                        
+                        Image(systemName: "4.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Tap the Import CSV Data button below.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
                 }
-                .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
-                .opacity(0.8)
                 .lineSpacing(5)
                 .padding(.vertical, 20)
             }
@@ -779,7 +930,7 @@ struct ImportView_Previews: PreviewProvider {
     static var previews: some View {
         ImportView()
             .preferredColorScheme(.dark)
-        PokerBankrollTrackerImportView()
+        LeftPocketImportView()
             .preferredColorScheme(.dark)
         PokerAnalyticsImportView()
             .preferredColorScheme(.dark)

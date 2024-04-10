@@ -87,7 +87,7 @@ struct ContentView: View {
             
             VStack (spacing: 3) {
                 Text(String(viewModel.sessions.count))
-                    .font(.system(size: 22, design: .rounded))
+                    .font(.system(size: 20, design: .rounded))
                     .opacity(0.75)
                 
                 Text(viewModel.sessions.count == 1 ? "Session" : "Sessions")
@@ -99,7 +99,7 @@ struct ContentView: View {
             
             VStack (spacing: 3) {
                 Text(String(viewModel.totalWinRate()))
-                    .font(.system(size: 22, design: .rounded))
+                    .font(.system(size: 20, design: .rounded))
                     .opacity(0.75)
                 
                 Text("Win Rate")
@@ -111,7 +111,7 @@ struct ContentView: View {
             
             VStack (spacing: 3) {
                 Text(viewModel.totalHoursPlayedHomeScreen())
-                    .font(.system(size: 22, design: .rounded))
+                    .font(.system(size: 20, design: .rounded))
                     .opacity(0.75)
                 
                 Text("Hours")
@@ -119,7 +119,11 @@ struct ContentView: View {
                     .fontWeight(.thin)
             }
         }
-        .padding(.bottom, 30)
+        .padding(20)
+        .frame(width: UIScreen.main.bounds.width * 0.85)
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+        .cornerRadius(20)
+        .padding(.bottom, 25)
         
     }
     
@@ -164,12 +168,13 @@ struct ContentView: View {
             
             VStack {
                 
-                Text("BANKROLL")
+                Text("My Bankroll")
                     .font(.custom("Asap-Regular", size: 13))
                     .opacity(0.5)
                 
                 Text(bankroll, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .font(.system(size: 60, design: .rounded))
+                    .font(.system(size: 55, design: .rounded))
+                    .fontWeight(.medium)
                     .opacity(0.75)
                 
                 if !viewModel.sessions.isEmpty {
@@ -188,7 +193,7 @@ struct ContentView: View {
                             .profitColor(total: lastSession)
                         
                     }
-                    .padding(.top, -40)
+                    .padding(.top, -36)
                 }
             }
         }

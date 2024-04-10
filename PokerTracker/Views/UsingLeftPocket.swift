@@ -17,14 +17,7 @@ struct UsingLeftPocket: View {
             
             VStack {
                 
-                HStack {
-                    Text("Using Left Pocket")
-                        .titleStyle()
-                        .padding(.top, -37)
-                        .padding(.horizontal)
-                    
-                    Spacer()
-                }
+                title
                 
                 HStack {
                     Text("Read through the following documentation to get the most out of Left Pocket, so that you can put the most into your’s.")
@@ -36,254 +29,272 @@ struct UsingLeftPocket: View {
                     Spacer()
                 }
                 
-                VStack (spacing: 15) {
-                    
-                    NavigationLink {
-                        LoggingSessionsDocumentation()
-                    } label: {
-                        HStack {
-                            VStack (alignment: .leading) {
-                                HStack {
-                                    
-                                    Image(systemName: "doc.text.fill")
-                                        .frame(width: 20)
-                                        .fontWeight(.black)
-                                        .padding(.trailing, 5)
-                                        .foregroundColor(.secondary)
-                                    
-                                    Text("Logging Sessions")
-                                        .bodyStyle()
-                                        .bold()
-                                    
-                                    Spacer()
-                                    
-                                    Text("›")
-                                        .font(.title2)
-                                }
-                            }
-                            Spacer()
-                        }
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    Divider()
-                    
-                    NavigationLink {
-                        BrowseAndFilterDocumentation()
-                    } label: {
-                        HStack {
-                            VStack (alignment: .leading) {
-                                HStack {
-                                    
-                                    Image(systemName: "doc.text.fill")
-                                        .frame(width: 20)
-                                        .fontWeight(.black)
-                                        .padding(.trailing, 5)
-                                        .foregroundColor(.secondary)
-                                    
-                                    Text("Browse & Filter")
-                                        .bodyStyle()
-                                        .bold()
-                                    
-                                    Spacer()
-                                    
-                                    Text("›")
-                                        .font(.title2)
-                                }
-                            }
-                            Spacer()
-                        }
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    Divider()
-                    
-                    NavigationLink {
-                        MetricsDocumentation()
-                    } label: {
-                        HStack {
-                            VStack (alignment: .leading) {
-                                HStack {
-                                    
-                                    Image(systemName: "doc.text.fill")
-                                        .frame(width: 20)
-                                        .fontWeight(.black)
-                                        .padding(.trailing, 5)
-                                        .foregroundColor(.secondary)
-                                    
-                                    Text("Metrics")
-                                        .bodyStyle()
-                                        .bold()
-                                    
-                                    Spacer()
-                                    
-                                    Text("›")
-                                        .font(.title2)
-                                }
-                            }
-                            Spacer()
-                        }
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    Divider()
-                    
-                    NavigationLink {
-                        ChartsDocumentation()
-                    } label: {
-                        HStack {
-                            VStack (alignment: .leading) {
-                                HStack {
-                                    
-                                    Image(systemName: "doc.text.fill")
-                                        .frame(width: 20)
-                                        .fontWeight(.black)
-                                        .padding(.trailing, 5)
-                                        .foregroundColor(.secondary)
-                                    
-                                    Text("Charts")
-                                        .bodyStyle()
-                                        .bold()
-                                    
-                                    Spacer()
-                                    
-                                    Text("›")
-                                        .font(.title2)
-                                }
-                            }
-                            Spacer()
-                        }
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    Divider()
-                    
-                    NavigationLink {
-                        ReportsDocumentation()
-                    } label: {
-                        HStack {
-                            VStack (alignment: .leading) {
-                                HStack {
-                                    
-                                    Image(systemName: "doc.text.fill")
-                                        .frame(width: 20)
-                                        .fontWeight(.black)
-                                        .padding(.trailing, 5)
-                                        .foregroundColor(.secondary)
-                                    
-                                    Text("Reports")
-                                        .bodyStyle()
-                                        .bold()
-                                    
-                                    Spacer()
-                                    
-                                    Text("›")
-                                        .font(.title2)
-                                }
-                            }
-                            Spacer()
-                        }
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    Divider()
-                    
-                    NavigationLink {
-                        ImportDocumentation()
-                    } label: {
-                        HStack {
-                            VStack (alignment: .leading) {
-                                HStack {
-                                    
-                                    Image(systemName: "doc.text.fill")
-                                        .frame(width: 20)
-                                        .fontWeight(.black)
-                                        .padding(.trailing, 5)
-                                        .foregroundColor(.secondary)
-                                    
-                                    Text("Importing Data")
-                                        .bodyStyle()
-                                        .bold()
-                                    
-                                    Spacer()
-                                    
-                                    Text("›")
-                                        .font(.title2)
-                                }
-                            }
-                            Spacer()
-                        }
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    Divider()
-                    
-                    NavigationLink {
-                        WidgetsDocumentation()
-                    } label: {
-                        HStack {
-                            VStack (alignment: .leading) {
-                                HStack {
-                                    
-                                    Image(systemName: "doc.text.fill")
-                                        .frame(width: 20)
-                                        .fontWeight(.black)
-                                        .padding(.trailing, 5)
-                                        .foregroundColor(.secondary)
-                                    
-                                    Text("Widgets")
-                                        .bodyStyle()
-                                        .bold()
-                                    
-                                    Spacer()
-                                    
-                                    Text("›")
-                                        .font(.title2)
-                                }
-                            }
-                            Spacer()
-                        }
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    Divider()
-                    
-                    NavigationLink {
-                        LocationsDocumentation()
-                    } label: {
-                        HStack {
-                            VStack (alignment: .leading) {
-                                HStack {
-                                    
-                                    Image(systemName: "doc.text.fill")
-                                        .frame(width: 20)
-                                        .fontWeight(.black)
-                                        .padding(.trailing, 5)
-                                        .foregroundColor(.secondary)
-                                    
-                                    Text("Custom Locations")
-                                        .bodyStyle()
-                                        .bold()
-                                    
-                                    Spacer()
-                                    
-                                    Text("›")
-                                        .font(.title2)
-                                }
-                            }
-                            Spacer()
-                        }
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                }
-                .padding(25)
-                .frame(width: UIScreen.main.bounds.width * 0.9)
-                .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
-                .cornerRadius(20)
-                .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+                navigationLinks
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
         .background(Color.brandBackground)
+    }
+    
+    var title: some View {
+        
+        HStack {
+            Text("Using Left Pocket")
+                .titleStyle()
+                .padding(.top, -37)
+                .padding(.horizontal)
+            
+            Spacer()
+        }
+        
+    }
+    
+    var navigationLinks: some View {
+        VStack (spacing: 15) {
+            
+            NavigationLink {
+                LoggingSessionsDocumentation()
+            } label: {
+                HStack {
+                    VStack (alignment: .leading) {
+                        HStack {
+                            
+                            Image(systemName: "doc.text.fill")
+                                .frame(width: 20)
+                                .fontWeight(.black)
+                                .padding(.trailing, 5)
+                                .foregroundColor(.secondary)
+                            
+                            Text("Logging Sessions")
+                                .bodyStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Divider()
+            
+            NavigationLink {
+                BrowseAndFilterDocumentation()
+            } label: {
+                HStack {
+                    VStack (alignment: .leading) {
+                        HStack {
+                            
+                            Image(systemName: "doc.text.fill")
+                                .frame(width: 20)
+                                .fontWeight(.black)
+                                .padding(.trailing, 5)
+                                .foregroundColor(.secondary)
+                            
+                            Text("Browse & Filter")
+                                .bodyStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Divider()
+            
+            NavigationLink {
+                MetricsDocumentation()
+            } label: {
+                HStack {
+                    VStack (alignment: .leading) {
+                        HStack {
+                            
+                            Image(systemName: "doc.text.fill")
+                                .frame(width: 20)
+                                .fontWeight(.black)
+                                .padding(.trailing, 5)
+                                .foregroundColor(.secondary)
+                            
+                            Text("Metrics")
+                                .bodyStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Divider()
+            
+            NavigationLink {
+                ChartsDocumentation()
+            } label: {
+                HStack {
+                    VStack (alignment: .leading) {
+                        HStack {
+                            
+                            Image(systemName: "doc.text.fill")
+                                .frame(width: 20)
+                                .fontWeight(.black)
+                                .padding(.trailing, 5)
+                                .foregroundColor(.secondary)
+                            
+                            Text("Charts")
+                                .bodyStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Divider()
+            
+            NavigationLink {
+                ReportsDocumentation()
+            } label: {
+                HStack {
+                    VStack (alignment: .leading) {
+                        HStack {
+                            
+                            Image(systemName: "doc.text.fill")
+                                .frame(width: 20)
+                                .fontWeight(.black)
+                                .padding(.trailing, 5)
+                                .foregroundColor(.secondary)
+                            
+                            Text("Reports")
+                                .bodyStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Divider()
+            
+            NavigationLink {
+                ImportDocumentation()
+            } label: {
+                HStack {
+                    VStack (alignment: .leading) {
+                        HStack {
+                            
+                            Image(systemName: "doc.text.fill")
+                                .frame(width: 20)
+                                .fontWeight(.black)
+                                .padding(.trailing, 5)
+                                .foregroundColor(.secondary)
+                            
+                            Text("Importing Data")
+                                .bodyStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Divider()
+            
+            NavigationLink {
+                WidgetsDocumentation()
+            } label: {
+                HStack {
+                    VStack (alignment: .leading) {
+                        HStack {
+                            
+                            Image(systemName: "doc.text.fill")
+                                .frame(width: 20)
+                                .fontWeight(.black)
+                                .padding(.trailing, 5)
+                                .foregroundColor(.secondary)
+                            
+                            Text("Widgets")
+                                .bodyStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Divider()
+            
+            NavigationLink {
+                LocationsDocumentation()
+            } label: {
+                HStack {
+                    VStack (alignment: .leading) {
+                        HStack {
+                            
+                            Image(systemName: "doc.text.fill")
+                                .frame(width: 20)
+                                .fontWeight(.black)
+                                .padding(.trailing, 5)
+                                .foregroundColor(.secondary)
+                            
+                            Text("Custom Locations")
+                                .bodyStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+        .padding(25)
+        .frame(width: UIScreen.main.bounds.width * 0.9)
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+        .cornerRadius(20)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
     }
 }
 
@@ -926,7 +937,6 @@ struct LocationsDocumentation: View {
 #Preview {
     UsingLeftPocket()
         .preferredColorScheme(.dark)
-    
 }
 
 #Preview {
