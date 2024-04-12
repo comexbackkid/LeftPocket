@@ -79,20 +79,6 @@ struct BarChartWeeklySessionCount: View {
                 }
             }
         }
-//        .overlay(alignment: .bottomLeading) {
-//                // Starting label
-//                Text("Jan 1")
-//                .captionStyle()
-//                .opacity(0.5)
-//                .offset(x: 5, y: 35)
-//            }
-//            .overlay(alignment: .bottomTrailing) {
-//                // Ending label
-//                Text("Dec 31")
-//                    .captionStyle()
-//                    .opacity(0.5)
-//                    .offset(x: -5, y: 35)
-//            }
     }
 }
 

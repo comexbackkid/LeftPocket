@@ -34,6 +34,7 @@
 		7C3738372BC4838900699819 /* BarChartWeeklyCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3738362BC4838900699819 /* BarChartWeeklyCount.swift */; };
 		7C3F43AA27284CD800A9C842 /* NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43A927284CD800A9C842 /* NumberFormatter.swift */; };
 		7C3F43AC2728512700A9C842 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43AB2728512700A9C842 /* LocationModel.swift */; };
+		7C3FFA862BC894C500EABD49 /* BarChartByLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3FFA852BC894C500EABD49 /* BarChartByLocation.swift */; };
 		7C4254A12784E25C00B5DA79 /* ProfitByYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4254A02784E25C00B5DA79 /* ProfitByYear.swift */; };
 		7C463C232B487B040095E6C6 /* CSVConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C463C222B487B040095E6C6 /* CSVConversion.swift */; };
 		7C468EFD273980F7000CA4B3 /* Animations+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C468EFC273980F7000CA4B3 /* Animations+Ext.swift */; };
@@ -237,6 +238,7 @@
 		7C3738362BC4838900699819 /* BarChartWeeklyCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartWeeklyCount.swift; sourceTree = "<group>"; };
 		7C3F43A927284CD800A9C842 /* NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
 		7C3F43AB2728512700A9C842 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
+		7C3FFA852BC894C500EABD49 /* BarChartByLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartByLocation.swift; sourceTree = "<group>"; };
 		7C4254A02784E25C00B5DA79 /* ProfitByYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByYear.swift; sourceTree = "<group>"; };
 		7C463C222B487B040095E6C6 /* CSVConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVConversion.swift; sourceTree = "<group>"; };
 		7C468EFC273980F7000CA4B3 /* Animations+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Animations+Ext.swift"; sourceTree = "<group>"; };
@@ -561,6 +563,7 @@
 			children = (
 				7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */,
 				7C3738362BC4838900699819 /* BarChartWeeklyCount.swift */,
+				7C3FFA852BC894C500EABD49 /* BarChartByLocation.swift */,
 			);
 			path = BarChartView;
 			sourceTree = "<group>";
@@ -1038,6 +1041,7 @@
 				7CBEF44627596DEE00744F4A /* Colors+Ext.swift in Sources */,
 				7CB3EB9F26C310F5009E8DF3 /* SessionDetailView.swift in Sources */,
 				7C4C7BA728A4684700DBC886 /* Text+Ext.swift in Sources */,
+				7C3FFA862BC894C500EABD49 /* BarChartByLocation.swift in Sources */,
 				7C4CE70227729E4D0070B16E /* UIWindow+Ext.swift in Sources */,
 				7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */,
 				7C897F192891BC1700E42FDA /* LocationsListView.swift in Sources */,

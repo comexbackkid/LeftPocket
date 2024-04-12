@@ -33,6 +33,7 @@ struct BarChartByYear: View {
         VStack {
             
             if showTitle {
+                
                 HStack {
                     Text("Monthly Totals")
                         .cardTitleStyle()
@@ -81,8 +82,8 @@ struct BarChartByYear: View {
                 
             }
         }
-            .sensoryFeedback(.selection, trigger: profitAnnotation)
-            .chartXSelection(value: $selectedMonth)
+        .sensoryFeedback(.selection, trigger: profitAnnotation)
+        .chartXSelection(value: $selectedMonth)
         .chartXScale(domain: [firstDay, lastDay])
         .chartYAxis {
             AxisMarks(position: .leading) { value in

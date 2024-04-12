@@ -71,9 +71,9 @@ struct ProfitByYear: View {
         
         VStack {
             
-            let chartRange = vm.chartRange(timeline: vm.myNewTimeline)
+            let year = vm.chartRange(timeline: vm.myNewTimeline)
             
-            if chartRange.isEmpty {
+            if year.isEmpty {
                 
                 VStack {
                     Image("bargraphvector-transparent")
@@ -86,14 +86,14 @@ struct ProfitByYear: View {
                         .multilineTextAlignment(.center)
                         .padding(.top)
                 }
-                .animation(nil, value: chartRange)
+                .animation(nil, value: year)
                 .frame(height: 250)
                 .padding(.vertical)
                 
             } else {
                 
-                SwiftLineChartsPractice(dateRange: chartRange, showTitle: false, showYAxis: true, overlayAnnotation: true)
-                    .animation(nil, value: chartRange)
+                SwiftLineChartsPractice(yearSelection: year, showTitle: false, showYAxis: true, showRangeSelector: false, overlayAnnotation: true)
+                    .animation(nil, value: year)
                     .padding(.horizontal, 30)
                     .frame(height: 250)
                     .padding(.vertical)
@@ -113,6 +113,7 @@ struct ProfitByYear: View {
             let totalExpenses = vm.expensesByYear(timeline: vm.myNewTimeline)
             let totalHours = vm.totalHours(timeline: vm.myNewTimeline)
             let totalSessions = vm.sessionsPerYear(timeline: vm.myNewTimeline)
+            let bestProfit = vm.bestProfit(timeline: vm.myNewTimeline)
 //            let bigBlindPerHr = vm.bigBlindPerHr(timeline: vm.myNewTimeline)
             
             HStack {
@@ -163,6 +164,14 @@ struct ProfitByYear: View {
                 
                 Spacer()
                 Text(profitPerSession, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: profitPerSession)
+            }
+            
+            HStack {
+                Text("Biggest Session")
+                
+                Spacer()
+                Text(bestProfit, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: profitPerSession)
             }
             
@@ -220,17 +229,12 @@ struct ProfitByYear: View {
         VStack (spacing: 30) {
             
             let bestLocation = vm.bestLocation(timeline: vm.myNewTimeline)
-            let bestProfit = vm.bestProfit(timeline: vm.myNewTimeline)
-            
-            BestSessionView(profit: bestProfit, currency: viewModel.userCurrency)
             
             BestLocationView(location: bestLocation)
 
         }
         .animation(nil, value: vm.myNewTimeline)
         .padding(.top, 20)
-//        .padding(.bottom, 50)
-        
     }
     
     var exportButton: some View {

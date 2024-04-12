@@ -41,7 +41,7 @@ struct NewLocationView: View {
                        
                         HStack {
                             Image(systemName: "textformat.alt")
-                                .font(.title2).frame(width: 25)
+                                .font(.headline).frame(width: 25)
                                 .foregroundColor(.secondary)
                                 .padding(.trailing, 10)
                             

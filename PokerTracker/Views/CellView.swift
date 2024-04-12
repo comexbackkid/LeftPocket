@@ -29,13 +29,19 @@ struct CellView: View {
                     .lineLimit(1)
                 
                 if viewStyle == .standard {
-                    HStack (alignment: .center) {
+                    HStack (alignment: .firstTextBaseline) {
                         Text("\(pokerSession.date.dateStyle())")
                             .captionStyle()
                             .foregroundColor(.secondary)
                         
                         if !pokerSession.notes.isEmpty {
                             Image(systemName: "doc")
+                                .font(.custom("Asap-Regular", size: 10, relativeTo: .caption2))
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        if pokerSession.isTournament == true {
+                            Image(systemName: "person.2")
                                 .font(.custom("Asap-Regular", size: 10, relativeTo: .caption2))
                                 .foregroundColor(.secondary)
                         }

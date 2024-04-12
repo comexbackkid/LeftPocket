@@ -22,7 +22,7 @@ struct MetricsCardView: View {
                 
                 Spacer()
          
-                SwiftLineChartsPractice(dateRange: viewModel.sessions, showTitle: false, showYAxis: true, overlayAnnotation: true)
+                SwiftLineChartsPractice(showTitle: false, showYAxis: true, showRangeSelector: false, overlayAnnotation: true)
                     .padding(.top, 25)
                     .padding(.horizontal, 20)
                 

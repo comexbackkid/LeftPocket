@@ -17,9 +17,9 @@ struct LineChartFullScreen: View {
     var body: some View {
         
         VStack {
-            SwiftLineChartsPractice(dateRange: viewModel.sessions,
-                                    showTitle: false,
+            SwiftLineChartsPractice(showTitle: false,
                                     showYAxis: true,
+                                    showRangeSelector: false,
                                     overlayAnnotation: true)
             
             // Swap width and height to match landscape dimensions

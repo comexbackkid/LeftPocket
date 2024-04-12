@@ -10,18 +10,31 @@ import Charts
 
 struct SwiftLineChartsPractice: View {
     
+    enum ChartRange {
+        case all, oneMonth, sixMonth
+    }
+    
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     @State private var selectedIndex: Int?
     @State private var animationProgress: CGFloat = 0.0
     @State private var showChart: Bool = false
     @State var sessionFilter: SessionFilter = .all
+    @State private var chartRange: ChartRange = .all
     
-    var dateRange: [PokerSession]
-    let showTitle: Bool
-    let showYAxis: Bool
-    let overlayAnnotation: Bool
+    var dateRange: [PokerSession] {
+        switch chartRange {
+        case .all: return viewModel.sessions
+            
+        case .oneMonth: return filterSessionsForLastThreeMonths()
+            
+        case .sixMonth: return filterSessionsForLastSixMonths()
+            
+        }
+    }
     
+    // Optional year selector, only used in Annual Report View. Overrides dateRange if used
+    var yearSelection: [PokerSession]?
     var profitAnnotation: Int? {
         
         getProfitForIndex(index: selectedIndex ?? 0, cumulativeProfits: convertedData)
@@ -30,11 +43,16 @@ struct SwiftLineChartsPractice: View {
         
         // Start with zero as our initial data point so chart doesn't look goofy
         var originalDataPoint = [0]
-        let newDataPoints = calculateCumulativeProfit(sessions: dateRange, sessionFilter: sessionFilter)
+        let newDataPoints = calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange, sessionFilter: sessionFilter)
         originalDataPoint += newDataPoints
         return originalDataPoint
     }
     
+    let showTitle: Bool
+    let showYAxis: Bool
+    let showRangeSelector: Bool
+    let overlayAnnotation: Bool
+
     var body: some View {
         
         VStack {
@@ -77,6 +95,10 @@ struct SwiftLineChartsPractice: View {
                 lineChart
             } else {
                 lineChartOldVersion
+            }
+            
+            if showRangeSelector {
+                rangeSelector
             }
         }
     }
@@ -196,6 +218,39 @@ struct SwiftLineChartsPractice: View {
         }
     }
     
+    var rangeSelector: some View {
+        
+        HStack (spacing: 25) {
+            Button {
+                chartRange = .all
+            } label: {
+                Text("All")
+                    .bodyStyle()
+            }
+            .tint(.brandPrimary)
+            
+            Button {
+                chartRange = .sixMonth
+            } label: {
+                Text("6 Mo.")
+                    .bodyStyle()
+            }
+            .tint(.brandPrimary)
+            
+            Button {
+                chartRange = .oneMonth
+            } label: {
+                Text("1 Mo.")
+                    .bodyStyle()
+            }
+            .tint(.brandPrimary)
+            
+            Spacer()
+        }
+        .padding(.top, 20)
+        
+    }
+    
     func calculateCumulativeProfit(sessions: [PokerSession], sessionFilter: SessionFilter) -> [Int] {
         
         // We run this so tha twe can just use the Index as our X Axis value. Keeps spacing uniform and neat looking.
@@ -233,12 +288,32 @@ struct SwiftLineChartsPractice: View {
 
         return cumulativeProfits[index]
     }
+    
+    func filterSessionsForLastThreeMonths() -> [PokerSession] {
+        let calendar = Calendar.current
+        let threeMonthsAgo = calendar.date(byAdding: .month, value: -3, to: Date())
+
+        return viewModel.sessions.filter { session in
+            guard let threeMonthsAgo = threeMonthsAgo else { return false }
+            return session.date >= threeMonthsAgo
+        }
+    }
+    
+    func filterSessionsForLastSixMonths() -> [PokerSession] {
+        let calendar = Calendar.current
+        let threeMonthsAgo = calendar.date(byAdding: .month, value: -6, to: Date())
+
+        return viewModel.sessions.filter { session in
+            guard let threeMonthsAgo = threeMonthsAgo else { return false }
+            return session.date >= threeMonthsAgo
+        }
+    }
 }
 
 struct SwiftChartsPractice_Previews: PreviewProvider {
     
     static var previews: some View {
-        SwiftLineChartsPractice(dateRange: SessionsListViewModel().sessions, showTitle: true, showYAxis: true, overlayAnnotation: true)
+        SwiftLineChartsPractice(showTitle: true, showYAxis: true, showRangeSelector: true, overlayAnnotation: true)
             .environmentObject(SessionsListViewModel())
             .preferredColorScheme(.dark)
             .frame(height: 350)

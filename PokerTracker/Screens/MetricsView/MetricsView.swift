@@ -90,11 +90,11 @@ struct MetricsView: View {
     
     var bankrollChart: some View {
         
-        SwiftLineChartsPractice(dateRange: viewModel.sessions, showTitle: true, showYAxis: true, overlayAnnotation: false)
+        SwiftLineChartsPractice(showTitle: true, showYAxis: true, showRangeSelector: true, overlayAnnotation: false)
             .padding(.top)
-            .padding(.bottom, 40)
+            .padding(.bottom, 20)
             .padding(.horizontal)
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 340)
+            .frame(width: UIScreen.main.bounds.width * 0.9, height: 370)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
             .cornerRadius(20)
     }

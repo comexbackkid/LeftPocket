@@ -25,9 +25,6 @@ struct LeftPocketCustomTabBar: View {
     @State var isPresented = false
     @State var showPaywall = false
     
-    let tabBarImages = ["house.fill", "list.bullet", "plus", "chart.bar.fill", "gearshape.fill"]
-    
-    
     var body: some View {
         
         ZStack {
@@ -106,6 +103,8 @@ struct LeftPocketCustomTabBar: View {
                     } label: {
                         
                         Spacer()
+                        
+                        let tabBarImages = ["house.fill", "list.bullet", "plus", "chart.bar.fill", "gearshape.fill"]
                         
                         Image(systemName: tabBarImages[index])
                             .font(.system(size: index == 2 ? 30 : 22, weight: .black))

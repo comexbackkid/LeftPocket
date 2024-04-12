@@ -9,7 +9,57 @@
   "settings" : {
     "_applicationInternalID" : "1601858981",
     "_developerTeamID" : "J3YC22CPKU",
-    "_lastSynchronizedDate" : 724954488.30536902
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 734564579.48797297,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
   },
   "subscriptionGroups" : [
     {
@@ -30,7 +80,12 @@
           "familyShareable" : false,
           "groupNumber" : 1,
           "internalID" : "6474787836",
-          "introductoryOffer" : null,
+          "introductoryOffer" : {
+            "internalID" : "2C57DA69",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1M"
+          },
           "localizations" : [
             {
               "description" : "Unlimited access to Left Pocket",
@@ -55,7 +110,12 @@
           "familyShareable" : false,
           "groupNumber" : 2,
           "internalID" : "6474787947",
-          "introductoryOffer" : null,
+          "introductoryOffer" : {
+            "internalID" : "9B44A3CD",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
           "localizations" : [
             {
               "description" : "Unlimited access to Left Pocket",
@@ -73,7 +133,7 @@
     }
   ],
   "version" : {
-    "major" : 2,
+    "major" : 3,
     "minor" : 0
   }
 }
