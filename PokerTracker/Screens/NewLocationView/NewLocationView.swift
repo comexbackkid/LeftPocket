@@ -50,12 +50,14 @@ struct NewLocationView: View {
                                 .submitLabel(.next)
                         }
                         
-                        PhotosPicker(selection: $photoPickerItem) {
-                            Label(
-                                title: { Text("Location Photo (Optional)").font(.custom("Asap-Regular", size: 17)) },
-                                icon: { Image(systemName: newLocationViewModel.importedImage != nil ? "checkmark.circle.fill" : "photo")
-                                    .foregroundColor(newLocationViewModel.importedImage != nil ? .green : .secondary)}
-                            )
+                        HStack {
+                            Image(systemName: newLocationViewModel.importedImage != nil ? "checkmark.circle.fill" : "photo")
+                                .font(.headline).frame(width: 25)
+                                .foregroundColor(newLocationViewModel.importedImage != nil ? .green : .secondary)
+                                .padding(.trailing, 10)
+                            
+                            PhotosPicker("Add Image", selection: $photoPickerItem)
+                                .font(.custom("Asap-Regular", size: 17))
                         }
                     }
                     

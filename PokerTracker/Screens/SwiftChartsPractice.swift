@@ -11,7 +11,7 @@ import Charts
 struct SwiftLineChartsPractice: View {
     
     enum ChartRange {
-        case all, oneMonth, sixMonth
+        case all, oneMonth, sixMonth, oneYear
     }
     
     @EnvironmentObject var viewModel: SessionsListViewModel
@@ -29,6 +29,8 @@ struct SwiftLineChartsPractice: View {
         case .oneMonth: return filterSessionsForLastThreeMonths()
             
         case .sixMonth: return filterSessionsForLastSixMonths()
+            
+        case .oneYear: return filterSessionsForLastTwelveMonths()
             
         }
     }
@@ -227,23 +229,31 @@ struct SwiftLineChartsPractice: View {
                 Text("All")
                     .bodyStyle()
             }
-            .tint(.brandPrimary)
+            .tint(chartRange == .all ? .primary : .brandPrimary)
+            
+            Button {
+                chartRange = .oneYear
+            } label: {
+                Text("1Y")
+                    .bodyStyle()
+            }
+            .tint(chartRange == .oneYear ? .primary : .brandPrimary)
             
             Button {
                 chartRange = .sixMonth
             } label: {
-                Text("6 Mo.")
+                Text("6M")
                     .bodyStyle()
             }
-            .tint(.brandPrimary)
+            .tint(chartRange == .sixMonth ? .primary : .brandPrimary)
             
             Button {
                 chartRange = .oneMonth
             } label: {
-                Text("1 Mo.")
+                Text("1M")
                     .bodyStyle()
             }
-            .tint(.brandPrimary)
+            .tint(chartRange == .oneMonth ? .primary : .brandPrimary)
             
             Spacer()
         }
@@ -302,6 +312,16 @@ struct SwiftLineChartsPractice: View {
     func filterSessionsForLastSixMonths() -> [PokerSession] {
         let calendar = Calendar.current
         let threeMonthsAgo = calendar.date(byAdding: .month, value: -6, to: Date())
+
+        return viewModel.sessions.filter { session in
+            guard let threeMonthsAgo = threeMonthsAgo else { return false }
+            return session.date >= threeMonthsAgo
+        }
+    }
+    
+    func filterSessionsForLastTwelveMonths() -> [PokerSession] {
+        let calendar = Calendar.current
+        let threeMonthsAgo = calendar.date(byAdding: .month, value: -12, to: Date())
 
         return viewModel.sessions.filter { session in
             guard let threeMonthsAgo = threeMonthsAgo else { return false }

@@ -37,6 +37,8 @@ struct ProfitByYear: View {
                 
                 incomeReport
                 
+//                detailedReports
+                
                 bestPlays
                 
                 barChart
@@ -204,6 +206,43 @@ struct ProfitByYear: View {
         .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+        
+    }
+    
+    var detailedReports: some View {
+        
+        HStack {
+            VStack {
+                HStack {
+                    Text("Cash Game Report")
+                        .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+                    Spacer()
+                    Text("›")
+                }
+            }
+            .padding(30)
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+            .cornerRadius(20)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+            .padding(.top, 20)
+            
+            
+            VStack {
+                HStack {
+                    Text("Tournament Report")
+                        .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+                    Spacer()
+                    Text(" ›")
+                }
+            }
+            .padding(30)
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+            .cornerRadius(20)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+            .padding(.top, 20)
+
+        }
+        .frame(width: UIScreen.main.bounds.width * 0.9)
         
     }
     
