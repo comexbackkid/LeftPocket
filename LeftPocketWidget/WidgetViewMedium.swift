@@ -156,5 +156,6 @@ struct WidgetViewMedium_Previews: PreviewProvider {
                                             currency: "USD"))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
             .preferredColorScheme(.dark)
+        
     }
 }

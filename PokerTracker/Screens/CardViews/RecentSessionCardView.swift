@@ -44,7 +44,7 @@ struct RecentSessionCardView: View {
                         localImage
                     }
                 }
-//                .frame(maxHeight: 250)
+                .frame(maxHeight: 250)
                 .clipped()
                 
                 Spacer()

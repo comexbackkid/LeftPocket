@@ -6,13 +6,18 @@
 //
 
 import SwiftUI
+import RevenueCat
+import RevenueCatUI
 
 struct ProfitByStakesView: View {
     
     @Environment(\.colorScheme) var colorScheme
     
+    @EnvironmentObject var subManager: SubscriptionManager
+    
     @State private var yearFilter = Date().getYear()
     @State private var metricFilter = "Total"
+    @State private var showPaywall = false
 
     @ObservedObject var viewModel: SessionsListViewModel
 
@@ -43,9 +48,39 @@ struct ProfitByStakesView: View {
                     .padding(.top, 50)
                     
                     yearTotal
+                    
+                    if subManager.isSubscribed {
+                        stakesChart
+                    } else {
+                        stakesChart
+                            .blur(radius: 8)
+                            .overlay {
+                                Button {
+                                   showPaywall = true
+                                    
+                                } label: {
+                                    Text("Upgrade for Access")
+                                        .buttonTextStyle()
+                                        .frame(height: 55)
+                                        .frame(width: UIScreen.main.bounds.width * 0.7)
+                                        .background(Color.brandPrimary)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(30)
+                                }
+                            }
+                    }
                    
                     HStack {
                         Spacer()
+                    }
+                }
+                .sheet(isPresented: $showPaywall) {
+                    PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                }
+                .task {
+                    for await customerInfo in Purchases.shared.customerInfoStream {
+                        showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                        await subManager.checkSubscriptionStatus()
                     }
                 }
                 
@@ -53,6 +88,7 @@ struct ProfitByStakesView: View {
                     EmptyState(image: .sessions)
                 }
             }
+            .padding(.bottom, 60)
         }
         .background(Color.brandBackground)
     }
@@ -179,12 +215,26 @@ struct ProfitByStakesView: View {
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
         .padding(.top, 15)
     }
+    
+    var stakesChart: some View {
+        
+        BarChartByStakes(viewModel: viewModel, yearFilter: $yearFilter ,showTitle: true)
+            .padding(.horizontal, 30)
+            .padding(.vertical, 20)
+            .frame(width: UIScreen.main.bounds.width * 0.9)
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+            .cornerRadius(20)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+            .padding(.top, 15)
+            .frame(height: 275)
+    }
 }
 
 struct ProfitByStakesView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             ProfitByStakesView(viewModel: SessionsListViewModel())
+                .environmentObject(SubscriptionManager())
                 .preferredColorScheme(.dark)
         }
     }

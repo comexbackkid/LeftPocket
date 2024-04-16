@@ -40,6 +40,7 @@ struct ProfitByMonth: View {
             .padding(.top, 50)
             
             yearTotal
+                .padding(.bottom, 60)
             
             HStack {
                 Spacer()

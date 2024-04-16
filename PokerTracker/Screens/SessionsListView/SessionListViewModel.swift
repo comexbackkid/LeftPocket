@@ -304,7 +304,7 @@ class SessionsListViewModel: ObservableObject {
         return sessionsArray.filter { $0.profit > 0 }.count
     }
     
-    // Returns percentage of winning seessions
+    // Returns percentage of winning sessions
     func winRate() -> String {
         guard !sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).isEmpty else { return "0%" }
         let cashSessions = sessions.filter({ $0.isTournament == false || $0.isTournament == nil })

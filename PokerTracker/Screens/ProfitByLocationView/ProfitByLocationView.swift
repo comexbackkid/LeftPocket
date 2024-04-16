@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import RevenueCatUI
+import RevenueCat
+
 
 struct ProfitByLocationView: View {
     
@@ -13,12 +16,16 @@ struct ProfitByLocationView: View {
     
     @State private var yearFilter = Date().getYear()
     @State private var metricFilter = "Total"
+    @State private var showPaywall = false
+    
+    @EnvironmentObject var subManager: SubscriptionManager
     
     @ObservedObject var viewModel: SessionsListViewModel
     
     var body: some View {
         
         ScrollView {
+            
             ZStack {
                 VStack {
                     
@@ -48,13 +55,44 @@ struct ProfitByLocationView: View {
                         .padding(.top, 50)
                         
                         yearTotal
+                        
+                        if subManager.isSubscribed {
+                            locationWinRatesChart
+                        } else {
+                            locationWinRatesChart
+                                .blur(radius: 8)
+                                .overlay {
+                                    Button {
+                                       showPaywall = true
+                                        
+                                    } label: {
+                                        Text("Upgrade for Access")
+                                            .buttonTextStyle()
+                                            .frame(height: 55)
+                                            .frame(width: UIScreen.main.bounds.width * 0.7)
+                                            .background(Color.brandPrimary)
+                                            .foregroundColor(.white)
+                                            .cornerRadius(30)
+                                    }
+                                }
+                        }
                     }
                     
                     HStack {
                         Spacer()
                     }
                 }
+                .sheet(isPresented: $showPaywall) {
+                    PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                }
+                .task {
+                    for await customerInfo in Purchases.shared.customerInfoStream {
+                        showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                        await subManager.checkSubscriptionStatus()
+                    }
+                }
             }
+            .padding(.bottom, 60)
         }
         .background(Color.brandBackground)
     }
@@ -189,14 +227,27 @@ struct ProfitByLocationView: View {
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
         .padding(.top, 15)
     }
+    
+    var locationWinRatesChart: some View {
+        
+        RingCharts(viewModel: viewModel, yearFilter: $yearFilter)
+            .padding(.horizontal, 30)
+            .padding(.vertical, 20)
+            .frame(width: UIScreen.main.bounds.width * 0.9)
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+            .cornerRadius(20)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+            .padding(.top, 15)
+        
+    }
 }
 
 struct ProfitByLocationView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             ProfitByLocationView(viewModel: SessionsListViewModel())
+                .environmentObject(SubscriptionManager())
                 .preferredColorScheme(.dark)
         }
-        
     }
 }
