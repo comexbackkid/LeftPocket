@@ -12,11 +12,15 @@ class SessionsListViewModel: ObservableObject {
     
     @Published var uniqueStakes: [String] = []
     @Published var stakesProgress: Float = 0.0
+    @Published var userStakes: [String] = ["1/2", "1/3", "2/5"] {
+        didSet {
+            saveUserStakes()
+        }
+    }
     @Published var userCurrency: CurrencyType = .USD
     @Published var sessionCounts: Int = 0
     @Published var lineChartFullScreen = false
-    @Published var locations: [LocationModel] = DefaultLocations.allLocations
-    {
+    @Published var locations: [LocationModel] = DefaultLocations.allLocations {
         didSet {
             saveLocations()
         }
@@ -34,10 +38,11 @@ class SessionsListViewModel: ObservableObject {
     init() {
         getSessions()
         getLocations()
+        getUserStakes()
         loadCurrency()
     }
     
-    // MARK: SAVING & LOADING APP DATA
+    // MARK: SAVING & LOADING APP DATA: SESSIONS, LOCATIONS, STAKES
     
     var sessionsPath: URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("sessions.json")
@@ -45,6 +50,10 @@ class SessionsListViewModel: ObservableObject {
     
     var locationsPath: URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("locations.json")
+    }
+    
+    var stakesPath: URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("stakes.json")
     }
     
     // Saves the list of sessions with FileManager
@@ -69,8 +78,6 @@ class SessionsListViewModel: ObservableObject {
         self.sessions = savedSessions
     }
     
-    // MARK: LOCATION FUNCTIONS SUCH AS ADD, DELETE, & MERGE
-    
     // Saves the list of locations the user has created with FileManager
     func saveLocations() {
         do {
@@ -79,7 +86,19 @@ class SessionsListViewModel: ObservableObject {
                 try encodedData.write(to: locationsPath)
             }
         } catch {
-            print("Failed to write out locations, \(error)")
+            print("Failed to save locations, \(error)")
+        }
+    }
+    
+    // Saves the list of stakes the user has created, in addition to the 3x defaults
+    func saveUserStakes() {
+        do {
+            if let encodedData = try? JSONEncoder().encode(userStakes) {
+                try? FileManager.default.removeItem(at: stakesPath)
+                try encodedData.write(to: stakesPath)
+            }
+        } catch {
+            print("Failed to save user's stakes, \(error)")
         }
     }
     
@@ -103,6 +122,17 @@ class SessionsListViewModel: ObservableObject {
         self.locations = savedLocations
     }
     
+    // Loads the stakes the user has saved
+    func getUserStakes() {
+        guard
+            let data = try? Data(contentsOf: stakesPath),
+            let savedStakes = try? JSONDecoder().decode([String].self, from: data)
+                
+        else { return }
+        
+        self.userStakes = savedStakes
+    }
+    
     // Will merge Default Locations in to the current saved Locations and also keep the same order
     func mergeLocations() {
         var modifiedLocations = self.locations
@@ -124,6 +154,15 @@ class SessionsListViewModel: ObservableObject {
         locations.append(newLocation)
     }
     
+    func addStakes(_ stakes: String) {
+        
+        guard !userStakes.contains(stakes) else {
+            return
+        }
+        
+        userStakes.append(stakes)
+    }
+    
     // This is only working when you filter by .name versus the .id not sure why? Does it matter? What if the name is changed by the user?
     func uniqueLocationCount(location: LocationModel) -> Int {
         let array = self.sessions.filter({ $0.location.id == location.id })
@@ -135,7 +174,7 @@ class SessionsListViewModel: ObservableObject {
         uniqueStakes = Array(Set(sortedSessions.map({ $0.stakes })))
     }
     
-    // MARK: LOADING PREFERRED CURRENCY
+    // MARK: LOADING USER'S PREFERRED CURRENCY
     
     func loadCurrency() {
         let defaults = UserDefaults.standard

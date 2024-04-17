@@ -8,8 +8,6 @@
 import SwiftUI
 import PhotosUI
 
-
-
 struct NewLocationView: View {
     
     @Environment(\.colorScheme) var colorScheme
@@ -24,21 +22,26 @@ struct NewLocationView: View {
     var body: some View {
         
         NavigationView {
-            
-            VStack {
-                HStack {
-                    Text("New Location")
-                        .titleStyle()
+            ScrollView {
+                VStack (alignment: .leading) {
+                    
+                    HStack {
+                        Text("New Location")
+                            .titleStyle()
+                            .padding(.horizontal)
+                        
+                        Spacer()
+                    }
+                    
+                    Text("Enter the name of the location, and import a photo of your choice for the location header. If you don't import an image, a default graphic will be provided.")
+                        .bodyStyle()
                         .padding(.horizontal)
+                        .padding(.bottom, 40)
                     
-                    Spacer()
-                }
-                
-                Form {
+                    // MARK: LOCATION NAME
                     
-                    Section (header: Text("Information"),
-                             footer: Text("Enter the name of the Location, and import a photo of your choice for the Location header. If you don't import an image, a default graphic will be provided.")) {
-                       
+                    VStack {
+                        
                         HStack {
                             Image(systemName: "textformat.alt")
                                 .font(.headline).frame(width: 25)
@@ -48,7 +51,13 @@ struct NewLocationView: View {
                             TextField("Location Name", text: $newLocationViewModel.locationName)
                                 .font(.custom("Asap-Regular", size: 17))
                                 .submitLabel(.next)
+                            
                         }
+                        .padding(.bottom, 8)
+                        
+                        Divider()
+                        
+                        // MARK: PHOTO SELECTOR
                         
                         HStack {
                             Image(systemName: newLocationViewModel.importedImage != nil ? "checkmark.circle.fill" : "photo")
@@ -56,20 +65,31 @@ struct NewLocationView: View {
                                 .foregroundColor(newLocationViewModel.importedImage != nil ? .green : .secondary)
                                 .padding(.trailing, 10)
                             
-                            PhotosPicker("Add Image", selection: $photoPickerItem)
+                            PhotosPicker(newLocationViewModel.importedImage != nil ? "Image Added!" : "Add Image", selection: $photoPickerItem)
                                 .font(.custom("Asap-Regular", size: 17))
+                            
+                            Spacer()
+                                
                         }
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 8)
                     }
+                    .padding(18)
+                    .background(.gray.opacity(0.2))
+                    .cornerRadius(15)
+                    .padding(.horizontal)
+                    .padding(.bottom, 40)
                     
-                    Section {
-                        
-                        Button(action: {
+                    VStack {
+                        Button {
+                            let impact = UIImpactFeedbackGenerator(style: .medium)
+                            impact.impactOccurred()
                             newLocationViewModel.saveLocation(viewModel: vm)
                             addLocationIsShowing = newLocationViewModel.presentation ?? true
-                        }, label: {
-                            Text("Save Location")
-                                .bodyStyle()
-                        })
+                        } label: {
+                            PrimaryButton(title: "Save Location")
+                        }
+                        .tint(Color.brandPrimary)
                         
                         Button(role: .cancel) {
                             addLocationIsShowing.toggle()
@@ -79,8 +99,10 @@ struct NewLocationView: View {
                         }
                         .tint(.red)
                     }
+                    
+                    Spacer()
+
                 }
-                .scrollDisabled(true)
                 .navigationBarTitle(Text(""))
                 .alert(item: $newLocationViewModel.alertItem) { alertItem in
                     
@@ -89,7 +111,7 @@ struct NewLocationView: View {
                           dismissButton: alertItem.dismissButton)
                 }
             }
-            .background(colorScheme == .light ? Color(.systemGray6) : Color(.systemGray6))
+            .background(Color.brandBackground)
         }
         .accentColor(.brandPrimary)
         .errorAlert(error: $photoError)

@@ -8,6 +8,7 @@
 import SwiftUI
 import RevenueCatUI
 import RevenueCat
+import TipKit
 
 struct AddNewSessionView: View {
 
@@ -18,6 +19,7 @@ struct AddNewSessionView: View {
     
     @Binding var isPresented: Bool
     @State var addLocationIsShowing = false
+    @State var addStakesIsShowing = false
     @State var showPaywall = false
     
     var body: some View {
@@ -80,7 +82,8 @@ struct AddNewSessionView: View {
             
             if newSession.sessionType != .tournament {
                 
-                stakesSelection
+//                stakesSelection
+                newstakesSelection
                 
             }
             
@@ -236,6 +239,62 @@ struct AddNewSessionView: View {
         .padding(.bottom, 10)
         .sheet(isPresented: $addLocationIsShowing, content: {
             NewLocationView(addLocationIsShowing: $addLocationIsShowing)
+        })
+        
+    }
+    
+    var newstakesSelection: some View {
+        
+        HStack {
+            Image(systemName: "dollarsign.circle")
+                .font(.system(size: 24, weight: .bold))
+                .foregroundColor(Color(.systemGray3))
+                .frame(width: 30)
+            
+            Text("Stakes")
+                .bodyStyle()
+                .padding(.leading, 4)
+               
+            Spacer()
+            
+            Menu {
+                
+                Button {
+                    addStakesIsShowing = true
+                } label: {
+                    HStack {
+                        Text("Add Stakes")
+                        Image(systemName: "dollarsign.circle")
+                    }
+                }
+                
+                Picker("Picker", selection: $newSession.stakes) {
+                    ForEach(vm.userStakes, id: \.self) {
+                        Text($0).tag($0)
+                    }
+                }
+                
+            } label: {
+                if newSession.stakes.isEmpty {
+                    Text("Please select ›")
+                        .bodyStyle()
+                } else {
+                    Text(newSession.stakes)
+                        .bodyStyle()
+                        .fixedSize()
+                }
+            }
+            .foregroundColor(newSession.stakes.isEmpty ? .brandPrimary : .brandWhite)
+            .buttonStyle(PlainButtonStyle())
+            .transaction { transaction in
+                transaction.animation = .none
+            }
+        }
+        .padding(.horizontal)
+        .padding(.bottom, 10)
+        .transition(.opacity.combined(with: .scale(scale: 1, anchor: .top)))
+        .sheet(isPresented: $addStakesIsShowing, content: {
+            NewStakesView(addStakesIsShowing: $addStakesIsShowing)
         })
         
     }

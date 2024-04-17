@@ -56,6 +56,8 @@
 		7C5B0C882BBF201E00A5014B /* LineChartFullScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */; };
 		7C5C79962B2780210088A841 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5C79952B2780210088A841 /* UserSettings.swift */; };
 		7C5EDA1828906F25008ACFEF /* EditLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5EDA1728906F25008ACFEF /* EditLocationView.swift */; };
+		7C62F1ED2BD034B200F14483 /* NewStakesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C62F1EC2BD034B200F14483 /* NewStakesView.swift */; };
+		7C62F1EF2BD0493400F14483 /* NewStakesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C62F1EE2BD0493400F14483 /* NewStakesViewModel.swift */; };
 		7C63949626C14E8300939F40 /* LeftPocketApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63949526C14E8300939F40 /* LeftPocketApp.swift */; };
 		7C63949826C14E8300939F40 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63949726C14E8300939F40 /* ContentView.swift */; };
 		7C63949A26C14E8400939F40 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C63949926C14E8400939F40 /* Assets.xcassets */; };
@@ -269,6 +271,8 @@
 		7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartFullScreen.swift; sourceTree = "<group>"; };
 		7C5C79952B2780210088A841 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		7C5EDA1728906F25008ACFEF /* EditLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocationView.swift; sourceTree = "<group>"; };
+		7C62F1EC2BD034B200F14483 /* NewStakesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStakesView.swift; sourceTree = "<group>"; };
+		7C62F1EE2BD0493400F14483 /* NewStakesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStakesViewModel.swift; sourceTree = "<group>"; };
 		7C63949226C14E8300939F40 /* LeftPocket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LeftPocket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C63949526C14E8300939F40 /* LeftPocketApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftPocketApp.swift; sourceTree = "<group>"; };
 		7C63949726C14E8300939F40 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -485,6 +489,7 @@
 				7C897F172891BBFB00E42FDA /* LocationListView */,
 				7C86477F2B29276700F48951 /* WelcomeScreen */,
 				7C82E13126EFC83F00E3EB6F /* MetricsView */,
+				7C62F1EB2BD0349600F14483 /* NewStakesView */,
 				7C65B186272C3A4300AFE796 /* NewLocationView */,
 				7C82E13326EFC86A00E3EB6F /* NewSessionView */,
 				7C2FC655273EF1CE00E3BE0B /* ProfitByStakesView */,
@@ -611,6 +616,15 @@
 				7C5EDA1728906F25008ACFEF /* EditLocationView.swift */,
 			);
 			path = EditLocationView;
+			sourceTree = "<group>";
+		};
+		7C62F1EB2BD0349600F14483 /* NewStakesView */ = {
+			isa = PBXGroup;
+			children = (
+				7C62F1EC2BD034B200F14483 /* NewStakesView.swift */,
+				7C62F1EE2BD0493400F14483 /* NewStakesViewModel.swift */,
+			);
+			path = NewStakesView;
 			sourceTree = "<group>";
 		};
 		7C63948926C14E8300939F40 = {
@@ -1050,6 +1064,7 @@
 				7C2FC657273EF1E600E3BE0B /* ProfitByStakesView.swift in Sources */,
 				7CAFDFF32B2C884100B7338D /* CustomToggle.swift in Sources */,
 				7C65B188272C3A5A00AFE796 /* NewLocationView.swift in Sources */,
+				7C62F1EF2BD0493400F14483 /* NewStakesViewModel.swift in Sources */,
 				7CEB453F2BCEA90800AAF710 /* RingCharts.swift in Sources */,
 				7C944D562BBDA26E009E6EC5 /* ProductUpdates.swift in Sources */,
 				7C63949826C14E8300939F40 /* ContentView.swift in Sources */,
@@ -1105,6 +1120,7 @@
 				7CD7468A28A6CA8F00D5A2D0 /* Images+Ext.swift in Sources */,
 				7C2B3E6926F565B200B84D52 /* EmptyState.swift in Sources */,
 				7CAFE0602B2DE52B00B7338D /* LocationGridView.swift in Sources */,
+				7C62F1ED2BD034B200F14483 /* NewStakesView.swift in Sources */,
 				7CFB683A2B7CFC92005AB81F /* BarChartByYear.swift in Sources */,
 				7C1F8C82271094B50068E8B1 /* ProfitByWeekdayView.swift in Sources */,
 				7C63FC3F2B3640FF00FE731C /* SubscriptionManager.swift in Sources */,

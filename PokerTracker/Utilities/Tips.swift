@@ -85,6 +85,22 @@ struct FilterSessionsTip: Tip {
     }
 }
 
+@available(iOS 17.0, *)
+struct NewSessionDetailsTip: Tip {
+    
+    var title: Text {
+        Text("Enter Session Details")
+    }
+    
+    var message: Text? {
+        Text("Record details from your session. Add locations right from this screen.")
+    }
+    
+    var image: Image? {
+        Image(systemName: "pencil")
+    }
+}
+
 //struct ChartTip: Tip {
 //    
 //    var title: Text {

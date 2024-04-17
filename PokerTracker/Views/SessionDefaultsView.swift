@@ -52,6 +52,7 @@ struct SessionDefaultsView: View {
     @State private var currency: CurrencyType = .USD
     @State private var resultMessage: String = ""
     @State private var errorMessage: String?
+    @State private var addStakesIsShowing = false
     
     enum SessionType: String, Codable { case cash, tournament }
     
@@ -219,10 +220,6 @@ struct SessionDefaultsView: View {
                         errorMessage = nil
                         resultMessage = ""
                     })
-//                    .onChange(of: location) {
-//                        errorMessage = nil
-//                        resultMessage = ""
-//                    }
                     
                 } label: {
                     
@@ -261,49 +258,45 @@ struct SessionDefaultsView: View {
                 
                 Menu {
                     
-                    Picker("Picker", selection: $stakes) {
-                        Text("1/2").tag("1/2")
-                        Text("2/2").tag("2/2")
-                        Text("1/3").tag("1/3")
-                        Text("2/3").tag("2/3")
-                        Text("2/5").tag("2/5")
-                        Text("5/5").tag("5/5")
-                        Text("5/10").tag("5/10")
-                        Text("10/10").tag("10/10")
-                        Text("10/20").tag("10/20")
-                        Text("20/40").tag("20/40")
-                        Text("25/50").tag("25/50")
+                    Button {
+                        addStakesIsShowing = true
+                    } label: {
+                        HStack {
+                            Text("Add Stakes")
+                            Image(systemName: "dollarsign.circle")
+                        }
                     }
-                    .onChange(of: stakes, perform: { value in
-                        errorMessage = nil
-                        resultMessage = ""
-                    })
-//                    .onChange(of: stakes) {
-//                        errorMessage = nil
-//                        resultMessage = ""
-//                    }
+                    
+                    Picker("Picker", selection: $stakes) {
+                        ForEach(vm.userStakes, id: \.self) {
+                            Text($0).tag($0)
+                        }
+                        .onChange(of: stakes, perform: { value in
+                            errorMessage = nil
+                            resultMessage = ""
+                        })
+                    }
                     
                 } label: {
-                    
                     if stakes.isEmpty {
                         Text("Please select ›")
                             .bodyStyle()
-                            .fixedSize()
                     } else {
-                        
                         Text(stakes)
                             .bodyStyle()
                             .fixedSize()
-                            .lineLimit(1)
                     }
                 }
                 .foregroundColor(stakes.isEmpty ? .brandPrimary : .brandWhite)
                 .buttonStyle(PlainButtonStyle())
                 .transaction { transaction in
-                    transaction.animation = nil
+                    transaction.animation = .none
                 }
             }
             .padding(.bottom, 10)
+            .sheet(isPresented: $addStakesIsShowing, content: {
+                NewStakesView(addStakesIsShowing: $addStakesIsShowing)
+            })
             
             HStack {
                 
@@ -330,10 +323,6 @@ struct SessionDefaultsView: View {
                         errorMessage = nil
                         resultMessage = ""
                     })
-//                    .onChange(of: game) {
-//                        errorMessage = nil
-//                        resultMessage = ""
-//                    }
                     
                 } label: {
                     
@@ -381,11 +370,7 @@ struct SessionDefaultsView: View {
                         errorMessage = nil
                         resultMessage = ""
                     })
-//                    .onChange(of: currency) {
-//                        errorMessage = nil
-//                        resultMessage = ""
-//                    }
-                    
+
                 } label: {
                     
                     Text(currency.name)

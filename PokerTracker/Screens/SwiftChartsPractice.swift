@@ -224,6 +224,8 @@ struct SwiftLineChartsPractice: View {
         
         HStack (spacing: 25) {
             Button {
+                let impact = UIImpactFeedbackGenerator(style: .soft)
+                impact.impactOccurred()
                 chartRange = .all
             } label: {
                 Text("All")
@@ -232,6 +234,8 @@ struct SwiftLineChartsPractice: View {
             .tint(chartRange == .all ? .primary : .brandPrimary)
             
             Button {
+                let impact = UIImpactFeedbackGenerator(style: .soft)
+                impact.impactOccurred()
                 chartRange = .oneYear
             } label: {
                 Text("1Y")
@@ -240,6 +244,8 @@ struct SwiftLineChartsPractice: View {
             .tint(chartRange == .oneYear ? .primary : .brandPrimary)
             
             Button {
+                let impact = UIImpactFeedbackGenerator(style: .soft)
+                impact.impactOccurred()
                 chartRange = .sixMonth
             } label: {
                 Text("6M")
@@ -248,6 +254,8 @@ struct SwiftLineChartsPractice: View {
             .tint(chartRange == .sixMonth ? .primary : .brandPrimary)
             
             Button {
+                let impact = UIImpactFeedbackGenerator(style: .soft)
+                impact.impactOccurred()
                 chartRange = .oneMonth
             } label: {
                 Text("1M")
