@@ -30,6 +30,10 @@ final class NewSessionViewModel: ObservableObject {
     @Published var buyIn: String = ""
     @Published var cashOut: String = ""
     
+    var computedProfit: Int {
+        (Int(cashOut) ?? 0) - Int(buyIn)!
+    }
+    
     var isValidForm: Bool {
         
         guard sessionType != nil else {
@@ -49,6 +53,11 @@ final class NewSessionViewModel: ObservableObject {
                 return false
             }
             
+            guard !buyIn.isEmpty else {
+                alertItem = AlertContext.invalidBuyIn
+                return false
+            }
+            
         } else {
             
             // Run this check for Tournaments
@@ -57,7 +66,7 @@ final class NewSessionViewModel: ObservableObject {
                 return false
             }
             
-            guard !expenses.isEmpty else {
+            guard !buyIn.isEmpty else {
                 alertItem = AlertContext.invalidBuyIn
                 return false
             }
@@ -113,12 +122,12 @@ final class NewSessionViewModel: ObservableObject {
                              game: self.game,
                              stakes: self.stakes,
                              date: self.startTime,
-                             profit: (Int(self.positiveNegative + self.profit) ?? 0) - (Int(self.expenses) ?? 0),
-//                             profit: (Int(self.cashOut) ?? 0) - (Int(self.buyIn) ?? 0) - (Int(self.expenses) ?? 0),
+//                             profit: (Int(self.positiveNegative + self.profit) ?? 0) - (Int(self.expenses) ?? 0),
+                             profit: computedProfit - (Int(self.expenses) ?? 0),
                              notes: self.notes,
                              startTime: self.startTime,
                              endTime: self.endTime,
-                             expenses: Int(self.expenses) ?? 0,
+                             expenses: sessionType == .cash ? Int(self.expenses) ?? 0 : Int(buyIn) ?? 0, // Tournament metrics in the app look to 'expenses' for Buy-In data.
                              isTournament: sessionType == .tournament,
                              entrants: Int(self.entrants) ?? 0)
         

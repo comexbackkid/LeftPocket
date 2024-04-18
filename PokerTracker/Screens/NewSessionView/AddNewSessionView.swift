@@ -445,86 +445,89 @@ struct AddNewSessionView: View {
         
         VStack {
             
-            // MARK: CURRENT PROFIT / LOSS TEXTFIELD
-            
-            HStack (alignment: .top) {
-                HStack {
-                    Text(vm.userCurrency.symbol)
-                        .font(.callout)
-                        .foregroundColor(newSession.profit.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
-                    
-                    TextField(newSession.sessionType == .tournament ? "Winnings" : "Profit / Loss", text: $newSession.profit)
-                        .font(.custom("Asap-Regular", size: 17))
-                        .keyboardType(.numberPad)
-                }
-                .padding(18)
-                .background(.gray.opacity(0.2))
-                .cornerRadius(15)
-                .padding(.leading)
-                .padding(.trailing, newSession.sessionType == .tournament ? 16 : 10)
-                .padding(.bottom, 10)
-                
-                if newSession.sessionType != .tournament {
-                    
-                    CustomToggle(vm: newSession)
-                        .padding(.trailing)
-                        .transition(.opacity.combined(with: .asymmetric(insertion: .push(from: .trailing),
-                                                                        removal: .scale(scale: 0, anchor: .topTrailing))))
-                }
-            }
-            
-            // MARK: ATTEMPT AT NEW PROFIT / LOSS TEXTFIELD WITH BUY IN AND CASH OUT FIELDS
+            // MARK: OLD PROFIT / LOSS TEXTFIELD
             
 //            HStack (alignment: .top) {
-//                
-//                // Buy In
-//                if newSession.sessionType != .tournament {
-//                    HStack {
-//                        Text(vm.userCurrency.symbol)
-//                            .font(.callout)
-//                            .foregroundColor(newSession.buyIn.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
-//                        
-//                        TextField(newSession.sessionType == .tournament ? "Winnings" : "Buy In", text: $newSession.buyIn)
-//                            .font(.custom("Asap-Regular", size: 17))
-//                            .keyboardType(.numberPad)
-//                    }
-//                    .padding(18)
-//                    .background(.gray.opacity(0.2))
-//                    .cornerRadius(15)
-//                    .padding(.leading)
-//                    .padding(.trailing, 10)
-//                    .padding(.bottom, 10)
-//                    .transition(.opacity.combined(with: .asymmetric(insertion: .push(from: .leading),
-//                                                                                           removal: .scale(scale: 0, anchor: .topLeading))))
-//                }
-//                
-//                // Cash Out
 //                HStack {
 //                    Text(vm.userCurrency.symbol)
 //                        .font(.callout)
-//                        .foregroundColor(newSession.cashOut.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+//                        .foregroundColor(newSession.profit.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
 //                    
-//                    TextField(newSession.sessionType == .tournament ? "Winnings" : "Cash Out", text: $newSession.cashOut)
+//                    TextField(newSession.sessionType == .tournament ? "Winnings" : "Profit / Loss", text: $newSession.profit)
 //                        .font(.custom("Asap-Regular", size: 17))
 //                        .keyboardType(.numberPad)
 //                }
 //                .padding(18)
 //                .background(.gray.opacity(0.2))
 //                .cornerRadius(15)
-//                .padding(.leading, newSession.sessionType == .tournament ? 16 : 0)
-//                .padding(.trailing)
+//                .padding(.leading)
+//                .padding(.trailing, newSession.sessionType == .tournament ? 16 : 10)
 //                .padding(.bottom, 10)
-//
+//                
+//                if newSession.sessionType != .tournament {
+//                    
+//                    CustomToggle(vm: newSession)
+//                        .padding(.trailing)
+//                        .transition(.opacity.combined(with: .asymmetric(insertion: .push(from: .trailing),
+//                                                                        removal: .scale(scale: 0, anchor: .topTrailing))))
+//                }
 //            }
             
+            // MARK: ATTEMPT AT NEW PROFIT / LOSS TEXTFIELD WITH BUY IN AND CASH OUT FIELDS
+            
+            HStack (alignment: .top) {
+                
+                // Buy In
+                if newSession.sessionType != .tournament {
+                    HStack {
+                        Text(vm.userCurrency.symbol)
+                            .font(.callout)
+                            .foregroundColor(newSession.buyIn.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                        
+                        TextField("Buy In", text: $newSession.buyIn)
+                            .font(.custom("Asap-Regular", size: 17))
+                            .keyboardType(.numberPad)
+                    }
+                    .padding(18)
+                    .background(.gray.opacity(0.2))
+                    .cornerRadius(15)
+                    .padding(.leading)
+                    .padding(.trailing, 10)
+                    .padding(.bottom, 10)
+                    .transition(.opacity.combined(with: .asymmetric(insertion: .push(from: .leading),
+                                                                                           removal: .scale(scale: 0, anchor: .topLeading))))
+                }
+                
+                // Cash Out
+                HStack {
+                    Text(vm.userCurrency.symbol)
+                        .font(.callout)
+                        .foregroundColor(newSession.cashOut.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                    
+                    TextField(newSession.sessionType == .tournament ? "Winnings" : "Cash Out", text: $newSession.cashOut)
+                        .font(.custom("Asap-Regular", size: 17))
+                        .keyboardType(.numberPad)
+                }
+                .padding(18)
+                .background(.gray.opacity(0.2))
+                .cornerRadius(15)
+                .padding(.leading, newSession.sessionType == .tournament ? 16 : 0)
+                .padding(.trailing)
+                .padding(.bottom, 10)
+            }
+            
+            // This .foregroundColor logic is gnarly because the symbol needs to change to white and account for both cash & tournament modes
             HStack {
                 Text(vm.userCurrency.symbol)
                     .font(.callout)
-                    .foregroundColor(newSession.expenses.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                    .foregroundColor(newSession.sessionType == .tournament && newSession.buyIn.isEmpty || newSession.sessionType == .cash && newSession.expenses.isEmpty || newSession.sessionType == nil && newSession.expenses.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                 
-                TextField(newSession.sessionType == .tournament ? "Total Buy In" : "Expenses (Meals, tips, etc.)", text: $newSession.expenses)
+                TextField(newSession.sessionType == .tournament ? "Total Buy In" : "Expenses (Meals, tips, etc.)", text: newSession.sessionType == .tournament ? $newSession.buyIn : $newSession.expenses)
                                     .font(.custom("Asap-Regular", size: 17))
                                     .keyboardType(.numberPad)
+                                    .onChange(of: newSession.sessionType, perform: { value in
+                                        newSession.expenses = ""
+                                    })
             }
             .padding(18)
             .background(.gray.opacity(0.2))
@@ -577,16 +580,28 @@ struct AddNewSessionView: View {
     
     var saveButton: some View {
         
-        Button {
-            let impact = UIImpactFeedbackGenerator(style: .medium)
-            impact.impactOccurred()
-            newSession.savedButtonPressed(viewModel: vm)
-            timerViewModel.liveSessionStartTime = nil
-            isPresented = newSession.presentation ?? true
+        VStack {
+            Button {
+                let impact = UIImpactFeedbackGenerator(style: .medium)
+                impact.impactOccurred()
+                newSession.savedButtonPressed(viewModel: vm)
+                timerViewModel.liveSessionStartTime = nil
+                isPresented = newSession.presentation ?? true
+                
+            } label: {
+                PrimaryButton(title: "Save Session")
+            }
             
-        } label: {
-            PrimaryButton(title: "Save Session")
+            Button(role: .cancel) {
+                isPresented = false
+                
+            } label: {
+                Text("Cancel")
+                    .bodyStyle()
+            }
+            .tint(.red)
         }
+        .padding(.bottom, 10)
     }
 }
 

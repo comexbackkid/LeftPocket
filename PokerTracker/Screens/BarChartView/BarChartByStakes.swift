@@ -20,7 +20,7 @@ struct BarChartByStakes: View {
         
         VStack {
             
-            let filteredSessions = viewModel.sessions.filter({ $0.date.getYear() == yearFilter })
+            let filteredSessions = viewModel.sessions.filter({ $0.date.getYear() == yearFilter && $0.isTournament != true })
             
             if showTitle {
                 HStack {
@@ -56,16 +56,18 @@ struct BarChartByStakes: View {
                                 .captionStyle()
                         }
                     }
-                    AxisGridLine().foregroundStyle(.gray.opacity(0.25))
+                    AxisGridLine(stroke: StrokeStyle(lineWidth: 1, dash: [0]))
+                        .foregroundStyle(.gray.opacity(0.25))
+                    
                 }
             }
-
         }
     }
 }
 
 #Preview {
     BarChartByStakes(viewModel: SessionsListViewModel(), yearFilter: .constant("2024") ,showTitle: true)
+        .preferredColorScheme(.dark)
         .padding()
         .frame(width: 340, height: 300)
 }

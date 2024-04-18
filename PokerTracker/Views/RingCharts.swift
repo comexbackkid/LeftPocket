@@ -15,7 +15,7 @@ struct RingCharts: View {
     
     var body: some View {
         
-        let locations = viewModel.sessions.filter({ $0.profit > 0 && $0.date.getYear() == yearFilter }).map { $0.location }.uniqued()
+        let locations = viewModel.sessions.filter({ $0.profit > 0 && $0.date.getYear() == yearFilter }).map { $0.location.name }.uniqued()
         
         VStack {
             
@@ -43,7 +43,7 @@ struct RingCharts: View {
 struct RingChart: View {
     
     @ObservedObject var viewModel: SessionsListViewModel
-    let location: LocationModel
+    let location: String
     
     @State private var winRate: Float = 0.0
     @Binding var yearFilter: String
@@ -72,7 +72,7 @@ struct RingChart: View {
                     .captionStyle()
             }
             
-            Text("\(location.name)")
+            Text("\(location)")
                 .captionStyle()
                 .padding(.top, 10)
         }
@@ -85,13 +85,13 @@ struct RingChart: View {
         })
     }
     
-    private func locationWinRate(location: LocationModel, year: String) {
+    private func locationWinRate(location: String, year: String) {
        
         // Need to input the location, and get back that location's number of profitable sessions
-        let profitableVisits = viewModel.sessions.filter({ $0.location == location && $0.date.getYear() == year }).filter({ $0.profit > 0 }).count
+        let profitableVisits = viewModel.sessions.filter({ $0.location.name == location && $0.date.getYear() == year }).filter({ $0.profit > 0 }).count
         
         // Need to capture the total number of times played at that location
-        let totalVisits = viewModel.sessions.filter({ $0.location == location && $0.date.getYear() == year }).count
+        let totalVisits = viewModel.sessions.filter({ $0.location.name == location && $0.date.getYear() == year }).count
         
         // Divide # of profitable sessions there, by total number of times played at that location
         let locationWinRate = Float(profitableVisits) / Float(totalVisits)

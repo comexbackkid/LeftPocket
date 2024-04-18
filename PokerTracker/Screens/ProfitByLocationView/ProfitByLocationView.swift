@@ -155,11 +155,11 @@ struct ProfitByLocationView: View {
         
         VStack (spacing: 10) {
             
-            let locationList = viewModel.sessions.map({ $0.location }).uniqued()
+            let locationList = viewModel.sessions.map({ $0.location.name }).uniqued()
             
             ForEach(locationList, id: \.self) { location in
                 HStack (spacing: 0) {
-                    Text(location.name)
+                    Text(location)
                         .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
                         .lineLimit(1)
                     
@@ -167,8 +167,8 @@ struct ProfitByLocationView: View {
                     
                     // Still won't grab data if Sessions are imported from a CSV
                     let filteredByYear = viewModel.sessions.filter({ $0.date.getYear() == yearFilter })
-                    let total = filteredByYear.filter({ $0.location.name == location.name }).map({ $0.profit }).reduce(0,+)
-                    let hourlyRate = filteredByYear.filter({ $0.location.name == location.name }).map({ $0.hourlyRate }).reduce(0,+)
+                    let total = filteredByYear.filter({ $0.location.name == location }).map({ $0.profit }).reduce(0,+)
+                    let hourlyRate = filteredByYear.filter({ $0.location.name == location }).map({ $0.hourlyRate }).reduce(0,+)
                     
                     if metricFilter == "Total" {
                         Text(total, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))

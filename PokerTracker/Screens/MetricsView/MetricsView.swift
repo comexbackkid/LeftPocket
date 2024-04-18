@@ -48,6 +48,15 @@ struct MetricsView: View {
                                 ToolTipView(image: "lightbulb",
                                             message: "Measure your performance & track progress from this screen.",
                                             color: .yellow)
+                                
+                                if #available(iOS 17, *) {
+                                    let chartTip = ChartTip()
+                                    
+                                    TipView(chartTip, arrowEdge: .bottom)
+                                        .padding(.horizontal, 20)
+                                        .accentColor(.brandPrimary)
+                                }
+                                
    
                                 bankrollChart
                                 

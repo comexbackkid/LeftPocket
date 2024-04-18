@@ -101,16 +101,21 @@ struct NewSessionDetailsTip: Tip {
     }
 }
 
-//struct ChartTip: Tip {
-//    
-//    var title: Text {
-//        Text("Enhanced Charts")
-//    }
-//    
-//    var message: Text? {
-//        Text("Tap & hold on charts to view more detailed info.")
-//    }
-//}
+@available(iOS 17.0, *)
+struct ChartTip: Tip {
+    
+    var title: Text {
+        Text("Enhanced Charts")
+    }
+    
+    var message: Text? {
+        Text("Tap & hold on charts to interact & view more detailed info. Tap the X to dismiss this message.")
+    }
+    
+    var image: Image? {
+        Image(systemName: "chart.line.uptrend.xyaxis")
+    }
+}
 
 @available(iOS 17.0, *)
 public struct TipKitConfig {
