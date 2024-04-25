@@ -109,7 +109,7 @@ struct ChartTip: Tip {
     }
     
     var message: Text? {
-        Text("Tap & hold on charts to interact & view more detailed info. Tap the X to dismiss this message.")
+        Text("Tap & hold on charts to interact & view more detailed information.")
     }
     
     var image: Image? {
@@ -129,5 +129,45 @@ public struct TipKitConfig {
     // Showing tips as soon as they are elligible
     public static var displayFrequency: Tips.ConfigurationOption.DisplayFrequency {
         .immediate
+    }
+}
+
+@available(iOS 17.0, *)
+struct CustomTipViewStyle: TipViewStyle {
+    func makeBody(configuration: TipViewStyle.Configuration) -> some View {
+        HStack (alignment: .top, spacing: 10) {
+            configuration.image?
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 25, height: 25)
+                .foregroundColor(.brandPrimary)
+            
+            VStack (alignment: .leading, spacing: 5) {
+                configuration.title.font(.headline)
+                configuration.message.font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+        }
+        .padding()
+        .overlay {
+            HStack {
+                
+                Spacer()
+                
+                VStack {
+                    
+                    Button {
+                        configuration.tip.invalidate(reason: .tipClosed)
+                    } label: {
+                        Image(systemName: "xmark").scaledToFit()
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .foregroundColor(.secondary)
+                    
+                    Spacer()
+                }
+            }
+            .padding()
+        }
     }
 }

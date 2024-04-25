@@ -31,8 +31,10 @@ struct LocationGridView: View {
             }
             
             if #available(iOS 17.0, *) {
+                
                 let deleteTip = DeleteLocationTip()
                 TipView(deleteTip)
+                    .tipViewStyle(CustomTipViewStyle())
                     .padding(.horizontal, 20)
                     .padding(.bottom)
             }

@@ -53,6 +53,7 @@ struct SessionDefaultsView: View {
     @State private var resultMessage: String = ""
     @State private var errorMessage: String?
     @State private var addStakesIsShowing = false
+    @State private var addLocationIsShowing = false
     
     enum SessionType: String, Codable { case cash, tournament }
     
@@ -122,10 +123,14 @@ struct SessionDefaultsView: View {
     
     var instructions: some View {
         
-        VStack {
+        VStack (alignment: .leading) {
             
-            Text("Choose your default Session settings here. These values will automatically populate every time you log a new Session.")
-                .bodyStyle()
+            HStack {
+                Text("Choose your default settings here. These values will automatically populate every time you log a new session.")
+                    .bodyStyle()
+                
+                Spacer()
+            }
         }
         .padding(.horizontal)
     }
@@ -211,6 +216,15 @@ struct SessionDefaultsView: View {
                 
                 Menu {
                     
+                    Button {
+                        addLocationIsShowing.toggle()
+                    } label: {
+                        HStack {
+                            Text("Add Location")
+                            Image(systemName: "mappin.and.ellipse")
+                        }
+                    }
+                    
                     Picker("Picker", selection: $location) {
                         ForEach(vm.locations) { location in
                             Text(location.name).tag(location)
@@ -243,6 +257,9 @@ struct SessionDefaultsView: View {
                 }
             }
             .padding(.bottom, 10)
+            .sheet(isPresented: $addLocationIsShowing, content: {
+                NewLocationView(addLocationIsShowing: $addLocationIsShowing)
+            })
             
             HStack {
                 Image(systemName: "dollarsign.circle")

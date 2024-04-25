@@ -170,7 +170,7 @@ struct AddNewSessionView: View {
         .padding(.bottom, 10)
         .sheet(isPresented: $showPaywall) {
             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
+                .dynamicTypeSize(.medium...DynamicTypeSize.large)
         }
         .task {
             for await customerInfo in Purchases.shared.customerInfoStream {

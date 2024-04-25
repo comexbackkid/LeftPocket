@@ -60,8 +60,8 @@ struct LeftPocketCustomTabBar: View {
                     let addSessionTip = AddSessionTip()
                     
                     TipView(addSessionTip, arrowEdge: .bottom)
+                        .tipViewStyle(CustomTipViewStyle())
                         .padding(.horizontal, 20)
-                        .accentColor(.brandPrimary)
                 }
                 
                 if isCounting {
@@ -208,7 +208,7 @@ struct LeftPocketCustomTabBar: View {
                     }
                     .sheet(isPresented: $showPaywall) {
                         PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                            .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
+                            .dynamicTypeSize(.medium...DynamicTypeSize.large)
                     }
                     .task {
                         for await customerInfo in Purchases.shared.customerInfoStream {

@@ -20,7 +20,7 @@ struct RingCharts: View {
         VStack {
             
             HStack {
-                Text("Top Location Win Rates")
+                Text("Top Location Win Ratio")
                     .cardTitleStyle()
                 
                 Spacer()

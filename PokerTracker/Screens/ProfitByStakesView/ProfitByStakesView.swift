@@ -76,6 +76,7 @@ struct ProfitByStakesView: View {
                 }
                 .sheet(isPresented: $showPaywall) {
                     PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                        .dynamicTypeSize(.medium...DynamicTypeSize.large)
                 }
                 .task {
                     for await customerInfo in Purchases.shared.customerInfoStream {

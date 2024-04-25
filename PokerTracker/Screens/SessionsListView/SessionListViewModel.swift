@@ -430,7 +430,7 @@ class SessionsListViewModel: ObservableObject {
         let totalHours = hoursArray.reduce(0, +) / sessionsArray.count
         let totalMinutes = minutesArray.reduce(0, +) / sessionsArray.count
         let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
-        return dateComponents.formattedDuration
+        return dateComponents.abbreviated(duration: dateComponents)
     }
     
     // Calculate average profit per session

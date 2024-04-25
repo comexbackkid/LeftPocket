@@ -53,9 +53,10 @@ struct MetricsView: View {
                                     let chartTip = ChartTip()
                                     
                                     TipView(chartTip, arrowEdge: .bottom)
+                                        .tipViewStyle(CustomTipViewStyle())
                                         .padding(.horizontal, 20)
-                                        .accentColor(.brandPrimary)
                                 }
+                                
                                 
    
                                 bankrollChart
@@ -76,6 +77,12 @@ struct MetricsView: View {
                                 
                                 barChart
                                 
+//                                ToolTipView(image: "clock", message: "Your most profitable time of the day is 8-12pm", color: .green.opacity(0.7))
+//                                
+//                                donutChart
+                                
+//                                heatMap
+                                
                                 AdditionalMetricsView()
                                     
                             }
@@ -88,6 +95,9 @@ struct MetricsView: View {
                 .frame(maxHeight: .infinity)
                 .background(Color.brandBackground)
                 .navigationBarHidden(true)
+                .onAppear {
+                    AppReviewRequest.requestReviewIfNeeded()
+                }
                 
                 if showMetricsSheet { dismissButton }
                 
@@ -115,6 +125,32 @@ struct MetricsView: View {
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
             .cornerRadius(20)
+        
+    }
+    
+    var heatMap: some View {
+        
+        HStack {
+            HeatMap()
+                .padding()
+                .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
+                .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+                .cornerRadius(20)
+            
+            Spacer()
+        }
+        .frame(width: UIScreen.main.bounds.width * 0.9)
+    }
+    
+    var donutChart: some View {
+        
+        HStack {
+            BestTimeOfDay()
+                .padding()
+                .frame(width: UIScreen.main.bounds.width * 0.9, height: 230)
+                .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+                .cornerRadius(20)
+        }
         
     }
     
@@ -247,9 +283,8 @@ struct AllStats: View {
             
             Divider()
             
-            // Win Rate is wrong, it's just calculating everything
             HStack {
-                Text("Win Rate")
+                Text("Win Ratio")
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
@@ -320,7 +355,7 @@ struct CashStats: View {
             Divider()
             
             HStack {
-                Text("Avg. Big Blinds / Hr")
+                Text("Avg. BB / Hr")
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
@@ -351,7 +386,7 @@ struct CashStats: View {
             
             // Needs to filter just for cash games
             HStack {
-                Text("Win Rate")
+                Text("Win Ratio")
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
@@ -512,51 +547,107 @@ struct AdditionalMetricsView: View {
                 .bold()
                 .padding(.leading)
             
-            ScrollView(.horizontal, showsIndicators: false, content: {
-                HStack (spacing: 10) {
-                    
-                    NavigationLink(
-                        destination: ProfitByYear(vm: AnnualReportViewModel()),
-                        label: {
-                            AdditionalMetricsCardView(title: "Annual Report",
-                                                      description: "Review & export results from the \nprevious year.",
-                                                      image: "list.clipboard",
-                                                      color: .blue)
-                        })
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    NavigationLink(
-                        destination: ProfitByMonth(vm: viewModel),
-                        label: {
-                            AdditionalMetricsCardView(title: "Profit by Month",
-                                                      description: "View results based on a month by \nmonth basis.",
-                                                      image: "calendar",
-                                                      color: .mint)
-                        })
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    
-                    NavigationLink(
-                        destination: ProfitByLocationView(viewModel: viewModel),
-                        label: {
-                            AdditionalMetricsCardView(title: "Location Statistics",
-                                                      description: "View your profit or loss for every \nlocation you've played at.",
-                                                      image: "mappin.and.ellipse",
-                                                      color: .red)
-                        })
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    NavigationLink(
-                        destination: ProfitByStakesView(viewModel: viewModel),
-                        label: {
-                            AdditionalMetricsCardView(title: "Game Stakes", description: "Break down your game \nby table stakes.", image: "dollarsign.circle", color: .green)
-                        })
-                    .buttonStyle(PlainButtonStyle())
-                }
-                .padding(.leading)
-                .padding(.trailing)
-                .frame(height: 150)
-            })
+            // Adding version check for scroll behavior effect
+            if #available(iOS 17, *) {
+                
+                ScrollView(.horizontal, showsIndicators: false, content: {
+                    HStack (spacing: 10) {
+                        
+                        NavigationLink(
+                            destination: ProfitByYear(vm: AnnualReportViewModel()),
+                            label: {
+                                AdditionalMetricsCardView(title: "Annual Report",
+                                                          description: "Review & export your results from \nthe previous year.",
+                                                          image: "list.clipboard",
+                                                          color: .blue)
+                            })
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        NavigationLink(
+                            destination: ProfitByMonth(vm: viewModel),
+                            label: {
+                                AdditionalMetricsCardView(title: "Monthly Snapshot",
+                                                          description: "View your results on a month by \nmonth basis.",
+                                                          image: "calendar",
+                                                          color: .mint)
+                            })
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        
+                        NavigationLink(
+                            destination: ProfitByLocationView(viewModel: viewModel),
+                            label: {
+                                AdditionalMetricsCardView(title: "Location Statistics",
+                                                          description: "View your profit or loss for every \nlocation you've played at.",
+                                                          image: "mappin.and.ellipse",
+                                                          color: .red)
+                            })
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        NavigationLink(
+                            destination: ProfitByStakesView(viewModel: viewModel),
+                            label: {
+                                AdditionalMetricsCardView(title: "Game Stakes", description: "Break down your game by different \ntable stakes.", image: "dollarsign.circle", color: .green)
+                            })
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                    .padding(.leading)
+                    .padding(.trailing)
+                    .frame(height: 150)
+                })
+                .scrollTargetLayout()
+                .scrollTargetBehavior(.viewAligned)
+                .scrollBounceBehavior(.automatic)
+                
+            } else {
+                
+                ScrollView(.horizontal, showsIndicators: false, content: {
+                    HStack (spacing: 10) {
+                        
+                        NavigationLink(
+                            destination: ProfitByYear(vm: AnnualReportViewModel()),
+                            label: {
+                                AdditionalMetricsCardView(title: "Annual Report",
+                                                          description: "Review & export results from the \nprevious year.",
+                                                          image: "list.clipboard",
+                                                          color: .blue)
+                            })
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        NavigationLink(
+                            destination: ProfitByMonth(vm: viewModel),
+                            label: {
+                                AdditionalMetricsCardView(title: "Profit by Month",
+                                                          description: "View results based on a month by \nmonth basis.",
+                                                          image: "calendar",
+                                                          color: .mint)
+                            })
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        
+                        NavigationLink(
+                            destination: ProfitByLocationView(viewModel: viewModel),
+                            label: {
+                                AdditionalMetricsCardView(title: "Location Statistics",
+                                                          description: "View your profit or loss for every \nlocation you've played at.",
+                                                          image: "mappin.and.ellipse",
+                                                          color: .red)
+                            })
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        NavigationLink(
+                            destination: ProfitByStakesView(viewModel: viewModel),
+                            label: {
+                                AdditionalMetricsCardView(title: "Game Stakes", description: "Break down your game \nby table stakes.", image: "dollarsign.circle", color: .green)
+                            })
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                    .padding(.leading)
+                    .padding(.trailing)
+                    .frame(height: 150)
+                })
+                
+            }
         }
         .padding(.bottom, 50)
         .padding(.top, 10)

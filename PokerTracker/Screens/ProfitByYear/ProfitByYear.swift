@@ -178,7 +178,7 @@ struct ProfitByYear: View {
             }
             
             HStack {
-                Text("Win Rate")
+                Text("Win Ratio")
                 
                 Spacer()
                 Text(winRate)
@@ -301,7 +301,7 @@ struct ProfitByYear: View {
             }
             
         } label: {
-            PrimaryButton(title: "Export Last Year's Results")
+            PrimaryButton(title: "Export as CSV")
         }
         .padding(.top)
         .alert(isPresented: $showError) {
@@ -309,6 +309,7 @@ struct ProfitByYear: View {
         }
         .sheet(isPresented: $showPaywall) {
             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                .dynamicTypeSize(.medium...DynamicTypeSize.large)
         }
         .task {
             for await customerInfo in Purchases.shared.customerInfoStream {

@@ -18,6 +18,7 @@
 		7C15880828A2DDDA00B11F77 /* SimpleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C15880728A2DDDA00B11F77 /* SimpleEntry.swift */; };
 		7C15880E28A2E21F00B11F77 /* WidgetViewSmall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C15880D28A2E21F00B11F77 /* WidgetViewSmall.swift */; };
 		7C15DD39276D575600889FB2 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C15DD38276D575600889FB2 /* PlaceholderView.swift */; };
+		7C1941252BDAA33E00377364 /* BestTimeOfDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */; };
 		7C1F8C82271094B50068E8B1 /* ProfitByWeekdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1F8C81271094B50068E8B1 /* ProfitByWeekdayView.swift */; };
 		7C20CFB2271E2D1600739764 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20CFB1271E2D1600739764 /* OnboardingView.swift */; };
 		7C20CFB4271F4EB700739764 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20CFB3271F4EB700739764 /* SecondaryButton.swift */; };
@@ -196,6 +197,7 @@
 		7CFD78A92B34DF2D00C1A9F6 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 7CFD78A82B34DF2D00C1A9F6 /* RevenueCat */; };
 		7CFD78AB2B34DF2D00C1A9F6 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7CFD78AA2B34DF2D00C1A9F6 /* RevenueCatUI */; };
 		7CFD78AD2B34E46100C1A9F6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFD78AC2B34E46100C1A9F6 /* StoreKit.framework */; };
+		7CFF1BFF2BD9AA81000D56BC /* HeatMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -234,6 +236,7 @@
 		7C15880728A2DDDA00B11F77 /* SimpleEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleEntry.swift; sourceTree = "<group>"; };
 		7C15880D28A2E21F00B11F77 /* WidgetViewSmall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViewSmall.swift; sourceTree = "<group>"; };
 		7C15DD38276D575600889FB2 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
+		7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestTimeOfDay.swift; sourceTree = "<group>"; };
 		7C1F8C81271094B50068E8B1 /* ProfitByWeekdayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfitByWeekdayView.swift; sourceTree = "<group>"; };
 		7C20CFB1271E2D1600739764 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		7C20CFB3271F4EB700739764 /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
@@ -370,6 +373,7 @@
 		7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartByYear.swift; sourceTree = "<group>"; };
 		7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
 		7CFD78AC2B34E46100C1A9F6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMap.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -549,6 +553,8 @@
 				7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */,
 				7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */,
 				7CEB453E2BCEA90800AAF710 /* RingCharts.swift */,
+				7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */,
+				7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1094,6 +1100,7 @@
 				7CA7F8152B6FF5FB00F976EE /* Tips.swift in Sources */,
 				7C468EFD273980F7000CA4B3 /* Animations+Ext.swift in Sources */,
 				7CBEF44627596DEE00744F4A /* Colors+Ext.swift in Sources */,
+				7C1941252BDAA33E00377364 /* BestTimeOfDay.swift in Sources */,
 				7CB3EB9F26C310F5009E8DF3 /* SessionDetailView.swift in Sources */,
 				7C4C7BA728A4684700DBC886 /* Text+Ext.swift in Sources */,
 				7C3FFA862BC894C500EABD49 /* BarChartByStakes.swift in Sources */,
@@ -1121,6 +1128,7 @@
 				7C2B3E6926F565B200B84D52 /* EmptyState.swift in Sources */,
 				7CAFE0602B2DE52B00B7338D /* LocationGridView.swift in Sources */,
 				7C62F1ED2BD034B200F14483 /* NewStakesView.swift in Sources */,
+				7CFF1BFF2BD9AA81000D56BC /* HeatMap.swift in Sources */,
 				7CFB683A2B7CFC92005AB81F /* BarChartByYear.swift in Sources */,
 				7C1F8C82271094B50068E8B1 /* ProfitByWeekdayView.swift in Sources */,
 				7C63FC3F2B3640FF00FE731C /* SubscriptionManager.swift in Sources */,
@@ -1337,7 +1345,7 @@
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = PokerTracker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1365,7 +1373,7 @@
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = PokerTracker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

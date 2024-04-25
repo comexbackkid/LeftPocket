@@ -102,7 +102,7 @@ struct ContentView: View {
                     .font(.system(size: 20, design: .rounded))
                     .opacity(0.75)
                 
-                Text("Win Rate")
+                Text("Win Ratio")
                     .captionStyle()
                     .fontWeight(.thin)
             }

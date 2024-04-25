@@ -48,9 +48,6 @@ struct SessionDetailView: View {
                         ? Image(pokerSession.location.localImage).resizable().aspectRatio(contentMode: .fill)
                         : backgroundImage().resizable().aspectRatio(contentMode: .fill))
             .ignoresSafeArea()
-            .onAppear {
-                AppReviewRequest.requestReviewIfNeeded()
-            }
             
             if activeSheet == .recentSession {
                 

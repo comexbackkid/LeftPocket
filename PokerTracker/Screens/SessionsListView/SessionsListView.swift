@@ -109,6 +109,7 @@ struct SessionsListView: View {
                                     let filterTip = FilterSessionsTip()
                                     
                                     TipView(filterTip)
+                                        .tipViewStyle(CustomTipViewStyle())
                                         .padding(20)
                                 }
                                 
