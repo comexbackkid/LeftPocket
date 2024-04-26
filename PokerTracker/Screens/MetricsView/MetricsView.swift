@@ -77,11 +77,13 @@ struct MetricsView: View {
                                 
                                 barChart
                                 
-//                                ToolTipView(image: "clock", message: "Your most profitable time of the day is 8-12pm", color: .green.opacity(0.7))
-//                                
-//                                donutChart
-                                
-//                                heatMap
+                                ToolTipView(image: "clock",
+                                            message: "You tend to play better when your session lasts \(viewModel.bestSessionLength())",
+                                            color: .donutChartGreen)
+
+                                if #available(iOS 17.0, *) {
+                                    donutChart
+                                }
                                 
                                 AdditionalMetricsView()
                                     
@@ -142,16 +144,17 @@ struct MetricsView: View {
         .frame(width: UIScreen.main.bounds.width * 0.9)
     }
     
+    @available(iOS 17.0, *)
     var donutChart: some View {
         
         HStack {
             BestTimeOfDay()
                 .padding()
-                .frame(width: UIScreen.main.bounds.width * 0.9, height: 230)
+                .frame(width: UIScreen.main.bounds.width * 0.9, height: 210)
+                .padding(.bottom, 10)
                 .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
                 .cornerRadius(20)
         }
-        
     }
     
     var dismissButton: some View {

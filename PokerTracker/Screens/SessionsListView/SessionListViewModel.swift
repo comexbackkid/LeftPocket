@@ -709,11 +709,59 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
+    // MARK: TOOLTIP FUNCTIONS
+    
     var bestMonth: String {
         
         mostProfitableMonth(in: sessions)
         
     }
+    
+    enum SessionLengthCategory: String {
+        case lessThanTwoHours = "less than 2 hours"
+        case twoToFourHours = "2-4 hours"
+        case moreThanFourHours = "over 4 hours"
+    }
+    
+    func sessionCategory(from duration: Double) -> SessionLengthCategory {
+        switch duration {
+        case let x where x < 2:
+            return .lessThanTwoHours
+        case let x where x >= 2 && x <= 4:
+            return .twoToFourHours
+        default:
+            return .moreThanFourHours
+        }
+    }
+
+    func bestSessionLength() -> String {
+        var categoryTotals = [SessionLengthCategory: (totalHourlyRate: Int, count: Int)]()
+
+        for session in sessions {
+            let duration = session.endTime.timeIntervalSince(session.startTime) / 3600 // Duration in hours
+            let category = sessionCategory(from: duration)
+            
+            var current = categoryTotals[category, default: (totalHourlyRate: 0, count: 0)]
+            current.totalHourlyRate += session.hourlyRate
+            current.count += 1
+              categoryTotals[category] = current
+          }
+
+          // Calculating average hourly rates for each category
+          var maxAverage: Double = 0.0
+          var mostProfitableCategory: SessionLengthCategory?
+
+          for (category, data) in categoryTotals {
+              let averageRate = data.count > 0 ? Double(data.totalHourlyRate) / Double(data.count) : 0.0
+              if averageRate > maxAverage {
+                  maxAverage = averageRate
+                  mostProfitableCategory = category
+              }
+          }
+
+          // Return the most profitable category
+          return mostProfitableCategory?.rawValue ?? "No sessions available"
+      }
     
     // MARK: ADDITIONAL METRICS CARDS
     
