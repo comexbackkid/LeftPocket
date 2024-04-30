@@ -655,7 +655,7 @@ struct ReportsDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Open the Annual Report, and at the bottom click the Export Last Year's Results button. You will be able to save a CSV of your sessions from the previous year.")
+                        Text("Open the Annual Report, and at the bottom click the Export as CSV button. You will be able to save a CSV of your sessions from the previous year.")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }

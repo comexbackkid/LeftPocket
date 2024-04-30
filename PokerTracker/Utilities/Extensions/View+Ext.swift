@@ -10,7 +10,6 @@ import SwiftUI
 
 // Styles background of the Onboarding View
 extension View {
-    
     func onBoardingBackgroundStyle(colorScheme: ColorScheme) -> some View {
         self
             .background(LinearGradient(colors: [.black.opacity(colorScheme == .dark ? 0.4 : 0.7), .black.opacity(0.0)],

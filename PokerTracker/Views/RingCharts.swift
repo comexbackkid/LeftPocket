@@ -15,7 +15,7 @@ struct RingCharts: View {
     
     var body: some View {
         
-        let locations = viewModel.sessions.filter({ $0.profit > 0 && $0.date.getYear() == yearFilter }).map { $0.location.name }.uniqued()
+        let locations = viewModel.sessions.filter({ $0.date.getYear() == yearFilter }).map { $0.location.name }.uniqued().sorted()
         
         VStack {
             

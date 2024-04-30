@@ -171,6 +171,19 @@ struct AddNewSessionView: View {
         .sheet(isPresented: $showPaywall) {
             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
                 .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                .overlay {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            DismissButton()
+                                .padding()
+                                .onTapGesture {
+                                    showPaywall = false
+                            }
+                            Spacer()
+                        }
+                    }
+                }
         }
         .task {
             for await customerInfo in Purchases.shared.customerInfoStream {
@@ -582,7 +595,7 @@ struct AddNewSessionView: View {
         
         VStack {
             Button {
-                let impact = UIImpactFeedbackGenerator(style: .medium)
+                let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
                 newSession.savedButtonPressed(viewModel: vm)
                 timerViewModel.liveSessionStartTime = nil
@@ -593,6 +606,8 @@ struct AddNewSessionView: View {
             }
             
             Button(role: .cancel) {
+                let impact = UIImpactFeedbackGenerator(style: .soft)
+                impact.impactOccurred()
                 isPresented = false
                 
             } label: {

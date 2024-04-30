@@ -17,21 +17,21 @@ struct BestTimeOfDay: View {
     
     var body: some View {
        
-        VStack {
+        VStack (spacing: 0) {
             
             let highestBucket = highestRateBucket(sessions: viewModel.sessions)
             
             HStack {
-                Text("Best Time of Day")
+                Text("Time of Day")
                     .cardTitleStyle()
-                    .padding(.bottom, 10)
+//                    .padding(.bottom, 10)
                     
                 Spacer()
                 
             }
             .padding(.bottom)
             
-            HStack (alignment: .top, spacing: 2) {
+            VStack {
                 
                 Chart {
                     ForEach(prepareChartData(sessions: viewModel.sessions), id: \.bucket) { data in
@@ -42,27 +42,28 @@ struct BestTimeOfDay: View {
                         )
                         .foregroundStyle(by: .value("Bucket", data.bucket.rawValue))
                         .cornerRadius(25)
-                        .opacity(data.bucket == highestBucket ? 1.0 : 0.3)
+                        .opacity(data.bucket == highestBucket ? 1.0 : 0.1)
                     }
                 }
-                .frame(maxHeight: 150)
-                .frame(width: 220)
-                .chartLegend(position: .leading, alignment: .leading)
+//                .frame(maxHeight: 150)
+//                .frame(width: 220)
+                .chartLegend(.hidden)
+//                .chartLegend(position: .leading, alignment: .leading)
                 .chartForegroundStyleScale([
                     "12-4am": Color.donutChartOrange,
                     "4-8am": Color.donutChartBlack,
-                    "8-12pm": Color.donutChartRed,
+                    "8-12pm": Color.donutChartPurple,
                     "12-4pm": Color.donutChartGreen,
-                    "4-8pm": Color.donutChartPink,
-                    "8-12am": Color.donutChartDarkGreen,
+                    "4-8pm": Color.donutChartRed,
+                    "8-12am": Color.donutChartDarkBlue,
                 ])
                 
                 if let highestData = highestRateData(sessions: viewModel.sessions) {
-                    Text("On average, you earn $\(highestData.hourlyRate) / hr between \(highestData.bucket.rawValue).")
-                        .calloutStyle()
-                        .lineSpacing(2)
-                        .padding(.leading, 5)
+                    Text("You average $\(highestData.hourlyRate) / hr from \(highestData.bucket.rawValue).")
+                        .subHeadlineStyle()
+                        .padding(.top, 5)
                 }
+               
             }
         }
         .dynamicTypeSize(.medium)

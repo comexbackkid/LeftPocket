@@ -208,6 +208,32 @@ struct SessionDetailView: View {
             Divider()
             
             HStack {
+                Text("Start")
+                    .bodyStyle()
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Text(pokerSession.startTime, style: .time)
+                    .bodyStyle()
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("End")
+                    .bodyStyle()
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Text(pokerSession.endTime, style: .time)
+                    .bodyStyle()
+            }
+            
+            Divider()
+            
+            HStack {
                 Text(pokerSession.isTournament == true ? "Buy-In" : "Expenses")
                     .bodyStyle()
                     .foregroundColor(.secondary)

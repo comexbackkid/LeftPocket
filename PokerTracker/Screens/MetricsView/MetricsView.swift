@@ -46,19 +46,9 @@ struct MetricsView: View {
                                 }
                                 
                                 ToolTipView(image: "lightbulb",
-                                            message: "Measure your performance & track progress from this screen.",
+                                            message: "Track your performance from here. Tap & hold charts for more info.",
                                             color: .yellow)
                                 
-                                if #available(iOS 17, *) {
-                                    let chartTip = ChartTip()
-                                    
-                                    TipView(chartTip, arrowEdge: .bottom)
-                                        .tipViewStyle(CustomTipViewStyle())
-                                        .padding(.horizontal, 20)
-                                }
-                                
-                                
-   
                                 bankrollChart
                                 
                                 BankrollProgressView(progressIndicator: $progressIndicator)
@@ -79,10 +69,15 @@ struct MetricsView: View {
                                 
                                 ToolTipView(image: "clock",
                                             message: "You tend to play better when your session lasts \(viewModel.bestSessionLength())",
-                                            color: .donutChartGreen)
+                                            color: .donutChartDarkBlue)
 
                                 if #available(iOS 17.0, *) {
-                                    donutChart
+                                    HStack {
+                                        donutChart
+                                        Spacer()
+                                        heatMap
+                                    }
+                                    .frame(width: UIScreen.main.bounds.width * 0.9)
                                 }
                                 
                                 AdditionalMetricsView()
@@ -130,18 +125,17 @@ struct MetricsView: View {
         
     }
     
+    @available(iOS 17.0, *)
     var heatMap: some View {
         
         HStack {
             HeatMap()
                 .padding()
-                .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
+                .frame(width: UIScreen.main.bounds.width * 0.43, height: 200)
                 .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
                 .cornerRadius(20)
-            
-            Spacer()
+
         }
-        .frame(width: UIScreen.main.bounds.width * 0.9)
     }
     
     @available(iOS 17.0, *)
@@ -150,8 +144,7 @@ struct MetricsView: View {
         HStack {
             BestTimeOfDay()
                 .padding()
-                .frame(width: UIScreen.main.bounds.width * 0.9, height: 210)
-                .padding(.bottom, 10)
+                .frame(width: UIScreen.main.bounds.width * 0.43, height: 200)
                 .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
                 .cornerRadius(20)
         }
@@ -545,10 +538,10 @@ struct AdditionalMetricsView: View {
         
         VStack (alignment: .leading) {
             
-            Text("Reports & Analytics")
-                .cardTitleStyle()
-                .bold()
-                .padding(.leading)
+//            Text("Reports & Analytics")
+//                .cardTitleStyle()
+//                .bold()
+//                .padding(.leading)
             
             // Adding version check for scroll behavior effect
             if #available(iOS 17, *) {
@@ -562,9 +555,10 @@ struct AdditionalMetricsView: View {
                                 AdditionalMetricsCardView(title: "Annual Report",
                                                           description: "Review & export your results from \nthe previous year.",
                                                           image: "list.clipboard",
-                                                          color: .blue)
+                                                          color: .donutChartDarkBlue)
                             })
                         .buttonStyle(PlainButtonStyle())
+                        
                         
                         NavigationLink(
                             destination: ProfitByMonth(vm: viewModel),
@@ -572,7 +566,7 @@ struct AdditionalMetricsView: View {
                                 AdditionalMetricsCardView(title: "Monthly Snapshot",
                                                           description: "View your results on a month by \nmonth basis.",
                                                           image: "calendar",
-                                                          color: .mint)
+                                                          color: .donutChartGreen)
                             })
                         .buttonStyle(PlainButtonStyle())
                         
@@ -583,14 +577,17 @@ struct AdditionalMetricsView: View {
                                 AdditionalMetricsCardView(title: "Location Statistics",
                                                           description: "View your profit or loss for every \nlocation you've played at.",
                                                           image: "mappin.and.ellipse",
-                                                          color: .red)
+                                                          color: .donutChartRed)
                             })
                         .buttonStyle(PlainButtonStyle())
                         
                         NavigationLink(
                             destination: ProfitByStakesView(viewModel: viewModel),
                             label: {
-                                AdditionalMetricsCardView(title: "Game Stakes", description: "Break down your game by different \ntable stakes.", image: "dollarsign.circle", color: .green)
+                                AdditionalMetricsCardView(title: "Game Stakes", 
+                                                          description: "Break down your game by different \ntable stakes.",
+                                                          image: "dollarsign.circle",
+                                                          color: .donutChartOrange)
                             })
                         .buttonStyle(PlainButtonStyle())
                     }
@@ -653,7 +650,7 @@ struct AdditionalMetricsView: View {
             }
         }
         .padding(.bottom, 50)
-        .padding(.top, 10)
+//        .padding(.top, 10)
     }
 }
 

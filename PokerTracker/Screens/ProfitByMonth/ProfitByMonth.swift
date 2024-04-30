@@ -31,7 +31,7 @@ struct ProfitByMonth: View {
 
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarTitle(Text("Profit by Month"))
+            .navigationBarTitle(Text("Monthly Snapshot"))
             .padding(30)
             .frame(width: UIScreen.main.bounds.width * 0.9)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))

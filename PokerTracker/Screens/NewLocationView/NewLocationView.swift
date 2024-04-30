@@ -33,7 +33,7 @@ struct NewLocationView: View {
                         Spacer()
                     }
                     
-                    Text("Enter the name of the location, and import a photo of your choice for the location header. If you don't import an image, a default graphic will be provided.")
+                    Text("Enter the name of the location, and import a photo (optional) from your photo library. If you don't choose an image, a default graphic will be provided.")
                         .bodyStyle()
                         .padding(.horizontal)
                         .padding(.bottom, 40)
@@ -67,6 +67,7 @@ struct NewLocationView: View {
                             
                             PhotosPicker(newLocationViewModel.importedImage != nil ? "Image Added!" : "Add Image", selection: $photoPickerItem)
                                 .font(.custom("Asap-Regular", size: 17))
+                                .foregroundColor(newLocationViewModel.importedImage != nil ? .primary : .brandPrimary)
                             
                             Spacer()
                                 
@@ -82,7 +83,7 @@ struct NewLocationView: View {
                     
                     VStack {
                         Button {
-                            let impact = UIImpactFeedbackGenerator(style: .medium)
+                            let impact = UIImpactFeedbackGenerator(style: .heavy)
                             impact.impactOccurred()
                             newLocationViewModel.saveLocation(viewModel: vm)
                             addLocationIsShowing = newLocationViewModel.presentation ?? true
@@ -92,6 +93,8 @@ struct NewLocationView: View {
                         .tint(Color.brandPrimary)
                         
                         Button(role: .cancel) {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
                             addLocationIsShowing.toggle()
                         } label: {
                             Text("Cancel")

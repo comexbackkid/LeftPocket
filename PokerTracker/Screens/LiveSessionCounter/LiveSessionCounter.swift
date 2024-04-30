@@ -14,14 +14,14 @@ struct LiveSessionCounter: View {
     
     var body: some View {
         
-        HStack {
+        HStack (spacing: 10) {
             
             Image(systemName: "timer")
                 .foregroundColor(.brandPrimary)
                 .bold()
             
             Text(timerViewModel.liveSessionTimer)
-                .bodyStyle()
+                .buttonTextStyle()
                 
         }
         .padding()

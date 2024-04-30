@@ -100,7 +100,6 @@ struct WelcomeScreen: View {
             .padding()
             .multilineTextAlignment(.center)
     }
-    
 }
 
 struct SignInTest_Previews: PreviewProvider {

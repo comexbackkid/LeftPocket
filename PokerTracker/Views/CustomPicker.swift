@@ -20,7 +20,7 @@ struct CustomPicker: View {
             
             lastYrButton
             
-            allButton
+//            allButton
         }
     }
     
@@ -47,7 +47,7 @@ struct CustomPicker: View {
                         .subHeadlineStyle()
                         .fontWeight(.semibold)
                         .foregroundColor(Color(.systemGray))
-                        .padding(.horizontal, 40)
+                        .padding(.horizontal, 45)
                 }
             }
             .frame(height: 50)
@@ -75,11 +75,11 @@ struct CustomPicker: View {
                             .matchedGeometryEffect(id: "timeline", in: animation)
                     }
 
-                    Text("\(Date().modifyDays(days: -365).getYearShortHand())")
+                    Text("PREV")
                         .subHeadlineStyle()
                         .fontWeight(.semibold)
                         .foregroundColor(Color(.systemGray))
-                        .padding(.horizontal, 40)
+                        .padding(.horizontal, 45)
                 }
             }
             .frame(height: 50)

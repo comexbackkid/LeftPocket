@@ -116,7 +116,6 @@ struct ProfitByYear: View {
             let totalHours = vm.totalHours(timeline: vm.myNewTimeline)
             let totalSessions = vm.sessionsPerYear(timeline: vm.myNewTimeline)
             let bestProfit = vm.bestProfit(timeline: vm.myNewTimeline)
-//            let bigBlindPerHr = vm.bigBlindPerHr(timeline: vm.myNewTimeline)
             
             HStack {
                 Text("Gross Income")
@@ -310,6 +309,19 @@ struct ProfitByYear: View {
         .sheet(isPresented: $showPaywall) {
             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
                 .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                .overlay {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            DismissButton()
+                                .padding()
+                                .onTapGesture {
+                                    showPaywall = false
+                            }
+                            Spacer()
+                        }
+                    }
+                }
         }
         .task {
             for await customerInfo in Purchases.shared.customerInfoStream {

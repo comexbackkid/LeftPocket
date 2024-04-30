@@ -54,13 +54,13 @@ struct AdditionalMetricsCardView: View {
                     .foregroundColor(.white.opacity(0.15))
             }
         )
-        .background(LinearGradient(colors: [.black, color], startPoint: .bottomTrailing, endPoint: .topLeading))
+        .background(LinearGradient(colors: [.black, color.opacity(2.5)], startPoint: .bottomTrailing, endPoint: .topLeading))
         .cornerRadius(15)
     }
 }
 
 struct AdditionalMetricsCardView_Previews: PreviewProvider {
     static var previews: some View {
-        AdditionalMetricsCardView(title: "Annual Summary", description: "Review results and stats for a \ngiven year.", image: "list.clipboard", color: .blue)
+        AdditionalMetricsCardView(title: "Annual Summary", description: "Review results and stats for a \ngiven year.", image: "list.clipboard", color: .donutChartDarkBlue)
     }
 }

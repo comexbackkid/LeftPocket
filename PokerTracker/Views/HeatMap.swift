@@ -16,12 +16,11 @@ struct HeatMap: View {
         VStack {
             
             HStack {
-                Text("\(Date().getMonth())")
+                Text("\(Date().getMonth(abbreviated: true)) Activity")
                     .cardTitleStyle()
                 
                 Spacer()
             }
-            .padding(.bottom)
             
             GeometryReader { geometry in
                 
@@ -34,7 +33,7 @@ struct HeatMap: View {
                 LazyVGrid(columns: columns, spacing: spacing) {
                     ForEach(days, id: \.self) { day in
                         Circle()
-                            .fill(self.isSessionDay(day) ? Color.orange : Color.orange.opacity(0.1))
+                            .fill(self.isSessionDay(day) ? Color.gray : Color.gray.opacity(0.1))
                             .frame(width: width, height: height)
                             .cornerRadius(8)
                     }

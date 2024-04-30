@@ -108,7 +108,7 @@ struct LeftPocketCustomTabBar: View {
                         
                         Image(systemName: tabBarImages[index])
                             .font(.system(size: index == 2 ? 30 : 22, weight: .black))
-                            .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray4))
+                            .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
                         
                         Spacer()
                     }
@@ -175,7 +175,7 @@ struct LeftPocketCustomTabBar: View {
                         
                         Image(systemName: isCounting ? "stop.fill" : "plus")
                             .font(.system(size: 30, weight: .black))
-                            .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray4))
+                            .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
                         
                         Spacer()
                         
@@ -209,17 +209,25 @@ struct LeftPocketCustomTabBar: View {
                     .sheet(isPresented: $showPaywall) {
                         PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
                             .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                            .overlay {
+                                HStack {
+                                    Spacer()
+                                    VStack {
+                                        DismissButton()
+                                            .padding()
+                                            .onTapGesture {
+                                                showPaywall = false
+                                        }
+                                        Spacer()
+                                    }
+                                }
+                            }
                     }
                     .task {
                         for await customerInfo in Purchases.shared.customerInfoStream {
                             
                             showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
                             await subManager.checkSubscriptionStatus()
-                            
-                            // Random nudge, once they've logged 3x sessions we ask them to upgrade to Pro
-                            if !subManager.isSubscribed && viewModel.sessions.count == 3 {
-                                showPaywall = true
-                            }
                         }
                     }
                 }

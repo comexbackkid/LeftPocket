@@ -712,28 +712,27 @@ class SessionsListViewModel: ObservableObject {
     // MARK: TOOLTIP FUNCTIONS
     
     var bestMonth: String {
-        
         mostProfitableMonth(in: sessions)
-        
     }
     
     enum SessionLengthCategory: String {
-        case lessThanTwoHours = "less than 2 hours"
-        case twoToFourHours = "2-4 hours"
-        case moreThanFourHours = "over 4 hours"
+        case lessThanFourHours = "less than 4 hours"
+        case fourToEightHours = "4-8 hours"
+        case moreThanEightHours = "over 8 hours"
     }
     
     func sessionCategory(from duration: Double) -> SessionLengthCategory {
         switch duration {
-        case let x where x < 2:
-            return .lessThanTwoHours
-        case let x where x >= 2 && x <= 4:
-            return .twoToFourHours
+        case let x where x < 4:
+            return .lessThanFourHours
+        case let x where x >= 4 && x <= 8:
+            return .fourToEightHours
         default:
-            return .moreThanFourHours
+            return .moreThanEightHours
         }
     }
 
+    // Grabs hourlyRate of sessions and calculates best performing time bucket of the 3 from SessionLengthCategory
     func bestSessionLength() -> String {
         var categoryTotals = [SessionLengthCategory: (totalHourlyRate: Int, count: Int)]()
 

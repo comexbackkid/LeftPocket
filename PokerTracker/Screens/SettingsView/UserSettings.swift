@@ -151,6 +151,19 @@ struct UserSettings: View {
         .sheet(isPresented: $showPaywall) {
             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
                 .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                .overlay {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            DismissButton()
+                                .padding()
+                                .onTapGesture {
+                                    showPaywall = false
+                            }
+                            Spacer()
+                        }
+                    }
+                }
         }
         .task {
             for await customerInfo in Purchases.shared.customerInfoStream {
