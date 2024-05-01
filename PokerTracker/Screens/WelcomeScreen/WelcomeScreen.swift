@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
-import AuthenticationServices
+import RevenueCat
+import RevenueCatUI
 
 struct WelcomeScreen: View {
     
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var subManager: SubscriptionManager
     @Binding var showWelcomeScreen: Bool
+    
+    @State var showPaywall = false
     
     var body: some View {
         
@@ -36,6 +40,34 @@ struct WelcomeScreen: View {
             .padding()
         }
         .onBoardingBackgroundStyle(colorScheme: .light)
+        .sheet(isPresented: $showPaywall) {
+            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                .overlay {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            DismissButton()
+                                .padding()
+                                .onTapGesture {
+                                    showWelcomeScreen = false
+                                    showPaywall = false
+                            }
+                            Spacer()
+                        }
+                    }
+                }
+                .onDisappear(perform: {
+                    showWelcomeScreen = false
+                })
+        }
+        .task {
+            for await customerInfo in Purchases.shared.customerInfoStream {
+                
+                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                await subManager.checkSubscriptionStatus()
+            }
+        }
     }
     
     var logo: some View {
@@ -71,7 +103,8 @@ struct WelcomeScreen: View {
         
         Button {
             
-            showWelcomeScreen.toggle()
+            showPaywall = true
+//            showWelcomeScreen.toggle()
             
         } label: {
             
@@ -105,5 +138,6 @@ struct WelcomeScreen: View {
 struct SignInTest_Previews: PreviewProvider {
     static var previews: some View {
         WelcomeScreen(showWelcomeScreen: .constant(true))
+            .environmentObject(SubscriptionManager())
     }
 }

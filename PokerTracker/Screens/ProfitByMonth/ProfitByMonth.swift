@@ -12,7 +12,7 @@ struct ProfitByMonth: View {
     @Environment(\.colorScheme) var colorScheme
     
     @State private var yearFilter: String = Date().getYear()
-    @State private var metricFilter = "Total"
+    @State private var metricFilter = "Profit"
     
     @ObservedObject var vm: SessionsListViewModel
     
@@ -40,7 +40,8 @@ struct ProfitByMonth: View {
             .padding(.top, 50)
             
             yearTotal
-                .padding(.bottom, 60)
+            
+//            barChart
             
             HStack {
                 Spacer()
@@ -87,8 +88,9 @@ struct ProfitByMonth: View {
                 
                 Menu {
                     Picker("", selection: $metricFilter) {
-                        Text("Total").tag("Total")
-                        Text("Hourly").tag("Hourly")
+                        Text("Profit").tag("Profit")
+                        Text("Hourly Rate").tag("Hourly Rate")
+                        Text("Total Hours").tag("Total Hours")
                     }
                 } label: {
                     Text(metricFilter + " ›")
@@ -115,9 +117,16 @@ struct ProfitByMonth: View {
                 let total = filteredMonths.filter({ $0.date.getMonth() == month }).map {$0.profit}.reduce(0,+)
                 let hourlyRate = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.hourlyRate }.reduce(0,+)
                 
-                if metricFilter == "Total" {
+                // Working on summing up all the total hours for the given month
+                let hoursPlayed = filteredMonths.filter({ $0.date.getMonth() == month }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+                
+                if metricFilter == "Profit" {
                     Text(total, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                         .profitColor(total: total)
+                        .frame(width: 80, alignment: .trailing)
+                } else if metricFilter == "Total Hours" {
+                    Text(hoursPlayed.abbreviateHourTotal + "h")
+                        .foregroundColor(hoursPlayed == 0 ? Color(.systemGray) : .primary)
                         .frame(width: 80, alignment: .trailing)
                 } else {
                     Text("\(hourlyRate, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0))) / hr")
@@ -140,7 +149,7 @@ struct ProfitByMonth: View {
                     .frame(width: 20)
                     .foregroundColor(Color(.systemGray))
                 
-                Text("Total")
+                Text("Total Profit")
                     
                 Spacer()
                 
@@ -153,7 +162,7 @@ struct ProfitByMonth: View {
                     .frame(width: 20)
                     .foregroundColor(Color(.systemGray))
                 
-                Text("Sessions")
+                Text("Sessions Played")
                 
                 Spacer()
                 
@@ -169,6 +178,20 @@ struct ProfitByMonth: View {
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
         .padding(.top, 15)
+        .padding(.bottom, 60)
+    }
+    
+    var barChart: some View {
+        
+        BarChartByYear(showTitle: false, moreAxisMarks: false)
+            .padding(.horizontal, 30)
+            .padding(.vertical, 30)
+            .frame(width: UIScreen.main.bounds.width * 0.9)
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+            .cornerRadius(20)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+            .padding(.top, 15)
+            .padding(.bottom, 60)
         
     }
 }

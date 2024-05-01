@@ -14,6 +14,7 @@ struct BarChartByYear: View {
     @State private var selectedMonth: Date?
     
     let showTitle: Bool
+    let moreAxisMarks: Bool
     let firstDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 1, day: 1)
     let lastDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 12, day: 31)
     
@@ -86,7 +87,7 @@ struct BarChartByYear: View {
         .chartXSelection(value: $selectedMonth)
         .chartXScale(domain: [firstDay, lastDay])
         .chartYAxis {
-            AxisMarks(position: .leading) { value in
+            AxisMarks(position: .leading, values: .automatic(desiredCount: moreAxisMarks ? 4 : 3)) { value in
                 AxisGridLine()
                     .foregroundStyle(.gray.opacity(0.2))
                 AxisValueLabel() {
@@ -124,7 +125,7 @@ struct BarChartByYear: View {
         }
         .chartXScale(domain: [firstDay, lastDay])
         .chartYAxis {
-            AxisMarks(position: .leading) { value in
+            AxisMarks(position: .leading, values: .automatic(desiredCount: moreAxisMarks ? 4 : 3)) { value in
                 AxisGridLine()
                     .foregroundStyle(.gray.opacity(0.2))
                 AxisValueLabel() {
@@ -181,7 +182,7 @@ struct BarChartByYear: View {
 }
 
 #Preview {
-    BarChartByYear(showTitle: true)
+    BarChartByYear(showTitle: true, moreAxisMarks: true)
         .environmentObject(SessionsListViewModel())
         .frame(height: 350)
         .padding()

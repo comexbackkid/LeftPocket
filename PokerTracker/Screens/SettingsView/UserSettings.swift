@@ -34,6 +34,12 @@ struct UserSettings: View {
                     
                     displayOptions
                     
+                    // Sheet appears with Paywall when they tap this
+                    if !subManager.isSubscribed {
+                        
+                        upgradeToPro
+                    }
+                    
                     Divider()
                     
                     middleSection
@@ -84,12 +90,6 @@ struct UserSettings: View {
                                     .shared
                                     .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
                             })
-//                            .onChange(of: isDarkMode) {
-//                                
-//                                SystemThemeManager
-//                                    .shared
-//                                    .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
-//                            }
                     }
                 }
                 
@@ -135,15 +135,9 @@ struct UserSettings: View {
             
             sessionDefaults
             
-            // Sheet appears with Paywall when they tap this
-            if !subManager.isSubscribed {
-                
-                upgradeToPro
-            }
+            importData
             
             exportData
-            
-            importData
             
             howToGuide
             
