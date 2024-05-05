@@ -14,6 +14,9 @@ enum CurrencyType: String, CaseIterable, Identifiable, Codable {
     case BRL
     case MXN
     case CNY
+    case JPY
+    case PHP
+    case SEK
     
     var id: String { self.rawValue }
     
@@ -25,6 +28,9 @@ enum CurrencyType: String, CaseIterable, Identifiable, Codable {
         case .BRL: return "Brazilian Real"
         case .MXN: return "Mexican Peso"
         case .CNY: return "Chinese Yuan"
+        case .JPY: return "Japanese Yen"
+        case .PHP: return "Philippines Peso"
+        case .SEK: return "Swedish Krona"
         }
     }
     
@@ -36,6 +42,9 @@ enum CurrencyType: String, CaseIterable, Identifiable, Codable {
         case .BRL: return "R$"
         case .MXN: return "MX$"
         case .CNY: return "¥"
+        case .JPY: return "¥"
+        case .PHP: return "₱"
+        case .SEK: return "kr"
         }
     }
 }

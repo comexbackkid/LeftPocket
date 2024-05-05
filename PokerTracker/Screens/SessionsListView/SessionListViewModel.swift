@@ -216,36 +216,7 @@ class SessionsListViewModel: ObservableObject {
     
     // MARK: CALCULATIONS & DATA PRESENTATION FOR CHARTS & METRICS VIEW
     
-    // Calculate player's Big Blind per Hour rate
-//    func bigBlindperHour(year: String? = nil, hourly: Int? = nil) -> Double {
-//        
-//        let filteredSessions: [PokerSession]
-//        
-//        if let year = year {
-//            filteredSessions = sessions.filter({ $0.date.getYear() == year })
-//        } else {
-//            filteredSessions = sessions
-//        }
-//        
-//        guard !filteredSessions.isEmpty else { return 0 }
-//        
-//        guard let lastStake = filteredSessions.filter({ $0.isTournament == false || $0.isTournament == nil }).sorted(by: { $0.date > $1.date }).map({ $0.stakes }).first,
-//              let lastSlashIndex = lastStake.lastIndex(of: "/"),
-//              let bigBlind = Int(lastStake[lastSlashIndex...].trimmingCharacters(in: .punctuationCharacters)) else {
-//            
-//            return 0
-//        }
-//        
-//        if let hourly {
-//            return Double(hourly) / Double(bigBlind)
-//        } else {
-//            let hourlyRate = self.hourlyRate(bankroll: .cash)
-//            let bigBlindperHour = Double(hourlyRate) / Double(bigBlind)
-//            
-//            return bigBlindperHour
-//        }
-//    }
-    
+    // Big Blind per Hour calculation. Adds all the BB/Hr rates for each session and then averages them
     func bbPerHour(year: String? = nil) -> Double {
         let filteredSessions: [PokerSession]
         
@@ -317,16 +288,18 @@ class SessionsListViewModel: ObservableObject {
         
         // If there's over 25 sessions, we will use every other data point to build the chart.
         // If there's over 50 sessions, we count by 5's in order to smooth out the chart and make it appear less erratic
-        if chartArray().count > 50 {
-            return manySessions.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
-            
-        } else if chartArray().count > 25 {
-            return fewSessions.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
-        }
+//        if chartArray().count > 50 {
+//            return manySessions.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
+//            
+//        } else if chartArray().count > 25 {
+//            return fewSessions.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
+//        }
+//        
+//        else {
+//            return chartArray().enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
+//        }
         
-        else {
-            return chartArray().enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
-        }
+        return chartArray().enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
     }
     
     // Simply counts how many sessions played each year
@@ -716,19 +689,18 @@ class SessionsListViewModel: ObservableObject {
     }
     
     enum SessionLengthCategory: String {
-        case lessThanFourHours = "less than 4 hours"
-        case fourToEightHours = "4-8 hours"
-        case moreThanEightHours = "over 8 hours"
+        case lessThanThreeHours = "less than 3 hours"
+        case threeToSixHours = "3-6 hours"
+        case sixToNineHours = "6-9 hours"
+        case moreThanNineHours = "over 9 hours"
     }
     
     func sessionCategory(from duration: Double) -> SessionLengthCategory {
         switch duration {
-        case let x where x < 4:
-            return .lessThanFourHours
-        case let x where x >= 4 && x <= 8:
-            return .fourToEightHours
-        default:
-            return .moreThanEightHours
+        case let x where x < 3: return .lessThanThreeHours
+        case let x where x >= 3 && x <= 6: return .threeToSixHours
+        case let x where x >= 6 && x <= 9: return .sixToNineHours
+        default: return .moreThanNineHours
         }
     }
 

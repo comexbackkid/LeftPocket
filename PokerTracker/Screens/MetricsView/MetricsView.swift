@@ -18,6 +18,8 @@ struct MetricsView: View {
     @State var progressIndicator: Float = 0.0
     @State var sessionFilter: SessionFilter = .cash
     
+//    @State var healthKitManager = HealthKitManager()
+    
     var body: some View {
         
         NavigationView {
@@ -100,6 +102,9 @@ struct MetricsView: View {
                 
             }
             .background(Color.brandBackground)
+//            .task {
+//                await healthKitManager.requestAuthorization()
+//            }
         }
         .accentColor(.brandPrimary)
     }

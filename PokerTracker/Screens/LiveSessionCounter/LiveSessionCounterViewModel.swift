@@ -8,6 +8,7 @@
 import SwiftUI
 import ActivityKit
 import UIKit
+import UserNotifications
 
 class TimerViewModel: ObservableObject {
     
@@ -31,6 +32,49 @@ class TimerViewModel: ObservableObject {
         }
     }
     
+    enum UserNotificationContext: String {
+        case twoHours, fourHours, eightHours
+        
+        var msgTitle: String {
+            switch self {
+            case .twoHours:
+                "How's Your Session?"
+            case .fourHours:
+                "Just Checking In"
+            case .eightHours:
+                "This is a Long Session"
+            }
+        }
+        
+        var msgBody: String {
+            switch self {
+            case .twoHours:
+                "You should stretch your legs, have some water, & consider if the game is still good."
+            case .fourHours:
+                "You've been playing four hours, how do you feel? Keep hydrated & take a break if you need it."
+            case .eightHours:
+                "You've been playing awhile, should you keep going? Make sure you're in the right heaadspace."
+            }
+        }
+    }
+    
+    // Push notification checking on the user
+    func scheduleUserNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "How's Your Session?"
+        content.body = "You should stretch your legs, have some water, & consider if the game is still good."
+        content.sound = UNNotificationSound.default
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 7200, repeats: true)
+        let request = UNNotificationRequest(identifier: "liveSessionNotification", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request)
+    }
+    
+    func cancelUserNotifications() {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["liveSessionNotification"])
+    }
+    
     func startSession() {
         let now = Date()
         liveSessionStartTime = now
@@ -38,6 +82,7 @@ class TimerViewModel: ObservableObject {
         
         // Start or restart the timer
         startUpdatingTimer()
+        scheduleUserNotification()
         
         // Activity Kit addition
         if ActivityAuthorizationInfo().areActivitiesEnabled {
@@ -49,7 +94,6 @@ class TimerViewModel: ObservableObject {
                 activity = try Activity<LiveSessionWidgetAttributes>.request(attributes: attributes, 
                                                                              content: .init(state: state, staleDate: nil),
                                                                              pushType: nil)
-                
             } catch {
                 print("Error: \(error)")
             }
@@ -81,6 +125,8 @@ class TimerViewModel: ObservableObject {
         Task {
             await Activity<LiveSessionWidgetAttributes>.activities.first?.end(activity?.content, dismissalPolicy: .immediate)
         }
+        
+        cancelUserNotifications()
     }
     
     func resetTimer() {
@@ -118,5 +164,6 @@ class TimerViewModel: ObservableObject {
         timer?.invalidate()
         // Unregister from all notifications
         NotificationCenter.default.removeObserver(self)
+        cancelUserNotifications()
     }
 }

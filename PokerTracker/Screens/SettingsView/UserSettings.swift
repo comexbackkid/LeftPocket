@@ -8,6 +8,7 @@
 import SwiftUI
 import RevenueCatUI
 import RevenueCat
+import UserNotifications
 
 struct UserSettings: View {
     
@@ -23,6 +24,7 @@ struct UserSettings: View {
     
     @State private var showError: Bool = false
     @State private var showPaywall = false
+    @State private var notificationsAllowed = false
     
     var body: some View {
 
@@ -67,6 +69,7 @@ struct UserSettings: View {
     var displayOptions: some View {
         
         VStack (spacing: 40) {
+            
             HStack {
                 
                 VStack (alignment: .leading) {
@@ -119,11 +122,36 @@ struct UserSettings: View {
                         .calloutStyle()
                         .opacity(0.8)
                         .padding(.top, 1)
+                    
                 }
                 
                 Spacer()
                 
             }
+            
+            NavigationLink {
+                NotificationsView()
+            } label: {
+                HStack {
+                    
+                    VStack (alignment: .leading) {
+                        
+                        HStack {
+                            Text("Notifications")
+                                .subtitleStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
         }
     }
     
@@ -422,7 +450,7 @@ struct UserSettings: View {
         } label: {
             
             HStack {
-                Text("Upgrade to Pro")
+                Text("Learn About Pro")
                     .subtitleStyle()
                     .bold()
                 

@@ -56,6 +56,9 @@
 		7C5997AB27872FCF00966764 /* AnnualReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5997AA27872FCF00966764 /* AnnualReportViewModel.swift */; };
 		7C5B0C882BBF201E00A5014B /* LineChartFullScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */; };
 		7C5C79962B2780210088A841 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5C79952B2780210088A841 /* UserSettings.swift */; };
+		7C5D5D332BE2B6A8003DC94D /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5D322BE2B6A8003DC94D /* HealthKitManager.swift */; };
+		7C5D5D362BE2C8CB003DC94D /* SleepChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5D352BE2C8CB003DC94D /* SleepChartViewModel.swift */; };
+		7C5D5D382BE2CB1E003DC94D /* SleepChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5D372BE2CB1E003DC94D /* SleepChart.swift */; };
 		7C5EDA1828906F25008ACFEF /* EditLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5EDA1728906F25008ACFEF /* EditLocationView.swift */; };
 		7C62F1ED2BD034B200F14483 /* NewStakesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C62F1EC2BD034B200F14483 /* NewStakesView.swift */; };
 		7C62F1EF2BD0493400F14483 /* NewStakesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C62F1EE2BD0493400F14483 /* NewStakesViewModel.swift */; };
@@ -192,6 +195,7 @@
 		7CEB453F2BCEA90800AAF710 /* RingCharts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEB453E2BCEA90800AAF710 /* RingCharts.swift */; };
 		7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEB761E26D9A77E006170EF /* Alerts.swift */; };
 		7CED6EA827517D7F00E18053 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED6EA727517D7F00E18053 /* Array+Ext.swift */; };
+		7CF39C922BE6DBB4003B4C00 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF39C912BE6DBB4003B4C00 /* NotificationsView.swift */; };
 		7CFB683A2B7CFC92005AB81F /* BarChartByYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */; };
 		7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */; };
 		7CFD78A92B34DF2D00C1A9F6 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 7CFD78A82B34DF2D00C1A9F6 /* RevenueCat */; };
@@ -273,6 +277,9 @@
 		7C5997AA27872FCF00966764 /* AnnualReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnualReportViewModel.swift; sourceTree = "<group>"; };
 		7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartFullScreen.swift; sourceTree = "<group>"; };
 		7C5C79952B2780210088A841 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		7C5D5D322BE2B6A8003DC94D /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		7C5D5D352BE2C8CB003DC94D /* SleepChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepChartViewModel.swift; sourceTree = "<group>"; };
+		7C5D5D372BE2CB1E003DC94D /* SleepChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepChart.swift; sourceTree = "<group>"; };
 		7C5EDA1728906F25008ACFEF /* EditLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocationView.swift; sourceTree = "<group>"; };
 		7C62F1EC2BD034B200F14483 /* NewStakesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStakesView.swift; sourceTree = "<group>"; };
 		7C62F1EE2BD0493400F14483 /* NewStakesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStakesViewModel.swift; sourceTree = "<group>"; };
@@ -370,6 +377,7 @@
 		7CEB453E2BCEA90800AAF710 /* RingCharts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingCharts.swift; sourceTree = "<group>"; };
 		7CEB761E26D9A77E006170EF /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		7CED6EA727517D7F00E18053 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
+		7CF39C912BE6DBB4003B4C00 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartByYear.swift; sourceTree = "<group>"; };
 		7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
 		7CFD78AC2B34E46100C1A9F6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -504,6 +512,7 @@
 				7C82E13226EFC84E00E3EB6F /* SessionDetailView */,
 				7C2614CE26D9313E00986183 /* SessionsListView */,
 				7C82E13426EFC87D00E3EB6F /* SettingsView */,
+				7C5D5D342BE2C8B5003DC94D /* SleepChart */,
 				7C63949726C14E8300939F40 /* ContentView.swift */,
 				7CE7DC1928FE1AA8009F4CE9 /* SwiftChartsPractice.swift */,
 			);
@@ -555,6 +564,7 @@
 				7CEB453E2BCEA90800AAF710 /* RingCharts.swift */,
 				7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */,
 				7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */,
+				7CF39C912BE6DBB4003B4C00 /* NotificationsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -568,6 +578,7 @@
 				7C63FC3E2B3640FF00FE731C /* SubscriptionManager.swift */,
 				7C463C222B487B040095E6C6 /* CSVConversion.swift */,
 				7CA7F8172B6FFAA700F976EE /* CSVImport.swift */,
+				7C5D5D322BE2B6A8003DC94D /* HealthKitManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -614,6 +625,15 @@
 				7C3FFA852BC894C500EABD49 /* BarChartByStakes.swift */,
 			);
 			path = BarChartView;
+			sourceTree = "<group>";
+		};
+		7C5D5D342BE2C8B5003DC94D /* SleepChart */ = {
+			isa = PBXGroup;
+			children = (
+				7C5D5D352BE2C8CB003DC94D /* SleepChartViewModel.swift */,
+				7C5D5D372BE2CB1E003DC94D /* SleepChart.swift */,
+			);
+			path = SleepChart;
 			sourceTree = "<group>";
 		};
 		7C5EDA1428905AB7008ACFEF /* EditLocationView */ = {
@@ -1080,6 +1100,7 @@
 				7C2B3E6626F5488E00B84D52 /* PrimaryButton.swift in Sources */,
 				7C6769E22B8CD300006ACB7D /* BankrollProgressView.swift in Sources */,
 				7C4254A12784E25C00B5DA79 /* ProfitByYear.swift in Sources */,
+				7C5D5D382BE2CB1E003DC94D /* SleepChart.swift in Sources */,
 				7CDB04812776141C008C5233 /* AppReviewRequest.swift in Sources */,
 				7C7B2F8B26D5A2A90069F9C5 /* SessionListViewModel.swift in Sources */,
 				7CED6EA827517D7F00E18053 /* Array+Ext.swift in Sources */,
@@ -1089,6 +1110,7 @@
 				7CBEF44427596A6600744F4A /* CustomChartView.swift in Sources */,
 				7C3F43AA27284CD800A9C842 /* NumberFormatter.swift in Sources */,
 				7CA7F8182B6FFAA700F976EE /* CSVImport.swift in Sources */,
+				7C5D5D332BE2B6A8003DC94D /* HealthKitManager.swift in Sources */,
 				7C6E75BB2BAA16BE006173A4 /* LiveSessionCounter.swift in Sources */,
 				7C6394A726C14F5600939F40 /* MetricsView.swift in Sources */,
 				7C6E75BE2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift in Sources */,
@@ -1106,6 +1128,7 @@
 				7C3FFA862BC894C500EABD49 /* BarChartByStakes.swift in Sources */,
 				7C4CE70227729E4D0070B16E /* UIWindow+Ext.swift in Sources */,
 				7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */,
+				7C5D5D362BE2C8CB003DC94D /* SleepChartViewModel.swift in Sources */,
 				7C897F192891BC1700E42FDA /* LocationsListView.swift in Sources */,
 				7C68FE4326D7CEA40019BA53 /* RecentSessionCardView.swift in Sources */,
 				7C3738372BC4838900699819 /* BarChartWeeklyCount.swift in Sources */,
@@ -1134,6 +1157,7 @@
 				7C63FC3F2B3640FF00FE731C /* SubscriptionManager.swift in Sources */,
 				7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */,
 				7C8647812B29277900F48951 /* WelcomeScreen.swift in Sources */,
+				7CF39C922BE6DBB4003B4C00 /* NotificationsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1156,7 +1180,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1169,7 +1193,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.5.1;
+				MARKETING_VERSION = 3.5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1187,7 +1211,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1200,7 +1224,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.5.1;
+				MARKETING_VERSION = 3.5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1339,7 +1363,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1350,7 +1374,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.5.1;
+				MARKETING_VERSION = 3.5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1367,7 +1391,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1378,7 +1402,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.5.1;
+				MARKETING_VERSION = 3.5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

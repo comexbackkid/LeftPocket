@@ -21,8 +21,6 @@ struct ContentView: View {
             
             VStack(spacing: 5) {
                 
-//                productUpdatesIcon
-                
                 bankrollView
                 
                 if viewModel.sessions.isEmpty {

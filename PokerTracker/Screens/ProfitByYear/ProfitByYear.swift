@@ -173,7 +173,7 @@ struct ProfitByYear: View {
                 
                 Spacer()
                 Text(bestProfit, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .profitColor(total: profitPerSession)
+                    .profitColor(total: bestProfit)
             }
             
             HStack {
