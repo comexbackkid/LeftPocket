@@ -102,6 +102,9 @@
 		7CA7F8152B6FF5FB00F976EE /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7F8142B6FF5FB00F976EE /* Tips.swift */; };
 		7CA7F8162B6FF5FB00F976EE /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7F8142B6FF5FB00F976EE /* Tips.swift */; };
 		7CA7F8182B6FFAA700F976EE /* CSVImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7F8172B6FFAA700F976EE /* CSVImport.swift */; };
+		7CA940F92BECF8E3009B54BA /* SleepAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA940F82BECF8E3009B54BA /* SleepAnalytics.swift */; };
+		7CA940FB2BECF925009B54BA /* HealthMetricModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA940FA2BECF925009B54BA /* HealthMetricModel.swift */; };
+		7CA940FD2BECF9EE009B54BA /* HealthKitPrimingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA940FC2BECF9EE009B54BA /* HealthKitPrimingView.swift */; };
 		7CAFDFF32B2C884100B7338D /* CustomToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF22B2C884100B7338D /* CustomToggle.swift */; };
 		7CAFE0062B2CA9E300B7338D /* AsapCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */; };
 		7CAFE0072B2CA9E300B7338D /* AsapCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */; };
@@ -186,6 +189,7 @@
 		7CC20EB3272B19D200137F51 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC20EB2272B19D200137F51 /* HelpView.swift */; };
 		7CC81FB8294CBAD400E849A9 /* BestLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC81FB7294CBAD400E849A9 /* BestLocationView.swift */; };
 		7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */; };
+		7CD2EEC72BE8F0DB00AEE64E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD2EEC62BE8F0DB00AEE64E /* AppDelegate.swift */; };
 		7CD7468A28A6CA8F00D5A2D0 /* Images+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD7468928A6CA8F00D5A2D0 /* Images+Ext.swift */; };
 		7CD7468C28A6CFA200D5A2D0 /* FailureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */; };
 		7CDB04812776141C008C5233 /* AppReviewRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDB04802776141C008C5233 /* AppReviewRequest.swift */; };
@@ -320,6 +324,9 @@
 		7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalMetricsCardView.swift; sourceTree = "<group>"; };
 		7CA7F8142B6FF5FB00F976EE /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
 		7CA7F8172B6FFAA700F976EE /* CSVImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVImport.swift; sourceTree = "<group>"; };
+		7CA940F82BECF8E3009B54BA /* SleepAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepAnalytics.swift; sourceTree = "<group>"; };
+		7CA940FA2BECF925009B54BA /* HealthMetricModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthMetricModel.swift; sourceTree = "<group>"; };
+		7CA940FC2BECF9EE009B54BA /* HealthKitPrimingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitPrimingView.swift; sourceTree = "<group>"; };
 		7CAFDFF22B2C884100B7338D /* CustomToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToggle.swift; sourceTree = "<group>"; };
 		7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-Light.ttf"; sourceTree = "<group>"; };
 		7CAFDFF62B2CA9E300B7338D /* AsapCondensed-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-LightItalic.ttf"; sourceTree = "<group>"; };
@@ -368,6 +375,7 @@
 		7CC20EB2272B19D200137F51 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		7CC81FB7294CBAD400E849A9 /* BestLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestLocationView.swift; sourceTree = "<group>"; };
 		7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSessionViewModel.swift; sourceTree = "<group>"; };
+		7CD2EEC62BE8F0DB00AEE64E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7CD7468928A6CA8F00D5A2D0 /* Images+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+Ext.swift"; sourceTree = "<group>"; };
 		7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailureView.swift; sourceTree = "<group>"; };
 		7CDB04802776141C008C5233 /* AppReviewRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReviewRequest.swift; sourceTree = "<group>"; };
@@ -512,6 +520,7 @@
 				7C82E13226EFC84E00E3EB6F /* SessionDetailView */,
 				7C2614CE26D9313E00986183 /* SessionsListView */,
 				7C82E13426EFC87D00E3EB6F /* SettingsView */,
+				7CA940F72BECF8C5009B54BA /* SleepAnalytics */,
 				7C5D5D342BE2C8B5003DC94D /* SleepChart */,
 				7C63949726C14E8300939F40 /* ContentView.swift */,
 				7CE7DC1928FE1AA8009F4CE9 /* SwiftChartsPractice.swift */,
@@ -579,6 +588,7 @@
 				7C463C222B487B040095E6C6 /* CSVConversion.swift */,
 				7CA7F8172B6FFAA700F976EE /* CSVImport.swift */,
 				7C5D5D322BE2B6A8003DC94D /* HealthKitManager.swift */,
+				7CD2EEC62BE8F0DB00AEE64E /* AppDelegate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -803,6 +813,16 @@
 				7C944D532BBD8ACB009E6EC5 /* test-video.mp4 */,
 			);
 			path = Media;
+			sourceTree = "<group>";
+		};
+		7CA940F72BECF8C5009B54BA /* SleepAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				7CA940FA2BECF925009B54BA /* HealthMetricModel.swift */,
+				7CA940F82BECF8E3009B54BA /* SleepAnalytics.swift */,
+				7CA940FC2BECF9EE009B54BA /* HealthKitPrimingView.swift */,
+			);
+			path = SleepAnalytics;
 			sourceTree = "<group>";
 		};
 		7CAFDFF42B2CA9E300B7338D /* Asap_Condensed */ = {
@@ -1126,6 +1146,7 @@
 				7CB3EB9F26C310F5009E8DF3 /* SessionDetailView.swift in Sources */,
 				7C4C7BA728A4684700DBC886 /* Text+Ext.swift in Sources */,
 				7C3FFA862BC894C500EABD49 /* BarChartByStakes.swift in Sources */,
+				7CA940FD2BECF9EE009B54BA /* HealthKitPrimingView.swift in Sources */,
 				7C4CE70227729E4D0070B16E /* UIWindow+Ext.swift in Sources */,
 				7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */,
 				7C5D5D362BE2C8CB003DC94D /* SleepChartViewModel.swift in Sources */,
@@ -1144,6 +1165,7 @@
 				7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */,
 				7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */,
 				7C5EDA1828906F25008ACFEF /* EditLocationView.swift in Sources */,
+				7CA940F92BECF8E3009B54BA /* SleepAnalytics.swift in Sources */,
 				7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */,
 				7C67DDB52BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift in Sources */,
 				7C25CB5327887D9200866511 /* CustomPicker.swift in Sources */,
@@ -1157,7 +1179,9 @@
 				7C63FC3F2B3640FF00FE731C /* SubscriptionManager.swift in Sources */,
 				7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */,
 				7C8647812B29277900F48951 /* WelcomeScreen.swift in Sources */,
+				7CD2EEC72BE8F0DB00AEE64E /* AppDelegate.swift in Sources */,
 				7CF39C922BE6DBB4003B4C00 /* NotificationsView.swift in Sources */,
+				7CA940FB2BECF925009B54BA /* HealthMetricModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1180,7 +1204,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1193,7 +1217,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.5.2;
+				MARKETING_VERSION = 3.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1211,7 +1235,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1224,7 +1248,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.5.2;
+				MARKETING_VERSION = 3.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1287,7 +1311,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1344,7 +1368,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1363,18 +1387,18 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = PokerTracker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.5.2;
+				MARKETING_VERSION = 3.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1391,18 +1415,18 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = PokerTracker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.5.2;
+				MARKETING_VERSION = 3.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

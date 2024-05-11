@@ -564,6 +564,80 @@ struct AdditionalMetricsView: View {
                             })
                         .buttonStyle(PlainButtonStyle())
                         
+                        NavigationLink(
+                            destination: SleepAnalytics(),
+                            label: {
+                                AdditionalMetricsCardView(title: "Sleep Analytics",
+                                                          description: "See how your sleep affects your \npoker results.",
+                                                          image: "bed.double.fill",
+                                                          color: .donutChartOrange)
+                                
+                            })
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        NavigationLink(
+                            destination: ProfitByMonth(vm: viewModel),
+                            label: {
+                                AdditionalMetricsCardView(title: "Monthly Snapshot",
+                                                          description: "View your results on a month by \nmonth basis.",
+                                                          image: "calendar",
+                                                          color: .donutChartGreen)
+                            })
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        NavigationLink(
+                            destination: ProfitByLocationView(viewModel: viewModel),
+                            label: {
+                                AdditionalMetricsCardView(title: "Location Statistics",
+                                                          description: "View your profit or loss for every \nlocation you've played at.",
+                                                          image: "mappin.and.ellipse",
+                                                          color: .donutChartRed)
+                            })
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        NavigationLink(
+                            destination: ProfitByStakesView(viewModel: viewModel),
+                            label: {
+                                AdditionalMetricsCardView(title: "Game Stakes", 
+                                                          description: "Break down your game by different \ntable stakes.",
+                                                          image: "dollarsign.circle",
+                                                          color: .donutChartPurple)
+                            })
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                    .padding(.leading)
+                    .padding(.trailing)
+                    .frame(height: 150)
+                })
+                .scrollTargetLayout()
+                .scrollTargetBehavior(.viewAligned)
+                .scrollBounceBehavior(.automatic)
+                
+            } else {
+                
+                ScrollView(.horizontal, showsIndicators: false, content: {
+                    HStack (spacing: 10) {
+                        
+                        NavigationLink(
+                            destination: ProfitByYear(vm: AnnualReportViewModel()),
+                            label: {
+                                AdditionalMetricsCardView(title: "Annual Report",
+                                                          description: "Review & export your results from \nthe previous year.",
+                                                          image: "list.clipboard",
+                                                          color: .donutChartDarkBlue)
+                            })
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        NavigationLink(
+                            destination: SleepAnalytics(),
+                            label: {
+                                AdditionalMetricsCardView(title: "Sleep Analytics",
+                                                          description: "See how your sleep affects your \npoker results.",
+                                                          image: "bed.double.fill",
+                                                          color: .donutChartOrange)
+                                
+                            })
+                        .buttonStyle(PlainButtonStyle())
                         
                         NavigationLink(
                             destination: ProfitByMonth(vm: viewModel),
@@ -589,61 +663,10 @@ struct AdditionalMetricsView: View {
                         NavigationLink(
                             destination: ProfitByStakesView(viewModel: viewModel),
                             label: {
-                                AdditionalMetricsCardView(title: "Game Stakes", 
+                                AdditionalMetricsCardView(title: "Game Stakes",
                                                           description: "Break down your game by different \ntable stakes.",
                                                           image: "dollarsign.circle",
-                                                          color: .donutChartOrange)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                    }
-                    .padding(.leading)
-                    .padding(.trailing)
-                    .frame(height: 150)
-                })
-                .scrollTargetLayout()
-                .scrollTargetBehavior(.viewAligned)
-                .scrollBounceBehavior(.automatic)
-                
-            } else {
-                
-                ScrollView(.horizontal, showsIndicators: false, content: {
-                    HStack (spacing: 10) {
-                        
-                        NavigationLink(
-                            destination: ProfitByYear(vm: AnnualReportViewModel()),
-                            label: {
-                                AdditionalMetricsCardView(title: "Annual Report",
-                                                          description: "Review & export results from the \nprevious year.",
-                                                          image: "list.clipboard",
-                                                          color: .blue)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: ProfitByMonth(vm: viewModel),
-                            label: {
-                                AdditionalMetricsCardView(title: "Profit by Month",
-                                                          description: "View results based on a month by \nmonth basis.",
-                                                          image: "calendar",
-                                                          color: .mint)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        
-                        NavigationLink(
-                            destination: ProfitByLocationView(viewModel: viewModel),
-                            label: {
-                                AdditionalMetricsCardView(title: "Location Statistics",
-                                                          description: "View your profit or loss for every \nlocation you've played at.",
-                                                          image: "mappin.and.ellipse",
-                                                          color: .red)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: ProfitByStakesView(viewModel: viewModel),
-                            label: {
-                                AdditionalMetricsCardView(title: "Game Stakes", description: "Break down your game \nby table stakes.", image: "dollarsign.circle", color: .green)
+                                                          color: .donutChartPurple)
                             })
                         .buttonStyle(PlainButtonStyle())
                     }

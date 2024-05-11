@@ -16,7 +16,7 @@ struct DeleteLocationTip: Tip {
     }
     
     var message: Text? {
-        Text("Long press on a Location's thumbnail to delete it. To add your own, tap the Plus button above.")
+        Text("To add your own location, tap the Plus button above. Tap & hold on a thumbnail to delete.")
     }
     
     var image: Image? {

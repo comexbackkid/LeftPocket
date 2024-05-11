@@ -8,19 +8,26 @@
 import Foundation
 import RevenueCat
 import SwiftUI
+import AdSupport
 
 class SubscriptionManager: ObservableObject {
 
     @Published var isSubscribed = false
+    @AppStorage("rcUserId") private var rcUserID: String = ""
 
     init() {
 
         Purchases.logLevel = .debug
         Purchases.configure(withAPIKey: "appl_nzoxZjFOdCffwvTEKrdMdDqjfzO")
+        Purchases.shared.attribution.collectDeviceIdentifiers()
 
         Task {
             await self.checkSubscriptionStatus()
+            Purchases.shared.attribution.collectDeviceIdentifiers()
+            
         }
+        
+        rcUserID = Purchases.shared.appUserID
     }
 
     @MainActor

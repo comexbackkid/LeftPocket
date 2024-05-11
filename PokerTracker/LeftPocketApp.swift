@@ -7,6 +7,8 @@
 
 import SwiftUI
 import TipKit
+import BranchSDK
+import RevenueCat
 
 @main
 struct LeftPocketApp: App {
@@ -15,6 +17,7 @@ struct LeftPocketApp: App {
     @StateObject var subManager = SubscriptionManager()
     @StateObject private var timerViewModel = TimerViewModel()
     @AppStorage("shouldShowOnboarding") var showWelcomeScreen: Bool = true
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
     var body: some Scene {
         WindowGroup {
@@ -25,6 +28,9 @@ struct LeftPocketApp: App {
                 .environmentObject(vm)
                 .environmentObject(subManager)
                 .environmentObject(timerViewModel)
+                .onOpenURL(perform: { url in
+                    Branch.getInstance().handleDeepLink(url)
+                })
         }
     }
     
