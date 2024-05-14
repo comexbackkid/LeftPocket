@@ -41,11 +41,15 @@ struct AlertContext {
                                            dismissButton: .default(Text("OK")))
     
     static let invalidBuyIn = AlertItem(title: Text("Invalid Form"),
-                                        message: Text("Please enter Buy-In amount."),
+                                        message: Text("Please enter your Buy-In amount."),
                                         dismissButton: .default(Text("OK")))
     
     static let invalidEndTime = AlertItem(title: Text("Invalid Form"),
                                           message: Text("Your End Time cannot precede the Start Time."),
+                                          dismissButton: .default(Text("OK")))
+    
+    static let invalidDuration = AlertItem(title: Text("Invalid Form"),
+                                          message: Text("Your Session duration must exceed one minute."),
                                           dismissButton: .default(Text("OK")))
     
     static let inValidLocationName = AlertItem(title: Text("Invalid Form"),

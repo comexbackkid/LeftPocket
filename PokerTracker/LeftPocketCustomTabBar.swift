@@ -13,7 +13,7 @@ import ActivityKit
 
 struct LeftPocketCustomTabBar: View {
     
-    @AppStorage("isDarkMode") private var isDarkMode = false
+    @AppStorage("isDarkMode") private var isDarkMode = true
     @AppStorage("systemThemeEnabled") private var systemThemeEnabled = false
     @AppStorage("isCounting") private var isCounting = false
     
@@ -151,6 +151,12 @@ struct LeftPocketCustomTabBar: View {
                                 let impact = UIImpactFeedbackGenerator(style: .soft)
                                 impact.impactOccurred()
                                 
+                                Task {
+                                    if #available(iOS 17.0, *) {
+                                        await AddSessionTip.sessionCount.donate()
+                                    }
+                                }
+                                
                                 // If user is NOT subscribed, AND they're over the monthly allowance, the Plus button will display Paywall
                                 if !subManager.isSubscribed && !viewModel.canLogNewSession() {
                                     
@@ -160,6 +166,7 @@ struct LeftPocketCustomTabBar: View {
                                     
                                     timerViewModel.startSession()
                                     isCounting = true
+                                    
                                 }
                                 
                             } label: {

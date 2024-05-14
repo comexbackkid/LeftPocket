@@ -17,6 +17,18 @@ class TimerViewModel: ObservableObject {
     @Published var liveSessionStartTime: Date?
     @Published var liveSessionTimer: String = "00:00"
     @Published var activity: Activity<LiveSessionWidgetAttributes>? = nil
+    @Published var reBuyAmount: String = ""
+    @Published var initialBuyInAmount: String = ""
+    @Published var totalRebuys: [Int] = []
+    
+    var totalBuyInForLiveSession: Int {
+        (Int(initialBuyInAmount) ?? 0) + rebuyTotalForSession
+        
+    }
+    
+    var rebuyTotalForSession: Int {
+        return totalRebuys.reduce(0,+)
+    }
     
     init() {
         // Register for app lifecycle notifications
@@ -56,6 +68,12 @@ class TimerViewModel: ObservableObject {
                 "You've been playing awhile, should you keep going? Make sure you're in the right heaadspace."
             }
         }
+    }
+    
+    func addRebuy() {
+        guard !reBuyAmount.isEmpty else { return }
+        totalRebuys.append(Int(reBuyAmount) ?? 0)
+        reBuyAmount = ""
     }
     
     // Push notification checking on the user
@@ -133,6 +151,10 @@ class TimerViewModel: ObservableObject {
         timer?.invalidate()
         liveSessionStartTime = nil
         liveSessionTimer = "00:00"
+        cancelUserNotifications()
+        initialBuyInAmount = ""
+        reBuyAmount = ""
+        totalRebuys.removeAll()
         UserDefaults.standard.removeObject(forKey: "liveSessionStartTime")
     }
     
@@ -165,5 +187,8 @@ class TimerViewModel: ObservableObject {
         // Unregister from all notifications
         NotificationCenter.default.removeObserver(self)
         cancelUserNotifications()
+        initialBuyInAmount = ""
+        reBuyAmount = ""
+        totalRebuys.removeAll()
     }
 }

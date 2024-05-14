@@ -81,6 +81,11 @@ final class NewSessionViewModel: ObservableObject {
             alertItem = AlertContext.invalidEndTime
             return false
         }
+        
+        guard endTime.timeIntervalSince(startTime) > 60 else {
+            alertItem = AlertContext.invalidDuration
+            return false
+        }
  
         return true
     }

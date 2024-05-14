@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
-
+import HealthKitUI
 
 struct HealthKitPrimingView: View {
     
+//    @Environment(HealthKitManager.self) private var hkManager
     @Environment(\.dismiss) private var dismiss
     @State private var isShowingHealthKitPermissions = false
     @Binding var hasSeen: Bool
@@ -23,6 +24,7 @@ struct HealthKitPrimingView: View {
     var body: some View {
         
         VStack (spacing: 100) {
+            
             VStack (alignment: .leading, spacing: 10) {
                 Image(.appleHeath)
                     .resizable()
@@ -37,6 +39,7 @@ struct HealthKitPrimingView: View {
                     .bodyStyle()
                     .foregroundStyle(.secondary)
             }
+            .padding(.horizontal)
             
             Button {
                 isShowingHealthKitPermissions = true
@@ -46,10 +49,10 @@ struct HealthKitPrimingView: View {
             
         }
         .padding(30)
-        .interactiveDismissDisabled()
+//        .interactiveDismissDisabled()
         .onAppear { hasSeen = true }
 //        .healthDataAccessRequest(store: hkManager.store,
-//                                 shareTypes: hkManager.types,
+//                                 shareTypes: [],
 //                                 readTypes: hkManager.types,
 //                                 trigger: isShowingHealthKitPermissions) { result in
 //            switch result {
@@ -65,5 +68,6 @@ struct HealthKitPrimingView: View {
 
 #Preview {
     HealthKitPrimingView(hasSeen: .constant(true))
-//        .preferredColorScheme(.dark)
+//        .environment(HealthKitManager())
+        .preferredColorScheme(.dark)
 }

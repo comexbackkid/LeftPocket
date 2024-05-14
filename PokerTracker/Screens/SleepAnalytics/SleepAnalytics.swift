@@ -11,10 +11,11 @@ import Charts
 
 struct SleepAnalytics: View {
     
+    @AppStorage("hasSeenPermissionPriming") private var hasSeenPermissionPriming = false
+    @State private var isShowingPermissionPrimingSheet = false
     @Environment(\.colorScheme) var colorScheme
-    
     @EnvironmentObject var viewModel: SessionsListViewModel
-    
+        
     var body: some View {
         
         ScrollView {
@@ -34,10 +35,20 @@ struct SleepAnalytics: View {
                                 color: .donutChartOrange)
                     
                     ToolTipView(image: "gauge", 
-                                message: "Your hourly rate is \(performanceComparison().formatted(.number.precision(.fractionLength(0))))% greater on days you sleep at least 7 hours.",
+                                message: performanceComparison(),
                                 color: .chartAccent)
                 }
+                .padding(.bottom, 50)
                 .padding(.top)
+                .onAppear {
+                    hasSeenPermissionPriming = false
+                    isShowingPermissionPrimingSheet = !hasSeenPermissionPriming
+                }
+                .sheet(isPresented: $isShowingPermissionPrimingSheet) {
+                    // Fetch health data
+                } content: {
+                    HealthKitPrimingView(hasSeen: $hasSeenPermissionPriming)
+                }
             }
         }
         .background(Color.brandBackground)
@@ -89,10 +100,9 @@ struct SleepAnalytics: View {
             .padding(.bottom, 40)
             
             Chart {
-                ForEach(HealthMetric.MockData) { sleep in
+                ForEach(SleepMetric.MockData) { sleep in
                     BarMark(x: .value("Date", sleep.date), y: .value("Hours", sleep.value))
                         .foregroundStyle(calculateBarColor(healthMetric: sleep, viewModel: viewModel).gradient)
-                    
                 }
             }
             .chartXAxis {
@@ -111,13 +121,13 @@ struct SleepAnalytics: View {
             .padding(.leading, 6)
         }
         .padding()
-        .frame(width: UIScreen.main.bounds.width * 0.9, height: 300)
+        .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
         .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
         .cornerRadius(20)
     }
     
     // Dynamically return red vs. green if the user won or lost money
-    func calculateBarColor(healthMetric: HealthMetric, viewModel: SessionsListViewModel) -> Color {
+    func calculateBarColor(healthMetric: SleepMetric, viewModel: SessionsListViewModel) -> Color {
         
         // Filter sessions to find any that match the date of the health metric
         let date = Calendar.current.startOfDay(for: healthMetric.date)
@@ -136,14 +146,14 @@ struct SleepAnalytics: View {
         } else if totalProfit < 0 {
             return Color.red
         } else {
-            return Color.secondary.opacity(0.3)
+            return Color.secondary.opacity(0.2)
         }
     }
     
     // Calculates how many sessions were played with less than 7 hours sleep
     func countLowSleepSessions() -> Int {
         let sessions = viewModel.sessions.filter {
-            guard let sleep = HealthMetric.MockData.sleepHours(on: $0.date) else { return false }
+            guard let sleep = SleepMetric.MockData.sleepHours(on: $0.date) else { return false }
             return sleep < 7
         }
         
@@ -151,8 +161,8 @@ struct SleepAnalytics: View {
     }
     
     // Calculates how much more we've earned when we get good sleep
-    func performanceComparison() -> Double {
-        let sleepDataByDate = Dictionary(HealthMetric.MockData.map { metric in
+    func performanceComparison() -> String {
+        let sleepDataByDate = Dictionary(SleepMetric.MockData.map { metric in
             (Calendar.current.startOfDay(for: metric.date), metric.value)
         }, uniquingKeysWith: { first, _ in first })  // Assume no duplicate dates for simplicity
 
@@ -162,34 +172,41 @@ struct SleepAnalytics: View {
         var countWithLessSleep = 0
 
         for session in viewModel.sessions {
-            let sessionDate = Calendar.current.startOfDay(for: session.date)
-            if let sleepHours = sleepDataByDate[sessionDate] {
-                if sleepHours >= 7 {
-                    hourlyRateWithEnoughSleep += Double(session.hourlyRate)
-                    countWithEnoughSleep += 1
-                } else {
-                    hourlyRateWithLessSleep += Double(session.hourlyRate)
-                    countWithLessSleep += 1
+                let sessionDate = Calendar.current.startOfDay(for: session.date)
+                if let sleepHours = sleepDataByDate[sessionDate] {
+                    if sleepHours >= 7 {
+                        hourlyRateWithEnoughSleep += Double(session.hourlyRate)
+                        countWithEnoughSleep += 1
+                    } else {
+                        hourlyRateWithLessSleep += Double(session.hourlyRate)
+                        countWithLessSleep += 1
+                    }
                 }
             }
-        }
 
-        let avgHourlyRateWithEnoughSleep = countWithEnoughSleep > 0 ? hourlyRateWithEnoughSleep / Double(countWithEnoughSleep) : 0
-        let avgHourlyRateWithLessSleep = countWithLessSleep > 0 ? hourlyRateWithLessSleep / Double(countWithLessSleep) : 0
+            if countWithEnoughSleep == 0 {
+                if countWithLessSleep == 0 {
+                    return "No data available to compare performances."
+                }
+                return "All sessions played with under 7 hours of sleep. No baseline available."
+            }
 
-        // Calculate percentage improvement
-        if avgHourlyRateWithLessSleep != 0 {
-            let improvement = ((avgHourlyRateWithEnoughSleep - avgHourlyRateWithLessSleep) / abs(avgHourlyRateWithLessSleep)) * 100
-            return improvement
-        } else {
-            return avgHourlyRateWithEnoughSleep > 0 ? Double.infinity : 0 // Handle division by zero if no sessions on low sleep days
-        }
+            let avgHourlyRateWithEnoughSleep = hourlyRateWithEnoughSleep / Double(countWithEnoughSleep)
+            let avgHourlyRateWithLessSleep = countWithLessSleep > 0 ? hourlyRateWithLessSleep / Double(countWithLessSleep) : 0
+
+            // Calculate percentage improvement
+            if avgHourlyRateWithLessSleep != 0 {
+                let improvement = ((avgHourlyRateWithEnoughSleep - avgHourlyRateWithLessSleep) / abs(avgHourlyRateWithLessSleep)) * 100
+                return "Your hourly rate is \(improvement.formatted(.number.precision(.fractionLength(0))))% greater on days you sleep at least 7 hours."
+            } else {
+                return "No comparison baseline available. There are no sessions with less than 7 hours of sleep."
+            }
     }
     
     func avgSleep() -> String {
-        guard !HealthMetric.MockData.isEmpty else { return "0" }
-        let totalSleep = HealthMetric.MockData.reduce(0) { $0 + $1.value }
-        let avgSleep = Double(totalSleep) / Double(HealthMetric.MockData.count)
+        guard !SleepMetric.MockData.isEmpty else { return "0" }
+        let totalSleep = SleepMetric.MockData.reduce(0) { $0 + $1.value }
+        let avgSleep = Double(totalSleep) / Double(SleepMetric.MockData.count)
         return avgSleep.formatted(.number.precision(.fractionLength(1)))
     }
 }
@@ -198,5 +215,4 @@ struct SleepAnalytics: View {
     SleepAnalytics()
         .environmentObject(SessionsListViewModel())
         .preferredColorScheme(.dark)
-    
 }

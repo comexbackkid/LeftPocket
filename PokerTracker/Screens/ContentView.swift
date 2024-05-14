@@ -25,8 +25,7 @@ struct ContentView: View {
                 
                 if viewModel.sessions.isEmpty {
                     
-                    EmptyState(image: .sessions)
-                        .padding(.top, 85)
+                    emptyState
                     
                 } else {
                     
@@ -56,6 +55,34 @@ struct ContentView: View {
     
     var bankroll: Int {
         return viewModel.tallyBankroll(bankroll: .all)
+    }
+    
+    var emptyState: some View {
+        
+        VStack (spacing: 5) {
+            
+            Image("pokerchipsvector-transparent")
+                .resizable()
+                .frame(width: 125, height: 125)
+            
+            Text("No Sessions")
+                .cardTitleStyle()
+                .bold()
+                .multilineTextAlignment(.center)
+                .padding(.top)
+            
+            Text("Tap & hold the Plus button below.\n During a live session, add rebuys by\npressing the \(Image(systemName: "dollarsign.arrow.circlepath")) button.")
+                .foregroundColor(.secondary)
+                .subHeadlineStyle()
+                .multilineTextAlignment(.center)
+                .lineSpacing(3)
+            
+            Image("squigleArrow")
+                .resizable()
+                .frame(width: 80, height: 150)
+                .padding(.top, 20)
+        }
+        
     }
     
     var lastSession: Int {

@@ -54,7 +54,7 @@ struct SessionsListView: View {
         }
         
         if let locationFilter = locationFilter {
-            result = result.filter { $0.location.id == locationFilter.id }
+            result = result.filter { $0.location.name == locationFilter.name }
         }
         
         return result

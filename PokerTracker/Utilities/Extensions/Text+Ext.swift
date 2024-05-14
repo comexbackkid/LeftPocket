@@ -54,7 +54,7 @@ extension Text {
     }
     
     func buttonTextStyle() -> some View {
-        self.font(.custom("Asap-Regular", size: 20))
+        self.font(.custom("Asap-Regular", size: 18))
     }
     
     func bankrollTextStyle() -> some View {

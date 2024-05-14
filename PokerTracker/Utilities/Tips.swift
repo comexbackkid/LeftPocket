@@ -37,7 +37,7 @@ struct AddSessionTip: Tip {
     }
     
     var message: Text? {
-        Text("Tap the Plus button to log a session. Long press to activate a live session.")
+        Text("Tap & hold \(Image(systemName: "plus")) to add a live or completed session. Tap once for default option.")
     }
     
     var image: Image? {

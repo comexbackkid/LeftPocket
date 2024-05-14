@@ -126,7 +126,7 @@ struct LiveSessionTimerView: View {
     }
     
     var backgroundGradient: some View {
-        Color("onboardingBG")
+        Color("widgetBackground")
             .overlay(LinearGradient(colors: [colorScheme == .light ? .clear
                                              : .black.opacity(0.2), colorScheme == .light ? .black.opacity(0.6)
                                              : .white.opacity(0.1)], startPoint: .topLeading, endPoint: .bottomTrailing))

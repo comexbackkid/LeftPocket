@@ -22,7 +22,6 @@ struct UsingLeftPocket: View {
                 HStack {
                     Text("Read through the following documentation to get the most out of Left Pocket, so that you can put the most into your’s.")
                         .bodyStyle()
-                        .opacity(0.8)
                         .padding(.horizontal)
                         .padding(.bottom, 30)
                     
@@ -328,7 +327,7 @@ struct LoggingSessionsDocumentation: View {
                             .foregroundColor(Color.brandPrimary)
                         
                         
-                        Text("Tap + hold the Plus button at the bottom of the navigation bar")
+                        Text("Tap & hold the \(Image(systemName: "plus")) button at the bottom of the navigation bar & choose Live or Completed Session")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -340,7 +339,7 @@ struct LoggingSessionsDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Choose Live or Completed Session")
+                        Text("By default, a single tap will bring up the Add Completed Session screen")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -352,7 +351,7 @@ struct LoggingSessionsDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("By default, a single tap will bring up the Add Completed Session screen")
+                        Text("During a Live Session, tap the \(Image(systemName: "dollarsign.arrow.circlepath")) button on the counter to add a rebuy")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -364,7 +363,7 @@ struct LoggingSessionsDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Enter all of the details from your session, and optionally paste in or type any notes or hand history into the Notes field")
+                        Text("Press the \(Image(systemName: "stop.fill")) button, enter the details from your session, & optionally paste in or type any notes into the Notes field")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -432,7 +431,7 @@ struct BrowseAndFilterDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("In the top right, you'll see two menu buttons for filtering")
+                        Text("In the top right, you'll see two menu buttons for filtering ( \(Image(systemName: "mappin.and.ellipse")) \(Image(systemName: "slider.horizontal.3")) )")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }

@@ -13,6 +13,7 @@ extension Color {
     static let brandBackground = Color("brandBlack")
     static let lightBlue = Color("lightBlue")
     static let onboardingBG = Color("onboardingBG")
+    static let widgetBackground = Color("widgetBackground")
     static let chartBase = Color("chartBase")
     static let chartAccent = Color("chartAccent")
     static let pickerGray = Color("pickerGray")

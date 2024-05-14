@@ -18,8 +18,6 @@ struct MetricsView: View {
     @State var progressIndicator: Float = 0.0
     @State var sessionFilter: SessionFilter = .cash
     
-//    @State var healthKitManager = HealthKitManager()
-    
     var body: some View {
         
         NavigationView {
@@ -102,9 +100,6 @@ struct MetricsView: View {
                 
             }
             .background(Color.brandBackground)
-//            .task {
-//                await healthKitManager.requestAuthorization()
-//            }
         }
         .accentColor(.brandPrimary)
     }
@@ -521,6 +516,7 @@ struct ToolTipView: View {
                 .foregroundColor(color)
                 .font(.system(size: 25, weight: .bold))
                 .padding(.trailing, 10)
+                .frame(width: 40)
             
             Text(message)
                 .calloutStyle()
@@ -543,11 +539,6 @@ struct AdditionalMetricsView: View {
         
         VStack (alignment: .leading) {
             
-//            Text("Reports & Analytics")
-//                .cardTitleStyle()
-//                .bold()
-//                .padding(.leading)
-            
             // Adding version check for scroll behavior effect
             if #available(iOS 17, *) {
                 
@@ -564,16 +555,16 @@ struct AdditionalMetricsView: View {
                             })
                         .buttonStyle(PlainButtonStyle())
                         
-                        NavigationLink(
-                            destination: SleepAnalytics(),
-                            label: {
-                                AdditionalMetricsCardView(title: "Sleep Analytics",
-                                                          description: "See how your sleep affects your \npoker results.",
-                                                          image: "bed.double.fill",
-                                                          color: .donutChartOrange)
-                                
-                            })
-                        .buttonStyle(PlainButtonStyle())
+//                        NavigationLink(
+//                            destination: SleepAnalytics(),
+//                            label: {
+//                                AdditionalMetricsCardView(title: "Sleep Analytics",
+//                                                          description: "See how your sleep affects your \npoker results.",
+//                                                          image: "bed.double.fill",
+//                                                          color: .donutChartOrange)
+//                                
+//                            })
+//                        .buttonStyle(PlainButtonStyle())
                         
                         NavigationLink(
                             destination: ProfitByMonth(vm: viewModel),
@@ -628,16 +619,16 @@ struct AdditionalMetricsView: View {
                             })
                         .buttonStyle(PlainButtonStyle())
                         
-                        NavigationLink(
-                            destination: SleepAnalytics(),
-                            label: {
-                                AdditionalMetricsCardView(title: "Sleep Analytics",
-                                                          description: "See how your sleep affects your \npoker results.",
-                                                          image: "bed.double.fill",
-                                                          color: .donutChartOrange)
-                                
-                            })
-                        .buttonStyle(PlainButtonStyle())
+//                        NavigationLink(
+//                            destination: SleepAnalytics(),
+//                            label: {
+//                                AdditionalMetricsCardView(title: "Sleep Analytics",
+//                                                          description: "See how your sleep affects your \npoker results.",
+//                                                          image: "bed.double.fill",
+//                                                          color: .donutChartOrange)
+//                                
+//                            })
+//                        .buttonStyle(PlainButtonStyle())
                         
                         NavigationLink(
                             destination: ProfitByMonth(vm: viewModel),
