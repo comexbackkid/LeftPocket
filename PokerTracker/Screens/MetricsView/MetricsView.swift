@@ -304,6 +304,9 @@ struct AllStats: View {
 
 struct CashStats: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    @State private var highHandPopover = false
+    
     let sessionFilter: SessionFilter
     let viewModel: SessionsListViewModel
     
@@ -346,6 +349,34 @@ struct CashStats: View {
                     .foregroundColor(viewModel.avgProfit(bankroll: sessionFilter) > 0 ? .green
                                      : viewModel.avgProfit(bankroll: sessionFilter) < 0 ? .red
                                      : .primary)
+            }
+            
+            Divider()
+            
+            HStack (alignment: .lastTextBaseline, spacing: 4) {
+                Text("High Hand Bonuses")
+                    .calloutStyle()
+                    .foregroundColor(.secondary)
+                Button {
+                    highHandPopover = true
+                } label: {
+                    Image(systemName: "info.circle")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.brandPrimary)
+                }
+                .popover(isPresented: $highHandPopover, arrowEdge: .bottom, content: {
+                    PopoverView()
+                        .frame(maxWidth: UIScreen.main.bounds.width * 0.7)
+                        .frame(height: 130)
+                        .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
+                        .presentationCompactAdaptation(.popover)
+                        .preferredColorScheme(colorScheme == .dark ? .dark : .light)
+                })
+                
+                Spacer()
+                Text(viewModel.totalHighHands(), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .foregroundColor(viewModel.totalHighHands() > 0 ? .green : .primary)
+                                    
             }
             
             Divider()
@@ -555,16 +586,16 @@ struct AdditionalMetricsView: View {
                             })
                         .buttonStyle(PlainButtonStyle())
                         
-//                        NavigationLink(
-//                            destination: SleepAnalytics(),
-//                            label: {
-//                                AdditionalMetricsCardView(title: "Sleep Analytics",
-//                                                          description: "See how your sleep affects your \npoker results.",
-//                                                          image: "bed.double.fill",
-//                                                          color: .donutChartOrange)
-//                                
-//                            })
-//                        .buttonStyle(PlainButtonStyle())
+                        NavigationLink(
+                            destination: SleepAnalytics(),
+                            label: {
+                                AdditionalMetricsCardView(title: "Sleep Analytics",
+                                                          description: "See how your sleep affects your \npoker results.",
+                                                          image: "bed.double.fill",
+                                                          color: .donutChartOrange)
+                                
+                            })
+                        .buttonStyle(PlainButtonStyle())
                         
                         NavigationLink(
                             destination: ProfitByMonth(vm: viewModel),
@@ -670,6 +701,27 @@ struct AdditionalMetricsView: View {
         }
         .padding(.bottom, 50)
 //        .padding(.top, 10)
+    }
+}
+
+struct PopoverView: View {
+    
+    @Environment(\.dismiss) private var dismiss
+    
+    var body: some View {
+        
+        VStack (spacing: 0) {
+            
+            Image(systemName: "info.circle")
+                .foregroundStyle(Color.brandPrimary)
+                .font(.title3)
+            Text("High hand bonuses are not counted towards your bankroll winnings or metrics.")
+                .multilineTextAlignment(.leading)
+                .padding(10)
+            
+        }
+        .padding(10)
+        .font(.subheadline)
     }
 }
 

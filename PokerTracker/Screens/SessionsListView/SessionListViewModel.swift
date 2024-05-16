@@ -505,6 +505,15 @@ class SessionsListViewModel: ObservableObject {
         return returnOnInvestment.asPercent()
     }
     
+    func totalHighHands() -> Int {
+        guard !sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).isEmpty else { return 0 }
+        
+        let cashSessions = sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
+        let highHandTotals = cashSessions.map({ $0.highHandBonus ?? 0 }).reduce(0,+)
+        
+        return highHandTotals
+    }
+    
     // MARK: CALCULATIONS FOR ANNUAL REPORT VIEW
     
     func allSessionDataByYear(year: String) -> [PokerSession] {
@@ -778,7 +787,8 @@ class SessionsListViewModel: ObservableObject {
                     startTime: Date, endTime: Date,
                     expenses: Int,
                     isTournament: Bool,
-                    entrants: Int) {
+                    entrants: Int,
+                    highHandBonus: Int) {
         
         let newSession = PokerSession(location: location,
                                       game: game,
@@ -789,7 +799,8 @@ class SessionsListViewModel: ObservableObject {
                                       startTime: startTime, endTime: endTime,
                                       expenses: expenses,
                                       isTournament: isTournament,
-                                      entrants: entrants)
+                                      entrants: entrants,
+                                      highHandBonus: highHandBonus)
         sessions.append(newSession)
         sessions.sort(by: {$0.date > $1.date})
     }

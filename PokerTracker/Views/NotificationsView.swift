@@ -11,6 +11,7 @@ import UserNotifications
 struct NotificationsView: View {
     
     @State private var showAlert = false
+    @State private var showSuccessAlert = false
     @AppStorage("pushNotificationsAllowed") private var notificationsAllowed: Bool?
     
     let alertMessage = "Notifications have been disabled at the system level. Please enable them from your device Settings."
@@ -24,18 +25,8 @@ struct NotificationsView: View {
             description
             
             if notificationsAllowed == true {
-                HStack {
-                    
-                    Spacer()
-                    Image(systemName: "checkmark.circle")
-                        .foregroundStyle(.green)
-                    Text("Notifications Allowed!")
-                        .bodyStyle()
-                    Spacer()
-                }
-                .frame(height: 55)
-                .padding()
-                .padding(.bottom, 10)
+                
+                notificationsAllowedView
                 
             } else { button }
             
@@ -55,6 +46,12 @@ struct NotificationsView: View {
                     notificationsAllowed = false
                 }
             }
+        })
+        .sheet(isPresented: $showSuccessAlert, content: {
+            AlertModal(message: "Notifications successfully enabled! You can now receive Live Session check ins.")
+                .presentationDetents([.height(250)])
+                .presentationBackground(.ultraThinMaterial)
+            
         })
     }
     
@@ -80,6 +77,23 @@ struct NotificationsView: View {
         
     }
     
+    var notificationsAllowedView: some View {
+        
+        HStack {
+            
+            Spacer()
+            Image(systemName: "checkmark.circle")
+                .foregroundStyle(.green)
+            Text("Notifications Allowed!")
+                .bodyStyle()
+            Spacer()
+        }
+        .frame(height: 55)
+        .padding()
+        .padding(.bottom, 10)
+        
+    }
+    
     var button: some View {
         
         Button {
@@ -93,6 +107,7 @@ struct NotificationsView: View {
                     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { success, error in
                         if success {
                             notificationsAllowed = true
+                            showSuccessAlert = true
                         } else if let error {
                             print(error.localizedDescription)
                         }

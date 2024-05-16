@@ -29,6 +29,7 @@ final class NewSessionViewModel: ObservableObject {
     @Published var alertItem: AlertItem?
     @Published var buyIn: String = ""
     @Published var cashOut: String = ""
+    @Published var highHandBonus: String = ""
     
     var computedProfit: Int {
         (Int(cashOut) ?? 0) - Int(buyIn)!
@@ -127,14 +128,15 @@ final class NewSessionViewModel: ObservableObject {
                              game: self.game,
                              stakes: self.stakes,
                              date: self.startTime,
-//                             profit: (Int(self.positiveNegative + self.profit) ?? 0) - (Int(self.expenses) ?? 0),
                              profit: computedProfit - (Int(self.expenses) ?? 0),
                              notes: self.notes,
                              startTime: self.startTime,
                              endTime: self.endTime,
-                             expenses: sessionType == .cash ? Int(self.expenses) ?? 0 : Int(buyIn) ?? 0, // Tournament metrics in the app look to 'expenses' for Buy-In data.
+                             // Tournament metrics in the app look to 'expenses' for Buy-In data.
+                             expenses: sessionType == .cash ? Int(self.expenses) ?? 0 : Int(buyIn) ?? 0,
                              isTournament: sessionType == .tournament,
-                             entrants: Int(self.entrants) ?? 0)
+                             entrants: Int(self.entrants) ?? 0,
+                             highHandBonus: Int(self.highHandBonus) ?? 0)
         
         Task {
             

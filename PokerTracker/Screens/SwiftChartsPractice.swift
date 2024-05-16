@@ -230,6 +230,7 @@ struct SwiftLineChartsPractice: View {
             } label: {
                 Text("All")
                     .bodyStyle()
+                    .fontWeight(chartRange == .all ? .black : .regular)
             }
             .tint(chartRange == .all ? .primary : .brandPrimary)
             
@@ -240,6 +241,7 @@ struct SwiftLineChartsPractice: View {
             } label: {
                 Text("1Y")
                     .bodyStyle()
+                    .fontWeight(chartRange == .oneYear ? .black : .regular)
             }
             .tint(chartRange == .oneYear ? .primary : .brandPrimary)
             
@@ -250,6 +252,7 @@ struct SwiftLineChartsPractice: View {
             } label: {
                 Text("6M")
                     .bodyStyle()
+                    .fontWeight(chartRange == .sixMonth ? .black : .regular)
             }
             .tint(chartRange == .sixMonth ? .primary : .brandPrimary)
             
@@ -260,6 +263,7 @@ struct SwiftLineChartsPractice: View {
             } label: {
                 Text("1M")
                     .bodyStyle()
+                    .fontWeight(chartRange == .oneMonth ? .black : .regular)
             }
             .tint(chartRange == .oneMonth ? .primary : .brandPrimary)
             

@@ -16,7 +16,8 @@ class CSVImporter {
         case saveFailed
     }
     
-    // Import from Poker Bankroll Tracker app
+    // MARK: Poker Bankroll Tracker Import
+    
     func importCSVFromPokerBankrollTracker(data: Data) throws -> [PokerSession] {
         
         guard let csvString = String(data: data, encoding: .utf8) else {
@@ -64,7 +65,8 @@ class CSVImporter {
                                            endTime: endTime ?? Date(),
                                            expenses: sessionType == "Tournament" ? buyIn : expenses,
                                            isTournament: sessionType == "Tournament" ? true : false,
-                                           entrants: entrants)
+                                           entrants: entrants,
+                                           highHandBonus: nil)
                 
                 importedSessions.append(session)
                 
@@ -79,7 +81,8 @@ class CSVImporter {
         return importedSessions
     }
     
-    // Import from Pokerbase app
+    // MARK: Pokerbase Import
+    
     func importCSVFromPokerbase(data: Data, selectedStakes: String) throws -> [PokerSession] {
         
         guard let csvString = String(data: data, encoding: .utf8) else {
@@ -118,7 +121,8 @@ class CSVImporter {
                                            endTime: endTime ?? Date(),
                                            expenses: expenses,
                                            isTournament: false,
-                                           entrants: nil)
+                                           entrants: nil,
+                                           highHandBonus: nil)
                 
                 importedSessions.append(session)
                 
@@ -134,7 +138,8 @@ class CSVImporter {
         
     }
     
-    // Import from Left Pocket app
+    // MARK: LEFT POCKET IMPORT
+    
     func importCSVFromLeftPocket(data: Data) throws -> [PokerSession] {
         
         let csvString: String? = String(data: data, encoding: .utf8) ?? String(data: data, encoding: .ascii)
@@ -154,7 +159,7 @@ class CSVImporter {
             if row.isEmpty { continue }
             let columns = row.components(separatedBy: ",")
            
-            if columns.count == 11 {
+            if columns.count == 12 {
                 
                 // Extract only relevant data and create a PokerSession object
                 let game = columns[1].trimmingCharacters(in: .init(charactersIn: "\""))
@@ -162,10 +167,11 @@ class CSVImporter {
                 let stakes = columns[2].trimmingCharacters(in: .init(charactersIn: "\""))
                 let date = convertToDateFromLeftPocket(columns[3].trimmingCharacters(in: .init(charactersIn: "\"")))
                 let profit = columns[4]
-                let notes = columns[10].trimmingCharacters(in: .init(charactersIn: "\""))
+                let notes = columns[11].trimmingCharacters(in: .init(charactersIn: "\""))
                 let startTime = convertToDateFromLeftPocket(columns[6].trimmingCharacters(in: .init(charactersIn: "\"")))
                 let endTime = convertToDateFromLeftPocket(columns[7].trimmingCharacters(in: .init(charactersIn: "\"")))
                 let expenses = Int(columns[5].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let highHandBonus = columns[10]
                 
                 // Tournament Data
                 let isTournament = columns[8].trimmingCharacters(in: .init(charactersIn: "\""))
@@ -183,7 +189,8 @@ class CSVImporter {
                                            endTime: endTime ?? Date(),
                                            expenses: isTournament == "true" ? buyIn : expenses,
                                            isTournament: isTournament == "true" ? true : false,
-                                           entrants: entrants)
+                                           entrants: entrants,
+                                           highHandBonus: Int(highHandBonus) ?? 0)
                 
                 importedSessions.append(session)
                 
@@ -198,7 +205,8 @@ class CSVImporter {
         return importedSessions
     }
     
-    // Import from Poker Analytics 6 app
+    // MARK: Poker Analytics 6 Import
+    
     func importCSVFromPokerAnalytics(data: Data) throws -> [PokerSession] {
         
         let csvString: String? = String(data: data, encoding: .utf8) ?? String(data: data, encoding: .ascii)
@@ -246,7 +254,8 @@ class CSVImporter {
                                            endTime: endTime ?? Date(),
                                            expenses: sessionType == "Tournament" ? buyIn : expenses,
                                            isTournament: sessionType == "Tournament" ? true : false,
-                                           entrants: entrants)
+                                           entrants: entrants,
+                                           highHandBonus: nil)
                 
                 importedSessions.append(session)
                 
@@ -306,6 +315,7 @@ class CSVImporter {
         }
     }
     
+    // Poker Analytics date conversion
     func convertToDateFromPokerAnalytics(_ rawDate: String) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy HH:mm:ss" // Updated format to match input string

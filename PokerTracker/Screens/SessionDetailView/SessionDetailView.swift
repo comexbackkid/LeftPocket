@@ -207,8 +207,9 @@ struct SessionDetailView: View {
             
             Divider()
             
-            HStack {
-                Text("Start")
+            HStack (spacing: 0) {
+                
+                Text("Start / End")
                     .bodyStyle()
                     .foregroundColor(.secondary)
                 
@@ -216,16 +217,8 @@ struct SessionDetailView: View {
                 
                 Text(pokerSession.startTime, style: .time)
                     .bodyStyle()
-            }
-            
-            Divider()
-            
-            HStack {
-                Text("End")
-                    .bodyStyle()
-                    .foregroundColor(.secondary)
                 
-                Spacer()
+                Text(" / ")
                 
                 Text(pokerSession.endTime, style: .time)
                     .bodyStyle()
@@ -257,6 +250,7 @@ struct SessionDetailView: View {
                     Text(pokerSession.stakes)
                         .bodyStyle()
                 }
+                
                 Divider()
                 
                 HStack {
@@ -269,6 +263,20 @@ struct SessionDetailView: View {
                     Text("\(pokerSession.bigBlindPerHour, specifier: "%.2f")")
                         .bodyStyle()
                 }
+                
+                Divider()
+                
+                HStack {
+                    Text("High Hand Bonus")
+                        .bodyStyle()
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
+                    
+                    Text(pokerSession.highHandBonus ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                        .bodyStyle()
+                }
+                
                 Divider()
             }
             

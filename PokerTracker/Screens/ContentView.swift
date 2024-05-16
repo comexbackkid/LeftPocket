@@ -34,6 +34,8 @@ struct ContentView: View {
                     metricsCard
                     
                     recentSessionCard
+                    
+                    sleepAnalyticsCard
 
                     Spacer()
                 }
@@ -49,6 +51,7 @@ struct ContentView: View {
             switch sheet {
             case .productUpdates: ProductUpdates(activeSheet: $activeSheet)
             case .recentSession: SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
+            case .sleepAnalytics: SleepAnalytics()
             }
         }
     }
@@ -71,7 +74,7 @@ struct ContentView: View {
                 .multilineTextAlignment(.center)
                 .padding(.top)
             
-            Text("Tap & hold the Plus button below.\n During a live session, add rebuys by\npressing the \(Image(systemName: "dollarsign.arrow.circlepath")) button.")
+            Text("Tap & hold the \(Image(systemName: "plus")) button below.\nDuring a live session, add rebuys by\npressing the \(Image(systemName: "dollarsign.arrow.circlepath")) button.")
                 .foregroundColor(.secondary)
                 .subHeadlineStyle()
                 .multilineTextAlignment(.center)
@@ -187,6 +190,25 @@ struct ContentView: View {
         .padding(.bottom, 30)
     }
     
+    var sleepAnalyticsCard: some View {
+        
+        Button(action: {
+            
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            
+            // set active sheet here
+            activeSheet = .sleepAnalytics
+            
+        }, label: {
+            
+            SleepCardView()
+        })
+        .buttonStyle(CardViewButtonStyle())
+        .padding(.bottom, 30)
+        
+    }
+    
     var bankrollView: some View {
         
         HStack {
@@ -239,7 +261,7 @@ struct ContentView: View {
 
 enum Sheet: String, Identifiable {
     
-    case productUpdates, recentSession
+    case productUpdates, recentSession, sleepAnalytics
     
     var id: String {
         rawValue

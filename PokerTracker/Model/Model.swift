@@ -21,6 +21,7 @@ struct PokerSession: Hashable, Codable, Identifiable {
     let expenses: Int?
     let isTournament: Bool?
     let entrants: Int?
+    let highHandBonus: Int?
     
     // Individual session playing time formatted for Detail View
     var playingTIme: String {
@@ -92,7 +93,8 @@ struct MockData {
                                             endTime: Date().modifyTime(minutes: 395),
                                             expenses: 10,
                                             isTournament: false,
-                                            entrants: 80)
+                                            entrants: 80,
+                                            highHandBonus: nil)
     
     static let allLocations = [
         LocationModel(name: "MGM Springfield", localImage: "mgmspringfield-header", imageURL: ""),
@@ -116,7 +118,8 @@ struct MockData {
                      endTime: Date().modifyTime(minutes: 115),
                      expenses: 0,
                      isTournament: false,
-                     entrants: nil),
+                     entrants: nil,
+                     highHandBonus: nil),
 
         PokerSession(location: allLocations[0],
                      game: "NL Texas Hold Em",
@@ -128,7 +131,8 @@ struct MockData {
                      endTime: Date().modifyTime(minutes: 290),
                      expenses: 10,
                      isTournament: false,
-                     entrants: nil),
+                     entrants: nil,
+                     highHandBonus: nil),
         
         PokerSession(location: allLocations[4],
                      game: "NL Texas Hold Em",
@@ -140,7 +144,8 @@ struct MockData {
                      endTime: Date().modifyTime(minutes: 320),
                      expenses: 7,
                      isTournament: true,
-                     entrants: 200),
+                     entrants: 200,
+                     highHandBonus: nil),
         
         PokerSession(location: allLocations[3],
                      game: "NL Texas Hold Em",
@@ -152,7 +157,8 @@ struct MockData {
                      endTime: Date().modifyTime(minutes: 320),
                      expenses: 7,
                      isTournament: false,
-                     entrants: nil)
+                     entrants: nil,
+                     highHandBonus: nil)
     ]
     
     // Used to generate our custom line chart that's used in the Home Screen Widget

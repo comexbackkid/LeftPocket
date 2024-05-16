@@ -25,6 +25,7 @@ struct UserSettings: View {
     @State private var showError: Bool = false
     @State private var showPaywall = false
     @State private var notificationsAllowed = false
+    @State private var showAlertModal = false
     
     var body: some View {
 
@@ -214,7 +215,7 @@ struct UserSettings: View {
                                 .font(.title2)
                         }
                         
-                        Text("View saved & default Locations here. Add your own venue, casino, platform, or home game. If you want to delete a Location, tap & hold its thumbnail.")
+                        Text("Add your own venue, casino, platform, or home game. If you want to delete a Location, tap & hold its thumbnail.")
                             .calloutStyle()
                             .opacity(0.8)
                             .padding(.top, 1)
@@ -408,7 +409,12 @@ struct UserSettings: View {
             
             Spacer()
         }
-        
+        .sheet(isPresented: $showAlertModal, content: {
+            AlertModal(message: "Your data was exported successfully!")
+                .presentationDetents([.height(250)])
+                .presentationBackground(.ultraThinMaterial)
+            
+        })
     }
     
     var importData: some View {
@@ -450,7 +456,7 @@ struct UserSettings: View {
         } label: {
             
             HStack {
-                Text("Learn About Pro")
+                Text("About Left Pocket Pro")
                     .subtitleStyle()
                     .bold()
                 
@@ -515,6 +521,7 @@ struct UserSettings: View {
             
                 // Check if the activity was completed successfully
                 if completed {
+                    showAlertModal = true
                     
                     // Run the second parameter, "completion" after success. It takes in a function or action of some kind
                     completion()

@@ -11,6 +11,9 @@ import Charts
 
 struct SleepAnalytics: View {
     
+    @Environment(\.dismiss) var dismiss
+    @Environment(\.isPresented) var showSleepAnalyticsAsSheet
+    
     @AppStorage("hasSeenPermissionPriming") private var hasSeenPermissionPriming = false
     @State private var isShowingPermissionPrimingSheet = false
     @Environment(\.colorScheme) var colorScheme
@@ -19,6 +22,7 @@ struct SleepAnalytics: View {
     var body: some View {
         
         ScrollView {
+            
             
             VStack {
                 
@@ -30,11 +34,11 @@ struct SleepAnalytics: View {
                     
                     sleepChart
                     
-                    ToolTipView(image: "bed.double.fill", 
+                    ToolTipView(image: "bed.double.fill",
                                 message: "In the last 28 days, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 ? "s" : "") under-rested.",
                                 color: .donutChartOrange)
                     
-                    ToolTipView(image: "gauge", 
+                    ToolTipView(image: "gauge",
                                 message: performanceComparison(),
                                 color: .chartAccent)
                 }
@@ -44,12 +48,16 @@ struct SleepAnalytics: View {
                     hasSeenPermissionPriming = false
                     isShowingPermissionPrimingSheet = !hasSeenPermissionPriming
                 }
-                .sheet(isPresented: $isShowingPermissionPrimingSheet) {
-                    // Fetch health data
-                } content: {
-                    HealthKitPrimingView(hasSeen: $hasSeenPermissionPriming)
-                }
+//                .sheet(isPresented: $isShowingPermissionPrimingSheet) {
+//                    // Fetch health data
+//                } content: {
+//                    HealthKitPrimingView(hasSeen: $hasSeenPermissionPriming)
+//                }
             }
+            
+            // if showSleepAnalyticsAsSheet { dismissButton }
+            
+            
         }
         .background(Color.brandBackground)
         .navigationBarTitleDisplayMode(.inline)
@@ -80,6 +88,22 @@ struct SleepAnalytics: View {
             }
         }
         .padding(.horizontal)
+    }
+    
+    var dismissButton: some View {
+        
+        VStack {
+            HStack {
+                Spacer()
+                DismissButton()
+                    .padding(.trailing, 20)
+                    .shadow(color: Color.black.opacity(0.1), radius: 8)
+                    .onTapGesture {
+                        dismiss()
+                    }
+            }
+            Spacer()
+        }
     }
     
     var sleepChart: some View {

@@ -459,36 +459,6 @@ struct AddNewSessionView: View {
         
         VStack {
             
-            // MARK: OLD PROFIT / LOSS TEXTFIELD
-            
-//            HStack (alignment: .top) {
-//                HStack {
-//                    Text(vm.userCurrency.symbol)
-//                        .font(.callout)
-//                        .foregroundColor(newSession.profit.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
-//                    
-//                    TextField(newSession.sessionType == .tournament ? "Winnings" : "Profit / Loss", text: $newSession.profit)
-//                        .font(.custom("Asap-Regular", size: 17))
-//                        .keyboardType(.numberPad)
-//                }
-//                .padding(18)
-//                .background(.gray.opacity(0.2))
-//                .cornerRadius(15)
-//                .padding(.leading)
-//                .padding(.trailing, newSession.sessionType == .tournament ? 16 : 10)
-//                .padding(.bottom, 10)
-//                
-//                if newSession.sessionType != .tournament {
-//                    
-//                    CustomToggle(vm: newSession)
-//                        .padding(.trailing)
-//                        .transition(.opacity.combined(with: .asymmetric(insertion: .push(from: .trailing),
-//                                                                        removal: .scale(scale: 0, anchor: .topTrailing))))
-//                }
-//            }
-            
-            // MARK: ATTEMPT AT NEW PROFIT / LOSS TEXTFIELD WITH BUY IN AND CASH OUT FIELDS
-            
             HStack (alignment: .top) {
                 
                 // Buy In
@@ -582,12 +552,32 @@ struct AddNewSessionView: View {
                                     .foregroundColor(.secondary.opacity(0.5))
                                     .padding(.horizontal)
                                     .padding(.top, 20)
+                                
                             }
                             Spacer()
                         }
                         Spacer()
                     })
                 .padding(.horizontal)
+                .padding(.bottom, 10)
+            
+            if newSession.sessionType != .tournament {
+                HStack {
+                    Text(vm.userCurrency.symbol)
+                        .font(.callout)
+                        .foregroundColor(newSession.highHandBonus.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                    
+                    TextField("High Hand Bonus (Optional)", text: $newSession.highHandBonus)
+                        .font(.custom("Asap-Regular", size: 17))
+                        .keyboardType(.numberPad)
+                }
+                .padding(18)
+                .background(.gray.opacity(0.2))
+                .cornerRadius(15)
+                .padding(.horizontal)
+                .padding(.bottom, 10)
+                .transition(.opacity.combined(with: .scale))
+            }
         }
         .padding(.horizontal, 8)
     }

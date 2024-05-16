@@ -231,7 +231,7 @@ struct PokerBankrollTrackerImportView: View {
                     
                     HStack {
                         
-                        Image(systemName: "1.circle.fill")
+                        Image(systemName: "2.circle.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 25, height: 25, alignment: .top)
