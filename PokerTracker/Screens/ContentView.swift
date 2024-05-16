@@ -35,7 +35,7 @@ struct ContentView: View {
                     
                     recentSessionCard
                     
-                    sleepAnalyticsCard
+//                    sleepAnalyticsCard
 
                     Spacer()
                 }

@@ -37,7 +37,7 @@ struct AlertModal: View {
         
         HStack {
             
-            Text("Notfication")
+            Text("Success!")
                 .titleStyle()
                 .padding(.horizontal)
                 .padding(.bottom, -20)

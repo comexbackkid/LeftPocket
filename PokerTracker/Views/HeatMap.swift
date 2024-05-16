@@ -21,6 +21,7 @@ struct HeatMap: View {
                 
                 Spacer()
             }
+            .dynamicTypeSize(.small...DynamicTypeSize.medium)
             
             GeometryReader { geometry in
                 
@@ -40,6 +41,13 @@ struct HeatMap: View {
                 }
                 .padding([.horizontal, .top], spacing)
                 .frame(width: geometry.size.width, height: 270, alignment: .top)
+            }
+            
+            HStack {
+                Text("\(viewModel.sessions.count) session\(viewModel.sessions.count > 1 ? "s" : "") played this month.")
+                    .subHeadlineStyle()
+                    .padding(.top, 5)
+                Spacer()
             }
         }
     }

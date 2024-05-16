@@ -24,11 +24,11 @@ struct BestTimeOfDay: View {
             HStack {
                 Text("Time of Day")
                     .cardTitleStyle()
-//                    .padding(.bottom, 10)
                     
                 Spacer()
                 
             }
+            .dynamicTypeSize(.small...DynamicTypeSize.medium)
             .padding(.bottom)
             
             VStack {

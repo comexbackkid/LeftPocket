@@ -131,7 +131,7 @@ struct MetricsView: View {
         HStack {
             HeatMap()
                 .padding()
-                .frame(width: UIScreen.main.bounds.width * 0.43, height: 200)
+                .frame(width: UIScreen.main.bounds.width * 0.43, height: 220)
                 .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
                 .cornerRadius(20)
 
@@ -144,7 +144,7 @@ struct MetricsView: View {
         HStack {
             BestTimeOfDay()
                 .padding()
-                .frame(width: UIScreen.main.bounds.width * 0.43, height: 200)
+                .frame(width: UIScreen.main.bounds.width * 0.43, height: 220)
                 .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
                 .cornerRadius(20)
         }
@@ -586,16 +586,16 @@ struct AdditionalMetricsView: View {
                             })
                         .buttonStyle(PlainButtonStyle())
                         
-                        NavigationLink(
-                            destination: SleepAnalytics(),
-                            label: {
-                                AdditionalMetricsCardView(title: "Sleep Analytics",
-                                                          description: "See how your sleep affects your \npoker results.",
-                                                          image: "bed.double.fill",
-                                                          color: .donutChartOrange)
-                                
-                            })
-                        .buttonStyle(PlainButtonStyle())
+//                        NavigationLink(
+//                            destination: SleepAnalytics(),
+//                            label: {
+//                                AdditionalMetricsCardView(title: "Sleep Analytics",
+//                                                          description: "See how your sleep affects your \npoker results.",
+//                                                          image: "bed.double.fill",
+//                                                          color: .donutChartOrange)
+//                                
+//                            })
+//                        .buttonStyle(PlainButtonStyle())
                         
                         NavigationLink(
                             destination: ProfitByMonth(vm: viewModel),

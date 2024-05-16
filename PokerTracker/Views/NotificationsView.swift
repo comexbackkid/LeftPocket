@@ -48,7 +48,7 @@ struct NotificationsView: View {
             }
         })
         .sheet(isPresented: $showSuccessAlert, content: {
-            AlertModal(message: "Notifications successfully enabled! You can now receive Live Session check ins.")
+            AlertModal(message: "Notifications successfully enabled. You can now receive Live Session check ins.")
                 .presentationDetents([.height(250)])
                 .presentationBackground(.ultraThinMaterial)
             

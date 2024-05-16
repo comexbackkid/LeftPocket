@@ -740,7 +740,7 @@ class SessionsListViewModel: ObservableObject {
           }
 
           // Return the most profitable category
-          return mostProfitableCategory?.rawValue ?? "No sessions available"
+          return mostProfitableCategory?.rawValue ?? "... yikes. Keep at it!"
       }
     
     // MARK: ADDITIONAL METRICS CARDS
