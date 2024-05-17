@@ -12,7 +12,9 @@ struct LiveSessionRebuyModal: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var timerViewModel: TimerViewModel
+    
     @State private var alertItem: AlertItem?
+    @Binding var rebuyConfirmationSound: Bool
     
     var body: some View {
         
@@ -48,6 +50,9 @@ struct LiveSessionRebuyModal: View {
            
             Spacer()
         }
+        .onAppear(perform: {
+            rebuyConfirmationSound = false
+        })
         .dynamicTypeSize(.medium...DynamicTypeSize.large)
         .ignoresSafeArea()
         .alert(item: $alertItem) { alert in
@@ -130,6 +135,8 @@ struct LiveSessionRebuyModal: View {
             let impact = UIImpactFeedbackGenerator(style: .heavy)
             impact.impactOccurred()
             saveButtonPressed()
+            rebuyConfirmationSound = true
+            
         } label: { PrimaryButton(title: "Add Rebuy") }
     }
     
@@ -150,7 +157,7 @@ struct LiveSessionRebuyModal: View {
 }
 
 #Preview {
-    LiveSessionRebuyModal()
+    LiveSessionRebuyModal(rebuyConfirmationSound: .constant(false))
         .environmentObject(SessionsListViewModel())
         .environmentObject(TimerViewModel())
 }

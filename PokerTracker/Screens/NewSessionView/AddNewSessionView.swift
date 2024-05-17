@@ -9,6 +9,8 @@ import SwiftUI
 import RevenueCatUI
 import RevenueCat
 import TipKit
+import AVFoundation
+import AVKit
 
 struct AddNewSessionView: View {
 
@@ -18,6 +20,7 @@ struct AddNewSessionView: View {
     @EnvironmentObject var timerViewModel: TimerViewModel
     
     @Binding var isPresented: Bool
+    @Binding var audioConfirmation: Bool
     @State var addLocationIsShowing = false
     @State var addStakesIsShowing = false
     @State var showPaywall = false
@@ -47,6 +50,7 @@ struct AddNewSessionView: View {
         .background(Color.brandBackground)
         .onAppear {
             newSession.loadUserDefaults()
+            audioConfirmation = false
             
             // Loading optional data if the user activated a live session
             if let liveSessionStartTime = timerViewModel.liveSessionStartTime {
@@ -589,6 +593,7 @@ struct AddNewSessionView: View {
                 let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
                 newSession.savedButtonPressed(viewModel: vm)
+                audioConfirmation = true
                 timerViewModel.liveSessionStartTime = nil
                 isPresented = newSession.presentation ?? true
                 
@@ -613,7 +618,7 @@ struct AddNewSessionView: View {
 
 struct AddNewSessionView_Previews: PreviewProvider {
     static var previews: some View {
-        AddNewSessionView(isPresented: .constant(true))
+        AddNewSessionView(isPresented: .constant(true), audioConfirmation: .constant(false))
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
             .environmentObject(TimerViewModel())

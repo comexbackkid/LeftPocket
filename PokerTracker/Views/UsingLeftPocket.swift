@@ -499,7 +499,7 @@ struct MetricsDocumentation: View {
                     Spacer()
                 }
                 
-                Text("Left Pocket offers a variety of advanced metrics & analytics to help with your study and progress as a player.More metrics and data points are added regularly, most recently Big Blind / Hr. If you have any suggestions feel free to reach out to Support.\n\nTo begin:")
+                Text("Left Pocket offers a variety of advanced metrics & analytics to help with your study and progress as a player. More metrics and data points are added regularly, most recently Big Blind / Hr. If you have any suggestions feel free to reach out to us.\n\nTo begin:")
                     .bodyStyle()
                     .padding(.bottom, 20)
                 
@@ -511,7 +511,7 @@ struct MetricsDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Tap the Metrics icon in the navigation bar")
+                        Text("Tap the Metrics icon ( \(Image(systemName: "chart.bar.fill")) ) in the navigation bar")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -882,7 +882,7 @@ struct LocationsDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("In the upper right, tap the Plus button and enter the name of the location")
+                        Text("In the upper right, tap the \(Image(systemName: "plus")) button and enter the name of the location")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }

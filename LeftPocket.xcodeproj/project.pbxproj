@@ -87,6 +87,8 @@
 		7C6E75BE2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E75BD2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift */; };
 		7C72E0A62BC05B6100C411F2 /* UsingLeftPocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */; };
 		7C7B2F8B26D5A2A90069F9C5 /* SessionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B2F8A26D5A2A90069F9C5 /* SessionListViewModel.swift */; };
+		7C7D09662BF78734002FA350 /* cash-sfx.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7C7D09652BF78734002FA350 /* cash-sfx.wav */; };
+		7C7D09682BF7DB80002FA350 /* rebuy-sfx.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7C7D09672BF7DB80002FA350 /* rebuy-sfx.wav */; };
 		7C7F4F6E270E610E002ECF6D /* ProfitByLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7F4F6D270E610E002ECF6D /* ProfitByLocationView.swift */; };
 		7C8134C02729F1BE004E1CE1 /* ProfitByMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8134BF2729F1BE004E1CE1 /* ProfitByMonth.swift */; };
 		7C8134C3272A13B6004E1CE1 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8134C2272A13B6004E1CE1 /* ViewModifiers.swift */; };
@@ -97,7 +99,6 @@
 		7C8647842B2A642700F48951 /* AddNewSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8647832B2A642700F48951 /* AddNewSessionView.swift */; };
 		7C8834102735BB5D0093B201 /* NewLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */; };
 		7C897F192891BC1700E42FDA /* LocationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C897F182891BC1700E42FDA /* LocationsListView.swift */; };
-		7C944D542BBD8ACB009E6EC5 /* test-video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7C944D532BBD8ACB009E6EC5 /* test-video.mp4 */; };
 		7C944D562BBDA26E009E6EC5 /* ProductUpdates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C944D552BBDA26E009E6EC5 /* ProductUpdates.swift */; };
 		7C9D32772B261FA700900C8C /* AdditionalMetricsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */; };
 		7CA7F8152B6FF5FB00F976EE /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7F8142B6FF5FB00F976EE /* Tips.swift */; };
@@ -314,6 +315,8 @@
 		7C6E75BD2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionCounterViewModel.swift; sourceTree = "<group>"; };
 		7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsingLeftPocket.swift; sourceTree = "<group>"; };
 		7C7B2F8A26D5A2A90069F9C5 /* SessionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListViewModel.swift; sourceTree = "<group>"; };
+		7C7D09652BF78734002FA350 /* cash-sfx.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "cash-sfx.wav"; sourceTree = "<group>"; };
+		7C7D09672BF7DB80002FA350 /* rebuy-sfx.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "rebuy-sfx.wav"; sourceTree = "<group>"; };
 		7C7F4F6D270E610E002ECF6D /* ProfitByLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByLocationView.swift; sourceTree = "<group>"; };
 		7C8134BF2729F1BE004E1CE1 /* ProfitByMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByMonth.swift; sourceTree = "<group>"; };
 		7C8134C2272A13B6004E1CE1 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
@@ -323,7 +326,6 @@
 		7C8647832B2A642700F48951 /* AddNewSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSessionView.swift; sourceTree = "<group>"; };
 		7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLocationViewModel.swift; sourceTree = "<group>"; };
 		7C897F182891BC1700E42FDA /* LocationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsListView.swift; sourceTree = "<group>"; };
-		7C944D532BBD8ACB009E6EC5 /* test-video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "test-video.mp4"; sourceTree = "<group>"; };
 		7C944D552BBDA26E009E6EC5 /* ProductUpdates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductUpdates.swift; sourceTree = "<group>"; };
 		7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalMetricsCardView.swift; sourceTree = "<group>"; };
 		7CA7F8142B6FF5FB00F976EE /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
@@ -697,10 +699,10 @@
 		7C63949426C14E8300939F40 /* PokerTracker */ = {
 			isa = PBXGroup;
 			children = (
-				7C944D522BBD8AAE009E6EC5 /* Media */,
 				7C4CE7052773B2330070B16E /* LaunchScreen.storyboard */,
 				7C63949526C14E8300939F40 /* LeftPocketApp.swift */,
 				7C2E54CA2B28CCEC00831ABA /* LeftPocketCustomTabBar.swift */,
+				7C7D09642BF7871E002FA350 /* SoundFX */,
 				7C2614CF26D9315F00986183 /* Views */,
 				7C2614CC26D930D900986183 /* Screens */,
 				7C2614D026D9318A00986183 /* Model */,
@@ -740,6 +742,15 @@
 				7CD010E82BF23FE300998FD5 /* LiveSessionRebuyModal.swift */,
 			);
 			path = LiveSessionCounter;
+			sourceTree = "<group>";
+		};
+		7C7D09642BF7871E002FA350 /* SoundFX */ = {
+			isa = PBXGroup;
+			children = (
+				7C7D09672BF7DB80002FA350 /* rebuy-sfx.wav */,
+				7C7D09652BF78734002FA350 /* cash-sfx.wav */,
+			);
+			path = SoundFX;
 			sourceTree = "<group>";
 		};
 		7C7F4F6C270E60F3002ECF6D /* ProfitByLocationView */ = {
@@ -814,14 +825,6 @@
 				7CAFE05F2B2DE52B00B7338D /* LocationGridView.swift */,
 			);
 			path = LocationListView;
-			sourceTree = "<group>";
-		};
-		7C944D522BBD8AAE009E6EC5 /* Media */ = {
-			isa = PBXGroup;
-			children = (
-				7C944D532BBD8ACB009E6EC5 /* test-video.mp4 */,
-			);
-			path = Media;
 			sourceTree = "<group>";
 		};
 		7CA940F72BECF8C5009B54BA /* SleepAnalytics */ = {
@@ -1034,6 +1037,7 @@
 				7CAFE0432B2CAC1B00B7338D /* Asap-BoldItalic.ttf in Resources */,
 				7CAFE0122B2CA9E300B7338D /* AsapCondensed-SemiBold.ttf in Resources */,
 				7CAFE01A2B2CA9E300B7338D /* AsapCondensed-ExtraLight.ttf in Resources */,
+				7C7D09662BF78734002FA350 /* cash-sfx.wav in Resources */,
 				7CAFE0142B2CA9E300B7338D /* AsapCondensed-BoldItalic.ttf in Resources */,
 				7CAFE01C2B2CA9E300B7338D /* AsapCondensed-Italic.ttf in Resources */,
 				7CAFE0262B2CA9E300B7338D /* AsapCondensed-Black.ttf in Resources */,
@@ -1055,13 +1059,13 @@
 				7C63FC362B35ED7200FE731C /* StoreKitConfiguration.storekit in Resources */,
 				7CAFE05D2B2CAC1B00B7338D /* Asap-Italic.ttf in Resources */,
 				7CAFE0592B2CAC1B00B7338D /* Asap-ExtraBoldItalic.ttf in Resources */,
+				7C7D09682BF7DB80002FA350 /* rebuy-sfx.wav in Resources */,
 				7CAFE0162B2CA9E300B7338D /* AsapCondensed-Regular.ttf in Resources */,
 				7CAFE03D2B2CAC1B00B7338D /* Asap-ThinItalic.ttf in Resources */,
 				7C63949D26C14E8400939F40 /* Preview Assets.xcassets in Resources */,
 				7CAFE0452B2CAC1B00B7338D /* Asap-MediumItalic.ttf in Resources */,
 				7CAFE0182B2CA9E300B7338D /* AsapCondensed-BlackItalic.ttf in Resources */,
 				7CAFE03B2B2CAC1B00B7338D /* Asap-ExtraLight.ttf in Resources */,
-				7C944D542BBD8ACB009E6EC5 /* test-video.mp4 in Resources */,
 				7CAFE04D2B2CAC1B00B7338D /* Asap-LightItalic.ttf in Resources */,
 				7CAFE0222B2CA9E300B7338D /* AsapCondensed-ExtraBoldItalic.ttf in Resources */,
 				7C63949A26C14E8400939F40 /* Assets.xcassets in Resources */,

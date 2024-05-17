@@ -43,7 +43,7 @@ struct HeatMap: View {
                 .frame(width: geometry.size.width, height: 270, alignment: .top)
             }
             
-            let monthlyCount = viewModel.sessions.filter({ $0.date.getMonth() == Date().getMonth() }).count
+            let monthlyCount = viewModel.sessions.filter({ $0.date.getMonth() == Date().getMonth() && $0.date.getYear() == Date().getYear() }).count
             
             HStack {
                 Text("\(monthlyCount) session\(monthlyCount > 1 ? "s" : "") played this month.")

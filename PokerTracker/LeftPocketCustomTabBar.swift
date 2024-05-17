@@ -10,6 +10,7 @@ import RevenueCat
 import RevenueCatUI
 import TipKit
 import ActivityKit
+import AVKit
 
 struct LeftPocketCustomTabBar: View {
     
@@ -24,6 +25,8 @@ struct LeftPocketCustomTabBar: View {
     @State var selectedTab = 0
     @State var isPresented = false
     @State var showPaywall = false
+    @State private var audioPlayer: AVAudioPlayer?
+    @State private var audioConfirmation = false
     
     var body: some View {
         
@@ -243,8 +246,25 @@ struct LeftPocketCustomTabBar: View {
         .frame(maxWidth: .infinity)
         .padding(.top)
         .background(.thickMaterial)
-        .sheet(isPresented: $isPresented, onDismiss: { timerViewModel.resetTimer() }) {
-            AddNewSessionView(isPresented: $isPresented)
+        .sheet(isPresented: $isPresented, onDismiss: {
+            timerViewModel.resetTimer()
+            if audioConfirmation {
+                playSound()
+            }
+        }, content: {
+            AddNewSessionView(isPresented: $isPresented, audioConfirmation: $audioConfirmation)
+        })
+    }
+    
+    func playSound() {
+            
+        guard let url = Bundle.main.url(forResource: "cash-sfx", withExtension: ".wav") else { return }
+        
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.play()
+        } catch {
+            print("Error loading sound: \(error.localizedDescription)")
         }
     }
 }

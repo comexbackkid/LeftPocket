@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVKit
 
 struct LiveSessionCounter: View {
     
@@ -13,6 +14,8 @@ struct LiveSessionCounter: View {
     @EnvironmentObject var timerViewModel: TimerViewModel
     
     @State private var showRebuyModal = false
+    @State private var rebuyConfirmationSound = false
+    @State private var audioPlayer: AVAudioPlayer?
     
     var body: some View {
         
@@ -42,11 +45,27 @@ struct LiveSessionCounter: View {
         .onDisappear {
             timerViewModel.stopTimer()
         }
-        .sheet(isPresented: $showRebuyModal, content: {
-            LiveSessionRebuyModal()
+        .sheet(isPresented: $showRebuyModal, onDismiss: {
+            if rebuyConfirmationSound {
+                playSound()
+            }
+        }, content: {
+            LiveSessionRebuyModal(rebuyConfirmationSound: $rebuyConfirmationSound)
                 .presentationDetents([.height(340), .large])
                 .presentationBackground(.ultraThinMaterial)
         })
+    }
+    
+    func playSound() {
+            
+        guard let url = Bundle.main.url(forResource: "rebuy-sfx", withExtension: ".wav") else { return }
+        
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.play()
+        } catch {
+            print("Error loading sound: \(error.localizedDescription)")
+        }
     }
 }
 
