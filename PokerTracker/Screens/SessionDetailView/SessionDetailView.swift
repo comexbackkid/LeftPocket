@@ -85,6 +85,7 @@ struct SessionDetailView: View {
                     .padding(.bottom, 1)
                 
                 Text(pokerSession.playingTIme)
+                    .fontWeight(.semibold)
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
@@ -96,6 +97,7 @@ struct SessionDetailView: View {
                 
                 Text(pokerSession.profit, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: pokerSession.profit)
+                    .fontWeight(.semibold)
                 
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
@@ -107,6 +109,7 @@ struct SessionDetailView: View {
                     .padding(.bottom, 1)
                 
                 Text("\(pokerSession.hourlyRate, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0))) / hr").profitColor(total: pokerSession.hourlyRate)
+                    .fontWeight(.semibold)
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
         }
@@ -127,6 +130,7 @@ struct SessionDetailView: View {
                     .padding(.bottom, 1)
                 
                 Text(pokerSession.playingTIme)
+                    .fontWeight(.semibold)
                 
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
@@ -139,6 +143,7 @@ struct SessionDetailView: View {
                 
                 Text(pokerSession.profit, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: pokerSession.profit)
+                    .fontWeight(.semibold)
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
@@ -149,6 +154,7 @@ struct SessionDetailView: View {
                     .padding(.bottom, 1)
                 
                 Text("\(pokerSession.entrants ?? 0)")
+                    .fontWeight(.semibold)
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
         }

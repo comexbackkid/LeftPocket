@@ -20,14 +20,15 @@ class SubscriptionManager: ObservableObject {
         Purchases.logLevel = .debug
         Purchases.configure(withAPIKey: "appl_nzoxZjFOdCffwvTEKrdMdDqjfzO")
         Purchases.shared.attribution.collectDeviceIdentifiers()
+        
+        rcUserID = Purchases.shared.appUserID
+        print("Your RevenueCat UserID is: " + rcUserID)
 
         Task {
             await self.checkSubscriptionStatus()
             Purchases.shared.attribution.collectDeviceIdentifiers()
             
         }
-        
-        rcUserID = Purchases.shared.appUserID
     }
 
     @MainActor

@@ -131,7 +131,7 @@ struct MetricsView: View {
         HStack {
             HeatMap()
                 .padding()
-                .frame(width: UIScreen.main.bounds.width * 0.43, height: 220)
+                .frame(width: UIScreen.main.bounds.width * 0.43, height: 230)
                 .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
                 .cornerRadius(20)
 
@@ -144,7 +144,7 @@ struct MetricsView: View {
         HStack {
             BestTimeOfDay()
                 .padding()
-                .frame(width: UIScreen.main.bounds.width * 0.43, height: 220)
+                .frame(width: UIScreen.main.bounds.width * 0.43, height: 230)
                 .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
                 .cornerRadius(20)
         }
