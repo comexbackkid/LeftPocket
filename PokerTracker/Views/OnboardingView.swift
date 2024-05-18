@@ -39,14 +39,10 @@ struct OnboardingView: View {
                      showDismissButton: true,
                      shouldShowOnboarding: $shouldShowOnboarding)
         }
-        .background(
-            LinearGradient(gradient: Gradient(colors: [Color.brandPrimary, Color.purple]),
-                           startPoint: .topLeading,
-                           endPoint: .bottomTrailing)
-        )
+        .onBoardingBackgroundStyle(colorScheme: .light)
         .tabViewStyle(PageTabViewStyle())
         .edgesIgnoringSafeArea(.all)
-        .preferredColorScheme(.light)
+        .preferredColorScheme(.dark)
     }
 }
 

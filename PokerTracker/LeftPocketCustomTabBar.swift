@@ -27,6 +27,7 @@ struct LeftPocketCustomTabBar: View {
     @State var showPaywall = false
     @State private var audioPlayer: AVAudioPlayer?
     @State private var audioConfirmation = false
+    @State private var showAlert = false
     
     var body: some View {
         
@@ -65,6 +66,16 @@ struct LeftPocketCustomTabBar: View {
                     TipView(addSessionTip, arrowEdge: .bottom)
                         .tipViewStyle(CustomTipViewStyle())
                         .padding(.horizontal, 20)
+                }
+                
+                if viewModel.sessions.count == 1 {
+                    if #available(iOS 17.0, *) {
+                        let settingsTip = SettingsTip()
+                        
+                        TipView(settingsTip)
+                            .tipViewStyle(CustomTipViewStyle())
+                            .padding(.horizontal, 20)
+                    }
                 }
                 
                 if isCounting {
@@ -116,61 +127,33 @@ struct LeftPocketCustomTabBar: View {
                         Spacer()
                     }
                     
-                } else {
+                } else if !isCounting {
                     
-                    // Using a Menu here because the Context Menu style effect works cleaner & has smoother animation
+                    // This is why this is structured using a Menu, and how it works.
+                    // The Menu functionality provides the clean, one-click look that doesn't distort the button like a Context Menu
+                    // Now, if there's no live session going on (isCounting), Tab bar displays the standard Plus button that brings up the options
+                    // Below, the rendered Tab Bar view will show a stop button IF it detects that there's a live session in progress
+                    
                     Menu {
 
                         if !isCounting {
+                            
+                            // MARK: Add Completed Session Button
+                            
                             Button {
-                                let impact = UIImpactFeedbackGenerator(style: .soft)
-                                impact.impactOccurred()
                                 
-                                Task {
-                                    if #available(iOS 17.0, *) {
-                                        await AddSessionTip.sessionCount.donate()
-                                    }
-                                }
-                                
-                                // If user is NOT subscribed, AND they're over the monthly allowance, the Plus button will display Paywall
-                                if !subManager.isSubscribed && !viewModel.canLogNewSession() {
-                                    
-                                    showPaywall = true
-                                    
-                                } else {
-                                    
-                                    isPresented = true
-                                }
-                                
-                                return
+                                logCompletedSession()
                                 
                             } label: {
                                 Text("Add Completed Session")
                                 Image(systemName: "calendar")
                             }
                             
+                            // MARK: Start Live Session Button
+                            
                             Button {
                                 
-                                let impact = UIImpactFeedbackGenerator(style: .soft)
-                                impact.impactOccurred()
-                                
-                                Task {
-                                    if #available(iOS 17.0, *) {
-                                        await AddSessionTip.sessionCount.donate()
-                                    }
-                                }
-                                
-                                // If user is NOT subscribed, AND they're over the monthly allowance, the Plus button will display Paywall
-                                if !subManager.isSubscribed && !viewModel.canLogNewSession() {
-                                    
-                                    showPaywall = true
-                                    
-                                } else {
-                                    
-                                    timerViewModel.startSession()
-                                    isCounting = true
-                                    
-                                }
+                                liveSessionStart()
                                 
                             } label: {
                                 
@@ -182,40 +165,16 @@ struct LeftPocketCustomTabBar: View {
                     } label: {
                         
                         Spacer()
-                        
                         Image(systemName: isCounting ? "stop.fill" : "plus")
                             .font(.system(size: 30, weight: .black))
                             .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
-                        
                         Spacer()
                         
-                    } primaryAction: {
-                        
-                        // Primary action is ALWAYS to bring up the Add New Session sheet, even if counting
+                    }
+                    .onTapGesture(perform: {
                         let impact = UIImpactFeedbackGenerator(style: .medium)
                         impact.impactOccurred()
-                        
-                        Task {
-                            if #available(iOS 17.0, *) {
-                                await AddSessionTip.sessionCount.donate()
-                            }
-                        }
-                        
-                        // If user is NOT subscribed, AND they're over the monthly allowance, the Plus button will display Paywall
-                        if !subManager.isSubscribed && !viewModel.canLogNewSession() {
-                            
-                            showPaywall = true
-                            
-                        } else {
-                            
-                            isCounting = false
-                            timerViewModel.stopTimer()
-                            isPresented = true
-                        }
-                        
-                        return
-                        
-                    }
+                    })
                     .sheet(isPresented: $showPaywall) {
                         PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
                             .dynamicTypeSize(.medium...DynamicTypeSize.large)
@@ -239,6 +198,35 @@ struct LeftPocketCustomTabBar: View {
                             showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
                             await subManager.checkSubscriptionStatus()
                         }
+                    }
+                    
+                } else {
+                    
+                    Button {
+                        let impact = UIImpactFeedbackGenerator(style: .heavy)
+                        impact.impactOccurred()
+                        showAlert = true
+                        
+                    } label: {
+                        
+                        Spacer()
+                        Image(systemName: "stop.fill")
+                            .font(.system(size: 30, weight: .black))
+                            .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
+                        Spacer()
+                        
+                    }
+                    .alert(Text("Wait!"), isPresented: $showAlert) {
+                        Button("Yes", role: .destructive) {
+                            isCounting = false
+                            timerViewModel.stopTimer()
+                            isPresented = true
+                        }
+                        Button("Cancel", role: .cancel) {
+                            print("User Canceled")
+                        }
+                    } message: {
+                        Text("Are you sure you're ready to end your current Live Session? If so, enter session details on the next screen.")
                     }
                 }
             }
@@ -266,6 +254,52 @@ struct LeftPocketCustomTabBar: View {
         } catch {
             print("Error loading sound: \(error.localizedDescription)")
         }
+    }
+    
+    func liveSessionStart() {
+        let impact = UIImpactFeedbackGenerator(style: .soft)
+        impact.impactOccurred()
+        
+        Task {
+            if #available(iOS 17.0, *) {
+                await AddSessionTip.sessionCount.donate()
+            }
+        }
+        
+        // If user is NOT subscribed, AND they're over the monthly allowance, the Plus button will display Paywall
+        if !subManager.isSubscribed && !viewModel.canLogNewSession() {
+            
+            showPaywall = true
+            
+        } else {
+            
+            timerViewModel.startSession()
+            isCounting = true
+            
+        }
+    }
+    
+    func logCompletedSession() {
+        let impact = UIImpactFeedbackGenerator(style: .soft)
+        impact.impactOccurred()
+        
+        Task {
+            if #available(iOS 17.0, *) {
+                await AddSessionTip.sessionCount.donate()
+            }
+        }
+        
+        // If user is NOT subscribed, AND they're over the monthly allowance, the Plus button will display Paywall
+        if !subManager.isSubscribed && !viewModel.canLogNewSession() {
+            
+            showPaywall = true
+            
+        } else {
+            
+            isPresented = true
+        }
+        
+        return
     }
 }
 

@@ -89,7 +89,7 @@ extension CSVConversion {
             
             switch self {
             case .invalidData:
-                return "There are no Sessions to export!"
+                return "There are no sessions to export."
             case .exportFailed:
                 return "There was an error exporting your data."
             }

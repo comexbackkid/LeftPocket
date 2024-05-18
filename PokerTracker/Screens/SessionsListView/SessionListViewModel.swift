@@ -562,12 +562,14 @@ class SessionsListViewModel: ObservableObject {
     func hourlyByLocation(venue: String, total: Int) -> Int {
         guard !sessions.filter({ $0.location.name == venue }).isEmpty else { return 0 }
         let totalHours = sessions.filter({ $0.location.name == venue }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+        guard totalHours > 0 else { return 0 }
         return total / totalHours
     }
     
     func hourlyByStakes(stakes: String, total: Int) -> Int {
         guard !sessions.filter({$0.stakes == stakes}).isEmpty else { return 0 }
         let totalHours = sessions.filter({ $0.stakes == stakes }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+        guard totalHours > 0 else { return 0 }
         return total / totalHours
     }
     

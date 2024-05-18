@@ -219,7 +219,7 @@ struct AddNewSessionView: View {
                     addLocationIsShowing.toggle()
                 } label: {
                     HStack {
-                        Text("Add Location")
+                        Text("Add New Location")
                         Image(systemName: "mappin.and.ellipse")
                     }
                 }

@@ -12,7 +12,7 @@ import TipKit
 struct DeleteLocationTip: Tip {
     
     var title: Text {
-        Text("Delete Location")
+        Text("Manage Locations")
     }
     
     var message: Text? {
@@ -37,7 +37,7 @@ struct AddSessionTip: Tip {
     }
     
     var message: Text? {
-        Text("Tap & hold \(Image(systemName: "plus")) to add a live or completed session. Tap once for default option.")
+        Text("Tap the \(Image(systemName: "plus")) button to log a completed session or start a live session.")
     }
     
     var image: Image? {
@@ -68,7 +68,7 @@ struct FilterSessionsTip: Tip {
     }
     
     var message: Text? {
-        Text("Use these menu buttons to filter your sessions by cash games, tournaments, & more.")
+        Text("Use the menu buttons above to filter sessions by cash games, tournaments, & more.")
     }
     
     var image: Image? {
@@ -84,6 +84,23 @@ struct FilterSessionsTip: Tip {
         }
     }
 }
+
+@available(iOS 17.0, *)
+struct SettingsTip: Tip {
+    
+    var title: Text {
+        Text("Did You Know?")
+    }
+    
+    var message: Text? {
+        Text("From the Settings screen you can enable push notifications, import data, & set session defaults.")
+    }
+    
+    var image: Image? {
+        Image(systemName: "text.magnifyingglass")
+    }
+}
+
 
 @available(iOS 17.0, *)
 struct NewSessionDetailsTip: Tip {
@@ -146,7 +163,10 @@ struct CustomTipViewStyle: TipViewStyle {
                 configuration.title.font(.headline)
                 configuration.message.font(.subheadline)
                     .foregroundColor(.secondary)
+                    
             }
+            
+            Spacer()
         }
         .padding()
         .overlay {

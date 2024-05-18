@@ -327,25 +327,15 @@ struct LoggingSessionsDocumentation: View {
                             .foregroundColor(Color.brandPrimary)
                         
                         
-                        Text("Tap & hold the \(Image(systemName: "plus")) button at the bottom of the navigation bar & choose Live or Completed Session")
+                        Text("Tap the \(Image(systemName: "plus")) button at the bottom of the navigation bar & choose Live or Completed Session")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
+                    
+                    
                     
                     HStack {
                         Image(systemName: "2.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 25, height: 25, alignment: .top)
-                            .foregroundColor(Color.brandPrimary)
-                        
-                        Text("By default, a single tap will bring up the Add Completed Session screen")
-                            .bodyStyle()
-                            .padding(.leading, 6)
-                    }
-                    
-                    HStack {
-                        Image(systemName: "3.circle.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 25, height: 25, alignment: .top)
@@ -357,19 +347,19 @@ struct LoggingSessionsDocumentation: View {
                     }
                     
                     HStack {
-                        Image(systemName: "4.circle.fill")
+                        Image(systemName: "3.circle.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Press the \(Image(systemName: "stop.fill")) button, enter the details from your session, & optionally paste in or type any notes into the Notes field")
+                        Text("When finished, press the \(Image(systemName: "stop.fill")) button, enter the details from your session, & paste / type any notes into the Notes field if you took any")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
                     
                     HStack {
-                        Image(systemName: "5.circle.fill")
+                        Image(systemName: "4.circle.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 25, height: 25, alignment: .top)
@@ -778,7 +768,7 @@ struct WidgetsDocumentation: View {
                     Spacer()
                 }
                 
-                Text("Widgets are available to all users and come in two sizes for your Home Screen – small or medium. The Left Pocket widget provides a glance at your bankroll chart, total bankroll, hourly rate, and session count.\n\nTo activate widgets:")
+                Text("Widgets are available to all users and come in two sizes for your Home Screen – small or medium. The Left Pocket widget provides a glance at your bankroll chart, along with some key player stats.\n\nTo activate widgets:")
                     .bodyStyle()
                     .padding(.bottom, 20)
                 
@@ -939,6 +929,6 @@ struct LocationsDocumentation: View {
 }
 
 #Preview {
-    MetricsDocumentation()
+    LoggingSessionsDocumentation()
         .preferredColorScheme(.dark)
 }

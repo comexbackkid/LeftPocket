@@ -180,7 +180,7 @@ struct LocationGridItem: View {
                 .fontWeight(.semibold)
                 .padding(.top, 7)
             
-            Text("\(vm.uniqueLocationCount(location: location))" + " Sessions")
+            Text("\(vm.uniqueLocationCount(location: location))" + " Visits")
                 .captionStyle()
                 .opacity(0.75)
                 .lineLimit(1)

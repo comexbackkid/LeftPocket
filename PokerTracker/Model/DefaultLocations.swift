@@ -15,7 +15,7 @@ struct DefaultLocations {
         LocationModel(name: "The Lodge Card Club", localImage: "thelodge-header", imageURL: ""),
         LocationModel(name: "Bellagio Hotel & Casino", localImage: "bellagio-header", imageURL: ""),
         LocationModel(name: "Hustler Casino", localImage: "hustlercasino-header", imageURL: ""),
-        LocationModel(name: "Parkwest Bicycle Casino", localImage: "parkwestbicycle-header", imageURL: ""),
-        LocationModel(name: "Turning Stone Casino", localImage: "turningstone-header", imageURL: "")
+//        LocationModel(name: "Parkwest Bicycle Casino", localImage: "parkwestbicycle-header", imageURL: ""),
+//        LocationModel(name: "Turning Stone Casino", localImage: "turningstone-header", imageURL: "")
     ]
 }
