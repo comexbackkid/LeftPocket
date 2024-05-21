@@ -27,7 +27,7 @@ struct LiveSessionCounter: View {
                 .fontWeight(.medium)
             
             Text(timerViewModel.liveSessionTimer)
-                .buttonTextStyle()
+                .font(.custom("Asap-Regular", size: 21))
             
             Image(systemName: "dollarsign.arrow.circlepath")
                 .foregroundColor(.brandPrimary)
@@ -40,7 +40,7 @@ struct LiveSessionCounter: View {
                 }
         }
         .padding()
-        .background(.ultraThinMaterial.opacity(0.9))
+        .background(.thickMaterial.opacity(0.97))
         .cornerRadius(20)
         .onDisappear {
             timerViewModel.stopTimer()
@@ -51,7 +51,7 @@ struct LiveSessionCounter: View {
             }
         }, content: {
             LiveSessionRebuyModal(rebuyConfirmationSound: $rebuyConfirmationSound)
-                .presentationDetents([.height(340), .large])
+                .presentationDetents([.height(350), .large])
                 .presentationBackground(.ultraThinMaterial)
         })
     }

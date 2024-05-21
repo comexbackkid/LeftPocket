@@ -19,7 +19,6 @@ struct SleepMetric: Identifiable {
     static var MockData: [SleepMetric] {
         
         let sleepArray = [
-        SleepMetric(date: Calendar.current.date(byAdding: .day, value: 0, to: .now)!, value: 8),
         SleepMetric(date: Calendar.current.date(byAdding: .day, value: -1, to: .now)!, value: 11),
         SleepMetric(date: Calendar.current.date(byAdding: .day, value: -2, to: .now)!, value: 6),
         SleepMetric(date: Calendar.current.date(byAdding: .day, value: -3, to: .now)!, value: 5),
@@ -46,8 +45,8 @@ struct SleepMetric: Identifiable {
         SleepMetric(date: Calendar.current.date(byAdding: .day, value: -24, to: .now)!, value: 3),
         SleepMetric(date: Calendar.current.date(byAdding: .day, value: -25, to: .now)!, value: 9),
         SleepMetric(date: Calendar.current.date(byAdding: .day, value: -26, to: .now)!, value: 11),
-        SleepMetric(date: Calendar.current.date(byAdding: .day, value: -27, to: .now)!, value: 6.2)
-        
+        SleepMetric(date: Calendar.current.date(byAdding: .day, value: -27, to: .now)!, value: 6.2),
+        SleepMetric(date: Calendar.current.date(byAdding: .day, value: -28, to: .now)!, value: 2.0)
         ]
         
         return sleepArray

@@ -53,7 +53,7 @@ struct LiveSessionRebuyModal: View {
         .onAppear(perform: {
             rebuyConfirmationSound = false
         })
-        .dynamicTypeSize(.medium...DynamicTypeSize.large)
+        .dynamicTypeSize(.medium)
         .ignoresSafeArea()
         .alert(item: $alertItem) { alert in
             Alert(title: alert.title, message: alert.message, dismissButton: alert.dismissButton)
@@ -82,7 +82,7 @@ struct LiveSessionRebuyModal: View {
         VStack (alignment: .leading) {
             
             HStack {
-                Text("Enter stack details for this session below. You can log multiple rebuys if you need to.")
+                Text("First, enter your original buy-in for this session. Then, your rebuy amount. You can log multiple rebuys if you need to.")
                     .bodyStyle()
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.leading)

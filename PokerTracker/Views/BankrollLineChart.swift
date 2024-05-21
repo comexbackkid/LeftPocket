@@ -8,7 +8,7 @@
 import SwiftUI
 import Charts
 
-struct SwiftLineChartsPractice: View {
+struct BankrollLineChart: View {
     
     enum ChartRange {
         case all, oneMonth, sixMonth, oneYear
@@ -93,6 +93,7 @@ struct SwiftLineChartsPractice: View {
                 .padding(.bottom, 40)
             }
             
+            // Annotations not available pre-iOS 17. Display plain chart if so.
             if #available(iOS 17.0, *) {
                 lineChart
             } else {
@@ -345,7 +346,7 @@ struct SwiftLineChartsPractice: View {
 struct SwiftChartsPractice_Previews: PreviewProvider {
     
     static var previews: some View {
-        SwiftLineChartsPractice(showTitle: true, showYAxis: true, showRangeSelector: true, overlayAnnotation: true)
+        BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, overlayAnnotation: true)
             .environmentObject(SessionsListViewModel())
             .preferredColorScheme(.dark)
             .frame(height: 350)

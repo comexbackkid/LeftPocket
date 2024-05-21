@@ -22,7 +22,9 @@ struct NewLocationView: View {
     var body: some View {
         
         NavigationView {
+            
             ScrollView {
+                
                 VStack (alignment: .leading) {
                     
                     HStack {

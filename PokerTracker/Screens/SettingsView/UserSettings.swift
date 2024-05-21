@@ -138,7 +138,7 @@ struct UserSettings: View {
                     VStack (alignment: .leading) {
                         
                         HStack {
-                            Text("Notifications")
+                            Text("Push Notifications")
                                 .subtitleStyle()
                                 .bold()
                             

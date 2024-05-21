@@ -115,7 +115,7 @@ struct WidgetViewMedium: View {
             Spacer()
             
             WidgetChart(data: entry.chartData)
-                .frame(maxWidth: 190, maxHeight: 75)
+                .frame(maxWidth: 180, maxHeight: 75)
                 .padding(.vertical, 15)
                 .padding(.trailing,15)
         }

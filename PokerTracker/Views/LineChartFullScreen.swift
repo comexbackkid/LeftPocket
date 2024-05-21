@@ -17,7 +17,7 @@ struct LineChartFullScreen: View {
     var body: some View {
         
         VStack {
-            SwiftLineChartsPractice(showTitle: false,
+            BankrollLineChart(showTitle: false,
                                     showYAxis: true,
                                     showRangeSelector: false,
                                     overlayAnnotation: true)

@@ -23,7 +23,6 @@ struct SleepAnalytics: View {
         
         ScrollView {
             
-            
             VStack {
                 
                 title
@@ -32,10 +31,12 @@ struct SleepAnalytics: View {
                 
                 VStack (spacing: 22) {
                     
-                    sleepChart
+                    if #available(iOS 17.0, *) {
+                        sleepChart
+                    }
                     
                     ToolTipView(image: "bed.double.fill",
-                                message: "In the last 28 days, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 ? "s" : "") under-rested.",
+                                message: "So far this year, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 ? "s" : "") under-rested.",
                                 color: .donutChartOrange)
                     
                     ToolTipView(image: "gauge",
@@ -57,7 +58,6 @@ struct SleepAnalytics: View {
             
             // if showSleepAnalyticsAsSheet { dismissButton }
             
-            
         }
         .background(Color.brandBackground)
         .navigationBarTitleDisplayMode(.inline)
@@ -69,10 +69,14 @@ struct SleepAnalytics: View {
             
             Text("Sleep Analytics")
                 .titleStyle()
-                .padding(.horizontal)
+                
+            
+            Text("(Beta)")
+                .headlineStyle()
             
             Spacer()
         }
+        .padding(.horizontal)
         .padding(.top, -37)
     }
     
@@ -81,7 +85,7 @@ struct SleepAnalytics: View {
         VStack (alignment: .leading) {
             
             HStack {
-                Text("Use this screen to gain a deeper understanding of how sleep affects your game. Green bars represent profitable sessions, & red bars are days you lost money.")
+                Text("Gain a deeper understanding of how sleep affects your game. Green bars represent profitable sessions, & red bars are days you lost money.")
                     .bodyStyle()
                 
                 Spacer()
@@ -106,6 +110,7 @@ struct SleepAnalytics: View {
         }
     }
     
+    @available(iOS 17.0, *)
     var sleepChart: some View {
         
         VStack {
@@ -174,14 +179,14 @@ struct SleepAnalytics: View {
         }
     }
     
-    // Calculates how many sessions were played with less than 7 hours sleep
+    // Calculates how many sessions were played with less than 7 hours sleep since the start of the year
     func countLowSleepSessions() -> Int {
         let sessions = viewModel.sessions.filter {
             guard let sleep = SleepMetric.MockData.sleepHours(on: $0.date) else { return false }
             return sleep < 7
         }
         
-        return sessions.count
+        return sessions.filter({ $0.date.getYear() == Date().getYear() }).count
     }
     
     // Calculates how much more we've earned when we get good sleep

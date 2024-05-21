@@ -105,21 +105,16 @@ struct SessionsListView: View {
                         
                         if #available(iOS 17.0, *) {
                             VStack {
-                                if showTip {
-                                    let filterTip = FilterSessionsTip()
-                                    
-                                    TipView(filterTip)
-                                        .tipViewStyle(CustomTipViewStyle())
-                                        .padding(20)
-                                }
+                                
+                                let filterTip = FilterSessionsTip()
+                                
+                                TipView(filterTip)
+                                    .tipViewStyle(CustomTipViewStyle())
+                                    .padding(20)
                                 
                                 Spacer()
                             }
-                            .onAppear {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                    showTip = true
-                                }
-                            }
+                            
                         }
                         
                     } else {

@@ -106,7 +106,7 @@ struct MetricsView: View {
     
     var bankrollChart: some View {
         
-        SwiftLineChartsPractice(showTitle: true, showYAxis: true, showRangeSelector: true, overlayAnnotation: false)
+        BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, overlayAnnotation: false)
             .padding(.top)
             .padding(.bottom, 20)
             .padding(.horizontal)

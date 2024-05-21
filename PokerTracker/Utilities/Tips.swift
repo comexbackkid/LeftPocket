@@ -68,7 +68,7 @@ struct FilterSessionsTip: Tip {
     }
     
     var message: Text? {
-        Text("Use the menu buttons above to filter sessions by cash games, tournaments, & more.")
+        Text("Tap \(Image(systemName: "mappin.and.ellipse")) or \(Image(systemName: "slider.horizontal.3")) above to filter sessions by location, game type, etc.")
     }
     
     var image: Image? {
@@ -93,7 +93,7 @@ struct SettingsTip: Tip {
     }
     
     var message: Text? {
-        Text("From the Settings screen you can enable push notifications, import data, & set session defaults.")
+        Text("In Settings \(Image(systemName: "gearshape.fill")) you can enable push notifications, import & export data, and set custom session defaults.")
     }
     
     var image: Image? {

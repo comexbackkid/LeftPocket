@@ -94,7 +94,7 @@ struct ProfitByYear: View {
                 
             } else {
                 
-                SwiftLineChartsPractice(yearSelection: year, showTitle: false, showYAxis: true, showRangeSelector: false, overlayAnnotation: true)
+                BankrollLineChart(yearSelection: year, showTitle: false, showYAxis: true, showRangeSelector: false, overlayAnnotation: true)
                     .animation(nil, value: year)
                     .padding(.horizontal, 30)
                     .frame(height: 250)

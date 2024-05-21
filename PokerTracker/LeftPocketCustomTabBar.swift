@@ -68,7 +68,7 @@ struct LeftPocketCustomTabBar: View {
                         .padding(.horizontal, 20)
                 }
                 
-                if viewModel.sessions.count == 1 {
+                if viewModel.sessions.count == 1 || viewModel.sessions.count > 6 {
                     if #available(iOS 17.0, *) {
                         let settingsTip = SettingsTip()
                         
@@ -216,7 +216,7 @@ struct LeftPocketCustomTabBar: View {
                         Spacer()
                         
                     }
-                    .alert(Text("Wait!"), isPresented: $showAlert) {
+                    .alert(Text("Are You Sure?"), isPresented: $showAlert) {
                         Button("Yes", role: .destructive) {
                             isCounting = false
                             timerViewModel.stopTimer()
@@ -226,7 +226,7 @@ struct LeftPocketCustomTabBar: View {
                             print("User Canceled")
                         }
                     } message: {
-                        Text("Are you sure you're ready to end your current Live Session? If so, enter session details on the next screen.")
+                        Text("Are you ready to end your Live Session? If so, tap Yes & enter session details on the next screen.")
                     }
                 }
             }
