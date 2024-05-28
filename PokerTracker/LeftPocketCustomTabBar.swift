@@ -226,7 +226,7 @@ struct LeftPocketCustomTabBar: View {
                             print("User Canceled")
                         }
                     } message: {
-                        Text("Are you ready to end your Live Session? If so, tap Yes & enter session details on the next screen.")
+                        Text("If you're ready to end your Live Session, tap Yes & then input session details on the next screen.")
                     }
                 }
             }

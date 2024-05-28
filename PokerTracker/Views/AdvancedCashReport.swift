@@ -41,6 +41,14 @@ struct AdvancedCashReport: View {
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
             .cornerRadius(20)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+            
+            BarChartByYear(showTitle: false, moreAxisMarks: false, cashOnly: true)
+                .padding(30)
+                .frame(width: UIScreen.main.bounds.width * 0.9, height: 200)
+                .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+                .cornerRadius(20)
+                .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+                .padding(.top, 20)
         }
         .background(Color.brandBackground)
         .accentColor(.brandPrimary)
@@ -74,8 +82,9 @@ struct AdvancedCashReport: View {
                 Menu {
                     Picker("", selection: $dateRangeFilter) {
                         Text("Last 7 Days").tag("Last 7 Days")
-                        Text("Last Month").tag("Last Month")
+                        Text("Last 30 Days").tag("Last 30 Days")
                         Text("Last 3 Months").tag("Last 3 Months")
+                        Text("Last 12 Months").tag("Last 12 Months")
                     }
                 } label: {
                     Text(dateRangeFilter + " ›")
@@ -202,5 +211,6 @@ struct AdvancedCashReport: View {
 
 #Preview {
     AdvancedCashReport()
+        .environmentObject(SessionsListViewModel())
         .preferredColorScheme(.dark)
 }

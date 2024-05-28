@@ -117,7 +117,7 @@ struct MetricsView: View {
     
     var barChart: some View {
         
-        BarChartByYear(showTitle: true, moreAxisMarks: true)
+        BarChartByYear(showTitle: true, moreAxisMarks: true, cashOnly: false)
             .padding()
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))

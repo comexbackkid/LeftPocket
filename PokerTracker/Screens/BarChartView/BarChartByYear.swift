@@ -17,10 +17,11 @@ struct BarChartByYear: View {
     let moreAxisMarks: Bool
     let firstDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 1, day: 1)
     let lastDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 12, day: 31)
+    let cashOnly: Bool
     
     var sessionProfitByMonth: [(month: Date, profit: Int)] {
         
-        sessionsByMonth(sessions: viewModel.sessions)
+        sessionsByMonth(sessions: viewModel.sessions, cashOnly: cashOnly)
 
     }
     var profitAnnotation: Int? {
@@ -148,22 +149,41 @@ struct BarChartByYear: View {
     }
     
     // Formats data so we have the profit totals of every month, i.e. only 12 total items in the array. Checks current year only
-    func sessionsByMonth(sessions: [PokerSession]) -> [(month: Date, profit: Int)] {
+    func sessionsByMonth(sessions: [PokerSession], cashOnly: Bool) -> [(month: Date, profit: Int)] {
         
         var monthlyProfits: [Date: Int] = [:]
         let currentYear = Calendar.current.component(.year, from: Date())
         
-        // Iterate through sessions and accumulate profit for each month
-        for session in sessions {
+        if cashOnly == true {
+            let cashSessions = sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
             
-            let yearOfSession = Calendar.current.component(.year, from: session.date)
-            
-            // Check if the session is from the current year
-            if yearOfSession == currentYear {
-                let month = Calendar.current.startOfMonth(for: session.date)
-                monthlyProfits[month, default: 0] += session.profit
+            for session in cashSessions {
+                
+                let yearOfSession = Calendar.current.component(.year, from: session.date)
+                
+                // Check if the session is from the current year
+                if yearOfSession == currentYear {
+                    let month = Calendar.current.startOfMonth(for: session.date)
+                    
+                    monthlyProfits[month, default: 0] += session.profit
+                }
+            }
+        } else {
+            // Iterate through sessions and accumulate profit for each month
+            for session in sessions {
+                
+                let yearOfSession = Calendar.current.component(.year, from: session.date)
+                
+                // Check if the session is from the current year
+                if yearOfSession == currentYear {
+                    let month = Calendar.current.startOfMonth(for: session.date)
+                    
+                    monthlyProfits[month, default: 0] += session.profit
+                }
             }
         }
+        
+        
         
         // Convert the dictionary to an array of tuples
         let result = monthlyProfits.map { (month: $0.key, profit: $0.value) }
@@ -182,7 +202,7 @@ struct BarChartByYear: View {
 }
 
 #Preview {
-    BarChartByYear(showTitle: true, moreAxisMarks: true)
+    BarChartByYear(showTitle: true, moreAxisMarks: true, cashOnly: false)
         .environmentObject(SessionsListViewModel())
         .frame(height: 350)
         .padding()

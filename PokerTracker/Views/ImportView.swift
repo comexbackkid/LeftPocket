@@ -327,14 +327,19 @@ struct PokerBankrollTrackerImportView: View {
                         
             do {
                 let selectedURL = try result.get()
-                let csvData = try Data(contentsOf: selectedURL)
-                let csvImporter = CSVImporter()
-                let importedSessions = try csvImporter.importCSVFromPokerBankrollTracker(data: csvData)
                 
-                // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
-                vm.sessions += importedSessions
-                vm.sessions.sort(by: {$0.date > $1.date})
-                showSuccessMessage = "All sessions imported successfully."
+                if selectedURL.startAccessingSecurityScopedResource() {
+                    let csvData = try Data(contentsOf: selectedURL)
+                    let csvImporter = CSVImporter()
+                    let importedSessions = try csvImporter.importCSVFromPokerBankrollTracker(data: csvData)
+                    
+                    // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
+                    vm.sessions += importedSessions
+                    vm.sessions.sort(by: {$0.date > $1.date})
+                    showSuccessMessage = "All sessions imported successfully."
+                }
+                
+                selectedURL.stopAccessingSecurityScopedResource()
                 
             } catch let error as URLError {
                 
@@ -552,14 +557,20 @@ struct PokerbaseImportView: View {
                         
             do {
                 let selectedURL = try result.get()
-                let csvData = try Data(contentsOf: selectedURL)
-                let csvImporter = CSVImporter()
-                let importedSessions = try csvImporter.importCSVFromPokerbase(data: csvData, selectedStakes: stakes)
                 
-                // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
-                vm.sessions += importedSessions
-                vm.sessions.sort(by: {$0.date > $1.date})
-                showSuccessMessage = "All sessions imported successfully."
+                if selectedURL.startAccessingSecurityScopedResource() {
+                    let csvData = try Data(contentsOf: selectedURL)
+                    let csvImporter = CSVImporter()
+                    let importedSessions = try csvImporter.importCSVFromPokerbase(data: csvData, selectedStakes: stakes)
+                    
+                    // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
+                    vm.sessions += importedSessions
+                    vm.sessions.sort(by: {$0.date > $1.date})
+                    showSuccessMessage = "All sessions imported successfully."
+                    
+                }
+                
+                selectedURL.stopAccessingSecurityScopedResource()
                 
             } catch let error as URLError {
                 
@@ -714,14 +725,19 @@ struct LeftPocketImportView: View {
                         
             do {
                 let selectedURL = try result.get()
-                let csvData = try Data(contentsOf: selectedURL)
-                let csvImporter = CSVImporter()
-                let importedSessions = try csvImporter.importCSVFromLeftPocket(data: csvData)
                 
-                // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
-                vm.sessions += importedSessions
-                vm.sessions.sort(by: {$0.date > $1.date})
-                showSuccessMessage = "All sessions imported successfully."
+                if selectedURL.startAccessingSecurityScopedResource() {
+                    let csvData = try Data(contentsOf: selectedURL)
+                    let csvImporter = CSVImporter()
+                    let importedSessions = try csvImporter.importCSVFromLeftPocket(data: csvData)
+                    
+                    // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
+                    vm.sessions += importedSessions
+                    vm.sessions.sort(by: {$0.date > $1.date})
+                    showSuccessMessage = "All sessions imported successfully."
+                }
+                
+                selectedURL.stopAccessingSecurityScopedResource()
                 
             } catch let error as URLError {
                 
@@ -888,14 +904,20 @@ struct PokerAnalyticsImportView: View {
                         
             do {
                 let selectedURL = try result.get()
-                let csvData = try Data(contentsOf: selectedURL)
-                let csvImporter = CSVImporter()
-                let importedSessions = try csvImporter.importCSVFromPokerAnalytics(data: csvData)
                 
-                // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
-                vm.sessions += importedSessions
-                vm.sessions.sort(by: {$0.date > $1.date})
-                showSuccessMessage = "All sessions imported successfully."
+                if selectedURL.startAccessingSecurityScopedResource() {
+                    let csvData = try Data(contentsOf: selectedURL)
+                    let csvImporter = CSVImporter()
+                    let importedSessions = try csvImporter.importCSVFromPokerAnalytics(data: csvData)
+                    
+                    // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
+                    vm.sessions += importedSessions
+                    vm.sessions.sort(by: {$0.date > $1.date})
+                    showSuccessMessage = "All sessions imported successfully."
+                    
+                }
+                
+                selectedURL.stopAccessingSecurityScopedResource()
                 
             } catch let error as URLError {
                 

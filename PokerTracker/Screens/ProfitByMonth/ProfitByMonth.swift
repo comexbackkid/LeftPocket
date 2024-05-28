@@ -183,7 +183,7 @@ struct ProfitByMonth: View {
     
     var barChart: some View {
         
-        BarChartByYear(showTitle: false, moreAxisMarks: false)
+        BarChartByYear(showTitle: false, moreAxisMarks: false, cashOnly: false)
             .padding(.horizontal, 30)
             .padding(.vertical, 30)
             .frame(width: UIScreen.main.bounds.width * 0.9)
