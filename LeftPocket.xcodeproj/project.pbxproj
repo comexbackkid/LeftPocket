@@ -84,6 +84,7 @@
 		7C67DDBC2BAB9BD2008C7029 /* WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C67DDBB2BAB9BD2008C7029 /* WidgetBundle.swift */; };
 		7C68FE4126D709530019BA53 /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE4026D709530019BA53 /* PlusButton.swift */; };
 		7C68FE4326D7CEA40019BA53 /* RecentSessionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE4226D7CEA40019BA53 /* RecentSessionCardView.swift */; };
+		7C6906AC2C0CCED3009CD0D5 /* logging-sessions.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7C6906AB2C0CCED3009CD0D5 /* logging-sessions.mp4 */; };
 		7C6E75BB2BAA16BE006173A4 /* LiveSessionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E75BA2BAA16BE006173A4 /* LiveSessionCounter.swift */; };
 		7C6E75BE2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E75BD2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift */; };
 		7C72E0A62BC05B6100C411F2 /* UsingLeftPocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */; };
@@ -210,6 +211,8 @@
 		7CFD78A92B34DF2D00C1A9F6 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 7CFD78A82B34DF2D00C1A9F6 /* RevenueCat */; };
 		7CFD78AB2B34DF2D00C1A9F6 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7CFD78AA2B34DF2D00C1A9F6 /* RevenueCatUI */; };
 		7CFD78AD2B34E46100C1A9F6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFD78AC2B34E46100C1A9F6 /* StoreKit.framework */; };
+		7CFDD83C2C0CF656002C9775 /* custom-locations.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CFDD83B2C0CF656002C9775 /* custom-locations.mp4 */; };
+		7CFDD83E2C0CFF00002C9775 /* homescreen-widget.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CFDD83D2C0CFF00002C9775 /* homescreen-widget.mp4 */; };
 		7CFF1BFF2BD9AA81000D56BC /* HeatMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */; };
 /* End PBXBuildFile section */
 
@@ -313,6 +316,7 @@
 		7C67DDBB2BAB9BD2008C7029 /* WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetBundle.swift; sourceTree = "<group>"; };
 		7C68FE4026D709530019BA53 /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
 		7C68FE4226D7CEA40019BA53 /* RecentSessionCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentSessionCardView.swift; sourceTree = "<group>"; };
+		7C6906AB2C0CCED3009CD0D5 /* logging-sessions.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "logging-sessions.mp4"; sourceTree = "<group>"; };
 		7C6E75BA2BAA16BE006173A4 /* LiveSessionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionCounter.swift; sourceTree = "<group>"; };
 		7C6E75BD2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionCounterViewModel.swift; sourceTree = "<group>"; };
 		7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsingLeftPocket.swift; sourceTree = "<group>"; };
@@ -399,6 +403,8 @@
 		7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartByYear.swift; sourceTree = "<group>"; };
 		7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
 		7CFD78AC2B34E46100C1A9F6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		7CFDD83B2C0CF656002C9775 /* custom-locations.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "custom-locations.mp4"; sourceTree = "<group>"; };
+		7CFDD83D2C0CFF00002C9775 /* homescreen-widget.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "homescreen-widget.mp4"; sourceTree = "<group>"; };
 		7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMap.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -517,7 +523,6 @@
 				7C5EDA1428905AB7008ACFEF /* EditLocationView */,
 				7C2B3E6726F5659600B84D52 /* EmptyStates */,
 				7C897F172891BBFB00E42FDA /* LocationListView */,
-				7C86477F2B29276700F48951 /* WelcomeScreen */,
 				7C82E13126EFC83F00E3EB6F /* MetricsView */,
 				7C62F1EB2BD0349600F14483 /* NewStakesView */,
 				7C65B186272C3A4300AFE796 /* NewLocationView */,
@@ -532,6 +537,7 @@
 				7C82E13426EFC87D00E3EB6F /* SettingsView */,
 				7CA940F72BECF8C5009B54BA /* SleepAnalytics */,
 				7C5D5D342BE2C8B5003DC94D /* SleepChart */,
+				7C86477F2B29276700F48951 /* WelcomeScreen */,
 				7C63949726C14E8300939F40 /* ContentView.swift */,
 			);
 			path = Screens;
@@ -706,6 +712,7 @@
 				7C63949526C14E8300939F40 /* LeftPocketApp.swift */,
 				7C2E54CA2B28CCEC00831ABA /* LeftPocketCustomTabBar.swift */,
 				7C7D09642BF7871E002FA350 /* SoundFX */,
+				7C6906AA2C0CCEAA009CD0D5 /* Video */,
 				7C2614CF26D9315F00986183 /* Views */,
 				7C2614CC26D930D900986183 /* Screens */,
 				7C2614D026D9318A00986183 /* Model */,
@@ -735,6 +742,16 @@
 				7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */,
 			);
 			path = NewLocationView;
+			sourceTree = "<group>";
+		};
+		7C6906AA2C0CCEAA009CD0D5 /* Video */ = {
+			isa = PBXGroup;
+			children = (
+				7CFDD83D2C0CFF00002C9775 /* homescreen-widget.mp4 */,
+				7CFDD83B2C0CF656002C9775 /* custom-locations.mp4 */,
+				7C6906AB2C0CCED3009CD0D5 /* logging-sessions.mp4 */,
+			);
+			path = Video;
 			sourceTree = "<group>";
 		};
 		7C6E75BC2BAA1DBD006173A4 /* LiveSessionCounter */ = {
@@ -1047,6 +1064,7 @@
 				7CAFE0062B2CA9E300B7338D /* AsapCondensed-Light.ttf in Resources */,
 				7CAFE00E2B2CA9E300B7338D /* AsapCondensed-ExtraBold.ttf in Resources */,
 				7CAFE00A2B2CA9E300B7338D /* AsapCondensed-ExtraLightItalic.ttf in Resources */,
+				7CFDD83C2C0CF656002C9775 /* custom-locations.mp4 in Resources */,
 				7CAFE0512B2CAC1B00B7338D /* Asap-SemiBoldItalic.ttf in Resources */,
 				7CAFE0472B2CAC1B00B7338D /* Asap-BlackItalic.ttf in Resources */,
 				7CAFE0552B2CAC1B00B7338D /* Asap-SemiBold.ttf in Resources */,
@@ -1071,9 +1089,11 @@
 				7CAFE03B2B2CAC1B00B7338D /* Asap-ExtraLight.ttf in Resources */,
 				7CAFE04D2B2CAC1B00B7338D /* Asap-LightItalic.ttf in Resources */,
 				7CAFE0222B2CA9E300B7338D /* AsapCondensed-ExtraBoldItalic.ttf in Resources */,
+				7CFDD83E2C0CFF00002C9775 /* homescreen-widget.mp4 in Resources */,
 				7C63949A26C14E8400939F40 /* Assets.xcassets in Resources */,
 				7CAFE0532B2CAC1B00B7338D /* Asap-Regular.ttf in Resources */,
 				7CAFE05B2B2CAC1B00B7338D /* Asap-Light.ttf in Resources */,
+				7C6906AC2C0CCED3009CD0D5 /* logging-sessions.mp4 in Resources */,
 				7C63FC392B35EF1200FE731C /* StoreKitTestCertificate.cer in Resources */,
 				7CAFE0412B2CAC1B00B7338D /* Asap-ExtraBold.ttf in Resources */,
 				7CAFE04F2B2CAC1B00B7338D /* Asap-ExtraLightItalic.ttf in Resources */,
@@ -1224,7 +1244,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1237,7 +1257,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.6.3;
+				MARKETING_VERSION = 3.6.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1255,7 +1275,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1268,7 +1288,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.6.3;
+				MARKETING_VERSION = 3.6.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1407,7 +1427,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1418,7 +1438,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.6.3;
+				MARKETING_VERSION = 3.6.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1435,7 +1455,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1446,7 +1466,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.6.3;
+				MARKETING_VERSION = 3.6.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

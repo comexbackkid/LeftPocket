@@ -12,9 +12,12 @@ struct AdvancedCashReport: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var viewModel: SessionsListViewModel
     
-    @State private var locationFilter = "Encore Boston Harbor"
-    @State private var stakesFilter = "1/3"
-    @State private var dateRangeFilter = "Last 7 Days"
+    @State private var locationFilter = "All"
+    @State private var stakesFilter = "All"
+    @State private var dateRangeFilter = "All"
+    
+    // I think we need a variety of computed properties
+    // But not sure how to handle all of the filters
     
     var body: some View {
 
@@ -42,13 +45,7 @@ struct AdvancedCashReport: View {
             .cornerRadius(20)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
             
-            BarChartByYear(showTitle: false, moreAxisMarks: false, cashOnly: true)
-                .padding(30)
-                .frame(width: UIScreen.main.bounds.width * 0.9, height: 200)
-                .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
-                .cornerRadius(20)
-                .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
-                .padding(.top, 20)
+            barChart
         }
         .background(Color.brandBackground)
         .accentColor(.brandPrimary)
@@ -81,6 +78,7 @@ struct AdvancedCashReport: View {
                 
                 Menu {
                     Picker("", selection: $dateRangeFilter) {
+                        Text("All").tag("All")
                         Text("Last 7 Days").tag("Last 7 Days")
                         Text("Last 30 Days").tag("Last 30 Days")
                         Text("Last 3 Months").tag("Last 3 Months")
@@ -105,7 +103,9 @@ struct AdvancedCashReport: View {
                 
                 Menu {
                     Picker("", selection: $locationFilter) {
-                        Text("Encore Boston Harbor")
+                        Text("All").tag("All")
+                        Text("Encore Boston Harbor").tag("Encore Boston Harbor")
+                        Text("Rivers Casino").tag("Rivers Casino")
                     }
                 } label: {
                     Text(locationFilter + " ›")
@@ -127,6 +127,7 @@ struct AdvancedCashReport: View {
                 
                 Menu {
                     Picker("", selection: $stakesFilter) {
+                        Text("All").tag("All")
                         Text("1/2").tag("1/2")
                         Text("1/3").tag("1/3")
                         Text("2/5").tag("2/5")
@@ -205,6 +206,19 @@ struct AdvancedCashReport: View {
                 Text("120h")
             }
         }
+        
+    }
+    
+    var barChart: some View {
+        
+        BarChartByYear(showTitle: false, moreAxisMarks: false, cashOnly: true)
+            .padding(30)
+            .padding(.top, 25)
+            .frame(width: UIScreen.main.bounds.width * 0.9, height: 200)
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+            .cornerRadius(20)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+            .padding(.top, 20)
         
     }
 }

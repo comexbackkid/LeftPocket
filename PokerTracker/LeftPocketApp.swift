@@ -23,7 +23,7 @@ struct LeftPocketApp: App {
         WindowGroup {
             LeftPocketCustomTabBar()
                 .fullScreenCover(isPresented: $showWelcomeScreen, content: {
-                    WelcomeScreen(showWelcomeScreen: $showWelcomeScreen)
+                    OnboardingView(shouldShowOnboarding: $showWelcomeScreen)
                 })
                 .environmentObject(vm)
                 .environmentObject(subManager)

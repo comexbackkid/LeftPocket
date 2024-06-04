@@ -6,99 +6,198 @@
 //
 
 import SwiftUI
+import RevenueCatUI
+import RevenueCat
+import AVKit
 
 struct OnboardingView: View {
     
+    @EnvironmentObject var subManager: SubscriptionManager
     @Binding var shouldShowOnboarding: Bool
+    @State private var selectedPage: Int = 0
+    @State private var showPaywall = false
     
     var body: some View {
         
-        TabView {
+        TabView(selection: $selectedPage) {
             
-            PageView(title: "Track Games",
-                     subtitle: "Keep track of all your poker sessions. Record your profit, location, game details, & expenses.",
+            WelcomeScreen(selectedPage: $selectedPage).tag(0)
+            
+            PageView(title: "Logging Poker Sessions",
+                     subtitle: Text("Add a completed Session, or activate a Live Session by tapping the \(Image(systemName: "plus")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button."),
                      imageName: "doc.text",
+                     videoURL: "logging-sessions",
                      showDismissButton: false,
-                     shouldShowOnboarding: $shouldShowOnboarding)
+                     nextAction: nextPage,
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(1)
             
-            PageView(title: "Analyze Progress",
-                     subtitle: "Stay on top of your progress as a poker player with useful analytics & bankroll tracking.",
+            PageView(title: "Custom Locations",
+                     subtitle: Text("Enter your own custom Locations and header photos. Navigate to the Settings \(Image(systemName: "gearshape.fill")) screen and tap on Locations."),
                      imageName: "chart.line.uptrend.xyaxis",
+                     videoURL: "custom-locations",
                      showDismissButton: false,
-                     shouldShowOnboarding: $shouldShowOnboarding)
+                     nextAction: nextPage,
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(2)
             
-            PageView(title: "Clean Design",
-                     subtitle: "Simplistic, modern user interface for an easier time navigating and reviewing data.",
+            PageView(title: "Advanced iOS Features",
+                     subtitle: Text("Add a stunning bankroll widget to your home screen! Tap & hold your iOS wallpaper, press the Plus button & search for Left Pocket."),
                      imageName: "paintbrush",
-                     showDismissButton: false,
-                     shouldShowOnboarding: $shouldShowOnboarding)
-            
-            PageView(title: "Let's Go!",
-                     subtitle: "Get started by clicking below and then adding your first location & session.",
-                     imageName: "suit.spade.fill",
+                     videoURL: "homescreen-widget",
                      showDismissButton: true,
-                     shouldShowOnboarding: $shouldShowOnboarding)
+                     nextAction: { showPaywall = true },
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(3)
         }
         .onBoardingBackgroundStyle(colorScheme: .light)
         .tabViewStyle(PageTabViewStyle())
-        .edgesIgnoringSafeArea(.all)
+        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
         .preferredColorScheme(.dark)
+        .sheet(isPresented: $showPaywall) {
+            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                .overlay {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            DismissButton()
+                                .padding()
+                                .onTapGesture {
+                                    shouldShowOnboarding = false
+                                    showPaywall = false
+                            }
+                            Spacer()
+                        }
+                    }
+                }
+                .onDisappear(perform: {
+                    shouldShowOnboarding = false
+                })
+        }
+        .task {
+            for await customerInfo in Purchases.shared.customerInfoStream {
+                
+                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                await subManager.checkSubscriptionStatus()
+            }
+        }
     }
+    
+    func nextPage() {
+            withAnimation {
+                selectedPage += 1
+            }
+        }
 }
 
 struct PageView: View {
     
+    @State private var player: AVPlayer?
+    
     let title: String
-    let subtitle: String
+    let subtitle: Text
     let imageName: String
+    let videoURL: String
     let showDismissButton: Bool
+    var nextAction: () -> Void
     
     @Binding var shouldShowOnboarding: Bool
     
     var body: some View {
         
-        ZStack {
-            if showDismissButton {
-                VStack {
-                    Button(action: {
-                        shouldShowOnboarding.toggle()
-                    }, label: {
-                        PrimaryButton(title: "Get Started")
-                    })
-                    .padding(.top, 340)
-                }
-            }
+        VStack {
             
-            VStack {
-                Image(systemName: imageName)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 120, height: 120)
-                    .foregroundColor(.brandWhite)
-                    .opacity(0.5)
-                    .padding(50)
-                
-                Text(title)
-                    .foregroundColor(.brandWhite)
-                    .font(.title)
-                    .bold()
-                    .padding(.bottom, 2)
-                
-                Text(subtitle)
-                    .font(.subheadline)
-                    .opacity(0.7)
-                    .foregroundColor(.brandWhite)
-                    .padding(.leading, 30)
-                    .padding(.trailing, 30)
-            }
-            .padding(.bottom, 140)
+            video
+            
+            Text(title)
+                .signInTitleStyle()
+                .foregroundColor(.brandWhite)
+                .padding(.bottom, 10)
+                .multilineTextAlignment(.center)
+            
+            subtitle
+                .subHeadlineStyle()
+                .lineSpacing(2.5)
+                .opacity(0.7)
+                .foregroundColor(.brandWhite)
+                .padding(.horizontal, 20)
+            
+            Spacer()
+            
+            nextButton
+            
         }
     }
+    
+    var video: some View {
+        
+        Group {
+            
+            let url = Bundle.main.url(forResource: videoURL, withExtension: "mp4")
+            
+            if let url = url {
+                VideoPlayer(player: player)
+                    .frame(width: 340, height: 340)
+                    .cornerRadius(20)
+                    .shadow(radius: 10)
+                    .padding(.vertical, 30)
+                    .onAppear {
+                        setupPlayer(with: url)
+                    }
+                    .onDisappear {
+                        player?.pause()
+                        player = nil
+                    }
+            } else {
+                Text("Error. Video file not found.")
+            }
+        }
+        
+    }
+    
+    var nextButton: some View {
+        
+        Button {
+            let impact = UIImpactFeedbackGenerator(style: .heavy)
+            impact.impactOccurred()
+            nextAction()
+            
+        } label: {
+            
+            Text(showDismissButton ? "Get Started" : "Continue")
+                .buttonTextStyle()
+                .foregroundColor(.black)
+                .font(.title3)
+                .fontWeight(.medium)
+                .frame(maxWidth: .infinity)
+                .frame(height: 55)
+                .background(.white)
+                .cornerRadius(30)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 65)
+            
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+    
+    private func setupPlayer(with url: URL) {
+        
+        self.player = AVPlayer(url: url)
+        self.player?.play()
+        
+        NotificationCenter.default.addObserver(
+            forName: .AVPlayerItemDidPlayToEndTime,
+            object: self.player?.currentItem,
+            queue: .main
+        ) { _ in
+            self.player?.seek(to: .zero)
+            self.player?.play()
+        }
+    }
+    
 }
-
 
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
         OnboardingView(shouldShowOnboarding: .constant(true))
+            .environmentObject(SubscriptionManager())
     }
 }

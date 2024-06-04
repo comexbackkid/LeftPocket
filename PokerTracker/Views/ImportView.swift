@@ -53,7 +53,7 @@ struct ImportView: View {
                 .bold()
                 .padding(.top, 10)
             
-            Text("Currently, Left Pocket supports data in CSV format exported from Poker Bankroll Tracker, Poker Analytics, & Pokerbase. Each app formats their CSV data differently, & you may be required to lightly modify the contents of the file.\n\n__WARNING:__ It's recommended that you import old data first, before your Left Pocket journey begins.")
+            Text("Left Pocket supports data in CSV format from Poker Bankroll Tracker, Poker Analytics, & Pokerbase. These apps format their CSV data differently, & you may be required to lightly modify the contents of the file.\n\nIt's recommended that you import old data first, before your Left Pocket journey begins.")
                 .bodyStyle()
                 .padding(.top, 1)
         }

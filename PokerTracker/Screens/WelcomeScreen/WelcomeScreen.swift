@@ -13,9 +13,7 @@ struct WelcomeScreen: View {
     
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var subManager: SubscriptionManager
-    @Binding var showWelcomeScreen: Bool
-    
-    @State var showPaywall = false
+    @Binding var selectedPage: Int
     
     var body: some View {
         
@@ -33,39 +31,10 @@ struct WelcomeScreen: View {
                 
                 Spacer()
                 
+                disclaimerText
+                
                 getStartedButton
                 
-                disclaimerText
-            }
-            .padding()
-        }
-        .onBoardingBackgroundStyle(colorScheme: .light)
-        .sheet(isPresented: $showPaywall) {
-            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                .dynamicTypeSize(.medium...DynamicTypeSize.large)
-                .overlay {
-                    HStack {
-                        Spacer()
-                        VStack {
-                            DismissButton()
-                                .padding()
-                                .onTapGesture {
-                                    showWelcomeScreen = false
-                                    showPaywall = false
-                            }
-                            Spacer()
-                        }
-                    }
-                }
-                .onDisappear(perform: {
-                    showWelcomeScreen = false
-                })
-        }
-        .task {
-            for await customerInfo in Purchases.shared.customerInfoStream {
-                
-                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
-                await subManager.checkSubscriptionStatus()
             }
         }
     }
@@ -90,25 +59,25 @@ struct WelcomeScreen: View {
             
             Text("Where you keep your important money.")
                 .signInTitleStyle()
-                .bold()
                 .foregroundColor(.white)
-                .font(.title)
                 .padding(.bottom, 50)
             
         }
-        
+        .padding(.horizontal)
     }
     
     var getStartedButton: some View {
         
         Button {
-            
-            showPaywall = true
-//            showWelcomeScreen.toggle()
+            let impact = UIImpactFeedbackGenerator(style: .heavy)
+            impact.impactOccurred()
+            withAnimation {
+                selectedPage = 1
+            }
             
         } label: {
             
-            Text("Get Started")
+            Text("Let's Begin")
                 .buttonTextStyle()
                 .foregroundColor(.black)
                 .font(.title3)
@@ -117,7 +86,8 @@ struct WelcomeScreen: View {
                 .frame(height: 55)
                 .background(.white)
                 .cornerRadius(30)
-                .padding(.horizontal, 10)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 65)
             
         }
         .buttonStyle(PlainButtonStyle())
@@ -126,18 +96,20 @@ struct WelcomeScreen: View {
     
     var disclaimerText: some View {
         
-        Text("By continuing you agree to Left Pocket's Terms of Use and [Privacy Policy](https://getleftpocket.com/#privacy)")
+        Text("By continuing you agree to Left Pocket's Terms of Use and our [Privacy Policy](https://getleftpocket.com/#privacy).")
             .accentColor(.brandPrimary)
             .foregroundColor(.white)
             .font(.footnote)
             .padding()
             .multilineTextAlignment(.center)
+            .padding(.horizontal)
     }
 }
 
 struct SignInTest_Previews: PreviewProvider {
     static var previews: some View {
-        WelcomeScreen(showWelcomeScreen: .constant(true))
+        WelcomeScreen(selectedPage: .constant(0))
+            .onBoardingBackgroundStyle(colorScheme: .light)
             .environmentObject(SubscriptionManager())
     }
 }
