@@ -586,16 +586,16 @@ struct AdditionalMetricsView: View {
                             })
                         .buttonStyle(PlainButtonStyle())
                         
-//                        NavigationLink(
-//                            destination: SleepAnalytics(),
-//                            label: {
-//                                AdditionalMetricsCardView(title: "Sleep Analytics",
-//                                                          description: "See how your sleep affects your \npoker results.",
-//                                                          image: "bed.double.fill",
-//                                                          color: .donutChartOrange)
-//                                
-//                            })
-//                        .buttonStyle(PlainButtonStyle())
+                        NavigationLink(
+                            destination: SleepAnalytics(),
+                            label: {
+                                AdditionalMetricsCardView(title: "Sleep Analytics",
+                                                          description: "See how your sleep is affecting\nyour poker results.",
+                                                          image: "bed.double.fill",
+                                                          color: .donutChartOrange)
+                                
+                            })
+                        .buttonStyle(PlainButtonStyle())
                         
                         NavigationLink(
                             destination: ProfitByMonth(vm: viewModel),

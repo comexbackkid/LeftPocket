@@ -48,6 +48,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSHealthShareUsageDescription</key>
+	<string>This app shows your sleep data in an interactive chart</string>
 	<key>NSSupportsLiveActivities</key>
 	<true/>
 	<key>UIAppFonts</key>

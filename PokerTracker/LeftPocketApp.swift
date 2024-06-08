@@ -13,6 +13,7 @@ import RevenueCat
 @main
 struct LeftPocketApp: App {
     
+    @StateObject var hkManager = HealthKitManager()
     @StateObject var vm = SessionsListViewModel()
     @StateObject var subManager = SubscriptionManager()
     @StateObject private var timerViewModel = TimerViewModel()
@@ -28,6 +29,7 @@ struct LeftPocketApp: App {
                 .environmentObject(vm)
                 .environmentObject(subManager)
                 .environmentObject(timerViewModel)
+                .environmentObject(hkManager)
                 .onOpenURL(perform: { url in
                     Branch.getInstance().handleDeepLink(url)
                 })
