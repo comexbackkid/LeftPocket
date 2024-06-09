@@ -16,63 +16,107 @@ class HealthKitManager: ObservableObject {
     let types: Set = [HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!]
     
     @Published var sleepData: [SleepMetric] = []
+    @Published var authorizationStatus: HKAuthorizationStatus = .notDetermined
     
-    func fetchSleepData() {
-            let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
-            let endDate = Date()
-            let startDate = Calendar.current.date(byAdding: .day, value: -28, to: endDate)!
-            let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
-            let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
-            
-            let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { [weak self] (query, result, error) in
-                guard error == nil else {
-                    print("Error fetching sleep data: \(String(describing: error))")
-                    return
+    func checkAuthorizationStatus() async {
+        guard HKHealthStore.isHealthDataAvailable() else {
+            DispatchQueue.main.async {
+                self.authorizationStatus = .notDetermined
+            }
+            return
+        }
+        
+        await withCheckedContinuation { continuation in
+            store.getRequestStatusForAuthorization(toShare: [], read: types) { (status, error) in
+                DispatchQueue.main.async {
+                    switch status {
+                    case .unnecessary:
+                        self.authorizationStatus = .sharingAuthorized
+                    case .shouldRequest:
+                        self.authorizationStatus = .notDetermined
+                    case .unknown:
+                        self.authorizationStatus = .sharingDenied
+                    @unknown default:
+                        self.authorizationStatus = .sharingDenied
+                    }
+                    continuation.resume()
                 }
+            }
+        }
+    }
+    
+    func requestAuthorization() {
+        store.requestAuthorization(toShare: [], read: types) { (success, error) in
+            DispatchQueue.main.async {
+                if success {
+                    self.authorizationStatus = .sharingAuthorized
+                } else {
+                    self.authorizationStatus = .sharingDenied
+                }
+            }
+        }
+    }
+    
+    @MainActor
+    func fetchSleepData() async {
+        guard authorizationStatus == .sharingAuthorized else {
+            
+            print("HealthKit authorization not granted.")
+            return
+        }
+        
+        let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
+        let endDate = Date()
+        let startDate = Calendar.current.date(byAdding: .day, value: -28, to: endDate)!
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
+        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
+        
+        let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { [weak self] (query, result, error) in
+            guard error == nil else {
+                print("Error fetching sleep data: \(String(describing: error))")
+                return
+            }
+            
+            var sleepMetrics: [SleepMetric] = []
+            
+            if let result = result {
+                let calendar = Calendar.current
                 
-                var sleepMetrics: [SleepMetric] = []
+                var dailySleepTimes: [Date: Double] = [:]
                 
-                if let result = result {
-                    let calendar = Calendar.current
-                    
-                    // Dictionary to store total sleep time for each day
-                    var dailySleepTimes: [Date: Double] = [:]
-                    
-                    for sample in result {
-                        if let categorySample = sample as? HKCategorySample {
-                            if HKCategoryValueSleepAnalysis.allAsleepValues.map({$0.rawValue}).contains(categorySample.value) {
-                                let adjustedStartDate = self?.adjustedDateForGrouping(date: categorySample.startDate, calendar: calendar) ?? categorySample.startDate
-                                
-                                let sleepTime = categorySample.endDate.timeIntervalSince(categorySample.startDate) / 3600
-                                
-                                // Add sleep time to the next day
-                                let nextDay = calendar.date(byAdding: .day, value: 1, to: adjustedStartDate)!
-                                if let existingSleepTime = dailySleepTimes[nextDay] {
-                                    dailySleepTimes[nextDay] = existingSleepTime + sleepTime
-                                } else {
-                                    dailySleepTimes[nextDay] = sleepTime
-                                }
+                for sample in result {
+                    if let categorySample = sample as? HKCategorySample {
+                        if HKCategoryValueSleepAnalysis.allAsleepValues.map({$0.rawValue}).contains(categorySample.value) {
+                            
+                            let adjustedStartDate = self?.adjustedDateForGrouping(date: categorySample.startDate, calendar: calendar) ?? categorySample.startDate
+                            let sleepTime = categorySample.endDate.timeIntervalSince(categorySample.startDate) / 3600
+                            
+                            // Add sleep time to the next day
+                            let nextDay = calendar.date(byAdding: .day, value: 1, to: adjustedStartDate)!
+                            if let existingSleepTime = dailySleepTimes[nextDay] {
+                                dailySleepTimes[nextDay] = existingSleepTime + sleepTime
+                            } else {
+                                dailySleepTimes[nextDay] = sleepTime
                             }
                         }
                     }
-                    
-                    // Convert dictionary to SleepMetric array
-                    for (date, totalSleepTime) in dailySleepTimes {
-                        let sleepMetric = SleepMetric(date: date, value: totalSleepTime)
-                        sleepMetrics.append(sleepMetric)
-                    }
-                    
-                    // Sort sleep metrics by date
-                    sleepMetrics.sort { $0.date < $1.date }
                 }
                 
-                DispatchQueue.main.async {
-                    self?.sleepData = sleepMetrics
+                for (date, totalSleepTime) in dailySleepTimes {
+                    let sleepMetric = SleepMetric(date: date, value: totalSleepTime)
+                    sleepMetrics.append(sleepMetric)
                 }
+                
+                sleepMetrics.sort { $0.date < $1.date }
             }
             
-            store.execute(query)
+            DispatchQueue.main.async {
+                self?.sleepData = sleepMetrics
+            }
         }
+        
+        store.execute(query)
+    }
     
     private func adjustedDateForGrouping(date: Date, calendar: Calendar) -> Date {
         var components = calendar.dateComponents([.year, .month, .day, .hour], from: date)

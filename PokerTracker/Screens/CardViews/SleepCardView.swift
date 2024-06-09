@@ -20,11 +20,14 @@ struct SleepCardView: View {
             
             VStack (alignment: .leading, spacing: 0) {
          
-                Image("nightsky")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: width)
-                    .clipped()
+                VStack {
+                    Image("nightsky")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: width)
+                        .clipped()
+                        .frame(maxHeight: 250)
+                }
                 
                 HStack {
                     
@@ -46,7 +49,7 @@ struct SleepCardView: View {
                     }
                     .padding()
                 }
-                .frame(width: width)
+                .frame(width: width, height: 110)
                 .background(
                     Image("nightsky")
                         .resizable()
@@ -71,7 +74,7 @@ struct SleepCardView: View {
             .padding()
             
         }
-        .frame(width: width, height: 350)
+        .frame(width: width, height: 360)
         .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.23),

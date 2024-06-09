@@ -38,10 +38,12 @@ class TimerViewModel: ObservableObject {
         // Attempt to recover liveSessionStartTime from UserDefaults
         if let startTime = UserDefaults.standard.object(forKey: "liveSessionStartTime") as? Date {
             liveSessionStartTime = startTime
-            // Ensure the UI is updated based on the recovered start time
             updateElapsedTime()
             startUpdatingTimer()
         }
+        
+        initialBuyInAmount = UserDefaults.standard.string(forKey: "initialBuyInAmount") ?? ""
+        totalRebuys = UserDefaults.standard.array(forKey: "totalRebuys") as? [Int] ?? []
     }
     
     enum UserNotificationContext: String {
@@ -70,12 +72,6 @@ class TimerViewModel: ObservableObject {
         }
     }
     
-    func addRebuy() {
-        guard !reBuyAmount.isEmpty else { return }
-        totalRebuys.append(Int(reBuyAmount) ?? 0)
-        reBuyAmount = ""
-    }
-    
     // Push notification checking on the user
     func scheduleUserNotification() {
         let content = UNMutableNotificationContent()
@@ -97,6 +93,8 @@ class TimerViewModel: ObservableObject {
         let now = Date()
         liveSessionStartTime = now
         UserDefaults.standard.set(now, forKey: "liveSessionStartTime")
+        UserDefaults.standard.set(initialBuyInAmount, forKey: "initialBuyInAmount")
+        UserDefaults.standard.set(totalRebuys, forKey: "totalRebuys")
         
         // Start or restart the timer
         startUpdatingTimer()
@@ -116,6 +114,17 @@ class TimerViewModel: ObservableObject {
                 print("Error: \(error)")
             }
         }
+    }
+    
+    func addRebuy() {
+        guard !reBuyAmount.isEmpty else { return }
+        
+        // Add rebuy amount to variable, then write that amount to UserDefaults
+        // That way, if the app is quit or terminates we can recover the rebuy and initial buy in entries
+        totalRebuys.append(Int(reBuyAmount) ?? 0)
+        UserDefaults.standard.setValue(initialBuyInAmount, forKey: "initialBuyInAmount")
+        UserDefaults.standard.setValue(totalRebuys, forKey: "totalRebuys")
+        reBuyAmount = ""
     }
     
     func startUpdatingTimer() {
@@ -138,6 +147,8 @@ class TimerViewModel: ObservableObject {
     func stopTimer() {
         timer?.invalidate()
         UserDefaults.standard.removeObject(forKey: "liveSessionStartTime")
+        UserDefaults.standard.removeObject(forKey: "initialBuyInAmount")
+        UserDefaults.standard.removeObject(forKey: "totalRebuys")
         
         // End Activity
         Task {
@@ -156,6 +167,8 @@ class TimerViewModel: ObservableObject {
         reBuyAmount = ""
         totalRebuys.removeAll()
         UserDefaults.standard.removeObject(forKey: "liveSessionStartTime")
+        UserDefaults.standard.removeObject(forKey: "initialBuyInAmount")
+        UserDefaults.standard.removeObject(forKey: "totalRebuys")
     }
     
     // Called when the app enters the foreground

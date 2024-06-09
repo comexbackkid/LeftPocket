@@ -16,7 +16,7 @@ struct LeftPocketApp: App {
     @StateObject var hkManager = HealthKitManager()
     @StateObject var vm = SessionsListViewModel()
     @StateObject var subManager = SubscriptionManager()
-    @StateObject private var timerViewModel = TimerViewModel()
+    @StateObject var timerViewModel = TimerViewModel()
     @AppStorage("shouldShowOnboarding") var showWelcomeScreen: Bool = true
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 

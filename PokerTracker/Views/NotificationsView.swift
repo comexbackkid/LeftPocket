@@ -18,41 +18,44 @@ struct NotificationsView: View {
     
     var body: some View {
         
-        VStack (alignment: .leading) {
-            
-            title
-            
-            description
-            
-            if notificationsAllowed == true {
+        ScrollView {
+            VStack (alignment: .leading) {
                 
-                notificationsAllowedView
+                title
                 
-            } else { button }
-            
-            Divider()
-                .padding()
-            
-            bottomDescription
-         
-            Spacer()
-            
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .background(Color.brandBackground)
-        .onAppear(perform: {
-            UNUserNotificationCenter.current().getNotificationSettings { settings in
-                if settings.authorizationStatus != .authorized {
-                    notificationsAllowed = false
-                }
+                description
+                
+                if notificationsAllowed == true {
+                    
+                    notificationsAllowedView
+                    
+                } else { button }
+                
+                Divider()
+                    .padding()
+                
+                bottomDescription
+                
+                Spacer()
+                
             }
-        })
-        .sheet(isPresented: $showSuccessAlert, content: {
-            AlertModal(message: "Notifications successfully enabled. You can now receive Live Session check ins.")
-                .presentationDetents([.height(220)])
-                .presentationBackground(.ultraThinMaterial)
-            
-        })
+            .navigationBarTitleDisplayMode(.inline)
+            .background(Color.brandBackground)
+            .onAppear(perform: {
+                UNUserNotificationCenter.current().getNotificationSettings { settings in
+                    if settings.authorizationStatus != .authorized {
+                        notificationsAllowed = false
+                    }
+                }
+            })
+            .sheet(isPresented: $showSuccessAlert, content: {
+                AlertModal(message: "Notifications successfully enabled. You can now receive Live Session check ins.")
+                    .presentationDetents([.height(220)])
+                    .presentationBackground(.ultraThinMaterial)
+                
+            })
+        }
+        .background(Color.brandBackground)
     }
     
     var title: some View {

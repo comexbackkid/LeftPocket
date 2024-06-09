@@ -20,9 +20,8 @@ struct MetricsView: View {
     
     var body: some View {
         
-        NavigationView {
+        NavigationStack {
             ZStack {
-                
                 VStack {
                     
                     if viewModel.sessions.isEmpty {
@@ -557,7 +556,7 @@ struct ToolTipView: View {
         }
         .padding(20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+        .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
         .cornerRadius(20)
     }
 }
@@ -586,16 +585,16 @@ struct AdditionalMetricsView: View {
                             })
                         .buttonStyle(PlainButtonStyle())
                         
-                        NavigationLink(
-                            destination: SleepAnalytics(),
-                            label: {
-                                AdditionalMetricsCardView(title: "Sleep Analytics",
-                                                          description: "See how your sleep is affecting\nyour poker results.",
-                                                          image: "bed.double.fill",
-                                                          color: .donutChartOrange)
-                                
-                            })
-                        .buttonStyle(PlainButtonStyle())
+//                        NavigationLink(
+//                            destination: SleepAnalytics(activeSheet: .constant(.none)),
+//                            label: {
+//                                AdditionalMetricsCardView(title: "Sleep Analytics",
+//                                                          description: "See how your sleep is affecting\nyour poker results.",
+//                                                          image: "bed.double.fill",
+//                                                          color: .donutChartOrange)
+//                                
+//                            })
+//                        .buttonStyle(PlainButtonStyle())
                         
                         NavigationLink(
                             destination: ProfitByMonth(vm: viewModel),

@@ -18,7 +18,7 @@ struct HealthKitPrimingView: View {
     var description = """
     This app displays your sleep data in interactive charts.
 
-    Your data is private and secure, and is not shared with anyone You can always turn off sharing from your iOS Settings later.
+    Your data is private and secure, and is not shared with anyone. You can always turn off sharing from your iOS Settings later.
     """
     
     var body: some View {
@@ -42,27 +42,24 @@ struct HealthKitPrimingView: View {
             .padding(.horizontal)
             
             Button {
-                isShowingHealthKitPermissions = true
+                hkManager.requestAuthorization()
             } label: {
                 PrimaryButton(title: "Connect Apple Health")
             }
             
         }
         .padding(30)
-//        .interactiveDismissDisabled()
+        .interactiveDismissDisabled()
         .onAppear { hasSeen = true }
-        .healthDataAccessRequest(store: hkManager.store,
-                                 shareTypes: [],
-                                 readTypes: hkManager.types,
-                                 trigger: isShowingHealthKitPermissions) { result in
-            switch result {
-            case .success(_):
-                dismiss()
-            case .failure(_):
-                // Handle error later
-                dismiss()
-            }
-        }
+//        .onChange(of: hkManager.authorizationStatus) {
+//            if hkManager.authorizationStatus == .sharingAuthorized {
+//                dismiss()
+//            } else {
+//                
+//                // What are we doing if the user denies permissin? For now just dismiss anyway. Maybe ask again?
+//                dismiss()
+//            }
+//        }
     }
 }
 

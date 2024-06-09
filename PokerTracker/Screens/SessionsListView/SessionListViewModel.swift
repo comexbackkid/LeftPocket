@@ -73,7 +73,11 @@ class SessionsListViewModel: ObservableObject {
         guard
             let data = try? Data(contentsOf: sessionsPath),
             let savedSessions = try? JSONDecoder().decode([PokerSession].self, from: data)
-        else { return }
+                
+        else {
+            // Handle potential errors here
+            return
+        }
         
         self.sessions = savedSessions
     }

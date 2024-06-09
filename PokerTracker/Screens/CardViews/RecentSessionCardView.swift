@@ -102,8 +102,10 @@ struct RecentSessionCardView: View {
                     .signInTitleStyle()
                     .fontWeight(.heavy)
                     .foregroundColor(Color(.white))
+                
+                Spacer()
             }
-            .offset(y: -135)
+            
             .padding()
                 
         }

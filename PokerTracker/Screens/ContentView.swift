@@ -13,6 +13,7 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     
     @State private var showMetricsAsSheet = false
+    @State private var showSleepAnalyticsAsSheet = false
     @State var activeSheet: Sheet?
     
     var body: some View {
@@ -47,11 +48,10 @@ struct ContentView: View {
         }
         .background { homeBackground.ignoresSafeArea() }
         .sheet(item: $activeSheet) { sheet in
-            
             switch sheet {
             case .productUpdates: ProductUpdates(activeSheet: $activeSheet)
             case .recentSession: SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
-            case .sleepAnalytics: SleepAnalytics()
+            case .sleepAnalytics: SleepAnalytics(activeSheet: $activeSheet)
             }
         }
     }
@@ -196,8 +196,6 @@ struct ContentView: View {
             
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
-            
-            // set active sheet here
             activeSheet = .sleepAnalytics
             
         }, label: {

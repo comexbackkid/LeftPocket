@@ -42,9 +42,6 @@ struct LiveSessionCounter: View {
         .padding()
         .background(.thickMaterial.opacity(0.97))
         .cornerRadius(20)
-        .onDisappear {
-            timerViewModel.stopTimer()
-        }
         .sheet(isPresented: $showRebuyModal, onDismiss: {
             if rebuyConfirmationSound {
                 playSound()

@@ -14,67 +14,73 @@ struct SleepAnalytics: View {
     @AppStorage("hasSeenPermissionPriming") private var hasSeenPermissionPriming = false
     
     @Environment(\.dismiss) var dismiss
-    @Environment(\.isPresented) var showSleepAnalyticsAsSheet
     @Environment(\.colorScheme) var colorScheme
     
     @State private var isShowingPermissionPrimingSheet = false
+    @Binding var activeSheet: Sheet?
     
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var hkManager: HealthKitManager
         
     var body: some View {
         
-        ScrollView {
-            
-            VStack {
+        ZStack {
+            ScrollView {
                 
-                title
-                
-                instructions
-                
-                VStack (spacing: 22) {
+                VStack {
                     
-                    if #available(iOS 17.0, *) {
-                        sleepChart
+                    title
+                    
+                    instructions
+                    
+                    VStack (spacing: 22) {
+                        
+                        if #available(iOS 17.0, *) {
+                            sleepChart
+                        }
+                        
+                        ToolTipView(image: "bed.double.fill",
+                                    message: "So far this year, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 || countLowSleepSessions() < 1  ? "s" : "") under-rested.",
+                                    color: .donutChartOrange)
+                        
+                        ToolTipView(image: "gauge",
+                                    message: performanceComparison(),
+                                    color: .chartAccent)
+                        
                     }
-                    
-                    ToolTipView(image: "bed.double.fill",
-                                message: "So far this year, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 ? "s" : "") under-rested.",
-                                color: .donutChartOrange)
-                    
-                    ToolTipView(image: "gauge",
-                                message: performanceComparison(),
-                                color: .chartAccent)
-                    
-                    
-                    // MARK: TESTING ONLY
-                    
-                   
-                    ForEach(hkManager.sleepData) { data in
-                        Text("Date: \(data.date.formatted(date: .abbreviated, time: .omitted)): \(data.value)" )
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationTitle("")
+                    .padding(.bottom, 50)
+                    .padding(.top)
+                    .onAppear {
+                        isShowingPermissionPrimingSheet = !hasSeenPermissionPriming
+                    }
+                    .sheet(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
+                        Task {
+                            await handleAuthorizationChecksAndDataFetch()
+                        }
+                    }, content: {
+                        HealthKitPrimingView(hasSeen: $hasSeenPermissionPriming)
+                    })
+                }
+                .task {
+                    await hkManager.checkAuthorizationStatus()
+                    if hkManager.authorizationStatus == .sharingAuthorized {
+                        await hkManager.fetchSleepData()
                     }
                 }
-                .padding(.bottom, 50)
-                .padding(.top)
-                .onAppear {
-                    hasSeenPermissionPriming = false
-                    isShowingPermissionPrimingSheet = !hasSeenPermissionPriming
-                }
-                .sheet(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
-                    
-                }, content: {
-                    HealthKitPrimingView(hasSeen: $hasSeenPermissionPriming)
-                })
             }
-            .task {
-                hkManager.fetchSleepData()
-            }
+            .background(Color.brandBackground)
             
-            // if showSleepAnalyticsAsSheet { dismissButton }
-            
+            if activeSheet == .sleepAnalytics { dismissButton }
         }
-        .background(Color.brandBackground)
-        .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    private func handleAuthorizationChecksAndDataFetch() async {
+        await hkManager.checkAuthorizationStatus()
+        if hkManager.authorizationStatus == .sharingAuthorized {
+            await hkManager.fetchSleepData()
+        }
     }
     
     var title: some View {
@@ -91,7 +97,7 @@ struct SleepAnalytics: View {
             Spacer()
         }
         .padding(.horizontal)
-        .padding(.top, -37)
+        .padding(.top, activeSheet == .sleepAnalytics ? 0 : -37)
     }
     
     var instructions: some View {
@@ -126,15 +132,19 @@ struct SleepAnalytics: View {
     var dismissButton: some View {
         
         VStack {
+            
             HStack {
+                
                 Spacer()
+                
                 DismissButton()
                     .padding(.trailing, 20)
-                    .shadow(color: Color.black.opacity(0.1), radius: 8)
+                    .padding(.top, 20)
                     .onTapGesture {
                         dismiss()
                     }
             }
+            
             Spacer()
         }
     }
@@ -164,7 +174,7 @@ struct SleepAnalytics: View {
                 }
             }
             .chartXAxis {
-                AxisMarks {
+                AxisMarks(preset: .aligned) {
                     AxisValueLabel(format: .dateTime.month(.defaultDigits).day())
                 }
             }
@@ -173,14 +183,31 @@ struct SleepAnalytics: View {
                     AxisGridLine()
                         .foregroundStyle(Color.secondary.opacity(0.3))
                     
-                    AxisValueLabel((value.as(Double.self) ?? 0).formatted(.number.notation(.compactName)), horizontalSpacing: 20)
+                    AxisValueLabel {
+                        if let value = value.as(Double.self), value != 0 {
+                            Text("\(value, specifier: "%.0f")h")
+                                .padding(.leading, 18)
+                        }
+                    }
                 }
             }
             .padding(.leading, 6)
         }
+        .overlay {
+            switch hkManager.authorizationStatus {
+            case .notDetermined:
+                ProgressView("Loading")
+            case .sharingDenied:
+                Text("HealthKit permission denied.")
+            case .sharingAuthorized:
+                EmptyView()
+            @unknown default:
+                ProgressView("Loading")
+            }
+        }
         .padding()
         .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
-        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+        .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
         .cornerRadius(20)
     }
     
@@ -210,6 +237,8 @@ struct SleepAnalytics: View {
     
     // Calculates how many sessions were played with less than 6 hours sleep since the start of the year
     func countLowSleepSessions() -> Int {
+        
+        // These are ALL sessions where you've slept under 6 hours. Later we filter for only this year
         let sessions = viewModel.sessions.filter {
             guard let sleep = hkManager.sleepData.sleepHours(on: $0.date) else { return false }
             return sleep < 6
@@ -262,15 +291,15 @@ struct SleepAnalytics: View {
     }
     
     func avgSleep() -> String {
-        guard !SleepMetric.MockData.isEmpty else { return "0" }
-        let totalSleep = SleepMetric.MockData.reduce(0) { $0 + $1.value }
-        let avgSleep = Double(totalSleep) / Double(SleepMetric.MockData.count)
+        guard !hkManager.sleepData.isEmpty else { return "0" }
+        let totalSleep = hkManager.sleepData.reduce(0) { $0 + $1.value }
+        let avgSleep = Double(totalSleep) / Double(hkManager.sleepData.count)
         return avgSleep.formatted(.number.precision(.fractionLength(1)))
     }
 }
 
 #Preview {
-    SleepAnalytics()
+    SleepAnalytics(activeSheet: .constant(.sleepAnalytics))
         .environmentObject(SessionsListViewModel())
         .environmentObject(HealthKitManager())
         .preferredColorScheme(.dark)
