@@ -22,13 +22,11 @@ class CSVConversion: ObservableObject {
             let csvText = convertToCSV(data: sessions)
 
             do {
-                
                 let fileURL = try getDocumentsDirectoryNew().appendingPathComponent("Left_Pocket_Sessions.csv")
                 try csvText.write(to: fileURL, atomically: true, encoding: .utf8)
                 return fileURL
                 
             } catch {
-                
                 throw CSVError.exportFailed
             }
         }

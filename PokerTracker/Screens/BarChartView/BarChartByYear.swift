@@ -107,7 +107,6 @@ struct BarChartByYear: View {
                                verticalSpacing: 15).font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
             }
         }
-        
     }
     
     var barChartOldVersion: some View {

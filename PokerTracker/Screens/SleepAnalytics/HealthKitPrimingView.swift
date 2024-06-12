@@ -46,20 +46,18 @@ struct HealthKitPrimingView: View {
             } label: {
                 PrimaryButton(title: "Connect Apple Health")
             }
-            
         }
         .padding(30)
         .interactiveDismissDisabled()
         .onAppear { hasSeen = true }
-//        .onChange(of: hkManager.authorizationStatus) {
-//            if hkManager.authorizationStatus == .sharingAuthorized {
-//                dismiss()
-//            } else {
-//                
-//                // What are we doing if the user denies permissin? For now just dismiss anyway. Maybe ask again?
-//                dismiss()
-//            }
-//        }
+        .onChange(of: hkManager.authorizationStatus, perform: { state in
+            if state != .notDetermined {
+                dismiss()
+            } else {
+                // What are we doing if the user denies permission? For now just dismiss anyway. Maybe ask again?
+                dismiss()
+            }
+        })
     }
 }
 

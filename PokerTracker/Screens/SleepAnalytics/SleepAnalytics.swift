@@ -17,6 +17,7 @@ struct SleepAnalytics: View {
     @Environment(\.colorScheme) var colorScheme
     
     @State private var isShowingPermissionPrimingSheet = false
+    @State private var showError = false
     @Binding var activeSheet: Sheet?
     
     @EnvironmentObject var viewModel: SessionsListViewModel
@@ -47,6 +48,8 @@ struct SleepAnalytics: View {
                                     message: performanceComparison(),
                                     color: .chartAccent)
                         
+                        footerText
+                        
                     }
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationTitle("")
@@ -56,30 +59,24 @@ struct SleepAnalytics: View {
                         isShowingPermissionPrimingSheet = !hasSeenPermissionPriming
                     }
                     .sheet(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
-                        Task {
-                            await handleAuthorizationChecksAndDataFetch()
-                        }
+                        Task { await handleAuthorizationChecksAndDataFetch() }
                     }, content: {
                         HealthKitPrimingView(hasSeen: $hasSeenPermissionPriming)
                     })
-                }
-                .task {
-                    await hkManager.checkAuthorizationStatus()
-                    if hkManager.authorizationStatus == .sharingAuthorized {
-                        await hkManager.fetchSleepData()
-                    }
                 }
             }
             .background(Color.brandBackground)
             
             if activeSheet == .sleepAnalytics { dismissButton }
         }
-    }
-    
-    private func handleAuthorizationChecksAndDataFetch() async {
-        await hkManager.checkAuthorizationStatus()
-        if hkManager.authorizationStatus == .sharingAuthorized {
-            await hkManager.fetchSleepData()
+        .task {
+            await handleAuthorizationChecksAndDataFetch()
+        }
+        .onChange(of: hkManager.errorMsg, perform: { value in
+            showError = true
+        })
+        .alert("Uh oh!", isPresented: $showError) {
+            Text(hkManager.errorMsg ?? "An unknown error occurred.")
         }
     }
     
@@ -105,7 +102,7 @@ struct SleepAnalytics: View {
         VStack (alignment: .leading) {
             
             HStack {
-                Text("Gain a deeper understanding of how sleep affects your game. Green bars represent profitable sessions, & red bars are days you lost money.")
+                Text("Gain a deeper understanding of how sleep affects your game. Green bars represent profitable sessions, & red bars are days you lost money over the last month.")
                     .bodyStyle()
                 
                 Spacer()
@@ -118,15 +115,34 @@ struct SleepAnalytics: View {
         
         VStack (alignment: .leading) {
             
+            Text("Importance of Sleep 🌙")
+                .cardTitleStyle()
+                .padding(.bottom)
+            
             HStack {
-                Text("The recommended sleep for adults older than 18 years is at least seven hours per night.")
+                Text("""
+                     The recommended sleep for adults older than 18 years is at least 7 hours per night.
+                     
+                     Sleep is essential to achieve the best state of physical and mental health. Research suggests that sleep plays an important role in learning, memory, mood, and judgment. Sleep affects how well you perform when you are awake.
+                     
+                     When thinking about playing optimal poker, getting enough rest should be at or near the top of your priorities.
+                     """)
                     .bodyStyle()
                 
                 Spacer()
             }
         }
-        .padding(.horizontal)
-        
+        .foregroundStyle(.white)
+        .padding(20)
+        .frame(width: UIScreen.main.bounds.width * 0.9)
+        .background(
+            Image("nightsky")
+                .resizable()
+                .clipped()
+                .overlay(.ultraThinMaterial)
+        )
+        .cornerRadius(20)
+        .padding(.top, 12)
     }
     
     var dismissButton: some View {
@@ -175,7 +191,8 @@ struct SleepAnalytics: View {
             }
             .chartXAxis {
                 AxisMarks(preset: .aligned) {
-                    AxisValueLabel(format: .dateTime.month(.defaultDigits).day())
+                    AxisValueLabel(format: .dateTime.month(.defaultDigits).day(), verticalSpacing: 10)
+                        .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
                 }
             }
             .chartYAxis {
@@ -186,6 +203,7 @@ struct SleepAnalytics: View {
                     AxisValueLabel {
                         if let value = value.as(Double.self), value != 0 {
                             Text("\(value, specifier: "%.0f")h")
+                                .captionStyle()
                                 .padding(.leading, 18)
                         }
                     }
@@ -194,21 +212,37 @@ struct SleepAnalytics: View {
             .padding(.leading, 6)
         }
         .overlay {
-            switch hkManager.authorizationStatus {
-            case .notDetermined:
-                ProgressView("Loading")
-            case .sharingDenied:
-                Text("HealthKit permission denied.")
-            case .sharingAuthorized:
-                EmptyView()
-            @unknown default:
-                ProgressView("Loading")
+            if hkManager.sleepData.isEmpty {
+                VStack {
+                    ProgressView()
+                        .padding(.bottom, 5)
+                    Text("No sleep data to display.")
+                        .calloutStyle()
+                        .foregroundStyle(.secondary)
+                    Text("Grant permissions in iOS Settings.")
+                        .calloutStyle()
+                        .foregroundStyle(.secondary)
+                }
             }
         }
         .padding()
         .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
         .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
         .cornerRadius(20)
+    }
+    
+    private func handleAuthorizationChecksAndDataFetch() async {
+        await hkManager.checkAuthorizationStatus()
+        
+        if hkManager.authorizationStatus != .notDetermined {
+            do {
+                try await hkManager.fetchSleepData()
+            } catch let error as HKError {
+                hkManager.errorMsg = error.description
+            } catch {
+                hkManager.errorMsg = HKError.unableToCompleteRequest.description
+            }
+        }
     }
     
     // Dynamically return red vs. green if the user won or lost money

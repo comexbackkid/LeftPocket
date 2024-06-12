@@ -6,14 +6,18 @@
 //
 
 import SwiftUI
+import RevenueCat
+import RevenueCatUI
 
 struct ContentView: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
+    @EnvironmentObject var subManager: SubscriptionManager
     @Environment(\.colorScheme) var colorScheme
     
     @State private var showMetricsAsSheet = false
     @State private var showSleepAnalyticsAsSheet = false
+    @State private var showPaywall = false
     @State var activeSheet: Sheet?
     
     var body: some View {
@@ -36,7 +40,7 @@ struct ContentView: View {
                     
                     recentSessionCard
                     
-//                    sleepAnalyticsCard
+                    sleepAnalyticsCard
 
                     Spacer()
                 }
@@ -179,7 +183,6 @@ struct ContentView: View {
             
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
-            
             activeSheet = .recentSession
             
         }, label: {
@@ -196,15 +199,41 @@ struct ContentView: View {
             
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
-            activeSheet = .sleepAnalytics
-            
+            if subManager.isSubscribed {
+                activeSheet = .sleepAnalytics
+            } else {
+                showPaywall = true
+            }
+        
         }, label: {
             
             SleepCardView()
         })
         .buttonStyle(CardViewButtonStyle())
         .padding(.bottom, 30)
-        
+        .sheet(isPresented: $showPaywall, content: {
+            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                .overlay {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            DismissButton()
+                                .padding()
+                                .onTapGesture {
+                                    showPaywall = false
+                            }
+                            Spacer()
+                        }
+                    }
+                }
+        })
+        .task {
+            for await customerInfo in Purchases.shared.customerInfoStream {
+                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                await subManager.checkSubscriptionStatus()
+            }
+        }
     }
     
     var bankrollView: some View {
@@ -266,26 +295,11 @@ enum Sheet: String, Identifiable {
     }
 }
 
-struct CardViewButtonStyle: ButtonStyle {
-    
-    // This just removes some weird button styling from our custom card view that couldn't otherwise be made
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .overlay {
-                
-                if configuration.isPressed {
-                    Color.black.opacity(0.1).cornerRadius(20)
-                    
-                } else {
-                    Color.clear
-                }
-            }
-    }
-}
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(SessionsListViewModel())
+        ContentView()
+            .environmentObject(SessionsListViewModel())
+            .environmentObject(SubscriptionManager())
             .preferredColorScheme(.dark)
     }
 }

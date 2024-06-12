@@ -37,7 +37,6 @@ struct UserSettings: View {
                     
                     displayOptions
                     
-                    // Sheet appears with Paywall when they tap this
                     if !subManager.isSubscribed {
                         
                         upgradeToPro
@@ -323,17 +322,13 @@ struct UserSettings: View {
                         impact.impactOccurred()
                         
                         do {
-                            
                             let fileURL = try CSVConversion.exportCSV(from: vm.sessions)
                             shareFile(fileURL) {
                                 exportCounter = 0
                             }
-                            
                         } catch {
-                            
                             exportUtility.errorMsg = "\(error.localizedDescription)"
                             showError.toggle()
-                            
                         }
                         
                     } label: {
@@ -359,7 +354,6 @@ struct UserSettings: View {
                                         .calloutStyle()
                                         .opacity(0.8)
                                         .padding(.top, 1)
-                                    
                                 }
                             }
                         }
@@ -372,13 +366,10 @@ struct UserSettings: View {
                 } else {
                     
                     Button {
-                        
                         let impact = UIImpactFeedbackGenerator(style: .soft)
                         impact.impactOccurred()
-                        
                         showPaywall = true
                             
-                        
                     } label: {
                         
                         HStack {

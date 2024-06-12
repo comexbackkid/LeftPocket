@@ -9,7 +9,6 @@ import SwiftUI
 import Foundation
 import HealthKit
 
-
 class HealthKitManager: ObservableObject {
     
     let store = HKHealthStore()
@@ -17,6 +16,7 @@ class HealthKitManager: ObservableObject {
     
     @Published var sleepData: [SleepMetric] = []
     @Published var authorizationStatus: HKAuthorizationStatus = .notDetermined
+    @Published var errorMsg: String?
     
     func checkAuthorizationStatus() async {
         guard HKHealthStore.isHealthDataAvailable() else {
@@ -57,12 +57,12 @@ class HealthKitManager: ObservableObject {
         }
     }
     
+    // Need to have multiple points where we catch and throw errors, and then later handle them in the UI
+    // Research the authorizationStatus, Sean Allen pointed out that if sharing is allowed, it doesn't have anything to do with FETCHING data...?
     @MainActor
-    func fetchSleepData() async {
-        guard authorizationStatus == .sharingAuthorized else {
-            
-            print("HealthKit authorization not granted.")
-            return
+    func fetchSleepData() async throws {
+        guard store.authorizationStatus(for: HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!) != .notDetermined else {
+            throw HKError.authNotDetermined
         }
         
         let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
@@ -73,7 +73,8 @@ class HealthKitManager: ObservableObject {
         
         let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { [weak self] (query, result, error) in
             guard error == nil else {
-                print("Error fetching sleep data: \(String(describing: error))")
+                self?.errorMsg = error?.localizedDescription
+//                print("Error fetching sleep data: \(String(describing: error))")
                 return
             }
             
@@ -142,4 +143,24 @@ extension HKCategoryValueSleepAnalysis {
     static func predicateForSamples(equalTo values: Set<HKCategoryValueSleepAnalysis>) -> NSPredicate {
         return NSPredicate(format: "value IN %@", values.map { $0.rawValue })
     }
+}
+
+enum HKError: Error {
+    case authNotDetermined
+    case sharingDenied
+    case noData
+    case unableToCompleteRequest
+    
+    var description: String {
+            switch self {
+            case .authNotDetermined:
+                return "An error occured. HealthKit authorization could not be determined."
+            case .sharingDenied:
+                return "An error occured. HealthKit authorization was denied."
+            case .noData:
+                return "An error occured. HealthKit returned no sleep data."
+            case .unableToCompleteRequest:
+                return "An error occured. Unable to complete request."
+            }
+        }
 }

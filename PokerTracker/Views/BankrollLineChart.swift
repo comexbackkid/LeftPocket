@@ -19,24 +19,19 @@ struct BankrollLineChart: View {
     @State private var selectedIndex: Int?
     @State private var animationProgress: CGFloat = 0.0
     @State private var showChart: Bool = false
-    @State var sessionFilter: SessionFilter = .all
+    @State private var sessionFilter: SessionFilter = .all
     @State private var chartRange: ChartRange = .all
-    
-    var dateRange: [PokerSession] {
-        switch chartRange {
-        case .all: return viewModel.sessions
-            
-        case .oneMonth: return filterSessionsForLastThreeMonths()
-            
-        case .sixMonth: return filterSessionsForLastSixMonths()
-            
-        case .oneYear: return filterSessionsForLastTwelveMonths()
-            
-        }
-    }
     
     // Optional year selector, only used in Annual Report View. Overrides dateRange if used
     var yearSelection: [PokerSession]?
+    var dateRange: [PokerSession] {
+        switch chartRange {
+        case .all: return viewModel.sessions
+        case .oneMonth: return filterSessionsForLastThreeMonths()
+        case .sixMonth: return filterSessionsForLastSixMonths()
+        case .oneYear: return filterSessionsForLastTwelveMonths()
+        }
+    }
     var profitAnnotation: Int? {
         
         getProfitForIndex(index: selectedIndex ?? 0, cumulativeProfits: convertedData)
@@ -67,28 +62,9 @@ struct BankrollLineChart: View {
                     
                     Spacer()
                     
-                    Button {
-                        viewModel.lineChartFullScreen.toggle()
-                    } label: {
-                        Image(systemName: "arrow.up.left.and.down.right.and.arrow.up.right.and.down.left")
-                    }
-                    .tint(.brandPrimary)
-                    .padding(.horizontal, 5)
+                    fullScreenToggleButton
                     
-                    Menu {
-                        Picker("", selection: $sessionFilter) {
-                            ForEach(SessionFilter.allCases, id: \.self) {
-                                Text($0.rawValue.capitalized).tag($0)
-                            }
-                        }
-                    } label: {
-                        Text(sessionFilter.rawValue.capitalized + " ›")
-                            .bodyStyle()
-                    }
-                    .tint(.brandPrimary)
-                    .transaction { transaction in
-                        transaction.animation = nil
-                    }
+                    filterButton
                 }
                 .padding(.bottom, 40)
             }
@@ -177,6 +153,16 @@ struct BankrollLineChart: View {
                 }
             }
         }
+        .overlay {
+            if calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange, sessionFilter: sessionFilter).isEmpty {
+                VStack {
+                    Text("No chart data to display.")
+                        .calloutStyle()
+                        .foregroundStyle(.secondary)
+                }
+                .offset(y: -20)
+            }
+        }
     }
     
     var lineChartOldVersion: some View {
@@ -219,6 +205,47 @@ struct BankrollLineChart: View {
                 }
             }
         }
+        .overlay {
+            if calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange, sessionFilter: sessionFilter).isEmpty {
+                VStack {
+                    Text("No chart data to display.")
+                        .calloutStyle()
+                        .foregroundStyle(.secondary)
+                }
+                .offset(y: -20)
+            }
+        }
+    }
+    
+    var fullScreenToggleButton: some View {
+        
+        Button {
+            viewModel.lineChartFullScreen.toggle()
+        } label: {
+            Image(systemName: "arrow.up.left.and.down.right.and.arrow.up.right.and.down.left")
+        }
+        .tint(.brandPrimary)
+        .padding(.horizontal, 5)
+        
+    }
+    
+    var filterButton: some View {
+        
+        Menu {
+            Picker("", selection: $sessionFilter) {
+                ForEach(SessionFilter.allCases, id: \.self) {
+                    Text($0.rawValue.capitalized).tag($0)
+                }
+            }
+        } label: {
+            Text(sessionFilter.rawValue.capitalized + " ›")
+                .bodyStyle()
+        }
+        .tint(.brandPrimary)
+        .transaction { transaction in
+            transaction.animation = nil
+        }
+        
     }
     
     var rangeSelector: some View {

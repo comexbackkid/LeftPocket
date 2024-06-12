@@ -73,6 +73,7 @@ struct ProfitByLocationView: View {
                                             .background(Color.brandPrimary)
                                             .foregroundColor(.white)
                                             .cornerRadius(30)
+                                            .shadow(radius: 10)
                                     }
                                 }
                         }

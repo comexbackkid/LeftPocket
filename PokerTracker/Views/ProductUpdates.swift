@@ -14,50 +14,50 @@ struct ProductUpdates: View {
     var body: some View {
         
         let updates = [
-            "Support for multiple currencies",
-            "Re-designed reports views for locations, days of the week, and stakes",
-            "Filter Player Stats by cash or tournament",
-            "Add a new location directly from New Session screen",
-            "Minor bug fixes"
+            "Sleep Analytics is here! Available to all Pro subscribers, accessible directly from Dashboard screen or at the bottom of Metrics screen.",
+            "Live Session now supports rebuy / top-offs.",
+            "Add new Locations and custom stakes right from the New Session view.",
         ]
         
         ZStack {
             
             VStack {
-                Image("product-updates-banner")
+                Image("product-updates-header")
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 200)
                     .padding(.bottom, 5)
                 
-                VStack {
+                VStack (spacing: 7) {
                     
                     HStack {
-                        Text("NEW in Left Pocket v3.4.3")
-                            .subtitleStyle()
+                        Text("New in Left Pocket v" + getAppVersion())
+                            .cardTitleStyle()
                         
                         Spacer()
                     }
                     
                     HStack {
                         VStack (alignment: .leading, spacing: 10) {
-                            Text("We've brought some exciting new features to Left Pocket that we hope you'll enjoy:")
-                                .padding(.bottom, 5)
-                                .padding(.top, 10)
+                            Text("We've brought some exciting new features to Left Pocket that we hope you'll enjoy...")
+                                .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+                                .padding(.bottom, 20)
                             
                             ForEach(updates, id: \.self) { feature in
-                                HStack (alignment: .firstTextBaseline) {
+                                HStack (alignment: .firstTextBaseline, spacing: 12) {
                                     Image(systemName: "checkmark")
                                         .resizable()
                                         .frame(width: 10, height: 10)
+                                        .fontWeight(.heavy)
                                     Text(feature)
+                                        .calloutStyle()
                                 }
+                                .padding(.bottom, 6)
                             }
                         }
                         Spacer()
                     }
-                    .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
                     .lineSpacing(2.5)
-                    .padding(.vertical, 5)
                     
                     Spacer()
                 }
@@ -66,9 +66,16 @@ struct ProductUpdates: View {
         }
         .background(Image("defaultlocation-header").resizable().offset(y: 175).overlay(.regularMaterial))
     }
+    
+    func getAppVersion() -> String {
+        if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            return appVersion
+        }
+        return "Unknown"
+    }
 }
 
 #Preview {
     ProductUpdates(activeSheet: .constant(.productUpdates))
-        .preferredColorScheme(.dark)
+//        .preferredColorScheme(.dark)
 }

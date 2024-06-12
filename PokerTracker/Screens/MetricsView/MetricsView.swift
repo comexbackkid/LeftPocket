@@ -7,6 +7,8 @@
 
 import SwiftUI
 import TipKit
+import RevenueCat
+import RevenueCatUI
 
 struct MetricsView: View {
     
@@ -564,6 +566,8 @@ struct ToolTipView: View {
 struct AdditionalMetricsView: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
+    @EnvironmentObject var subManager: SubscriptionManager
+    @State private var showPaywall = false
     
     var body: some View {
         
@@ -573,7 +577,7 @@ struct AdditionalMetricsView: View {
             if #available(iOS 17, *) {
                 
                 ScrollView(.horizontal, showsIndicators: false, content: {
-                    HStack (spacing: 10) {
+                    HStack (spacing: 12) {
                         
                         NavigationLink(
                             destination: ProfitByYear(vm: AnnualReportViewModel()),
@@ -585,16 +589,41 @@ struct AdditionalMetricsView: View {
                             })
                         .buttonStyle(PlainButtonStyle())
                         
-//                        NavigationLink(
-//                            destination: SleepAnalytics(activeSheet: .constant(.none)),
-//                            label: {
-//                                AdditionalMetricsCardView(title: "Sleep Analytics",
-//                                                          description: "See how your sleep is affecting\nyour poker results.",
-//                                                          image: "bed.double.fill",
-//                                                          color: .donutChartOrange)
-//                                
-//                            })
-//                        .buttonStyle(PlainButtonStyle())
+                        if subManager.isSubscribed {
+                            
+                            NavigationLink(
+                                destination: SleepAnalytics(activeSheet: .constant(.none)),
+                                label: {
+                                    AdditionalMetricsCardView(title: "Sleep Analytics",
+                                                              description: "See how your sleep is affecting\nyour poker results.",
+                                                              image: "bed.double.fill",
+                                                              color: .donutChartOrange)
+                                    
+                                })
+                            .buttonStyle(PlainButtonStyle())
+                        } else {
+                            
+                            AdditionalMetricsCardView(title: "Sleep Analytics",
+                                                      description: "See how your sleep is affecting\nyour poker results.",
+                                                      image: "bed.double.fill",
+                                                      color: Color(.systemGray4))
+                            .blur(radius: 2)
+                            .overlay {
+                                Button {
+                                   showPaywall = true
+                                } label: {
+                                    Text("Upgrade for Access")
+                                        .buttonTextStyle()
+                                        .frame(height: 55)
+                                        .frame(width: UIScreen.main.bounds.width * 0.6)
+                                        .background(Color.brandPrimary)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(30)
+                                        .shadow(radius: 10)
+                                }
+                            }
+                            
+                        }
                         
                         NavigationLink(
                             destination: ProfitByMonth(vm: viewModel),
@@ -633,11 +662,34 @@ struct AdditionalMetricsView: View {
                 .scrollTargetLayout()
                 .scrollTargetBehavior(.viewAligned)
                 .scrollBounceBehavior(.automatic)
+                .sheet(isPresented: $showPaywall, content: {
+                    PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                        .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                        .overlay {
+                            HStack {
+                                Spacer()
+                                VStack {
+                                    DismissButton()
+                                        .padding()
+                                        .onTapGesture {
+                                            showPaywall = false
+                                    }
+                                    Spacer()
+                                }
+                            }
+                        }
+                })
+                .task {
+                    for await customerInfo in Purchases.shared.customerInfoStream {
+                        showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                        await subManager.checkSubscriptionStatus()
+                    }
+                }
                 
             } else {
                 
                 ScrollView(.horizontal, showsIndicators: false, content: {
-                    HStack (spacing: 10) {
+                    HStack (spacing: 12) {
                         
                         NavigationLink(
                             destination: ProfitByYear(vm: AnnualReportViewModel()),
@@ -649,16 +701,16 @@ struct AdditionalMetricsView: View {
                             })
                         .buttonStyle(PlainButtonStyle())
                         
-//                        NavigationLink(
-//                            destination: SleepAnalytics(),
-//                            label: {
-//                                AdditionalMetricsCardView(title: "Sleep Analytics",
-//                                                          description: "See how your sleep affects your \npoker results.",
-//                                                          image: "bed.double.fill",
-//                                                          color: .donutChartOrange)
-//                                
-//                            })
-//                        .buttonStyle(PlainButtonStyle())
+                        NavigationLink(
+                            destination: SleepAnalytics(activeSheet: .constant(.none)),
+                            label: {
+                                AdditionalMetricsCardView(title: "Sleep Analytics",
+                                                          description: "See how your sleep affects your \npoker results.",
+                                                          image: "bed.double.fill",
+                                                          color: .donutChartOrange)
+                                
+                            })
+                        .buttonStyle(PlainButtonStyle())
                         
                         NavigationLink(
                             destination: ProfitByMonth(vm: viewModel),
@@ -727,7 +779,9 @@ struct PopoverView: View {
 struct MetricsView_Previews: PreviewProvider {
     
     static var previews: some View {
-        MetricsView().environmentObject(SessionsListViewModel())
+        MetricsView()
+            .environmentObject(SessionsListViewModel())
+            .environmentObject(SubscriptionManager())
             .preferredColorScheme(.dark)
     }
 }
