@@ -20,6 +20,9 @@ struct ContentView: View {
     @State private var showPaywall = false
     @State var activeSheet: Sheet?
     
+    
+    let lastSeenVersionKey = "LastSeenAppVersion"
+    
     var body: some View {
         
         ScrollView(.vertical) {
@@ -78,7 +81,7 @@ struct ContentView: View {
                 .multilineTextAlignment(.center)
                 .padding(.top)
             
-            Text("Tap the \(Image(systemName: "plus")) button below to get started.\nDuring a live session, add rebuys by\npressing the \(Image(systemName: "dollarsign.arrow.circlepath")) button.")
+            Text("Tap the \(Image(systemName: "plus")) button below to get started.\nDuring a Live Session, add rebuys by\npressing the \(Image(systemName: "dollarsign.arrow.circlepath")) button.")
                 .foregroundColor(.secondary)
                 .subHeadlineStyle()
                 .multilineTextAlignment(.center)
@@ -284,6 +287,30 @@ struct ContentView: View {
                        endRadius: 5)
         
     }
+    
+    func checkForUpdate() {
+        let currentVersion = Bundle.main.appVersion
+        let lastSeenVersion = UserDefaults.standard.string(forKey: lastSeenVersionKey) ?? "0.0"
+        
+        // Assuming major updates are determined by the first digit (e.g., 3.4.6 to 4.0)
+        if isMajorUpdate(from: lastSeenVersion, to: currentVersion) {
+            activeSheet = .productUpdates
+        }
+        
+        // Update the stored version to the current version
+        UserDefaults.standard.set(currentVersion, forKey: lastSeenVersionKey)
+    }
+    
+    func isMajorUpdate(from oldVersion: String, to newVersion: String) -> Bool {
+            let oldComponents = oldVersion.split(separator: ".")
+            let newComponents = newVersion.split(separator: ".")
+            
+            guard oldComponents.count > 0, newComponents.count > 0 else {
+                return false
+            }
+            
+            return oldComponents[0] != newComponents[0]
+        }
 }
 
 enum Sheet: String, Identifiable {

@@ -29,6 +29,11 @@ class HealthKitManager: ObservableObject {
         await withCheckedContinuation { continuation in
             store.getRequestStatusForAuthorization(toShare: [], read: types) { (status, error) in
                 DispatchQueue.main.async {
+                    
+                    if error != nil {
+                        self.errorMsg = error?.localizedDescription
+                    }
+                    
                     switch status {
                     case .unnecessary:
                         self.authorizationStatus = .sharingAuthorized

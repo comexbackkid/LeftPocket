@@ -62,7 +62,6 @@ struct LocationGridView: View {
                 
             resetLocationsButton
         }
-        
     }
     
     var addLocationButton: some View {
@@ -113,16 +112,11 @@ struct LocationGridItem: View {
 
     let location: LocationModel
     
-    
     var body: some View {
         
         VStack(alignment: .leading, spacing: 2) {
             
             if location.localImage != "" {
-                
-                if #available(iOS 17.0, *) {
-                    let deleteTip = DeleteLocationTip()
-                }
                 
                 // If the Location has a local image associated with it, just display tha image
                 Image(location.localImage)
@@ -142,10 +136,6 @@ struct LocationGridItem: View {
                 
             } else if location.importedImage != nil {
                 
-                if #available(iOS 17.0, *) {
-                    let deleteTip = DeleteLocationTip()
-                }
-                
                 // If user imported their own image, call it up here by converting data to UIImage
                 if let photoData = location.importedImage,
                    let uiImage = UIImage(data: photoData) {
@@ -159,10 +149,6 @@ struct LocationGridItem: View {
                 }
                 
             } else {
-                
-                if #available(iOS 17.0, *) {
-                    let deleteTip = DeleteLocationTip()
-                }
                 
                 // Otherwise, if the Location has no local image, no provided URL, show the default header
                 Image("defaultlocation-header")
@@ -196,10 +182,6 @@ struct LocationGridItem: View {
             
             if let image = phase.image {
                 
-                if #available(iOS 17.0, *) {
-                    let deleteTip = DeleteLocationTip()
-                }
-                
                 image
                     .locationGridThumbnail(colorScheme: colorScheme)
                     .contextMenu {
@@ -211,10 +193,6 @@ struct LocationGridItem: View {
                     }
                 
             } else if phase.error != nil {
-                
-                if #available(iOS 17.0, *) {
-                    let deleteTip = DeleteLocationTip()
-                }
                 
                 FailureView()
                     .aspectRatio(contentMode: .fill)
@@ -231,10 +209,6 @@ struct LocationGridItem: View {
                     }
                 
             } else {
-                
-                if #available(iOS 17.0, *) {
-                    let deleteTip = DeleteLocationTip()
-                }
                 
                 PlaceholderView()
                     .aspectRatio(contentMode: .fill)

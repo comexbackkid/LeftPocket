@@ -36,9 +36,7 @@ struct SleepAnalytics: View {
                     
                     VStack (spacing: 22) {
                         
-                        if #available(iOS 17.0, *) {
-                            sleepChart
-                        }
+                        sleepChart
                         
                         ToolTipView(image: "bed.double.fill",
                                     message: "So far this year, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 || countLowSleepSessions() < 1  ? "s" : "") under-rested.",
@@ -72,7 +70,7 @@ struct SleepAnalytics: View {
         .task {
             await handleAuthorizationChecksAndDataFetch()
         }
-        .onChange(of: hkManager.errorMsg, perform: { value in
+        .onChange(of: hkManager.errorMsg, perform: { _ in
             showError = true
         })
         .alert("Uh oh!", isPresented: $showError) {
@@ -165,7 +163,6 @@ struct SleepAnalytics: View {
         }
     }
     
-    @available(iOS 17.0, *)
     var sleepChart: some View {
         
         VStack {
@@ -246,7 +243,7 @@ struct SleepAnalytics: View {
     }
     
     // Dynamically return red vs. green if the user won or lost money
-    func calculateBarColor(healthMetric: SleepMetric, viewModel: SessionsListViewModel) -> Color {
+    private func calculateBarColor(healthMetric: SleepMetric, viewModel: SessionsListViewModel) -> Color {
         
         // Filter sessions to find any that match the date of the health metric
         let date = Calendar.current.startOfDay(for: healthMetric.date)
@@ -270,7 +267,7 @@ struct SleepAnalytics: View {
     }
     
     // Calculates how many sessions were played with less than 6 hours sleep since the start of the year
-    func countLowSleepSessions() -> Int {
+    private func countLowSleepSessions() -> Int {
         
         // These are ALL sessions where you've slept under 6 hours. Later we filter for only this year
         let sessions = viewModel.sessions.filter {
@@ -282,7 +279,7 @@ struct SleepAnalytics: View {
     }
     
     // Calculates your hourly rate when you get at least 6 hours of sleep
-    func performanceComparison() -> String {
+    private func performanceComparison() -> String {
         let sleepDataByDate = Dictionary(hkManager.sleepData.map { metric in
             (Calendar.current.startOfDay(for: metric.date), metric.value)
         }, uniquingKeysWith: { first, _ in first })  // Assume no duplicate dates for simplicity
@@ -309,7 +306,7 @@ struct SleepAnalytics: View {
                 if countWithLessSleep == 0 {
                     return "No data available to compare performances."
                 }
-                return "All sessions played with under 6 hours of sleep. No baseline available."
+                return "All sessions played with under 6 hours of sleep! No baseline available."
             }
 
             let avgHourlyRateWithEnoughSleep = hourlyRateWithEnoughSleep / Double(countWithEnoughSleep)
@@ -318,13 +315,13 @@ struct SleepAnalytics: View {
             // Calculate percentage improvement
             if avgHourlyRateWithLessSleep != 0 {
                 let improvement = ((avgHourlyRateWithEnoughSleep - avgHourlyRateWithLessSleep) / abs(avgHourlyRateWithLessSleep)) * 100
-                return "Your hourly rate is \(improvement.formatted(.number.precision(.fractionLength(0))))% \(improvement > 0 ? "greater" : "less") on days you sleep at least 6 hours."
+                return "Your hourly rate is \(improvement.formatted(.number.precision(.fractionLength(0))))% \(improvement > 0 ? "greater" : "worse") on days you sleep at least 6 hours."
             } else {
                 return "No sessions logged with less than 6 hours of sleep. No baseline comparison available."
             }
     }
     
-    func avgSleep() -> String {
+    private func avgSleep() -> String {
         guard !hkManager.sleepData.isEmpty else { return "0" }
         let totalSleep = hkManager.sleepData.reduce(0) { $0 + $1.value }
         let avgSleep = Double(totalSleep) / Double(hkManager.sleepData.count)

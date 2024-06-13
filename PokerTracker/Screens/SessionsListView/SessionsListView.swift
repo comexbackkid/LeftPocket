@@ -104,8 +104,8 @@ struct SessionsListView: View {
                         }
                         
                         if #available(iOS 17.0, *) {
+                            
                             VStack {
-                                
                                 let filterTip = FilterSessionsTip()
                                 
                                 TipView(filterTip)
@@ -114,7 +114,6 @@ struct SessionsListView: View {
                                 
                                 Spacer()
                             }
-                            
                         }
                         
                     } else {

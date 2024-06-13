@@ -12,12 +12,19 @@ struct AdvancedCashReport: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var viewModel: SessionsListViewModel
     
-    @State private var locationFilter = "All"
+    @State private var locationFilter: LocationModel?
     @State private var stakesFilter = "All"
     @State private var dateRangeFilter = "All"
     
     // I think we need a variety of computed properties
     // But not sure how to handle all of the filters
+    
+//    var filteredSessions: [PokerSession] {
+        
+//        var result = viewModel.sessions
+        
+//        return result
+//    }
     
     var body: some View {
 
@@ -102,13 +109,16 @@ struct AdvancedCashReport: View {
                 Spacer()
                 
                 Menu {
+                    Button("All") {
+                        locationFilter = nil
+                    }
                     Picker("", selection: $locationFilter) {
-                        Text("All").tag("All")
-                        Text("Encore Boston Harbor").tag("Encore Boston Harbor")
-                        Text("Rivers Casino").tag("Rivers Casino")
+                        ForEach(viewModel.sessions.map({ $0.location }).uniqued(), id: \.self) { location in
+                            Text(location.name).tag(location as LocationModel?)
+                        }
                     }
                 } label: {
-                    Text(locationFilter + " ›")
+                    Text(locationFilter?.name ?? "All" + " ›")
                         .bodyStyle()
                         .lineLimit(1)
                 }

@@ -11,12 +11,13 @@ struct DismissButton: View {
     var body: some View {
         ZStack {
             Circle()
-                .frame(width: 40, height: 40)
+                .frame(width: 38, height: 38)
                 .foregroundColor(.white)
                 .opacity(0.6)
             
             Image(systemName: "xmark")
-                .imageScale(.small)
+                .imageScale(.medium)
+                .fontWeight(.medium)
                 .frame(width: 44, height: 44)
                 .foregroundColor(.black)
         }
@@ -27,5 +28,6 @@ struct DismissButton_Previews: PreviewProvider {
     static var previews: some View {
         DismissButton()
             .previewLayout(.sizeThatFits)
+            .preferredColorScheme(.dark)
     }
 }

@@ -622,7 +622,6 @@ struct AdditionalMetricsView: View {
                                         .shadow(radius: 10)
                                 }
                             }
-                            
                         }
                         
                         NavigationLink(
