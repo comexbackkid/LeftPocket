@@ -626,6 +626,8 @@ struct LeftPocketImportView: View {
                 
                 VStack (alignment: .leading, spacing: 20) {
                     
+                    
+                    
                     HStack {
                         
                         Image(systemName: "1.circle.fill")
@@ -634,7 +636,7 @@ struct LeftPocketImportView: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Save the CSV file to your iCloud Drive.")
+                        Text("If you're importing a CSV that contains sessions with notes, you'll need to either remove all commas from the notes column or simply delete the note.")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -647,7 +649,7 @@ struct LeftPocketImportView: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Do NOT change or modify the contents of the CSV file.")
+                        Text("Save the CSV file to your iCloud Drive in UTF-8 format.")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -953,8 +955,6 @@ struct ImportView_Previews: PreviewProvider {
         ImportView()
             .preferredColorScheme(.dark)
         LeftPocketImportView()
-            .preferredColorScheme(.dark)
-        PokerAnalyticsImportView()
             .preferredColorScheme(.dark)
     }
 }

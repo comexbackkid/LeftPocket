@@ -62,67 +62,144 @@ class HealthKitManager: ObservableObject {
         }
     }
     
-    // Need to have multiple points where we catch and throw errors, and then later handle them in the UI
-    // Research the authorizationStatus, Sean Allen pointed out that if sharing is allowed, it doesn't have anything to do with FETCHING data...?
     @MainActor
     func fetchSleepData() async throws {
-        guard store.authorizationStatus(for: HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!) != .notDetermined else {
-            throw HKError.authNotDetermined
-        }
-        
-        let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
-        let endDate = Date()
-        let startDate = Calendar.current.date(byAdding: .day, value: -28, to: endDate)!
-        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
-        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
-        
-        let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { [weak self] (query, result, error) in
-            guard error == nil else {
-                self?.errorMsg = error?.localizedDescription
-//                print("Error fetching sleep data: \(String(describing: error))")
-                return
+            guard store.authorizationStatus(for: HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!) != .sharingAuthorized else {
+                throw HKError.authNotDetermined
             }
             
-            var sleepMetrics: [SleepMetric] = []
+            let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
+            let endDate = Date()
+            let startDate = Calendar.current.date(byAdding: .day, value: -28, to: endDate)!
+            let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
+            let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
             
-            if let result = result {
-                let calendar = Calendar.current
-                
-                var dailySleepTimes: [Date: Double] = [:]
-                
-                for sample in result {
-                    if let categorySample = sample as? HKCategorySample {
-                        if HKCategoryValueSleepAnalysis.allAsleepValues.map({$0.rawValue}).contains(categorySample.value) {
-                            
-                            let adjustedStartDate = self?.adjustedDateForGrouping(date: categorySample.startDate, calendar: calendar) ?? categorySample.startDate
-                            let sleepTime = categorySample.endDate.timeIntervalSince(categorySample.startDate) / 3600
-                            
-                            // Add sleep time to the next day
-                            let nextDay = calendar.date(byAdding: .day, value: 1, to: adjustedStartDate)!
-                            if let existingSleepTime = dailySleepTimes[nextDay] {
-                                dailySleepTimes[nextDay] = existingSleepTime + sleepTime
-                            } else {
-                                dailySleepTimes[nextDay] = sleepTime
+            return try await withCheckedThrowingContinuation { continuation in
+                let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { [weak self] (query, result, error) in
+                    if error != nil {
+                        continuation.resume(throwing: HKError.unableToQuerySleepData)
+                        return
+                    }
+                    
+                    var asleepSleepMetrics: [SleepMetric] = []
+                    var inBedSleepMetrics: [SleepMetric] = []
+                    
+                    if let result = result {
+                        let calendar = Calendar.current
+                        
+                        var dailyAsleepTimes: [Date: Double] = [:]
+                        var dailyInBedTimes: [Date: Double] = [:]
+                        
+                        for sample in result {
+                            if let categorySample = sample as? HKCategorySample {
+                                let adjustedStartDate = self?.adjustedDateForGrouping(date: categorySample.startDate, calendar: calendar) ?? categorySample.startDate
+                                let sleepTime = categorySample.endDate.timeIntervalSince(categorySample.startDate) / 3600
+                                
+                                // Add sleep time to the next day
+                                let nextDay = calendar.date(byAdding: .day, value: 1, to: adjustedStartDate)!
+                                
+                                // We're checking if the user has actual sleep data. If no, we default to using "In Bed" numbers generated from the Health App.
+                                if HKCategoryValueSleepAnalysis.allAsleepValues.map({ $0.rawValue }).contains(categorySample.value) {
+                                    if let existingSleepTime = dailyAsleepTimes[nextDay] {
+                                        dailyAsleepTimes[nextDay] = existingSleepTime + sleepTime
+                                    } else {
+                                        dailyAsleepTimes[nextDay] = sleepTime
+                                    }
+                                } else if categorySample.value == HKCategoryValueSleepAnalysis.inBed.rawValue {
+                                    if let existingSleepTime = dailyInBedTimes[nextDay] {
+                                        dailyInBedTimes[nextDay] = existingSleepTime + sleepTime
+                                    } else {
+                                        dailyInBedTimes[nextDay] = sleepTime
+                                    }
+                                }
+                            }
+                        }
+                        
+                        for (date, totalSleepTime) in dailyAsleepTimes {
+                            let sleepMetric = SleepMetric(date: date, value: totalSleepTime)
+                            asleepSleepMetrics.append(sleepMetric)
+                        }
+                        
+                        // If there is no asleep data, use inBed data
+                        if asleepSleepMetrics.isEmpty {
+                            for (date, totalSleepTime) in dailyInBedTimes {
+                                let sleepMetric = SleepMetric(date: date, value: totalSleepTime)
+                                inBedSleepMetrics.append(sleepMetric)
                             }
                         }
                     }
+                    
+                    var finalSleepMetrics = asleepSleepMetrics.isEmpty ? inBedSleepMetrics : asleepSleepMetrics
+                    finalSleepMetrics.sort { $0.date < $1.date }
+                    
+                    DispatchQueue.main.async {
+                        self?.sleepData = finalSleepMetrics
+                    }
+                    
+                    continuation.resume()
                 }
                 
-                for (date, totalSleepTime) in dailySleepTimes {
-                    let sleepMetric = SleepMetric(date: date, value: totalSleepTime)
-                    sleepMetrics.append(sleepMetric)
-                }
-                
-                sleepMetrics.sort { $0.date < $1.date }
-            }
-            
-            DispatchQueue.main.async {
-                self?.sleepData = sleepMetrics
+                store.execute(query)
             }
         }
-        
-        store.execute(query)
-    }
+    
+//    func fetchSleepData() async throws {
+//            guard store.authorizationStatus(for: HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!) != .notDetermined else {
+//                throw HKError.authNotDetermined
+//            }
+//            
+//            let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
+//            let endDate = Date()
+//            let startDate = Calendar.current.date(byAdding: .day, value: -28, to: endDate)!
+//            let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
+//            let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
+//            
+//            let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { [weak self] (query, result, error) in
+//                guard error == nil else {
+//                    self?.errorMsg = error?.localizedDescription
+//                    return
+//                }
+//                
+//                var sleepMetrics: [SleepMetric] = []
+//                
+//                if let result = result {
+//                    let calendar = Calendar.current
+//                    
+//                    var dailySleepTimes: [Date: Double] = [:]
+//                    
+//                    for sample in result {
+//                        if let categorySample = sample as? HKCategorySample {
+//                            if HKCategoryValueSleepAnalysis.allAsleepValues.map({$0.rawValue}).contains(categorySample.value) {
+//                                
+//                                let adjustedStartDate = self?.adjustedDateForGrouping(date: categorySample.startDate, calendar: calendar) ?? categorySample.startDate
+//                                let sleepTime = categorySample.endDate.timeIntervalSince(categorySample.startDate) / 3600
+//                                
+//                                // Add sleep time to the next day
+//                                let nextDay = calendar.date(byAdding: .day, value: 1, to: adjustedStartDate)!
+//                                if let existingSleepTime = dailySleepTimes[nextDay] {
+//                                    dailySleepTimes[nextDay] = existingSleepTime + sleepTime
+//                                } else {
+//                                    dailySleepTimes[nextDay] = sleepTime
+//                                }
+//                            }
+//                        }
+//                    }
+//                    
+//                    for (date, totalSleepTime) in dailySleepTimes {
+//                        let sleepMetric = SleepMetric(date: date, value: totalSleepTime)
+//                        sleepMetrics.append(sleepMetric)
+//                    }
+//                    
+//                    sleepMetrics.sort { $0.date < $1.date }
+//                }
+//                
+//                DispatchQueue.main.async {
+//                    self?.sleepData = sleepMetrics
+//                }
+//            }
+//            
+//            store.execute(query)
+//        }
     
     private func adjustedDateForGrouping(date: Date, calendar: Calendar) -> Date {
         var components = calendar.dateComponents([.year, .month, .day, .hour], from: date)
@@ -154,18 +231,21 @@ enum HKError: Error {
     case authNotDetermined
     case sharingDenied
     case noData
+    case unableToQuerySleepData
     case unableToCompleteRequest
     
     var description: String {
             switch self {
             case .authNotDetermined:
-                return "An error occured. HealthKit authorization could not be determined."
+                return "An error occurred. HealthKit authorization could not be determined."
             case .sharingDenied:
-                return "An error occured. HealthKit authorization was denied."
+                return "An error occurred. HealthKit authorization was denied."
             case .noData:
-                return "An error occured. HealthKit returned no sleep data."
+                return "An error occurred. HealthKit returned no sleep data."
+            case .unableToQuerySleepData:
+                return "An error occurred. Unable to query sleep data from device."
             case .unableToCompleteRequest:
-                return "An error occured. Unable to complete request."
+                return "An error occurred. Unable to complete request."
             }
         }
 }

@@ -157,7 +157,11 @@ class CSVImporter {
             let row = rows[rowIndex].trimmingCharacters(in: .whitespacesAndNewlines)
             // Skip empty rows
             if row.isEmpty { continue }
-            let columns = row.components(separatedBy: ",")
+            var columns = row.components(separatedBy: ",")
+            
+            if columns.count == 11 {
+                columns.append("")
+            }
            
             if columns.count == 12 {
                 

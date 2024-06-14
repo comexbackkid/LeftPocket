@@ -59,8 +59,6 @@
 		7C5B0C882BBF201E00A5014B /* LineChartFullScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */; };
 		7C5C79962B2780210088A841 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5C79952B2780210088A841 /* UserSettings.swift */; };
 		7C5D5D332BE2B6A8003DC94D /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5D322BE2B6A8003DC94D /* HealthKitManager.swift */; };
-		7C5D5D362BE2C8CB003DC94D /* SleepChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5D352BE2C8CB003DC94D /* SleepChartViewModel.swift */; };
-		7C5D5D382BE2CB1E003DC94D /* SleepChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5D372BE2CB1E003DC94D /* SleepChart.swift */; };
 		7C5EDA1828906F25008ACFEF /* EditLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5EDA1728906F25008ACFEF /* EditLocationView.swift */; };
 		7C62F1ED2BD034B200F14483 /* NewStakesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C62F1EC2BD034B200F14483 /* NewStakesView.swift */; };
 		7C62F1EF2BD0493400F14483 /* NewStakesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C62F1EE2BD0493400F14483 /* NewStakesViewModel.swift */; };
@@ -196,6 +194,7 @@
 		7CC81FB8294CBAD400E849A9 /* BestLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC81FB7294CBAD400E849A9 /* BestLocationView.swift */; };
 		7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */; };
 		7CD010E92BF23FE300998FD5 /* LiveSessionRebuyModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD010E82BF23FE300998FD5 /* LiveSessionRebuyModal.swift */; };
+		7CD2B1582C1BB5B300A90C79 /* PopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD2B1572C1BB5B300A90C79 /* PopoverView.swift */; };
 		7CD2EEC72BE8F0DB00AEE64E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD2EEC62BE8F0DB00AEE64E /* AppDelegate.swift */; };
 		7CD7468A28A6CA8F00D5A2D0 /* Images+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD7468928A6CA8F00D5A2D0 /* Images+Ext.swift */; };
 		7CD7468C28A6CFA200D5A2D0 /* FailureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */; };
@@ -293,8 +292,6 @@
 		7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartFullScreen.swift; sourceTree = "<group>"; };
 		7C5C79952B2780210088A841 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		7C5D5D322BE2B6A8003DC94D /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
-		7C5D5D352BE2C8CB003DC94D /* SleepChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepChartViewModel.swift; sourceTree = "<group>"; };
-		7C5D5D372BE2CB1E003DC94D /* SleepChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepChart.swift; sourceTree = "<group>"; };
 		7C5EDA1728906F25008ACFEF /* EditLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocationView.swift; sourceTree = "<group>"; };
 		7C62F1EC2BD034B200F14483 /* NewStakesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStakesView.swift; sourceTree = "<group>"; };
 		7C62F1EE2BD0493400F14483 /* NewStakesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStakesViewModel.swift; sourceTree = "<group>"; };
@@ -391,6 +388,7 @@
 		7CC81FB7294CBAD400E849A9 /* BestLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestLocationView.swift; sourceTree = "<group>"; };
 		7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSessionViewModel.swift; sourceTree = "<group>"; };
 		7CD010E82BF23FE300998FD5 /* LiveSessionRebuyModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionRebuyModal.swift; sourceTree = "<group>"; };
+		7CD2B1572C1BB5B300A90C79 /* PopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverView.swift; sourceTree = "<group>"; };
 		7CD2EEC62BE8F0DB00AEE64E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7CD7468928A6CA8F00D5A2D0 /* Images+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+Ext.swift"; sourceTree = "<group>"; };
 		7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailureView.swift; sourceTree = "<group>"; };
@@ -539,7 +537,6 @@
 				7C2614CE26D9313E00986183 /* SessionsListView */,
 				7C82E13426EFC87D00E3EB6F /* SettingsView */,
 				7CA940F72BECF8C5009B54BA /* SleepAnalytics */,
-				7C5D5D342BE2C8B5003DC94D /* SleepChart */,
 				7C86477F2B29276700F48951 /* WelcomeScreen */,
 				7C63949726C14E8300939F40 /* ContentView.swift */,
 			);
@@ -589,6 +586,7 @@
 				7C20CFB1271E2D1600739764 /* OnboardingView.swift */,
 				7C15DD38276D575600889FB2 /* PlaceholderView.swift */,
 				7C68FE4026D709530019BA53 /* PlusButton.swift */,
+				7CD2B1572C1BB5B300A90C79 /* PopoverView.swift */,
 				7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */,
 				7C944D552BBDA26E009E6EC5 /* ProductUpdates.swift */,
 				7CEB453E2BCEA90800AAF710 /* RingCharts.swift */,
@@ -657,15 +655,6 @@
 				7C3FFA852BC894C500EABD49 /* BarChartByStakes.swift */,
 			);
 			path = BarChartView;
-			sourceTree = "<group>";
-		};
-		7C5D5D342BE2C8B5003DC94D /* SleepChart */ = {
-			isa = PBXGroup;
-			children = (
-				7C5D5D352BE2C8CB003DC94D /* SleepChartViewModel.swift */,
-				7C5D5D372BE2CB1E003DC94D /* SleepChart.swift */,
-			);
-			path = SleepChart;
 			sourceTree = "<group>";
 		};
 		7C5EDA1428905AB7008ACFEF /* EditLocationView */ = {
@@ -1139,6 +1128,7 @@
 				7CC20EB3272B19D200137F51 /* HelpView.swift in Sources */,
 				7C72E0A62BC05B6100C411F2 /* UsingLeftPocket.swift in Sources */,
 				7C13FDF02BF4D07600497DF5 /* AlertModal.swift in Sources */,
+				7CD2B1582C1BB5B300A90C79 /* PopoverView.swift in Sources */,
 				7CB3EB9D26C3093D009E8DF3 /* CellView.swift in Sources */,
 				7C5C79962B2780210088A841 /* UserSettings.swift in Sources */,
 				7C6394A926C14F6400939F40 /* SessionsListView.swift in Sources */,
@@ -1160,7 +1150,6 @@
 				7C2B3E6626F5488E00B84D52 /* PrimaryButton.swift in Sources */,
 				7C6769E22B8CD300006ACB7D /* BankrollProgressView.swift in Sources */,
 				7C4254A12784E25C00B5DA79 /* ProfitByYear.swift in Sources */,
-				7C5D5D382BE2CB1E003DC94D /* SleepChart.swift in Sources */,
 				7CDB04812776141C008C5233 /* AppReviewRequest.swift in Sources */,
 				7C7B2F8B26D5A2A90069F9C5 /* SessionListViewModel.swift in Sources */,
 				7CED6EA827517D7F00E18053 /* Array+Ext.swift in Sources */,
@@ -1191,7 +1180,6 @@
 				7CA940FD2BECF9EE009B54BA /* HealthKitPrimingView.swift in Sources */,
 				7C4CE70227729E4D0070B16E /* UIWindow+Ext.swift in Sources */,
 				7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */,
-				7C5D5D362BE2C8CB003DC94D /* SleepChartViewModel.swift in Sources */,
 				7C897F192891BC1700E42FDA /* LocationsListView.swift in Sources */,
 				7C68FE4326D7CEA40019BA53 /* RecentSessionCardView.swift in Sources */,
 				7C3738372BC4838900699819 /* BarChartWeeklyCount.swift in Sources */,
@@ -1248,7 +1236,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1279,7 +1267,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1431,7 +1419,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1459,7 +1447,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;

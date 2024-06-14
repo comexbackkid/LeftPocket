@@ -41,6 +41,8 @@ struct MetricsCardView: View {
                             .padding(.bottom, 10)
                     }
                     .padding()
+                    
+                    Spacer()
                 }
             }
         }

@@ -366,12 +366,13 @@ struct CashStats: View {
                         .foregroundStyle(Color.brandPrimary)
                 }
                 .popover(isPresented: $highHandPopover, arrowEdge: .bottom, content: {
-                    PopoverView()
+                    PopoverView(bodyText: "High hand bonuses are not counted towards your bankroll winnings or metrics.")
                         .frame(maxWidth: UIScreen.main.bounds.width * 0.7)
                         .frame(height: 130)
-                        .dynamicTypeSize(.medium...DynamicTypeSize.xLarge)
+                        .dynamicTypeSize(.medium...DynamicTypeSize.medium)
                         .presentationCompactAdaptation(.popover)
                         .preferredColorScheme(colorScheme == .dark ? .dark : .light)
+                        .shadow(radius: 10)
                 })
                 
                 Spacer()
@@ -700,16 +701,40 @@ struct AdditionalMetricsView: View {
                             })
                         .buttonStyle(PlainButtonStyle())
                         
-                        NavigationLink(
-                            destination: SleepAnalytics(activeSheet: .constant(.none)),
-                            label: {
-                                AdditionalMetricsCardView(title: "Sleep Analytics",
-                                                          description: "See how your sleep affects your \npoker results.",
-                                                          image: "bed.double.fill",
-                                                          color: .donutChartOrange)
-                                
-                            })
-                        .buttonStyle(PlainButtonStyle())
+                        if subManager.isSubscribed {
+                            
+                            NavigationLink(
+                                destination: SleepAnalytics(activeSheet: .constant(.none)),
+                                label: {
+                                    AdditionalMetricsCardView(title: "Sleep Analytics",
+                                                              description: "See how your sleep is affecting\nyour poker results.",
+                                                              image: "bed.double.fill",
+                                                              color: .donutChartOrange)
+                                    
+                                })
+                            .buttonStyle(PlainButtonStyle())
+                        } else {
+                            
+                            AdditionalMetricsCardView(title: "Sleep Analytics",
+                                                      description: "See how your sleep is affecting\nyour poker results.",
+                                                      image: "bed.double.fill",
+                                                      color: Color(.systemGray4))
+                            .blur(radius: 2)
+                            .overlay {
+                                Button {
+                                   showPaywall = true
+                                } label: {
+                                    Text("Upgrade for Access")
+                                        .buttonTextStyle()
+                                        .frame(height: 55)
+                                        .frame(width: UIScreen.main.bounds.width * 0.6)
+                                        .background(Color.brandPrimary)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(30)
+                                        .shadow(radius: 10)
+                                }
+                            }
+                        }
                         
                         NavigationLink(
                             destination: ProfitByMonth(vm: viewModel),
@@ -750,28 +775,6 @@ struct AdditionalMetricsView: View {
             }
         }
         .padding(.bottom, 50)
-//        .padding(.top, 10)
-    }
-}
-
-struct PopoverView: View {
-    
-    @Environment(\.dismiss) private var dismiss
-    
-    var body: some View {
-        
-        VStack (spacing: 0) {
-            
-            Image(systemName: "info.circle")
-                .foregroundStyle(Color.brandPrimary)
-                .font(.title3)
-            Text("High hand bonuses are not counted towards your bankroll winnings or metrics.")
-                .multilineTextAlignment(.leading)
-                .padding(10)
-            
-        }
-        .padding(10)
-        .font(.subheadline)
     }
 }
 

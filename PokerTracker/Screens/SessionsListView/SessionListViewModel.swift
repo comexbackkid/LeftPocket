@@ -152,14 +152,12 @@ class SessionsListViewModel: ObservableObject {
     
     // Adds a new Location to the app
     func addLocation(name: String, localImage: String, imageURL: String, importedImage: Data?) {
-        
         let newLocation = LocationModel(name: name, localImage: localImage, imageURL: imageURL, importedImage: importedImage)
         
         locations.append(newLocation)
     }
     
     func addStakes(_ stakes: String) {
-        
         guard !userStakes.contains(stakes) else {
             return
         }

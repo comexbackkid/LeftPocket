@@ -57,7 +57,7 @@ struct ContentView: View {
         .sheet(item: $activeSheet) { sheet in
             switch sheet {
             case .productUpdates: ProductUpdates(activeSheet: $activeSheet)
-            case .recentSession: SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
+            case .recentSession: SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first ?? MockData.sampleSession)
             case .sleepAnalytics: SleepAnalytics(activeSheet: $activeSheet)
             }
         }
@@ -288,6 +288,7 @@ struct ContentView: View {
         
     }
     
+    // These functions here for now if we want it. Don't want to bombard them with sheets and popups.
     func checkForUpdate() {
         let currentVersion = Bundle.main.appVersion
         let lastSeenVersion = UserDefaults.standard.string(forKey: lastSeenVersionKey) ?? "0.0"

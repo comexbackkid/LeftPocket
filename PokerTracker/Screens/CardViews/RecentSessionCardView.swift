@@ -64,9 +64,12 @@ struct RecentSessionCardView: View {
                             .foregroundStyle(.white)
                             .multilineTextAlignment(.leading)
                             .lineLimit(2)
+                        
                     }
                     .padding()
                     .padding(.top, -8)
+                    
+                    Spacer()
                 }
                 
                 Spacer()

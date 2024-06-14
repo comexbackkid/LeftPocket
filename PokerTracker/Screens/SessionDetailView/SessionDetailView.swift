@@ -37,10 +37,12 @@ struct SessionDetailView: View {
                         
                         details
                         
+//                        summary
+                        
                     }
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, alignment: .topLeading)
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
                     .padding(30)
-                    .padding(.bottom, 70)
+                    .padding(.bottom, activeSheet == .recentSession ? 0 : 70)
                 }
             }
             .background(.regularMaterial)
@@ -49,25 +51,7 @@ struct SessionDetailView: View {
                         : backgroundImage().resizable().aspectRatio(contentMode: .fill))
             .ignoresSafeArea()
             
-            if activeSheet == .recentSession {
-                
-                VStack {
-                    
-                    HStack {
-                        
-                        Spacer()
-                        
-                        DismissButton()
-                            .padding(.trailing, 20)
-                            .padding(.top, 20)
-                            .onTapGesture {
-                                activeSheet = nil
-                            }
-                    }
-                    
-                    Spacer()
-                }
-            }
+            if activeSheet == .recentSession { dismissButton }
         }
         .accentColor(.brandPrimary)
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
@@ -298,6 +282,72 @@ struct SessionDetailView: View {
             }
             .padding(.bottom)
         }
+    }
+    
+    var summary: some View {
+        
+        VStack (alignment: .leading) {
+            
+            Text("Summary")
+                .subtitleStyle()
+                .padding(.bottom, 5)
+            
+            
+            HStack {
+                Spacer()
+                VStack {
+                    Text("In")
+                        .calloutStyle()
+                    Text("$500")
+                        .font(.custom("Asap-Bold", size: 40, relativeTo: .title))
+                }
+                .padding(.horizontal)
+                
+                Divider()
+                
+                VStack {
+                    Text("Out")
+                        .calloutStyle()
+                    Text("$832")
+                        .font(.custom("Asap-Bold", size: 40, relativeTo: .title))
+                }
+                .padding(.horizontal)
+                
+                Spacer()
+            }
+            
+            HStack {
+                Spacer()
+                Text("$332")
+                    .font(.custom("Asap-Bold", size: 80, relativeTo: .title))
+                    .foregroundStyle(.green)
+                Spacer()
+            }
+            
+            
+        }
+        .padding(.top)
+    }
+    
+    var dismissButton: some View {
+        
+        VStack {
+            
+            HStack {
+                
+                Spacer()
+                
+                DismissButton()
+                    .padding(.trailing, 20)
+                    .padding(.top, 20)
+                    .onTapGesture {
+                        activeSheet = nil
+                    }
+            }
+            
+            Spacer()
+        }
+        
     }
     
     func backgroundImage() -> Image {

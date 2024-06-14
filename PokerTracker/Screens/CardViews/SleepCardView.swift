@@ -48,6 +48,8 @@ struct SleepCardView: View {
                         
                     }
                     .padding()
+                    
+                    Spacer()
                 }
                 .frame(width: width, height: 110)
                 .background(
