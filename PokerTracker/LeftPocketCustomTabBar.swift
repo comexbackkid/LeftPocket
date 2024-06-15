@@ -46,7 +46,7 @@ struct LeftPocketCustomTabBar: View {
                     Text("")
                     
                 case 3:
-                    MetricsView()
+                    MetricsView(activeSheet: .constant(nil))
                     
                 case 4:
                     UserSettings(isDarkMode: $isDarkMode, systemThemeEnabled: $systemThemeEnabled)

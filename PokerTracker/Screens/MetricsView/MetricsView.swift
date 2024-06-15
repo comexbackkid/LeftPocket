@@ -14,11 +14,11 @@ struct MetricsView: View {
     
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
-    @Environment(\.isPresented) var showMetricsSheet
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     @State var progressIndicator: Float = 0.0
     @State var sessionFilter: SessionFilter = .cash
+    @Binding var activeSheet: Sheet?
     
     var body: some View {
         
@@ -82,8 +82,9 @@ struct MetricsView: View {
                                 }
                                 
                                 AdditionalMetricsView()
-                                    
+                                    .padding(.bottom, activeSheet == .metricsAsSheet ? 0 : 50)
                             }
+                            
                         }
                         .fullScreenCover(isPresented: $viewModel.lineChartFullScreen, content: {
                             LineChartFullScreen(lineChartFullScreen: $viewModel.lineChartFullScreen)
@@ -97,7 +98,7 @@ struct MetricsView: View {
                     AppReviewRequest.requestReviewIfNeeded()
                 }
                 
-                if showMetricsSheet { dismissButton }
+                if activeSheet == .metricsAsSheet { dismissButton }
                 
             }
             .background(Color.brandBackground)
@@ -112,7 +113,7 @@ struct MetricsView: View {
             .padding(.bottom, 20)
             .padding(.horizontal)
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 370)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+            .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
             .cornerRadius(20)
     }
     
@@ -121,7 +122,7 @@ struct MetricsView: View {
         BarChartByYear(showTitle: true, moreAxisMarks: true, cashOnly: false)
             .padding()
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+            .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
             .cornerRadius(20)
         
     }
@@ -133,9 +134,8 @@ struct MetricsView: View {
             HeatMap()
                 .padding()
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: 230)
-                .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+                .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
                 .cornerRadius(20)
-
         }
     }
     
@@ -146,7 +146,7 @@ struct MetricsView: View {
             BestTimeOfDay()
                 .padding()
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: 230)
-                .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+                .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
                 .cornerRadius(20)
         }
     }
@@ -157,14 +157,14 @@ struct MetricsView: View {
             HStack {
                 Spacer()
                 DismissButton()
-                    .padding(.trailing, 20)
                     .shadow(color: Color.black.opacity(0.1), radius: 8)
                     .onTapGesture {
-                        dismiss()
+                        activeSheet = nil
                     }
             }
             Spacer()
         }
+        .padding()
     }
     
     var playerStats: some View {
@@ -207,7 +207,7 @@ struct MetricsView: View {
             .padding()
         }
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+        .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
         .cornerRadius(20)
     }
 }
@@ -774,14 +774,13 @@ struct AdditionalMetricsView: View {
                 
             }
         }
-        .padding(.bottom, 50)
     }
 }
 
 struct MetricsView_Previews: PreviewProvider {
     
     static var previews: some View {
-        MetricsView()
+        MetricsView(activeSheet: .constant(nil))
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
             .preferredColorScheme(.dark)

@@ -17,10 +17,7 @@ struct CustomPicker: View {
         HStack (alignment: .center, spacing: -20) {
 
             ytdButton
-            
             lastYrButton
-            
-//            allButton
         }
     }
     
@@ -30,13 +27,13 @@ struct CustomPicker: View {
             let impact = UIImpactFeedbackGenerator(style: .light)
             impact.impactOccurred()
             withAnimation {
-                vm.myNewTimeline = .ytd
+                vm.pickerSelection = .ytd
             }
         } label: {
             HStack {
                 ZStack {
                     
-                    if vm.myNewTimeline == .ytd {
+                    if vm.pickerSelection == .ytd {
                         Capsule()
                             .foregroundColor(Color.pickerGray.opacity(0.5))
                             .frame(width: 90)
@@ -61,13 +58,13 @@ struct CustomPicker: View {
             let impact = UIImpactFeedbackGenerator(style: .light)
             impact.impactOccurred()
             withAnimation {
-                vm.myNewTimeline = .lastYear
+                vm.pickerSelection = .lastYear
             }
         } label: {
             HStack {
                 ZStack {
                     
-                    if vm.myNewTimeline == .lastYear {
+                    if vm.pickerSelection == .lastYear {
                         
                         Capsule()
                             .foregroundColor(Color.pickerGray.opacity(0.5))
@@ -85,36 +82,6 @@ struct CustomPicker: View {
             .frame(height: 50)
         }
         .buttonStyle(.plain)
-    }
-    
-    var allButton: some View {
-        
-        Button {
-            let impact = UIImpactFeedbackGenerator(style: .light)
-            impact.impactOccurred()
-            withAnimation {
-                vm.myNewTimeline = .all
-            }
-        } label: {
-            HStack {
-                ZStack {
-                    
-                    if vm.myNewTimeline == .all {
-                        Capsule()
-                            .foregroundColor(Color.pickerGray.opacity(0.5))
-                            .frame(width: 90)
-                            .matchedGeometryEffect(id: "timeline", in: animation)
-                    }
-                    
-                    Text("ALL")
-                        .subHeadlineStyle()
-                        .fontWeight(.semibold)
-                        .foregroundColor(Color(.systemGray))
-                        .padding(.horizontal, 40)
-                }
-            }
-            .frame(height: 50)
-        }
     }
 }
 

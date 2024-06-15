@@ -42,7 +42,7 @@ struct ProfitByStakesView: View {
                     .navigationBarTitle(Text("Game Stakes"))
                     .padding(30)
                     .frame(width: UIScreen.main.bounds.width * 0.9)
-                    .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+                    .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
                     .cornerRadius(20)
                     .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
                     .padding(.top, 50)
@@ -115,7 +115,6 @@ struct ProfitByStakesView: View {
             HStack {
                 Text("Select Year")
                     .bodyStyle()
-                    .bold()
                 
                 Spacer()
                 
@@ -140,7 +139,7 @@ struct ProfitByStakesView: View {
             HStack {
                 Text("Select Metric")
                     .bodyStyle()
-                    .bold()
+
                 
                 Spacer()
                 
@@ -193,7 +192,7 @@ struct ProfitByStakesView: View {
         
         VStack (spacing: 7) {
             
-            let bankrollTotalByYear = viewModel.bankrollByYear(year: yearFilter)
+            let bankrollTotalByYear = viewModel.bankrollByYear(year: yearFilter, sessionFilter: .all)
             
             HStack {
                 Image(systemName: "trophy.fill")
@@ -225,7 +224,7 @@ struct ProfitByStakesView: View {
         .padding(.horizontal, 30)
         .padding(.vertical, 20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+        .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
         .padding(.top, 15)
@@ -237,7 +236,7 @@ struct ProfitByStakesView: View {
             .padding(.horizontal, 30)
             .padding(.vertical, 20)
             .frame(width: UIScreen.main.bounds.width * 0.9)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+            .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
             .cornerRadius(20)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
             .padding(.top, 15)

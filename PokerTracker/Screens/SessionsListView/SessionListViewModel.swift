@@ -172,7 +172,7 @@ class SessionsListViewModel: ObservableObject {
     }
     
     func setUniqueStakes() {
-        let sortedSessions = sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).sorted(by: { $0.date > $1.date })
+        let sortedSessions = allCashSessions().sorted(by: { $0.date > $1.date })
         uniqueStakes = Array(Set(sortedSessions.map({ $0.stakes })))
     }
     
@@ -245,12 +245,9 @@ class SessionsListViewModel: ObservableObject {
         formatter.numberStyle = .currency
         formatter.usesGroupingSeparator = true
         switch bankroll {
-        case .all:
-            return sessions.map { Int($0.profit) }.reduce(0, +)
-        case .cash:
-            return sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).map { Int($0.profit) }.reduce(0, +)
-        case .tournaments:
-            return sessions.filter({ $0.isTournament == true }).map { Int($0.profit) }.reduce(0, +)
+        case .all: return sessions.map { Int($0.profit) }.reduce(0, +)
+        case .cash: return allCashSessions().map { Int($0.profit) }.reduce(0, +)
+        case .tournaments: return allTournamentSessions().map { Int($0.profit) }.reduce(0, +)
         }
     }
     
@@ -312,7 +309,7 @@ class SessionsListViewModel: ObservableObject {
     
     // Adds up total number of profitable cash sessions
     func numOfCashes() -> Int {
-        guard !sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).isEmpty else { return 0 }
+        guard !allCashSessions().isEmpty else { return 0 }
         
         let sessionsArray = sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
         return sessionsArray.filter { $0.profit > 0 }.count
@@ -320,8 +317,8 @@ class SessionsListViewModel: ObservableObject {
     
     // Returns percentage of winning sessions
     func winRate() -> String {
-        guard !sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).isEmpty else { return "0%" }
-        let cashSessions = sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
+        guard !allCashSessions().isEmpty else { return "0%" }
+        let cashSessions = allCashSessions()
         let winPercentage = Double(numOfCashes()) / Double(cashSessions.count)
         return winPercentage.asPercent()
     }
@@ -364,18 +361,18 @@ class SessionsListViewModel: ObservableObject {
                 return tallyBankroll(bankroll: .all) / totalHours
             }
         case .cash:
-            guard !sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).isEmpty else { return 0 }
-            let totalHours = sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
-            let totalMinutes = Float(sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
+            guard !allCashSessions().isEmpty else { return 0 }
+            let totalHours = allCashSessions().map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+            let totalMinutes = Float(allCashSessions().map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
             if totalHours < 1 {
                 return Int(Float(tallyBankroll(bankroll: bankroll)) / (totalMinutes / 60))
             } else {
                 return tallyBankroll(bankroll: bankroll) / totalHours
             }
         case .tournaments:
-            guard !sessions.filter({ $0.isTournament == true }).isEmpty else { return 0 }
-            let totalHours = sessions.filter({ $0.isTournament == true }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
-            let totalMinutes = Float(sessions.filter({ $0.isTournament == true }).map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
+            guard !allTournamentSessions().isEmpty else { return 0 }
+            let totalHours = allTournamentSessions().map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+            let totalMinutes = Float(allTournamentSessions().map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
             if totalHours < 1 {
                 return Int(Float(tallyBankroll(bankroll: bankroll)) / (totalMinutes / 60))
             } else {
@@ -392,9 +389,9 @@ class SessionsListViewModel: ObservableObject {
             case .all:
                 return sessions
             case .cash:
-                return sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
+                return allCashSessions()
             case .tournaments:
-                return sessions.filter({ $0.isTournament == true })
+                return allTournamentSessions()
             }
         }
         
@@ -415,11 +412,11 @@ class SessionsListViewModel: ObservableObject {
             guard !sessions.isEmpty else { return 0 }
             return tallyBankroll(bankroll: bankroll) / sessions.count
         case .cash:
-            guard !sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).isEmpty else { return 0 }
-            return tallyBankroll(bankroll: bankroll) / sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).count
+            guard !allCashSessions().isEmpty else { return 0 }
+            return tallyBankroll(bankroll: bankroll) / allCashSessions().count
         case .tournaments:
-            guard !sessions.filter({ $0.isTournament == true }).isEmpty else { return 0 }
-            return tallyBankroll(bankroll: bankroll) / sessions.filter({ $0.isTournament == true }).count
+            guard !allTournamentSessions().isEmpty else { return 0 }
+            return tallyBankroll(bankroll: bankroll) / allTournamentSessions().count
         }
     }
     
@@ -430,8 +427,8 @@ class SessionsListViewModel: ObservableObject {
             return 0
         }
         
-        let tournamentBuyIns = sessions.filter { $0.isTournament == true }.map { $0.expenses ?? 0 }.reduce(0, +)
-        let count = sessions.filter { $0.isTournament == true }.count
+        let tournamentBuyIns = allTournamentSessions().map { $0.expenses ?? 0 }.reduce(0, +)
+        let count = allTournamentSessions().count
         
         return tournamentBuyIns / count
     }
@@ -444,9 +441,9 @@ class SessionsListViewModel: ObservableObject {
             case .all:
                 return sessions
             case .cash:
-                return sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
+                return allCashSessions()
             case .tournaments:
-                return sessions.filter({ $0.isTournament == true })
+                return allTournamentSessions()
             }
         }
         
@@ -485,21 +482,21 @@ class SessionsListViewModel: ObservableObject {
     
     // Tournament ITM Ratio
     func inTheMoneyRatio() -> String {
-        guard !sessions.filter({ $0.isTournament == true }).isEmpty else { return "0%" }
+        guard !allTournamentSessions().isEmpty else { return "0%" }
         let tournamentWins = sessions.filter({ $0.isTournament == true && $0.profit > 0 }).count
-        let totalTournaments = sessions.filter({ $0.isTournament == true }).count
+        let totalTournaments = allTournamentSessions().count
         let winRatio = Double(tournamentWins) / Double(totalTournaments)
         return winRatio.asPercent()
     }
     
     func tournamentReturnOnInvestment() -> String {
-        guard !sessions.filter({ $0.isTournament == true }).isEmpty else { return "0%" }
+        guard !allTournamentSessions().isEmpty else { return "0%" }
         
         // It's Ok to force unwrap expenses because all tournaments MUST have an expense entered
-        let totalBuyIns = sessions.filter({ $0.isTournament == true }).map({ $0.expenses! }).reduce(0,+)
+        let totalBuyIns = allTournamentSessions().map({ $0.expenses! }).reduce(0,+)
         
         // Need total tournament winnings. Adding expenses back here because we need gross winnings, not net winnings
-        let totalWinnings = sessions.filter({ $0.isTournament == true }).map({ $0.profit + $0.expenses! }).reduce(0,+)
+        let totalWinnings = allTournamentSessions().map({ $0.profit + $0.expenses! }).reduce(0,+)
         
         // ROI = Total winnings - Total buy ins / total buy ins
         let returnOnInvestment = (Double(totalWinnings) - Double(totalBuyIns)) / Double(totalBuyIns)
@@ -507,12 +504,17 @@ class SessionsListViewModel: ObservableObject {
         return returnOnInvestment.asPercent()
     }
     
+    func tournamentROIbyYear(year: String) -> String {
+        guard !allTournamentSessions().isEmpty else { return "0%" }
+        let totalBuyIns = allTournamentSessions().filter({ $0.date.getYear() == year }).map({ $0.expenses! }).reduce(0,+)
+        let totalWinnings = allTournamentSessions().filter({ $0.date.getYear() == year }).map({ $0.profit + $0.expenses! }).reduce(0,+)
+        let returnOnInvestment = (Double(totalWinnings) - Double(totalBuyIns)) / Double(totalBuyIns)
+        return returnOnInvestment.asPercent()
+    }
+    
     func totalHighHands() -> Int {
-        guard !sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).isEmpty else { return 0 }
-        
-        let cashSessions = sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
-        let highHandTotals = cashSessions.map({ $0.highHandBonus ?? 0 }).reduce(0,+)
-        
+        guard !allCashSessions().isEmpty else { return 0 }
+        let highHandTotals = allCashSessions().map({ $0.highHandBonus ?? 0 }).reduce(0,+)
         return highHandTotals
     }
     
@@ -530,35 +532,24 @@ class SessionsListViewModel: ObservableObject {
         let grossIncome = netProfit + totalExpenses
         return grossIncome
     }
-    
-    func grossIncomeByYear(year: String) -> Int {
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
-        let netProfit = sessions.filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
-        let totalExpenses = sessions.filter({ $0.date.getYear() == year }).map { Int($0.expenses ?? 0) }.reduce(0, +)
-        let grossIncome = netProfit + totalExpenses
-        return grossIncome
-    }
-    
-    func bankrollByYear(year: String) -> Int {
+ 
+    func bankrollByYear(year: String, sessionFilter: SessionFilter) -> Int {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
-        let bankroll = sessions.filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
-        return bankroll
-    }
-    
-    func hourlyByYear(year: String) -> Int {
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
-        let hoursArray = sessions.filter({ $0.date.getYear() == year }).map { Int($0.sessionDuration.hour ?? 0) }
-        let minutesArray = sessions.filter({ $0.date.getYear() == year }).map { Int($0.sessionDuration.minute ?? 0) }
-        let totalHours = hoursArray.reduce(0,+)
-        let totalMinutes = Float(minutesArray.reduce(0, +))
         
-        if totalHours < 1 {
-            return Int(Float(bankrollByYear(year: year)) / (totalMinutes / 60))
-        } else {
-            return bankrollByYear(year: year) / totalHours
+        var bankroll: Int {
+            switch sessionFilter {
+            case .all:
+                sessions.filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
+            case .cash:
+                allCashSessions().filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
+            case .tournaments:
+                allTournamentSessions().filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
+            }
         }
+
+        return bankroll
     }
     
     func hourlyByLocation(venue: String, total: Int) -> Int {
@@ -575,71 +566,53 @@ class SessionsListViewModel: ObservableObject {
         return total / totalHours
     }
     
-    func avgProfitByYear(year: String) -> Int {
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
-        return bankrollByYear(year: year) / sessions.filter({ $0.date.getYear() == year }).count
-    }
-    
-    func hoursPlayedByYear(year: String) -> String {
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return "0" }
-        let hoursArray: [Int] = sessions.filter({ $0.date.getYear() == year }).map { $0.sessionDuration.hour ?? 0 }
-        let minutesArray: [Int] = sessions.filter({ $0.date.getYear() == year }).map { $0.sessionDuration.minute ?? 0 }
-        let totalHours = hoursArray.reduce(0, +)
-        let totalMinutes = minutesArray.reduce(0, +)
-        let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
-        return dateComponents.abbreviated(duration: dateComponents)
-    }
-    
     func totalExpenses() -> Int {
         guard !sessions.isEmpty else { return 0 }
         let expenses = sessions.map { $0.expenses ?? 0 }.reduce(0,+)
         return expenses
     }
-    
-    func totalExpensesByYear(year: String) -> Int {
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
-        let expenses = sessions.filter({ $0.date.getYear() == year }).map { $0.expenses ?? 0 }.reduce(0,+)
-        return expenses
-    }
-    
+
     func numOfCashesByYear(year: String) -> Int {
         guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
         let profitableSessions = sessions.filter({ $0.date.getYear() == year }).filter { $0.profit > 0 }
         return profitableSessions.count
     }
-    
-    func winRateByYear(year: String) -> String {
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return "0%" }
-        let wins = Double(numOfCashesByYear(year: year))
-        let sessions = Double(sessionsPerYear(year: year))
-        let winPercentage = wins / sessions
-        return winPercentage.asPercent()
-    }
-    
-    func bestLocation(year: String? = nil) -> LocationModel? {
-        guard !sessions.isEmpty else { return DefaultData.defaultLocation }
-        if let yearFilter = year {
-            let filteredSessions = sessions.filter({ $0.date.getYear() == yearFilter }).map({ ($0.location, $0.profit) })
-            let maxProfit = Dictionary(filteredSessions, uniquingKeysWith: { $0 + $1 }).max { $0.value < $1.value }
-            return maxProfit?.key
+
+    func bestSession(year: String? = nil, sessionFilter: SessionFilter) -> Int? {
+        switch sessionFilter {
+        case .all:
+            guard !sessions.isEmpty else { return 0 }
+            if let yearFilter = year {
+                let filteredSessions = sessions.filter({ $0.date.getYear() == yearFilter })
+                return filteredSessions.map({ $0.profit }).max(by: { $0 < $1 })
+            }
             
-        } else {
-            let locationTuple = sessions.map({ ($0.location, $0.profit) })
-            let maxProfit = Dictionary(locationTuple, uniquingKeysWith: { $0 + $1 }).max { $0.value < $1.value }
-            return maxProfit?.key
-        }   
-    }
-    
-    func bestSession(year: String? = nil) -> Int? {
-        guard !sessions.isEmpty else { return 0 }
-        if let yearFilter = year {
-            let filteredSessions = sessions.filter({ $0.date.getYear() == yearFilter })
-            return filteredSessions.map({ $0.profit }).max(by: { $0 < $1 })
-        }
-        
-        else {
-            let bestSession = sessions.map({ $0.profit }).max(by: { $0 < $1 })
-            return bestSession
+            else {
+                let bestSession = sessions.map({ $0.profit }).max(by: { $0 < $1 })
+                return bestSession
+            }
+        case .cash:
+            guard !allCashSessions().isEmpty else { return 0 }
+            if let yearFilter = year {
+                let filteredSessions = allCashSessions().filter({ $0.date.getYear() == yearFilter })
+                return filteredSessions.map({ $0.profit }).max(by: { $0 < $1 })
+            }
+            
+            else {
+                let bestSession = allCashSessions().map({ $0.profit }).max(by: { $0 < $1 })
+                return bestSession
+            }
+        case .tournaments:
+            guard !allTournamentSessions().isEmpty else { return 0 }
+            if let yearFilter = year {
+                let filteredSessions = allTournamentSessions().filter({ $0.date.getYear() == yearFilter })
+                return filteredSessions.map({ $0.profit }).max(by: { $0 < $1 })
+            }
+            
+            else {
+                let bestSession = allTournamentSessions().map({ $0.profit }).max(by: { $0 < $1 })
+                return bestSession
+            }
         }
     }
     
@@ -870,4 +843,14 @@ class SessionsListViewModel: ObservableObject {
     
     let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+}
+
+extension SessionsListViewModel {
+    func allTournamentSessions() -> [PokerSession] {
+        return sessions.filter({ $0.isTournament == true })
+    }
+    
+    func allCashSessions() -> [PokerSession] {
+        return sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
+    }
 }

@@ -20,7 +20,6 @@ struct ContentView: View {
     @State private var showPaywall = false
     @State var activeSheet: Sheet?
     
-    
     let lastSeenVersionKey = "LastSeenAppVersion"
     
     var body: some View {
@@ -49,9 +48,6 @@ struct ContentView: View {
                 }
             }
             .padding(.bottom, 50)
-            .fullScreenCover(isPresented: $showMetricsAsSheet) {
-                MetricsView()
-            }
         }
         .background { homeBackground.ignoresSafeArea() }
         .sheet(item: $activeSheet) { sheet in
@@ -59,6 +55,7 @@ struct ContentView: View {
             case .productUpdates: ProductUpdates(activeSheet: $activeSheet)
             case .recentSession: SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first ?? MockData.sampleSession)
             case .sleepAnalytics: SleepAnalytics(activeSheet: $activeSheet)
+            case .metricsAsSheet: MetricsView(activeSheet: $activeSheet)
             }
         }
     }
@@ -168,10 +165,10 @@ struct ContentView: View {
             
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
-            showMetricsAsSheet = true
+//            showMetricsAsSheet = true
+            activeSheet = .metricsAsSheet
             
         }, label: {
-            
             MetricsCardView()
                 .padding(.bottom)
         })
@@ -316,7 +313,7 @@ struct ContentView: View {
 
 enum Sheet: String, Identifiable {
     
-    case productUpdates, recentSession, sleepAnalytics
+    case productUpdates, recentSession, sleepAnalytics, metricsAsSheet
     
     var id: String {
         rawValue

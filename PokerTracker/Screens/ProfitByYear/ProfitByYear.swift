@@ -20,12 +20,20 @@ struct ProfitByYear: View {
     
     @State private var showError: Bool = false
     @State private var showPaywall = false
+    @State private var sessionFilter: SessionFilter = .all
     
     var body: some View {
 
         ScrollView {
             
-            title
+            HStack {
+                Text("Annual Report")
+                    .titleStyle()
+                    .padding(.top, -37)
+                    .padding(.horizontal)
+                
+                Spacer()
+            }
             
             VStack {
                 
@@ -36,8 +44,6 @@ struct ProfitByYear: View {
                     .padding(.top)
                 
                 incomeReport
-                
-//                detailedReports
                 
                 bestPlays
                 
@@ -55,25 +61,11 @@ struct ProfitByYear: View {
         .accentColor(.brandPrimary)
     }
     
-    var title: some View {
-        
-        HStack {
-            
-            Text("Annual Report")
-                .titleStyle()
-                .padding(.top, -37)
-                .padding(.horizontal)
-            
-            Spacer()
-        }
-        
-    }
-    
     var lineChart: some View {
         
         VStack {
             
-            let year = vm.chartRange(timeline: vm.myNewTimeline)
+            let year = vm.chartRange(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
             
             if year.isEmpty {
                 
@@ -103,19 +95,77 @@ struct ProfitByYear: View {
         }
     }
     
+    var headerInfo: some View {
+        
+        VStack {
+            
+            HStack {
+                Text("Session Type")
+                    .bodyStyle()
+                
+                Spacer()
+                
+                Menu {
+                    Picker("", selection: $sessionFilter) {
+                        ForEach(SessionFilter.allCases, id: \.self) {
+                            Text($0.rawValue.capitalized)
+                        }
+                    }
+                } label: {
+                    Text(sessionFilter.description + " ›")
+                        .bodyStyle()
+                }
+                .accentColor(Color.brandPrimary)
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
+            }
+        }
+    }
+    
     var incomeReport: some View {
         
         VStack (spacing: 12) {
             
-            let grossIncome = vm.grossIncome(timeline: vm.myNewTimeline)
-            let netProfitTotal = vm.netProfitCalc(timeline: vm.myNewTimeline)
-            let hourlyRate = vm.hourlyCalc(timeline: vm.myNewTimeline)
-            let profitPerSession = vm.avgProfit(timeline: vm.myNewTimeline)
-            let winRate = vm.winRate(timeline: vm.myNewTimeline)
-            let totalExpenses = vm.expensesByYear(timeline: vm.myNewTimeline)
-            let totalHours = vm.totalHours(timeline: vm.myNewTimeline)
-            let totalSessions = vm.sessionsPerYear(timeline: vm.myNewTimeline)
-            let bestProfit = vm.bestProfit(timeline: vm.myNewTimeline)
+            headerInfo
+            
+            Divider().padding(.vertical)
+            
+            switch sessionFilter {
+            case .all:
+                allGamesReport
+            case .cash:
+                cashReport
+            case .tournaments:
+                tournamentReport
+            }
+            
+        }
+        .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+        .lineSpacing(2.5)
+        .animation(nil, value: vm.pickerSelection)
+        .padding(30)
+        .frame(width: UIScreen.main.bounds.width * 0.9)
+        .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+        .cornerRadius(20)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+        
+    }
+    
+    var allGamesReport: some View {
+        
+        VStack (spacing: 12) {
+            
+            let grossIncome = vm.grossIncome(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let totalExpenses = vm.expensesByYear(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let netProfitTotal = grossIncome - totalExpenses
+            let hourlyRate = vm.hourlyCalc(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let profitPerSession = vm.avgProfit(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let winRatio = vm.winRatio(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let totalHours = vm.totalHours(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let totalSessions = vm.sessionsPerYear(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let bestProfit = vm.bestProfit(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let roi = vm.returnOnInvestmentPerYear(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
             
             HStack {
                 Text("Gross Income")
@@ -133,13 +183,15 @@ struct ProfitByYear: View {
                     .foregroundColor(totalExpenses > 0 ? .red : Color(.systemGray))
             }
             
-            HStack {
-                Text("(Includes Tournament Buy Ins)")
-                    .captionStyle()
-                    .foregroundColor(.secondary)
-                
-                Spacer()
-                
+            if sessionFilter == .all {
+                HStack {
+                    Text("(Includes Tournament Buy Ins)")
+                        .captionStyle()
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
+                    
+                }
             }
             
             HStack {
@@ -180,7 +232,112 @@ struct ProfitByYear: View {
                 Text("Win Ratio")
                 
                 Spacer()
-                Text(winRate)
+                Text(winRatio)
+            }
+            
+            HStack {
+                Text("No. of Sessions")
+                
+                Spacer()
+                Text(totalSessions)
+            }
+            
+            HStack {
+                Text("ROI")
+                
+                Spacer()
+                Text(roi)
+            }
+            
+            HStack {
+                Text("Hours Played")
+                
+                Spacer()
+                Text(totalHours)
+            }
+        }
+    }
+    
+    var cashReport: some View {
+        
+        VStack (spacing: 12) {
+            
+            let grossIncome = vm.grossIncome(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let totalExpenses = vm.expensesByYear(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let netProfitTotal = grossIncome - totalExpenses
+            let hourlyRate = vm.hourlyCalc(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let profitPerSession = vm.avgProfit(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let winRatio = vm.winRatio(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let totalHours = vm.totalHours(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let totalSessions = vm.sessionsPerYear(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let bestProfit = vm.bestProfit(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            
+            HStack {
+                Text("Gross Income")
+                
+                Spacer()
+                Text(grossIncome, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: grossIncome)
+            }
+            
+            HStack {
+                Text("Expenses")
+                
+                Spacer()
+                Text(totalExpenses, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .foregroundColor(totalExpenses > 0 ? .red : Color(.systemGray))
+            }
+            
+            if sessionFilter == .all {
+                HStack {
+                    Text("(Includes Tournament Buy Ins)")
+                        .captionStyle()
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
+                    
+                }
+            }
+            
+            HStack {
+                Text("Net Profit")
+                
+                Spacer()
+                Text(netProfitTotal, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: netProfitTotal)
+            }
+            
+            Divider().padding(.vertical)
+            
+            HStack {
+                Text("Hourly Rate")
+                
+                Spacer()
+                Text(hourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: hourlyRate)
+            }
+            
+            HStack {
+                Text("Profit Per Session")
+                
+                Spacer()
+                Text(profitPerSession, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: profitPerSession)
+            }
+            
+            HStack {
+                Text("Biggest Session")
+                
+                Spacer()
+                Text(bestProfit, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: bestProfit)
+            }
+            
+            HStack {
+                Text("Win Ratio")
+                
+                Spacer()
+                Text(winRatio)
             }
             
             HStack {
@@ -197,67 +354,117 @@ struct ProfitByYear: View {
                 Text(totalHours)
             }
         }
-        .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
-        .lineSpacing(2.5)
-        .animation(nil, value: vm.myNewTimeline)
-        .padding(30)
-        .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
-        .cornerRadius(20)
-        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
-        
     }
     
-    var detailedReports: some View {
+    var tournamentReport: some View {
         
-        HStack {
-            VStack {
-                HStack {
-                    Text("Cash Game Report")
-                        .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
-                    Spacer()
-                    Text("›")
-                }
-            }
-            .padding(30)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
-            .cornerRadius(20)
-            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
-            .padding(.top, 20)
+        VStack (spacing: 12) {
             
+            let grossIncome = vm.grossIncome(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let totalExpenses = vm.expensesByYear(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let netProfitTotal = grossIncome - totalExpenses
+            let hourlyRate = vm.hourlyCalc(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let winRatio = vm.winRatio(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let totalHours = vm.totalHours(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let totalSessions = vm.sessionsPerYear(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let bestProfit = vm.bestProfit(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let roi = vm.returnOnInvestmentPerYear(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
             
-            VStack {
-                HStack {
-                    Text("Tournament Report")
-                        .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
-                    Spacer()
-                    Text(" ›")
-                }
+            HStack {
+                Text("Gross Income")
+                
+                Spacer()
+                Text(grossIncome, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: grossIncome)
             }
-            .padding(30)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
-            .cornerRadius(20)
-            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
-            .padding(.top, 20)
-
+            
+            HStack {
+                Text("Total Buy Ins")
+                
+                Spacer()
+                Text(totalExpenses, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .foregroundColor(totalExpenses > 0 ? .red : Color(.systemGray))
+            }
+            
+            HStack {
+                Text("Net Profit")
+                
+                Spacer()
+                Text(netProfitTotal, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: netProfitTotal)
+            }
+            
+            Divider().padding(.vertical)
+            
+            HStack {
+                Text("Hourly Rate")
+                
+                Spacer()
+                Text(hourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: hourlyRate)
+            }
+            
+            HStack {
+                Text("Biggest Win")
+                
+                Spacer()
+                Text(bestProfit, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: bestProfit)
+            }
+            
+            HStack {
+                Text("ITM Ratio")
+                
+                Spacer()
+                Text(winRatio)
+            }
+            
+            HStack {
+                Text("ROI")
+                
+                Spacer()
+                Text(roi)
+            }
+            
+            HStack {
+                Text("No. of Entries")
+                
+                Spacer()
+                Text(totalSessions)
+            }
+            
+            HStack {
+                Text("Hours Played")
+                
+                Spacer()
+                Text(totalHours)
+            }
         }
-        .frame(width: UIScreen.main.bounds.width * 0.9)
-        
     }
     
     var barChart: some View {
         
         VStack {
             
-            let dateRange = vm.chartRange(timeline: vm.myNewTimeline)
+            let dateRange = vm.chartRange(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
             
             BarChartWeeklySessionCount(showTitle: true, dateRange: dateRange)
                 .padding(30)
                 .frame(width: UIScreen.main.bounds.width * 0.9, height: 220)
-                .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+                .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
                 .cornerRadius(20)
                 .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
                 .padding(.top, 20)
+                .overlay {
+                    if dateRange.isEmpty {
+                        VStack {
+                            Text("No chart data to display.")
+                                .calloutStyle()
+                                .foregroundStyle(.secondary)
+                        }
+                        .offset(y: 20)
+                    }
+                }
         }
         
     }
@@ -266,12 +473,12 @@ struct ProfitByYear: View {
         
         VStack (spacing: 30) {
             
-            let bestLocation = vm.bestLocation(timeline: vm.myNewTimeline)
+            let bestLocation = vm.bestLocation(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
             
-            BestLocationView(location: bestLocation)
+            BestLocationView(location: bestLocation ?? DefaultData.defaultLocation)
 
         }
-        .animation(nil, value: vm.myNewTimeline)
+        .animation(nil, value: vm.pickerSelection)
         .padding(.top, 20)
     }
     

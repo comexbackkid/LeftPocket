@@ -34,7 +34,7 @@ struct ProfitByMonth: View {
             .navigationBarTitle(Text("Monthly Snapshot"))
             .padding(30)
             .frame(width: UIScreen.main.bounds.width * 0.9)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+            .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
             .cornerRadius(20)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
             .padding(.top, 50)
@@ -59,7 +59,6 @@ struct ProfitByMonth: View {
             HStack {
                 Text("Select Year")
                     .bodyStyle()
-                    .bold()
                 
                 Spacer()
                 
@@ -82,7 +81,6 @@ struct ProfitByMonth: View {
             HStack {
                 Text("Select Metric")
                     .bodyStyle()
-                    .bold()
                 
                 Spacer()
                 
@@ -142,7 +140,7 @@ struct ProfitByMonth: View {
         
         VStack (spacing: 7) {
             
-            let bankrollTotalByYear = vm.bankrollByYear(year: yearFilter)
+            let bankrollTotalByYear = vm.bankrollByYear(year: yearFilter, sessionFilter: .all)
             
             HStack {
                 Image(systemName: "trophy.fill")
@@ -174,7 +172,7 @@ struct ProfitByMonth: View {
         .padding(.horizontal, 30)
         .padding(.vertical, 20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+        .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
         .padding(.top, 15)
@@ -187,7 +185,7 @@ struct ProfitByMonth: View {
             .padding(.horizontal, 30)
             .padding(.vertical, 30)
             .frame(width: UIScreen.main.bounds.width * 0.9)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+            .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
             .cornerRadius(20)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
             .padding(.top, 15)

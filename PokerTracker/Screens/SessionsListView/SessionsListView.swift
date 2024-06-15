@@ -14,6 +14,17 @@ enum ViewStyle: String, CaseIterable {
 }
 enum SessionFilter: String, CaseIterable {
     case all, cash, tournaments
+    
+    var description: String {
+        switch self {
+        case .all:
+            return "All"
+        case .cash:
+            return "Cash"
+        case .tournaments:
+            return "Tournaments"
+        }
+    }
 }
 
 struct SessionsListView: View {
