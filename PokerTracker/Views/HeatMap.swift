@@ -52,6 +52,7 @@ struct HeatMap: View {
                 Spacer()
             }
         }
+        .dynamicTypeSize(.medium)
     }
     
     // Get all days in the current month

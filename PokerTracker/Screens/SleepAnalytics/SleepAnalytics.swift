@@ -19,10 +19,25 @@ struct SleepAnalytics: View {
     @State private var isShowingPermissionPrimingSheet = false
     @State private var showError = false
     @State private var howThisWorksPopup = false
+    @State private var rawSelectedDate: Date?
     @Binding var activeSheet: Sheet?
     
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var hkManager: HealthKitManager
+    
+    var selectedSleepMetric: SleepMetric? {
+        guard let rawSelectedDate else { return nil }
+        return hkManager.sleepData.first{
+            Calendar.current.isDate(rawSelectedDate, inSameDayAs: $0.date)
+        }
+    }
+    
+    var pokerSessionMatch: PokerSession? {
+        guard let rawSelectedDate else { return nil }
+        return viewModel.sessions.first {
+            Calendar.current.isDate(rawSelectedDate, inSameDayAs: $0.date)
+        }
+    }
         
     var body: some View {
         
@@ -37,7 +52,11 @@ struct SleepAnalytics: View {
                     
                     VStack (spacing: 22) {
                         
-                        sleepChart
+                        if #available(iOS 17.0, *) {
+                            sleepChart
+                        }
+                        
+                        selectedSessionStats
                         
                         ToolTipView(image: "bed.double.fill",
                                     message: "So far this year, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 || countLowSleepSessions() < 1  ? "s" : "") under-rested.",
@@ -68,9 +87,7 @@ struct SleepAnalytics: View {
             
             if activeSheet == .sleepAnalytics { dismissButton }
         }
-        .task {
-            await handleAuthorizationChecksAndDataFetch()
-        }
+        .task { await handleAuthorizationChecksAndDataFetch() }
         .onChange(of: hkManager.errorMsg, perform: { _ in
             showError = true
         })
@@ -103,7 +120,7 @@ struct SleepAnalytics: View {
         VStack (alignment: .leading, spacing: 20) {
             
             HStack {
-                Text("Gain a deeper understanding of how sleep affects your game. Green bars represent profitable sessions, & red bars are days you lost money over the last month.")
+                Text("Gain a deeper understanding of how sleep affects your game. Green bars represent winning sessions, red bars are days you lost money over the last month.")
                     .bodyStyle()
                 
                 Spacer()
@@ -136,6 +153,64 @@ struct SleepAnalytics: View {
             })
         }
         .padding(.horizontal)
+    }
+    
+    var selectedSessionStats: some View {
+        
+        VStack {
+            
+            HStack {
+                Text("Selected Session Info")
+                    .cardTitleStyle()
+                    .padding(.bottom)
+                
+                Spacer()
+            }
+            
+            HStack {
+                
+                VStack (spacing: 2) {
+                    Text(selectedSleepMetric?.dayNoYear ?? "None")
+                        .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
+                    
+                    Text("Date")
+                        .foregroundStyle(.secondary)
+                        .font(.custom("Asap-Regular", size: 14, relativeTo: .callout))
+                }
+                .frame(width: 90)
+                
+                Divider()
+                
+                VStack (spacing: 2) {
+                    Text("\(selectedSleepMetric?.value ?? 0, format: .number.rounded(increment: 0.1)) hrs")
+                        .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
+                    
+                    Text("Sleep")
+                        .foregroundStyle(.secondary)
+                        .font(.custom("Asap-Regular", size: 14, relativeTo: .callout))
+                }
+                .frame(width: 90)
+                
+                Divider()
+                
+                VStack (spacing: 2) {
+                    Text(pokerSessionMatch?.hourlyRate.asCurrency() ?? "$0")
+                        .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
+                    
+                    Text("Hourly")
+                        .foregroundStyle(.secondary)
+                        .font(.custom("Asap-Regular", size: 14, relativeTo: .callout))
+                }
+                .frame(width: 90)
+                
+                Spacer()
+            }
+        }
+        .animation(nil, value: rawSelectedDate)
+        .padding()
+        .frame(width: UIScreen.main.bounds.width * 0.9)
+        .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+        .cornerRadius(20)
     }
     
     var sleepImportance: some View {
@@ -193,6 +268,7 @@ struct SleepAnalytics: View {
         }
     }
     
+    @available(iOS 17.0, *)
     var sleepChart: some View {
         
         VStack {
@@ -211,11 +287,26 @@ struct SleepAnalytics: View {
             .padding(.bottom, 40)
             
             Chart {
+                if let selectedSleepMetric {
+                    RuleMark(x: .value("Selected Metric", selectedSleepMetric.date))
+                        .foregroundStyle(.gray.opacity(0.3))
+                        .annotation(position: .top, spacing: 7, overflowResolution: .init(x: .fit(to: .chart))) {
+                            Text("\(selectedSleepMetric.value, format: .number.rounded(increment: 0.1)) hrs")
+                                .captionStyle()
+                                .padding(10)
+                                .background(.gray.opacity(0.1))
+                                .cornerRadius(10)
+                        }
+                }
+                
                 ForEach(hkManager.sleepData) { sleep in
                     BarMark(x: .value("Date", sleep.date), y: .value("Hours", sleep.value))
                         .foregroundStyle(calculateBarColor(healthMetric: sleep, viewModel: viewModel).gradient)
+                        .opacity(rawSelectedDate == nil || sleep.date == selectedSleepMetric?.date ? 1.0 : 0.1)
                 }
             }
+            .sensoryFeedback(.selection, trigger: selectedSleepMetric?.value)
+            .chartXSelection(value: $rawSelectedDate.animation(.easeInOut))
             .chartXAxis {
                 AxisMarks(preset: .aligned) {
                     AxisValueLabel(format: .dateTime.month(.defaultDigits).day(), verticalSpacing: 10)

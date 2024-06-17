@@ -15,6 +15,7 @@ struct SleepMetric: Identifiable {
     let value: Double
     
     var startOfDay: Date { date.startOfDay }
+    var dayNoYear: String { date.formatted(.dateTime.day().month()) }
  
     static var MockData: [SleepMetric] {
         

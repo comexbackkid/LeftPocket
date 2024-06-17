@@ -243,7 +243,7 @@ struct ProfitByYear: View {
             }
             
             HStack {
-                Text("ROI")
+                Text("Tournament ROI")
                 
                 Spacer()
                 Text(roi)

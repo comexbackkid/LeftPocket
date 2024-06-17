@@ -87,6 +87,8 @@
 		7C6E75BB2BAA16BE006173A4 /* LiveSessionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E75BA2BAA16BE006173A4 /* LiveSessionCounter.swift */; };
 		7C6E75BE2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E75BD2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift */; };
 		7C72E0A62BC05B6100C411F2 /* UsingLeftPocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */; };
+		7C757EFF2C1F218900AD71EE /* SocialShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C757EFE2C1F218900AD71EE /* SocialShareView.swift */; };
+		7C757F032C1F2A9F00AD71EE /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C757F022C1F2A9F00AD71EE /* ShareButton.swift */; };
 		7C7B2F8B26D5A2A90069F9C5 /* SessionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B2F8A26D5A2A90069F9C5 /* SessionListViewModel.swift */; };
 		7C7D09662BF78734002FA350 /* cash-sfx.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7C7D09652BF78734002FA350 /* cash-sfx.wav */; };
 		7C7D09682BF7DB80002FA350 /* rebuy-sfx.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7C7D09672BF7DB80002FA350 /* rebuy-sfx.wav */; };
@@ -99,9 +101,9 @@
 		7C8647812B29277900F48951 /* WelcomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8647802B29277900F48951 /* WelcomeScreen.swift */; };
 		7C8647842B2A642700F48951 /* AddNewSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8647832B2A642700F48951 /* AddNewSessionView.swift */; };
 		7C8834102735BB5D0093B201 /* NewLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */; };
-		7C897F192891BC1700E42FDA /* LocationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C897F182891BC1700E42FDA /* LocationsListView.swift */; };
 		7C944D562BBDA26E009E6EC5 /* ProductUpdates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C944D552BBDA26E009E6EC5 /* ProductUpdates.swift */; };
 		7C9D32772B261FA700900C8C /* AdditionalMetricsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */; };
+		7C9FEC7E2C1F68B70062208B /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9FEC7D2C1F68B70062208B /* ImageSaver.swift */; };
 		7CA7F8152B6FF5FB00F976EE /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7F8142B6FF5FB00F976EE /* Tips.swift */; };
 		7CA7F8162B6FF5FB00F976EE /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7F8142B6FF5FB00F976EE /* Tips.swift */; };
 		7CA7F8182B6FFAA700F976EE /* CSVImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7F8172B6FFAA700F976EE /* CSVImport.swift */; };
@@ -319,6 +321,8 @@
 		7C6E75BA2BAA16BE006173A4 /* LiveSessionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionCounter.swift; sourceTree = "<group>"; };
 		7C6E75BD2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionCounterViewModel.swift; sourceTree = "<group>"; };
 		7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsingLeftPocket.swift; sourceTree = "<group>"; };
+		7C757EFE2C1F218900AD71EE /* SocialShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialShareView.swift; sourceTree = "<group>"; };
+		7C757F022C1F2A9F00AD71EE /* ShareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButton.swift; sourceTree = "<group>"; };
 		7C7B2F8A26D5A2A90069F9C5 /* SessionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListViewModel.swift; sourceTree = "<group>"; };
 		7C7D09652BF78734002FA350 /* cash-sfx.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "cash-sfx.wav"; sourceTree = "<group>"; };
 		7C7D09672BF7DB80002FA350 /* rebuy-sfx.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "rebuy-sfx.wav"; sourceTree = "<group>"; };
@@ -330,9 +334,9 @@
 		7C8647802B29277900F48951 /* WelcomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreen.swift; sourceTree = "<group>"; };
 		7C8647832B2A642700F48951 /* AddNewSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSessionView.swift; sourceTree = "<group>"; };
 		7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLocationViewModel.swift; sourceTree = "<group>"; };
-		7C897F182891BC1700E42FDA /* LocationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsListView.swift; sourceTree = "<group>"; };
 		7C944D552BBDA26E009E6EC5 /* ProductUpdates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductUpdates.swift; sourceTree = "<group>"; };
 		7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalMetricsCardView.swift; sourceTree = "<group>"; };
+		7C9FEC7D2C1F68B70062208B /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		7CA7F8142B6FF5FB00F976EE /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
 		7CA7F8172B6FFAA700F976EE /* CSVImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVImport.swift; sourceTree = "<group>"; };
 		7CA940F82BECF8E3009B54BA /* SleepAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepAnalytics.swift; sourceTree = "<group>"; };
@@ -493,6 +497,7 @@
 				7C2614CB26D930C100986183 /* Extensions */,
 				7C23A4C228A3DEE100FB5604 /* AppGroup.swift */,
 				7CA7F8142B6FF5FB00F976EE /* Tips.swift */,
+				7C9FEC7D2C1F68B70062208B /* ImageSaver.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -517,12 +522,12 @@
 		7C2614CC26D930D900986183 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				7C6E75BC2BAA1DBD006173A4 /* LiveSessionCounter */,
 				7C45B06B29428EEB00587078 /* BarChartView */,
 				7C2614CD26D9310E00986183 /* CardViews */,
 				7CBBE472277BA79500986613 /* CustomChartView */,
 				7C5EDA1428905AB7008ACFEF /* EditLocationView */,
 				7C2B3E6726F5659600B84D52 /* EmptyStates */,
+				7C6E75BC2BAA1DBD006173A4 /* LiveSessionCounter */,
 				7C897F172891BBFB00E42FDA /* LocationListView */,
 				7C82E13126EFC83F00E3EB6F /* MetricsView */,
 				7C62F1EB2BD0349600F14483 /* NewStakesView */,
@@ -577,6 +582,7 @@
 				7C25CB5227887D9200866511 /* CustomPicker.swift */,
 				7CAFDFF22B2C884100B7338D /* CustomToggle.swift */,
 				7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */,
+				7C757F022C1F2A9F00AD71EE /* ShareButton.swift */,
 				7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */,
 				7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */,
 				7CC20EB2272B19D200137F51 /* HelpView.swift */,
@@ -592,6 +598,7 @@
 				7CEB453E2BCEA90800AAF710 /* RingCharts.swift */,
 				7C20CFB3271F4EB700739764 /* SecondaryButton.swift */,
 				7CDE9FC62B78F6CC00B4AA33 /* SessionDefaultsView.swift */,
+				7C757EFE2C1F218900AD71EE /* SocialShareView.swift */,
 				7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */,
 			);
 			path = Views;
@@ -833,7 +840,6 @@
 		7C897F172891BBFB00E42FDA /* LocationListView */ = {
 			isa = PBXGroup;
 			children = (
-				7C897F182891BC1700E42FDA /* LocationsListView.swift */,
 				7CAFE05F2B2DE52B00B7338D /* LocationGridView.swift */,
 			);
 			path = LocationListView;
@@ -1164,6 +1170,7 @@
 				7C6E75BB2BAA16BE006173A4 /* LiveSessionCounter.swift in Sources */,
 				7C6394A726C14F5600939F40 /* MetricsView.swift in Sources */,
 				7C6E75BE2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift in Sources */,
+				7C9FEC7E2C1F68B70062208B /* ImageSaver.swift in Sources */,
 				7C8134C02729F1BE004E1CE1 /* ProfitByMonth.swift in Sources */,
 				7CDE9FC72B78F6CC00B4AA33 /* SessionDefaultsView.swift in Sources */,
 				7CB1EBDA2950DF4800FA306B /* BestSessionView.swift in Sources */,
@@ -1180,7 +1187,6 @@
 				7CA940FD2BECF9EE009B54BA /* HealthKitPrimingView.swift in Sources */,
 				7C4CE70227729E4D0070B16E /* UIWindow+Ext.swift in Sources */,
 				7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */,
-				7C897F192891BC1700E42FDA /* LocationsListView.swift in Sources */,
 				7C68FE4326D7CEA40019BA53 /* RecentSessionCardView.swift in Sources */,
 				7C3738372BC4838900699819 /* BarChartWeeklyCount.swift in Sources */,
 				7C5997AB27872FCF00966764 /* AnnualReportViewModel.swift in Sources */,
@@ -1197,6 +1203,7 @@
 				7C53C5782BFD3E6D0008880A /* AdvancedCashReport.swift in Sources */,
 				7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */,
 				7C5EDA1828906F25008ACFEF /* EditLocationView.swift in Sources */,
+				7C757EFF2C1F218900AD71EE /* SocialShareView.swift in Sources */,
 				7CA940F92BECF8E3009B54BA /* SleepAnalytics.swift in Sources */,
 				7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */,
 				7C67DDB52BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift in Sources */,
@@ -1206,6 +1213,7 @@
 				7CAFE0602B2DE52B00B7338D /* LocationGridView.swift in Sources */,
 				7C62F1ED2BD034B200F14483 /* NewStakesView.swift in Sources */,
 				7CFF1BFF2BD9AA81000D56BC /* HeatMap.swift in Sources */,
+				7C757F032C1F2A9F00AD71EE /* ShareButton.swift in Sources */,
 				7CFB683A2B7CFC92005AB81F /* BarChartByYear.swift in Sources */,
 				7C1F8C82271094B50068E8B1 /* ProfitByWeekdayView.swift in Sources */,
 				7C63FC3F2B3640FF00FE731C /* SubscriptionManager.swift in Sources */,
@@ -1236,7 +1244,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1267,7 +1275,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1419,7 +1427,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1447,7 +1455,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;

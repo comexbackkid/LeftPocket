@@ -85,7 +85,7 @@ struct BarChartByYear: View {
             }
         }
         .sensoryFeedback(.selection, trigger: profitAnnotation)
-        .chartXSelection(value: $selectedMonth)
+        .chartXSelection(value: $selectedMonth.animation(.easeInOut))
         .chartXScale(domain: [firstDay, lastDay])
         .chartYAxis {
             AxisMarks(position: .leading, values: .automatic(desiredCount: moreAxisMarks ? 4 : 3)) { value in

@@ -11,6 +11,8 @@ struct SessionDetailView: View {
     
     @EnvironmentObject var vm: SessionsListViewModel
     @Binding var activeSheet: Sheet?
+    @State private var isPressed = false
+    @State private var showError = false
     let pokerSession: PokerSession
     
     var body: some View {
@@ -34,10 +36,8 @@ struct SessionDetailView: View {
                     VStack(alignment: .leading) {
                         
                         notes
-                        
+        
                         details
-                        
-//                        summary
                         
                     }
                     .frame(maxWidth: .infinity, alignment: .topLeading)
@@ -51,10 +51,39 @@ struct SessionDetailView: View {
                         : backgroundImage().resizable().aspectRatio(contentMode: .fill))
             .ignoresSafeArea()
             
-            if activeSheet == .recentSession { dismissButton }
+            VStack {
+                
+                if activeSheet == .recentSession {
+                    
+                    dismissButton
+                    shareButton
+                    
+                    Spacer()
+                }
+            }
         }
         .accentColor(.brandPrimary)
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
+        .toolbar(content: {
+            Button {
+                guard let image = ImageRenderer(content: shareSummary).uiImage else {
+                    showError = true
+                    return
+                }
+                
+                let imageSaver = ImageSaver()
+                imageSaver.writeToPhotoAlbum(image: image)
+                
+            } label: {
+                Image(systemName: "arrow.down.circle")
+            }
+            .tint(.brandPrimary)
+        })
+        .alert(isPresented: $showError) {
+            Alert(title: Text("Uh oh!"),
+                  message: Text("Image could not be saved. Please try again later."),
+                  dismissButton: .default(Text("Ok")))
+        }
     }
 
     var cashMetrics: some View {
@@ -284,49 +313,45 @@ struct SessionDetailView: View {
         }
     }
     
-    var summary: some View {
+    var shareSummary: some View {
+        SocialShareView(vm: vm, colorScheme: .dark, pokerSession: pokerSession, background: Image(pokerSession.location.localImage))
+    }
+    
+    var shareButton: some View {
         
-        VStack (alignment: .leading) {
-            
-            Text("Summary")
-                .subtitleStyle()
-                .padding(.bottom, 5)
-            
-            
-            HStack {
-                Spacer()
-                VStack {
-                    Text("In")
-                        .calloutStyle()
-                    Text("$500")
-                        .font(.custom("Asap-Bold", size: 40, relativeTo: .title))
+        HStack {
+            Spacer()
+            Button {
+                isPressed = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                    isPressed = false
                 }
-                .padding(.horizontal)
-                
-                Divider()
-                
-                VStack {
-                    Text("Out")
-                        .calloutStyle()
-                    Text("$832")
-                        .font(.custom("Asap-Bold", size: 40, relativeTo: .title))
+                guard let image = ImageRenderer(content: shareSummary).uiImage else {
+                    showError = true
+                    return
                 }
-                .padding(.horizontal)
                 
-                Spacer()
+                let imageSaver = ImageSaver()
+                imageSaver.writeToPhotoAlbum(image: image)
+                
+            } label: {
+                ShareButton()
+                    .opacity(isPressed ? 0 : 1)
+                    .overlay {
+                        if isPressed {
+                            ProgressView()
+                                .tint(.brandPrimary)
+                                .background(
+                                    Circle()
+                                        .frame(width: 38, height: 38)
+                                        .foregroundColor(.white)
+                                        .opacity(0.6))
+                        }
+                    }
+                    .padding(.trailing, 20)
             }
-            
-            HStack {
-                Spacer()
-                Text("$332")
-                    .font(.custom("Asap-Bold", size: 80, relativeTo: .title))
-                    .foregroundStyle(.green)
-                Spacer()
-            }
-            
-            
+            .buttonStyle(.plain)
         }
-        .padding(.top)
     }
     
     var dismissButton: some View {
@@ -344,10 +369,7 @@ struct SessionDetailView: View {
                         activeSheet = nil
                     }
             }
-            
-            Spacer()
         }
-        
     }
     
     func backgroundImage() -> Image {
@@ -442,8 +464,10 @@ struct GraphicHeaderView: View {
 
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
-            .preferredColorScheme(.dark)
-            .environmentObject(SessionsListViewModel())
+        NavigationView {
+            SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
+                .preferredColorScheme(.dark)
+                .environmentObject(SessionsListViewModel())
+        }
     }
 }

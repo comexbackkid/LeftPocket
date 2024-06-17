@@ -143,64 +143,6 @@ class HealthKitManager: ObservableObject {
             }
         }
     
-//    func fetchSleepData() async throws {
-//            guard store.authorizationStatus(for: HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!) != .notDetermined else {
-//                throw HKError.authNotDetermined
-//            }
-//            
-//            let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
-//            let endDate = Date()
-//            let startDate = Calendar.current.date(byAdding: .day, value: -28, to: endDate)!
-//            let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
-//            let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
-//            
-//            let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { [weak self] (query, result, error) in
-//                guard error == nil else {
-//                    self?.errorMsg = error?.localizedDescription
-//                    return
-//                }
-//                
-//                var sleepMetrics: [SleepMetric] = []
-//                
-//                if let result = result {
-//                    let calendar = Calendar.current
-//                    
-//                    var dailySleepTimes: [Date: Double] = [:]
-//                    
-//                    for sample in result {
-//                        if let categorySample = sample as? HKCategorySample {
-//                            if HKCategoryValueSleepAnalysis.allAsleepValues.map({$0.rawValue}).contains(categorySample.value) {
-//                                
-//                                let adjustedStartDate = self?.adjustedDateForGrouping(date: categorySample.startDate, calendar: calendar) ?? categorySample.startDate
-//                                let sleepTime = categorySample.endDate.timeIntervalSince(categorySample.startDate) / 3600
-//                                
-//                                // Add sleep time to the next day
-//                                let nextDay = calendar.date(byAdding: .day, value: 1, to: adjustedStartDate)!
-//                                if let existingSleepTime = dailySleepTimes[nextDay] {
-//                                    dailySleepTimes[nextDay] = existingSleepTime + sleepTime
-//                                } else {
-//                                    dailySleepTimes[nextDay] = sleepTime
-//                                }
-//                            }
-//                        }
-//                    }
-//                    
-//                    for (date, totalSleepTime) in dailySleepTimes {
-//                        let sleepMetric = SleepMetric(date: date, value: totalSleepTime)
-//                        sleepMetrics.append(sleepMetric)
-//                    }
-//                    
-//                    sleepMetrics.sort { $0.date < $1.date }
-//                }
-//                
-//                DispatchQueue.main.async {
-//                    self?.sleepData = sleepMetrics
-//                }
-//            }
-//            
-//            store.execute(query)
-//        }
-    
     private func adjustedDateForGrouping(date: Date, calendar: Calendar) -> Date {
         var components = calendar.dateComponents([.year, .month, .day, .hour], from: date)
         

@@ -62,7 +62,7 @@ struct SleepCardView: View {
             
             VStack (alignment: .leading) {
                 
-                Text("REVIEW")
+                Text("EXAMINE")
                     .font(.headline)
                     .foregroundColor(.white).opacity(0.5)
                 
