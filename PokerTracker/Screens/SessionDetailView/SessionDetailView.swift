@@ -66,6 +66,10 @@ struct SessionDetailView: View {
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .toolbar(content: {
             Button {
+                isPressed = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                    isPressed = false
+                }
                 guard let image = ImageRenderer(content: shareSummary).uiImage else {
                     showError = true
                     return
@@ -76,6 +80,13 @@ struct SessionDetailView: View {
                 
             } label: {
                 Image(systemName: "arrow.down.circle")
+                    .opacity(isPressed ? 0 : 1)
+                    .overlay {
+                        if isPressed {
+                            ProgressView()
+                                .tint(.brandPrimary)
+                        }
+                    }
             }
             .tint(.brandPrimary)
         })
@@ -314,7 +325,7 @@ struct SessionDetailView: View {
     }
     
     var shareSummary: some View {
-        SocialShareView(vm: vm, colorScheme: .dark, pokerSession: pokerSession, background: Image(pokerSession.location.localImage))
+        SocialShareView(vm: vm, colorScheme: .dark, pokerSession: pokerSession, background: Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "defaultlocation-header"))
     }
     
     var shareButton: some View {
