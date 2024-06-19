@@ -47,13 +47,13 @@ class TimerViewModel: ObservableObject {
     }
     
     enum UserNotificationContext: String {
-        case twoHours, fourHours, eightHours
+        case twoHours, fiveHours, eightHours
         
         var msgTitle: String {
             switch self {
             case .twoHours:
                 "How's Your Session?"
-            case .fourHours:
+            case .fiveHours:
                 "Just Checking In"
             case .eightHours:
                 "This is a Long Session"
@@ -63,30 +63,38 @@ class TimerViewModel: ObservableObject {
         var msgBody: String {
             switch self {
             case .twoHours:
-                "You should stretch your legs, have some water, & consider if the game is still good."
-            case .fourHours:
-                "You've been playing four hours, how do you feel? Keep hydrated & take a break if you need it."
+                "Maybe stretch your legs, have some water, & consider if the game's still good."
+            case .fiveHours:
+                "You've been playing 5 hours, how do you feel? Take a break if you need it."
             case .eightHours:
                 "You've been playing awhile, should you keep going? Make sure you're in the right heaadspace."
             }
         }
     }
     
-    // Push notification checking on the user
     func scheduleUserNotification() {
-        let content = UNMutableNotificationContent()
-        content.title = "How's Your Session?"
-        content.body = "You should stretch your legs, have some water, & consider if the game is still good."
-        content.sound = UNNotificationSound.default
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 7200, repeats: true)
-        let request = UNNotificationRequest(identifier: "liveSessionNotification", content: content, trigger: trigger)
+        // First Push Notification to be sent after two hours of playing
+        let contentAfterTwoHours = UNMutableNotificationContent()
+        contentAfterTwoHours.title = UserNotificationContext.twoHours.msgTitle
+        contentAfterTwoHours.body = UserNotificationContext.twoHours.msgBody
+        contentAfterTwoHours.sound = UNNotificationSound.default
+        let triggerAfterTwoHours = UNTimeIntervalNotificationTrigger(timeInterval: 7200, repeats: false)
+        let requestAfterTwoHours = UNNotificationRequest(identifier: "liveSessionNotificationAfterTwoHours", content: contentAfterTwoHours, trigger: triggerAfterTwoHours)
+        UNUserNotificationCenter.current().add(requestAfterTwoHours)
         
-        UNUserNotificationCenter.current().add(request)
+        // Second Push Notification after five hours of playing
+        let contentAfterFiveHours = UNMutableNotificationContent()
+        contentAfterFiveHours.title = UserNotificationContext.fiveHours.msgTitle
+        contentAfterFiveHours.body = UserNotificationContext.fiveHours.msgBody
+        contentAfterFiveHours.sound = UNNotificationSound.default
+        let triggerAfterFiveHours = UNTimeIntervalNotificationTrigger(timeInterval: 18000, repeats: false)
+        let requestAfterFiveHours = UNNotificationRequest(identifier: "liveSessionNotificationAfterFiveHours", content: contentAfterFiveHours, trigger: triggerAfterFiveHours)
+        UNUserNotificationCenter.current().add(requestAfterFiveHours)
     }
     
     func cancelUserNotifications() {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["liveSessionNotification"])
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["liveSessionNotificationAfterTwoHours", "liveSessionNotificationAfterFiveHours"])
     }
     
     func startSession() {
