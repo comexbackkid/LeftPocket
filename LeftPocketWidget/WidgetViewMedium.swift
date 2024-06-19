@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WidgetKit
+import Charts
 
 struct WidgetViewMedium: View {
     
@@ -22,7 +23,7 @@ struct WidgetViewMedium: View {
             
             numbers
             
-            chart
+            swiftChart
             
             logo
             
@@ -121,6 +122,31 @@ struct WidgetViewMedium: View {
         }
     }
     
+    var swiftChart: some View {
+        
+        HStack {
+            Spacer()
+            Chart {
+                ForEach(Array(entry.swiftChartData.enumerated()), id: \.offset) { index, total in
+                    
+                    LineMark(x: .value("Time", index), y: .value("Profit", total))
+                        .foregroundStyle(LinearGradient(colors: [.chartAccent, .chartBase], startPoint: .topTrailing, endPoint: .bottomLeading))
+                        
+                    
+                    AreaMark(x: .value("Time", index), y: .value("Profit", total))
+                        .foregroundStyle(LinearGradient(colors: [Color("lightBlue").opacity(0.4), .clear], startPoint: .top, endPoint: .bottom))
+                }
+                .interpolationMethod(.catmullRom)
+                .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
+            }
+            .chartXAxis(.hidden)
+            .chartYAxis(.hidden)
+            .frame(maxWidth: 165, maxHeight: 75)
+            .padding(.trailing, 15)
+            .padding(.bottom, 15)
+        }
+    }
+    
     var logo: some View {
         
         VStack {
@@ -151,6 +177,7 @@ struct WidgetViewMedium_Previews: PreviewProvider {
                                             bankroll: 63351,
                                             recentSessionAmount: 150,
                                             chartData: MockData.mockDataCoords,
+                                            swiftChartData: [0,350,220,457,900,719,333,1211,1400,1765,1500,1828,1721],
                                             hourlyRate: 32,
                                             totalSessions: 14,
                                             currency: "USD"))

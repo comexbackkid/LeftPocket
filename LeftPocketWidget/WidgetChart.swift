@@ -47,12 +47,12 @@ struct WidgetChart: View {
     }
 }
 
-//struct WidgetChart_Previews: PreviewProvider {
-//    static var previews: some View {
-//        WidgetChart(data: FakeData.emptyCoords)
-//            .previewContext(WidgetPreviewContext(family: .systemMedium))
-//    }
-//}
+struct WidgetChart_Previews: PreviewProvider {
+    static var previews: some View {
+        WidgetChart(data: MockData.mockDataCoords)
+            .previewContext(WidgetPreviewContext(family: .systemMedium))
+    }
+}
 
 struct MockData {
     

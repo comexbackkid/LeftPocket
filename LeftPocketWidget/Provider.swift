@@ -15,6 +15,7 @@ struct Provider: TimelineProvider {
                     bankroll: 5200,
                     recentSessionAmount: 150,
                     chartData: MockData.mockDataCoords,
+                    swiftChartData: [0,350,220,457,900,719,333,1211,1400,1765,1500,1828,1721],
                     hourlyRate: 32,
                     totalSessions: 14,
                     currency: "USD")
@@ -25,6 +26,7 @@ struct Provider: TimelineProvider {
                                 bankroll: 5200,
                                 recentSessionAmount: 150,
                                 chartData: MockData.mockDataCoords,
+                                swiftChartData: [0,350,220,457,900,719,333,1211,1400,1765,1500,1828,1721],
                                 hourlyRate: 32,
                                 totalSessions: 14,
                                 currency: "USD")
@@ -46,6 +48,11 @@ struct Provider: TimelineProvider {
             return
         }
         
+        guard let swiftChartData = UserDefaults(suiteName: AppGroup.bankrollSuite)?.data(forKey: AppGroup.swiftChartKey) else {
+            print("Error loading Chart Data")
+            return
+        }
+        
         var chartPoints: [Point] {
             guard let decodedChartData = try? JSONDecoder().decode([Point].self, from: chartData) else {
                 print("Error computing Chart Points")
@@ -54,10 +61,19 @@ struct Provider: TimelineProvider {
             return decodedChartData
         }
         
+        var swiftChartPoints: [Int] {
+            guard let decodedSwiftChartData = try? JSONDecoder().decode([Int].self, from: swiftChartData) else {
+                print("Error computing Chart Points")
+                return []
+            }
+            return decodedSwiftChartData
+        }
+        
         let entry = SimpleEntry(date: currentDate,
                                 bankroll: bankroll,
                                 recentSessionAmount: lastSessionAmount,
                                 chartData: chartPoints,
+                                swiftChartData: swiftChartPoints,
                                 hourlyRate: hourlyRate,
                                 totalSessions: totalSessions,
                                 currency: currency)

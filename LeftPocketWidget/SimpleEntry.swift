@@ -13,6 +13,7 @@ struct SimpleEntry: TimelineEntry {
     let bankroll: Int
     let recentSessionAmount: Int
     let chartData: [Point]
+    let swiftChartData: [Int]
     let hourlyRate: Int
     let totalSessions: Int
     let currency: String

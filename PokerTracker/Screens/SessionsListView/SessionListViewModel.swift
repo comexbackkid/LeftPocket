@@ -20,6 +20,7 @@ class SessionsListViewModel: ObservableObject {
     @Published var userCurrency: CurrencyType = .USD
     @Published var sessionCounts: Int = 0
     @Published var lineChartFullScreen = false
+    @Published var convertedLineChartData: [Int]?
     @Published var locations: [LocationModel] = DefaultLocations.allLocations {
         didSet {
             saveLocations()
@@ -40,6 +41,7 @@ class SessionsListViewModel: ObservableObject {
         getLocations()
         getUserStakes()
         loadCurrency()
+        writeToWidget()
     }
     
     // MARK: SAVING & LOADING APP DATA: SESSIONS, LOCATIONS, STAKES
@@ -188,7 +190,6 @@ class SessionsListViewModel: ObservableObject {
         else { return }
         
         userCurrency = currency
-        
     }
     
     // MARK: FUNCTIONS FOR CIRCLE PROGRESS INDICATOR IN METRICS VIEW
@@ -252,6 +253,7 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // Creates an array of our running, cumulative bankroll for use with charts
+    // Likely deleting this since we're totally running on Swift Charts now
     func chartArray() -> [Double] {
         let profitsArray = sessions.map { Double($0.profit) }
         var cumBankroll = [Double]()
@@ -266,6 +268,7 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // Converts our profit data into coordinates tuples for charting
+    // Right now this was only used in the Widget, which we're trashing soon because I was able to get Swift Charts going there
     func chartCoordinates() -> [Point] {
         
         var fewSessions = [Double]()
@@ -284,19 +287,6 @@ class SessionsListViewModel: ObservableObject {
                 manySessions.append(item)
             }
         }
-        
-        // If there's over 25 sessions, we will use every other data point to build the chart.
-        // If there's over 50 sessions, we count by 5's in order to smooth out the chart and make it appear less erratic
-//        if chartArray().count > 50 {
-//            return manySessions.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
-//            
-//        } else if chartArray().count > 25 {
-//            return fewSessions.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
-//        }
-//        
-//        else {
-//            return chartArray().enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
-//        }
         
         return chartArray().enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
     }
@@ -668,6 +658,48 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
+    // Widget chart functions for Swift Charts
+    func convertToLineChartData() {
+        var convertedData: [Int] {
+            
+            // Start with zero as our initial data point so chart doesn't look goofy
+            var originalDataPoint = [0]
+            let newDataPoints = calculateCumulativeProfit(sessions: self.sessions, sessionFilter: .all)
+            originalDataPoint += newDataPoints
+            return originalDataPoint
+        }
+        
+        self.convertedLineChartData = convertedData
+    }
+    
+    // Widget chart functions for Swift Charts
+    func calculateCumulativeProfit(sessions: [PokerSession], sessionFilter: SessionFilter) -> [Int] {
+        
+        // We run this so tha twe can just use the Index as our X Axis value. Keeps spacing uniform and neat looking.
+        // Then, in chart configuration we just plot along the Index value, and Int is our cumulative profit amount.
+        var cumulativeProfit = 0
+        
+        // Take the cash / tournament filter and assign to this variable
+        var filteredSessions: [PokerSession] {
+            switch sessionFilter {
+            case .all:
+                return sessions
+            case .cash:
+                return sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
+            case .tournaments:
+                return sessions.filter({ $0.isTournament == true })
+            }
+        }
+
+        // I'm having to manually sort the sessions array here, even though it's doing it in the Add Session function. Don't know why.
+        let result = filteredSessions.sorted(by: { $0.date < $1.date }).map { session -> Int in
+            cumulativeProfit += session.profit
+            return cumulativeProfit
+        }
+
+        return result
+    }
+    
     // MARK: TOOLTIP FUNCTIONS
     
     var bestMonth: String {
@@ -785,6 +817,7 @@ class SessionsListViewModel: ObservableObject {
     // MARK: WIDGET FUNCTIONS
     
     func writeToWidget() {
+        
         guard let defaults = UserDefaults(suiteName: AppGroup.bankrollSuite) else {
             print("Unable to write to User Defaults!")
             return
@@ -800,8 +833,15 @@ class SessionsListViewModel: ObservableObject {
             print("Error writing chart data")
             return
         }
-
         defaults.set(chartData, forKey: AppGroup.chartKey)
+        
+        self.convertToLineChartData()
+        
+        guard let swiftChartData = try? JSONEncoder().encode(self.convertedLineChartData) else {
+            print("Error writing chart data")
+            return
+        }
+        defaults.set(swiftChartData, forKey: AppGroup.swiftChartKey)
         WidgetCenter.shared.reloadAllTimelines()
     }
     

@@ -10,8 +10,23 @@ import Charts
 
 struct BankrollLineChart: View {
     
-    enum ChartRange {
-        case all, oneMonth, sixMonth, oneYear
+    enum ChartRange: CaseIterable {
+        case all, oneMonth, sixMonth, oneYear, ytd
+        
+        var displayName: String {
+                switch self {
+                case .all:
+                    return "All"
+                case .oneMonth:
+                    return "1M"
+                case .sixMonth:
+                    return "6M"
+                case .oneYear:
+                    return "1Y"
+                case .ytd:
+                    return "YTD"
+                }
+            }
     }
     
     @EnvironmentObject var viewModel: SessionsListViewModel
@@ -30,6 +45,7 @@ struct BankrollLineChart: View {
         case .oneMonth: return filterSessionsForLastThreeMonths()
         case .sixMonth: return filterSessionsForLastSixMonths()
         case .oneYear: return filterSessionsForLastTwelveMonths()
+        case .ytd: return filterSessionsForYTD()
         }
     }
     var profitAnnotation: Int? {
@@ -250,55 +266,24 @@ struct BankrollLineChart: View {
     
     var rangeSelector: some View {
         
-        HStack (spacing: 25) {
-            Button {
-                let impact = UIImpactFeedbackGenerator(style: .soft)
-                impact.impactOccurred()
-                chartRange = .all
-            } label: {
-                Text("All")
-                    .bodyStyle()
-                    .fontWeight(chartRange == .all ? .black : .regular)
-            }
-            .tint(chartRange == .all ? .primary : .brandPrimary)
+        HStack (spacing: 20) {
             
-            Button {
-                let impact = UIImpactFeedbackGenerator(style: .soft)
-                impact.impactOccurred()
-                chartRange = .oneYear
-            } label: {
-                Text("1Y")
-                    .bodyStyle()
-                    .fontWeight(chartRange == .oneYear ? .black : .regular)
+            ForEach(ChartRange.allCases, id: \.self) { range in
+                Button {
+                    let impact = UIImpactFeedbackGenerator(style: .medium)
+                    impact.impactOccurred()
+                    chartRange = range
+                } label: {
+                    Text("\(range.displayName)")
+                        .bodyStyle()
+                        .fontWeight(chartRange == range ? .black : .regular)
+                }
+                .tint(chartRange == range ? .primary : .brandPrimary)
             }
-            .tint(chartRange == .oneYear ? .primary : .brandPrimary)
-            
-            Button {
-                let impact = UIImpactFeedbackGenerator(style: .soft)
-                impact.impactOccurred()
-                chartRange = .sixMonth
-            } label: {
-                Text("6M")
-                    .bodyStyle()
-                    .fontWeight(chartRange == .sixMonth ? .black : .regular)
-            }
-            .tint(chartRange == .sixMonth ? .primary : .brandPrimary)
-            
-            Button {
-                let impact = UIImpactFeedbackGenerator(style: .soft)
-                impact.impactOccurred()
-                chartRange = .oneMonth
-            } label: {
-                Text("1M")
-                    .bodyStyle()
-                    .fontWeight(chartRange == .oneMonth ? .black : .regular)
-            }
-            .tint(chartRange == .oneMonth ? .primary : .brandPrimary)
             
             Spacer()
         }
         .padding(.top, 20)
-        
     }
     
     func calculateCumulativeProfit(sessions: [PokerSession], sessionFilter: SessionFilter) -> [Int] {
@@ -366,6 +351,19 @@ struct BankrollLineChart: View {
         return viewModel.sessions.filter { session in
             guard let threeMonthsAgo = threeMonthsAgo else { return false }
             return session.date >= threeMonthsAgo
+        }
+    }
+    
+    func filterSessionsForYTD() -> [PokerSession] {
+        let calendar = Calendar.current
+        let now = Date()
+        
+        guard let startOfYear = calendar.date(from: calendar.dateComponents([.year], from: now)) else {
+            return []
+        }
+        
+        return viewModel.sessions.filter { session in
+            return session.date >= startOfYear
         }
     }
 }

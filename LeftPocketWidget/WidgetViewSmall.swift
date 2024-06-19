@@ -116,6 +116,7 @@ struct WidgetView_Previews: PreviewProvider {
                                            bankroll: 6351,
                                            recentSessionAmount: 150,
                                            chartData: MockData.mockDataCoords,
+                                           swiftChartData: [0, 5, 20],
                                            hourlyRate: 32,
                                            totalSessions: 14,
                                            currency: "EUR"))
