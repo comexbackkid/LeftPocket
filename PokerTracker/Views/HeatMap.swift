@@ -15,13 +15,13 @@ struct HeatMap: View {
         
         VStack {
             
-            HStack {
-                Text("\(Date().getMonth(abbreviated: true)) Activity")
-                    .cardTitleStyle()
-                
-                Spacer()
-            }
-            .dynamicTypeSize(.small...DynamicTypeSize.medium)
+//            HStack {
+//                Text("\(Date().getMonth(abbreviated: true)) Activity")
+//                    .cardTitleStyle()
+//                
+//                Spacer()
+//            }
+//            .dynamicTypeSize(.small...DynamicTypeSize.medium)
             
             GeometryReader { geometry in
                 
@@ -46,9 +46,10 @@ struct HeatMap: View {
             let monthlyCount = viewModel.sessions.filter({ $0.date.getMonth() == Date().getMonth() && $0.date.getYear() == Date().getYear() }).count
             
             HStack {
-                Text("\(monthlyCount) session\(monthlyCount > 1 || monthlyCount < 1 ? "s" : "") played this month.")
+                Text("You've played \(monthlyCount) session\(monthlyCount > 1 || monthlyCount < 1 ? "s" : "") this month")
                     .subHeadlineStyle()
                     .padding(.top, 5)
+                
                 Spacer()
             }
         }

@@ -12,7 +12,7 @@ class SessionsListViewModel: ObservableObject {
     
     @Published var uniqueStakes: [String] = []
     @Published var stakesProgress: Float = 0.0
-    @Published var userStakes: [String] = ["1/2", "1/3", "2/5"] {
+    @Published var userStakes: [String] = ["1/2", "1/3", "2/5", "5/10"] {
         didSet {
             saveUserStakes()
         }

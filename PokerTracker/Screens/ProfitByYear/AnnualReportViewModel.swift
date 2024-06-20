@@ -398,4 +398,29 @@ class AnnualReportViewModel: ObservableObject {
             return vm.bestSession(year: lastYear, sessionFilter: sessionFilter) ?? 0
         }
     }
+    
+    func highHandTotals(timeline: PickerTimeline, sessionFilter: SessionFilter) -> Int {
+        switch sessionFilter {
+        case .all:
+            switch timeline {
+            case .ytd:
+                guard !vm.sessions.filter({ $0.date.getYear() == ytd }).isEmpty else { return 0 }
+                return vm.sessions.filter({ $0.date.getYear() == ytd && $0.highHandBonus != nil }).map { $0.highHandBonus ?? 0 }.reduce(0,+)
+            case .lastYear:
+                guard !vm.sessions.filter({ $0.date.getYear() == lastYear }).isEmpty else { return 0 }
+                return vm.sessions.filter({ $0.date.getYear() == lastYear && $0.highHandBonus != nil }).map { $0.highHandBonus ?? 0 }.reduce(0,+)
+            }
+        case .cash:
+            switch timeline {
+            case .ytd:
+                guard !vm.allCashSessions().filter({ $0.date.getYear() == ytd }).isEmpty else { return 0 }
+                return vm.allCashSessions().filter({ $0.date.getYear() == ytd && $0.highHandBonus != nil }).map { $0.highHandBonus ?? 0 }.reduce(0,+)
+            case .lastYear:
+                guard !vm.allCashSessions().filter({ $0.date.getYear() == lastYear }).isEmpty else { return 0 }
+                return vm.allCashSessions().filter({ $0.date.getYear() == lastYear && $0.highHandBonus != nil }).map { $0.highHandBonus ?? 0 }.reduce(0,+)
+            }
+        case .tournaments:
+            return 0
+        }
+    }
 }

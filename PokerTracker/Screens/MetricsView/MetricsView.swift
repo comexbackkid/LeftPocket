@@ -69,7 +69,7 @@ struct MetricsView: View {
                                 barChart
                                 
                                 ToolTipView(image: "clock",
-                                            message: "You tend to play better when your session lasts \(viewModel.bestSessionLength())",
+                                            message: "You tend to play better when your session lasts \(viewModel.bestSessionLength()).",
                                             color: .donutChartDarkBlue)
 
                                 if #available(iOS 17.0, *) {
@@ -79,6 +79,16 @@ struct MetricsView: View {
                                         heatMap
                                     }
                                     .frame(width: UIScreen.main.bounds.width * 0.9)
+                                }
+                                
+                                HStack {
+                                    Text("My Reports")
+                                        .font(.custom("Asap-Black", size: 34))
+                                        .bold()
+                                        .padding(.horizontal)
+                                        .padding(.top)
+                                    
+                                    Spacer()
                                 }
                                 
                                 AdditionalMetricsView()
@@ -121,7 +131,7 @@ struct MetricsView: View {
         
         BarChartByYear(showTitle: true, moreAxisMarks: true, cashOnly: false)
             .padding()
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)
+            .frame(width: UIScreen.main.bounds.width * 0.9, height: 380)
             .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
             .cornerRadius(20)
         
@@ -133,7 +143,7 @@ struct MetricsView: View {
         HStack {
             HeatMap()
                 .padding()
-                .frame(width: UIScreen.main.bounds.width * 0.43, height: 230)
+                .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
                 .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
                 .cornerRadius(20)
         }
@@ -145,7 +155,8 @@ struct MetricsView: View {
         HStack {
             BestTimeOfDay()
                 .padding()
-                .frame(width: UIScreen.main.bounds.width * 0.43, height: 230)
+                .padding(.top, 6)
+                .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
                 .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
                 .cornerRadius(20)
         }
@@ -366,8 +377,8 @@ struct CashStats: View {
                         .foregroundStyle(Color.brandPrimary)
                 }
                 .popover(isPresented: $highHandPopover, arrowEdge: .bottom, content: {
-                    PopoverView(bodyText: "High hand bonuses are not counted towards your bankroll winnings or metrics.")
-                        .frame(maxWidth: UIScreen.main.bounds.width * 0.7)
+                    PopoverView(bodyText: "High hand bonuses are not counted towards your bankroll or player metrics. They are tallied in your Annual Report.")
+                        .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                         .frame(height: 130)
                         .dynamicTypeSize(.medium...DynamicTypeSize.medium)
                         .presentationCompactAdaptation(.popover)

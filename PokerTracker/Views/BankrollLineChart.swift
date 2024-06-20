@@ -266,7 +266,7 @@ struct BankrollLineChart: View {
     
     var rangeSelector: some View {
         
-        HStack (spacing: 20) {
+        HStack (spacing: 17) {
             
             ForEach(ChartRange.allCases, id: \.self) { range in
                 Button {

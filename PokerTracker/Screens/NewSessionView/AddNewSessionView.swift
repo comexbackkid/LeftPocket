@@ -434,7 +434,7 @@ struct AddNewSessionView: View {
                 .accentColor(.brandPrimary)
                 .padding(.leading, 4)
                 .font(.custom("Asap-Regular", size: 18))
-                .datePickerStyle(CompactDatePickerStyle())
+                .datePickerStyle(.compact)
                 
             }
             .padding(.horizontal)
@@ -452,7 +452,7 @@ struct AddNewSessionView: View {
                 .accentColor(.brandPrimary)
                 .padding(.leading, 4)
                 .font(.custom("Asap-Regular", size: 18))
-                .datePickerStyle(CompactDatePickerStyle())
+                .datePickerStyle(.compact)
             }
             .padding(.horizontal)
             .padding(.bottom, 16)

@@ -156,7 +156,8 @@ struct ProfitByYear: View {
         
         VStack (spacing: 12) {
             
-            let grossIncome = vm.grossIncome(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let highHand = vm.highHandTotals(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let grossIncome = vm.grossIncome(timeline: vm.pickerSelection, sessionFilter: sessionFilter) + highHand
             let totalExpenses = vm.expensesByYear(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
             let netProfitTotal = grossIncome - totalExpenses
             let hourlyRate = vm.hourlyCalc(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
@@ -173,6 +174,15 @@ struct ProfitByYear: View {
                 Spacer()
                 Text(grossIncome, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: grossIncome)
+            }
+            
+            HStack {
+                Text("(Includes High Hand Bonuses)")
+                    .captionStyle()
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
             }
             
             HStack {
@@ -202,6 +212,8 @@ struct ProfitByYear: View {
                     .profitColor(total: netProfitTotal)
             }
             
+            
+            
             Divider().padding(.vertical)
             
             HStack {
@@ -226,6 +238,14 @@ struct ProfitByYear: View {
                 Spacer()
                 Text(bestProfit, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: bestProfit)
+            }
+            
+            HStack {
+                Text("High Hand Bonuses")
+                
+                Spacer()
+                Text(highHand, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: highHand)
             }
             
             HStack {
@@ -262,7 +282,8 @@ struct ProfitByYear: View {
         
         VStack (spacing: 12) {
             
-            let grossIncome = vm.grossIncome(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let highHand = vm.highHandTotals(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let grossIncome = vm.grossIncome(timeline: vm.pickerSelection, sessionFilter: sessionFilter) + highHand
             let totalExpenses = vm.expensesByYear(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
             let netProfitTotal = grossIncome - totalExpenses
             let hourlyRate = vm.hourlyCalc(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
@@ -278,6 +299,15 @@ struct ProfitByYear: View {
                 Spacer()
                 Text(grossIncome, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: grossIncome)
+            }
+            
+            HStack {
+                Text("(Includes High Hand Bonuses)")
+                    .captionStyle()
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
             }
             
             HStack {
@@ -331,6 +361,14 @@ struct ProfitByYear: View {
                 Spacer()
                 Text(bestProfit, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: bestProfit)
+            }
+            
+            HStack {
+                Text("High Hand Bonuses")
+                
+                Spacer()
+                Text(highHand, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: highHand)
             }
             
             HStack {

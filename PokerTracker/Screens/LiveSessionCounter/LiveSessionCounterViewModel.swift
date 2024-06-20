@@ -23,7 +23,6 @@ class TimerViewModel: ObservableObject {
     
     var totalBuyInForLiveSession: Int {
         (Int(initialBuyInAmount) ?? 0) + rebuyTotalForSession
-        
     }
     
     var rebuyTotalForSession: Int {
@@ -31,9 +30,9 @@ class TimerViewModel: ObservableObject {
     }
     
     init() {
-        // Register for app lifecycle notifications
         NotificationCenter.default.addObserver(self, selector: #selector(appDidResume), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillTerminate), name: UIApplication.willTerminateNotification, object: nil)
         
         // Attempt to recover liveSessionStartTime from UserDefaults
         if let startTime = UserDefaults.standard.object(forKey: "liveSessionStartTime") as? Date {
@@ -44,32 +43,6 @@ class TimerViewModel: ObservableObject {
         
         initialBuyInAmount = UserDefaults.standard.string(forKey: "initialBuyInAmount") ?? ""
         totalRebuys = UserDefaults.standard.array(forKey: "totalRebuys") as? [Int] ?? []
-    }
-    
-    enum UserNotificationContext: String {
-        case twoHours, fiveHours, eightHours
-        
-        var msgTitle: String {
-            switch self {
-            case .twoHours:
-                "How's Your Session?"
-            case .fiveHours:
-                "Just Checking In"
-            case .eightHours:
-                "This is a Long Session"
-            }
-        }
-        
-        var msgBody: String {
-            switch self {
-            case .twoHours:
-                "Maybe stretch your legs, have some water, & consider if the game's still good."
-            case .fiveHours:
-                "You've been playing 5 hours, how do you feel? Take a break if you need it."
-            case .eightHours:
-                "You've been playing awhile, should you keep going? Make sure you're in the right heaadspace."
-            }
-        }
     }
     
     func scheduleUserNotification() {
@@ -124,19 +97,8 @@ class TimerViewModel: ObservableObject {
         }
     }
     
-    func addRebuy() {
-        guard !reBuyAmount.isEmpty else { return }
-        
-        // Add rebuy amount to variable, then write that amount to UserDefaults
-        // That way, if the app is quit or terminates we can recover the rebuy and initial buy in entries
-        totalRebuys.append(Int(reBuyAmount) ?? 0)
-        UserDefaults.standard.setValue(initialBuyInAmount, forKey: "initialBuyInAmount")
-        UserDefaults.standard.setValue(totalRebuys, forKey: "totalRebuys")
-        reBuyAmount = ""
-    }
-    
     func startUpdatingTimer() {
-        timer?.invalidate() // Invalidate any existing timer
+        timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             self?.updateElapsedTime()
         }
@@ -145,6 +107,7 @@ class TimerViewModel: ObservableObject {
     func updateElapsedTime() {
         guard let startTime = liveSessionStartTime else {
             liveSessionTimer = "00:00"
+            print("Error retrieving Live Session Start Time.")
             return
         }
         let elapsedTime = Date().timeIntervalSince(startTime)
@@ -179,6 +142,17 @@ class TimerViewModel: ObservableObject {
         UserDefaults.standard.removeObject(forKey: "totalRebuys")
     }
     
+    func addRebuy() {
+        guard !reBuyAmount.isEmpty else { return }
+        
+        // Add rebuy amount to variable, then write that amount to UserDefaults
+        // That way, if the app is quit or terminates we can recover the rebuy and initial buy in entries
+        totalRebuys.append(Int(reBuyAmount) ?? 0)
+        UserDefaults.standard.setValue(initialBuyInAmount, forKey: "initialBuyInAmount")
+        UserDefaults.standard.setValue(totalRebuys, forKey: "totalRebuys")
+        reBuyAmount = ""
+    }
+    
     // Called when the app enters the foreground
     @objc private func appDidResume() {
         updateElapsedTime()
@@ -188,6 +162,11 @@ class TimerViewModel: ObservableObject {
     @objc private func appWillResignActive() {
         // This method would be useful if you need to handle app becoming inactive
     }
+    
+//    @objc func applicationWillTerminate(_ application: UIApplication) {
+//        stopTimer()
+//        resetTimer()
+//    }
     
     private func formatTimeInterval(_ interval: TimeInterval) -> String {
         let hours = Int(interval) / 3600
@@ -211,5 +190,31 @@ class TimerViewModel: ObservableObject {
         initialBuyInAmount = ""
         reBuyAmount = ""
         totalRebuys.removeAll()
+    }
+}
+
+enum UserNotificationContext: String {
+    case twoHours, fiveHours, eightHours
+    
+    var msgTitle: String {
+        switch self {
+        case .twoHours:
+            "How's Your Session?"
+        case .fiveHours:
+            "Just Checking In"
+        case .eightHours:
+            "This is a Long Session"
+        }
+    }
+    
+    var msgBody: String {
+        switch self {
+        case .twoHours:
+            "Maybe stretch your legs, have some water, & consider if the game's still good."
+        case .fiveHours:
+            "You've been playing 5 hours, how do you feel? Take a break if you need it."
+        case .eightHours:
+            "You've been playing awhile, should you keep going? Make sure you're in the right heaadspace."
+        }
     }
 }

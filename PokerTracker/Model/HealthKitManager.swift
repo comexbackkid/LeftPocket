@@ -70,7 +70,7 @@ class HealthKitManager: ObservableObject {
             
             let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
             let endDate = Date()
-            let startDate = Calendar.current.date(byAdding: .day, value: -28, to: endDate)!
+            let startDate = Calendar.current.date(byAdding: .day, value: -29, to: endDate)!
             let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
             let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
             
@@ -131,6 +131,11 @@ class HealthKitManager: ObservableObject {
                     
                     var finalSleepMetrics = asleepSleepMetrics.isEmpty ? inBedSleepMetrics : asleepSleepMetrics
                     finalSleepMetrics.sort { $0.date < $1.date }
+                    
+                    // Filter out the first day
+                    if finalSleepMetrics.count > 1 {
+                        finalSleepMetrics.removeFirst()
+                    }
                     
                     DispatchQueue.main.async {
                         self?.sleepData = finalSleepMetrics

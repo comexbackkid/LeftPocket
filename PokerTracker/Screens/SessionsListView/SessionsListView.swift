@@ -96,7 +96,7 @@ struct SessionsListView: View {
                                         CellView(pokerSession: session, currency: vm.userCurrency, viewStyle: $viewStyle)
                                     })
                                 .listRowBackground(Color.brandBackground)
-                                .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 8, trailing: 20))
+                                .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 18))
                             }
                             .onDelete(perform: { indexSet in
                                 let sessionIdsToDelete = indexSet.map { filteredSessions[$0].id }
