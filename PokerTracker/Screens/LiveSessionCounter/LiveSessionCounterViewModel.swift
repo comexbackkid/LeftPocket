@@ -32,10 +32,14 @@ class TimerViewModel: ObservableObject {
     }
     
     init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(fileAccessAvailable), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appDidResume), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillTerminate), name: UIApplication.willTerminateNotification, object: nil)
-        
+//        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillTerminate), name: UIApplication.willTerminateNotification, object: nil)
+        loadTimerData()
+    }
+    
+    func loadTimerData() {
         // Attempt to recover liveSessionStartTime from UserDefaults
         guard let startTime = UserDefaults.standard.object(forKey: "liveSessionStartTime") as? Date else {
             print("No Live Session start time found.")
@@ -44,9 +48,12 @@ class TimerViewModel: ObservableObject {
         liveSessionStartTime = startTime
         updateElapsedTime()
         startUpdatingTimer()
-        
         initialBuyInAmount = UserDefaults.standard.string(forKey: "initialBuyInAmount") ?? ""
         totalRebuys = UserDefaults.standard.array(forKey: "totalRebuys") as? [Int] ?? []
+    }
+    
+    @objc func fileAccessAvailable() {
+        loadTimerData()
     }
     
     func scheduleUserNotification() {
@@ -143,9 +150,9 @@ class TimerViewModel: ObservableObject {
         // This method would be useful if you need to handle app becoming inactive
     }
     
-    @objc func applicationWillTerminate(_ application: UIApplication) {
+//    @objc func applicationWillTerminate(_ application: UIApplication) {
         // Use to run code if the app is about to be terminated
-    }
+//    }
     
     private func formatTimeInterval(_ interval: TimeInterval) -> String {
         let hours = Int(interval) / 3600

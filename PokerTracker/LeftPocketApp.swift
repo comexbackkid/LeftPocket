@@ -33,7 +33,7 @@ struct LeftPocketApp: App {
                 })
         }
     }
-    
+        
     init() {
         configureTips()
     }

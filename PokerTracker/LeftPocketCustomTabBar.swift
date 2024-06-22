@@ -11,11 +11,13 @@ import RevenueCatUI
 import TipKit
 import ActivityKit
 import AVKit
+import UserNotifications
 
 struct LeftPocketCustomTabBar: View {
     
     @AppStorage("isDarkMode") private var isDarkMode = true
     @AppStorage("systemThemeEnabled") private var systemThemeEnabled = false
+    @AppStorage("pushNotificationsAllowed") private var notificationsAllowed: Bool?
     
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var viewModel: SessionsListViewModel
@@ -27,7 +29,7 @@ struct LeftPocketCustomTabBar: View {
     @State private var audioPlayer: AVAudioPlayer?
     @State private var audioConfirmation = false
     @State private var showAlert = false
-    @State var activity: Activity<LiveSessionWidgetAttributes>?
+    @State private var activity: Activity<LiveSessionWidgetAttributes>?
     
     var isCounting: Bool {
         timerViewModel.isCounting
@@ -101,6 +103,12 @@ struct LeftPocketCustomTabBar: View {
             if #available(iOS 17.0, *) {
                 AddSessionTip.newUser = viewModel.sessions.count > 0 ? false : true
             }
+            
+            UNUserNotificationCenter.current().getNotificationSettings { settings in
+                if settings.authorizationStatus != .authorized {
+                    notificationsAllowed = false
+                }
+            }
         }
     }
     
@@ -157,7 +165,7 @@ struct LeftPocketCustomTabBar: View {
                             
                             Button {
                                 
-                                liveSessionStart()
+                                startLiveSession()
                                 
                             } label: {
                                 
@@ -260,7 +268,7 @@ struct LeftPocketCustomTabBar: View {
         }
     }
     
-    func liveSessionStart() {
+    func startLiveSession() {
         let impact = UIImpactFeedbackGenerator(style: .soft)
         impact.impactOccurred()
         
@@ -276,7 +284,16 @@ struct LeftPocketCustomTabBar: View {
             showPaywall = true
             
         } else {
-            
+            if notificationsAllowed != true {
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { success, error in
+                    if success {
+                        notificationsAllowed = true
+                    } else if let error {
+                        print("There was an error: \(error.localizedDescription)")
+                    }
+                }
+            }
+        
             timerViewModel.startSession()
             activity = LiveActivityManager().startActivity(startTime: Date(), elapsedTime: timerViewModel.liveSessionTimer)
         }

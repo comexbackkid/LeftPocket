@@ -10,6 +10,7 @@ import WidgetKit
 
 class SessionsListViewModel: ObservableObject {
     
+    @Published var alertMessage: String?
     @Published var uniqueStakes: [String] = []
     @Published var stakesProgress: Float = 0.0
     @Published var userStakes: [String] = ["1/2", "1/3", "2/5", "5/10"] {
@@ -37,6 +38,7 @@ class SessionsListViewModel: ObservableObject {
     }
     
     init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(fileAccessAvailable), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
         getSessions()
         getLocations()
         getUserStakes()
@@ -45,6 +47,13 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // MARK: SAVING & LOADING APP DATA: SESSIONS, LOCATIONS, STAKES
+    
+    @objc func fileAccessAvailable() {
+        if alertMessage != nil {
+            getSessions()
+            alertMessage = nil
+        }
+    }
     
     var sessionsPath: URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("sessions.json")
@@ -72,16 +81,16 @@ class SessionsListViewModel: ObservableObject {
     
     // Loads all sessions from FileManager upon app launch
     func getSessions() {
-        guard
-            let data = try? Data(contentsOf: sessionsPath),
-            let savedSessions = try? JSONDecoder().decode([PokerSession].self, from: data)
-                
-        else {
-            // Handle potential errors here
+        do {
+            let data = try Data(contentsOf: sessionsPath)
+            let savedSessions = try JSONDecoder().decode([PokerSession].self, from: data)
+            self.sessions = savedSessions
+
+        } catch {
+            print("Failed to load session with error \(error)")
+            alertMessage = error.localizedDescription
             return
         }
-        
-        self.sessions = savedSessions
     }
     
     // Saves the list of locations the user has created with FileManager
@@ -119,24 +128,28 @@ class SessionsListViewModel: ObservableObject {
     
     // Loads the locations the user has created upon app launch
     func getLocations() {
-        guard
-            let data = try? Data(contentsOf: locationsPath),
-            let savedLocations = try? JSONDecoder().decode([LocationModel].self, from: data)
-                
-        else { return }
-        
-        self.locations = savedLocations
+        do {
+            let data = try Data(contentsOf: locationsPath)
+            let importedLocations = try JSONDecoder().decode([LocationModel].self, from: data)
+            self.locations = importedLocations
+            
+        } catch {
+            print("Failed to load saved Locations with error: \(error)")
+            alertMessage = error.localizedDescription
+        }
     }
     
     // Loads the stakes the user has saved
     func getUserStakes() {
-        guard
-            let data = try? Data(contentsOf: stakesPath),
-            let savedStakes = try? JSONDecoder().decode([String].self, from: data)
-                
-        else { return }
-        
-        self.userStakes = savedStakes
+        do {
+            let data = try Data(contentsOf: stakesPath)
+            let importedStakes = try JSONDecoder().decode([String].self, from: data)
+            self.userStakes = importedStakes
+            
+        } catch {
+            print("Failed to load Stakes with error: \(error)")
+            alertMessage = error.localizedDescription
+        }
     }
     
     // Will merge Default Locations in to the current saved Locations and also keep the same order

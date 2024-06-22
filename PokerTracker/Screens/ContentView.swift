@@ -165,7 +165,6 @@ struct ContentView: View {
             
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
-//            showMetricsAsSheet = true
             activeSheet = .metricsAsSheet
             
         }, label: {
