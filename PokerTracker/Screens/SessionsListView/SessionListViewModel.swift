@@ -48,9 +48,13 @@ class SessionsListViewModel: ObservableObject {
     
     // MARK: SAVING & LOADING APP DATA: SESSIONS, LOCATIONS, STAKES
     
+    // We're running this in the event the app gets launched in the background prior to having permissions to read/write data to the file system.
+    // What we do is simply check for an error message, and then attempt to load the data again once triggered by the NotificationCenter.
     @objc func fileAccessAvailable() {
         if alertMessage != nil {
             getSessions()
+            getLocations()
+            getUserStakes()
             alertMessage = nil
         }
     }
