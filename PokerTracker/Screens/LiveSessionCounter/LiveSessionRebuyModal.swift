@@ -11,7 +11,7 @@ struct LiveSessionRebuyModal: View {
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vm: SessionsListViewModel
-    @EnvironmentObject var timerViewModel: TimerViewModel
+    @ObservedObject var timerViewModel: TimerViewModel
     
     @State private var alertItem: AlertItem?
     @Binding var rebuyConfirmationSound: Bool
@@ -157,7 +157,7 @@ struct LiveSessionRebuyModal: View {
 }
 
 #Preview {
-    LiveSessionRebuyModal(rebuyConfirmationSound: .constant(false))
+    LiveSessionRebuyModal(timerViewModel: TimerViewModel(), rebuyConfirmationSound: .constant(false))
         .environmentObject(SessionsListViewModel())
-        .environmentObject(TimerViewModel())
+//        .environmentObject(TimerViewModel())
 }

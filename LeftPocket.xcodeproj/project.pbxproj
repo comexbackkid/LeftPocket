@@ -193,6 +193,8 @@
 		7CBBE474277BA7B400986613 /* LineChartProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBBE473277BA7B400986613 /* LineChartProvider.swift */; };
 		7CBEF44427596A6600744F4A /* CustomChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBEF44327596A6600744F4A /* CustomChartView.swift */; };
 		7CBEF44627596DEE00744F4A /* Colors+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBEF44527596DEE00744F4A /* Colors+Ext.swift */; };
+		7CC1D0462C2703E500791847 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC1D0452C2703E500791847 /* LiveActivityManager.swift */; };
+		7CC1D0472C2703E500791847 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC1D0452C2703E500791847 /* LiveActivityManager.swift */; };
 		7CC20EB3272B19D200137F51 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC20EB2272B19D200137F51 /* HelpView.swift */; };
 		7CC81FB8294CBAD400E849A9 /* BestLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC81FB7294CBAD400E849A9 /* BestLocationView.swift */; };
 		7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */; };
@@ -389,6 +391,7 @@
 		7CBBE473277BA7B400986613 /* LineChartProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartProvider.swift; sourceTree = "<group>"; };
 		7CBEF44327596A6600744F4A /* CustomChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomChartView.swift; sourceTree = "<group>"; };
 		7CBEF44527596DEE00744F4A /* Colors+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Ext.swift"; sourceTree = "<group>"; };
+		7CC1D0452C2703E500791847 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
 		7CC20EB2272B19D200137F51 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		7CC81FB7294CBAD400E849A9 /* BestLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestLocationView.swift; sourceTree = "<group>"; };
 		7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSessionViewModel.swift; sourceTree = "<group>"; };
@@ -616,6 +619,7 @@
 				7C3F43AB2728512700A9C842 /* LocationModel.swift */,
 				7CB3EBA426C352C6009E8DF3 /* Model.swift */,
 				7C63FC3E2B3640FF00FE731C /* SubscriptionManager.swift */,
+				7CC1D0452C2703E500791847 /* LiveActivityManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1120,6 +1124,7 @@
 				7C85DE6528A5536300B79D8B /* LineChartProvider.swift in Sources */,
 				7C15880628A2DDBD00B11F77 /* Provider.swift in Sources */,
 				7C15880E28A2E21F00B11F77 /* WidgetViewSmall.swift in Sources */,
+				7CC1D0472C2703E500791847 /* LiveActivityManager.swift in Sources */,
 				7C67DDBC2BAB9BD2008C7029 /* WidgetBundle.swift in Sources */,
 				7C1587F828A2DD5E00B11F77 /* LeftPocketWidget.swift in Sources */,
 				7C67DDBA2BAB2977008C7029 /* LiveSessionWidget.swift in Sources */,
@@ -1208,6 +1213,7 @@
 				7C757EFF2C1F218900AD71EE /* SocialShareView.swift in Sources */,
 				7CA940F92BECF8E3009B54BA /* SleepAnalytics.swift in Sources */,
 				7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */,
+				7CC1D0462C2703E500791847 /* LiveActivityManager.swift in Sources */,
 				7C67DDB52BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift in Sources */,
 				7C25CB5327887D9200866511 /* CustomPicker.swift in Sources */,
 				7CD7468A28A6CA8F00D5A2D0 /* Images+Ext.swift in Sources */,

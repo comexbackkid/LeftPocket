@@ -17,7 +17,7 @@ struct AddNewSessionView: View {
     @StateObject var newSession = NewSessionViewModel()
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
-    @EnvironmentObject var timerViewModel: TimerViewModel
+    @ObservedObject var timerViewModel: TimerViewModel
     
     @Binding var isPresented: Bool
     @Binding var audioConfirmation: Bool
@@ -618,7 +618,7 @@ struct AddNewSessionView: View {
 
 struct AddNewSessionView_Previews: PreviewProvider {
     static var previews: some View {
-        AddNewSessionView(isPresented: .constant(true), audioConfirmation: .constant(false))
+        AddNewSessionView(timerViewModel: TimerViewModel(), isPresented: .constant(true), audioConfirmation: .constant(false))
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
             .environmentObject(TimerViewModel())

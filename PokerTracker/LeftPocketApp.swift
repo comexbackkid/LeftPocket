@@ -16,7 +16,6 @@ struct LeftPocketApp: App {
     @StateObject var hkManager = HealthKitManager()
     @StateObject var vm = SessionsListViewModel()
     @StateObject var subManager = SubscriptionManager()
-    @StateObject var timerViewModel = TimerViewModel()
     @AppStorage("shouldShowOnboarding") var showWelcomeScreen: Bool = true
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
@@ -28,7 +27,6 @@ struct LeftPocketApp: App {
                 })
                 .environmentObject(vm)
                 .environmentObject(subManager)
-                .environmentObject(timerViewModel)
                 .environmentObject(hkManager)
                 .onOpenURL(perform: { url in
                     Branch.getInstance().handleDeepLink(url)
@@ -39,7 +37,6 @@ struct LeftPocketApp: App {
     init() {
         configureTips()
     }
-    
     
     func configureTips() {
         if #available(iOS 17.0, *) {

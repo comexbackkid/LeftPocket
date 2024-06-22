@@ -16,11 +16,10 @@ struct LeftPocketCustomTabBar: View {
     
     @AppStorage("isDarkMode") private var isDarkMode = true
     @AppStorage("systemThemeEnabled") private var systemThemeEnabled = false
-    @AppStorage("isCounting") private var isCounting = false
     
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var viewModel: SessionsListViewModel
-    @EnvironmentObject var timerViewModel: TimerViewModel
+    @StateObject var timerViewModel = TimerViewModel()
     
     @State var selectedTab = 0
     @State var isPresented = false
@@ -28,6 +27,11 @@ struct LeftPocketCustomTabBar: View {
     @State private var audioPlayer: AVAudioPlayer?
     @State private var audioConfirmation = false
     @State private var showAlert = false
+    @State var activity: Activity<LiveSessionWidgetAttributes>?
+    
+    var isCounting: Bool {
+        timerViewModel.isCounting
+    }
     
     var body: some View {
         
@@ -79,7 +83,7 @@ struct LeftPocketCustomTabBar: View {
                 }
                 
                 if isCounting {
-                    LiveSessionCounter()
+                    LiveSessionCounter(timerViewModel: timerViewModel)
                 }
                 
                 tabBar
@@ -218,8 +222,8 @@ struct LeftPocketCustomTabBar: View {
                     }
                     .alert(Text("Are You Sure?"), isPresented: $showAlert) {
                         Button("Yes", role: .destructive) {
-                            isCounting = false
                             timerViewModel.stopTimer()
+                            LiveActivityManager().endActivity()
                             isPresented = true
                         }
                         Button("Cancel", role: .cancel) {
@@ -240,7 +244,7 @@ struct LeftPocketCustomTabBar: View {
                 playSound()
             }
         }, content: {
-            AddNewSessionView(isPresented: $isPresented, audioConfirmation: $audioConfirmation)
+            AddNewSessionView(timerViewModel: timerViewModel, isPresented: $isPresented, audioConfirmation: $audioConfirmation)
         })
     }
     
@@ -274,8 +278,7 @@ struct LeftPocketCustomTabBar: View {
         } else {
             
             timerViewModel.startSession()
-            isCounting = true
-            
+            activity = LiveActivityManager().startActivity(startTime: Date(), elapsedTime: timerViewModel.liveSessionTimer)
         }
     }
     
@@ -308,7 +311,7 @@ struct LeftPocketCustomTabBar_Previews: PreviewProvider {
         LeftPocketCustomTabBar()
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
-            .environmentObject(TimerViewModel())
+//            .environmentObject(TimerViewModel())
             .preferredColorScheme(.dark)
     }
 }

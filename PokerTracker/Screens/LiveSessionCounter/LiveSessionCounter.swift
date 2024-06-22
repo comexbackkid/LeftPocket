@@ -11,7 +11,7 @@ import AVKit
 struct LiveSessionCounter: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var timerViewModel: TimerViewModel
+    @ObservedObject var timerViewModel: TimerViewModel
     
     @State private var showRebuyModal = false
     @State private var rebuyConfirmationSound = false
@@ -47,7 +47,7 @@ struct LiveSessionCounter: View {
                 playSound()
             }
         }, content: {
-            LiveSessionRebuyModal(rebuyConfirmationSound: $rebuyConfirmationSound)
+            LiveSessionRebuyModal(timerViewModel: timerViewModel, rebuyConfirmationSound: $rebuyConfirmationSound)
                 .presentationDetents([.height(350), .large])
                 .presentationBackground(.ultraThinMaterial)
         })
@@ -67,7 +67,7 @@ struct LiveSessionCounter: View {
 }
 
 #Preview {
-    LiveSessionCounter()
-        .environmentObject(TimerViewModel())
+    LiveSessionCounter(timerViewModel: TimerViewModel())
+//        .environmentObject(TimerViewModel())
         .preferredColorScheme(.dark)
 }

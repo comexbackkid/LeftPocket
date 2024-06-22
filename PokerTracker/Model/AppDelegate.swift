@@ -10,6 +10,7 @@ import SwiftUI
 import BranchSDK
 import AdSupport
 import RevenueCat
+import ActivityKit
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -49,5 +50,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         return true 
+        
     }
+    
+    // Test this. Who knows if this works.
+//    func applicationWillTerminate(_ application: UIApplication) {
+//            print("App is about to terminate.")
+//            endLiveActivities()
+//        }
+//
+//    func endLiveActivities() {
+//        for activity in Activity<LiveSessionWidgetAttributes>.activities {
+//            Task {
+//                await activity.end(dismissalPolicy: .immediate)
+//            }
+//        }
+//        print("Ended all live activities.")
+//    }
 }

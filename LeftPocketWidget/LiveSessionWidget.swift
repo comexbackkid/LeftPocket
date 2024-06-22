@@ -19,7 +19,7 @@ struct LeftPocketLiveSessionTimer: Widget {
     var body: some WidgetConfiguration {
         
         ActivityConfiguration(for: LiveSessionWidgetAttributes.self) { context in
-            LiveSessionTimerView(context: context)
+            LiveSessionTimerView(state: context.state)
             
         } dynamicIsland: { context in
             DynamicIsland {
@@ -89,7 +89,7 @@ struct LiveSessionTimerView: View {
     
     @Environment(\.colorScheme) var colorScheme
     
-    let context: ActivityViewContext<LiveSessionWidgetAttributes>
+    let state: LiveSessionWidgetAttributes.ContentState
     
     var body: some View {
         
@@ -104,12 +104,12 @@ struct LiveSessionTimerView: View {
                     Text("Left Pocket")
                         .font(.custom("Asap-Bold", size: 20, relativeTo: .subheadline))
                     
-                    Text("Live Session Started " + "\(context.state.startTime.formatted(date: .omitted, time: .shortened))")
+                    Text("Live Session Started " + "\(state.startTime.formatted(date: .omitted, time: .shortened))")
                         .opacity(0.5)
                         .font(.custom("Asap-Regular", size: 13, relativeTo: .caption))
                         .padding(.bottom, 6)
                     
-                    Text(context.state.startTime, style: .relative)
+                    Text(state.startTime, style: .relative)
                         .font(.custom("Asap-Bold", size: 22, relativeTo: .title2))
                         .monospacedDigit()
                 }
@@ -137,7 +137,7 @@ struct LocationActivityView_Previews: PreviewProvider {
     
     static var previews: some View {
         LiveSessionWidgetAttributes(eventDescription: "Live Session")
-//            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .dynamicIsland(.compact))
+//            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .dynamicIsland(.expanded))
             .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .content)
     }
 }

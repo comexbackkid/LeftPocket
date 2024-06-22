@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import ActivityKit
 import UIKit
 import UserNotifications
 
@@ -16,7 +15,6 @@ class TimerViewModel: ObservableObject {
     
     @Published var liveSessionStartTime: Date?
     @Published var liveSessionTimer: String = "00:00"
-    @Published var activity: Activity<LiveSessionWidgetAttributes>? = nil
     @Published var reBuyAmount: String = ""
     @Published var initialBuyInAmount: String = ""
     @Published var totalRebuys: [Int] = []
@@ -29,24 +27,29 @@ class TimerViewModel: ObservableObject {
         return totalRebuys.reduce(0,+)
     }
     
+    var isCounting: Bool {
+        UserDefaults.standard.object(forKey: "liveSessionStartTime") != nil
+    }
+    
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector(appDidResume), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillTerminate), name: UIApplication.willTerminateNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillTerminate), name: UIApplication.willTerminateNotification, object: nil)
         
         // Attempt to recover liveSessionStartTime from UserDefaults
-        if let startTime = UserDefaults.standard.object(forKey: "liveSessionStartTime") as? Date {
-            liveSessionStartTime = startTime
-            updateElapsedTime()
-            startUpdatingTimer()
+        guard let startTime = UserDefaults.standard.object(forKey: "liveSessionStartTime") as? Date else {
+            print("No Live Session start time found.")
+            return
         }
+        liveSessionStartTime = startTime
+        updateElapsedTime()
+        startUpdatingTimer()
         
         initialBuyInAmount = UserDefaults.standard.string(forKey: "initialBuyInAmount") ?? ""
         totalRebuys = UserDefaults.standard.array(forKey: "totalRebuys") as? [Int] ?? []
     }
     
     func scheduleUserNotification() {
-        
         // First Push Notification to be sent after two hours of playing
         let contentAfterTwoHours = UNMutableNotificationContent()
         contentAfterTwoHours.title = UserNotificationContext.twoHours.msgTitle
@@ -76,25 +79,8 @@ class TimerViewModel: ObservableObject {
         UserDefaults.standard.set(now, forKey: "liveSessionStartTime")
         UserDefaults.standard.set(initialBuyInAmount, forKey: "initialBuyInAmount")
         UserDefaults.standard.set(totalRebuys, forKey: "totalRebuys")
-        
-        // Start or restart the timer
         startUpdatingTimer()
         scheduleUserNotification()
-        
-        // Activity Kit addition
-        if ActivityAuthorizationInfo().areActivitiesEnabled {
-            
-            let attributes = LiveSessionWidgetAttributes(eventDescription: "Live Session")
-            let state = LiveSessionWidgetAttributes.TimerStatus(startTime: Date(), elapsedTime: self.liveSessionTimer)
-            
-            do {
-                activity = try Activity<LiveSessionWidgetAttributes>.request(attributes: attributes, 
-                                                                             content: .init(state: state, staleDate: nil),
-                                                                             pushType: nil)
-            } catch {
-                print("Error: \(error)")
-            }
-        }
     }
     
     func startUpdatingTimer() {
@@ -120,12 +106,6 @@ class TimerViewModel: ObservableObject {
         UserDefaults.standard.removeObject(forKey: "liveSessionStartTime")
         UserDefaults.standard.removeObject(forKey: "initialBuyInAmount")
         UserDefaults.standard.removeObject(forKey: "totalRebuys")
-        
-        // End Activity
-        Task {
-            await Activity<LiveSessionWidgetAttributes>.activities.first?.end(activity?.content, dismissalPolicy: .immediate)
-        }
-        
         cancelUserNotifications()
     }
     
@@ -163,10 +143,9 @@ class TimerViewModel: ObservableObject {
         // This method would be useful if you need to handle app becoming inactive
     }
     
-//    @objc func applicationWillTerminate(_ application: UIApplication) {
-//        stopTimer()
-//        resetTimer()
-//    }
+    @objc func applicationWillTerminate(_ application: UIApplication) {
+        // Use to run code if the app is about to be terminated
+    }
     
     private func formatTimeInterval(_ interval: TimeInterval) -> String {
         let hours = Int(interval) / 3600
@@ -184,7 +163,6 @@ class TimerViewModel: ObservableObject {
     
     deinit {
         timer?.invalidate()
-        // Unregister from all notifications
         NotificationCenter.default.removeObserver(self)
         cancelUserNotifications()
         initialBuyInAmount = ""
