@@ -15,11 +15,12 @@ struct ShareButton: View {
                 .foregroundColor(.white)
                 .opacity(0.6)
             
-            Image(systemName: "arrow.down")
-                .imageScale(.medium)
+            Image(systemName: "square.and.arrow.down")
+                .imageScale(.large)
                 .fontWeight(.medium)
                 .frame(width: 44, height: 44)
                 .foregroundColor(.black)
+                .offset(y: -2)
         }
     }
 }

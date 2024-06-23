@@ -74,7 +74,6 @@ struct LiveSessionRebuyModal: View {
             
             Spacer()
         }
-        
     }
     
     var instructions: some View {
@@ -159,5 +158,4 @@ struct LiveSessionRebuyModal: View {
 #Preview {
     LiveSessionRebuyModal(timerViewModel: TimerViewModel(), rebuyConfirmationSound: .constant(false))
         .environmentObject(SessionsListViewModel())
-//        .environmentObject(TimerViewModel())
 }

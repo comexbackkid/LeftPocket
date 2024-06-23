@@ -19,6 +19,7 @@ struct SleepAnalytics: View {
     @State private var isShowingPermissionPrimingSheet = false
     @State private var showError = false
     @State private var howThisWorksPopup = false
+    @State private var numbersLookOffPopup = false
     @State private var rawSelectedDate: Date?
     @Binding var activeSheet: Sheet?
     
@@ -67,6 +68,8 @@ struct SleepAnalytics: View {
                                     color: .chartAccent)
                         
                         sleepImportance
+                        
+                        disclaimerText
                         
                     }
                     .navigationBarTitleDisplayMode(.inline)
@@ -245,7 +248,39 @@ struct SleepAnalytics: View {
         )
         .cornerRadius(20)
         .padding(.top, 12)
+    }
+    
+    var disclaimerText: some View {
+        
+        HStack {
+            
+            Button {
+                numbersLookOffPopup = true
+            } label: {
+                HStack (spacing: 4) {
+                    
+                    Text("Why are my sleep numbers off?")
+                        .calloutStyle()
+                    
+                    Image(systemName: "info.circle")
+                        .font(.subheadline)
+                }
+            }
+            .foregroundStyle(Color.brandPrimary)
+            
+            Spacer()
+        }
+        .padding(.horizontal)
         .padding(.bottom, activeSheet == .sleepAnalytics ? 0 : 40)
+        .popover(isPresented: $numbersLookOffPopup, arrowEdge: .bottom, content: {
+            PopoverView(bodyText: "If your sleep data looks different than what your smart device is reporting, kindly let us know. On occaision, sleep numbers can get double-counted in Apple's Health App. Email leftpocketpoker@gmail.com.")
+                .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                .frame(height: 180)
+                .dynamicTypeSize(.medium...DynamicTypeSize.medium)
+                .presentationCompactAdaptation(.popover)
+                .preferredColorScheme(colorScheme == .dark ? .dark : .light)
+                .shadow(radius: 10)
+        })
     }
     
     var dismissButton: some View {

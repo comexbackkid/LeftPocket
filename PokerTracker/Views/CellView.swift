@@ -49,12 +49,12 @@ struct CellView: View {
             Spacer()
             
             Text(pokerSession.profit, format: .currency(code: currency.rawValue).precision(.fractionLength(0)))
-                .font(.subheadline)
+                .subHeadlineStyle()
                 .bold()
                 .foregroundColor(pokerSession.profit > 0 ? .green : .red)
         }
-        .padding(viewStyle == .compact ? 5 : 10)
-        .padding(.vertical, viewStyle == .compact ? 0 : 3)
+        .padding(.leading, viewStyle == .compact ? 5 : 10)
+        .padding(.vertical, viewStyle == .compact ? 0 : 12)
         .background(Color.brandBackground)
     }
 }

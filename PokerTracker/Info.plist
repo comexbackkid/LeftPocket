@@ -53,7 +53,7 @@
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>This app accesses your sleep data to display in a chart for analysis.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Needed to save your Session Share image to Photo Library</string>
+	<string>Your Session Summary will be saved as an image to your Photo Library.</string>
 	<key>NSSupportsLiveActivities</key>
 	<true/>
 	<key>UIAppFonts</key>

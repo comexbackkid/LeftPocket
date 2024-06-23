@@ -631,7 +631,7 @@ struct AdditionalMetricsView: View {
                                         .background(Color.brandPrimary)
                                         .foregroundColor(.white)
                                         .cornerRadius(30)
-                                        .shadow(radius: 10)
+                                        .shadow(color: .black, radius: 20)
                                 }
                             }
                         }
@@ -742,7 +742,7 @@ struct AdditionalMetricsView: View {
                                         .background(Color.brandPrimary)
                                         .foregroundColor(.white)
                                         .cornerRadius(30)
-                                        .shadow(radius: 10)
+                                        .shadow(color: .black, radius: 20)
                                 }
                             }
                         }
