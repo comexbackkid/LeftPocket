@@ -24,51 +24,60 @@ struct BestTimeOfDay: View {
 //            HStack {
 //                Text("Ideal Window")
 //                    .cardTitleStyle()
-//                    
+//
 //                Spacer()
-//                
+//
 //            }
 //            .dynamicTypeSize(.small...DynamicTypeSize.medium)
 //            .padding(.bottom)
             
             VStack {
-                
-                Chart {
-                    ForEach(prepareChartData(sessions: viewModel.sessions), id: \.bucket) { data in
-                        SectorMark(
-                            angle: .value("Type", data.averageHourlyRate),
-                            innerRadius: .ratio(0.83),
-                            angularInset: 3
-                        )
-                        .foregroundStyle(by: .value("Bucket", data.bucket.rawValue))
-                        .cornerRadius(25)
-                        .opacity(data.bucket == highestBucket ? 1.0 : 0.25)
+                ZStack {
+                    Image(systemName: "clock")
+                        .resizable()
+                        .frame(width: 28, height: 28)
+                        .foregroundStyle(highestBucket?.color ?? .gray)
+                        .fontWeight(.semibold)
+                    
+                    Chart {
+                        ForEach(prepareChartData(sessions: viewModel.sessions), id: \.bucket) { data in
+                            SectorMark(
+                                angle: .value("Type", data.averageHourlyRate),
+                                innerRadius: .ratio(0.83),
+                                angularInset: 3
+                            )
+//                            .foregroundStyle(by: .value("Bucket", data.bucket.rawValue))
+                            .foregroundStyle(data.bucket == highestBucket ? highestBucket?.color ?? .gray : .gray)
+                            .cornerRadius(25)
+                            .opacity(data.bucket == highestBucket ? 1.0 : 0.25)
+                        }
                     }
+//                    .padding(.bottom, 10)
+    //                .frame(maxHeight: 150)
+    //                .frame(width: 220)
+                    .chartLegend(.hidden)
+    //                .chartLegend(position: .leading, alignment: .leading)
+                    .chartForegroundStyleScale([
+                        "12-4am": Color.donutChartOrange,
+                        "4-8am": Color.donutChartBlack,
+                        "8-12pm": Color.donutChartGreen,
+                        "12-4pm": Color.donutChartPurple,
+                        "4-8pm": Color.donutChartRed,
+                        "8-12am": Color.donutChartDarkBlue,
+                    ])
+                    
+                    
                 }
-                .padding(.bottom, 10)
-//                .frame(maxHeight: 150)
-//                .frame(width: 220)
-                .chartLegend(.hidden)
-//                .chartLegend(position: .leading, alignment: .leading)
-                .chartForegroundStyleScale([
-                    "12-4am": Color.donutChartOrange,
-                    "4-8am": Color.donutChartBlack,
-                    "8-12pm": Color.donutChartGreen,
-                    "12-4pm": Color.donutChartPurple,
-                    "4-8pm": Color.donutChartRed,
-                    "8-12am": Color.donutChartDarkBlue,
-                ])
                 
                 if let highestData = highestRateData(sessions: viewModel.sessions) {
                     HStack {
                         Text("You average $\(highestData.hourlyRate) / hr from \(highestData.bucket.rawValue)")
                             .subHeadlineStyle()
-                            .padding(.top, 5)
+                            .padding(.top, 15)
                         
                         Spacer()
                     }
                 }
-               
             }
         }
         .dynamicTypeSize(.medium)
@@ -122,6 +131,23 @@ enum TimeBucket: String, CaseIterable {
     case evening = "4-8pm"
     case night = "8-12am"
     
+    var color: Color {
+        switch self {
+        case .earlyMorning:
+            Color.donutChartOrange
+        case .lateMorning:
+            Color.donutChartBlack
+        case .earlyAfternoon:
+            Color.donutChartGreen
+        case .lateAfternoon:
+            Color.donutChartPurple
+        case .evening:
+            Color.donutChartRed
+        case .night:
+            Color.donutChartDarkBlue
+        }
+    }
+    
     static func bucket(for date: Date) -> TimeBucket {
         let hour = Calendar.current.component(.hour, from: date)
         switch hour {
@@ -134,6 +160,7 @@ enum TimeBucket: String, CaseIterable {
         default: return .earlyMorning
         }
     }
+    
 }
 
 @available(iOS 17.0, *)

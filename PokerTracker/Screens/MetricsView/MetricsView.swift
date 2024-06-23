@@ -68,7 +68,7 @@ struct MetricsView: View {
                                 
                                 barChart
                                 
-                                ToolTipView(image: "clock",
+                                ToolTipView(image: "stopwatch",
                                             message: "You tend to play better when your session lasts \(viewModel.bestSessionLength()).",
                                             color: .donutChartDarkBlue)
 
