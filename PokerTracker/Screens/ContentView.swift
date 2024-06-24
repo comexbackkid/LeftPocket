@@ -49,7 +49,7 @@ struct ContentView: View {
             }
             .padding(.bottom, 50)
         }
-        .background { homeBackground.ignoresSafeArea() }
+        .background { Color.brandBackground.ignoresSafeArea() }
         .sheet(item: $activeSheet) { sheet in
             switch sheet {
             case .productUpdates: ProductUpdates(activeSheet: $activeSheet)
@@ -156,6 +156,8 @@ struct ContentView: View {
         .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
         .cornerRadius(20)
         .padding(.bottom, 25)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.23),
+                radius: 12, x: 0, y: 5)
         
     }
     
@@ -275,7 +277,7 @@ struct ContentView: View {
         .padding(.bottom, 20)
     }
     
-    var homeBackground: some View {
+    var homeBackgroundGradient: some View {
         
         RadialGradient(colors: [.brandBackground, Color("newWhite").opacity(0.3)],
                        center: .topLeading,
@@ -324,6 +326,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
-            .preferredColorScheme(.dark)
+//            .preferredColorScheme(.dark)
     }
 }

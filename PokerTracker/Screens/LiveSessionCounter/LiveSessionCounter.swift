@@ -21,10 +21,10 @@ struct LiveSessionCounter: View {
         
         HStack (spacing: 10) {
             
-            Image(systemName: "timer")
-                .foregroundStyle(.secondary)
-                .font(.title3)
-                .fontWeight(.medium)
+//            Image(systemName: "timer")
+//                .foregroundStyle(.secondary)
+//                .font(.title3)
+//                .fontWeight(.medium)
             
             Text(timerViewModel.liveSessionTimer)
                 .font(.custom("Asap-Regular", size: 21))
@@ -40,6 +40,7 @@ struct LiveSessionCounter: View {
                 }
         }
         .padding()
+        .padding(.horizontal, 8)
         .background(.thickMaterial.opacity(0.97))
         .cornerRadius(20)
         .sheet(isPresented: $showRebuyModal, onDismiss: {
@@ -68,6 +69,5 @@ struct LiveSessionCounter: View {
 
 #Preview {
     LiveSessionCounter(timerViewModel: TimerViewModel())
-//        .environmentObject(TimerViewModel())
         .preferredColorScheme(.dark)
 }

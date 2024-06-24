@@ -12,6 +12,7 @@ import TipKit
 import ActivityKit
 import AVKit
 import UserNotifications
+import NotificationCenter
 
 struct LeftPocketCustomTabBar: View {
     
@@ -109,6 +110,13 @@ struct LeftPocketCustomTabBar: View {
                     notificationsAllowed = false
                 }
             }
+            
+            NotificationCenter.default.addObserver(forName: .openMetricsView, object: nil, queue: .main) { _ in
+                selectedTab = 3
+            }
+        }
+        .onDisappear {
+            NotificationCenter.default.removeObserver(self, name: .openMetricsView, object: nil)
         }
     }
     

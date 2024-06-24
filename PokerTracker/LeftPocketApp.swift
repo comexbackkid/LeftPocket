@@ -29,6 +29,7 @@ struct LeftPocketApp: App {
                 .environmentObject(subManager)
                 .environmentObject(hkManager)
                 .onOpenURL(perform: { url in
+                    handleDeepLinkURL(url: url)
                     Branch.getInstance().handleDeepLink(url)
                 })
         }
