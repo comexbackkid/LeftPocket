@@ -54,7 +54,6 @@ struct HealthKitPrimingView: View {
             if state != .notDetermined {
                 dismiss()
             } else {
-                // What are we doing if the user denies permission? For now just dismiss anyway. Maybe ask again?
                 dismiss()
             }
         })

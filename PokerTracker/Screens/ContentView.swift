@@ -130,7 +130,7 @@ struct ContentView: View {
             Divider()
             
             VStack (spacing: 3) {
-                Text(String(viewModel.totalWinRate()))
+                Text(String(viewModel.totalWinRate(bankroll: .all)))
                     .font(.system(size: 20, design: .rounded))
                     .opacity(0.75)
                 

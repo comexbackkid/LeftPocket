@@ -95,6 +95,17 @@ struct MockData {
                                             isTournament: false,
                                             entrants: 80,
                                             highHandBonus: nil)
+    static let sampleTournament = PokerSession(location: mockLocation,
+                                               game: "NL Texas Hold Em",
+                                               stakes: "",
+                                               date: Date().modifyDays(days: -2),
+                                               profit: 1200, notes: "",
+                                               startTime: Date(),
+                                               endTime: Date().modifyTime(minutes: 395),
+                                               expenses: 200,
+                                               isTournament: true,
+                                               entrants: 82,
+                                               highHandBonus: nil)
     
     static let allLocations = [
         LocationModel(name: "MGM Springfield", localImage: "mgmspringfield-header", imageURL: ""),

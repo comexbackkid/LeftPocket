@@ -10,42 +10,24 @@ import Charts
 
 struct BankrollLineChart: View {
     
-    enum ChartRange: CaseIterable {
-        case all, oneMonth, sixMonth, oneYear, ytd
-        
-        var displayName: String {
-                switch self {
-                case .all:
-                    return "All"
-                case .oneMonth:
-                    return "1M"
-                case .sixMonth:
-                    return "6M"
-                case .oneYear:
-                    return "1Y"
-                case .ytd:
-                    return "YTD"
-                }
-            }
-    }
-    
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     @State private var selectedIndex: Int?
     @State private var animationProgress: CGFloat = 0.0
     @State private var showChart: Bool = false
     @State private var sessionFilter: SessionFilter = .all
-    @State private var chartRange: ChartRange = .all
+    @State private var chartRange: RangeSelection = .all
     
     // Optional year selector, only used in Annual Report View. Overrides dateRange if used
     var yearSelection: [PokerSession]?
+    
     var dateRange: [PokerSession] {
         switch chartRange {
         case .all: return viewModel.sessions
-        case .oneMonth: return filterSessionsForLastThreeMonths()
-        case .sixMonth: return filterSessionsForLastSixMonths()
-        case .oneYear: return filterSessionsForLastTwelveMonths()
-        case .ytd: return filterSessionsForYTD()
+        case .oneMonth: return viewModel.filterSessionsLastMonth()
+        case .sixMonth: return viewModel.filterSessionsLastSixMonths()
+        case .oneYear: return viewModel.filterSessionsLastTwelveMonths()
+        case .ytd: return viewModel.filterSessionsYTD()
         }
     }
     var profitAnnotation: Int? {
@@ -268,7 +250,7 @@ struct BankrollLineChart: View {
         
         HStack (spacing: 17) {
             
-            ForEach(ChartRange.allCases, id: \.self) { range in
+            ForEach(RangeSelection.allCases, id: \.self) { range in
                 Button {
                     let impact = UIImpactFeedbackGenerator(style: .medium)
                     impact.impactOccurred()
@@ -288,7 +270,7 @@ struct BankrollLineChart: View {
     
     func calculateCumulativeProfit(sessions: [PokerSession], sessionFilter: SessionFilter) -> [Int] {
         
-        // We run this so tha twe can just use the Index as our X Axis value. Keeps spacing uniform and neat looking.
+        // We run this so that we can just use the Index as our X Axis value. Keeps spacing uniform and neat looking.
         // Then, in chart configuration we just plot along the Index value, and Int is our cumulative profit amount.
         var cumulativeProfit = 0
         
@@ -322,49 +304,6 @@ struct BankrollLineChart: View {
         }
 
         return cumulativeProfits[index]
-    }
-    
-    func filterSessionsForLastThreeMonths() -> [PokerSession] {
-        let calendar = Calendar.current
-        let threeMonthsAgo = calendar.date(byAdding: .month, value: -3, to: Date())
-
-        return viewModel.sessions.filter { session in
-            guard let threeMonthsAgo = threeMonthsAgo else { return false }
-            return session.date >= threeMonthsAgo
-        }
-    }
-    
-    func filterSessionsForLastSixMonths() -> [PokerSession] {
-        let calendar = Calendar.current
-        let threeMonthsAgo = calendar.date(byAdding: .month, value: -6, to: Date())
-
-        return viewModel.sessions.filter { session in
-            guard let threeMonthsAgo = threeMonthsAgo else { return false }
-            return session.date >= threeMonthsAgo
-        }
-    }
-    
-    func filterSessionsForLastTwelveMonths() -> [PokerSession] {
-        let calendar = Calendar.current
-        let threeMonthsAgo = calendar.date(byAdding: .month, value: -12, to: Date())
-
-        return viewModel.sessions.filter { session in
-            guard let threeMonthsAgo = threeMonthsAgo else { return false }
-            return session.date >= threeMonthsAgo
-        }
-    }
-    
-    func filterSessionsForYTD() -> [PokerSession] {
-        let calendar = Calendar.current
-        let now = Date()
-        
-        guard let startOfYear = calendar.date(from: calendar.dateComponents([.year], from: now)) else {
-            return []
-        }
-        
-        return viewModel.sessions.filter { session in
-            return session.date >= startOfYear
-        }
     }
 }
 

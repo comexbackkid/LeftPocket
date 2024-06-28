@@ -12,6 +12,7 @@ import TipKit
 enum ViewStyle: String, CaseIterable {
     case standard, compact
 }
+
 enum SessionFilter: String, CaseIterable {
     case all, cash, tournaments
     
@@ -31,16 +32,22 @@ struct SessionsListView: View {
     
     @AppStorage("viewStyle") var viewStyle: ViewStyle = .standard
     
+    @EnvironmentObject var vm: SessionsListViewModel
+    @EnvironmentObject var subManager: SubscriptionManager
+    
     @State var activeSheet: Sheet?
     @State var isPresented = false
     @State var showPaywall = false
     @State var showTip = false
+    @State var showDateFilter = false
     @State var sessionFilter: SessionFilter = .all
     @State var locationFilter: LocationModel?
+    @State var startDate: Date = Date().modifyDays(days: -365)
+    @State var endDate: Date = .now
     
-    @EnvironmentObject var vm: SessionsListViewModel
-    @EnvironmentObject var subManager: SubscriptionManager
-    
+    var firstSessionDate: Date {
+        vm.sessions.last?.date ?? Date().modifyDays(days: -365)
+    }
     var viewStyles: String {
         switch viewStyle {
         case .compact: "Compact View"
@@ -58,17 +65,26 @@ struct SessionsListView: View {
         
         var result = vm.sessions
         
+        // Apply session type filter
         switch sessionFilter {
         case .all: break
-        case .cash: result = result.filter({ $0.isTournament == nil || $0.isTournament == false  })
-        case .tournaments: result = result.filter({ $0.isTournament == true })
+        case .cash: result = vm.allCashSessions()
+        case .tournaments: result = vm.allTournamentSessions()
         }
         
+        // Apply location filter if selected
         if let locationFilter = locationFilter {
             result = result.filter { $0.location.name == locationFilter.name }
         }
         
+        // Apply date range filter
+        result = result.filter { session in
+            let sessionDate = session.date
+            return sessionDate >= startDate && sessionDate <= endDate
+        }
+        
         return result
+        
     }
     
     var body: some View {
@@ -109,10 +125,7 @@ struct SessionsListView: View {
                         }
                         .listStyle(PlainListStyle())
                         .navigationBarTitleDisplayMode(.inline)
-                        .toolbar {
-                            toolbarLocationFilter
-                            toolbarFilter
-                        }
+                        
                         
                         if #available(iOS 17.0, *) {
                             
@@ -137,16 +150,19 @@ struct SessionsListView: View {
                             EmptyState(image: .sessions)
                             Spacer()
                         }
-                        .toolbar {
-                            toolbarLocationFilter
-                            toolbarFilter
-                        }
                     }
                 }
             }
             .padding(.bottom, 50)
             .accentColor(.brandPrimary)
             .background(Color.brandBackground)
+            .toolbar {
+                toolbarLocationFilter
+                toolbarFilter
+            }
+            .onAppear {
+                startDate = firstSessionDate
+            }
         }
         .accentColor(.brandPrimary)
     }
@@ -179,6 +195,12 @@ struct SessionsListView: View {
             
             Divider()
             
+            Button("Date Range") {
+                showDateFilter = true
+            }
+            
+            Divider()
+            
             Picker("", selection: $viewStyle) {
                 ForEach(ViewStyle.allCases, id: \.self) {
                     Text($0.rawValue.capitalized).tag($0)
@@ -188,6 +210,11 @@ struct SessionsListView: View {
         } label: {
             Image(systemName: "slider.horizontal.3")
         }
+        .sheet(isPresented: $showDateFilter, content: {
+            DateFilter(startDate: $startDate, endDate: $endDate)
+                .presentationDetents([.height(360)])
+                .presentationBackground(.ultraThinMaterial)
+        })
     }
     
     var emptyView: some View {
@@ -208,7 +235,6 @@ struct SessionsListView: View {
             .listRowBackground(Color.brandBackground)
             .listRowSeparator(.hidden)
             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-        
     }
 }
 

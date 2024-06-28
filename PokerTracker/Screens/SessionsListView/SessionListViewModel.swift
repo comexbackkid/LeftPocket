@@ -236,39 +236,6 @@ class SessionsListViewModel: ObservableObject {
     
     // MARK: CALCULATIONS & DATA PRESENTATION FOR CHARTS & METRICS VIEW
     
-    // Big Blind per Hour calculation. Adds all the BB/Hr rates for each session and then averages them
-    func bbPerHour(year: String? = nil) -> Double {
-        let filteredSessions: [PokerSession]
-        
-        if let year = year {
-            filteredSessions = sessions.filter({ $0.date.getYear() == year })
-        } else {
-            filteredSessions = sessions
-        }
-        
-        guard !filteredSessions.isEmpty else { return 0 }
-        
-        let cashgames = filteredSessions.filter({ $0.isTournament == false || $0.isTournament == nil })
-        let totalBigBlindRate = cashgames.map({ $0.bigBlindPerHour }).reduce(0, +)
-        let count = Double(cashgames.count)
-        
-        guard count > 0 else { return 0 }
-        
-        return totalBigBlindRate / count
-    }
-    
-    // Calculate current bankroll
-    func tallyBankroll(bankroll: SessionFilter) -> Int {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.usesGroupingSeparator = true
-        switch bankroll {
-        case .all: return sessions.map { Int($0.profit) }.reduce(0, +)
-        case .cash: return allCashSessions().map { Int($0.profit) }.reduce(0, +)
-        case .tournaments: return allTournamentSessions().map { Int($0.profit) }.reduce(0, +)
-        }
-    }
-    
     // Creates an array of our running, cumulative bankroll for use with charts
     // Likely deleting this since we're totally running on Swift Charts now
     func chartArray() -> [Double] {
@@ -314,117 +281,12 @@ class SessionsListViewModel: ObservableObject {
         return sessions.filter({ $0.date.getYear() == year }).count
     }
     
-    // Adds up total number of profitable cash sessions
-    func numOfCashes() -> Int {
-        guard !allCashSessions().isEmpty else { return 0 }
-        
-        let sessionsArray = sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
-        return sessionsArray.filter { $0.profit > 0 }.count
-    }
-    
     // Returns percentage of winning sessions
     func winRate() -> String {
         guard !allCashSessions().isEmpty else { return "0%" }
         let cashSessions = allCashSessions()
         let winPercentage = Double(numOfCashes()) / Double(cashSessions.count)
         return winPercentage.asPercent()
-    }
-    
-    func totalWinRate() -> String {
-        guard !sessions.isEmpty else { return "0%" }
-        let profitableSessions = sessions.filter({ $0.profit > 0 }).count
-        let winPercentage = Double(profitableSessions) / Double(sessions.count)
-        return winPercentage.asPercent()
-    }
-    
-    // Standard deviation function on a per session basis
-    func standardDeviation() -> Int {
-        
-        guard sessions.count > 1 else {
-            // Not enough data points to calculate standard deviation
-            return 0
-        }
-
-        let profitArray = sessions.map { $0.profit }
-        let mean = profitArray.reduce(0, +) / profitArray.count
-        let variance = profitArray.reduce(0) { (result, profit) in
-            result + pow(Double(profit - mean), 2)
-        } / Double(profitArray.count - 1)
-
-        return Int(sqrt(variance))
-    }
-    
-    // Calculate total hourly earnings rate for MetricsView
-    func hourlyRate(bankroll: SessionFilter) -> Int {
-        guard !sessions.isEmpty else { return 0 }
-        
-        switch bankroll {
-        case .all:
-            let totalHours = sessions.map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
-            let totalMinutes = Float(sessions.map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
-            if totalHours < 1 {
-                return Int(Float(tallyBankroll(bankroll: .all)) / (totalMinutes / 60))
-            } else {
-                return tallyBankroll(bankroll: .all) / totalHours
-            }
-        case .cash:
-            guard !allCashSessions().isEmpty else { return 0 }
-            let totalHours = allCashSessions().map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
-            let totalMinutes = Float(allCashSessions().map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
-            if totalHours < 1 {
-                return Int(Float(tallyBankroll(bankroll: bankroll)) / (totalMinutes / 60))
-            } else {
-                return tallyBankroll(bankroll: bankroll) / totalHours
-            }
-        case .tournaments:
-            guard !allTournamentSessions().isEmpty else { return 0 }
-            let totalHours = allTournamentSessions().map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
-            let totalMinutes = Float(allTournamentSessions().map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
-            if totalHours < 1 {
-                return Int(Float(tallyBankroll(bankroll: bankroll)) / (totalMinutes / 60))
-            } else {
-                return tallyBankroll(bankroll: bankroll) / totalHours
-            }
-        }
-    }
-    
-    // Calculate average session duration for MetricsView
-    func avgDuration(bankroll: SessionFilter) -> String {
-        
-        var sessionsArray: [PokerSession] {
-            switch bankroll {
-            case .all:
-                return sessions
-            case .cash:
-                return allCashSessions()
-            case .tournaments:
-                return allTournamentSessions()
-            }
-        }
-        
-        guard !sessionsArray.isEmpty else { return "0" }
-        
-        let hoursArray: [Int] = sessionsArray.map { $0.sessionDuration.hour ?? 0 }
-        let minutesArray: [Int] = sessionsArray.map { $0.sessionDuration.minute ?? 0 }
-        let totalHours = hoursArray.reduce(0, +) / sessionsArray.count
-        let totalMinutes = minutesArray.reduce(0, +) / sessionsArray.count
-        let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
-        return dateComponents.abbreviated(duration: dateComponents)
-    }
-    
-    // Calculate average profit per session
-    func avgProfit(bankroll: SessionFilter) -> Int {
-        switch bankroll {
-        case .all:
-            guard !sessions.isEmpty else { return 0 }
-            return tallyBankroll(bankroll: bankroll) / sessions.count
-        case .cash:
-            guard !allCashSessions().isEmpty else { return 0 }
-            return tallyBankroll(bankroll: bankroll) / allCashSessions().count
-        case .tournaments:
-            guard !allTournamentSessions().isEmpty else { return 0 }
-            return tallyBankroll(bankroll: bankroll) / allTournamentSessions().count
-        }
     }
     
     // Calculate average cost of Tournament buy in's
@@ -438,27 +300,6 @@ class SessionsListViewModel: ObservableObject {
         let count = allTournamentSessions().count
         
         return tournamentBuyIns / count
-    }
-    
-    // Total hours played from all sessions
-    func totalHoursPlayed(bankroll: SessionFilter) -> String {
-        
-        var sessionsArray: [PokerSession] {
-            switch bankroll {
-            case .all:
-                return sessions
-            case .cash:
-                return allCashSessions()
-            case .tournaments:
-                return allTournamentSessions()
-            }
-        }
-        
-        guard !sessionsArray.isEmpty else { return "0" }
-        let totalHours = sessionsArray.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
-        let totalMins = sessionsArray.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
-        let dateComponents = DateComponents(hour: totalHours, minute: totalMins)
-        return dateComponents.abbreviated(duration: dateComponents)
     }
     
     // User's longest win streak
@@ -517,12 +358,6 @@ class SessionsListViewModel: ObservableObject {
         let totalWinnings = allTournamentSessions().filter({ $0.date.getYear() == year }).map({ $0.profit + $0.expenses! }).reduce(0,+)
         let returnOnInvestment = (Double(totalWinnings) - Double(totalBuyIns)) / Double(totalBuyIns)
         return returnOnInvestment.asPercent()
-    }
-    
-    func totalHighHands() -> Int {
-        guard !allCashSessions().isEmpty else { return 0 }
-        let highHandTotals = allCashSessions().map({ $0.highHandBonus ?? 0 }).reduce(0,+)
-        return highHandTotals
     }
     
     // MARK: CALCULATIONS FOR ANNUAL REPORT VIEW
@@ -903,6 +738,7 @@ class SessionsListViewModel: ObservableObject {
 }
 
 extension SessionsListViewModel {
+    
     func allTournamentSessions() -> [PokerSession] {
         return sessions.filter({ $0.isTournament == true })
     }

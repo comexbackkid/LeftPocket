@@ -16,8 +16,9 @@ struct MetricsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel: SessionsListViewModel
     
-    @State var progressIndicator: Float = 0.0
-    @State var sessionFilter: SessionFilter = .cash
+    @State private var progressIndicator: Float = 0.0
+    @State private var sessionFilter: SessionFilter = .cash
+    @State private var statsRange: RangeSelection = .all
     @Binding var activeSheet: Sheet?
     
     var body: some View {
@@ -81,20 +82,9 @@ struct MetricsView: View {
                                     .frame(width: UIScreen.main.bounds.width * 0.9)
                                 }
                                 
-                                HStack {
-                                    Text("My Reports")
-                                        .font(.custom("Asap-Black", size: 34))
-                                        .bold()
-                                        .padding(.horizontal)
-                                        .padding(.top)
-                                    
-                                    Spacer()
-                                }
-                                
                                 AdditionalMetricsView()
                                     .padding(.bottom, activeSheet == .metricsAsSheet ? 0 : 50)
                             }
-                            
                         }
                         .fullScreenCover(isPresented: $viewModel.lineChartFullScreen, content: {
                             LineChartFullScreen(lineChartFullScreen: $viewModel.lineChartFullScreen)
@@ -208,12 +198,14 @@ struct MetricsView: View {
                 
                 switch sessionFilter {
                 case .all:
-                    AllStats(sessionFilter: sessionFilter, viewModel: viewModel)
+                    AllStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
                 case .cash:
-                    CashStats(sessionFilter: sessionFilter, viewModel: viewModel)
+                    CashStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
                 case .tournaments:
                     TournamentStats(sessionFilter: sessionFilter, viewModel: viewModel)
                 }
+                
+                rangeSelector
             }
             .padding()
         }
@@ -221,26 +213,58 @@ struct MetricsView: View {
         .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
         .cornerRadius(20)
     }
+    
+    var rangeSelector: some View {
+        
+        HStack (spacing: 17) {
+            
+            ForEach(RangeSelection.allCases, id: \.self) { range in
+                Button {
+                    let impact = UIImpactFeedbackGenerator(style: .medium)
+                    impact.impactOccurred()
+                    statsRange = range
+                } label: {
+                    Text("\(range.displayName)")
+                        .bodyStyle()
+                        .fontWeight(statsRange == range ? .black : .regular)
+                }
+                .tint(statsRange == range ? .primary : .brandPrimary)
+            }
+            
+            Spacer()
+        }
+        .padding(.top, 20)
+    }
 }
 
 struct AllStats: View {
     
     let sessionFilter: SessionFilter
     let viewModel: SessionsListViewModel
+    let range: RangeSelection
     
     var body: some View {
         
         VStack {
             
+            let currencyType = viewModel.userCurrency.rawValue
+            let totalBankroll = viewModel.tallyBankroll(range: range, bankroll: sessionFilter)
+            let hourlyRate = viewModel.hourlyRate(range: range, bankroll: sessionFilter)
+            let profitPerSession = viewModel.avgProfit(range: range, bankroll: sessionFilter)
+            let avgDuration = viewModel.avgDuration(range: range, bankroll: sessionFilter)
+            let totalSessions = viewModel.countSessions(range: range, bankroll: sessionFilter)
+            let totalWinRate = viewModel.totalWinRate(range: range, bankroll: sessionFilter)
+            let totalHours = viewModel.totalHoursPlayed(range: range, bankroll: sessionFilter)
+            
             HStack {
                 Text("Total Bankroll")
                     .calloutStyle()
                     .foregroundColor(.secondary)
+                
                 Spacer()
-                Text(viewModel.tallyBankroll(bankroll: sessionFilter), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(viewModel.tallyBankroll(bankroll: sessionFilter) > 0 ? .green
-                                     : viewModel.tallyBankroll(bankroll: sessionFilter) < 0 ? .red
-                                     : .primary)
+        
+                Text(totalBankroll, format: .currency(code: currencyType).precision(.fractionLength(0)))
+                    .foregroundColor(totalBankroll > 0 ? .green : totalBankroll < 0 ? .red : .primary)
             }
             
             Divider()
@@ -249,11 +273,11 @@ struct AllStats: View {
                 Text("Hourly Rate")
                     .calloutStyle()
                     .foregroundColor(.secondary)
+                
                 Spacer()
-                Text(viewModel.hourlyRate(bankroll: sessionFilter), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(viewModel.hourlyRate(bankroll: sessionFilter) > 0 ? .green
-                                     : viewModel.hourlyRate(bankroll: sessionFilter) < 0 ? .red
-                                     : .primary)
+                
+                Text(hourlyRate, format: .currency(code: currencyType).precision(.fractionLength(0)))
+                    .foregroundColor(hourlyRate > 0 ? .green : hourlyRate < 0 ? .red : .primary)
             }
             
             Divider()
@@ -262,11 +286,11 @@ struct AllStats: View {
                 Text("Profit Per Session")
                     .calloutStyle()
                     .foregroundColor(.secondary)
+                
                 Spacer()
-                Text(viewModel.avgProfit(bankroll: sessionFilter), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(viewModel.avgProfit(bankroll: sessionFilter) > 0 ? .green
-                                     : viewModel.avgProfit(bankroll: sessionFilter) < 0 ? .red
-                                     : .primary)
+                
+                Text(profitPerSession, format: .currency(code: currencyType).precision(.fractionLength(0)))
+                    .foregroundColor(profitPerSession > 0 ? .green : profitPerSession < 0 ? .red : .primary)
             }
             
             Divider()
@@ -275,8 +299,10 @@ struct AllStats: View {
                 Text("Avg. Duration")
                     .calloutStyle()
                     .foregroundColor(.secondary)
+                
                 Spacer()
-                Text(viewModel.avgDuration(bankroll: sessionFilter))
+                
+                Text(avgDuration)
             }
             
             Divider()
@@ -285,8 +311,10 @@ struct AllStats: View {
                 Text("Total No. of Sessions")
                     .calloutStyle()
                     .foregroundColor(.secondary)
+                
                 Spacer()
-                Text("\(viewModel.sessions.count)")
+                
+                Text("\(totalSessions)")
             }
             
             Divider()
@@ -295,8 +323,10 @@ struct AllStats: View {
                 Text("Win Ratio")
                     .calloutStyle()
                     .foregroundColor(.secondary)
+                
                 Spacer()
-                Text(viewModel.totalWinRate())
+                
+                Text(totalWinRate)
             }
             
             Divider()
@@ -305,10 +335,11 @@ struct AllStats: View {
                 Text("Total Hours Played")
                     .calloutStyle()
                     .foregroundColor(.secondary)
+                
                 Spacer()
-                Text(viewModel.totalHoursPlayed(bankroll: sessionFilter))
+                
+                Text(totalHours)
             }
-            
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
     }
@@ -321,20 +352,31 @@ struct CashStats: View {
     
     let sessionFilter: SessionFilter
     let viewModel: SessionsListViewModel
+    let range: RangeSelection
     
     var body: some View {
         
         VStack {
             
+            let currencyType = viewModel.userCurrency.rawValue
+            let cashBankroll = viewModel.tallyBankroll(range: range, bankroll: sessionFilter)
+            let hourlyRate = viewModel.hourlyRate(range: range, bankroll: sessionFilter)
+            let profitPerSession = viewModel.avgProfit(range: range, bankroll: sessionFilter)
+            let highHandBonus = viewModel.totalHighHands(range: range)
+            let avgDuration = viewModel.avgDuration(range: range, bankroll: sessionFilter)
+            let cashWinCount = viewModel.numOfCashes(range: range)
+            let cashWinRate = viewModel.totalWinRate(range: range, bankroll: sessionFilter)
+            let cashTotalHours = viewModel.totalHoursPlayed(range: range, bankroll: sessionFilter)
+            
             HStack {
                 Text("Bankroll")
                     .calloutStyle()
                     .foregroundColor(.secondary)
+                
                 Spacer()
-                Text(viewModel.tallyBankroll(bankroll: sessionFilter), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(viewModel.tallyBankroll(bankroll: sessionFilter) > 0 ? .green
-                                     : viewModel.tallyBankroll(bankroll: sessionFilter) < 0 ? .red
-                                     : .primary)
+                
+                Text(cashBankroll, format: .currency(code: currencyType).precision(.fractionLength(0)))
+                    .foregroundColor(cashBankroll > 0 ? .green : cashBankroll < 0 ? .red : .primary)
             }
             
             Divider()
@@ -343,11 +385,11 @@ struct CashStats: View {
                 Text("Hourly Rate")
                     .calloutStyle()
                     .foregroundColor(.secondary)
+                
                 Spacer()
-                Text(viewModel.hourlyRate(bankroll: sessionFilter), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(viewModel.hourlyRate(bankroll: sessionFilter) > 0 ? .green
-                                     : viewModel.hourlyRate(bankroll: sessionFilter) < 0 ? .red
-                                     : .primary)
+                
+                Text(hourlyRate, format: .currency(code: currencyType).precision(.fractionLength(0)))
+                    .foregroundColor(hourlyRate > 0 ? .green : hourlyRate < 0 ? .red : .primary)
             }
             
             Divider()
@@ -356,11 +398,11 @@ struct CashStats: View {
                 Text("Profit Per Session")
                     .calloutStyle()
                     .foregroundColor(.secondary)
+                
                 Spacer()
-                Text(viewModel.avgProfit(bankroll: sessionFilter), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(viewModel.avgProfit(bankroll: sessionFilter) > 0 ? .green
-                                     : viewModel.avgProfit(bankroll: sessionFilter) < 0 ? .red
-                                     : .primary)
+                
+                Text(profitPerSession, format: .currency(code: currencyType).precision(.fractionLength(0)))
+                    .foregroundColor(profitPerSession > 0 ? .green : profitPerSession < 0 ? .red : .primary)
             }
             
             Divider()
@@ -387,8 +429,9 @@ struct CashStats: View {
                 })
                 
                 Spacer()
-                Text(viewModel.totalHighHands(), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(viewModel.totalHighHands() > 0 ? .green : .primary)
+                
+                Text(highHandBonus, format: .currency(code: currencyType).precision(.fractionLength(0)))
+                    .foregroundColor(highHandBonus > 0 ? .green : .primary)
                                     
             }
             
@@ -399,7 +442,7 @@ struct CashStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text("\(viewModel.bbPerHour(), specifier: "%.2f")")
+                Text("\(viewModel.bbPerHour(range: range), specifier: "%.2f")")
             }
             
             Divider()
@@ -409,7 +452,7 @@ struct CashStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(viewModel.avgDuration(bankroll: sessionFilter))
+                Text(avgDuration)
             }
             
             Divider()
@@ -419,7 +462,7 @@ struct CashStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text("\(viewModel.numOfCashes())")
+                Text("\(cashWinCount)")
             }
             
             Divider()
@@ -429,8 +472,10 @@ struct CashStats: View {
                 Text("Win Ratio")
                     .calloutStyle()
                     .foregroundColor(.secondary)
+                
                 Spacer()
-                Text(viewModel.winRate())
+                
+                Text(cashWinRate)
             }
             
             Divider()
@@ -439,8 +484,10 @@ struct CashStats: View {
                 Text("Hours Played")
                     .calloutStyle()
                     .foregroundColor(.secondary)
+                
                 Spacer()
-                Text(viewModel.totalHoursPlayed(bankroll: sessionFilter))
+                
+                Text(cashTotalHours)
             }
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
@@ -584,6 +631,16 @@ struct AdditionalMetricsView: View {
     var body: some View {
         
         VStack (alignment: .leading) {
+            
+            HStack {
+                Text("My Reports")
+                    .font(.custom("Asap-Black", size: 34))
+                    .bold()
+                    .padding(.horizontal)
+                    .padding(.top)
+                
+                Spacer()
+            }
             
             // Adding version check for scroll behavior effect
             if #available(iOS 17, *) {

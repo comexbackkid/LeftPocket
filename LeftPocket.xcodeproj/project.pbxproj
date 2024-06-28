@@ -47,6 +47,8 @@
 		7C3F43AC2728512700A9C842 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43AB2728512700A9C842 /* LocationModel.swift */; };
 		7C3FFA862BC894C500EABD49 /* BarChartByStakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3FFA852BC894C500EABD49 /* BarChartByStakes.swift */; };
 		7C4254A12784E25C00B5DA79 /* ProfitByYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4254A02784E25C00B5DA79 /* ProfitByYear.swift */; };
+		7C44A68B2C2EEA5B00110359 /* RangeFilter+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C44A68A2C2EEA5B00110359 /* RangeFilter+Ext.swift */; };
+		7C44A68D2C2F3D0100110359 /* MetricsCalculations+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C44A68C2C2F3D0100110359 /* MetricsCalculations+Ext.swift */; };
 		7C463C232B487B040095E6C6 /* CSVConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C463C222B487B040095E6C6 /* CSVConversion.swift */; };
 		7C468EFD273980F7000CA4B3 /* Animations+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C468EFC273980F7000CA4B3 /* Animations+Ext.swift */; };
 		7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C483255270E3F32005AAFA1 /* FilterCardView.swift */; };
@@ -87,6 +89,7 @@
 		7C6906AC2C0CCED3009CD0D5 /* logging-sessions.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7C6906AB2C0CCED3009CD0D5 /* logging-sessions.mp4 */; };
 		7C6E75BB2BAA16BE006173A4 /* LiveSessionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E75BA2BAA16BE006173A4 /* LiveSessionCounter.swift */; };
 		7C6E75BE2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E75BD2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift */; };
+		7C6E7D8F2C2CC67300D178E2 /* DateFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E7D8E2C2CC67300D178E2 /* DateFilter.swift */; };
 		7C72E0A62BC05B6100C411F2 /* UsingLeftPocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */; };
 		7C757EFF2C1F218900AD71EE /* SocialShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C757EFE2C1F218900AD71EE /* SocialShareView.swift */; };
 		7C757F032C1F2A9F00AD71EE /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C757F022C1F2A9F00AD71EE /* ShareButton.swift */; };
@@ -286,6 +289,8 @@
 		7C3F43AB2728512700A9C842 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
 		7C3FFA852BC894C500EABD49 /* BarChartByStakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartByStakes.swift; sourceTree = "<group>"; };
 		7C4254A02784E25C00B5DA79 /* ProfitByYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByYear.swift; sourceTree = "<group>"; };
+		7C44A68A2C2EEA5B00110359 /* RangeFilter+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RangeFilter+Ext.swift"; sourceTree = "<group>"; };
+		7C44A68C2C2F3D0100110359 /* MetricsCalculations+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetricsCalculations+Ext.swift"; sourceTree = "<group>"; };
 		7C463C222B487B040095E6C6 /* CSVConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVConversion.swift; sourceTree = "<group>"; };
 		7C468EFC273980F7000CA4B3 /* Animations+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Animations+Ext.swift"; sourceTree = "<group>"; };
 		7C483255270E3F32005AAFA1 /* FilterCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCardView.swift; sourceTree = "<group>"; };
@@ -324,6 +329,7 @@
 		7C6906AB2C0CCED3009CD0D5 /* logging-sessions.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "logging-sessions.mp4"; sourceTree = "<group>"; };
 		7C6E75BA2BAA16BE006173A4 /* LiveSessionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionCounter.swift; sourceTree = "<group>"; };
 		7C6E75BD2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionCounterViewModel.swift; sourceTree = "<group>"; };
+		7C6E7D8E2C2CC67300D178E2 /* DateFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFilter.swift; sourceTree = "<group>"; };
 		7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsingLeftPocket.swift; sourceTree = "<group>"; };
 		7C757EFE2C1F218900AD71EE /* SocialShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialShareView.swift; sourceTree = "<group>"; };
 		7C757F022C1F2A9F00AD71EE /* ShareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButton.swift; sourceTree = "<group>"; };
@@ -513,15 +519,17 @@
 			isa = PBXGroup;
 			children = (
 				7C468EFC273980F7000CA4B3 /* Animations+Ext.swift */,
-				7C6350032C1A4E5B00407E17 /* Bundle+Ext.swift */,
-				7C0208DA26F24B4900AC6151 /* Date+Ext.swift */,
-				7C3F43A927284CD800A9C842 /* NumberFormatter.swift */,
 				7CED6EA727517D7F00E18053 /* Array+Ext.swift */,
+				7C6350032C1A4E5B00407E17 /* Bundle+Ext.swift */,
 				7CBEF44527596DEE00744F4A /* Colors+Ext.swift */,
-				7C4CE70127729E4D0070B16E /* UIWindow+Ext.swift */,
-				7C4C7BA628A4684700DBC886 /* Text+Ext.swift */,
+				7C0208DA26F24B4900AC6151 /* Date+Ext.swift */,
 				7CD7468928A6CA8F00D5A2D0 /* Images+Ext.swift */,
+				7C3F43A927284CD800A9C842 /* NumberFormatter.swift */,
+				7C44A68A2C2EEA5B00110359 /* RangeFilter+Ext.swift */,
+				7C4C7BA628A4684700DBC886 /* Text+Ext.swift */,
+				7C4CE70127729E4D0070B16E /* UIWindow+Ext.swift */,
 				7C63FC332B35D08B00FE731C /* View+Ext.swift */,
+				7C44A68C2C2F3D0100110359 /* MetricsCalculations+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -571,6 +579,7 @@
 			children = (
 				7C6394A826C14F6400939F40 /* SessionsListView.swift */,
 				7C7B2F8A26D5A2A90069F9C5 /* SessionListViewModel.swift */,
+				7C6E7D8E2C2CC67300D178E2 /* DateFilter.swift */,
 			);
 			path = SessionsListView;
 			sourceTree = "<group>";
@@ -1197,6 +1206,7 @@
 				7C3FFA862BC894C500EABD49 /* BarChartByStakes.swift in Sources */,
 				7CA940FD2BECF9EE009B54BA /* HealthKitPrimingView.swift in Sources */,
 				7C4CE70227729E4D0070B16E /* UIWindow+Ext.swift in Sources */,
+				7C6E7D8F2C2CC67300D178E2 /* DateFilter.swift in Sources */,
 				7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */,
 				7C68FE4326D7CEA40019BA53 /* RecentSessionCardView.swift in Sources */,
 				7C3738372BC4838900699819 /* BarChartWeeklyCount.swift in Sources */,
@@ -1211,6 +1221,7 @@
 				7C7F4F6E270E610E002ECF6D /* ProfitByLocationView.swift in Sources */,
 				7C4CE7042773560D0070B16E /* DefaultLocations.swift in Sources */,
 				7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */,
+				7C44A68D2C2F3D0100110359 /* MetricsCalculations+Ext.swift in Sources */,
 				7C53C5782BFD3E6D0008880A /* AdvancedCashReport.swift in Sources */,
 				7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */,
 				7C5EDA1828906F25008ACFEF /* EditLocationView.swift in Sources */,
@@ -1228,6 +1239,7 @@
 				7C757F032C1F2A9F00AD71EE /* ShareButton.swift in Sources */,
 				7CFB683A2B7CFC92005AB81F /* BarChartByYear.swift in Sources */,
 				7C1F8C82271094B50068E8B1 /* ProfitByWeekdayView.swift in Sources */,
+				7C44A68B2C2EEA5B00110359 /* RangeFilter+Ext.swift in Sources */,
 				7C63FC3F2B3640FF00FE731C /* SubscriptionManager.swift in Sources */,
 				7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */,
 				7C8647812B29277900F48951 /* WelcomeScreen.swift in Sources */,

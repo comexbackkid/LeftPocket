@@ -34,13 +34,26 @@ struct CellView: View {
                             .captionStyle()
                             .foregroundColor(.secondary)
                         
-                        Text("$" + pokerSession.stakes + " • ")
-                            .captionStyle()
-                            .foregroundColor(.secondary)
+                        if pokerSession.isTournament == true {
+                            Text("$\(pokerSession.expenses!) Buy In ")
+                                .captionStyle()
+                                .foregroundColor(.secondary)
+                            
+                            Text(" • \(pokerSession.entrants!) Entrants")
+                                .captionStyle()
+                                .foregroundColor(.secondary)
+                            
+                        } else {
+                            Text("$" + pokerSession.stakes + " • ")
+                                .captionStyle()
+                                .foregroundColor(.secondary)
+                            
+                            Text(pokerSession.game)
+                                .captionStyle()
+                                .foregroundColor(.secondary)
+                        }
                         
-                        Text(pokerSession.game)
-                            .captionStyle()
-                            .foregroundColor(.secondary)
+                        
                     }
                     .lineLimit(1)
                 }
@@ -61,7 +74,7 @@ struct CellView: View {
 
 struct CellView_Previews: PreviewProvider {
     static var previews: some View {
-        CellView(pokerSession: MockData.sampleSession, currency: .EUR, viewStyle: .constant(.standard))
+        CellView(pokerSession: MockData.sampleTournament, currency: .EUR, viewStyle: .constant(.standard))
             .previewLayout(.sizeThatFits)
             .preferredColorScheme(.dark)
     }
