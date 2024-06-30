@@ -154,12 +154,17 @@ extension SessionsListViewModel {
         
         guard !sessionsArray.isEmpty else { return 0 }
         
-        let totalHours = sessionsArray.map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+        let totalHours = Float(sessionsArray.map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+))
         let totalMinutes = Float(sessionsArray.map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
+        
+        // Add up all the hours & minutes together to simply get a sum of hours
+        let totalTime = totalHours + (totalMinutes / 60)
+        let totalEarnings = Float(tallyBankroll(range: range, bankroll: bankroll))
+        
         if totalHours < 1 {
-            return Int(Float(tallyBankroll(range: range, bankroll: bankroll)) / (totalMinutes / 60))
+            return Int(totalEarnings / (totalMinutes / 60))
         } else {
-            return tallyBankroll(range: range, bankroll: bankroll) / totalHours
+            return Int(totalEarnings / totalTime)
         }
     }
     

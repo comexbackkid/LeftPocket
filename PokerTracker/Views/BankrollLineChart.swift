@@ -38,7 +38,7 @@ struct BankrollLineChart: View {
         
         // Start with zero as our initial data point so chart doesn't look goofy
         var originalDataPoint = [0]
-        let newDataPoints = calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange, sessionFilter: sessionFilter)
+        let newDataPoints = viewModel.calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange, sessionFilter: sessionFilter)
         originalDataPoint += newDataPoints
         return originalDataPoint
     }
@@ -70,147 +70,154 @@ struct BankrollLineChart: View {
             // Annotations not available pre-iOS 17. Display plain chart if so.
             if #available(iOS 17.0, *) {
                 lineChart
-            } else {
-                lineChartOldVersion
-            }
+                
+            } else { lineChartOldVersion }
             
-            if showRangeSelector {
-                rangeSelector
-            }
+            if showRangeSelector { rangeSelector }
+            
         }
     }
     
     @available(iOS 17.0, *)
     var lineChart: some View {
         
-        Chart {
+        VStack {
             
-            ForEach(Array(convertedData.enumerated()), id: \.offset) { index, total in
+            let cumulativeProfitArray = viewModel.calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange, sessionFilter: sessionFilter)
+            
+            Chart {
                 
-                LineMark(x: .value("Time", index), y: .value("Profit", total))
-                    .opacity(showChart ? 1.0 : 0.0)
-                
-                AreaMark(x: .value("Time", index), y: .value("Profit", total))
-                    .foregroundStyle(LinearGradient(colors: [Color("lightBlue"), .clear], startPoint: .top, endPoint: .bottom))
-                    .opacity(showChart ? 0.15 : 0.0)
+                ForEach(Array(convertedData.enumerated()), id: \.offset) { index, total in
+                    
+                    LineMark(x: .value("Time", index), y: .value("Profit", total))
+                        .opacity(showChart ? 1.0 : 0.0)
+                    
+                    AreaMark(x: .value("Time", index), y: .value("Profit", total))
+                        .foregroundStyle(LinearGradient(colors: [Color("lightBlue"), .clear], startPoint: .top, endPoint: .bottom))
+                        .opacity(showChart ? 0.15 : 0.0)
+                    
+                    if let selectedIndex {
+                        
+                        PointMark(x: .value("Point", selectedIndex), y: .value("Profit", profitAnnotation ?? 0))
+                            .foregroundStyle(Color.brandWhite)
+                    }
+                }
+                .foregroundStyle(LinearGradient(colors: [.chartAccent, .chartBase], startPoint: .topTrailing, endPoint: .bottomLeading))
+                .interpolationMethod(.catmullRom)
+                .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
                 
                 if let selectedIndex {
                     
-                    PointMark(x: .value("Point", selectedIndex), y: .value("Profit", profitAnnotation ?? 0))
-                        .foregroundStyle(Color.brandWhite)
+                    RuleMark(x: .value("Selected Date", selectedIndex))
+                        .lineStyle(StrokeStyle(lineWidth: 10, lineCap: .round))
+                        .foregroundStyle(.gray.opacity(0.2))
+                        .annotation(position: overlayAnnotation
+                                    ?  (selectedIndex == 0 && convertedData.count == 2)
+                                    || ((0...1).contains(selectedIndex) && convertedData.count > 2)
+                                    || ((0...5).contains(selectedIndex) && convertedData.count > 8)
+                                    || ((0...15).contains(selectedIndex) && convertedData.count > 25)
+                                    ?  .trailing : .leading
+                                    :  .top,
+                                    spacing: overlayAnnotation ? 12 : 8,
+                                    overflowResolution: .init(x: .fit(to: .chart))) {
+                            
+                            Text(profitAnnotation ?? 0, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                                .captionStyle()
+                                .padding(10)
+                                .background(.gray.opacity(0.1))
+                                .cornerRadius(10)
+                        }
                 }
             }
-            .foregroundStyle(LinearGradient(colors: [.chartAccent, .chartBase], startPoint: .topTrailing, endPoint: .bottomLeading))
-            .interpolationMethod(.catmullRom)
-            .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
-            
-            if let selectedIndex {
-                
-                RuleMark(x: .value("Selected Date", selectedIndex))
-                    .lineStyle(StrokeStyle(lineWidth: 10, lineCap: .round))
-                    .foregroundStyle(.gray.opacity(0.2))
-                    .annotation(position: overlayAnnotation
-                                ?  (selectedIndex == 0 && convertedData.count == 2)
-                                || ((0...1).contains(selectedIndex) && convertedData.count > 2)
-                                || ((0...5).contains(selectedIndex) && convertedData.count > 8)
-                                || ((0...15).contains(selectedIndex) && convertedData.count > 25)
-                                ?  .trailing : .leading
-                                :  .top,
-                                spacing: overlayAnnotation ? 12 : 8,
-                                overflowResolution: .init(x: .fit(to: .chart))) {
-                        
-                        Text(profitAnnotation ?? 0, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                            .captionStyle()
-                            .padding(10)
-                            .background(.gray.opacity(0.1))
-                            .cornerRadius(10)
-                    }
+            .onAppear {
+                withAnimation {
+                    showChart = true
+                }
             }
-        }
-        .onAppear {
-            withAnimation {
-                showChart = true
-            }
-        }
-        .animation(.easeIn(duration: 1.2), value: showChart)
-        .sensoryFeedback(.selection, trigger: selectedIndex)
-        .chartXSelection(value: $selectedIndex)
-        .chartXAxis(.hidden)
-        .chartYScale(domain: [convertedData.min()!, convertedData.max()!])
-        .chartYAxis {
-            AxisMarks(position: .trailing, values: .automatic(desiredCount: 4)) { value in
-                AxisGridLine().foregroundStyle(.gray.opacity(0.25))
-                AxisValueLabel() {
-                    if showYAxis {
-                        if let intValue = value.as(Int.self) {
-                            Text(intValue.axisShortHand(viewModel.userCurrency))
-                                .captionStyle()
-                                .padding(.leading, 25)
+            .animation(.easeIn(duration: 1.2), value: showChart)
+            .sensoryFeedback(.selection, trigger: selectedIndex)
+            .chartXSelection(value: $selectedIndex)
+            .chartXAxis(.hidden)
+            .chartYScale(domain: [convertedData.min()!, convertedData.max()!])
+            .chartYAxis {
+                AxisMarks(position: .trailing, values: .automatic(desiredCount: 4)) { value in
+                    AxisGridLine().foregroundStyle(.gray.opacity(0.25))
+                    AxisValueLabel() {
+                        if showYAxis {
+                            if let intValue = value.as(Int.self) {
+                                Text(intValue.axisShortHand(viewModel.userCurrency))
+                                    .captionStyle()
+                                    .padding(.leading, 25)
+                            }
                         }
                     }
                 }
             }
-        }
-        .overlay {
-            if calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange, sessionFilter: sessionFilter).isEmpty {
-                VStack {
-                    Text("No chart data to display.")
-                        .calloutStyle()
-                        .foregroundStyle(.secondary)
+            .overlay {
+                if cumulativeProfitArray.isEmpty {
+                    VStack {
+                        Text("No chart data to display.")
+                            .calloutStyle()
+                            .foregroundStyle(.secondary)
+                    }
+                    .offset(y: -20)
                 }
-                .offset(y: -20)
             }
         }
     }
     
     var lineChartOldVersion: some View {
-        Chart {
+        
+        VStack {
             
-            ForEach(Array(convertedData.enumerated()), id: \.offset) { index, total in
+            let cumulativeProfitArray = viewModel.calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange, sessionFilter: sessionFilter)
+            
+            Chart {
                 
-                LineMark(x: .value("Time", index), y: .value("Profit", total))
-                    .opacity(showChart ? 1.0 : 0.0)
-                
-                AreaMark(x: .value("Time", index), y: .value("Profit", total))
-                    .foregroundStyle(LinearGradient(colors: [Color("lightBlue"), .clear], startPoint: .top, endPoint: .bottom))
-                    .opacity(showChart ? 0.2 : 0.0)
-                
-
+                ForEach(Array(convertedData.enumerated()), id: \.offset) { index, total in
+                    
+                    LineMark(x: .value("Time", index), y: .value("Profit", total))
+                        .opacity(showChart ? 1.0 : 0.0)
+                    
+                    AreaMark(x: .value("Time", index), y: .value("Profit", total))
+                        .foregroundStyle(LinearGradient(colors: [Color("lightBlue"), .clear], startPoint: .top, endPoint: .bottom))
+                        .opacity(showChart ? 0.2 : 0.0)
+                }
+                .foregroundStyle(LinearGradient(colors: [.chartAccent, .chartBase], startPoint: .topTrailing, endPoint: .bottomLeading))
+                .interpolationMethod(.catmullRom)
+                .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
             }
-            .foregroundStyle(LinearGradient(colors: [.chartAccent, .chartBase], startPoint: .topTrailing, endPoint: .bottomLeading))
-            .interpolationMethod(.catmullRom)
-            .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
-        }
-        .onAppear {
-            withAnimation {
-                showChart = true
+            .onAppear {
+                withAnimation {
+                    showChart = true
+                }
             }
-        }
-        .animation(.easeIn(duration: 1.2), value: showChart)
-        .chartXAxis(.hidden)
-        .chartYScale(domain: [convertedData.min()!, convertedData.max()!])
-        .chartYAxis {
-            AxisMarks(position: .trailing, values: .automatic(desiredCount: 4)) { value in
-                AxisGridLine().foregroundStyle(.gray.opacity(0.25))
-                AxisValueLabel() {
-                    if showYAxis {
-                        if let intValue = value.as(Int.self) {
-                            Text(intValue.axisShortHand(viewModel.userCurrency))
-                                .captionStyle()
-                                .padding(.leading, 25)
+            .animation(.easeIn(duration: 1.2), value: showChart)
+            .chartXAxis(.hidden)
+            .chartYScale(domain: [convertedData.min()!, convertedData.max()!])
+            .chartYAxis {
+                AxisMarks(position: .trailing, values: .automatic(desiredCount: 4)) { value in
+                    AxisGridLine().foregroundStyle(.gray.opacity(0.25))
+                    AxisValueLabel() {
+                        if showYAxis {
+                            if let intValue = value.as(Int.self) {
+                                Text(intValue.axisShortHand(viewModel.userCurrency))
+                                    .captionStyle()
+                                    .padding(.leading, 25)
+                            }
                         }
                     }
                 }
             }
-        }
-        .overlay {
-            if calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange, sessionFilter: sessionFilter).isEmpty {
-                VStack {
-                    Text("No chart data to display.")
-                        .calloutStyle()
-                        .foregroundStyle(.secondary)
+            .overlay {
+                if cumulativeProfitArray.isEmpty {
+                    VStack {
+                        Text("No chart data to display.")
+                            .calloutStyle()
+                            .foregroundStyle(.secondary)
+                    }
+                    .offset(y: -20)
                 }
-                .offset(y: -20)
             }
         }
     }
@@ -266,33 +273,6 @@ struct BankrollLineChart: View {
             Spacer()
         }
         .padding(.top, 20)
-    }
-    
-    func calculateCumulativeProfit(sessions: [PokerSession], sessionFilter: SessionFilter) -> [Int] {
-        
-        // We run this so that we can just use the Index as our X Axis value. Keeps spacing uniform and neat looking.
-        // Then, in chart configuration we just plot along the Index value, and Int is our cumulative profit amount.
-        var cumulativeProfit = 0
-        
-        // Take the cash / tournament filter and assign to this variable
-        var filteredSessions: [PokerSession] {
-            switch sessionFilter {
-            case .all:
-                return sessions
-            case .cash:
-                return sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
-            case .tournaments:
-                return sessions.filter({ $0.isTournament == true })
-            }
-        }
-
-        // I'm having to manually sort the sessions array here, even though it's doing it in the Add Session function. Don't know why.
-        let result = filteredSessions.sorted(by: { $0.date < $1.date }).map { session -> Int in
-            cumulativeProfit += session.profit
-            return cumulativeProfit
-        }
-
-        return result
     }
     
     func getProfitForIndex(index: Int, cumulativeProfits: [Int]) -> Int? {

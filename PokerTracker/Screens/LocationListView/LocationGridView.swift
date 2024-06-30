@@ -101,7 +101,6 @@ struct LocationGridView: View {
         } message: {
             Text("This will restore the original Locations. Your custom Locations will NOT be affected.")
         }
-        
     }
 }
 
@@ -231,6 +230,15 @@ struct LocationGridItem: View {
         withAnimation {
             vm.delete(location)
         }
+    }
+}
+
+extension SessionsListViewModel {
+    
+    // This is only working when you filter by .name versus the .id not sure why? Does it matter? What if the name is changed by the user?
+    func uniqueLocationCount(location: LocationModel) -> Int {
+        let array = self.sessions.filter({ $0.location.id == location.id })
+        return array.count
     }
 }
 

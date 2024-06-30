@@ -106,27 +106,27 @@ class AnnualReportViewModel: ObservableObject {
         switch timeline {
         case .ytd:
             guard !vm.sessions.filter({ $0.date.getYear() == ytd }).isEmpty else { return 0 }
-            let hoursArray = vm.sessions.filter({ $0.date.getYear() == ytd }).map { Int($0.sessionDuration.hour ?? 0) }
-            let minutesArray = vm.sessions.filter({ $0.date.getYear() == ytd }).map { Int($0.sessionDuration.minute ?? 0) }
-            let totalHours = hoursArray.reduce(0,+)
-            let totalMinutes = Float(minutesArray.reduce(0, +))
+            let totalHours = Float(vm.sessions.filter({ $0.date.getYear() == ytd }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+))
+            let totalMinutes = Float(vm.sessions.filter({ $0.date.getYear() == ytd }).map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
+            let totalTime = totalHours + (totalMinutes / 60)
+            let totalEarnings = Float(vm.bankrollByYear(year: ytd, sessionFilter: sessionFilter))
             
             if totalHours < 1 {
                 return Int(Float(vm.bankrollByYear(year: ytd, sessionFilter: sessionFilter)) / (totalMinutes / 60))
             } else {
-                return vm.bankrollByYear(year: ytd, sessionFilter: sessionFilter) / totalHours
+                return Int(totalEarnings / totalTime)
             }
         case .lastYear:
             guard !vm.sessions.filter({ $0.date.getYear() == lastYear }).isEmpty else { return 0 }
-            let hoursArray = vm.sessions.filter({ $0.date.getYear() == lastYear }).map { Int($0.sessionDuration.hour ?? 0) }
-            let minutesArray = vm.sessions.filter({ $0.date.getYear() == lastYear }).map { Int($0.sessionDuration.minute ?? 0) }
-            let totalHours = hoursArray.reduce(0,+)
-            let totalMinutes = Float(minutesArray.reduce(0, +))
+            let totalHours = Float(vm.sessions.filter({ $0.date.getYear() == ytd }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+))
+            let totalMinutes = Float(vm.sessions.filter({ $0.date.getYear() == ytd }).map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
+            let totalTime = totalHours + (totalMinutes / 60)
+            let totalEarnings = Float(vm.bankrollByYear(year: lastYear, sessionFilter: sessionFilter))
             
             if totalHours < 1 {
                 return Int(Float(vm.bankrollByYear(year: lastYear, sessionFilter: sessionFilter)) / (totalMinutes / 60))
             } else {
-                return vm.bankrollByYear(year: lastYear, sessionFilter: sessionFilter) / totalHours
+                return Int(totalEarnings / totalTime)
             }
         }
     }

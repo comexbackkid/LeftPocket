@@ -24,8 +24,7 @@ struct ProfitByMonth: View {
                 
                 headerInfo
 
-                Divider()
-                    .padding(.bottom, 10)
+                Divider().padding(.bottom, 10)
                 
                 monthlyTotals
 
@@ -112,8 +111,9 @@ struct ProfitByMonth: View {
                 Spacer()
                 
                 let filteredMonths = vm.sessions.filter({ $0.date.getYear() == yearFilter })
-                let total = filteredMonths.filter({ $0.date.getMonth() == month }).map {$0.profit}.reduce(0,+)
-                let hourlyRate = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.hourlyRate }.reduce(0,+)
+                let total = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.profit }.reduce(0,+)
+                let hourlyRate = hourlyByMonth(month: month, sessions: filteredMonths)
+//                let hourlyRate = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.hourlyRate }.reduce(0,+)
                 
                 // Working on summing up all the total hours for the given month
                 let hoursPlayed = filteredMonths.filter({ $0.date.getMonth() == month }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
@@ -191,6 +191,23 @@ struct ProfitByMonth: View {
             .padding(.top, 15)
             .padding(.bottom, 60)
         
+    }
+    
+    private func hourlyByMonth(month: String, sessions: [PokerSession]) -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        let totalHours = Float(sessions.filter{ $0.date.getMonth() == month }.map { $0.sessionDuration.hour ?? 0 }.reduce(0,+))
+        let totalMinutes = Float(sessions.filter{ $0.date.getMonth() == month }.map { $0.sessionDuration.minute ?? 0 }.reduce(0,+))
+        
+        // Add up all the hours & minutes together to simply get a sum of hours
+        let totalTime = totalHours + (totalMinutes / 60)
+        let totalEarnings = sessions.filter({ $0.date.getMonth() == month }).map({ Int($0.profit) }).reduce(0,+)
+        
+        guard totalTime > 0 else { return 0 }
+        if totalHours < 1 {
+            return Int(Float(totalEarnings) / (totalMinutes / 60))
+        } else {
+            return Int(Float(totalEarnings) / totalTime)
+        }
     }
 }
 

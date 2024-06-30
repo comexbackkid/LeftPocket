@@ -36,7 +36,14 @@ struct ContentView: View {
                     
                 } else {
                     
-                    quickMetrics
+//                    quickMetrics
+                    
+                    HStack {
+                        QuickMetricBox(title: "Session Count", metric: viewModel.sessions.count)
+                        Spacer()
+                        QuickMetricBox(title: "Total Hours", metric: viewModel.totalHoursPlayedAsInt())
+                    }
+                    .frame(width: UIScreen.main.bounds.width * 0.85)
                     
                     metricsCard
                     
@@ -248,9 +255,8 @@ struct ContentView: View {
                     .opacity(0.5)
                 
                 Text(bankroll, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .font(.system(size: 55, design: .rounded))
-                    .fontWeight(.medium)
-                    .opacity(0.75)
+                    .font(.custom("Asap-Bold", size: 62, relativeTo: .title2))
+                    .opacity(0.85)
                 
                 if !viewModel.sessions.isEmpty {
                     
@@ -263,18 +269,18 @@ struct ContentView: View {
                             .rotationEffect(lastSession >= 0 ? .degrees(0) : .degrees(90))
                         
                         Text(lastSession, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                            .fontWeight(.light)
-                            .font(.system(size: 20, design: .rounded))
+                            .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
                             .profitColor(total: lastSession)
                         
+                        
                     }
-                    .padding(.top, -36)
+                    .padding(.top, -30)
                 }
             }
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 30)
-        .padding(.bottom, 20)
+        .padding(.bottom, 25)
     }
     
     var homeBackgroundGradient: some View {
@@ -326,6 +332,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
-//            .preferredColorScheme(.dark)
+            .preferredColorScheme(.dark)
     }
 }

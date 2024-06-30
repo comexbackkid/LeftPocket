@@ -181,7 +181,7 @@ struct ProfitByLocationView: View {
                     // Still won't grab data if Sessions are imported from a CSV
                     let filteredByYear = viewModel.sessions.filter({ $0.date.getYear() == yearFilter })
                     let total = filteredByYear.filter({ $0.location.name == location }).map({ $0.profit }).reduce(0,+)
-                    let hourlyRate = filteredByYear.filter({ $0.location.name == location }).map({ $0.hourlyRate }).reduce(0,+)
+                    let hourlyRate = hourlyByLocation(location: location, sessions: filteredByYear)
                     
                     if metricFilter == "Total" {
                         Text(total, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
@@ -252,6 +252,23 @@ struct ProfitByLocationView: View {
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
             .padding(.top, 15)
         
+    }
+    
+    private func hourlyByLocation(location: String, sessions: [PokerSession]) -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        let totalHours = Float(sessions.filter{ $0.location.name == location }.map { $0.sessionDuration.hour ?? 0 }.reduce(0,+))
+        let totalMinutes = Float(sessions.filter{ $0.location.name == location }.map { $0.sessionDuration.minute ?? 0 }.reduce(0,+))
+        
+        // Add up all the hours & minutes together to simply get a sum of hours
+        let totalTime = totalHours + (totalMinutes / 60)
+        let totalEarnings = sessions.filter({ $0.location.name == location }).map({ Int($0.profit) }).reduce(0,+)
+        
+        guard totalTime > 0 else { return 0 }
+        if totalHours < 1 {
+            return Int(Float(totalEarnings) / (totalMinutes / 60))
+        } else {
+            return Int(Float(totalEarnings) / totalTime)
+        }
     }
 }
 

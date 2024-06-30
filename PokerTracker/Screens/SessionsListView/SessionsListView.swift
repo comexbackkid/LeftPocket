@@ -42,11 +42,11 @@ struct SessionsListView: View {
     @State var showDateFilter = false
     @State var sessionFilter: SessionFilter = .all
     @State var locationFilter: LocationModel?
-    @State var startDate: Date = Date().modifyDays(days: -365)
+    @State var startDate: Date = Date().modifyDays(days: 0)
     @State var endDate: Date = .now
     
     var firstSessionDate: Date {
-        vm.sessions.last?.date ?? Date().modifyDays(days: -365)
+        vm.sessions.last?.date ?? Date().modifyDays(days: 0)
     }
     var viewStyles: String {
         switch viewStyle {
@@ -161,6 +161,7 @@ struct SessionsListView: View {
                 toolbarFilter
             }
             .onAppear {
+                
                 startDate = firstSessionDate
             }
         }
