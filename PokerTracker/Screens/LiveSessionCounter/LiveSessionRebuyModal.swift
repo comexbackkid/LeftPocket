@@ -68,9 +68,11 @@ struct LiveSessionRebuyModal: View {
         HStack {
             
             Text("Add Rebuy")
-                .titleStyle()
+                .font(.custom("Asap-Black", size: 34))
+                .bold()
+                .padding(.bottom, 5)
+                .padding(.top, 20)
                 .padding(.horizontal)
-                .padding(.bottom, -20)
             
             Spacer()
         }

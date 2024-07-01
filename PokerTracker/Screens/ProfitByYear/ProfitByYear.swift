@@ -168,39 +168,43 @@ struct ProfitByYear: View {
             let bestProfit = vm.bestProfit(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
             let roi = vm.returnOnInvestmentPerYear(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
             
-            HStack {
-                Text("Gross Income")
-                
-                Spacer()
-                Text(grossIncome, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .profitColor(total: grossIncome)
-            }
-            
-            HStack {
-                Text("(Includes High Hand Bonuses)")
-                    .captionStyle()
-                    .foregroundColor(.secondary)
-                
-                Spacer()
-                
-            }
-            
-            HStack {
-                Text("Expenses")
-                
-                Spacer()
-                Text(totalExpenses, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(totalExpenses > 0 ? .red : Color(.systemGray))
-            }
-            
-            if sessionFilter == .all {
+            VStack (spacing: 5) {
                 HStack {
-                    Text("(Includes Tournament Buy Ins)")
+                    Text("Gross Income")
+                    
+                    Spacer()
+                    Text(grossIncome, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                        .profitColor(total: grossIncome)
+                }
+                
+                HStack {
+                    Text("(Includes High Hands)")
                         .captionStyle()
                         .foregroundColor(.secondary)
                     
                     Spacer()
                     
+                }
+            }
+            
+            VStack (spacing: 5) {
+                HStack {
+                    Text("Expenses")
+                    
+                    Spacer()
+                    Text(totalExpenses, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                        .foregroundColor(totalExpenses > 0 ? .red : Color(.systemGray))
+                }
+                
+                if sessionFilter == .all {
+                    HStack {
+                        Text("(Includes Tournament Buy Ins)")
+                            .captionStyle()
+                            .foregroundColor(.secondary)
+                        
+                        Spacer()
+                        
+                    }
                 }
             }
             
@@ -293,21 +297,23 @@ struct ProfitByYear: View {
             let totalSessions = vm.sessionsPerYear(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
             let bestProfit = vm.bestProfit(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
             
-            HStack {
-                Text("Gross Income")
+            VStack (spacing: 5) {
+                HStack {
+                    Text("Gross Income")
+                    
+                    Spacer()
+                    Text(grossIncome, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                        .profitColor(total: grossIncome)
+                }
                 
-                Spacer()
-                Text(grossIncome, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .profitColor(total: grossIncome)
-            }
-            
-            HStack {
-                Text("(Includes High Hand Bonuses)")
-                    .captionStyle()
-                    .foregroundColor(.secondary)
-                
-                Spacer()
-                
+                HStack {
+                    Text("(Includes High Hands)")
+                        .captionStyle()
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
+                    
+                }
             }
             
             HStack {

@@ -115,17 +115,16 @@ class HealthKitManager: ObservableObject {
                             }
                         }
                         
+                        // Combine asleep and inBed data
+                        for (date, inBedTime) in dailyInBedTimes {
+                            if dailyAsleepTimes[date] == nil {
+                                dailyAsleepTimes[date] = inBedTime
+                            }
+                        }
+                        
                         for (date, totalSleepTime) in dailyAsleepTimes {
                             let sleepMetric = SleepMetric(date: date, value: totalSleepTime)
                             asleepSleepMetrics.append(sleepMetric)
-                        }
-                        
-                        // If there is no asleep data, use inBed data
-                        if asleepSleepMetrics.isEmpty {
-                            for (date, totalSleepTime) in dailyInBedTimes {
-                                let sleepMetric = SleepMetric(date: date, value: totalSleepTime)
-                                inBedSleepMetrics.append(sleepMetric)
-                            }
                         }
                     }
                     

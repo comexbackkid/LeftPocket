@@ -21,11 +21,6 @@ struct LiveSessionCounter: View {
         
         HStack (spacing: 10) {
             
-//            Image(systemName: "timer")
-//                .foregroundStyle(.secondary)
-//                .font(.title3)
-//                .fontWeight(.medium)
-            
             Text(timerViewModel.liveSessionTimer)
                 .font(.custom("Asap-Regular", size: 21))
             

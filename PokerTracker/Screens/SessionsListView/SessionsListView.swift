@@ -42,11 +42,12 @@ struct SessionsListView: View {
     @State var showDateFilter = false
     @State var sessionFilter: SessionFilter = .all
     @State var locationFilter: LocationModel?
-    @State var startDate: Date = Date().modifyDays(days: 0)
+    @State var startDate: Date = Date()
     @State var endDate: Date = .now
+    @State var datesInitialized = false
     
     var firstSessionDate: Date {
-        vm.sessions.last?.date ?? Date().modifyDays(days: 0)
+        vm.sessions.last?.date ?? Date().modifyDays(days: 15000)
     }
     var viewStyles: String {
         switch viewStyle {
@@ -84,7 +85,6 @@ struct SessionsListView: View {
         }
         
         return result
-        
     }
     
     var body: some View {
@@ -161,8 +161,10 @@ struct SessionsListView: View {
                 toolbarFilter
             }
             .onAppear {
-                
-                startDate = firstSessionDate
+                if !datesInitialized {
+                    startDate = firstSessionDate
+                    datesInitialized = true
+                }
             }
         }
         .accentColor(.brandPrimary)
@@ -213,7 +215,7 @@ struct SessionsListView: View {
         }
         .sheet(isPresented: $showDateFilter, content: {
             DateFilter(startDate: $startDate, endDate: $endDate)
-                .presentationDetents([.height(360)])
+                .presentationDetents([.height(350)])
                 .presentationBackground(.ultraThinMaterial)
         })
     }

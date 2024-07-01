@@ -38,9 +38,11 @@ struct DateFilter: View {
         HStack {
             
             Text("Date Range")
-                .titleStyle()
+                .font(.custom("Asap-Black", size: 34))
+                .bold()
+                .padding(.bottom, 5)
+                .padding(.top, 20)
                 .padding(.horizontal)
-                .padding(.bottom, -20)
             
             Spacer()
         }
@@ -67,11 +69,11 @@ struct DateFilter: View {
         VStack {
             HStack {
                 Image(systemName: "clock")
-                    .font(.system(size: 24, weight: .bold))
+                    .font(.system(size: 20, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30)
                 
-                DatePicker("Start", selection: $startDate, displayedComponents: [.date])
+                DatePicker("Start Date", selection: $startDate, displayedComponents: [.date])
                     .padding(.leading, 4)
                     .font(.custom("Asap-Regular", size: 18))
                     .datePickerStyle(.compact)
@@ -79,7 +81,7 @@ struct DateFilter: View {
             
             HStack {
                 Image(systemName: "hourglass.tophalf.filled")
-                    .font(.system(size: 24, weight: .bold))
+                    .font(.system(size: 20, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30)
                 

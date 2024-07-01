@@ -86,4 +86,38 @@ extension SessionsListViewModel {
           // Return the most profitable category
           return mostProfitableCategory?.rawValue ?? "... yikes. Keep at it!"
       }
+    
+    // MARK: USER'S MOST PROFITABLE MONTH
+    
+    func mostProfitableMonth(in sessions: [PokerSession]) -> String {
+        
+        // Create a dictionary to store total profit for each month
+        var monthlyProfits: [Int: Int] = [:]
+        
+        let currentYear = Calendar.current.component(.year, from: Date())
+        
+        // Iterate through sessions and accumulate profit for each month
+        for session in sessions {
+            
+            let yearOfSession = Calendar.current.component(.year, from: session.date)
+            
+            // Check if the session is from the current year
+            if yearOfSession == currentYear {
+                let month = Calendar.current.component(.month, from: session.date)
+                monthlyProfits[month, default: 0] += session.profit
+            }
+        }
+        
+        // Find the month with the highest profit
+        if let mostProfitableMonth = monthlyProfits.max(by: { $0.value < $1.value }) {
+            let monthFormatter = DateFormatter()
+            monthFormatter.dateFormat = "MMMM"
+            let monthString = monthFormatter.monthSymbols[mostProfitableMonth.key - 1]
+            
+            return monthString
+            
+        } else {
+            return "Undetermined"
+        }
+    }
 }

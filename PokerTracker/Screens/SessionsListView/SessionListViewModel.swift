@@ -19,7 +19,6 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     @Published var userCurrency: CurrencyType = .USD
-//    @Published var sessionCounts: Int = 0
     @Published var lineChartFullScreen = false
     @Published var convertedLineChartData: [Int]?
     @Published var locations: [LocationModel] = DefaultLocations.allLocations {
@@ -258,83 +257,12 @@ class SessionsListViewModel: ObservableObject {
         return winPercentage.asPercent()
     }
     
-    // Calculate average cost of Tournament buy in's
-    func avgTournamentBuyIn() -> Int {
-        guard !sessions.isEmpty else { return 0 }
-        guard sessions.contains(where: { $0.isTournament == true }) else {
-            return 0
-        }
-        
-        let tournamentBuyIns = allTournamentSessions().map { $0.expenses ?? 0 }.reduce(0, +)
-        let count = allTournamentSessions().count
-        
-        return tournamentBuyIns / count
-    }
-    
-    // User's longest win streak
-    func winStreak() -> Int {
-        var consecutiveCount = 0
-        var maxConsecutiveCount = 0
-
-        for session in sessions {
-            if session.profit > 0 {
-                consecutiveCount += 1
-                maxConsecutiveCount = max(maxConsecutiveCount, consecutiveCount)
-            } else {
-                consecutiveCount = 0
-            }
-        }
-
-        return maxConsecutiveCount
-    }
-    
-    // Formatted specifically for home screen dashboard
-    func totalHoursPlayedHomeScreen() -> String {
-        guard !sessions.isEmpty else { return "0" }
-        let totalHours = sessions.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
-        let totalMins = sessions.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
-        let dateComponents = DateComponents(hour: totalHours, minute: totalMins)
-        return String(Int(dateComponents.durationInHours).abbreviateHourTotal)
-    }
-    
     func totalHoursPlayedAsInt() -> Int {
         guard !sessions.isEmpty else { return 0 }
         let totalHours = sessions.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
         let totalMins = sessions.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
         let dateComponents = DateComponents(hour: totalHours, minute: totalMins)
         return Int(dateComponents.durationInHours)
-    }
-    
-    // Tournament ITM Ratio
-    func inTheMoneyRatio() -> String {
-        guard !allTournamentSessions().isEmpty else { return "0%" }
-        let tournamentWins = sessions.filter({ $0.isTournament == true && $0.profit > 0 }).count
-        let totalTournaments = allTournamentSessions().count
-        let winRatio = Double(tournamentWins) / Double(totalTournaments)
-        return winRatio.asPercent()
-    }
-    
-    func tournamentReturnOnInvestment() -> String {
-        guard !allTournamentSessions().isEmpty else { return "0%" }
-        
-        // It's Ok to force unwrap expenses because all tournaments MUST have an expense entered
-        let totalBuyIns = allTournamentSessions().map({ $0.expenses! }).reduce(0,+)
-        
-        // Need total tournament winnings. Adding expenses back here because we need gross winnings, not net winnings
-        let totalWinnings = allTournamentSessions().map({ $0.profit + $0.expenses! }).reduce(0,+)
-        
-        // ROI = Total winnings - Total buy ins / total buy ins
-        let returnOnInvestment = (Double(totalWinnings) - Double(totalBuyIns)) / Double(totalBuyIns)
-        
-        return returnOnInvestment.asPercent()
-    }
-    
-    func tournamentROIbyYear(year: String) -> String {
-        guard !allTournamentSessions().isEmpty else { return "0%" }
-        let totalBuyIns = allTournamentSessions().filter({ $0.date.getYear() == year }).map({ $0.expenses! }).reduce(0,+)
-        let totalWinnings = allTournamentSessions().filter({ $0.date.getYear() == year }).map({ $0.profit + $0.expenses! }).reduce(0,+)
-        let returnOnInvestment = (Double(totalWinnings) - Double(totalBuyIns)) / Double(totalBuyIns)
-        return returnOnInvestment.asPercent()
     }
     
     // MARK: CALCULATIONS FOR ANNUAL REPORT VIEW
@@ -421,6 +349,31 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
+    func tournamentROIbyYear(year: String) -> String {
+        guard !allTournamentSessions().isEmpty else { return "0%" }
+        let totalBuyIns = allTournamentSessions().filter({ $0.date.getYear() == year }).map({ $0.expenses! }).reduce(0,+)
+        let totalWinnings = allTournamentSessions().filter({ $0.date.getYear() == year }).map({ $0.profit + $0.expenses! }).reduce(0,+)
+        let returnOnInvestment = (Double(totalWinnings) - Double(totalBuyIns)) / Double(totalBuyIns)
+        return returnOnInvestment.asPercent()
+    }
+    
+    // User's longest win streak
+    func winStreak() -> Int {
+        var consecutiveCount = 0
+        var maxConsecutiveCount = 0
+
+        for session in sessions {
+            if session.profit > 0 {
+                consecutiveCount += 1
+                maxConsecutiveCount = max(maxConsecutiveCount, consecutiveCount)
+            } else {
+                consecutiveCount = 0
+            }
+        }
+
+        return maxConsecutiveCount
+    }
+    
     // MARK: CHARTING FUNCTIONS
     
     func yearlyChartArray(year: String) -> [Double] {
@@ -438,39 +391,6 @@ class SessionsListViewModel: ObservableObject {
 
     func yearlyChartCoordinates(year: String) -> [Point] {
         return yearlyChartArray(year: year).enumerated().map({Point(x:CGFloat($0.offset), y: $0.element)})
-    }
-    
-    // Used in ToolTipView for Bar Chart in Metrics View
-    func mostProfitableMonth(in sessions: [PokerSession]) -> String {
-        
-        // Create a dictionary to store total profit for each month
-        var monthlyProfits: [Int: Int] = [:]
-        
-        let currentYear = Calendar.current.component(.year, from: Date())
-        
-        // Iterate through sessions and accumulate profit for each month
-        for session in sessions {
-            
-            let yearOfSession = Calendar.current.component(.year, from: session.date)
-            
-            // Check if the session is from the current year
-            if yearOfSession == currentYear {
-                let month = Calendar.current.component(.month, from: session.date)
-                monthlyProfits[month, default: 0] += session.profit
-            }
-        }
-        
-        // Find the month with the highest profit
-        if let mostProfitableMonth = monthlyProfits.max(by: { $0.value < $1.value }) {
-            let monthFormatter = DateFormatter()
-            monthFormatter.dateFormat = "MMMM"
-            let monthString = monthFormatter.monthSymbols[mostProfitableMonth.key - 1]
-            
-            return monthString
-            
-        } else {
-            return "Undetermined"
-        }
     }
     
     // Widget chart functions for Swift Charts

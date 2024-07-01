@@ -23,7 +23,7 @@ struct PokerSession: Hashable, Codable, Identifiable {
     let entrants: Int?
     let highHandBonus: Int?
     
-    // Individual session playing time formatted for Detail View
+    // Individual session playing time formatted for Session Detail View
     var playingTIme: String {
         return sessionDuration.abbreviated(duration: self.sessionDuration)
     }

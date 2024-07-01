@@ -36,12 +36,10 @@ struct ContentView: View {
                     
                 } else {
                     
-//                    quickMetrics
-                    
                     HStack {
-                        QuickMetricBox(title: "Session Count", metric: viewModel.sessions.count)
+                        QuickMetricBox(title: "Win Ratio", metric: viewModel.winRate())
                         Spacer()
-                        QuickMetricBox(title: "Total Hours", metric: viewModel.totalHoursPlayedAsInt())
+                        QuickMetricBox(title: "Total Hours", metric: viewModel.totalHoursPlayedHomeScreen())
                     }
                     .frame(width: UIScreen.main.bounds.width * 0.85)
                     
@@ -283,15 +281,6 @@ struct ContentView: View {
         .padding(.bottom, 25)
     }
     
-    var homeBackgroundGradient: some View {
-        
-        RadialGradient(colors: [.brandBackground, Color("newWhite").opacity(0.3)],
-                       center: .topLeading,
-                       startRadius: 500,
-                       endRadius: 5)
-        
-    }
-    
     // These functions here for now if we want it. Don't want to bombard them with sheets and popups.
     func checkForUpdate() {
         let currentVersion = Bundle.main.appVersion
@@ -316,6 +305,21 @@ struct ContentView: View {
             
             return oldComponents[0] != newComponents[0]
         }
+}
+
+extension SessionsListViewModel {
+
+    func totalHoursPlayedHomeScreen() -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        guard !sessions.isEmpty else { return "0h" } // Return "0h" if there are no sessions
+        let totalHours = sessions.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
+        let totalMins = sessions.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
+        let dateComponents = DateComponents(hour: totalHours, minute: totalMins)
+        let totalTime = Int(dateComponents.durationInHours)
+        let formattedTotalTime = formatter.string(from: NSNumber(value: totalTime)) ?? "0"
+        return "\(formattedTotalTime)h"
+    }
 }
 
 enum Sheet: String, Identifiable {
