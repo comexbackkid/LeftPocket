@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7C01247728A3FF6100E6E714 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C63949926C14E8400939F40 /* Assets.xcassets */; };
 		7C0208DB26F24B4900AC6151 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0208DA26F24B4900AC6151 /* Date+Ext.swift */; };
+		7C028F982C3587FC0098CA8C /* RedeemOfferCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C028F972C3587FC0098CA8C /* RedeemOfferCode.swift */; };
+		7C028F9A2C36B5960098CA8C /* AdvancedTournamentReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C028F992C36B5960098CA8C /* AdvancedTournamentReport.swift */; };
 		7C13FDF02BF4D07600497DF5 /* AlertModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C13FDEF2BF4D07600497DF5 /* AlertModal.swift */; };
 		7C1587F328A2DD5E00B11F77 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C1587F228A2DD5E00B11F77 /* WidgetKit.framework */; };
 		7C1587F528A2DD5E00B11F77 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C1587F428A2DD5E00B11F77 /* SwiftUI.framework */; };
@@ -253,6 +255,8 @@
 
 /* Begin PBXFileReference section */
 		7C0208DA26F24B4900AC6151 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
+		7C028F972C3587FC0098CA8C /* RedeemOfferCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemOfferCode.swift; sourceTree = "<group>"; };
+		7C028F992C36B5960098CA8C /* AdvancedTournamentReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedTournamentReport.swift; sourceTree = "<group>"; };
 		7C13FDEF2BF4D07600497DF5 /* AlertModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModal.swift; sourceTree = "<group>"; };
 		7C1587F028A2DD5E00B11F77 /* LeftPocketWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LeftPocketWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C1587F228A2DD5E00B11F77 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -594,6 +598,7 @@
 			isa = PBXGroup;
 			children = (
 				7C53C5772BFD3E6D0008880A /* AdvancedCashReport.swift */,
+				7C028F992C36B5960098CA8C /* AdvancedTournamentReport.swift */,
 				7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */,
 				7CE7DC1928FE1AA8009F4CE9 /* BankrollLineChart.swift */,
 				7C6769E12B8CD300006ACB7D /* BankrollProgressView.swift */,
@@ -617,6 +622,7 @@
 				7CD2B1572C1BB5B300A90C79 /* PopoverView.swift */,
 				7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */,
 				7C944D552BBDA26E009E6EC5 /* ProductUpdates.swift */,
+				7C028F972C3587FC0098CA8C /* RedeemOfferCode.swift */,
 				7CEB453E2BCEA90800AAF710 /* RingCharts.swift */,
 				7C20CFB3271F4EB700739764 /* SecondaryButton.swift */,
 				7CDE9FC62B78F6CC00B4AA33 /* SessionDefaultsView.swift */,
@@ -1199,9 +1205,11 @@
 				7C6394A726C14F5600939F40 /* MetricsView.swift in Sources */,
 				7C6E75BE2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift in Sources */,
 				7C9FEC7E2C1F68B70062208B /* ImageSaver.swift in Sources */,
+				7C028F9A2C36B5960098CA8C /* AdvancedTournamentReport.swift in Sources */,
 				7C8134C02729F1BE004E1CE1 /* ProfitByMonth.swift in Sources */,
 				7CDE9FC72B78F6CC00B4AA33 /* SessionDefaultsView.swift in Sources */,
 				7CB1EBDA2950DF4800FA306B /* BestSessionView.swift in Sources */,
+				7C028F982C3587FC0098CA8C /* RedeemOfferCode.swift in Sources */,
 				7C63949626C14E8300939F40 /* LeftPocketApp.swift in Sources */,
 				7C3F43AC2728512700A9C842 /* LocationModel.swift in Sources */,
 				7CA7F8152B6FF5FB00F976EE /* Tips.swift in Sources */,

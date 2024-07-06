@@ -25,6 +25,22 @@ struct DeleteLocationTip: Tip {
 }
 
 @available(iOS 17.0, *)
+struct MonthlyReportTip: Tip {
+    
+    var title: Text {
+        Text("Reading the Metrics")
+    }
+    
+    var message: Text? {
+        Text("The \(Image(systemName: "trophy.fill")) column is your net profit, \(Image(systemName: "gauge.high")) your hourly, & \(Image(systemName: "clock")) your total hours for the month.")
+    }
+    
+    var image: Image? {
+        Image(systemName: "hand.point.down.fill")
+    }
+}
+
+@available(iOS 17.0, *)
 struct AddSessionTip: Tip {
     
     static let sessionCount = Event(id: "clickedAddSessionButton")
@@ -68,7 +84,7 @@ struct FilterSessionsTip: Tip {
     }
     
     var message: Text? {
-        Text("Tap \(Image(systemName: "mappin.and.ellipse")) or \(Image(systemName: "slider.horizontal.3")) above to filter sessions by location, game type, etc.")
+        Text("Tap \(Image(systemName: "slider.horizontal.3")) above to filter sessions by location, game type, stakes, etc.")
     }
     
     var image: Image? {

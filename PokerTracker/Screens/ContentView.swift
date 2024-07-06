@@ -270,7 +270,6 @@ struct ContentView: View {
                             .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
                             .profitColor(total: lastSession)
                         
-                        
                     }
                     .padding(.top, -30)
                 }

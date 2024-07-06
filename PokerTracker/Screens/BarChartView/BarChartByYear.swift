@@ -190,7 +190,7 @@ struct BarChartByYear: View {
         return result
     }
     
-    // For use in calculating annoations value
+    // Calculates annoations value
     func profitByMonth(month: Date, data: [PokerSession]) -> Int {
         
         let currentYear = Calendar.current.component(.year, from: Date())

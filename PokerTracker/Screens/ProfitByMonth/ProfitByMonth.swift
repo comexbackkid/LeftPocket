@@ -6,60 +6,65 @@
 //
 
 import SwiftUI
+import TipKit
 
 struct ProfitByMonth: View {
     
     @Environment(\.colorScheme) var colorScheme
-    
     @State private var yearFilter: String = Date().getYear()
-    @State private var metricFilter = "Profit"
-    
     @ObservedObject var vm: SessionsListViewModel
     
     var body: some View {
         
         ScrollView {
             
-            VStack (spacing: 10) {
+            // Using a spacer of sorts here because padding won't work w/ TipKit conditionally
+            VStack { }.frame(height: 50)
+            
+            if #available(iOS 17.0, *) {
                 
-                headerInfo
-
-                Divider().padding(.bottom, 10)
+                let monthlyReportTip = MonthlyReportTip()
+                TipView(monthlyReportTip)
+                    .tipViewStyle(CustomTipViewStyle())
+                    .padding(.horizontal, 20)
+                    .padding(.bottom)
+            }
+            
+            VStack {
                 
                 monthlyTotals
-
+                
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarTitle(Text("Monthly Snapshot"))
-            .padding(30)
+            .padding(20)
             .frame(width: UIScreen.main.bounds.width * 0.9)
-            .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+            .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
             .cornerRadius(20)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
-            .padding(.top, 50)
             
             yearTotal
             
-//            barChart
+            barChart
             
             HStack {
                 Spacer()
             }
         }
+        .toolbar {
+            headerInfo
+        }
         .background(Color.brandBackground)
+        .dynamicTypeSize(.xSmall...DynamicTypeSize.large)
     }
     
     var headerInfo: some View {
         
-        VStack (spacing: 7) {
+        VStack {
             
             let allYears = vm.sessions.map({ $0.date.getYear() }).uniqued()
             
             HStack {
-                Text("Select Year")
-                    .bodyStyle()
-                
-                Spacer()
                 
                 Menu {
                     Picker("", selection: $yearFilter) {
@@ -76,64 +81,64 @@ struct ProfitByMonth: View {
                     transaction.animation = nil
                 }
             }
-            
-            HStack {
-                Text("Select Metric")
-                    .bodyStyle()
-                
-                Spacer()
-                
-                Menu {
-                    Picker("", selection: $metricFilter) {
-                        Text("Profit").tag("Profit")
-                        Text("Hourly Rate").tag("Hourly Rate")
-                        Text("Total Hours").tag("Total Hours")
-                    }
-                } label: {
-                    Text(metricFilter + " ›")
-                        .bodyStyle()
-                }
-                .accentColor(Color.brandPrimary)
-                .transaction { transaction in
-                    transaction.animation = nil
-                }
-            }
         }
-        .padding(.bottom, 10)
     }
     
     var monthlyTotals: some View {
         
-        ForEach(vm.months, id: \.self) { month in
+        VStack (spacing: 10) {
+            
             HStack {
-                Text(month)
                 
                 Spacer()
                 
-                let filteredMonths = vm.sessions.filter({ $0.date.getYear() == yearFilter })
-                let total = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.profit }.reduce(0,+)
-                let hourlyRate = hourlyByMonth(month: month, sessions: filteredMonths)
-//                let hourlyRate = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.hourlyRate }.reduce(0,+)
+                Image(systemName: "trophy.fill")
+                    .foregroundColor(Color(.systemGray))
+                    .frame(width: 60, alignment: .trailing)
+                    .fontWeight(.bold)
                 
-                // Working on summing up all the total hours for the given month
-                let hoursPlayed = filteredMonths.filter({ $0.date.getMonth() == month }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+                Image(systemName: "gauge.high")
+                    .foregroundColor(Color(.systemGray))
+                    .frame(width: 60, alignment: .trailing)
+                    .fontWeight(.bold)
                 
-                if metricFilter == "Profit" {
-                    Text(total, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                Image(systemName: "clock")
+                    .foregroundColor(Color(.systemGray))
+                    .frame(width: 60, alignment: .trailing)
+                    .fontWeight(.bold)
+            }
+            .padding(.bottom, 10)
+            
+            Divider().padding(.bottom, 10)
+            
+            ForEach(vm.months, id: \.self) { month in
+                HStack {
+                    Text(month)
+                    
+                    Spacer()
+                    
+                    let filteredMonths = vm.sessions.filter({ $0.date.getYear() == yearFilter })
+                    let total = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.profit }.reduce(0,+)
+                    let hourlyRate = hourlyByMonth(month: month, sessions: filteredMonths)
+                    let hoursPlayed = filteredMonths.filter({ $0.date.getMonth() == month }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+                    
+                    Text(total.axisShortHand(vm.userCurrency))
                         .profitColor(total: total)
-                        .frame(width: 80, alignment: .trailing)
-                } else if metricFilter == "Total Hours" {
+                        .frame(width: 62, alignment: .trailing)
+                    
+                    Text("\(hourlyRate, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))")
+                        .profitColor(total: hourlyRate)
+                        .frame(width: 62, alignment: .trailing)
+                    
                     Text(hoursPlayed.abbreviateHourTotal + "h")
                         .foregroundColor(hoursPlayed == 0 ? Color(.systemGray) : .primary)
-                        .frame(width: 80, alignment: .trailing)
-                } else {
-                    Text("\(hourlyRate, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0))) / hr")
-                        .profitColor(total: hourlyRate)
-                        .frame(width: 80, alignment: .trailing)
+                        .frame(width: 62, alignment: .trailing)
+                    
                 }
+                .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
             }
-            .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
         }
+        
     }
     
     var yearTotal: some View {
@@ -148,7 +153,7 @@ struct ProfitByMonth: View {
                     .foregroundColor(Color(.systemGray))
                 
                 Text("Total Profit")
-                    
+                
                 Spacer()
                 
                 Text(bankrollTotalByYear, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
@@ -165,18 +170,15 @@ struct ProfitByMonth: View {
                 Spacer()
                 
                 Text("\(vm.sessions.filter({ $0.date.getYear() == yearFilter }).count)")
-                    .bodyStyle()
             }
         }
-        .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
-        .padding(.horizontal, 30)
-        .padding(.vertical, 20)
+        .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
+        .padding(20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
         .padding(.top, 15)
-        .padding(.bottom, 60)
     }
     
     var barChart: some View {
@@ -184,8 +186,9 @@ struct ProfitByMonth: View {
         BarChartByYear(showTitle: false, moreAxisMarks: false, cashOnly: false)
             .padding(.horizontal, 30)
             .padding(.vertical, 30)
-            .frame(width: UIScreen.main.bounds.width * 0.9)
-            .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+            .padding(.top, 20)
+            .frame(width: UIScreen.main.bounds.width * 0.9, height: 225)
+            .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
             .cornerRadius(20)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
             .padding(.top, 15)

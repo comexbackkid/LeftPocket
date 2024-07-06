@@ -14,3 +14,11 @@ public extension Array where Element: Hashable {
         return filter{ seen.insert($0).inserted }
     }
 }
+
+// Helping with a bug for Locations that were deleted, & subsequently added back later creating duplicate search filters results.
+extension Sequence where Element == LocationModel {
+    func uniquedByName() -> [LocationModel] {
+        var set = Set<String>()
+        return filter { set.insert($0.name).inserted }
+    }
+}

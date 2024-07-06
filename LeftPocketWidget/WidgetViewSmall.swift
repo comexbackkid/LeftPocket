@@ -29,7 +29,7 @@ struct WidgetViewSmall : View {
     
     var backgroundGradient: some View {
         Color("WidgetBackground")
-            .overlay(LinearGradient(colors: [Color("WidgetBackround"), .black.opacity(colorScheme == .dark ? 0.7 : 0.1)],
+            .overlay(LinearGradient(colors: [Color("WidgetBackround"), .black.opacity(colorScheme == .dark ? 0.8 : 0.1)],
                                     startPoint: .bottomTrailing,
                                     endPoint: .topLeading))
     }
@@ -69,8 +69,10 @@ struct WidgetViewSmall : View {
             HStack {
                 Text(entry.bankroll, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                     .foregroundColor(.widgetForegroundText)
-                    .font(.system(.title, design: .rounded))
-                
+                    .font(.custom("Asap-Bold", size: 28, relativeTo: .title3))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+
                 Spacer()
             }
             
@@ -85,8 +87,8 @@ struct WidgetViewSmall : View {
                 
                 Text(entry.recentSessionAmount, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                     .foregroundColor(entry.recentSessionAmount > 0 ? .green : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
-                    .font(.subheadline)
-                    .bold()
+                    .font(.custom("Asap-Medium", size: 16, relativeTo: .caption2))
+
                 
                 Spacer()
             }
@@ -113,14 +115,14 @@ extension Int {
 struct WidgetView_Previews: PreviewProvider {
     static var previews: some View {
         WidgetViewSmall(entry: SimpleEntry(date: Date(),
-                                           bankroll: 6351,
+                                           bankroll: 267351,
                                            recentSessionAmount: 150,
                                            chartData: MockData.mockDataCoords,
                                            swiftChartData: [0, 5, 20],
                                            hourlyRate: 32,
                                            totalSessions: 14,
-                                           currency: "EUR"))
+                                           currency: "USD"))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
-        
+            .preferredColorScheme(.dark)
     }
 }

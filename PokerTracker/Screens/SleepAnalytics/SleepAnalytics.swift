@@ -212,7 +212,7 @@ struct SleepAnalytics: View {
         .animation(nil, value: rawSelectedDate)
         .padding()
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
         .cornerRadius(20)
     }
     
@@ -380,7 +380,7 @@ struct SleepAnalytics: View {
         }
         .padding()
         .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
-        .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
         .cornerRadius(20)
     }
     
@@ -453,7 +453,7 @@ struct SleepAnalytics: View {
         }
         .padding()
         .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
-        .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
         .cornerRadius(20)
     }
     

@@ -19,13 +19,11 @@ struct ProfitByLocationView: View {
     @State private var showPaywall = false
     
     @EnvironmentObject var subManager: SubscriptionManager
-    
     @ObservedObject var viewModel: SessionsListViewModel
     
     var body: some View {
         
         ScrollView {
-            
             ZStack {
                 VStack {
                     
@@ -47,9 +45,9 @@ struct ProfitByLocationView: View {
                         }
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationBarTitle(Text("Location Statistics"))
-                        .padding(30)
+                        .padding(20)
                         .frame(width: UIScreen.main.bounds.width * 0.9)
-                        .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+                        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
                         .cornerRadius(20)
                         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
                         .padding(.top, 50)
@@ -110,6 +108,7 @@ struct ProfitByLocationView: View {
             .padding(.bottom, 60)
         }
         .background(Color.brandBackground)
+        .dynamicTypeSize(.xSmall...DynamicTypeSize.large)
     }
     
     var headerInfo: some View {
@@ -118,7 +117,7 @@ struct ProfitByLocationView: View {
             
             HStack {
                 Text("Select Year")
-                    .bodyStyle()
+                    
                 
                 Spacer()
                 
@@ -132,17 +131,18 @@ struct ProfitByLocationView: View {
                     }
                 } label: {
                     Text(yearFilter + " ›")
-                        .bodyStyle()
+                        
                 }
                 .accentColor(Color.brandPrimary)
                 .transaction { transaction in
                     transaction.animation = nil
                 }
             }
+            .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
             
             HStack {
                 Text("Select Metric")
-                    .bodyStyle()
+                    
                 
                 Spacer()
                 
@@ -153,13 +153,14 @@ struct ProfitByLocationView: View {
                     }
                 } label: {
                     Text(metricFilter + " ›")
-                        .bodyStyle()
+                        
                 }
                 .accentColor(Color.brandPrimary)
                 .transaction { transaction in
                     transaction.animation = nil
                 }
             }
+            .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
         }
         .padding(.bottom, 10)
     }
@@ -173,7 +174,7 @@ struct ProfitByLocationView: View {
             ForEach(locationList, id: \.self) { location in
                 HStack (spacing: 0) {
                     Text(location)
-                        .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+                        .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
                         .lineLimit(1)
                     
                     Spacer()
@@ -194,7 +195,7 @@ struct ProfitByLocationView: View {
                     }
                     
                 }
-                .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+                .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
             }
         }
     }
@@ -228,14 +229,12 @@ struct ProfitByLocationView: View {
                 Spacer()
                 
                 Text("\(viewModel.sessions.filter({ $0.date.getYear() == yearFilter }).count)")
-                    .bodyStyle()
             }
         }
-        .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
-        .padding(.horizontal, 30)
-        .padding(.vertical, 20)
+        .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
+        .padding(20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
         .padding(.top, 15)
@@ -247,7 +246,7 @@ struct ProfitByLocationView: View {
             .padding(.horizontal, 30)
             .padding(.vertical, 20)
             .frame(width: UIScreen.main.bounds.width * 0.9)
-            .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+            .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
             .cornerRadius(20)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
             .padding(.top, 15)

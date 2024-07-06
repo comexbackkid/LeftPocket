@@ -42,6 +42,8 @@ struct SessionsListView: View {
     @State var showDateFilter = false
     @State var sessionFilter: SessionFilter = .all
     @State var locationFilter: LocationModel?
+    @State var gameTypeFilter: String?
+    @State var stakesFilter: String?
     @State var startDate: Date = Date()
     @State var endDate: Date = .now
     @State var datesInitialized = false
@@ -66,16 +68,26 @@ struct SessionsListView: View {
         
         var result = vm.sessions
         
-        // Apply session type filter
+        // Apply Session type filter
         switch sessionFilter {
         case .all: break
         case .cash: result = vm.allCashSessions()
         case .tournaments: result = vm.allTournamentSessions()
         }
         
-        // Apply location filter if selected
+        // Apply Location filter if selected
         if let locationFilter = locationFilter {
             result = result.filter { $0.location.name == locationFilter.name }
+        }
+        
+        // Apply Game Type filter
+        if let gameTypeFilter = gameTypeFilter {
+            result = result.filter { $0.game == gameTypeFilter }
+        }
+        
+        // Apply Stakes filter
+        if let stakesFilter = stakesFilter {
+            result = result.filter { $0.stakes == stakesFilter }
         }
         
         // Apply date range filter
@@ -157,7 +169,6 @@ struct SessionsListView: View {
             .accentColor(.brandPrimary)
             .background(Color.brandBackground)
             .toolbar {
-                toolbarLocationFilter
                 toolbarFilter
             }
             .onAppear {
@@ -170,27 +181,18 @@ struct SessionsListView: View {
         .accentColor(.brandPrimary)
     }
     
-    var toolbarLocationFilter: some View {
-        
-        Menu {
-            Button("All") {
-                locationFilter = nil
-            }
-        
-            Picker("", selection: $locationFilter) {
-                ForEach(vm.sessions.map({ $0.location }).uniqued(), id: \.self) { location in
-                    Text(location.name).tag(location as LocationModel?)
-                }
-            }
-        } label: {
-            Image(systemName: "mappin.and.ellipse")
-        }
-    }
-    
     var toolbarFilter: some View {
         
         Menu {
-            Picker("", selection: $sessionFilter) {
+            
+            
+            Picker("Select View Style", selection: $viewStyle) {
+                ForEach(ViewStyle.allCases, id: \.self) {
+                    Text($0.rawValue.capitalized).tag($0)
+                }
+            }
+            
+            Picker("Select Session Type", selection: $sessionFilter) {
                 ForEach(SessionFilter.allCases, id: \.self) {
                     Text($0.rawValue.capitalized).tag($0)
                 }
@@ -198,16 +200,37 @@ struct SessionsListView: View {
             
             Divider()
             
-            Button("Date Range") {
-                showDateFilter = true
+            Menu("Location") {
+                Picker("Select Location", selection: $locationFilter) {
+                    Text("All").tag(nil as LocationModel?)
+                    ForEach(vm.sessions.map({ $0.location }).uniquedByName(), id: \.self) { location in
+                        Text(location.name).tag(location as LocationModel?)
+                    }
+                }
+            }
+            
+            Menu("Game Type") {
+                Picker("Select Game Type", selection: $gameTypeFilter) {
+                    Text("All").tag(nil as String?)
+                    ForEach(vm.sessions.map { $0.game }.uniqued(), id: \.self) { game in
+                        Text(game).tag(game as String?)
+                    }
+                }
+            }
+            
+            Menu("Stakes") {
+                Picker("Select Stakes", selection: $stakesFilter) {
+                    Text("All").tag(nil as String?)
+                    ForEach(vm.allCashSessions().map { $0.stakes }.uniqued(), id: \.self) { stakes in
+                        Text(stakes).tag(stakes as String?)
+                    }
+                }
             }
             
             Divider()
             
-            Picker("", selection: $viewStyle) {
-                ForEach(ViewStyle.allCases, id: \.self) {
-                    Text($0.rawValue.capitalized).tag($0)
-                }
+            Button("Date Range") {
+                showDateFilter = true
             }
             
         } label: {

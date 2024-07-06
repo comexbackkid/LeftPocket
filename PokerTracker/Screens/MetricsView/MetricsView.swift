@@ -113,7 +113,7 @@ struct MetricsView: View {
             .padding(.bottom, 20)
             .padding(.horizontal)
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 370)
-            .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+            .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
             .cornerRadius(20)
     }
     
@@ -122,7 +122,7 @@ struct MetricsView: View {
         BarChartByYear(showTitle: true, moreAxisMarks: true, cashOnly: false)
             .padding()
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 380)
-            .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+            .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
             .cornerRadius(20)
         
     }
@@ -134,7 +134,7 @@ struct MetricsView: View {
             HeatMap()
                 .padding()
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
-                .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+                .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
                 .cornerRadius(20)
         }
     }
@@ -147,7 +147,7 @@ struct MetricsView: View {
                 .padding()
                 .padding(.top, 6)
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
-                .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+                .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
                 .cornerRadius(20)
         }
     }
@@ -210,7 +210,7 @@ struct MetricsView: View {
             .padding()
         }
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
         .cornerRadius(20)
     }
     
@@ -617,7 +617,7 @@ struct ToolTipView: View {
         }
         .padding(20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
         .cornerRadius(20)
     }
 }
@@ -700,6 +700,16 @@ struct AdditionalMetricsView: View {
                                                           description: "View your results on a month by \nmonth basis.",
                                                           image: "calendar",
                                                           color: .donutChartGreen)
+                            })
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        NavigationLink(
+                            destination: AdvancedTournamentReport(vm: viewModel),
+                            label: {
+                                AdditionalMetricsCardView(title: "Tournament Report",
+                                                          description: "Advanced tournament breakdown & stats \n by month and year.",
+                                                          image: "suit.club",
+                                                          color: .donutChartBlack)
                             })
                         .buttonStyle(PlainButtonStyle())
                         
@@ -839,7 +849,6 @@ struct AdditionalMetricsView: View {
                     .padding(.trailing)
                     .frame(height: 150)
                 })
-                
             }
         }
     }

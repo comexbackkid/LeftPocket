@@ -32,7 +32,7 @@ struct MetricsCardView: View {
                         Text("Bankroll & Metrics")
                             .headlineStyle()
                         
-                        Text("Tap to view your current bankroll, advanced metrics, analytics, & reports.")
+                        Text("Tap to view your bankroll progress, player metrics, analytics, & reports.")
                             .calloutStyle()
                             .opacity(0.7)
                             .foregroundColor(.secondary)
@@ -47,7 +47,7 @@ struct MetricsCardView: View {
             }
         }
         .frame(width: width, height: 350)
-        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.23),
                 radius: 12, x: 0, y: 5)
@@ -57,6 +57,6 @@ struct MetricsCardView: View {
 struct MetricsCardView_Previews: PreviewProvider {
     static var previews: some View {
         MetricsCardView().environmentObject(SessionsListViewModel())
-//            .preferredColorScheme(.dark)
+            .preferredColorScheme(.dark)
     }
 }

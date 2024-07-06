@@ -18,11 +18,11 @@ struct ProfitByStakesView: View {
     @State private var yearFilter = Date().getYear()
     @State private var metricFilter = "Total"
     @State private var showPaywall = false
-
+    
     @ObservedObject var viewModel: SessionsListViewModel
-
+    
     var body: some View {
-
+        
         ScrollView {
             
             ZStack {
@@ -30,19 +30,14 @@ struct ProfitByStakesView: View {
                     
                     VStack (spacing: 10) {
                         
-                        headerInfo
-                        
-                        Divider()
-                            .padding(.bottom, 10)
-                        
                         stakesTotals
                         
                     }
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationBarTitle(Text("Game Stakes"))
-                    .padding(30)
+                    .padding(20)
                     .frame(width: UIScreen.main.bounds.width * 0.9)
-                    .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+                    .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
                     .cornerRadius(20)
                     .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
                     .padding(.top, 50)
@@ -56,7 +51,7 @@ struct ProfitByStakesView: View {
                             .blur(radius: 8)
                             .overlay {
                                 Button {
-                                   showPaywall = true
+                                    showPaywall = true
                                     
                                 } label: {
                                     Text("Upgrade for Access")
@@ -70,7 +65,7 @@ struct ProfitByStakesView: View {
                                 }
                             }
                     }
-                   
+                    
                     HStack {
                         Spacer()
                     }
@@ -86,11 +81,14 @@ struct ProfitByStakesView: View {
                                         .padding()
                                         .onTapGesture {
                                             showPaywall = false
-                                    }
+                                        }
                                     Spacer()
                                 }
                             }
                         }
+                }
+                .toolbar {
+                    headerInfo
                 }
                 .task {
                     for await customerInfo in Purchases.shared.customerInfoStream {
@@ -99,7 +97,8 @@ struct ProfitByStakesView: View {
                     }
                 }
                 
-                if viewModel.sessions.filter({ $0.isTournament == false }).isEmpty {
+                // Must use this for empty state just in case the user only plays Tournments
+                if viewModel.sessions.filter({ $0.isTournament != true }).isEmpty {
                     EmptyState(image: .sessions)
                 }
             }
@@ -110,13 +109,9 @@ struct ProfitByStakesView: View {
     
     var headerInfo: some View {
         
-        VStack (spacing: 7) {
+        VStack {
             
             HStack {
-                Text("Select Year")
-                    .bodyStyle()
-                
-                Spacer()
                 
                 let allYears = viewModel.sessions.map({ $0.date.getYear() }).uniqued()
                 
@@ -135,57 +130,63 @@ struct ProfitByStakesView: View {
                     transaction.animation = nil
                 }
             }
-            
-            HStack {
-                Text("Select Metric")
-                    .bodyStyle()
-
-                
-                Spacer()
-                
-                Menu {
-                    Picker("", selection: $metricFilter) {
-                        Text("Total").tag("Total")
-                        Text("Hourly").tag("Hourly")
-                    }
-                } label: {
-                    Text(metricFilter + " ›")
-                        .bodyStyle()
-                }
-                .accentColor(Color.brandPrimary)
-                .transaction { transaction in
-                    transaction.animation = nil
-                }
-            }
         }
-        .padding(.bottom, 10)
     }
     
     var stakesTotals: some View {
         
-        ForEach(viewModel.uniqueStakes, id: \.self) { stakes in
+        VStack (spacing: 10) {
             
             HStack {
-                Text(stakes)
-                    .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
-
-                Spacer()
-
-                let filteredByYear = viewModel.sessions.filter({ $0.date.getYear() == yearFilter })
-                let total = viewModel.profitByStakes(stakes, year: yearFilter)
-                let hourlyRate = hourlyByStakes(stakes: stakes, sessions: filteredByYear)
                 
-                if metricFilter == "Total" {
-                    Text(total, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                        .profitColor(total: total)
-                        .frame(width: 80, alignment: .trailing)
-                } else {
-                    Text("\(hourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))) / hr")
-                        .profitColor(total: hourlyRate)
-                        .frame(width: 80, alignment: .trailing)
-                }
+                Spacer()
+                
+                Image(systemName: "trophy.fill")
+                    .foregroundColor(Color(.systemGray))
+                    .frame(width: 60, alignment: .trailing)
+                    .fontWeight(.bold)
+                
+                Image(systemName: "gauge.high")
+                    .foregroundColor(Color(.systemGray))
+                    .frame(width: 60, alignment: .trailing)
+                    .fontWeight(.bold)
+                
+                Image(systemName: "clock")
+                    .foregroundColor(Color(.systemGray))
+                    .frame(width: 60, alignment: .trailing)
+                    .fontWeight(.bold)
             }
-            .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+            .padding(.bottom, 10)
+            
+            Divider().padding(.bottom, 10)
+            
+            ForEach(viewModel.uniqueStakes, id: \.self) { stakes in
+                
+                HStack {
+                    Text(stakes)
+                        .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
+                    
+                    Spacer()
+                    
+                    let filteredByYear = viewModel.sessions.filter({ $0.date.getYear() == yearFilter })
+                    let total = viewModel.profitByStakes(stakes, year: yearFilter)
+                    let hourlyRate = hourlyByStakes(stakes: stakes, sessions: filteredByYear)
+                    let hoursPlayed = filteredByYear.filter({ $0.stakes == stakes }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+                    
+                    Text(total.axisShortHand(viewModel.userCurrency))
+                        .profitColor(total: total)
+                        .frame(width: 62, alignment: .trailing)
+                    
+                    Text("\(hourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))")
+                        .profitColor(total: hourlyRate)
+                        .frame(width: 62, alignment: .trailing)
+                    
+                    Text(hoursPlayed.abbreviateHourTotal + "h")
+                        .frame(width: 62, alignment: .trailing)
+               
+                }
+                .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
+            }
         }
     }
     
@@ -201,7 +202,7 @@ struct ProfitByStakesView: View {
                     .foregroundColor(Color(.systemGray))
                 
                 Text("Total")
-                    
+                
                 Spacer()
                 
                 Text(bankrollTotalByYear, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
@@ -218,14 +219,12 @@ struct ProfitByStakesView: View {
                 Spacer()
                 
                 Text("\(viewModel.sessions.filter({ $0.date.getYear() == yearFilter }).count)")
-                    .bodyStyle()
             }
         }
-        .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
-        .padding(.horizontal, 30)
-        .padding(.vertical, 20)
+        .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
+        .padding(20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
         .padding(.top, 15)
@@ -237,7 +236,7 @@ struct ProfitByStakesView: View {
             .padding(.horizontal, 30)
             .padding(.vertical, 20)
             .frame(width: UIScreen.main.bounds.width * 0.9)
-            .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+            .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
             .cornerRadius(20)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
             .padding(.top, 15)

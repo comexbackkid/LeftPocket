@@ -20,6 +20,7 @@ struct ProfitByYear: View {
     
     @State private var showError: Bool = false
     @State private var showPaywall = false
+    @State private var highHandPopover = false
     @State private var sessionFilter: SessionFilter = .all
     
     var body: some View {
@@ -39,9 +40,7 @@ struct ProfitByYear: View {
                 
                 lineChart
 
-                CustomPicker(vm: vm)
-                    .padding(.bottom, 35)
-                    .padding(.top)
+                CustomPicker(vm: vm).padding(.bottom, 35).padding(.top)
                 
                 incomeReport
                 
@@ -52,6 +51,7 @@ struct ProfitByYear: View {
                 exportButton
                 
                 Spacer()
+                
             }
             .padding(.bottom, 50)
             .navigationBarTitleDisplayMode(.inline)
@@ -146,7 +146,7 @@ struct ProfitByYear: View {
         .animation(nil, value: vm.pickerSelection)
         .padding(30)
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
         
@@ -216,8 +216,6 @@ struct ProfitByYear: View {
                     .profitColor(total: netProfitTotal)
             }
             
-            
-            
             Divider().padding(.vertical)
             
             HStack {
@@ -244,8 +242,25 @@ struct ProfitByYear: View {
                     .profitColor(total: bestProfit)
             }
             
-            HStack {
+            HStack (alignment: .lastTextBaseline, spacing: 5) {
                 Text("High Hand Bonuses")
+                
+                Button {
+                    highHandPopover = true
+                } label: {
+                    Image(systemName: "info.circle")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.brandPrimary)
+                }
+                .popover(isPresented: $highHandPopover, arrowEdge: .bottom, content: {
+                    PopoverView(bodyText: "For reporting purposes, High Hand Bonuses are included in your Gross Income, but are NOT factored into your player stats like hourly rate or profit per session.")
+                        .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                        .frame(height: 145)
+                        .dynamicTypeSize(.medium...DynamicTypeSize.medium)
+                        .presentationCompactAdaptation(.popover)
+                        .preferredColorScheme(colorScheme == .dark ? .dark : .light)
+                        .shadow(radius: 10)
+                })
                 
                 Spacer()
                 Text(highHand, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
@@ -369,8 +384,25 @@ struct ProfitByYear: View {
                     .profitColor(total: bestProfit)
             }
             
-            HStack {
+            HStack (alignment: .lastTextBaseline, spacing: 5) {
                 Text("High Hand Bonuses")
+                
+                Button {
+                    highHandPopover = true
+                } label: {
+                    Image(systemName: "info.circle")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.brandPrimary)
+                }
+                .popover(isPresented: $highHandPopover, arrowEdge: .bottom, content: {
+                    PopoverView(bodyText: "For reporting purposes, High Hand Bonuses are included in your Gross Income, but are NOT factored into your player stats like hourly rate or profit per session.")
+                        .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                        .frame(height: 145)
+                        .dynamicTypeSize(.medium...DynamicTypeSize.medium)
+                        .presentationCompactAdaptation(.popover)
+                        .preferredColorScheme(colorScheme == .dark ? .dark : .light)
+                        .shadow(radius: 10)
+                })
                 
                 Spacer()
                 Text(highHand, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
@@ -495,7 +527,7 @@ struct ProfitByYear: View {
             BarChartWeeklySessionCount(showTitle: true, dateRange: dateRange)
                 .padding(30)
                 .frame(width: UIScreen.main.bounds.width * 0.9, height: 220)
-                .background(colorScheme == .dark ? Color.black.opacity(0.25) : Color.white)
+                .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
                 .cornerRadius(20)
                 .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
                 .padding(.top, 20)

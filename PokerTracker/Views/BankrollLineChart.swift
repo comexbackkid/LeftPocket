@@ -94,7 +94,7 @@ struct BankrollLineChart: View {
                     
                     AreaMark(x: .value("Time", index), y: .value("Profit", total))
                         .foregroundStyle(LinearGradient(colors: [Color("lightBlue"), .clear], startPoint: .top, endPoint: .bottom))
-                        .opacity(showChart ? 0.15 : 0.0)
+                        .opacity(showChart ? 0.18 : 0.0)
                     
                     if let selectedIndex {
                         

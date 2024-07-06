@@ -52,7 +52,7 @@ struct WidgetViewMedium: View {
                     
                     Text(entry.hourlyRate, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                         .foregroundColor(.widgetForegroundText)
-                        .font(.system(.subheadline, design: .rounded))
+                        .font(.custom("Asap-Medium", size: 18, relativeTo: .caption2))
                 }
                 
                 VStack (alignment: .leading) {
@@ -63,7 +63,7 @@ struct WidgetViewMedium: View {
                     
                     Text("\(entry.totalSessions)")
                         .foregroundColor(.widgetForegroundText)
-                        .font(.system(.subheadline, design: .rounded))
+                        .font(.custom("Asap-Medium", size: 18, relativeTo: .caption2))
                 }
                 
                 Spacer()
@@ -82,7 +82,9 @@ struct WidgetViewMedium: View {
             HStack {
                 Text(entry.bankroll, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                     .foregroundColor(.widgetForegroundText)
-                    .font(.system(.title, design: .rounded))
+                    .font(.custom("Asap-Bold", size: 28, relativeTo: .title3))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.9)
                 
                 Spacer()
             }
@@ -99,8 +101,7 @@ struct WidgetViewMedium: View {
                 
                 Text(entry.recentSessionAmount, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                     .foregroundColor(entry.recentSessionAmount > 0 ? .green : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
-                    .font(.subheadline)
-                    .bold()
+                    .font(.custom("Asap-Medium", size: 18, relativeTo: .caption2))
                 
                 Spacer()
             }

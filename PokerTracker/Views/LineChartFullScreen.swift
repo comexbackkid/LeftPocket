@@ -12,6 +12,7 @@ struct LineChartFullScreen: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     @Environment(\.dismiss) var dismiss
     
+    @State private var statsRange: RangeSelection = .all
     @Binding var lineChartFullScreen: Bool
     
     var body: some View {
@@ -19,7 +20,7 @@ struct LineChartFullScreen: View {
         VStack {
             BankrollLineChart(showTitle: false,
                                     showYAxis: true,
-                                    showRangeSelector: false,
+                                    showRangeSelector: true,
                                     overlayAnnotation: true)
             
             // Swap width and height to match landscape dimensions
@@ -27,7 +28,8 @@ struct LineChartFullScreen: View {
                 transaction.animation = .none
             }
         }
-        .padding(50)
+        .padding(30)
+        .padding(.horizontal, 30)
         .overlay {
             HStack {
                 VStack {
@@ -38,7 +40,7 @@ struct LineChartFullScreen: View {
                 
                 Spacer()
             }
-            .padding(35)
+            .padding(30)
         }
         .rotationEffect(.degrees(90)) // Rotate 90 degrees
         .frame(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)

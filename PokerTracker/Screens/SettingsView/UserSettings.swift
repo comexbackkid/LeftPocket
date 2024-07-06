@@ -8,6 +8,7 @@
 import SwiftUI
 import RevenueCatUI
 import RevenueCat
+import StoreKit
 import UserNotifications
 
 struct UserSettings: View {
@@ -37,10 +38,7 @@ struct UserSettings: View {
                     
                     displayOptions
                     
-                    if !subManager.isSubscribed {
-                        
-                        upgradeToPro
-                    }
+                    if !subManager.isSubscribed { upgradeToPro }
                     
                     Divider()
                     
@@ -168,6 +166,8 @@ struct UserSettings: View {
             exportData
             
             howToGuide
+            
+            redeemOfferCode
             
         }
         .sheet(isPresented: $showPaywall) {
@@ -489,6 +489,33 @@ struct UserSettings: View {
             })
         .buttonStyle(PlainButtonStyle())
         
+    }
+    
+    var redeemOfferCode: some View {
+        
+        NavigationLink {
+            RedeemOfferCode()
+        } label: {
+            HStack {
+                
+                VStack (alignment: .leading) {
+                    
+                    HStack {
+                        Text("Redeem Offer Code")
+                            .subtitleStyle()
+                            .bold()
+                        
+                        Spacer()
+                        
+                        Text("›")
+                            .font(.title2)
+                    }
+                }
+                
+                Spacer()
+            }
+        }
+        .buttonStyle(.plain)
     }
     
     var appVersion: some View {
