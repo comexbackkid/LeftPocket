@@ -16,9 +16,8 @@ struct ShareButton: View {
                 .opacity(0.6)
             
             Image(systemName: "square.and.arrow.down")
-//                .imageScale(.large)
                 .fontWeight(.medium)
-                .frame(width: 40, height: 40)
+                .frame(width: 44, height: 44)
                 .foregroundColor(.black)
                 .offset(y: -2)
         }

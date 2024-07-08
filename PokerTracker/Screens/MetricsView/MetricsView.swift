@@ -707,7 +707,7 @@ struct AdditionalMetricsView: View {
                             destination: AdvancedTournamentReport(vm: viewModel),
                             label: {
                                 AdditionalMetricsCardView(title: "Tournament Report",
-                                                          description: "Advanced tournament breakdown & stats \n by month and year.",
+                                                          description: "Advanced tournament stats & breakdown \nby month and year.",
                                                           image: "suit.club",
                                                           color: .donutChartBlack)
                             })
@@ -860,6 +860,6 @@ struct MetricsView_Previews: PreviewProvider {
         MetricsView(activeSheet: .constant(nil))
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
-            .preferredColorScheme(.dark)
+//            .preferredColorScheme(.dark)
     }
 }

@@ -93,7 +93,7 @@ struct BankrollLineChart: View {
                         .opacity(showChart ? 1.0 : 0.0)
                     
                     AreaMark(x: .value("Time", index), y: .value("Profit", total))
-                        .foregroundStyle(LinearGradient(colors: [Color("lightBlue"), .clear], startPoint: .top, endPoint: .bottom))
+                        .foregroundStyle(LinearGradient(colors: [sessionFilter != .tournaments ? Color("lightBlue") : .donutChartGreen, .clear], startPoint: .top, endPoint: .bottom))
                         .opacity(showChart ? 0.18 : 0.0)
                     
                     if let selectedIndex {
@@ -102,7 +102,9 @@ struct BankrollLineChart: View {
                             .foregroundStyle(Color.brandWhite)
                     }
                 }
-                .foregroundStyle(LinearGradient(colors: [.chartAccent, .chartBase], startPoint: .topTrailing, endPoint: .bottomLeading))
+                .foregroundStyle(LinearGradient(colors: [sessionFilter != .tournaments ? .chartAccent : .donutChartGreen,
+                                                         sessionFilter != .tournaments ? .chartBase : .donutChartDarkBlue],
+                                                startPoint: .topTrailing, endPoint: .bottomLeading))
                 .interpolationMethod(.catmullRom)
                 .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
                 
@@ -114,8 +116,9 @@ struct BankrollLineChart: View {
                         .annotation(position: overlayAnnotation
                                     ?  (selectedIndex == 0 && convertedData.count == 2)
                                     || ((0...1).contains(selectedIndex) && convertedData.count > 2)
-                                    || ((0...5).contains(selectedIndex) && convertedData.count > 8)
-                                    || ((0...15).contains(selectedIndex) && convertedData.count > 25)
+                                    || ((0...6).contains(selectedIndex) && convertedData.count > 8)
+                                    || ((0...18).contains(selectedIndex) && convertedData.count > 25)
+                                    || ((0...30).contains(selectedIndex) && convertedData.count > 50)
                                     ?  .trailing : .leading
                                     :  .top,
                                     spacing: overlayAnnotation ? 12 : 8,
@@ -180,10 +183,12 @@ struct BankrollLineChart: View {
                         .opacity(showChart ? 1.0 : 0.0)
                     
                     AreaMark(x: .value("Time", index), y: .value("Profit", total))
-                        .foregroundStyle(LinearGradient(colors: [Color("lightBlue"), .clear], startPoint: .top, endPoint: .bottom))
+                        .foregroundStyle(LinearGradient(colors: [sessionFilter != .tournaments ? Color("lightBlue") : .donutChartGreen, .clear], startPoint: .top, endPoint: .bottom))
                         .opacity(showChart ? 0.2 : 0.0)
                 }
-                .foregroundStyle(LinearGradient(colors: [.chartAccent, .chartBase], startPoint: .topTrailing, endPoint: .bottomLeading))
+                .foregroundStyle(LinearGradient(colors: [sessionFilter != .tournaments ? .chartAccent : .donutChartGreen,
+                                                         sessionFilter != .tournaments ? .chartBase : .donutChartDarkBlue],
+                                                startPoint: .topTrailing, endPoint: .bottomLeading))
                 .interpolationMethod(.catmullRom)
                 .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
             }

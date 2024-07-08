@@ -9,25 +9,6 @@ import SwiftUI
 import RevenueCatUI
 import TipKit
 
-enum ViewStyle: String, CaseIterable {
-    case standard, compact
-}
-
-enum SessionFilter: String, CaseIterable {
-    case all, cash, tournaments
-    
-    var description: String {
-        switch self {
-        case .all:
-            return "All"
-        case .cash:
-            return "Cash"
-        case .tournaments:
-            return "Tournaments"
-        }
-    }
-}
-
 struct SessionsListView: View {
     
     @AppStorage("viewStyle") var viewStyle: ViewStyle = .standard
@@ -169,7 +150,9 @@ struct SessionsListView: View {
             .accentColor(.brandPrimary)
             .background(Color.brandBackground)
             .toolbar {
-                toolbarFilter
+                if !vm.sessions.isEmpty {
+                    toolbarFilter
+                }
             }
             .onAppear {
                 if !datesInitialized {
@@ -185,52 +168,79 @@ struct SessionsListView: View {
         
         Menu {
             
-            
             Picker("Select View Style", selection: $viewStyle) {
                 ForEach(ViewStyle.allCases, id: \.self) {
                     Text($0.rawValue.capitalized).tag($0)
                 }
             }
             
-            Picker("Select Session Type", selection: $sessionFilter) {
-                ForEach(SessionFilter.allCases, id: \.self) {
-                    Text($0.rawValue.capitalized).tag($0)
+            Menu {
+                Picker("Select Session Type", selection: $sessionFilter) {
+                    ForEach(SessionFilter.allCases, id: \.self) {
+                        Text($0.rawValue.capitalized).tag($0)
+                    }
                 }
+            } label: {
+                Text("Session Type")
+                Image(systemName: "suit.club.fill")
             }
             
-            Divider()
-            
-            Menu("Location") {
+            Menu {
                 Picker("Select Location", selection: $locationFilter) {
                     Text("All").tag(nil as LocationModel?)
                     ForEach(vm.sessions.map({ $0.location }).uniquedByName(), id: \.self) { location in
                         Text(location.name).tag(location as LocationModel?)
                     }
                 }
+            } label: {
+                HStack {
+                    Text("Location")
+                    Image(systemName: "mappin.and.ellipse")
+                }
             }
             
-            Menu("Game Type") {
+            Menu {
                 Picker("Select Game Type", selection: $gameTypeFilter) {
                     Text("All").tag(nil as String?)
                     ForEach(vm.sessions.map { $0.game }.uniqued(), id: \.self) { game in
                         Text(game).tag(game as String?)
                     }
                 }
+            } label: {
+                HStack {
+                    Text("Game Type")
+                    Image(systemName: "dice")
+                }
             }
             
-            Menu("Stakes") {
+            Menu{
                 Picker("Select Stakes", selection: $stakesFilter) {
                     Text("All").tag(nil as String?)
                     ForEach(vm.allCashSessions().map { $0.stakes }.uniqued(), id: \.self) { stakes in
                         Text(stakes).tag(stakes as String?)
                     }
                 }
+            } label: {
+                Text("Stakes")
+                Image(systemName: "dollarsign.circle")
             }
             
             Divider()
             
-            Button("Date Range") {
+            Button {
                 showDateFilter = true
+            } label: {
+                Text("Date Range")
+                Image(systemName: "calendar")
+            }
+            
+            Divider()
+            
+            Button {
+                resetAllFilters()
+            } label: {
+                Text("Clear Filters")
+                Image(systemName: "x.circle")
             }
             
         } label: {
@@ -261,6 +271,34 @@ struct SessionsListView: View {
             .listRowBackground(Color.brandBackground)
             .listRowSeparator(.hidden)
             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+    }
+    
+    private func resetAllFilters() {
+        sessionFilter = .all
+        locationFilter = nil
+        gameTypeFilter = nil
+        stakesFilter = nil
+        startDate = firstSessionDate
+        endDate = Date.now
+    }
+}
+
+enum ViewStyle: String, CaseIterable {
+    case standard, compact
+}
+
+enum SessionFilter: String, CaseIterable {
+    case all, cash, tournaments
+    
+    var description: String {
+        switch self {
+        case .all:
+            return "All"
+        case .cash:
+            return "Cash"
+        case .tournaments:
+            return "Tournaments"
+        }
     }
 }
 

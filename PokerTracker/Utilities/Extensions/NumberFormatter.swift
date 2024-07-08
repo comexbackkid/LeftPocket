@@ -70,6 +70,21 @@ extension Int {
             return "\(abs(self))"
         }
     }
+    
+    func currencyShortHand(_ symbol: CurrencyType) -> String {
+        let number = Double(self)
+        let sign = (self < 0) ? "-" : ""
+        let thousand = abs(number) / 1000
+        let million = abs(number) / 1000000
+        
+        if million >= 1.0 {
+            return "\(sign)\(symbol.symbol)\(String(format: "%.2f", million))M"
+        } else if thousand >= 1.0 {
+            return "\(sign)\(symbol.symbol)\(String(format: "%.2f", thousand))K"
+        } else {
+            return "\(sign)\(symbol.symbol)\(abs(self))"
+        }
+    }
 }
 
 extension Double {

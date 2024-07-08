@@ -41,7 +41,7 @@ struct ProfitByMonth: View {
             .frame(width: UIScreen.main.bounds.width * 0.9)
             .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
             .cornerRadius(20)
-            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             
             yearTotal
             
@@ -177,20 +177,19 @@ struct ProfitByMonth: View {
         .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
         .cornerRadius(20)
-        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         .padding(.top, 15)
     }
     
     var barChart: some View {
         
-        BarChartByYear(showTitle: false, moreAxisMarks: false, cashOnly: false)
-            .padding(.horizontal, 30)
-            .padding(.vertical, 30)
-            .padding(.top, 20)
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 225)
+        BarChartByYear(showTitle: true, moreAxisMarks: false, cashOnly: false)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 20)
+            .frame(width: UIScreen.main.bounds.width * 0.9, height: 275)
             .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
             .cornerRadius(20)
-            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             .padding(.top, 15)
             .padding(.bottom, 60)
         

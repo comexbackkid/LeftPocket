@@ -13,11 +13,15 @@ struct AdvancedTournamentReport: View {
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var vm: SessionsListViewModel
     @State private var yearFilter: String = Date().getYear()
+    @State private var chartYearSelection: [PokerSession]?
     
+    var chartYearFilter: [PokerSession] {
+        return vm.allTournamentSessions().filter({ $0.date.getYear() == yearFilter })
+    }
     var convertedData: [Int] {
         // Start with zero as our initial data point so chart doesn't look goofy
         var originalDataPoint = [0]
-        let newDataPoints = vm.calculateCumulativeProfit(sessions: vm.sessions, sessionFilter: .tournaments)
+        let newDataPoints = vm.calculateCumulativeProfit(sessions: chartYearFilter, sessionFilter: .tournaments)
         originalDataPoint += newDataPoints
         return originalDataPoint
     }
@@ -39,7 +43,7 @@ struct AdvancedTournamentReport: View {
                 .frame(width: UIScreen.main.bounds.width * 0.9)
                 .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
                 .cornerRadius(20)
-                .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+                .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             
             yearTotals
         
@@ -92,18 +96,18 @@ struct AdvancedTournamentReport: View {
                 
                 Image(systemName: "trophy.fill")
                     .foregroundStyle(Color(.systemGray))
-                    .frame(width: 60, alignment: .trailing)
                     .fontWeight(.bold)
+                    .frame(width: 62, alignment: .trailing)
                 
                 Image(systemName: "cart.fill")
                     .foregroundStyle(Color(.systemGray))
-                    .frame(width: 60, alignment: .trailing)
                     .fontWeight(.bold)
+                    .frame(width: 62, alignment: .trailing)
                 
-                Image(systemName: "clock")
+                Image(systemName: "dollarsign")
                     .foregroundStyle(Color(.systemGray))
-                    .frame(width: 60, alignment: .trailing)
                     .fontWeight(.bold)
+                    .frame(width: 62, alignment: .trailing)
             }
             .padding(.bottom, 10)
             
@@ -117,20 +121,26 @@ struct AdvancedTournamentReport: View {
                     
                     let filteredMonths = vm.sessions.filter({ $0.date.getYear() == yearFilter && $0.isTournament == true })
                     let buyIns = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.expenses ?? 0 }.reduce(0,+)
-                    let total = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.profit }.reduce(0,+) + buyIns
-                    let hoursPlayed = filteredMonths.filter({ $0.date.getMonth() == month }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+                    let grossProfit = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.profit }.reduce(0,+) + buyIns
+//                    let hoursPlayed = filteredMonths.filter({ $0.date.getMonth() == month }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+                    let netProfit = grossProfit - buyIns
                     
-                    Text(total.axisShortHand(vm.userCurrency))
-                        .profitColor(total: total)
+                    Text(grossProfit.currencyShortHand(vm.userCurrency))
+                        .profitColor(total: grossProfit)
                         .frame(width: 62, alignment: .trailing)
                     
-                    Text(buyIns.axisShortHand(vm.userCurrency))
+                    // Necessary because the stystem doesn't know this value is technically a "negative"
+                    Text(buyIns != 0 ? "-\(buyIns.currencyShortHand(vm.userCurrency))" : "$0")
                         .foregroundStyle(buyIns != 0 ? .red : .secondary)
                         .frame(width: 62, alignment: .trailing)
                     
-                    Text(hoursPlayed.abbreviateHourTotal + "h")
-                        .foregroundColor(hoursPlayed == 0 ? Color(.systemGray) : .primary)
+                    Text(netProfit.currencyShortHand(vm.userCurrency))
+                        .foregroundStyle(netProfit > 0 ? .green : netProfit < 0 ? .red : .secondary)
                         .frame(width: 62, alignment: .trailing)
+                    
+//                    Text(hoursPlayed.abbreviateHourTotal + "h")
+//                        .foregroundColor(hoursPlayed == 0 ? Color(.systemGray) : .primary)
+//                        .frame(width: 62, alignment: .trailing)
                     
                 }
                 .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
@@ -140,7 +150,7 @@ struct AdvancedTournamentReport: View {
     
     var yearTotals: some View {
         
-        VStack (spacing: 7) {
+        VStack (spacing: 10) {
             
             let tournamentListByYear = vm.sessions.filter({ $0.isTournament == true && $0.date.getYear() == yearFilter })
             let totalBuyInsByYear = tournamentListByYear.map({ $0.expenses ?? 0 }).reduce(0,+)
@@ -148,6 +158,7 @@ struct AdvancedTournamentReport: View {
             let netProfit = bankrollTotalByYear - totalBuyInsByYear
             let tournamentCount = tournamentListByYear.count
             let roi = yearlyTournamentROI(tournaments: tournamentListByYear)
+            let hoursPlayed = tournamentListByYear.map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
             
             HStack {
                 Image(systemName: "trophy.fill")
@@ -201,11 +212,23 @@ struct AdvancedTournamentReport: View {
             }
             
             HStack {
+                Image(systemName: "clock")
+                    .frame(width: 20)
+                    .foregroundColor(Color(.systemGray))
+                
+                Text("Hours Played")
+                
+                Spacer()
+                
+                Text("\(hoursPlayed)h")
+            }
+            
+            HStack {
                 Image(systemName: "suit.club.fill")
                     .frame(width: 20)
                     .foregroundColor(Color(.systemGray))
                 
-                Text("Tournaments Played")
+                Text("Tournaments")
                 
                 Spacer()
                 
@@ -218,7 +241,7 @@ struct AdvancedTournamentReport: View {
         .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
         .cornerRadius(20)
-        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         .padding(.top, 15)
     }
     
@@ -227,7 +250,7 @@ struct AdvancedTournamentReport: View {
         VStack {
             
             HStack {
-                Text("Tournament Progress")
+                Text("Tournament Winnings")
                     .cardTitleStyle()
                 
                 Spacer()
@@ -237,7 +260,7 @@ struct AdvancedTournamentReport: View {
             Chart {
                 ForEach(Array(convertedData.enumerated()), id: \.offset) { index, total in
                     LineMark(x: .value("Time", index), y: .value("Profit", total))
-                        .foregroundStyle(Color.donutChartGreen)
+                        .foregroundStyle(LinearGradient(colors: [.donutChartGreen, .donutChartDarkBlue], startPoint: .topTrailing, endPoint: .bottomLeading))
                         .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
                     
                     if convertedData.count > 1 {
@@ -275,15 +298,15 @@ struct AdvancedTournamentReport: View {
                 }
             }
         }
-        .padding(.top)
+        .padding(.top, 20)
         .padding(.bottom, 30)
-        .padding(.horizontal)
+        .padding(.horizontal, 20)
         .frame(width: UIScreen.main.bounds.width * 0.9, height: 280)
         .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
         .cornerRadius(20)
-        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         .padding(.top, 15)
-        .padding(.bottom, 50)
+        .padding(.bottom, 60)
     }
     
     private func yearlyTournamentROI(tournaments: [PokerSession]) -> String {

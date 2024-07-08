@@ -368,7 +368,6 @@ struct SessionDetailView: View {
     var dismissButton: some View {
         
         VStack {
-            
             HStack {
                 
                 Spacer()
