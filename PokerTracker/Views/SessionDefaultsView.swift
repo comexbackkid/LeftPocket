@@ -138,7 +138,7 @@ struct SessionDefaultsView: View {
         VStack (alignment: .leading) {
             
             HStack {
-                Text("Choose your default settings here. These values will automatically populate every time you log a new session.")
+                Text("Choose your default settings here. These values will automatically populate every time you log a new Session.")
                     .bodyStyle()
                 
                 Spacer()

@@ -15,14 +15,6 @@ struct HeatMap: View {
         
         VStack {
             
-//            HStack {
-//                Text("\(Date().getMonth(abbreviated: true)) Activity")
-//                    .cardTitleStyle()
-//                
-//                Spacer()
-//            }
-//            .dynamicTypeSize(.small...DynamicTypeSize.medium)
-            
             GeometryReader { geometry in
                 
                 let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 7)

@@ -141,7 +141,7 @@ struct ProfitByStakesView: View {
                 
                 Spacer()
                 
-                Image(systemName: "trophy.fill")
+                Image(systemName: "dollarsign")
                     .foregroundColor(Color(.systemGray))
                     .frame(width: 60, alignment: .trailing)
                     .fontWeight(.bold)
@@ -197,7 +197,7 @@ struct ProfitByStakesView: View {
             let bankrollTotalByYear = viewModel.bankrollByYear(year: yearFilter, sessionFilter: .all)
             
             HStack {
-                Image(systemName: "trophy.fill")
+                Image(systemName: "dollarsign")
                     .frame(width: 20)
                     .foregroundColor(Color(.systemGray))
                 

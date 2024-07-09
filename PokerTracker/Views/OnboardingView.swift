@@ -32,7 +32,7 @@ struct OnboardingView: View {
                      shouldShowOnboarding: $shouldShowOnboarding).tag(1)
             
             PageView(title: "Custom Locations",
-                     subtitle: Text("Enter your own custom Locations and header photos. Navigate to the Settings \(Image(systemName: "gearshape.fill")) screen and tap on Locations."),
+                     subtitle: Text("Enter your own custom locations and header photos. Navigate to the Settings \(Image(systemName: "gearshape.fill")) screen and tap on Locations."),
                      imageName: "chart.line.uptrend.xyaxis",
                      videoURL: "custom-locations",
                      showDismissButton: false,

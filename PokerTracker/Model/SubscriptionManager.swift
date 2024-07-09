@@ -27,7 +27,6 @@ class SubscriptionManager: ObservableObject {
         Task {
             await self.checkSubscriptionStatus()
             Purchases.shared.attribution.collectDeviceIdentifiers()
-            
         }
     }
 

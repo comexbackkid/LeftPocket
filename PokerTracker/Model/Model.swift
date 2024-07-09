@@ -52,29 +52,6 @@ struct PokerSession: Hashable, Codable, Identifiable {
     }
 }
 
-class SystemThemeManager {
-    static let shared = SystemThemeManager()
-    init() {}
-    
-    func handleTheme(darkMode: Bool, system: Bool) {
-        
-        guard !system else {
-//            UIApplication.shared.currentWindow?.overrideUserInterfaceStyle = .unspecified
-            UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .unspecified
-            return
-        }
-        
-//        UIApplication.shared.currentWindow?.overrideUserInterfaceStyle = darkMode ? .dark : .light
-        UIApplication.shared.windows.first?.overrideUserInterfaceStyle = darkMode ? .dark : .light
-    }
-}
-
-struct SessionData: Identifiable, Hashable {
-    let id = UUID()
-    let day: String
-    let profit: Int
-}
-
 struct DefaultData {
     
     static let defaultLocation = LocationModel(name: "TBD", localImage: "empty-location", imageURL: "")

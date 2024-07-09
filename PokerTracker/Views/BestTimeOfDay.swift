@@ -12,7 +12,6 @@ import Charts
 struct BestTimeOfDay: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
-    
     @State private var highestEarningBucket: TimeBucket?
     
     var body: some View {
@@ -21,22 +20,13 @@ struct BestTimeOfDay: View {
             
             let highestBucket = highestRateBucket(sessions: viewModel.sessions)
             
-//            HStack {
-//                Text("Ideal Window")
-//                    .cardTitleStyle()
-//
-//                Spacer()
-//
-//            }
-//            .dynamicTypeSize(.small...DynamicTypeSize.medium)
-//            .padding(.bottom)
-            
             VStack {
                 ZStack {
                     Image(systemName: "clock")
                         .resizable()
                         .frame(width: 28, height: 28)
-                        .foregroundStyle(highestBucket?.color ?? .gray)
+//                        .foregroundStyle(highestBucket?.color ?? .gray)
+                        .foregroundStyle(Color.gray.opacity(0.1))
                         .fontWeight(.semibold)
                     
                     Chart {
@@ -46,17 +36,17 @@ struct BestTimeOfDay: View {
                                 innerRadius: .ratio(0.83),
                                 angularInset: 3
                             )
-//                            .foregroundStyle(by: .value("Bucket", data.bucket.rawValue))
-                            .foregroundStyle(data.bucket == highestBucket ? highestBucket?.color ?? .gray : .gray)
+                            .foregroundStyle(by: .value("Bucket", data.bucket.rawValue))
+//                            .foregroundStyle(data.bucket == highestBucket ? highestBucket?.color ?? .gray : .gray)
                             .cornerRadius(25)
-                            .opacity(data.bucket == highestBucket ? 1.0 : 0.25)
+                            .opacity(data.bucket == highestBucket ? 1.0 : 0.2)
                         }
                     }
 //                    .padding(.bottom, 10)
     //                .frame(maxHeight: 150)
     //                .frame(width: 220)
                     .chartLegend(.hidden)
-    //                .chartLegend(position: .leading, alignment: .leading)
+//                    .chartLegend(position: .leading, alignment: .leading)
                     .chartForegroundStyleScale([
                         "12-4am": Color.donutChartOrange,
                         "4-8am": Color.donutChartBlack,

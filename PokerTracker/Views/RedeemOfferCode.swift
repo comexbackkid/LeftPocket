@@ -11,6 +11,7 @@ import RevenueCat
 
 struct RedeemOfferCode: View {
     
+    @EnvironmentObject var subManager: SubscriptionManager
     @State private var message: String = ""
 
     var body: some View {
@@ -53,6 +54,7 @@ struct RedeemOfferCode: View {
         }
         .background(Color.brandBackground)
         .navigationBarTitleDisplayMode(.inline)
+
     }
 
     private func redeemOfferCode() {
@@ -64,4 +66,5 @@ struct RedeemOfferCode: View {
 #Preview {
     RedeemOfferCode()
         .preferredColorScheme(.dark)
+        .environmentObject(SubscriptionManager())
 }

@@ -87,8 +87,7 @@ struct AddNewSessionView: View {
             
             if newSession.sessionType != .tournament {
                 
-//                stakesSelection
-                newstakesSelection
+                stakesSelection
                 
             }
             
@@ -261,7 +260,7 @@ struct AddNewSessionView: View {
         
     }
     
-    var newstakesSelection: some View {
+    var stakesSelection: some View {
         
         HStack {
             Image(systemName: "dollarsign.circle")
@@ -315,56 +314,6 @@ struct AddNewSessionView: View {
             NewStakesView(addStakesIsShowing: $addStakesIsShowing)
         })
         
-    }
-    
-    var stakesSelection: some View {
-        
-        HStack {
-            Image(systemName: "dollarsign.circle")
-                .font(.system(size: 24, weight: .bold))
-                .foregroundColor(Color(.systemGray3))
-                .frame(width: 30)
-            
-            Text("Stakes")
-                .bodyStyle()
-                .padding(.leading, 4)
-               
-            Spacer()
-            
-            Menu {
-                Picker("Picker", selection: $newSession.stakes) {
-                    Text("1/2").tag("1/2")
-                    Text("2/2").tag("2/2")
-                    Text("1/3").tag("1/3")
-                    Text("2/3").tag("2/3")
-                    Text("2/5").tag("2/5")
-                    Text("5/5").tag("5/5")
-                    Text("5/10").tag("5/10")
-                    Text("10/10").tag("10/10")
-                    Text("10/20").tag("10/20")
-                    Text("20/40").tag("20/40")
-                    Text("25/50").tag("25/50")
-                }
-                
-            } label: {
-                if newSession.stakes.isEmpty {
-                    Text("Please select ›")
-                        .bodyStyle()
-                } else {
-                    Text(newSession.stakes)
-                        .bodyStyle()
-                        .fixedSize()
-                }
-            }
-            .foregroundColor(newSession.stakes.isEmpty ? .brandPrimary : .brandWhite)
-            .buttonStyle(PlainButtonStyle())
-            .transaction { transaction in
-                transaction.animation = .none
-            }
-        }
-        .padding(.horizontal)
-        .padding(.bottom, 10)
-        .transition(.opacity.combined(with: .scale(scale: 1, anchor: .top)))
     }
     
     var gameSelection: some View {

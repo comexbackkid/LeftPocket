@@ -32,13 +32,14 @@ struct ProfitByLocationView: View {
                         EmptyState(image: .locations)
                         
                     } else {
+                        
+                        VStack { }.frame(height: 40)
 
                         VStack (spacing: 10) {
                             
                             headerInfo
                             
-                            Divider()
-                                .padding(.bottom, 10)
+                            Divider().padding(.bottom, 10)
                             
                             locationTotals
                             
@@ -50,12 +51,13 @@ struct ProfitByLocationView: View {
                         .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
                         .cornerRadius(20)
                         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
-                        .padding(.top, 50)
+                        
                         
                         yearTotal
                         
                         if subManager.isSubscribed {
                             locationWinRatesChart
+                            
                         } else {
                             locationWinRatesChart
                                 .blur(radius: 8)
@@ -207,7 +209,7 @@ struct ProfitByLocationView: View {
             let bankrollTotalByYear = viewModel.bankrollByYear(year: yearFilter, sessionFilter: .all)
             
             HStack {
-                Image(systemName: "trophy.fill")
+                Image(systemName: "dollarsign")
                     .frame(width: 20)
                     .foregroundColor(Color(.systemGray))
                 

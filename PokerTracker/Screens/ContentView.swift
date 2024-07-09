@@ -26,7 +26,7 @@ struct ContentView: View {
         
         ScrollView(.vertical) {
             
-            VStack(spacing: 5) {
+            VStack(spacing: 20) {
                 
                 bankrollView
                 
@@ -175,9 +175,7 @@ struct ContentView: View {
             
         }, label: {
             MetricsCardView()
-                .padding(.bottom)
         })
-        .padding(.bottom, 12)
         .buttonStyle(PlainButtonStyle())
         .zIndex(1.0)
     }
@@ -193,9 +191,9 @@ struct ContentView: View {
         }, label: {
             
             RecentSessionCardView(pokerSession: viewModel.sessions.first!)
+            
         })
         .buttonStyle(CardViewButtonStyle())
-        .padding(.bottom, 30)
     }
     
     var sleepAnalyticsCard: some View {
@@ -215,7 +213,6 @@ struct ContentView: View {
             SleepCardView()
         })
         .buttonStyle(CardViewButtonStyle())
-        .padding(.bottom, 30)
         .sheet(isPresented: $showPaywall, content: {
             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
                 .dynamicTypeSize(.medium...DynamicTypeSize.large)
@@ -270,16 +267,14 @@ struct ContentView: View {
                             .profitColor(total: lastSession)
                         
                     }
-                    .padding(.top, -30)
+                    .offset(y: -32)
                 }
             }
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 30)
-        .padding(.bottom, 25)
+        .padding(.vertical, 25)
     }
     
-    // These functions here for now if we want it. Don't want to bombard them with sheets and popups.
     func checkForUpdate() {
         let currentVersion = Bundle.main.appVersion
         let lastSeenVersion = UserDefaults.standard.string(forKey: lastSeenVersionKey) ?? "0.0"
@@ -334,6 +329,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
-//            .preferredColorScheme(.dark)
+            .preferredColorScheme(.dark)
     }
 }

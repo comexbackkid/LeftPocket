@@ -28,15 +28,15 @@ struct DeleteLocationTip: Tip {
 struct MonthlyReportTip: Tip {
     
     var title: Text {
-        Text("Reading the Metrics")
+        Text("About These Metrics")
     }
     
     var message: Text? {
-        Text("The \(Image(systemName: "trophy.fill")) column is your net profit, \(Image(systemName: "gauge.high")) your hourly, & \(Image(systemName: "clock")) your total hours for the month.")
+        Text("The \(Image(systemName: "dollarsign")) column is your net profit, \(Image(systemName: "gauge.high")) hourly rate, and \(Image(systemName: "clock")) are the total hours.")
     }
     
     var image: Image? {
-        Image(systemName: "hand.point.down.fill")
+        Image(systemName: "chart.bar.xaxis")
     }
 }
 
@@ -53,7 +53,7 @@ struct AddSessionTip: Tip {
     }
     
     var message: Text? {
-        Text("Tap the \(Image(systemName: "plus")) button to log a completed session or start a live session.")
+        Text("Tap the \(Image(systemName: "plus")) button to log a completed Session or start a Live Session.")
     }
     
     var image: Image? {
@@ -84,7 +84,7 @@ struct FilterSessionsTip: Tip {
     }
     
     var message: Text? {
-        Text("Tap \(Image(systemName: "slider.horizontal.3")) above to filter sessions by location, game type, stakes, etc.")
+        Text("Tap \(Image(systemName: "slider.horizontal.3")) above to filter Sessions by location, game type, stakes, etc.")
     }
     
     var image: Image? {
@@ -109,7 +109,7 @@ struct SettingsTip: Tip {
     }
     
     var message: Text? {
-        Text("In Settings \(Image(systemName: "gearshape.fill")) you can enable push notifications, import & export data, and set custom session defaults.")
+        Text("In Settings \(Image(systemName: "gearshape.fill")) you can enable push notifications, import & export data, and set custom Session defaults.")
     }
     
     var image: Image? {
@@ -126,7 +126,7 @@ struct NewSessionDetailsTip: Tip {
     }
     
     var message: Text? {
-        Text("Record details from your session. Add locations right from this screen.")
+        Text("Record details from your Session. Add locations right from this screen.")
     }
     
     var image: Image? {

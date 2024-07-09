@@ -256,6 +256,35 @@ struct SessionDetailView: View {
             
             Divider()
             
+//            if pokerSession.isTournament != true {
+//                
+//                HStack {
+//                    Text("Buy In")
+//                        .bodyStyle()
+//                        .foregroundColor(.secondary)
+//                    
+//                    Spacer()
+//                    
+//                    Text("$500")
+//                        .bodyStyle()
+//                }
+//                
+//                Divider()
+//                
+//                HStack {
+//                    Text("Cash Out")
+//                        .bodyStyle()
+//                        .foregroundColor(.secondary)
+//                    
+//                    Spacer()
+//                    
+//                    Text("$1,121")
+//                        .bodyStyle()
+//                }
+//            }
+            
+            Divider()
+            
             HStack {
                 Text(pokerSession.isTournament == true ? "Buy-In" : "Expenses")
                     .bodyStyle()
@@ -306,21 +335,22 @@ struct SessionDetailView: View {
                     Text(pokerSession.highHandBonus ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                         .bodyStyle()
                 }
+                .padding(.bottom)
                 
-                Divider()
+//                Divider()
             }
             
-            HStack {
-                Text("Visits")
-                    .bodyStyle()
-                    .foregroundColor(.secondary)
-                
-                Spacer()
-                
-                Text("\(vm.sessions.filter({$0.location.name == pokerSession.location.name}).count)")
-                    .bodyStyle()
-            }
-            .padding(.bottom)
+//            HStack {
+//                Text("Visits")
+//                    .bodyStyle()
+//                    .foregroundColor(.secondary)
+//                
+//                Spacer()
+//                
+//                Text("\(vm.sessions.filter({$0.location.name == pokerSession.location.name}).count)")
+//                    .bodyStyle()
+//            }
+//            .padding(.bottom)
         }
     }
     

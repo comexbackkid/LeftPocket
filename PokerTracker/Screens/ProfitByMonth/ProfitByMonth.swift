@@ -19,7 +19,7 @@ struct ProfitByMonth: View {
         ScrollView {
             
             // Using a spacer of sorts here because padding won't work w/ TipKit conditionally
-            VStack { }.frame(height: 50)
+            VStack { }.frame(height: 40)
             
             if #available(iOS 17.0, *) {
                 
@@ -92,7 +92,7 @@ struct ProfitByMonth: View {
                 
                 Spacer()
                 
-                Image(systemName: "trophy.fill")
+                Image(systemName: "dollarsign")
                     .foregroundColor(Color(.systemGray))
                     .frame(width: 60, alignment: .trailing)
                     .fontWeight(.bold)
@@ -148,7 +148,7 @@ struct ProfitByMonth: View {
             let bankrollTotalByYear = vm.bankrollByYear(year: yearFilter, sessionFilter: .all)
             
             HStack {
-                Image(systemName: "trophy.fill")
+                Image(systemName: "dollarsign")
                     .frame(width: 20)
                     .foregroundColor(Color(.systemGray))
                 

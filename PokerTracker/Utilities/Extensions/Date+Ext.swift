@@ -51,15 +51,15 @@ extension Date {
     // Modifier to get month from a Date with option to abbreviate the month
     func getMonth(abbreviated: Bool = false) -> String {
         let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "MMMM"  // Start by getting the full month name
-                let fullMonthName = dateFormatter.string(from: self)
-                
-                if fullMonthName.count > 4 {
-                    dateFormatter.dateFormat = abbreviated ? "MMM" : "MMMM"  // Change to abbreviation if more than 4 letters
-                    return dateFormatter.string(from: self)
-                } else {
-                    return fullMonthName
-                }
+        dateFormatter.dateFormat = "MMMM"  // Start by getting the full month name
+        let fullMonthName = dateFormatter.string(from: self)
+        
+        if fullMonthName.count > 4 {
+            dateFormatter.dateFormat = abbreviated ? "MMM" : "MMMM"  // Change to abbreviation if more than 4 letters
+            return dateFormatter.string(from: self)
+        } else {
+            return fullMonthName
+        }
     }
     
     // Using this as a default starting point when user enters a new Session
@@ -71,10 +71,8 @@ extension Date {
     func modifyTime(minutes: Int) -> Date {
         return Calendar.current.date(byAdding: .minute, value: minutes, to: self)!
     }
-}
-
-// Used in charting with Swift Charts
-extension Date {
+    
+    // Used in charting with Swift Charts
     static func from(year: Int, month: Int, day: Int) -> Date {
         let components = DateComponents(year: year, month: month, day: day)
         return Calendar.current.date(from: components)!

@@ -52,8 +52,6 @@ struct CellView: View {
                                 .captionStyle()
                                 .foregroundColor(.secondary)
                         }
-                        
-                        
                     }
                     .lineLimit(1)
                 }
@@ -74,7 +72,7 @@ struct CellView: View {
 
 struct CellView_Previews: PreviewProvider {
     static var previews: some View {
-        CellView(pokerSession: MockData.sampleTournament, currency: .EUR, viewStyle: .constant(.standard))
+        CellView(pokerSession: MockData.sampleTournament, currency: .USD, viewStyle: .constant(.standard))
             .previewLayout(.sizeThatFits)
             .preferredColorScheme(.dark)
     }

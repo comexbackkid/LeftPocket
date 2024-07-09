@@ -53,7 +53,7 @@ struct DateFilter: View {
         VStack (alignment: .leading) {
             
             HStack {
-                Text("Use the pickers below to filter your sessions by a specific date range & then press Submit.")
+                Text("Use the pickers below to filter your Sessions by a specific date range & then press Submit.")
                     .bodyStyle()
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.leading)
@@ -85,7 +85,7 @@ struct DateFilter: View {
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30)
                 
-                DatePicker("End Date", selection: $endDate, displayedComponents: [.date])
+                DatePicker("End Date", selection: $endDate, in: startDate...Date.now, displayedComponents: [.date])
                     .padding(.leading, 4)
                     .font(.custom("Asap-Regular", size: 18))
                     .datePickerStyle(.compact)

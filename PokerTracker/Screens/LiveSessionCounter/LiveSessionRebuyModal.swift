@@ -83,7 +83,7 @@ struct LiveSessionRebuyModal: View {
         VStack (alignment: .leading) {
             
             HStack {
-                Text("First, enter your original buy-in for this session. Then, your rebuy amount. You can log multiple rebuys if you need to.")
+                Text("First, enter your original buy in for this Session. Then, your rebuy amount. You can top off multiple times if you need to.")
                     .bodyStyle()
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.leading)
@@ -102,7 +102,7 @@ struct LiveSessionRebuyModal: View {
                     .font(.callout)
                     .foregroundColor(timerViewModel.initialBuyInAmount.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                 
-                TextField("Buy-In", text: $timerViewModel.initialBuyInAmount)
+                TextField("Buy In", text: $timerViewModel.initialBuyInAmount)
                     .font(.custom("Asap-Regular", size: 17))
                     .keyboardType(.numberPad)
             }

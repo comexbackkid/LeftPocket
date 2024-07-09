@@ -30,7 +30,7 @@ struct AdvancedTournamentReport: View {
         
         ScrollView {
             
-            VStack { }.frame(height: 50)
+            VStack { }.frame(height: 40)
                 
                 VStack {
                     
@@ -97,17 +97,17 @@ struct AdvancedTournamentReport: View {
                 Image(systemName: "trophy.fill")
                     .foregroundStyle(Color(.systemGray))
                     .fontWeight(.bold)
-                    .frame(width: 62, alignment: .trailing)
+                    .frame(width: 60, alignment: .trailing)
                 
                 Image(systemName: "cart.fill")
                     .foregroundStyle(Color(.systemGray))
                     .fontWeight(.bold)
-                    .frame(width: 62, alignment: .trailing)
+                    .frame(width: 60, alignment: .trailing)
                 
                 Image(systemName: "dollarsign")
                     .foregroundStyle(Color(.systemGray))
                     .fontWeight(.bold)
-                    .frame(width: 62, alignment: .trailing)
+                    .frame(width: 60, alignment: .trailing)
             }
             .padding(.bottom, 10)
             
@@ -122,7 +122,6 @@ struct AdvancedTournamentReport: View {
                     let filteredMonths = vm.sessions.filter({ $0.date.getYear() == yearFilter && $0.isTournament == true })
                     let buyIns = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.expenses ?? 0 }.reduce(0,+)
                     let grossProfit = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.profit }.reduce(0,+) + buyIns
-//                    let hoursPlayed = filteredMonths.filter({ $0.date.getMonth() == month }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
                     let netProfit = grossProfit - buyIns
                     
                     Text(grossProfit.currencyShortHand(vm.userCurrency))
@@ -137,10 +136,6 @@ struct AdvancedTournamentReport: View {
                     Text(netProfit.currencyShortHand(vm.userCurrency))
                         .foregroundStyle(netProfit > 0 ? .green : netProfit < 0 ? .red : .secondary)
                         .frame(width: 62, alignment: .trailing)
-                    
-//                    Text(hoursPlayed.abbreviateHourTotal + "h")
-//                        .foregroundColor(hoursPlayed == 0 ? Color(.systemGray) : .primary)
-//                        .frame(width: 62, alignment: .trailing)
                     
                 }
                 .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))

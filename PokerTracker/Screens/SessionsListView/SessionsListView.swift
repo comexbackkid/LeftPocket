@@ -29,6 +29,9 @@ struct SessionsListView: View {
     @State var endDate: Date = .now
     @State var datesInitialized = false
     
+    @State private var selectedSession: PokerSession?
+    @State private var isEditViewPresented = false
+    
     var firstSessionDate: Date {
         vm.sessions.last?.date ?? Date().modifyDays(days: 15000)
     }
@@ -118,7 +121,6 @@ struct SessionsListView: View {
                         }
                         .listStyle(PlainListStyle())
                         .navigationBarTitleDisplayMode(.inline)
-                        
                         
                         if #available(iOS 17.0, *) {
                             
@@ -280,6 +282,13 @@ struct SessionsListView: View {
         stakesFilter = nil
         startDate = firstSessionDate
         endDate = Date.now
+    }
+    
+    private func binding(for session: PokerSession) -> Binding<PokerSession> {
+        guard let sessionIndex = vm.sessions.firstIndex(where: { $0.id == session.id }) else {
+            fatalError("Can't find session in array")
+        }
+        return $vm.sessions[sessionIndex]
     }
 }
 
