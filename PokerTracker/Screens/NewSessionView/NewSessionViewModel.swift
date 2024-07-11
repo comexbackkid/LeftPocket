@@ -136,7 +136,9 @@ final class NewSessionViewModel: ObservableObject {
                              expenses: sessionType == .cash ? Int(self.expenses) ?? 0 : Int(buyIn) ?? 0,
                              isTournament: sessionType == .tournament,
                              entrants: Int(self.entrants) ?? 0,
-                             highHandBonus: Int(self.highHandBonus) ?? 0)
+                             highHandBonus: Int(self.highHandBonus) ?? 0,
+                             buyIn: Int(self.buyIn) ?? 0,
+                             cashOut: Int(self.cashOut) ?? 0)
         
         Task {
             

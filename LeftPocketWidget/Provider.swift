@@ -14,7 +14,6 @@ struct Provider: TimelineProvider {
         SimpleEntry(date: Date(),
                     bankroll: 5200,
                     recentSessionAmount: 150,
-                    chartData: MockData.mockDataCoords,
                     swiftChartData: [0,350,220,457,900,719,333,1211,1400,1765,1500,1828,1721],
                     hourlyRate: 32,
                     totalSessions: 14,
@@ -25,7 +24,6 @@ struct Provider: TimelineProvider {
         let entry = SimpleEntry(date: Date(),
                                 bankroll: 5200,
                                 recentSessionAmount: 150,
-                                chartData: MockData.mockDataCoords,
                                 swiftChartData: [0,350,220,457,900,719,333,1211,1400,1765,1500,1828,1721],
                                 hourlyRate: 32,
                                 totalSessions: 14,
@@ -43,22 +41,9 @@ struct Provider: TimelineProvider {
         let totalSessions = UserDefaults(suiteName: AppGroup.bankrollSuite)?.integer(forKey: AppGroup.totalSessionsKey) ?? 0
         let currency = UserDefaults(suiteName: AppGroup.bankrollSuite)?.string(forKey: AppGroup.currencyKey) ?? "USD"
         
-        guard let chartData = UserDefaults(suiteName: AppGroup.bankrollSuite)?.data(forKey: AppGroup.chartKey) else {
-            print("Error loading Chart Data")
-            return
-        }
-        
         guard let swiftChartData = UserDefaults(suiteName: AppGroup.bankrollSuite)?.data(forKey: AppGroup.swiftChartKey) else {
             print("Error loading Chart Data")
             return
-        }
-        
-        var chartPoints: [Point] {
-            guard let decodedChartData = try? JSONDecoder().decode([Point].self, from: chartData) else {
-                print("Error computing Chart Points")
-                return MockData.emptyCoords
-            }
-            return decodedChartData
         }
         
         var swiftChartPoints: [Int] {
@@ -72,7 +57,6 @@ struct Provider: TimelineProvider {
         let entry = SimpleEntry(date: currentDate,
                                 bankroll: bankroll,
                                 recentSessionAmount: lastSessionAmount,
-                                chartData: chartPoints,
                                 swiftChartData: swiftChartPoints,
                                 hourlyRate: hourlyRate,
                                 totalSessions: totalSessions,

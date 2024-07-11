@@ -39,7 +39,7 @@ extension View {
 
 struct LeftPocketWidget_Previews: PreviewProvider {
     static var previews: some View {
-        WidgetViewSmall(entry: SimpleEntry(date: Date(), bankroll: 6000, recentSessionAmount: 150, chartData: MockData.mockDataCoords, swiftChartData: [0,350,220,457,900,869,700,1211,1400,1765,1500,1388], hourlyRate: 32, totalSessions: 14, currency: "EUR"))
+        WidgetViewSmall(entry: SimpleEntry(date: Date(), bankroll: 6000, recentSessionAmount: 150, swiftChartData: [0,350,220,457,900,869,700,1211,1400,1765,1500,1388], hourlyRate: 32, totalSessions: 14, currency: "EUR"))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

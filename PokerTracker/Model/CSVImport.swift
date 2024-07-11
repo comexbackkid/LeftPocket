@@ -66,7 +66,9 @@ class CSVImporter {
                                            expenses: sessionType == "Tournament" ? buyIn : expenses,
                                            isTournament: sessionType == "Tournament" ? true : false,
                                            entrants: entrants,
-                                           highHandBonus: nil)
+                                           highHandBonus: nil,
+                                           buyIn: nil,
+                                           cashOut: nil)
                 
                 importedSessions.append(session)
                 
@@ -122,7 +124,9 @@ class CSVImporter {
                                            expenses: expenses,
                                            isTournament: false,
                                            entrants: nil,
-                                           highHandBonus: nil)
+                                           highHandBonus: nil,
+                                           buyIn: nil,
+                                           cashOut: nil)
                 
                 importedSessions.append(session)
                 
@@ -194,7 +198,9 @@ class CSVImporter {
                                            expenses: isTournament == "true" ? buyIn : expenses,
                                            isTournament: isTournament == "true" ? true : false,
                                            entrants: entrants,
-                                           highHandBonus: Int(highHandBonus) ?? 0)
+                                           highHandBonus: Int(highHandBonus) ?? 0,
+                                           buyIn: nil,
+                                           cashOut: nil)
                 
                 importedSessions.append(session)
                 
@@ -259,7 +265,9 @@ class CSVImporter {
                                            expenses: sessionType == "Tournament" ? buyIn : expenses,
                                            isTournament: sessionType == "Tournament" ? true : false,
                                            entrants: entrants,
-                                           highHandBonus: nil)
+                                           highHandBonus: nil,
+                                           buyIn: nil,
+                                           cashOut: nil)
                 
                 importedSessions.append(session)
                 

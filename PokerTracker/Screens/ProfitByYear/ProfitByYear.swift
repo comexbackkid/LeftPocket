@@ -625,6 +625,47 @@ struct ProfitByYear: View {
 
 }
 
+extension SessionsListViewModel {
+    
+    func bestSession(year: String? = nil, sessionFilter: SessionFilter) -> Int? {
+        switch sessionFilter {
+        case .all:
+            guard !sessions.isEmpty else { return 0 }
+            if let yearFilter = year {
+                let filteredSessions = sessions.filter({ $0.date.getYear() == yearFilter })
+                return filteredSessions.map({ $0.profit }).max(by: { $0 < $1 })
+            }
+            
+            else {
+                let bestSession = sessions.map({ $0.profit }).max(by: { $0 < $1 })
+                return bestSession
+            }
+        case .cash:
+            guard !allCashSessions().isEmpty else { return 0 }
+            if let yearFilter = year {
+                let filteredSessions = allCashSessions().filter({ $0.date.getYear() == yearFilter })
+                return filteredSessions.map({ $0.profit }).max(by: { $0 < $1 })
+            }
+            
+            else {
+                let bestSession = allCashSessions().map({ $0.profit }).max(by: { $0 < $1 })
+                return bestSession
+            }
+        case .tournaments:
+            guard !allTournamentSessions().isEmpty else { return 0 }
+            if let yearFilter = year {
+                let filteredSessions = allTournamentSessions().filter({ $0.date.getYear() == yearFilter })
+                return filteredSessions.map({ $0.profit }).max(by: { $0 < $1 })
+            }
+            
+            else {
+                let bestSession = allTournamentSessions().map({ $0.profit }).max(by: { $0 < $1 })
+                return bestSession
+            }
+        }
+    }
+}
+
 struct ProfitByYear_Previews: PreviewProvider {
     static var previews: some View {
         ProfitByYear(vm: AnnualReportViewModel())

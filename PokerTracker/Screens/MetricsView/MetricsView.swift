@@ -120,10 +120,7 @@ struct MetricsView: View {
     var barChart: some View {
         
         BarChartByYear(showTitle: true, moreAxisMarks: true, cashOnly: false)
-            .padding()
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 380)
-            .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
-            .cornerRadius(20)
+            .cardStyle(colorScheme: colorScheme, height: 380)
         
     }
     
@@ -207,11 +204,8 @@ struct MetricsView: View {
                 
                 rangeSelector
             }
-            .padding()
         }
-        .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
-        .cornerRadius(20)
+        .cardStyle(colorScheme: colorScheme)
     }
     
     var rangeSelector: some View {
@@ -708,7 +702,7 @@ struct AdditionalMetricsView: View {
                             label: {
                                 AdditionalMetricsCardView(title: "Tournament Report",
                                                           description: "Advanced tournament stats & breakdown \nby month and year.",
-                                                          image: "suit.club",
+                                                          image: "person.2",
                                                           color: .donutChartBlack)
                             })
                         .buttonStyle(PlainButtonStyle())
@@ -824,6 +818,15 @@ struct AdditionalMetricsView: View {
                             })
                         .buttonStyle(PlainButtonStyle())
                         
+                        NavigationLink(
+                            destination: AdvancedTournamentReport(vm: viewModel),
+                            label: {
+                                AdditionalMetricsCardView(title: "Tournament Report",
+                                                          description: "Advanced tournament stats & breakdown \nby month and year.",
+                                                          image: "person.2",
+                                                          color: .donutChartBlack)
+                            })
+                        .buttonStyle(PlainButtonStyle())
                         
                         NavigationLink(
                             destination: ProfitByLocationView(viewModel: viewModel),

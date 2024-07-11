@@ -26,7 +26,6 @@ struct WidgetViewSmall : View {
         .widgetBackground(Color.clear)
     }
         
-    
     var backgroundGradient: some View {
         Color("WidgetBackground")
             .overlay(LinearGradient(colors: [Color("WidgetBackround"), .black.opacity(colorScheme == .dark ? 0.8 : 0.1)],
@@ -117,7 +116,6 @@ struct WidgetView_Previews: PreviewProvider {
         WidgetViewSmall(entry: SimpleEntry(date: Date(),
                                            bankroll: 267351,
                                            recentSessionAmount: 150,
-                                           chartData: MockData.mockDataCoords,
                                            swiftChartData: [0, 5, 20],
                                            hourlyRate: 32,
                                            totalSessions: 14,

@@ -54,6 +54,13 @@ struct RedeemOfferCode: View {
         }
         .background(Color.brandBackground)
         .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: subManager.isSubscribed) { isSubscribed in
+            if isSubscribed {
+                message = "Offer code redeemed successfully! Enjoy Left Pocket Pro."
+            } else {
+                message = "Please enter a valid offer code."
+            }
+        }
 
     }
 

@@ -111,18 +111,6 @@ struct WidgetViewMedium: View {
         .padding(.bottom, 12)
     }
     
-    var chart: some View {
-        
-        HStack {
-            Spacer()
-            
-            WidgetChart(data: entry.chartData)
-                .frame(maxWidth: 165, maxHeight: 75)
-                .padding(.vertical, 15)
-                .padding(.trailing,15)
-        }
-    }
-    
     var swiftChart: some View {
         
         HStack {
@@ -177,7 +165,6 @@ struct WidgetViewMedium_Previews: PreviewProvider {
         WidgetViewMedium(entry: SimpleEntry(date: Date(),
                                             bankroll: 63351,
                                             recentSessionAmount: 150,
-                                            chartData: MockData.mockDataCoords,
                                             swiftChartData: [0,350,220,457,900,719,333,1211,1400,1765,1500,1828,1721],
                                             hourlyRate: 32,
                                             totalSessions: 14,

@@ -48,8 +48,7 @@ struct SessionDetailView: View {
             .background(.regularMaterial)
             .background(!pokerSession.location.localImage.isEmpty 
                         ? Image(pokerSession.location.localImage).resizable().aspectRatio(contentMode: .fill)
-                        : backgroundImage().resizable().aspectRatio(contentMode: .fill))
-            .ignoresSafeArea()
+                        : backgroundImage().resizable().aspectRatio(contentMode: .fill)).ignoresSafeArea()
             
             VStack {
                 
@@ -64,7 +63,7 @@ struct SessionDetailView: View {
         }
         .accentColor(.brandPrimary)
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
-        .toolbar(content: {
+        .toolbar {
             Button {
                 isPressed = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
@@ -89,7 +88,7 @@ struct SessionDetailView: View {
                     }
             }
             .tint(.brandPrimary)
-        })
+        }
         .alert(isPresented: $showError) {
             Alert(title: Text("Uh oh!"),
                   message: Text("Image could not be saved. Please try again later."),
@@ -224,19 +223,6 @@ struct SessionDetailView: View {
             
             Divider()
             
-            HStack {
-                Text("Game")
-                    .bodyStyle()
-                    .foregroundColor(.secondary)
-                
-                Spacer()
-                
-                Text(pokerSession.game)
-                    .bodyStyle()
-            }
-            
-            Divider()
-            
             HStack (spacing: 0) {
                 
                 Text("Start / End")
@@ -256,45 +242,17 @@ struct SessionDetailView: View {
             
             Divider()
             
-//            if pokerSession.isTournament != true {
-//                
-//                HStack {
-//                    Text("Buy In")
-//                        .bodyStyle()
-//                        .foregroundColor(.secondary)
-//                    
-//                    Spacer()
-//                    
-//                    Text("$500")
-//                        .bodyStyle()
-//                }
-//                
-//                Divider()
-//                
-//                HStack {
-//                    Text("Cash Out")
-//                        .bodyStyle()
-//                        .foregroundColor(.secondary)
-//                    
-//                    Spacer()
-//                    
-//                    Text("$1,121")
-//                        .bodyStyle()
-//                }
-//            }
-            
-            Divider()
-            
             HStack {
-                Text(pokerSession.isTournament == true ? "Buy-In" : "Expenses")
+                Text("Game")
                     .bodyStyle()
                     .foregroundColor(.secondary)
                 
                 Spacer()
                 
-                Text(pokerSession.expenses ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                Text(pokerSession.game)
                     .bodyStyle()
             }
+            
             Divider()
             
             if pokerSession.isTournament != true {
@@ -309,6 +267,51 @@ struct SessionDetailView: View {
                     Text(pokerSession.stakes)
                         .bodyStyle()
                 }
+                
+                if let buyIn = pokerSession.buyIn, let cashOut = pokerSession.cashOut {
+                    Divider()
+                    
+                    HStack {
+                        Text("Buy In")
+                            .bodyStyle()
+                            .foregroundColor(.secondary)
+                        
+                        Spacer()
+                        
+                        Text(pokerSession.buyIn ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                            .bodyStyle()
+                    }
+                    
+                    Divider()
+                    
+                    HStack {
+                        Text("Cash Out")
+                            .bodyStyle()
+                            .foregroundColor(.secondary)
+                        
+                        Spacer()
+                        
+                        Text(pokerSession.cashOut ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                            .bodyStyle()
+                    }
+                }
+                
+                Divider()
+            }
+            
+            HStack {
+                
+                Text(pokerSession.isTournament == true ? "Buy-In" : "Expenses")
+                    .bodyStyle()
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Text(pokerSession.expenses ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .bodyStyle()
+            }
+            
+            if pokerSession.isTournament != true {
                 
                 Divider()
                 
@@ -335,23 +338,9 @@ struct SessionDetailView: View {
                     Text(pokerSession.highHandBonus ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                         .bodyStyle()
                 }
-                .padding(.bottom)
-                
-//                Divider()
             }
-            
-//            HStack {
-//                Text("Visits")
-//                    .bodyStyle()
-//                    .foregroundColor(.secondary)
-//                
-//                Spacer()
-//                
-//                Text("\(vm.sessions.filter({$0.location.name == pokerSession.location.name}).count)")
-//                    .bodyStyle()
-//            }
-//            .padding(.bottom)
         }
+        .padding(.bottom)
     }
     
     var shareSummary: some View {

@@ -22,6 +22,8 @@ struct PokerSession: Hashable, Codable, Identifiable {
     let isTournament: Bool?
     let entrants: Int?
     let highHandBonus: Int?
+    let buyIn: Int?
+    let cashOut: Int?
     
     // Individual session playing time formatted for Session Detail View
     var playingTIme: String {
@@ -64,14 +66,17 @@ struct MockData {
                                             game: "NL Texas Hold Em",
                                             stakes: "1/3",
                                             date: Date().modifyDays(days: -7),
-                                            profit: 463,
+                                            profit: 421,
                                             notes: "Hero is UTG so we raise to $15. MP player 3! to $45, everyone else folds. I flat, in this game there’s no 4! so it’s a dead giveaway in this game. ($93) Flop is 8d6c3d. Hero checks to Villain who bets $35. Hero raises to $100, Villain thinks for a few moments and then calls. ($293) Turn is a Js. We have $240 in our stack & Villain covers, we think for about 10 seconds and jam. He tanks for a long time, asks if I’ll show, ultimately he lays it down. We find out he had TT. Did we play too aggressive?? MP limps, LJ limps, Hero on BTN makes it $15, they both call. ($48) Flop is KdKhTs. MP checks, LJ bets $10, I call, MP calls. ($78) Turn is Ac. MP checks, LJ checks, I bet $55 thinking they’re both super weak here. MP thinks for a moment and calls, LJ folds. ($188) River comes Qd. MP checks. Hero? We tank and ultimately check. MP is pissed and tables AK for a boat.",
                                             startTime: Date(),
                                             endTime: Date().modifyTime(minutes: 395),
-                                            expenses: 10,
+                                            expenses: 0,
                                             isTournament: false,
                                             entrants: 80,
-                                            highHandBonus: nil)
+                                            highHandBonus: nil,
+                                            buyIn: 700,
+                                            cashOut: 1121)
+    
     static let sampleTournament = PokerSession(location: mockLocation,
                                                game: "NL Texas Hold Em",
                                                stakes: "",
@@ -82,7 +87,9 @@ struct MockData {
                                                expenses: 200,
                                                isTournament: true,
                                                entrants: 82,
-                                               highHandBonus: nil)
+                                               highHandBonus: nil, 
+                                               buyIn: nil,
+                                               cashOut: nil)
     
     static let allLocations = [
         LocationModel(name: "MGM Springfield", localImage: "mgmspringfield-header", imageURL: ""),
@@ -107,7 +114,9 @@ struct MockData {
                      expenses: 0,
                      isTournament: false,
                      entrants: nil,
-                     highHandBonus: nil),
+                     highHandBonus: nil, 
+                     buyIn: nil,
+                     cashOut: nil),
 
         PokerSession(location: allLocations[0],
                      game: "NL Texas Hold Em",
@@ -120,7 +129,9 @@ struct MockData {
                      expenses: 10,
                      isTournament: false,
                      entrants: nil,
-                     highHandBonus: nil),
+                     highHandBonus: nil,
+                     buyIn: nil,
+                     cashOut: nil),
         
         PokerSession(location: allLocations[4],
                      game: "NL Texas Hold Em",
@@ -133,7 +144,9 @@ struct MockData {
                      expenses: 7,
                      isTournament: true,
                      entrants: 200,
-                     highHandBonus: nil),
+                     highHandBonus: nil,
+                     buyIn: nil,
+                     cashOut: nil),
         
         PokerSession(location: allLocations[3],
                      game: "NL Texas Hold Em",
@@ -146,32 +159,8 @@ struct MockData {
                      expenses: 7,
                      isTournament: false,
                      entrants: nil,
-                     highHandBonus: nil)
-    ]
-    
-    // Used to generate our custom line chart that's used in the Home Screen Widget
-    func chartArray() -> [Double] {
-        let profitsArray = MockData.allSessions.map { Double($0.profit) }
-        var cumBankroll = [Double]()
-        var runningTotal = 0.0
-        cumBankroll.append(0.0)
-        
-        for value in profitsArray.reversed() {
-            runningTotal += value
-            cumBankroll.append(runningTotal)
-        }
-        return cumBankroll
-    }
-    
-    // Used for testing & visual testing with our custom chart for Widget
-    static let mockDataCoordinates: [Point] = [
-        .init(x: 0, y: 5),
-        .init(x: 1, y: -2),
-        .init(x: 2, y: 10),
-        .init(x: 3, y: 6),
-        .init(x: 4, y: 9),
-        .init(x: 5, y: 12),
-        .init(x: 6, y: 14),
-        .init(x: 7, y: 11)
+                     highHandBonus: nil, 
+                     buyIn: nil,
+                     cashOut: nil)
     ]
 }

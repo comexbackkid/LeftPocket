@@ -20,12 +20,16 @@ struct SocialShareView: View {
             
             header
             
+            Spacer()
+            
             sessionDetails
+            
+            Spacer()
             
             logo
 
         }
-        .frame(width: 500, height: 300)
+        .frame(width: 600, height: 400)
         .padding(.vertical, 15)
         .background(.regularMaterial)
         .background(background.resizable().aspectRatio(contentMode: .fill))
@@ -40,24 +44,34 @@ struct SocialShareView: View {
             Text(pokerSession.date.formatted(date: .abbreviated, time: .omitted))
                 .calloutStyle()
                 .foregroundStyle(.secondary)
+            
             Text(pokerSession.location.name)
                 .cardTitleStyle()
         }
+        .padding(.top)
     }
     
     var sessionDetails: some View {
         
         VStack {
-            Text("Profit")
+            Text("Net Profit")
                 .bodyStyle()
             
             Text("\(pokerSession.profit.asCurrency())")
-                .font(.custom("Asap-Black", size: 60))
+                .font(.custom("Asap-Black", size: 85))
                 .profitColor(total: pokerSession.profit)
+            
+            if let buyIn = pokerSession.buyIn, let cashOut = pokerSession.cashOut {
+                Text("In the game for \(buyIn.asCurrency()), out for \(cashOut.asCurrency())")
+                    .calloutStyle()
+                    .foregroundStyle(.secondary)
                 
-            Text("Played for a total of \(pokerSession.playingTIme)")
-                .calloutStyle()
-                .foregroundStyle(.secondary)
+            } else {
+                Text("Played for a total of \(pokerSession.playingTIme)")
+                    .calloutStyle()
+                    .foregroundStyle(.secondary)
+                
+            }
         }
         .padding(23)
         .frame(width: UIScreen.main.bounds.width * 0.8)
@@ -86,6 +100,7 @@ struct SocialShareView: View {
             Text("Left Pocket")
                 .calloutStyle()
         }
+        .padding(.bottom)
     }
 }
 

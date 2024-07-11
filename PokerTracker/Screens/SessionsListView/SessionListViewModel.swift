@@ -204,45 +204,6 @@ class SessionsListViewModel: ObservableObject {
     
     // MARK: CALCULATIONS & DATA PRESENTATION FOR CHARTS & METRICS VIEW
     
-    // Creates an array of our running, cumulative bankroll for use with charts
-    // Likely deleting this since we're totally running on Swift Charts now
-    func chartArray() -> [Double] {
-        let profitsArray = sessions.map { Double($0.profit) }
-        var cumBankroll = [Double]()
-        var runningTotal = 0.0
-        cumBankroll.append(0.0)
-        
-        for value in profitsArray.reversed() {
-            runningTotal += value
-            cumBankroll.append(runningTotal)
-        }
-        return cumBankroll
-    }
-    
-    // Converts our profit data into coordinates tuples for charting
-    // Right now this was only used in the Widget, which we're trashing soon because I was able to get Swift Charts going there
-    func chartCoordinates() -> [Point] {
-        
-        var fewSessions = [Double]()
-        var manySessions = [Double]()
-        
-        for (index, item) in chartArray().enumerated() {
-            
-            if index.isMultiple(of: 2) {
-                fewSessions.append(item)
-            }
-        }
-        
-        for (index, item) in chartArray().enumerated() {
-            
-            if index.isMultiple(of: 5) {
-                manySessions.append(item)
-            }
-        }
-        
-        return chartArray().enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
-    }
-    
     // Simply counts how many sessions played each year
     func sessionsPerYear(year: String) -> Int {
         guard !sessions.isEmpty else { return 0 }
@@ -310,44 +271,6 @@ class SessionsListViewModel: ObservableObject {
         let profitableSessions = sessions.filter({ $0.date.getYear() == year }).filter { $0.profit > 0 }
         return profitableSessions.count
     }
-
-    func bestSession(year: String? = nil, sessionFilter: SessionFilter) -> Int? {
-        switch sessionFilter {
-        case .all:
-            guard !sessions.isEmpty else { return 0 }
-            if let yearFilter = year {
-                let filteredSessions = sessions.filter({ $0.date.getYear() == yearFilter })
-                return filteredSessions.map({ $0.profit }).max(by: { $0 < $1 })
-            }
-            
-            else {
-                let bestSession = sessions.map({ $0.profit }).max(by: { $0 < $1 })
-                return bestSession
-            }
-        case .cash:
-            guard !allCashSessions().isEmpty else { return 0 }
-            if let yearFilter = year {
-                let filteredSessions = allCashSessions().filter({ $0.date.getYear() == yearFilter })
-                return filteredSessions.map({ $0.profit }).max(by: { $0 < $1 })
-            }
-            
-            else {
-                let bestSession = allCashSessions().map({ $0.profit }).max(by: { $0 < $1 })
-                return bestSession
-            }
-        case .tournaments:
-            guard !allTournamentSessions().isEmpty else { return 0 }
-            if let yearFilter = year {
-                let filteredSessions = allTournamentSessions().filter({ $0.date.getYear() == yearFilter })
-                return filteredSessions.map({ $0.profit }).max(by: { $0 < $1 })
-            }
-            
-            else {
-                let bestSession = allTournamentSessions().map({ $0.profit }).max(by: { $0 < $1 })
-                return bestSession
-            }
-        }
-    }
     
     func tournamentROIbyYear(year: String) -> String {
         guard !allTournamentSessions().isEmpty else { return "0%" }
@@ -376,24 +299,6 @@ class SessionsListViewModel: ObservableObject {
     
     // MARK: CHARTING FUNCTIONS
     
-    func yearlyChartArray(year: String) -> [Double] {
-        let profitsArray = sessions.filter({ $0.date.getYear() == year }).map { Double($0.profit) }
-        var cumBankroll = [Double]()
-        var runningTotal = 0.0
-        cumBankroll.append(0.0)
-
-        for value in profitsArray.reversed() {
-            runningTotal += value
-            cumBankroll.append(runningTotal)
-        }
-        return cumBankroll
-    }
-
-    func yearlyChartCoordinates(year: String) -> [Point] {
-        return yearlyChartArray(year: year).enumerated().map({Point(x:CGFloat($0.offset), y: $0.element)})
-    }
-    
-    // Widget chart functions for Swift Charts
     func convertToLineChartData() {
         var convertedData: [Int] {
             
@@ -480,7 +385,9 @@ class SessionsListViewModel: ObservableObject {
                     expenses: Int,
                     isTournament: Bool,
                     entrants: Int,
-                    highHandBonus: Int) {
+                    highHandBonus: Int,
+                    buyIn: Int,
+                    cashOut: Int) {
         
         let newSession = PokerSession(location: location,
                                       game: game,
@@ -492,7 +399,9 @@ class SessionsListViewModel: ObservableObject {
                                       expenses: expenses,
                                       isTournament: isTournament,
                                       entrants: entrants,
-                                      highHandBonus: highHandBonus)
+                                      highHandBonus: highHandBonus,
+                                      buyIn: buyIn,
+                                      cashOut: cashOut)
         sessions.append(newSession)
         sessions.sort(by: {$0.date > $1.date})
     }
@@ -511,12 +420,6 @@ class SessionsListViewModel: ObservableObject {
         defaults.set(self.hourlyRate(bankroll: .all), forKey: AppGroup.hourlyKey)
         defaults.set(self.sessions.count, forKey: AppGroup.totalSessionsKey)
         defaults.set(self.userCurrency.rawValue, forKey: AppGroup.currencyKey)
-
-        guard let chartData = try? JSONEncoder().encode(self.chartCoordinates()) else {
-            print("Error writing chart data")
-            return
-        }
-        defaults.set(chartData, forKey: AppGroup.chartKey)
         
         self.convertToLineChartData()
         

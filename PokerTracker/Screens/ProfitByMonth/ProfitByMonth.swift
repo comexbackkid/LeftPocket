@@ -18,7 +18,6 @@ struct ProfitByMonth: View {
         
         ScrollView {
             
-            // Using a spacer of sorts here because padding won't work w/ TipKit conditionally
             VStack { }.frame(height: 40)
             
             if #available(iOS 17.0, *) {
@@ -30,19 +29,8 @@ struct ProfitByMonth: View {
                     .padding(.bottom)
             }
             
-            VStack {
+            monthlyTotals
                 
-                monthlyTotals
-                
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarTitle(Text("Monthly Snapshot"))
-            .padding(20)
-            .frame(width: UIScreen.main.bounds.width * 0.9)
-            .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
-            .cornerRadius(20)
-            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
-            
             yearTotal
             
             barChart
@@ -56,6 +44,8 @@ struct ProfitByMonth: View {
         }
         .background(Color.brandBackground)
         .dynamicTypeSize(.xSmall...DynamicTypeSize.large)
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitle(Text("Monthly Snapshot"))
     }
     
     var headerInfo: some View {
@@ -138,7 +128,11 @@ struct ProfitByMonth: View {
                 .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
             }
         }
-        
+        .padding(20)
+        .frame(width: UIScreen.main.bounds.width * 0.9)
+        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+        .cornerRadius(20)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     
     var yearTotal: some View {

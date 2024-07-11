@@ -32,18 +32,7 @@ struct AdvancedTournamentReport: View {
             
             VStack { }.frame(height: 40)
                 
-                VStack {
-                    
-                    monthlyTotals
-
-                }
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarTitle(Text("Tournament Report"))
-                .padding(20)
-                .frame(width: UIScreen.main.bounds.width * 0.9)
-                .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
-                .cornerRadius(20)
-                .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+            monthlyTotals
             
             yearTotals
         
@@ -58,6 +47,8 @@ struct AdvancedTournamentReport: View {
         }
         .background(Color.brandBackground)
         .dynamicTypeSize(.xSmall...DynamicTypeSize.large)
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitle(Text("Tournament Report"))
     }
     
     var headerInfo: some View {
@@ -141,6 +132,11 @@ struct AdvancedTournamentReport: View {
                 .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
             }
         }
+        .padding(20)
+        .frame(width: UIScreen.main.bounds.width * 0.9)
+        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+        .cornerRadius(20)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     
     var yearTotals: some View {
