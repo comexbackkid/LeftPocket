@@ -93,7 +93,7 @@ struct BankrollLineChart: View {
                         .opacity(showChart ? 1.0 : 0.0)
                     
                     AreaMark(x: .value("Time", index), y: .value("Profit", total))
-                        .foregroundStyle(LinearGradient(colors: [sessionFilter != .tournaments ? Color("lightBlue") : .donutChartGreen, .clear], startPoint: .top, endPoint: .bottom))
+                        .foregroundStyle(LinearGradient(colors: [sessionFilter != .tournaments ? Color("lightBlue") : .donutChartOrange, .clear], startPoint: .top, endPoint: .bottom))
                         .opacity(showChart ? 0.18 : 0.0)
                     
                     if let selectedIndex {
@@ -102,8 +102,8 @@ struct BankrollLineChart: View {
                             .foregroundStyle(Color.brandWhite)
                     }
                 }
-                .foregroundStyle(LinearGradient(colors: [sessionFilter != .tournaments ? .chartAccent : .donutChartGreen,
-                                                         sessionFilter != .tournaments ? .chartBase : .donutChartDarkBlue],
+                .foregroundStyle(LinearGradient(colors: [sessionFilter != .tournaments ? .chartAccent : .donutChartOrange,
+                                                         sessionFilter != .tournaments ? .chartBase : .orange],
                                                 startPoint: .topTrailing, endPoint: .bottomLeading))
                 .interpolationMethod(.catmullRom)
                 .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))

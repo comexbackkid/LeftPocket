@@ -11,14 +11,15 @@ import SwiftUI
 extension Image {
     
     // Session List View styling the club logo
-    func imageRowStyle() -> some View {
+    func imageRowStyle(isTournament: Bool) -> some View {
         self
             .resizable()
+            .scaledToFit()
             .frame(width: 18, height: 18)
             .foregroundColor(.white)
             .background(
                 Circle()
-                    .foregroundColor(.brandPrimary)
+                    .foregroundColor(isTournament ? .donutChartOrange : .brandPrimary)
                     .frame(width: 36, height: 36, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             )
             .padding(.trailing, 15)

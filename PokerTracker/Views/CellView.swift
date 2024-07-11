@@ -18,8 +18,8 @@ struct CellView: View {
         HStack (spacing: 4) {
             
             if viewStyle == .standard {
-                Image(systemName: "suit.club.fill")
-                    .imageRowStyle()
+                Image(systemName: pokerSession.isTournament == true ? "person.2.fill" : "suit.club.fill")
+                    .imageRowStyle(isTournament: pokerSession.isTournament ?? false)
             }
             
             VStack (alignment: .leading, spacing: 2) {

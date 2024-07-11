@@ -78,7 +78,7 @@ struct SessionDetailView: View {
                 imageSaver.writeToPhotoAlbum(image: image)
                 
             } label: {
-                Image(systemName: "square.and.arrow.down")
+                Image(systemName: "arrow.down.to.line")
                     .opacity(isPressed ? 0 : 1)
                     .overlay {
                         if isPressed {

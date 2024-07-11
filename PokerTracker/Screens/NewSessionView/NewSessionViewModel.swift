@@ -112,13 +112,13 @@ final class NewSessionViewModel: ObservableObject {
         location = decodedLocation
         
         guard
-            let encodedStakes = defaults.string(forKey: "stakesDefault"),
-            let encodedGame = defaults.string(forKey: "gameDefault")
+            let decodedStakes = defaults.string(forKey: "stakesDefault"),
+            let decodedGame = defaults.string(forKey: "gameDefault")
                 
         else { return }
         
-        stakes = encodedStakes
-        game = encodedGame
+        stakes = decodedStakes
+        game = decodedGame
     }
     
     func savedButtonPressed(viewModel: SessionsListViewModel) {

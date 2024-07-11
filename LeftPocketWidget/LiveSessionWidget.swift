@@ -104,6 +104,7 @@ struct LiveSessionTimerView: View {
                     Text("Left Pocket")
                         .font(.custom("Asap-Bold", size: 20, relativeTo: .subheadline))
                     
+                    
                     Text("Live Session Started " + "\(state.startTime.formatted(date: .omitted, time: .shortened))")
                         .opacity(0.5)
                         .font(.custom("Asap-Regular", size: 13, relativeTo: .caption))

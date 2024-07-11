@@ -70,7 +70,7 @@ struct MetricsView: View {
                                 barChart
                                 
                                 ToolTipView(image: "stopwatch",
-                                            message: "You tend to play better when your session lasts \(viewModel.bestSessionLength()).",
+                                            message: "You tend to play better when your Session lasts \(viewModel.bestSessionLength()).",
                                             color: .donutChartDarkBlue)
 
                                 if #available(iOS 17.0, *) {

@@ -13,6 +13,7 @@ struct RedeemOfferCode: View {
     
     @EnvironmentObject var subManager: SubscriptionManager
     @State private var message: String = ""
+    @State private var showAlertModal = false
 
     var body: some View {
         
@@ -57,10 +58,18 @@ struct RedeemOfferCode: View {
         .onChange(of: subManager.isSubscribed) { isSubscribed in
             if isSubscribed {
                 message = "Offer code redeemed successfully! Enjoy Left Pocket Pro."
+                showAlertModal = true
             } else {
                 message = "Please enter a valid offer code."
+                print("There was an error with your offer code.")
             }
         }
+        .sheet(isPresented: $showAlertModal, content: {
+            AlertModal(message: message)
+                .presentationDetents([.height(220)])
+                .presentationBackground(.ultraThinMaterial)
+            
+        })
 
     }
 

@@ -314,7 +314,7 @@ struct LoggingSessionsDocumentation: View {
                     Spacer()
                 }
                 
-                Text("Left Pocket allows you to log a completed poker session, or begin a new live session from any screen in the app.\n\nTo begin:")
+                Text("Left Pocket allows you to log a completed poker Session, or begin a new Live Session from any screen in the app.\n\nTo begin:")
                     .bodyStyle()
                     .padding(.bottom, 20)
                 
@@ -331,8 +331,6 @@ struct LoggingSessionsDocumentation: View {
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
-                    
-                    
                     
                     HStack {
                         Image(systemName: "2.circle.fill")
@@ -353,7 +351,7 @@ struct LoggingSessionsDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("When finished, press the \(Image(systemName: "stop.fill")) button, enter the details from your session, & paste / type any notes into the Notes field if you took any")
+                        Text("When finished, press the \(Image(systemName: "stop.fill")) button, enter the details from your Session, & jot down any notes into the Notes field")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -397,7 +395,7 @@ struct BrowseAndFilterDocumentation: View {
                     Spacer()
                 }
                 
-                Text("After navigating to the Sessions List view, you will see all of your logged poker sessions, with the most recent at the top. \n\nTo start filtering:")
+                Text("After navigating to the Sessions List view, you will see all of your logged poker Sessions, with the most recent at the top. \n\nTo start filtering:")
                     .bodyStyle()
                     .padding(.bottom, 20)
                 
@@ -421,7 +419,7 @@ struct BrowseAndFilterDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("In the top right, you'll see two menu buttons for filtering ( \(Image(systemName: "mappin.and.ellipse")) \(Image(systemName: "slider.horizontal.3")) )")
+                        Text("In the top right, tap the \(Image(systemName: "slider.horizontal.3")) button")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -433,7 +431,7 @@ struct BrowseAndFilterDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("You can filter your sessions by cash games, tournaments, as well as locations, with even more options on the way")
+                        Text("You can filter your Sessions by cash games or tournaments, location, stakes, game type, and by date range")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -445,7 +443,7 @@ struct BrowseAndFilterDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Tap a session to view its details")
+                        Text("Tap a Session to view its details")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -457,7 +455,7 @@ struct BrowseAndFilterDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("To delete a session, swipe left on it from the Sessions List view")
+                        Text("To delete a Session, swipe left on it from the Sessions List view")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -489,7 +487,7 @@ struct MetricsDocumentation: View {
                     Spacer()
                 }
                 
-                Text("Left Pocket offers a variety of advanced metrics & analytics to help with your study and progress as a player. More metrics and data points are added regularly, most recently Big Blind / Hr. If you have any suggestions feel free to reach out to us.\n\nTo begin:")
+                Text("Left Pocket offers a variety of advanced metrics & analytics to help with your study and progress as a player. More metrics and data points are added regularly, most recently, Sleep Analytics. If you have any suggestions, feel free to reach out to us.\n\nTo begin:")
                     .bodyStyle()
                     .padding(.bottom, 20)
                 
@@ -501,7 +499,7 @@ struct MetricsDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Tap the Metrics icon ( \(Image(systemName: "chart.bar.fill")) ) in the navigation bar")
+                        Text("Tap the \(Image(systemName: "chart.bar.fill")) icon in the navigation bar")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -513,7 +511,7 @@ struct MetricsDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Scroll down to view your bankroll chart, player stats, monthly progress, and at the bottom, the Reports & Analytics section")
+                        Text("Scroll down to view your bankroll chart, player stats, monthly progress, and at the bottom, your reports")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -596,7 +594,7 @@ struct ReportsDocumentation: View {
                     Spacer()
                 }
                 
-                Text("There are numerous filtering and reporting options available which are free for all users. They can all be found at the bottom of the Metrics view, under the section titled, Reports & Analytics.\n\nTo gather reports:")
+                Text("There are numerous filtering and reporting options available which are free for all users. They can all be found at the bottom of the Metrics view, under the section titled, My Reports.\n\nTo gather reports:")
                     .bodyStyle()
                     .padding(.bottom, 20)
                 
@@ -645,18 +643,6 @@ struct ReportsDocumentation: View {
                             .foregroundColor(Color.brandPrimary)
                         
                         Text("Open the Annual Report, and at the bottom click the Export as CSV button. You will be able to save a CSV of your sessions from the previous year.")
-                            .bodyStyle()
-                            .padding(.leading, 6)
-                    }
-                    
-                    HStack {
-                        Image(systemName: "5.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 25, height: 25, alignment: .top)
-                            .foregroundColor(Color.brandPrimary)
-                        
-                        Text("All reports can be toggled to display hourly rate or total amount.")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -736,7 +722,7 @@ struct ImportDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Imported sessions and their relevant data will be loaded into Left Pocket")
+                        Text("Imported Sessions and their relevant data will be loaded into Left Pocket")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -780,7 +766,7 @@ struct WidgetsDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("From your iOS Home Screen, tap + hold anywhere on your wallpaper and tap the Plus button in the upper left")
+                        Text("From your iOS Home Screen, tap & hold anywhere on your wallpaper then press the Plus button in the upper left")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -848,7 +834,7 @@ struct LocationsDocumentation: View {
                     Spacer()
                 }
                 
-                Text("Six locations come pre-loaded onto Left Pocket by default, however you can easily add your own custom locations. Locations can be added from two different places.\n\nTo add a location:")
+                Text("A few locations come pre-loaded onto Left Pocket by default, however, you can easily add your own custom locations. Locations can be added from two different places.\n\nTo add a location:")
                     .bodyStyle()
                     .padding(.bottom, 20)
                 
@@ -929,6 +915,6 @@ struct LocationsDocumentation: View {
 }
 
 #Preview {
-    LoggingSessionsDocumentation()
+    MetricsDocumentation()
         .preferredColorScheme(.dark)
 }

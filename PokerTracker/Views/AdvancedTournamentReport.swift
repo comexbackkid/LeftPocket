@@ -250,17 +250,18 @@ struct AdvancedTournamentReport: View {
             
             Chart {
                 ForEach(Array(convertedData.enumerated()), id: \.offset) { index, total in
+                    
                     LineMark(x: .value("Time", index), y: .value("Profit", total))
-                        .foregroundStyle(LinearGradient(colors: [.donutChartGreen, .donutChartDarkBlue], startPoint: .topTrailing, endPoint: .bottomLeading))
+                        .foregroundStyle(LinearGradient(colors: [.donutChartOrange, .orange], startPoint: .topTrailing, endPoint: .bottomLeading))
                         .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
                     
                     if convertedData.count > 1 {
                         PointMark(x: .value("Point", index), y: .value("Profit", total))
-                            .foregroundStyle(Color.donutChartGreen)
+                            .foregroundStyle(Color.donutChartOrange)
                     }
                     
                     AreaMark(x: .value("Time", index), y: .value("Profit", total))
-                        .foregroundStyle(LinearGradient(colors: [.donutChartGreen, .clear], startPoint: .top, endPoint: .bottom))
+                        .foregroundStyle(LinearGradient(colors: [.donutChartOrange, .clear], startPoint: .top, endPoint: .bottom))
                         .opacity(0.18)
                         
                 }

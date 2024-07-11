@@ -46,7 +46,7 @@ struct SocialShareView: View {
                 .foregroundStyle(.secondary)
             
             Text(pokerSession.location.name)
-                .cardTitleStyle()
+                .font(.custom("Asap-Bold", size: 30, relativeTo: .title2))
         }
         .padding(.top)
     }
