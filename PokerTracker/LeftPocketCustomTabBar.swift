@@ -237,16 +237,18 @@ struct LeftPocketCustomTabBar: View {
                         
                     }
                     .alert(Text("Are You Sure?"), isPresented: $showAlert) {
+                        
                         Button("Yes", role: .destructive) {
                             timerViewModel.stopTimer()
                             LiveActivityManager().endActivity()
                             isPresented = true
                         }
+                        
                         Button("Cancel", role: .cancel) {
-                            print("User Canceled")
+                            print("User is resuming Live Session")
                         }
                     } message: {
-                        Text("If you're ready to end your Live Session, tap Yes & then input session details on the next screen.")
+                        Text("If you're ready to end your Live Session, tap Yes & then input Session details on the next screen.")
                     }
                 }
             }

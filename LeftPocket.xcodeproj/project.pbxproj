@@ -191,6 +191,7 @@
 		7CB3EBA126C345A1009E8DF3 /* MetricsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA026C345A1009E8DF3 /* MetricsCardView.swift */; };
 		7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA426C352C6009E8DF3 /* Model.swift */; };
 		7CBB2D0E28A2EB4200A0CC99 /* Colors+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBEF44527596DEE00744F4A /* Colors+Ext.swift */; };
+		7CBB6B6E2C41A55200DAD20D /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 7CBB6B6D2C41A55200DAD20D /* Glur */; };
 		7CBBA3B72BF40CA700733D53 /* SleepCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBBA3B62BF40CA700733D53 /* SleepCardView.swift */; };
 		7CBEB52E2C2A1EF00099C7CF /* DeepLlinking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBEB52D2C2A1EF00099C7CF /* DeepLlinking.swift */; };
 		7CBEF44627596DEE00744F4A /* Colors+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBEF44527596DEE00744F4A /* Colors+Ext.swift */; };
@@ -449,6 +450,7 @@
 				7C3E8E002BC9E5EC005A8992 /* BranchSDK in Frameworks */,
 				7CFD78AB2B34DF2D00C1A9F6 /* RevenueCatUI in Frameworks */,
 				7CFD78A92B34DF2D00C1A9F6 /* RevenueCat in Frameworks */,
+				7CBB6B6E2C41A55200DAD20D /* Glur in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -960,6 +962,7 @@
 				7CFD78A82B34DF2D00C1A9F6 /* RevenueCat */,
 				7CFD78AA2B34DF2D00C1A9F6 /* RevenueCatUI */,
 				7C3E8DFF2BC9E5EC005A8992 /* BranchSDK */,
+				7CBB6B6D2C41A55200DAD20D /* Glur */,
 			);
 			productName = PokerTracker;
 			productReference = 7C63949226C14E8300939F40 /* LeftPocket.app */;
@@ -996,6 +999,7 @@
 				7C0E48DC276BB3BF005EFA62 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				7CFD78A72B34DF2D00C1A9F6 /* XCRemoteSwiftPackageReference "purchases-ios" */,
 				7C3E8DFE2BC9E5EC005A8992 /* XCRemoteSwiftPackageReference "ios-branch-deep-linking" */,
+				7CBB6B6C2C41A55200DAD20D /* XCRemoteSwiftPackageReference "Glur" */,
 			);
 			productRefGroup = 7C63949326C14E8300939F40 /* Products */;
 			projectDirPath = "";
@@ -1537,6 +1541,14 @@
 				minimumVersion = 3.4.1;
 			};
 		};
+		7CBB6B6C2C41A55200DAD20D /* XCRemoteSwiftPackageReference "Glur" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/joogps/Glur.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.4;
+			};
+		};
 		7CFD78A72B34DF2D00C1A9F6 /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
@@ -1552,6 +1564,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7C3E8DFE2BC9E5EC005A8992 /* XCRemoteSwiftPackageReference "ios-branch-deep-linking" */;
 			productName = BranchSDK;
+		};
+		7CBB6B6D2C41A55200DAD20D /* Glur */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7CBB6B6C2C41A55200DAD20D /* XCRemoteSwiftPackageReference "Glur" */;
+			productName = Glur;
 		};
 		7CFD78A82B34DF2D00C1A9F6 /* RevenueCat */ = {
 			isa = XCSwiftPackageProductDependency;

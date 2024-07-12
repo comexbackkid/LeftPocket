@@ -20,6 +20,7 @@ struct SleepAnalytics: View {
     @State private var showError = false
     @State private var howThisWorksPopup = false
     @State private var numbersLookOffPopup = false
+    @State private var comparisonPopup = false
     @State private var rawSelectedDate: Date?
     @Binding var activeSheet: Sheet?
     
@@ -214,6 +215,7 @@ struct SleepAnalytics: View {
         .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
         .cornerRadius(20)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     
     var sleepImportance: some View {
@@ -382,6 +384,7 @@ struct SleepAnalytics: View {
         .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
         .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
         .cornerRadius(20)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     
     var oldSleepChart: some View {
@@ -455,6 +458,7 @@ struct SleepAnalytics: View {
         .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
         .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
         .cornerRadius(20)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     
     private func handleAuthorizationChecksAndDataFetch() async {
@@ -562,5 +566,5 @@ struct SleepAnalytics: View {
     SleepAnalytics(activeSheet: .constant(.sleepAnalytics))
         .environmentObject(SessionsListViewModel())
         .environmentObject(HealthKitManager())
-        .preferredColorScheme(.dark)
+//        .preferredColorScheme(.dark)
 }

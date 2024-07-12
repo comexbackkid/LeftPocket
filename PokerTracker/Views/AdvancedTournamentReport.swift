@@ -215,7 +215,7 @@ struct AdvancedTournamentReport: View {
             }
             
             HStack {
-                Image(systemName: "suit.club.fill")
+                Image(systemName: "person.2.fill")
                     .frame(width: 20)
                     .foregroundColor(Color(.systemGray))
                 

@@ -60,6 +60,7 @@ struct MetricsView: View {
                                     .onReceive(viewModel.$sessions, perform: { _ in
                                         self.progressIndicator = viewModel.stakesProgress
                                     })
+                                    .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
                                 
                                 playerStats
                                 
@@ -115,13 +116,14 @@ struct MetricsView: View {
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 370)
             .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
             .cornerRadius(20)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     
     var barChart: some View {
         
         BarChartByYear(showTitle: true, moreAxisMarks: true, cashOnly: false)
             .cardStyle(colorScheme: colorScheme, height: 380)
-        
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     
     @available(iOS 17.0, *)
@@ -133,6 +135,7 @@ struct MetricsView: View {
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
                 .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
                 .cornerRadius(20)
+                .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         }
     }
     
@@ -146,6 +149,7 @@ struct MetricsView: View {
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
                 .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
                 .cornerRadius(20)
+                .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         }
     }
     
@@ -206,6 +210,7 @@ struct MetricsView: View {
             }
         }
         .cardStyle(colorScheme: colorScheme)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     
     var rangeSelector: some View {
@@ -613,6 +618,7 @@ struct ToolTipView: View {
         .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
         .cornerRadius(20)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
 }
 
