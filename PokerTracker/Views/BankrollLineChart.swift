@@ -55,7 +55,7 @@ struct BankrollLineChart: View {
             if showTitle {
                 
                 HStack {
-                    Text("My Bankroll")
+                    Text("Player Profit")
                         .cardTitleStyle()
                     
                     Spacer()

@@ -100,6 +100,8 @@
 		7C7F4F6E270E610E002ECF6D /* ProfitByLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7F4F6D270E610E002ECF6D /* ProfitByLocationView.swift */; };
 		7C8134C02729F1BE004E1CE1 /* ProfitByMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8134BF2729F1BE004E1CE1 /* ProfitByMonth.swift */; };
 		7C8134C3272A13B6004E1CE1 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8134C2272A13B6004E1CE1 /* ViewModifiers.swift */; };
+		7C85492E2C453D540038ADB4 /* AddNewTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C85492D2C453D540038ADB4 /* AddNewTransaction.swift */; };
+		7C8549302C46C4BF0038ADB4 /* TransactionCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C85492F2C46C4BE0038ADB4 /* TransactionCellView.swift */; };
 		7C85DE6928A5583A00B79D8B /* WidgetViewMedium.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C85DE6828A5583A00B79D8B /* WidgetViewMedium.swift */; };
 		7C8647812B29277900F48951 /* WelcomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8647802B29277900F48951 /* WelcomeScreen.swift */; };
 		7C8647842B2A642700F48951 /* AddNewSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8647832B2A642700F48951 /* AddNewSessionView.swift */; };
@@ -340,6 +342,8 @@
 		7C7F4F6D270E610E002ECF6D /* ProfitByLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByLocationView.swift; sourceTree = "<group>"; };
 		7C8134BF2729F1BE004E1CE1 /* ProfitByMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByMonth.swift; sourceTree = "<group>"; };
 		7C8134C2272A13B6004E1CE1 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
+		7C85492D2C453D540038ADB4 /* AddNewTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTransaction.swift; sourceTree = "<group>"; };
+		7C85492F2C46C4BE0038ADB4 /* TransactionCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCellView.swift; sourceTree = "<group>"; };
 		7C85DE6828A5583A00B79D8B /* WidgetViewMedium.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViewMedium.swift; sourceTree = "<group>"; };
 		7C8647802B29277900F48951 /* WelcomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreen.swift; sourceTree = "<group>"; };
 		7C8647832B2A642700F48951 /* AddNewSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSessionView.swift; sourceTree = "<group>"; };
@@ -548,6 +552,7 @@
 				7C62F1EB2BD0349600F14483 /* NewStakesView */,
 				7C65B186272C3A4300AFE796 /* NewLocationView */,
 				7C82E13326EFC86A00E3EB6F /* NewSessionView */,
+				7C85492C2C453D280038ADB4 /* NewTransactionView */,
 				7C2FC655273EF1CE00E3BE0B /* ProfitByStakesView */,
 				7C7F4F6C270E60F3002ECF6D /* ProfitByLocationView */,
 				7C8134BE2729F1A8004E1CE1 /* ProfitByMonth */,
@@ -597,6 +602,7 @@
 				7CB1EBD92950DF4800FA306B /* BestSessionView.swift */,
 				7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */,
 				7CB3EB9C26C3093D009E8DF3 /* CellView.swift */,
+				7C85492F2C46C4BE0038ADB4 /* TransactionCellView.swift */,
 				7C25CB5227887D9200866511 /* CustomPicker.swift */,
 				7CAFDFF22B2C884100B7338D /* CustomToggle.swift */,
 				7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */,
@@ -846,6 +852,14 @@
 				7C5C79952B2780210088A841 /* UserSettings.swift */,
 			);
 			path = SettingsView;
+			sourceTree = "<group>";
+		};
+		7C85492C2C453D280038ADB4 /* NewTransactionView */ = {
+			isa = PBXGroup;
+			children = (
+				7C85492D2C453D540038ADB4 /* AddNewTransaction.swift */,
+			);
+			path = NewTransactionView;
 			sourceTree = "<group>";
 		};
 		7C86477F2B29276700F48951 /* WelcomeScreen */ = {
@@ -1161,6 +1175,7 @@
 				7C2FC657273EF1E600E3BE0B /* ProfitByStakesView.swift in Sources */,
 				7CAFDFF32B2C884100B7338D /* CustomToggle.swift in Sources */,
 				7C65B188272C3A5A00AFE796 /* NewLocationView.swift in Sources */,
+				7C85492E2C453D540038ADB4 /* AddNewTransaction.swift in Sources */,
 				7C62F1EF2BD0493400F14483 /* NewStakesViewModel.swift in Sources */,
 				7CEB453F2BCEA90800AAF710 /* RingCharts.swift in Sources */,
 				7CE37EC72C304965002ACA81 /* ToolTipCalculations+Ext.swift in Sources */,
@@ -1214,6 +1229,7 @@
 				7C8647842B2A642700F48951 /* AddNewSessionView.swift in Sources */,
 				7C7F4F6E270E610E002ECF6D /* ProfitByLocationView.swift in Sources */,
 				7C4CE7042773560D0070B16E /* DefaultLocations.swift in Sources */,
+				7C8549302C46C4BF0038ADB4 /* TransactionCellView.swift in Sources */,
 				7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */,
 				7C44A68D2C2F3D0100110359 /* MetricsCalculations+Ext.swift in Sources */,
 				7C53C5782BFD3E6D0008880A /* AdvancedCashReport.swift in Sources */,
@@ -1262,7 +1278,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1293,7 +1309,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1445,7 +1461,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1473,7 +1489,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;

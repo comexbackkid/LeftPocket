@@ -99,7 +99,7 @@ struct ProfitByStakesView: View {
                 
                 // Must use this for empty state just in case the user only plays Tournments
                 if viewModel.sessions.filter({ $0.isTournament != true }).isEmpty {
-                    EmptyState(image: .sessions)
+                    EmptyState(title: "No Sessions", image: .sessions)
                 }
             }
             .padding(.bottom, 60)

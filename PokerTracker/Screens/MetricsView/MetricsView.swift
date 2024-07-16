@@ -29,7 +29,7 @@ struct MetricsView: View {
                     
                     if viewModel.sessions.isEmpty {
                         
-                        EmptyState(image: .metrics)
+                        EmptyState(title: "No Sessions", image: .metrics)
                             .padding(.bottom, 50)
                         
                     } else {
@@ -76,9 +76,9 @@ struct MetricsView: View {
 
                                 if #available(iOS 17.0, *) {
                                     HStack {
-                                        donutChart
-                                        Spacer()
                                         heatMap
+                                        Spacer()
+                                        donutChart
                                     }
                                     .frame(width: UIScreen.main.bounds.width * 0.9)
                                 }
@@ -145,7 +145,7 @@ struct MetricsView: View {
         HStack {
             BestTimeOfDay()
                 .padding()
-                .padding(.top, 6)
+//                .padding(.top, 2)
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
                 .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
                 .cornerRadius(20)
@@ -256,7 +256,7 @@ struct AllStats: View {
             let totalHours = viewModel.totalHoursPlayed(range: range, bankroll: sessionFilter)
             
             HStack {
-                Text("Total Bankroll")
+                Text("Total Profit")
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 
@@ -368,7 +368,7 @@ struct CashStats: View {
             let cashTotalHours = viewModel.totalHoursPlayed(range: range, bankroll: sessionFilter)
             
             HStack {
-                Text("Bankroll")
+                Text("Cash Profit")
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 
@@ -503,7 +503,7 @@ struct TournamentStats: View {
         VStack {
             
             HStack {
-                Text("Bankroll")
+                Text("Tournament Profit")
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()

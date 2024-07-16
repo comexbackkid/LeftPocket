@@ -41,7 +41,8 @@ struct LocationGridView: View {
             
             if vm.locations.isEmpty {
                 
-                EmptyState(image: .locations)
+                EmptyState(title: "No Locations", image: .locations)
+                    .padding(.top, 150)
                 
             } else {
                 

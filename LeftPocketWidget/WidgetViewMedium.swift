@@ -73,7 +73,7 @@ struct WidgetViewMedium: View {
             Spacer()
 
             HStack {
-                Text("My Bankroll")
+                Text("Total Profit")
                     .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
                     .foregroundColor(.secondary)
 

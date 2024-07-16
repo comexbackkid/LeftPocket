@@ -27,6 +27,7 @@ struct LeftPocketCustomTabBar: View {
     @State var selectedTab = 0
     @State var isPresented = false
     @State var showPaywall = false
+    @State var showNewTransaction = false
     @State private var audioPlayer: AVAudioPlayer?
     @State private var audioConfirmation = false
     @State private var showAlert = false
@@ -161,7 +162,6 @@ struct LeftPocketCustomTabBar: View {
                             // MARK: Add Completed Session Button
                             
                             Button {
-                                
                                 logCompletedSession()
                                 
                             } label: {
@@ -172,13 +172,21 @@ struct LeftPocketCustomTabBar: View {
                             // MARK: Start Live Session Button
                             
                             Button {
-                                
                                 startLiveSession()
                                 
                             } label: {
-                                
                                 Text("Start a Live Session")
                                 Image(systemName: "timer")
+                            }
+                            
+                            Divider()
+                            
+                            Button {
+                                showNewTransaction = true
+                                
+                            } label: {
+                                Text("Enter Transaction")
+                                Image(systemName: "creditcard.circle")
                             }
                         }
 
@@ -191,6 +199,9 @@ struct LeftPocketCustomTabBar: View {
                         Spacer()
                         
                     }
+                    .sheet(isPresented: $showNewTransaction, content: {
+                        AddNewTransaction(showNewTransaction: $showNewTransaction)
+                    })
                     .onTapGesture(perform: {
                         let impact = UIImpactFeedbackGenerator(style: .medium)
                         impact.impactOccurred()

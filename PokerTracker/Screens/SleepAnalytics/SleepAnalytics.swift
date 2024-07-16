@@ -56,6 +56,7 @@ struct SleepAnalytics: View {
                         
                         if #available(iOS 17.0, *) {
                             sleepChart
+                            
                         } else { oldSleepChart }
                         
                         selectedSessionStats

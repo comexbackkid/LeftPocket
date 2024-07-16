@@ -28,7 +28,9 @@ struct SessionsListView: View {
     @State var startDate: Date = Date()
     @State var endDate: Date = .now
     @State var datesInitialized = false
+    @State var listFilter: ListFilter = .sessions
     
+    // Still testing this out, ability to edit a PokerSession
     @State private var selectedSession: PokerSession?
     @State private var isEditViewPresented = false
     
@@ -91,68 +93,97 @@ struct SessionsListView: View {
                 
                 if vm.sessions.isEmpty {
                     
-                    emptyView
+                    startingScreen
                     
                 } else {
                     
-                    if !filteredSessions.isEmpty {
-
-                        List {
-
-                            screenTitle
-                            
-                            ForEach(filteredSessions) { session in
-                                NavigationLink(
-                                    destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session),
-                                    label: {
-                                        CellView(pokerSession: session, currency: vm.userCurrency, viewStyle: $viewStyle)
-                                    })
-                                .listRowBackground(Color.brandBackground)
-                                .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 18))
-                            }
-                            .onDelete(perform: { indexSet in
-                                let sessionIdsToDelete = indexSet.map { filteredSessions[$0].id }
-                                for sessionId in sessionIdsToDelete {
-                                    if let index = vm.sessions.firstIndex(where: { $0.id == sessionId }) {
-                                        vm.sessions.remove(at: index)
-                                    }
+                    switch listFilter {
+                    case .sessions:
+                        
+                        if !filteredSessions.isEmpty {
+                            List {
+                                screenTitle
+                                
+                                ForEach(filteredSessions) { session in
+                                    NavigationLink(
+                                        destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session),
+                                        label: {
+                                            CellView(pokerSession: session, currency: vm.userCurrency, viewStyle: $viewStyle)
+                                        })
+                                    .listRowBackground(Color.brandBackground)
+                                    .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 18))
                                 }
-                            })
-                        }
-                        .listStyle(PlainListStyle())
-                        .navigationBarTitleDisplayMode(.inline)
-                        
-                        if #available(iOS 17.0, *) {
-                            
-                            VStack {
-                                let filterTip = FilterSessionsTip()
-                                
-                                TipView(filterTip)
-                                    .tipViewStyle(CustomTipViewStyle())
-                                    .padding(20)
-                                
-                                Spacer()
+                                .onDelete(perform: { indexSet in
+                                    let sessionIdsToDelete = indexSet.map { filteredSessions[$0].id }
+                                    for sessionId in sessionIdsToDelete {
+                                        if let index = vm.sessions.firstIndex(where: { $0.id == sessionId }) {
+                                            vm.sessions.remove(at: index)
+                                        }
+                                    }
+                                })
                             }
+                            .listStyle(.plain)
+                            
+                            if #available(iOS 17.0, *) {
+                                filterTip
+                            }
+                            
+                        } else {
+                            emptySessionsView
+                            
                         }
                         
-                    } else {
+                    case .transactions:
                         
-                        VStack (alignment: .leading) {
+                        if !vm.transactions.isEmpty {
+                            List {
+                                screenTitle
+                                
+                                ForEach(vm.transactions, id: \.self) { transaction in
+                                    TransactionCellView(transaction: transaction, currency: vm.userCurrency)
+                                        .listRowBackground(Color.brandBackground)
+                                        .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 18))
+                                }
+                                .onDelete(perform: { indexSet in
+                                    deleteTransaction(at: indexSet)
+                                })
+                            }
+                            .listStyle(.plain)
                             
-                            screenTitle
-                            
-                            Spacer()
-                            EmptyState(image: .sessions)
-                            Spacer()
+                        } else {
+                            emptyTransactionsView
                         }
                     }
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
             .padding(.bottom, 50)
             .accentColor(.brandPrimary)
             .background(Color.brandBackground)
             .toolbar {
                 if !vm.sessions.isEmpty {
+                    
+                    VStack {
+                        switch listFilter {
+                        case .sessions:
+                            
+                            Button {
+                                listFilter = .transactions
+                            } label: {
+                                Image(systemName: "creditcard.fill")
+                            }
+                            
+                        case .transactions:
+                            
+                            Button {
+                                listFilter = .sessions
+                            } label: {
+                                Image(systemName: "suit.club.fill")
+                            }
+                        }
+                    }
+                    .frame(width: 25)
+                    
                     toolbarFilter
                 }
             }
@@ -255,24 +286,62 @@ struct SessionsListView: View {
         })
     }
     
-    var emptyView: some View {
+    var startingScreen: some View {
         
         VStack {
             Spacer()
-            EmptyState(image: .sessions)
+            EmptyState(title: "No Sessions", image: .sessions)
+            Spacer()
+        }
+    }
+    
+    var emptySessionsView: some View {
+        
+        VStack (alignment: .leading) {
+            
+            screenTitle
+            
+            Spacer()
+            EmptyState(title: "No Sessions", image: .sessions)
+            Spacer()
+        }
+    }
+    
+    var emptyTransactionsView: some View {
+        
+        VStack (alignment: .leading) {
+            
+            screenTitle
+            
+            Spacer()
+            EmptyState(title: "No Transactions", image: .sessions)
             Spacer()
         }
     }
     
     var screenTitle: some View {
         
-        Text(sessionsTitle)
+        Text(listFilter == .sessions ? sessionsTitle : "All Transactions")
             .titleStyle()
             .padding(.top, -38)
             .padding(.horizontal)
             .listRowBackground(Color.brandBackground)
             .listRowSeparator(.hidden)
             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+    }
+    
+    @available(iOS 17.0, *)
+    var filterTip: some View {
+        
+        VStack {
+            let filterTip = FilterSessionsTip()
+            
+            TipView(filterTip)
+                .tipViewStyle(CustomTipViewStyle())
+                .padding(20)
+            
+            Spacer()
+        }
     }
     
     private func resetAllFilters() {
@@ -282,6 +351,10 @@ struct SessionsListView: View {
         stakesFilter = nil
         startDate = firstSessionDate
         endDate = Date.now
+    }
+    
+    private func deleteTransaction(at offsets: IndexSet) {
+        vm.transactions.remove(atOffsets: offsets)
     }
     
     private func binding(for session: PokerSession) -> Binding<PokerSession> {
@@ -307,6 +380,19 @@ enum SessionFilter: String, CaseIterable {
             return "Cash"
         case .tournaments:
             return "Tournaments"
+        }
+    }
+}
+
+enum ListFilter: String, CaseIterable {
+    case sessions, transactions
+    
+    var description: String {
+        switch self {
+        case .sessions:
+            return "All Sessions"
+        case .transactions:
+            return "All Transactions"
         }
     }
 }

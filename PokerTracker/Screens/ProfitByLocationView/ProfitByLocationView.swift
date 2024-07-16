@@ -29,7 +29,7 @@ struct ProfitByLocationView: View {
                     
                     if viewModel.sessions.isEmpty {
                         
-                        EmptyState(image: .locations)
+                        EmptyState(title: "No Sessions", image: .locations)
                         
                     } else {
                         

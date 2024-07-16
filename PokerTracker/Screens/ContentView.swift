@@ -18,6 +18,7 @@ struct ContentView: View {
     @State private var showMetricsAsSheet = false
     @State private var showSleepAnalyticsAsSheet = false
     @State private var showPaywall = false
+    @State private var showBankrollPopup = false
     @State var activeSheet: Sheet?
     
     let lastSeenVersionKey = "LastSeenAppVersion"
@@ -37,9 +38,9 @@ struct ContentView: View {
                 } else {
                     
                     HStack {
-                        QuickMetricBox(title: "Win Ratio", metric: viewModel.winRate())
+                        QuickMetricBox(title: "Total Profit", metric: String(viewModel.tallyBankroll(bankroll: .all).axisFormat))
                         Spacer()
-                        QuickMetricBox(title: "Total Hours", metric: viewModel.totalHoursPlayedHomeScreen())
+                        QuickMetricBox(title: "Hours Played", metric: viewModel.totalHoursPlayedHomeScreen())
                     }
                     .frame(width: UIScreen.main.bounds.width * 0.85)
                     
@@ -66,7 +67,7 @@ struct ContentView: View {
     }
     
     var bankroll: Int {
-        return viewModel.tallyBankroll(bankroll: .all)
+        return viewModel.tallyBankroll(bankroll: .all) + viewModel.transactions.map({ $0.amount }).reduce(0, +)
     }
     
     var emptyState: some View {
@@ -244,12 +245,33 @@ struct ContentView: View {
             
             VStack {
                 
-                Text("My Bankroll")
-                    .font(.custom("Asap-Regular", size: 13))
-                    .opacity(0.5)
+                HStack (spacing: 5) {
+                    Text("My Bankroll")
+                        .font(.custom("Asap-Regular", size: 13))
+                        .opacity(0.5)
+                    
+                    Button {
+                        showBankrollPopup = true
+
+                    } label: {
+                        Image(systemName: "info.circle")
+                            .font(.custom("Asap-Regular", size: 13))
+                        
+                    }
+                    .foregroundStyle(Color.brandPrimary)
+                    .popover(isPresented: $showBankrollPopup, arrowEdge: .bottom, content: {
+                        PopoverView(bodyText: "\"My Bankroll\" is your actual bankroll ledger, including all transactions. \"Total Profit\" represents your poker winnings over time.")
+                            .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                            .frame(height: 150)
+                            .dynamicTypeSize(.medium...DynamicTypeSize.medium)
+                            .presentationCompactAdaptation(.popover)
+                            .preferredColorScheme(colorScheme == .dark ? .dark : .light)
+                            .shadow(radius: 10)
+                    })
+                }
                 
                 Text(bankroll, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .font(.custom("Asap-Bold", size: 62, relativeTo: .title2))
+                    .font(.custom("Asap-Bold", size: 60, relativeTo: .title2))
                     .opacity(0.85)
                 
                 if !viewModel.sessions.isEmpty {

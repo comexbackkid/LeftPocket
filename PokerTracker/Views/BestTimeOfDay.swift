@@ -13,56 +13,75 @@ struct BestTimeOfDay: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
     @State private var highestEarningBucket: TimeBucket?
+    @State private var selectedBucket: Double?
+    @State private var bucket: String?
     
     var body: some View {
        
         VStack (spacing: 0) {
             
-            let highestBucket = highestRateBucket(sessions: viewModel.sessions)
-            
-            VStack {
-                ZStack {
-                    Image(systemName: "clock")
-                        .resizable()
-                        .frame(width: 28, height: 28)
-                        .foregroundStyle(Color.gray.opacity(0.1))
-                        .fontWeight(.semibold)
-                    
-                    Chart {
-                        ForEach(prepareChartData(sessions: viewModel.sessions), id: \.bucket) { data in
-                            SectorMark(
-                                angle: .value("Type", data.averageHourlyRate),
-                                innerRadius: .ratio(0.83),
-                                angularInset: 3
-                            )
-                            .foregroundStyle(by: .value("Bucket", data.bucket.rawValue))
-                            .cornerRadius(25)
-                            .opacity(data.bucket == highestBucket ? 1.0 : 0.2)
-                        }
-                    }
-                    .chartLegend(.hidden)
-                    .chartForegroundStyleScale([
-                        "12-4am": Color.donutChartOrange,
-                        "4-8am": Color.donutChartBlack,
-                        "8-12pm": Color.donutChartGreen,
-                        "12-4pm": Color.donutChartPurple,
-                        "4-8pm": Color.donutChartRed,
-                        "8-12am": Color.donutChartDarkBlue,
-                    ])
-                }
+//            ZStack {
+//                
+//                Image(systemName: "clock")
+//                    .resizable()
+//                    .frame(width: 25, height: 25)
+//                    .foregroundStyle(Color.gray.opacity(0.1))
+//                    .fontWeight(.semibold)
                 
-                if let highestData = highestRateData(sessions: viewModel.sessions) {
-                    HStack {
-                        Text("You average $\(highestData.hourlyRate) / hr from \(highestData.bucket.rawValue)")
-                            .subHeadlineStyle()
-                            .padding(.top, 15)
-                        
-                        Spacer()
-                    }
+                donutChart
+//            }
+            
+            if let highestData = highestRateData(sessions: viewModel.sessions) {
+                
+                HStack {
+                    Text("You average $\(highestData.hourlyRate) / hr from \(highestData.bucket.rawValue)")
+                        .subHeadlineStyle()
+                        .padding(.top, 5)
+                    
+                    Spacer()
                 }
             }
         }
         .dynamicTypeSize(.medium)
+    }
+    
+    var donutChart: some View {
+        
+        Chart {
+            
+            let highestBucket = highestRateBucket(sessions: viewModel.sessions)
+            let chartData = prepareChartData(sessions: viewModel.sessions)
+            
+            ForEach(chartData, id: \.bucket) { data in
+                SectorMark(
+                    angle: .value("Type", data.averageHourlyRate),
+                    innerRadius: .ratio(0.6),
+                    angularInset: 3
+                )
+                .foregroundStyle(by: .value("Bucket", data.bucket.rawValue))
+                .cornerRadius(25)
+//                .opacity(data.bucket == highestBucket ? 1.0 : 0.2)
+                .opacity(bucket == nil ? 1.0 : (bucket == data.bucket.rawValue ? 1.0 : 0.2))
+            }
+        }
+        .chartAngleSelection(value: $selectedBucket)
+//        .onChange(of: selectedBucket) { oldValue, newValue in
+//            if let newValue {
+//                    bucket = findSelectedBucket(value: newValue)
+//                } else {
+//                    bucket = nil
+//                }
+//        }
+        .chartLegend(.hidden)
+        .chartForegroundStyleScale([
+            "12-4am": Color.donutChartOrange,
+            "4-8am": Color.donutChartBlack,
+            "8-12pm": Color.donutChartGreen,
+            "12-4pm": Color.donutChartPurple,
+            "4-8pm": Color.donutChartRed,
+            "8-12am": Color.donutChartDarkBlue,
+        ])
+        
     }
     
     // Use the midpoint of the session duration to fit it into a given TimeBucket
@@ -103,9 +122,21 @@ struct BestTimeOfDay: View {
         let highest = data.max { $0.averageHourlyRate < $1.averageHourlyRate }
         return highest?.bucket
     }
+    
+    private func findSelectedBucket(value: Double) -> String? {
+
+        var accumulatedCount = 0.0
+
+        let number = prepareChartData(sessions: viewModel.sessions).first { (_, count) in
+            accumulatedCount += count
+            return value <= accumulatedCount
+        }
+
+        return number?.bucket.rawValue
+    }
 }
 
-enum TimeBucket: String, CaseIterable {
+enum TimeBucket: String, CaseIterable, Plottable {
     case earlyMorning = "12-4am"
     case lateMorning = "4-8am"
     case earlyAfternoon = "8-12pm"
@@ -143,6 +174,14 @@ enum TimeBucket: String, CaseIterable {
         }
     }
     
+    // Plottable conformance
+    public var primitivePlottable: String {
+        self.rawValue
+    }
+    
+    public init?(primitivePlottable: String) {
+        self.init(rawValue: primitivePlottable)
+    }
 }
 
 @available(iOS 17.0, *)
@@ -150,10 +189,10 @@ enum TimeBucket: String, CaseIterable {
     VStack {
         BestTimeOfDay()
             .environmentObject(SessionsListViewModel())
-//            .preferredColorScheme(.dark)
     }
     .padding()
-    .frame(height: 220)
+    .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
+    .cornerRadius(20)
 }
 
 

@@ -84,7 +84,7 @@ struct FilterSessionsTip: Tip {
     }
     
     var message: Text? {
-        Text("Tap \(Image(systemName: "slider.horizontal.3")) above to filter Sessions by location, game type, stakes, etc.")
+        Text("Tap \(Image(systemName: "slider.horizontal.3")) above to filter Sessions by location, game type, stakes, etc. View your transactions by pressing the \(Image(systemName: "creditcard.fill")) button.")
     }
     
     var image: Image? {

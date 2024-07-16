@@ -26,7 +26,6 @@ class SessionsListViewModel: ObservableObject {
             saveLocations()
         }
     }
-    
     @Published var sessions: [PokerSession] = [] {
         didSet {
             saveSessions()
@@ -35,10 +34,16 @@ class SessionsListViewModel: ObservableObject {
             updateStakesProgress()
         }
     }
+    @Published var transactions: [BankrollTransaction] = [] {
+        didSet {
+            saveTransactions()
+        }
+    }
     
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector(fileAccessAvailable), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
         getSessions()
+        getTransactions()
         getLocations()
         getUserStakes()
         loadCurrency()
@@ -70,6 +75,10 @@ class SessionsListViewModel: ObservableObject {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("stakes.json")
     }
     
+    var transactionsPath: URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("transactions.json")
+    }
+    
     // Saves the list of sessions with FileManager
     func saveSessions() {
         do {
@@ -78,7 +87,18 @@ class SessionsListViewModel: ObservableObject {
                 try encodedData.write(to: sessionsPath)
             }
         } catch {
-            print("Failed to write out sessions \(error)")
+            print("Failed to write out Sessions \(error)")
+        }
+    }
+    
+    func saveTransactions() {
+        do {
+            if let encodedData = try? JSONEncoder().encode(transactions) {
+                try? FileManager.default.removeItem(at: transactionsPath)
+                try encodedData.write(to: transactionsPath)
+            }
+        } catch {
+            print("Failed to write Transactions. Erro: \(error)")
         }
     }
     
@@ -91,6 +111,19 @@ class SessionsListViewModel: ObservableObject {
 
         } catch {
             print("Failed to load session with error \(error)")
+            alertMessage = error.localizedDescription
+            return
+        }
+    }
+    
+    func getTransactions() {
+        do {
+            let data = try Data(contentsOf: transactionsPath)
+            let savedTransactions = try JSONDecoder().decode([BankrollTransaction].self, from: data)
+            self.transactions = savedTransactions
+            
+        } catch {
+            print("Failed to load Transactions with error \(error)")
             alertMessage = error.localizedDescription
             return
         }
@@ -404,6 +437,20 @@ class SessionsListViewModel: ObservableObject {
                                       cashOut: cashOut)
         sessions.append(newSession)
         sessions.sort(by: {$0.date > $1.date})
+    }
+    
+    func addTransaction(date: Date, type: TransactionType, amount: Int, notes: String) {
+        
+        if type == .withdrawal {
+            let newAmount = -(amount)
+            let newTransaction = BankrollTransaction(date: date, type: type, amount: newAmount, notes: notes)
+            transactions.append(newTransaction)
+        } else {
+            let newTransaction = BankrollTransaction(date: date, type: type, amount: amount, notes: notes)
+            transactions.append(newTransaction)
+        }
+        
+        transactions.sort(by: {$0.date > $1.date})
     }
     
     // MARK: WIDGET FUNCTIONS

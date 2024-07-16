@@ -59,7 +59,7 @@ struct WidgetViewSmall : View {
         VStack {
 
             HStack {
-                Text("My Bankroll")
+                Text("Total Profit")
                     .foregroundColor(.secondary)
                     .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
                 
@@ -97,7 +97,6 @@ struct WidgetViewSmall : View {
         .padding(.bottom, 12)
     }
 }
-
 
 extension Int {
     

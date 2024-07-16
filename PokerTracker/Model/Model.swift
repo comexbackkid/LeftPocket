@@ -54,6 +54,27 @@ struct PokerSession: Hashable, Codable, Identifiable {
     }
 }
 
+struct BankrollTransaction: Hashable, Identifiable, Codable {
+    var id = UUID()
+    let date: Date
+    let type: TransactionType
+    let amount: Int
+    let notes: String
+}
+
+enum TransactionType: String, Codable, CaseIterable {
+    case deposit, withdrawal
+    
+    var description: String {
+        switch self {
+        case .deposit:
+            "Deposit"
+        case .withdrawal:
+            "Withdrawal"
+        }
+    }
+}
+
 struct DefaultData {
     
     static let defaultLocation = LocationModel(name: "TBD", localImage: "empty-location", imageURL: "")
@@ -162,5 +183,10 @@ struct MockData {
                      highHandBonus: nil, 
                      buyIn: nil,
                      cashOut: nil)
+    ]
+    
+    static let sampleTransactions = [
+        BankrollTransaction(date: Date().modifyDays(days: -7), type: .deposit, amount: 1000, notes: "Starting bankroll"),
+        BankrollTransaction(date: Date(), type: .withdrawal, amount: 350, notes: "Life expenses")
     ]
 }

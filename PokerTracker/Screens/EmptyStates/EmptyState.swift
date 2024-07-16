@@ -9,6 +9,8 @@ import SwiftUI
 
 struct EmptyState: View {
     
+    let title: String
+    
     var body: some View {
         
         ZStack {
@@ -22,7 +24,7 @@ struct EmptyState: View {
                         .frame(width: 125, height: 125)
                 }
                 
-                Text("No Sessions")
+                Text(title)
                     .cardTitleStyle()
                     .bold()
                     .multilineTextAlignment(.center)
@@ -62,6 +64,6 @@ struct EmptyState: View {
 
 struct EmptyState_Previews: PreviewProvider {
     static var previews: some View {
-        EmptyState(image: .metrics)
+        EmptyState(title: "No Sessions", image: .sessions)
     }
 }
