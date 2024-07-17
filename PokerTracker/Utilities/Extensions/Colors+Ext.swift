@@ -19,6 +19,7 @@ extension Color {
     static let chartBaseTournament = Color("chartBaseTournament")
     static let pickerGray = Color("pickerGray")
     static let widgetForegroundText = Color("widgetForegroundText")
+    static let donutChartLightBlue = Color("lightBlue")
     static let donutChartBlack = Color("donutChartBlack")
     static let donutChartDarkBlue = Color("donutChartDarkBlue")
     static let donutChartGreen = Color("donutChartGreen")

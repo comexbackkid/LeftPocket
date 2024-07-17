@@ -18,6 +18,8 @@ struct LeftPocketApp: App {
     @StateObject var subManager = SubscriptionManager()
     @AppStorage("shouldShowOnboarding") var showWelcomeScreen: Bool = true
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    
+    private let qaService = QAService.shared
 
     var body: some Scene {
         WindowGroup {
@@ -28,6 +30,7 @@ struct LeftPocketApp: App {
                 .environmentObject(vm)
                 .environmentObject(subManager)
                 .environmentObject(hkManager)
+                .environmentObject(qaService)
                 .onOpenURL(perform: { url in
                     handleDeepLinkURL(url: url)
                     Branch.getInstance().handleDeepLink(url)

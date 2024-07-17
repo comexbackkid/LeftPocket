@@ -27,6 +27,7 @@ struct MetricsCardView: View {
                     .padding(.horizontal, 20)
                 
                 HStack {
+                    
                     VStack (alignment: .leading, spacing: 5) {
                         
                         Text("Bankroll & Metrics")
@@ -41,6 +42,7 @@ struct MetricsCardView: View {
                             .padding(.bottom, 10)
                     }
                     .padding()
+                    .dynamicTypeSize(...DynamicTypeSize.large)
                     
                     Spacer()
                 }

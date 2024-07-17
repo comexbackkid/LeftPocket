@@ -17,8 +17,8 @@ struct AlertItem: Identifiable {
 struct AlertContext {
     
     static let invalidSession = AlertItem(title: Text("Invalid Form"),
-                                           message: Text("Please select a Session Type."),
-                                           dismissButton: .default(Text("OK")))
+                                          message: Text("Please select a Session Type."),
+                                          dismissButton: .default(Text("OK")))
     
     static let inValidLocation = AlertItem(title: Text("Invalid Form"),
                                            message: Text("Please select a Location. To add your own, select Add New Location from the dropdown menu."),
@@ -56,5 +56,11 @@ struct AlertContext {
                                            message: Text("Please enter a Location name."),
                                            dismissButton: .default(Text("OK")))
     
+    static let invalidTransactionType = AlertItem(title: Text("Invalid Form"), 
+                                                  message: Text("Please select a Transaction type."),
+                                                  dismissButton: .default(Text("OK")))
     
+    static let invalidAmount = AlertItem(title: Text("Invalid Form"),
+                                         message: Text("Please enter a Transaction amount."),
+                                         dismissButton: .default(Text("OK")))
 }

@@ -13,8 +13,26 @@ struct BestTimeOfDay: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
     @State private var highestEarningBucket: TimeBucket?
-    @State private var selectedBucket: Double?
+    @State private var rawSelectedBucketValue: Double?
     @State private var bucket: String?
+    
+    var selectedBucket: (bucket: TimeBucket, averageHourlyRate: Double)? {
+        guard let rawSelectedBucketValue else { return nil }
+        
+        var total = 0.0
+        
+        return prepareChartData(sessions: viewModel.sessions).first {
+            total += $0.averageHourlyRate
+            return rawSelectedBucketValue <= total
+        }
+        
+//        let number = prepareChartData(sessions: viewModel.sessions).first { (_, count) in
+//            accumulatedCount += count
+//            return value <= accumulatedCount
+//        }
+//
+//        return number?.bucket.rawValue
+    }
     
     var body: some View {
        
@@ -36,7 +54,7 @@ struct BestTimeOfDay: View {
                 HStack {
                     Text("You average $\(highestData.hourlyRate) / hr from \(highestData.bucket.rawValue)")
                         .subHeadlineStyle()
-                        .padding(.top, 5)
+                        .padding(.top, 6)
                     
                     Spacer()
                 }
@@ -60,22 +78,15 @@ struct BestTimeOfDay: View {
                 )
                 .foregroundStyle(by: .value("Bucket", data.bucket.rawValue))
                 .cornerRadius(25)
-//                .opacity(data.bucket == highestBucket ? 1.0 : 0.2)
-                .opacity(bucket == nil ? 1.0 : (bucket == data.bucket.rawValue ? 1.0 : 0.2))
+                .opacity(data.bucket == highestBucket ? 1.0 : 0.2)
+//                .opacity(selectedBucket?.bucket == nil ? 1.0 : (selectedBucket?.bucket == data.bucket ? 1.0 : 0.2))
             }
         }
-        .chartAngleSelection(value: $selectedBucket)
-//        .onChange(of: selectedBucket) { oldValue, newValue in
-//            if let newValue {
-//                    bucket = findSelectedBucket(value: newValue)
-//                } else {
-//                    bucket = nil
-//                }
-//        }
+        .chartAngleSelection(value: $rawSelectedBucketValue)
         .chartLegend(.hidden)
         .chartForegroundStyleScale([
             "12-4am": Color.donutChartOrange,
-            "4-8am": Color.donutChartBlack,
+            "4-8am": Color.donutChartLightBlue,
             "8-12pm": Color.donutChartGreen,
             "12-4pm": Color.donutChartPurple,
             "4-8pm": Color.donutChartRed,
@@ -85,7 +96,7 @@ struct BestTimeOfDay: View {
     }
     
     // Use the midpoint of the session duration to fit it into a given TimeBucket
-    func categorizeSession(_ session: PokerSession) -> TimeBucket {
+    private func categorizeSession(_ session: PokerSession) -> TimeBucket {
         let midPoint = Date(timeIntervalSince1970: (session.startTime.timeIntervalSince1970 + session.endTime.timeIntervalSince1970) / 2)
         return TimeBucket.bucket(for: midPoint)
     }
@@ -122,18 +133,6 @@ struct BestTimeOfDay: View {
         let highest = data.max { $0.averageHourlyRate < $1.averageHourlyRate }
         return highest?.bucket
     }
-    
-    private func findSelectedBucket(value: Double) -> String? {
-
-        var accumulatedCount = 0.0
-
-        let number = prepareChartData(sessions: viewModel.sessions).first { (_, count) in
-            accumulatedCount += count
-            return value <= accumulatedCount
-        }
-
-        return number?.bucket.rawValue
-    }
 }
 
 enum TimeBucket: String, CaseIterable, Plottable {
@@ -149,7 +148,7 @@ enum TimeBucket: String, CaseIterable, Plottable {
         case .earlyMorning:
             Color.donutChartOrange
         case .lateMorning:
-            Color.donutChartBlack
+            Color.donutChartLightBlue
         case .earlyAfternoon:
             Color.donutChartGreen
         case .lateAfternoon:

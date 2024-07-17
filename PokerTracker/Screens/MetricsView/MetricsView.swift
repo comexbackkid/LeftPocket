@@ -145,7 +145,6 @@ struct MetricsView: View {
         HStack {
             BestTimeOfDay()
                 .padding()
-//                .padding(.top, 2)
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
                 .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
                 .cornerRadius(20)
@@ -215,7 +214,7 @@ struct MetricsView: View {
     
     var rangeSelector: some View {
         
-        HStack (spacing: 17) {
+        HStack (spacing: 13) {
             
             ForEach(RangeSelection.allCases, id: \.self) { range in
                 Button {
@@ -707,7 +706,7 @@ struct AdditionalMetricsView: View {
                             destination: AdvancedTournamentReport(vm: viewModel),
                             label: {
                                 AdditionalMetricsCardView(title: "Tournament Report",
-                                                          description: "Advanced tournament stats & breakdown \nby month and year.",
+                                                          description: "Advanced tournament stats & \nbreakdown by month and year.",
                                                           image: "person.2",
                                                           color: .donutChartBlack)
                             })

@@ -11,14 +11,25 @@ import BranchSDK
 import AdSupport
 import RevenueCat
 import ActivityKit
+import UIKit
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    private let qaService = QAService.shared
+    
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+            if let shortcutItem = options.shortcutItem {
+                qaService.action = QA(shortcutItem: shortcutItem)
+            }
+            let configuration = UISceneConfiguration(name: connectingSceneSession.configuration.name, sessionRole: connectingSceneSession.role)
+            configuration.delegateClass = SceneDelegate.self
+            return configuration
+        }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
         Branch.setUseTestBranchKey(true)
         
-        // Do I need this? Branch documentation doesn't mention it.
 //        Branch.getInstance().checkPasteboardOnInstall()
         Branch.getInstance().enableLogging()
         

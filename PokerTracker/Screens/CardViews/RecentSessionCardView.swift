@@ -68,6 +68,7 @@ struct RecentSessionCardView: View {
                     }
                     .padding()
                     .padding(.top, -8)
+                    .dynamicTypeSize(...DynamicTypeSize.large)
                     
                     Spacer()
                 }

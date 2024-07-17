@@ -118,6 +118,7 @@ struct NewLocationView: View {
             }
             .background(Color.brandBackground)
         }
+        .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .accentColor(.brandPrimary)
         .errorAlert(error: $photoError)
         .task(id: photoPickerItem) {

@@ -35,6 +35,7 @@ struct NewStakesView: View {
             
         }
         .background(Color.brandBackground)
+        .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
     }
     
     var title: some View {

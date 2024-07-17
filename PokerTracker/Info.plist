@@ -75,6 +75,33 @@
 		<key>UIApplicationSupportsMultipleScenes</key>
 		<true/>
 	</dict>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconSymbolName</key>
+			<string>calendar</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Add Completed Session</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>AddNewSession</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconSymbolName</key>
+			<string>creditcard.fill</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Enter Transaction</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>EnterTransaction</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconSymbolName</key>
+			<string>list.bullet</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>View All Sessions</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>ViewAllSessions</string>
+		</dict>
+	</array>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchScreen</key>

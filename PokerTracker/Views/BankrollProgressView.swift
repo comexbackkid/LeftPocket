@@ -72,6 +72,7 @@ struct BankrollProgressView: View {
                 
                 Text("\(progressIndicator.asPercent())")
                     .captionStyle()
+                    .dynamicTypeSize(...DynamicTypeSize.xLarge)
             }
             
             Text(statusUpdate.description)

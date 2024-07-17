@@ -7,51 +7,6 @@
 
 import SwiftUI
 
-enum CurrencyType: String, CaseIterable, Identifiable, Codable {
-    case USD
-    case EUR
-    case GBP
-    case BRL
-    case MXN
-    case CNY
-    case JPY
-    case PHP
-    case SEK
-    case INR
-    
-    var id: String { self.rawValue }
-    
-    var name: String {
-        switch self {
-        case .USD: return "US Dollar"
-        case .EUR: return "Euro"
-        case .GBP: return "British Pound"
-        case .BRL: return "Brazilian Real"
-        case .MXN: return "Mexican Peso"
-        case .CNY: return "Chinese Yuan"
-        case .JPY: return "Japanese Yen"
-        case .PHP: return "Philippines Peso"
-        case .SEK: return "Swedish Krona"
-        case .INR: return "Indian Rupee"
-        }
-    }
-    
-    var symbol: String {
-        switch self {
-        case .USD: return "$"
-        case .EUR: return "€"
-        case .GBP: return "£"
-        case .BRL: return "R$"
-        case .MXN: return "MX$"
-        case .CNY: return "¥"
-        case .JPY: return "¥"
-        case .PHP: return "₱"
-        case .SEK: return "kr"
-        case .INR: return "₹"
-        }
-    }
-}
-
 struct SessionDefaultsView: View {
     
     @EnvironmentObject var subManager: SubscriptionManager
@@ -377,7 +332,7 @@ struct SessionDefaultsView: View {
             
             HStack {
                 
-                Image(systemName: "creditcard.circle")
+                Image(systemName: "banknote.fill")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30)
@@ -450,7 +405,7 @@ struct SessionDefaultsView: View {
         .foregroundColor(.brandPrimary)
     }
     
-    func resetUserDefaults() {
+    private func resetUserDefaults() {
         
         sessionType = nil
         location = LocationModel(name: "", localImage: "", imageURL: "")
@@ -476,7 +431,7 @@ struct SessionDefaultsView: View {
         }
     }
     
-    func saveToUserDefaults() {
+    private func saveToUserDefaults() {
         
         let defaults = UserDefaults.standard
         let saveResult = Result {
@@ -506,7 +461,7 @@ struct SessionDefaultsView: View {
         }
     }
     
-    func loadUserDefaults() {
+    private func loadUserDefaults() {
         
         let defaults = UserDefaults.standard
         
@@ -542,6 +497,51 @@ struct SessionDefaultsView: View {
         
         stakes = encodedStakes
         game = encodedGame
+    }
+}
+
+enum CurrencyType: String, CaseIterable, Identifiable, Codable {
+    case USD
+    case EUR
+    case GBP
+    case BRL
+    case MXN
+    case CNY
+    case JPY
+    case PHP
+    case SEK
+    case INR
+    
+    var id: String { self.rawValue }
+    
+    var name: String {
+        switch self {
+        case .USD: return "US Dollar"
+        case .EUR: return "Euro"
+        case .GBP: return "British Pound"
+        case .BRL: return "Brazilian Real"
+        case .MXN: return "Mexican Peso"
+        case .CNY: return "Chinese Yuan"
+        case .JPY: return "Japanese Yen"
+        case .PHP: return "Philippines Peso"
+        case .SEK: return "Swedish Krona"
+        case .INR: return "Indian Rupee"
+        }
+    }
+    
+    var symbol: String {
+        switch self {
+        case .USD: return "$"
+        case .EUR: return "€"
+        case .GBP: return "£"
+        case .BRL: return "R$"
+        case .MXN: return "MX$"
+        case .CNY: return "¥"
+        case .JPY: return "¥"
+        case .PHP: return "₱"
+        case .SEK: return "kr"
+        case .INR: return "₹"
+        }
     }
 }
 

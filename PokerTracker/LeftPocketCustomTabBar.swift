@@ -22,6 +22,8 @@ struct LeftPocketCustomTabBar: View {
     
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var viewModel: SessionsListViewModel
+    @EnvironmentObject var qaService: QAService
+    @Environment(\.scenePhase) var scenePhase
     @StateObject var timerViewModel = TimerViewModel()
     
     @State var selectedTab = 0
@@ -182,11 +184,13 @@ struct LeftPocketCustomTabBar: View {
                             Divider()
                             
                             Button {
+                                let impact = UIImpactFeedbackGenerator(style: .soft)
+                                impact.impactOccurred()
                                 showNewTransaction = true
                                 
                             } label: {
                                 Text("Enter Transaction")
-                                Image(systemName: "creditcard.circle")
+                                Image(systemName: "creditcard.fill")
                             }
                         }
 
@@ -275,6 +279,12 @@ struct LeftPocketCustomTabBar: View {
         }, content: {
             AddNewSessionView(timerViewModel: timerViewModel, isPresented: $isPresented, audioConfirmation: $audioConfirmation)
         })
+        .onChange(of: scenePhase) { newVal in
+            switch newVal {
+            case .active: performQuickAction()
+            default: break
+            }
+        }
     }
     
     func playSound() {
@@ -341,6 +351,18 @@ struct LeftPocketCustomTabBar: View {
         }
         
         return
+    }
+    
+    func performQuickAction() {
+        guard let action = qaService.action else { return }
+        
+        switch action {
+        case .addNewSession: isPresented = true
+        case .enterTransaction: showNewTransaction = true
+        case .viewAllSessions: selectedTab = 1
+        }
+        
+        qaService.action = nil
     }
 }
 

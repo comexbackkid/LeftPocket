@@ -48,6 +48,7 @@ struct SleepCardView: View {
                         
                     }
                     .padding()
+                    .dynamicTypeSize(...DynamicTypeSize.large)
                     
                     Spacer()
                 }

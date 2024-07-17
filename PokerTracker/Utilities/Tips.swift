@@ -32,7 +32,7 @@ struct MonthlyReportTip: Tip {
     }
     
     var message: Text? {
-        Text("The \(Image(systemName: "dollarsign")) column is your net profit, \(Image(systemName: "gauge.high")) hourly rate, and \(Image(systemName: "clock")) are the total hours.")
+        Text("The \(Image(systemName: "dollarsign")) column is your net profit, \(Image(systemName: "gauge.high")) hourly rate, and \(Image(systemName: "clock")) are the total hours. Change the year displayed from the upper right corner of the screen.")
     }
     
     var image: Image? {
@@ -53,7 +53,7 @@ struct AddSessionTip: Tip {
     }
     
     var message: Text? {
-        Text("Tap the \(Image(systemName: "plus")) button to log a completed Session or start a Live Session.")
+        Text("Tap the \(Image(systemName: "plus")) button to start a Live Session, log a completed one, or enter a Transaction.")
     }
     
     var image: Image? {
@@ -114,39 +114,6 @@ struct SettingsTip: Tip {
     
     var image: Image? {
         Image(systemName: "text.magnifyingglass")
-    }
-}
-
-
-@available(iOS 17.0, *)
-struct NewSessionDetailsTip: Tip {
-    
-    var title: Text {
-        Text("Enter Session Details")
-    }
-    
-    var message: Text? {
-        Text("Record details from your Session. Add locations right from this screen.")
-    }
-    
-    var image: Image? {
-        Image(systemName: "pencil")
-    }
-}
-
-@available(iOS 17.0, *)
-struct ChartTip: Tip {
-    
-    var title: Text {
-        Text("Enhanced Charts")
-    }
-    
-    var message: Text? {
-        Text("Tap & hold on charts to interact & view more detailed information.")
-    }
-    
-    var image: Image? {
-        Image(systemName: "chart.line.uptrend.xyaxis")
     }
 }
 

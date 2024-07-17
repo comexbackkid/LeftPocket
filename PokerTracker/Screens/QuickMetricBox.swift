@@ -23,8 +23,9 @@ struct QuickMetricBox: View {
                     .foregroundStyle(.secondary)
                 
                 Text("\(metric)")
-                    .font(.custom("Asap-Bold", size: 30, relativeTo: .title2))
+                    .font(.custom("Asap-Bold", size: 28, relativeTo: .title2))
                     .opacity(0.85)
+                    .lineLimit(1)
             }
             
             Spacer()
@@ -39,5 +40,5 @@ struct QuickMetricBox: View {
 }
 
 #Preview {
-    QuickMetricBox(title: "Total Hours", metric: "190h")
+    QuickMetricBox(title: "Total Hours", metric: "$215.5K")
 }

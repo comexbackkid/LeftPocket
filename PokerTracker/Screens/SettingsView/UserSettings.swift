@@ -62,6 +62,7 @@ struct UserSettings: View {
             .navigationBarHidden(true)
         }
         .accentColor(.brandPrimary)
+        .dynamicTypeSize(...DynamicTypeSize.large)
     }
     
     var displayOptions: some View {

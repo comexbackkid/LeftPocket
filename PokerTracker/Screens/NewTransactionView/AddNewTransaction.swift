@@ -19,6 +19,7 @@ struct AddNewTransaction: View {
     @State private var date: Date = .now
     @State private var notes: String = ""
     @State private var transactionPopup = false
+    @State private var alertItem: AlertItem?
     
     var body: some View {
         
@@ -49,6 +50,9 @@ struct AddNewTransaction: View {
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .frame(maxHeight: .infinity)
         .background(Color.brandBackground)
+        .alert(item: $alertItem) { alertItem in
+            Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
+        }
     }
     
     var title: some View {
@@ -69,7 +73,7 @@ struct AddNewTransaction: View {
         VStack (alignment: .leading, spacing: 20) {
             
             HStack {
-                Text("Enter transaction details below. Transactions do not factor in to your overall player metrics or statistics. Include an optional note such as, \"Starting Stack.\"")
+                Text("Enter transaction details below. Transactions do not factor into your player metrics or statistics. Include an optional note such as, \"Starting Stack.\"")
                     .bodyStyle()
                 
                 Spacer()
@@ -93,7 +97,7 @@ struct AddNewTransaction: View {
                 .foregroundStyle(Color.brandPrimary)
             }
             .popover(isPresented: $transactionPopup, arrowEdge: .bottom, content: {
-                PopoverView(bodyText: "Transactions are optional, & geared towards those poker players who need a precise ledger of their current, actual bankroll figure. Use transactions to track when you contribute or withdraw funds from your poker bankroll.")
+                PopoverView(bodyText: "Transactions are completely optional. They're for poker players who need a precise ledger of their current, actual bankroll figure. Use transactions to log when you contribute or withdraw funds from your poker bankroll.")
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                     .frame(height: 190)
                     .dynamicTypeSize(.medium...DynamicTypeSize.medium)
@@ -221,6 +225,21 @@ struct AddNewTransaction: View {
         }
     }
     
+    var isValidForm: Bool {
+        
+        guard type != nil else {
+            alertItem = AlertContext.invalidTransactionType
+            return false
+        }
+        
+        guard !amount.isEmpty else {
+            alertItem = AlertContext.invalidAmount
+            return false
+        }
+        
+        return true
+    }
+    
     var saveButton: some View {
         
         VStack {
@@ -237,6 +256,7 @@ struct AddNewTransaction: View {
                 let impact = UIImpactFeedbackGenerator(style: .soft)
                 impact.impactOccurred()
                 showNewTransaction = false
+                
             } label: {
                 Text("Cancel")
                     .bodyStyle()
@@ -247,6 +267,7 @@ struct AddNewTransaction: View {
     }
     
     private func saveButtonPressed() {
+        guard isValidForm else { return }
         vm.addTransaction(date: date, type: type ?? .deposit, amount: Int(amount) ?? 0, notes: notes)
         showNewTransaction = false
     }

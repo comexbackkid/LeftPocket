@@ -260,7 +260,7 @@ struct ContentView: View {
                     }
                     .foregroundStyle(Color.brandPrimary)
                     .popover(isPresented: $showBankrollPopup, arrowEdge: .bottom, content: {
-                        PopoverView(bodyText: "\"My Bankroll\" is your actual bankroll ledger, including all transactions. \"Total Profit\" represents your poker winnings over time.")
+                        PopoverView(bodyText: "\"My Bankroll\" is your true bankroll ledger, including all transactions. \"Total Profit\" represents your poker winnings over time.")
                             .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                             .frame(height: 150)
                             .dynamicTypeSize(.medium...DynamicTypeSize.medium)
