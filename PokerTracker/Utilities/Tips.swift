@@ -96,7 +96,7 @@ struct FilterSessionsTip: Tip {
     var rules: [Rule] {
         
         #Rule(Self.sessionCount) { event in
-            event.donations.count >= 2
+            event.donations.count >= 1
         }
     }
 }

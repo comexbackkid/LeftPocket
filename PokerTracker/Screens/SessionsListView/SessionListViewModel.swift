@@ -418,9 +418,13 @@ class SessionsListViewModel: ObservableObject {
                     expenses: Int,
                     isTournament: Bool,
                     entrants: Int,
+                    finish: Int,
                     highHandBonus: Int,
                     buyIn: Int,
-                    cashOut: Int) {
+                    cashOut: Int,
+                    rebuyCount: Int,
+                    tournamentSize: String,
+                    tournamentSpeed: String) {
         
         let newSession = PokerSession(location: location,
                                       game: game,
@@ -432,9 +436,14 @@ class SessionsListViewModel: ObservableObject {
                                       expenses: expenses,
                                       isTournament: isTournament,
                                       entrants: entrants,
+                                      finish: finish,
                                       highHandBonus: highHandBonus,
                                       buyIn: buyIn,
-                                      cashOut: cashOut)
+                                      cashOut: cashOut,
+                                      rebuyCount: rebuyCount,
+                                      tournamentSize: tournamentSize,
+                                      tournamentSpeed: tournamentSpeed
+        )
         sessions.append(newSession)
         sessions.sort(by: {$0.date > $1.date})
     }
@@ -503,10 +512,10 @@ class SessionsListViewModel: ObservableObject {
     // MARK: MOCK DATA FOR PREVIEW & TESTING
     
     // Loading fake data for Preview Provider
-    func getMockSessions() {
-        let fakeSessions = MockData.allSessions.sorted(by: {$0.date > $1.date})
-        self.sessions = fakeSessions
-    }
+//    func getMockSessions() {
+//        let fakeSessions = MockData.allSessions.sorted(by: {$0.date > $1.date})
+//        self.sessions = fakeSessions
+//    }
     
     // Loading fake locations so our filtered views can work correctly
     func getMockLocations() {

@@ -66,9 +66,13 @@ class CSVImporter {
                                            expenses: sessionType == "Tournament" ? buyIn : expenses,
                                            isTournament: sessionType == "Tournament" ? true : false,
                                            entrants: entrants,
+                                           finish: nil,
                                            highHandBonus: nil,
                                            buyIn: nil,
-                                           cashOut: nil)
+                                           cashOut: nil,
+                                           rebuyCount: nil,
+                                           tournamentSize: nil,
+                                           tournamentSpeed: nil)
                 
                 importedSessions.append(session)
                 
@@ -124,9 +128,13 @@ class CSVImporter {
                                            expenses: expenses,
                                            isTournament: false,
                                            entrants: nil,
+                                           finish: nil,
                                            highHandBonus: nil,
                                            buyIn: nil,
-                                           cashOut: nil)
+                                           cashOut: nil,
+                                           rebuyCount: nil,
+                                           tournamentSize: nil,
+                                           tournamentSpeed: nil)
                 
                 importedSessions.append(session)
                 
@@ -198,9 +206,13 @@ class CSVImporter {
                                            expenses: isTournament == "true" ? buyIn : expenses,
                                            isTournament: isTournament == "true" ? true : false,
                                            entrants: entrants,
+                                           finish: nil,
                                            highHandBonus: Int(highHandBonus) ?? 0,
                                            buyIn: nil,
-                                           cashOut: nil)
+                                           cashOut: nil,
+                                           rebuyCount: nil,
+                                           tournamentSize: nil,
+                                           tournamentSpeed: nil)
                 
                 importedSessions.append(session)
                 
@@ -265,9 +277,13 @@ class CSVImporter {
                                            expenses: sessionType == "Tournament" ? buyIn : expenses,
                                            isTournament: sessionType == "Tournament" ? true : false,
                                            entrants: entrants,
+                                           finish: nil,
                                            highHandBonus: nil,
                                            buyIn: nil,
-                                           cashOut: nil)
+                                           cashOut: nil,
+                                           rebuyCount: nil,
+                                           tournamentSize: nil,
+                                           tournamentSpeed: nil)
                 
                 importedSessions.append(session)
                 

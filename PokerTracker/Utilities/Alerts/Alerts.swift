@@ -36,6 +36,22 @@ struct AlertContext {
                                        message: Text("Please select a Date."),
                                        dismissButton: .default(Text("OK")))
     
+    static let invalidSpeed = AlertItem(title: Text("Invalid Form"), 
+                                        message: Text("Please select the Tournament Speed."),
+                                        dismissButton: .default(Text("OK")))
+    
+    static let invalidSize = AlertItem(title: Text("Invalid Form"), 
+                                       message: Text("Please select the Tournament Size."),
+                                       dismissButton: .default(Text("OK")))
+    
+    static let invalidFinish = AlertItem(title: Text("Invalid Form"),
+                                         message: Text("Please enter where you finished."),
+                                         dismissButton: .default(Text("OK")))
+    
+    static let invalidFinishPlace = AlertItem(title: Text("Invalid Form"),
+                                         message: Text("Your finish must be lower than the number of Entrants."),
+                                         dismissButton: .default(Text("OK")))
+    
     static let invalidEntrants = AlertItem(title: Text("Invalid Form"),
                                            message: Text("Please enter the number of Entrants."),
                                            dismissButton: .default(Text("OK")))

@@ -61,17 +61,33 @@ struct SocialShareView: View {
                 .font(.custom("Asap-Black", size: 85))
                 .profitColor(total: pokerSession.profit)
             
-            if let buyIn = pokerSession.buyIn, let cashOut = pokerSession.cashOut {
-                Text("In the game for \(buyIn.asCurrency()), out for \(cashOut.asCurrency())")
-                    .calloutStyle()
-                    .foregroundStyle(.secondary)
-                
+            if pokerSession.isTournament != true {
+                if let buyIn = pokerSession.buyIn, let cashOut = pokerSession.cashOut {
+                    Text("In the game for \(buyIn.asCurrency()), out for \(cashOut.asCurrency())")
+                        .calloutStyle()
+                        .foregroundStyle(.secondary)
+                    
+                } else {
+                    Text("Played for a total of \(pokerSession.playingTIme)")
+                        .calloutStyle()
+                        .foregroundStyle(.secondary)
+                    
+                }
             } else {
-                Text("Played for a total of \(pokerSession.playingTIme)")
-                    .calloutStyle()
-                    .foregroundStyle(.secondary)
                 
+                if let tournamentBuyIn = pokerSession.expenses {
+                    Text("In the Tournament for \(tournamentBuyIn.asCurrency()) total")
+                        .calloutStyle()
+                        .foregroundStyle(.secondary)
+                    
+                } else {
+                    Text("Played for a total of \(pokerSession.playingTIme)")
+                        .calloutStyle()
+                        .foregroundStyle(.secondary)
+                    
+                }
             }
+            
         }
         .padding(23)
         .frame(width: UIScreen.main.bounds.width * 0.8)
@@ -107,6 +123,6 @@ struct SocialShareView: View {
 #Preview {
     SocialShareView(vm: SessionsListViewModel(),
                     colorScheme: .dark,
-                    pokerSession: MockData.sampleSession,
+                    pokerSession: MockData.sampleTournament,
                     background: Image(MockData.sampleSession.location.localImage))
 }

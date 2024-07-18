@@ -29,7 +29,7 @@ struct SleepAnalytics: View {
     
     var selectedSleepMetric: SleepMetric? {
         guard let rawSelectedDate else { return nil }
-        return hkManager.sleepData.first{
+        return hkManager.sleepData.first {
             Calendar.current.isDate(rawSelectedDate, inSameDayAs: $0.date)
         }
     }

@@ -73,7 +73,7 @@ struct AddNewTransaction: View {
         VStack (alignment: .leading, spacing: 20) {
             
             HStack {
-                Text("Enter transaction details below. Transactions do not factor into your player metrics or statistics. Include an optional note such as, \"Starting Stack.\"")
+                Text("Enter transaction details below. Transactions do not factor into your player metrics or statistics. Include an optional note such as, \"Starting Bankroll.\"")
                     .bodyStyle()
                 
                 Spacer()
@@ -97,7 +97,7 @@ struct AddNewTransaction: View {
                 .foregroundStyle(Color.brandPrimary)
             }
             .popover(isPresented: $transactionPopup, arrowEdge: .bottom, content: {
-                PopoverView(bodyText: "Transactions are completely optional. They're for poker players who need a precise ledger of their current, actual bankroll figure. Use transactions to log when you contribute or withdraw funds from your poker bankroll.")
+                PopoverView(bodyText: "Transactions are optional. They're for poker players who want a precise ledger of their current, actual bankroll figure. Use transactions to log when you contribute or withdraw funds from your poker bankroll.")
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                     .frame(height: 190)
                     .dynamicTypeSize(.medium...DynamicTypeSize.medium)

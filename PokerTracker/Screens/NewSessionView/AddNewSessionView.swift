@@ -85,13 +85,11 @@ struct AddNewSessionView: View {
             
             locationSelection
             
-            if newSession.sessionType != .tournament {
-                
-                stakesSelection
-                
-            }
+            if newSession.sessionType != .tournament { stakesSelection }
             
             gameSelection
+            
+            if newSession.sessionType == .tournament { tournamentDetails }
             
             gameTiming
             
@@ -316,6 +314,104 @@ struct AddNewSessionView: View {
         
     }
     
+    var tournamentDetails: some View {
+        
+        VStack {
+            
+            HStack {
+                
+                Image(systemName: "stopwatch")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30)
+                
+                Text("Speed")
+                    .bodyStyle()
+                    .padding(.leading, 4)
+                
+                Spacer()
+                
+                Menu {
+                    withAnimation {
+                        Picker("Speed", selection: $newSession.speed) {
+                            Text("Standard").tag("Standard")
+                            Text("Turbo").tag("Turbo")
+                            Text("Super Turbo").tag("Super Turbo")
+                        }
+                    }
+                    
+                } label: {
+                    
+                    if newSession.speed.isEmpty {
+                        Text("Please select ›")
+                            .bodyStyle()
+                            .fixedSize()
+                        
+                    } else {
+                        Text(newSession.speed)
+                            .bodyStyle()
+                            .fixedSize()
+                            .lineLimit(1)
+                            .animation(nil, value: newSession.speed)
+                    }
+                }
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
+                .foregroundColor(newSession.speed.isEmpty ? .brandPrimary : .brandWhite)
+                .buttonStyle(.plain)
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 10)
+            
+            HStack {
+                
+                Image(systemName: "person.2.fill")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30)
+                
+                Text("Size")
+                    .bodyStyle()
+                    .padding(.leading, 4)
+                
+                Spacer()
+                
+                Menu {
+                    withAnimation {
+                        Picker("Size", selection: $newSession.size) {
+                            Text("MTT").tag("MTT")
+                            Text("Sit & Go").tag("Sit & Go")
+                        }
+                    }
+                    
+                } label: {
+                    
+                    if newSession.size.isEmpty {
+                        Text("Please select ›")
+                            .bodyStyle()
+                            .fixedSize()
+                        
+                    } else {
+                        Text(newSession.size)
+                            .bodyStyle()
+                            .fixedSize()
+                            .lineLimit(1)
+                            .animation(nil, value: newSession.size)
+                    }
+                }
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
+                .foregroundColor(newSession.size.isEmpty ? .brandPrimary : .brandWhite)
+                .buttonStyle(.plain)
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 10)
+            
+        }
+    }
+    
     var gameSelection: some View {
         
         HStack {
@@ -334,7 +430,7 @@ struct AddNewSessionView: View {
             Menu {
                 
                 withAnimation {
-                    Picker("Picker", selection: $newSession.game) {
+                    Picker("Game", selection: $newSession.game) {
                         Text("NL Texas Hold Em").tag("NL Texas Hold Em")
                         Text("Pot Limit Omaha").tag("Pot Limit Omaha")
                         Text("Seven Card Stud").tag("Seven Card Stud")
@@ -356,9 +452,6 @@ struct AddNewSessionView: View {
                         .lineLimit(1)
                         .animation(nil, value: newSession.game)
                 }
-            }
-            .transaction { transaction in
-                transaction.animation = nil
             }
             .foregroundColor(newSession.game.isEmpty ? .brandPrimary : .brandWhite)
             .buttonStyle(PlainButtonStyle())
@@ -455,28 +548,65 @@ struct AddNewSessionView: View {
             
             // This .foregroundColor logic is gnarly because the symbol needs to change to white and account for both cash & tournament modes
             HStack {
-                Text(vm.userCurrency.symbol)
-                    .font(.callout)
-                    .foregroundColor(newSession.sessionType == .tournament && newSession.buyIn.isEmpty || newSession.sessionType == .cash && newSession.expenses.isEmpty || newSession.sessionType == nil && newSession.expenses.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                 
-                TextField(newSession.sessionType == .tournament ? "Total Buy In" : "Expenses (Meals, tips, etc.)", text: newSession.sessionType == .tournament ? $newSession.buyIn : $newSession.expenses)
-                                    .font(.custom("Asap-Regular", size: 17))
-                                    .keyboardType(.numberPad)
-                                    .onChange(of: newSession.sessionType, perform: { value in
-                                        newSession.expenses = ""
-                                    })
+                HStack {
+                    Text(vm.userCurrency.symbol)
+                        .font(.callout)
+                        .foregroundColor(newSession.sessionType == .tournament && newSession.buyIn.isEmpty || newSession.sessionType == .cash && newSession.expenses.isEmpty || newSession.sessionType == nil && newSession.expenses.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                    
+                    TextField(newSession.sessionType == .tournament ? "Buy In" : "Expenses (Meals, tips, etc.)", text: newSession.sessionType == .tournament ? $newSession.buyIn : $newSession.expenses)
+                                        .font(.custom("Asap-Regular", size: 17))
+                                        .keyboardType(.numberPad)
+                                        .onChange(of: newSession.sessionType, perform: { value in
+                                            newSession.expenses = ""
+                                        })
+                }
+                .padding(18)
+                .background(.gray.opacity(0.2))
+                .cornerRadius(15)
+                .padding(.leading)
+                .padding(.trailing, newSession.sessionType == .tournament ? 10 : 16)
+                .padding(.bottom, 10)
+                
+                if newSession.sessionType == .tournament {
+                    HStack {
+                        Text("#")
+                            .font(.callout)
+                            .foregroundColor(newSession.rebuyCount.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                        
+                        TextField("Rebuys", text: $newSession.rebuyCount)
+                            .font(.custom("Asap-Regular", size: 17))
+                            .keyboardType(.numberPad)
+                    }
+                    .padding(18)
+                    .background(.gray.opacity(0.2))
+                    .cornerRadius(15)
+                    .padding(.leading, 0)
+                    .padding(.trailing, 16)
+                    .padding(.bottom, 10)
+                    .transition(.opacity.combined(with: .asymmetric(insertion: .push(from: .trailing),
+                                                                                           removal: .scale(scale: 0, anchor: .topTrailing))))
+                }
             }
-            .padding(18)
-            .background(.gray.opacity(0.2))
-            .cornerRadius(15)
-            .padding(.horizontal)
-            .padding(.bottom, 10)
             
             if newSession.sessionType == .tournament {
                 
                 HStack {
                     
                     TextField("No. of Entrants", text: $newSession.entrants)
+                        .font(.custom("Asap-Regular", size: 17))
+                        .keyboardType(.numberPad)
+                }
+                .padding(18)
+                .background(.gray.opacity(0.2))
+                .cornerRadius(15)
+                .padding(.horizontal)
+                .padding(.bottom, 10)
+                .transition(.opacity.combined(with: .scale))
+                
+                HStack {
+                    
+                    TextField("Your Finish", text: $newSession.finish)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
                 }

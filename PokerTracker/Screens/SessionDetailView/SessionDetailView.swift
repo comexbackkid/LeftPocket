@@ -107,16 +107,20 @@ struct SessionDetailView: View {
                     .opacity(0.3)
                     .padding(.bottom, 1)
                 
+                Spacer()
+                
                 Text(pokerSession.playingTIme)
                     .fontWeight(.semibold)
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
             VStack {
-                Image(systemName: "trophy")
+                Image(systemName: "trophy.fill")
                     .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
+                
+                Spacer()
                 
                 Text(pokerSession.profit, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: pokerSession.profit)
@@ -130,6 +134,8 @@ struct SessionDetailView: View {
                     .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
+                
+                Spacer()
                 
                 Text("\(pokerSession.hourlyRate, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0))) / hr").profitColor(total: pokerSession.hourlyRate)
                     .fontWeight(.semibold)
@@ -152,6 +158,8 @@ struct SessionDetailView: View {
                     .opacity(0.3)
                     .padding(.bottom, 1)
                 
+                Spacer()
+                
                 Text(pokerSession.playingTIme)
                     .fontWeight(.semibold)
                 
@@ -159,10 +167,12 @@ struct SessionDetailView: View {
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
             VStack {
-                Image(systemName: "trophy")
+                Image(systemName: "trophy.fill")
                     .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
+                
+                Spacer()
                 
                 Text(pokerSession.profit, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: pokerSession.profit)
@@ -171,13 +181,21 @@ struct SessionDetailView: View {
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
             
             VStack {
-                Image(systemName: "person.2")
+                Image(systemName: "person.2.fill")
                     .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
                 
-                Text("\(pokerSession.entrants ?? 0)")
-                    .fontWeight(.semibold)
+                Spacer()
+                
+                HStack (spacing: 0) {
+                    if let finish = pokerSession.finish {
+                        Text("\(finish) / ")
+                            .fontWeight(.semibold)
+                    }
+                    Text("\(pokerSession.entrants ?? 0)")
+                        .fontWeight(.semibold)
+                }
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
         }
@@ -255,6 +273,40 @@ struct SessionDetailView: View {
             
             Divider()
             
+            if pokerSession.isTournament == true {
+                
+                if let size = pokerSession.tournamentSize {
+                    HStack {
+                        Text("Size")
+                            .bodyStyle()
+                            .foregroundColor(.secondary)
+                        
+                        Spacer()
+                        
+                        Text(size)
+                            .bodyStyle()
+                    }
+                    
+                    Divider()
+                }
+                
+                if let speed = pokerSession.tournamentSpeed {
+                    HStack {
+                        Text("Speed")
+                            .bodyStyle()
+                            .foregroundColor(.secondary)
+                        
+                        Spacer()
+                        
+                        Text(speed)
+                            .bodyStyle()
+                    }
+                    
+                    Divider()
+                }
+                
+            }
+            
             if pokerSession.isTournament != true {
                 
                 HStack {
@@ -269,6 +321,7 @@ struct SessionDetailView: View {
                 }
                 
                 if let buyIn = pokerSession.buyIn, let cashOut = pokerSession.cashOut {
+                    
                     Divider()
                     
                     HStack {
@@ -278,7 +331,7 @@ struct SessionDetailView: View {
                         
                         Spacer()
                         
-                        Text(pokerSession.buyIn ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                        Text(buyIn, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                             .bodyStyle()
                     }
                     
@@ -291,7 +344,7 @@ struct SessionDetailView: View {
                         
                         Spacer()
                         
-                        Text(pokerSession.cashOut ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                        Text(cashOut, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                             .bodyStyle()
                     }
                 }
@@ -301,14 +354,50 @@ struct SessionDetailView: View {
             
             HStack {
                 
-                Text(pokerSession.isTournament == true ? "Buy-In" : "Expenses")
+                Text(pokerSession.isTournament == true ? "Buy In" : "Expenses")
                     .bodyStyle()
                     .foregroundColor(.secondary)
                 
                 Spacer()
                 
-                Text(pokerSession.expenses ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .bodyStyle()
+                if pokerSession.isTournament == true {
+                    Text(pokerSession.buyIn ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                        .bodyStyle()
+                } else {
+                    Text(pokerSession.expenses ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                        .bodyStyle()
+                }
+            }
+            
+            if pokerSession.isTournament == true {
+                
+                Divider()
+                
+                HStack {
+                    
+                    Text("Rebuys")
+                        .bodyStyle()
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
+                    
+                    Text("\(pokerSession.rebuyCount ?? 0)")
+                        .bodyStyle()
+                }
+                
+                Divider()
+                
+                HStack {
+                    
+                    Text("Total Buy In")
+                        .bodyStyle()
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
+                    
+                    Text("\(pokerSession.expenses ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))")
+                        .bodyStyle()
+                }
             }
             
             if pokerSession.isTournament != true {
@@ -494,7 +583,7 @@ struct GraphicHeaderView: View {
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
+            SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleTournament)
                 .preferredColorScheme(.dark)
                 .environmentObject(SessionsListViewModel())
         }

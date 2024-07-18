@@ -548,7 +548,7 @@ struct TournamentStats: View {
             Divider()
             
             HStack {
-                Text("Total Buy Ins")
+                Text("No. of Tournaments")
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()

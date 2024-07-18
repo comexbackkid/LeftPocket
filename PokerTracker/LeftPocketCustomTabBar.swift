@@ -78,7 +78,7 @@ struct LeftPocketCustomTabBar: View {
                         .padding(.horizontal, 20)
                 }
                 
-                if viewModel.sessions.count == 1 || viewModel.sessions.count > 6 {
+                if viewModel.sessions.count == 3 || viewModel.sessions.count > 6 {
                     if #available(iOS 17.0, *) {
                         let settingsTip = SettingsTip()
                         

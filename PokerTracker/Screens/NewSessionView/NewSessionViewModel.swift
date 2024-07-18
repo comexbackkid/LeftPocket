@@ -30,9 +30,24 @@ final class NewSessionViewModel: ObservableObject {
     @Published var buyIn: String = ""
     @Published var cashOut: String = ""
     @Published var highHandBonus: String = ""
+    @Published var rebuyCount: String = ""
+    @Published var finish: String = ""
+    @Published var size: String = ""
+    @Published var speed: String = ""
     
+    // Just using this value for Cash games
     var computedProfit: Int {
         (Int(cashOut) ?? 0) - Int(buyIn)!
+    }
+    
+    // Adds up the total dollar amount of Tournament rebuys
+    var tournamentRebuys: Int {
+        guard !rebuyCount.isEmpty else { return 0 }
+        
+        let buyIn = Int(self.buyIn) ?? 0
+        let numberOfRebuys = Int(rebuyCount) ?? 0
+        
+        return buyIn * numberOfRebuys
     }
     
     var isValidForm: Bool {
@@ -62,8 +77,28 @@ final class NewSessionViewModel: ObservableObject {
         } else {
             
             // Run this check for Tournaments
+            guard !speed.isEmpty else {
+                alertItem = AlertContext.invalidSpeed
+                return false
+            }
+            
+            guard !size.isEmpty else {
+                alertItem = AlertContext.invalidSize
+                return false
+            }
+            
             guard !entrants.isEmpty else {
                 alertItem = AlertContext.invalidEntrants
+                return false
+            }
+            
+            guard !finish.isEmpty else {
+                alertItem = AlertContext.invalidFinish
+                return false
+            }
+            
+            guard Int(finish)! < Int(entrants)! else {
+                alertItem = AlertContext.invalidFinishPlace
                 return false
             }
             
@@ -128,17 +163,21 @@ final class NewSessionViewModel: ObservableObject {
                              game: self.game,
                              stakes: self.stakes,
                              date: self.startTime,
-                             profit: computedProfit - (Int(self.expenses) ?? 0),
+                             profit: computedProfit - (Int(self.expenses) ?? 0) - tournamentRebuys,
                              notes: self.notes,
                              startTime: self.startTime,
                              endTime: self.endTime,
-                             // Tournament metrics in the app look to 'expenses' for Buy-In data.
-                             expenses: sessionType == .cash ? Int(self.expenses) ?? 0 : Int(buyIn) ?? 0,
+                             // Tournament metrics in the app look to 'expenses' for Buy In data.
+                             expenses: sessionType == .cash ? Int(self.expenses) ?? 0 : (Int(buyIn) ?? 0) + tournamentRebuys,
                              isTournament: sessionType == .tournament,
                              entrants: Int(self.entrants) ?? 0,
+                             finish: Int(self.finish) ?? 0,
                              highHandBonus: Int(self.highHandBonus) ?? 0,
                              buyIn: Int(self.buyIn) ?? 0,
-                             cashOut: Int(self.cashOut) ?? 0)
+                             cashOut: Int(self.cashOut) ?? 0,
+                             rebuyCount: Int(self.rebuyCount) ?? 0,
+                             tournamentSize: self.size,
+                             tournamentSpeed: self.speed)
         
         Task {
             
