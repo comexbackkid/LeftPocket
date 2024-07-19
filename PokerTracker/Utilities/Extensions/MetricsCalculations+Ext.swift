@@ -410,36 +410,108 @@ extension SessionsListViewModel {
         return winPercentage.asPercent()
     }
     
-    func avgTournamentBuyIn() -> Int {
+    func avgTournamentBuyIn(range: RangeSelection) -> Int {
         guard !sessions.isEmpty else { return 0 }
         guard sessions.contains(where: { $0.isTournament == true }) else {
             return 0
         }
         
-        let tournamentBuyIns = allTournamentSessions().map { $0.expenses ?? 0 }.reduce(0, +)
-        let count = allTournamentSessions().count
+        var tournamentArray: [PokerSession] {
+            switch range {
+            case .all:
+                return allTournamentSessions()
+            case .oneMonth:
+                return filterSessionsLastMonth().filter{ $0.isTournament == true }
+            case .sixMonth:
+                return filterSessionsLastSixMonths().filter{ $0.isTournament == true }
+            case .oneYear:
+                return filterSessionsLastTwelveMonths().filter{ $0.isTournament == true }
+            case .ytd:
+                return filterSessionsYTD().filter{ $0.isTournament == true }
+            }
+        }
+        
+        
+        
+        let tournamentBuyIns = tournamentArray.map { $0.expenses ?? 0 }.reduce(0, +)
+        let count = tournamentArray.count
         
         return tournamentBuyIns / count
     }
     
-    func inTheMoneyRatio() -> String {
+    func tournamentCount(range: RangeSelection) -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        guard sessions.contains(where: { $0.isTournament == true }) else {
+            return 0
+        }
+        
+        var tournamentArray: [PokerSession] {
+            switch range {
+            case .all:
+                return allTournamentSessions()
+            case .oneMonth:
+                return filterSessionsLastMonth().filter{ $0.isTournament == true }
+            case .sixMonth:
+                return filterSessionsLastSixMonths().filter{ $0.isTournament == true }
+            case .oneYear:
+                return filterSessionsLastTwelveMonths().filter{ $0.isTournament == true }
+            case .ytd:
+                return filterSessionsYTD().filter{ $0.isTournament == true }
+            }
+        }
+        
+        return tournamentArray.count
+    }
+    
+    func inTheMoneyRatio(range: RangeSelection) -> String {
         guard !allTournamentSessions().isEmpty else { return "0%" }
-        let tournamentWins = sessions.filter({ $0.isTournament == true && $0.profit > 0 }).count
-        let totalTournaments = allTournamentSessions().count
+        
+        var tournamentArray: [PokerSession] {
+            switch range {
+            case .all:
+                return allTournamentSessions()
+            case .oneMonth:
+                return filterSessionsLastMonth().filter{ $0.isTournament == true }
+            case .sixMonth:
+                return filterSessionsLastSixMonths().filter{ $0.isTournament == true }
+            case .oneYear:
+                return filterSessionsLastTwelveMonths().filter{ $0.isTournament == true }
+            case .ytd:
+                return filterSessionsYTD().filter{ $0.isTournament == true }
+            }
+        }
+        
+        let tournamentWins = tournamentArray.filter({ $0.profit > 0 }).count
+        let totalTournaments = tournamentArray.count
         let winRatio = Double(tournamentWins) / Double(totalTournaments)
         return winRatio.asPercent()
     }
     
-    func tournamentReturnOnInvestment() -> String {
+    func tournamentReturnOnInvestment(range: RangeSelection) -> String {
         guard !allTournamentSessions().isEmpty else { return "0%" }
         
+        var tournamentArray: [PokerSession] {
+            switch range {
+            case .all:
+                return allTournamentSessions()
+            case .oneMonth:
+                return filterSessionsLastMonth().filter{ $0.isTournament == true }
+            case .sixMonth:
+                return filterSessionsLastSixMonths().filter{ $0.isTournament == true }
+            case .oneYear:
+                return filterSessionsLastTwelveMonths().filter{ $0.isTournament == true }
+            case .ytd:
+                return filterSessionsYTD().filter{ $0.isTournament == true }
+            }
+        }
+        
         // It's Ok to force unwrap expenses because all tournaments MUST have an expense entered
-        let totalBuyIns = allTournamentSessions().map({ $0.expenses! }).reduce(0,+)
+        let totalBuyIns = tournamentArray.map({ $0.expenses! }).reduce(0,+)
         
         // Need total tournament winnings. Adding expenses back here because we need gross winnings, not net winnings
-        let totalWinnings = allTournamentSessions().map({ $0.profit + $0.expenses! }).reduce(0,+)
+        let totalWinnings = tournamentArray.map({ $0.profit + $0.expenses! }).reduce(0,+)
         
-        // ROI = Total winnings - Total buy ins / total buy ins
+        // ROI = Total Winnings - Total Buy Ins / Total Buy Ins
         let returnOnInvestment = (Double(totalWinnings) - Double(totalBuyIns)) / Double(totalBuyIns)
         
         return returnOnInvestment.asPercent()

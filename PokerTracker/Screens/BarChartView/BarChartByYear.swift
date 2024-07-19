@@ -64,9 +64,9 @@ struct BarChartByYear: View {
             ForEach(sessionProfitByMonth, id: \.month) { monthlyTotal in
                 
                 BarMark(x: .value("Month", monthlyTotal.month, unit: .month), y: .value("Profit", monthlyTotal.profit))
-                    .cornerRadius(6)
+                    .cornerRadius(7)
                     .foregroundStyle(Color.pink.gradient)
-                    .opacity(selectedMonth == nil || selectedMonth?.getMonth() == monthlyTotal.month.getMonth() ? 1 : 0.5)
+                    .opacity(selectedMonth == nil || selectedMonth?.getMonth() == monthlyTotal.month.getMonth() ? 1 : 0.4)
             }
             
             if let selectedMonth {
@@ -118,9 +118,9 @@ struct BarChartByYear: View {
             ForEach(sessionProfitByMonth, id: \.month) { monthlyTotal in
                 
                 BarMark(x: .value("Month", monthlyTotal.month, unit: .month), y: .value("Profit", monthlyTotal.profit))
-                    .cornerRadius(6)
+                    .cornerRadius(7)
                     .foregroundStyle(Color.pink.gradient)
-                    .opacity(selectedMonth == nil || selectedMonth?.getMonth() == monthlyTotal.month.getMonth() ? 1 : 0.5)
+                    .opacity(selectedMonth == nil || selectedMonth?.getMonth() == monthlyTotal.month.getMonth() ? 1 : 0.4)
             }
         }
         .chartXScale(domain: [firstDay, lastDay])

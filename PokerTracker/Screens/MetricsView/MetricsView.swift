@@ -27,25 +27,13 @@ struct MetricsView: View {
             ZStack {
                 VStack {
                     
-                    if viewModel.sessions.isEmpty {
-                        
-                        EmptyState(title: "No Sessions", image: .metrics)
-                            .padding(.bottom, 50)
-                        
-                    } else {
+                    if !viewModel.sessions.isEmpty {
                         
                         ScrollView {
                             
                             VStack (spacing: 22) {
                                 
-                                HStack {
-                                    
-                                    Text("Metrics")
-                                        .titleStyle()
-                                        .padding(.horizontal)
-                                    
-                                    Spacer()
-                                }
+                                title
                                 
                                 ToolTipView(image: "lightbulb",
                                             message: "Track your performance from here. Tap & hold charts for more info.",
@@ -53,14 +41,7 @@ struct MetricsView: View {
                                 
                                 bankrollChart
                                 
-                                BankrollProgressView(progressIndicator: $progressIndicator)
-                                    .onAppear(perform: {
-                                        self.progressIndicator = viewModel.stakesProgress
-                                    })
-                                    .onReceive(viewModel.$sessions, perform: { _ in
-                                        self.progressIndicator = viewModel.stakesProgress
-                                    })
-                                    .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+                                bankrollProgressView
                                 
                                 playerStats
                                 
@@ -90,6 +71,11 @@ struct MetricsView: View {
                         .fullScreenCover(isPresented: $viewModel.lineChartFullScreen, content: {
                             LineChartFullScreen(lineChartFullScreen: $viewModel.lineChartFullScreen)
                         })
+                        
+                    } else {
+                        EmptyState(title: "No Sessions", image: .metrics)
+                            .padding(.bottom, 50)
+
                     }
                 }
                 .frame(maxHeight: .infinity)
@@ -107,6 +93,18 @@ struct MetricsView: View {
         .accentColor(.brandPrimary)
     }
     
+    var title: some View {
+        
+        HStack {
+            
+            Text("Metrics")
+                .titleStyle()
+                .padding(.horizontal)
+            
+            Spacer()
+        }
+    }
+    
     var bankrollChart: some View {
         
         BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, overlayAnnotation: false)
@@ -116,6 +114,18 @@ struct MetricsView: View {
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 370)
             .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
             .cornerRadius(20)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+    }
+    
+    var bankrollProgressView: some View {
+        
+        BankrollProgressView(progressIndicator: $progressIndicator)
+            .onAppear(perform: {
+                self.progressIndicator = viewModel.stakesProgress
+            })
+            .onReceive(viewModel.$sessions, perform: { _ in
+                self.progressIndicator = viewModel.stakesProgress
+            })
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     
@@ -202,7 +212,7 @@ struct MetricsView: View {
                 case .cash:
                     CashStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
                 case .tournaments:
-                    TournamentStats(sessionFilter: sessionFilter, viewModel: viewModel)
+                    TournamentStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
                 }
                 
                 rangeSelector
@@ -496,20 +506,28 @@ struct TournamentStats: View {
     
     let sessionFilter: SessionFilter
     let viewModel: SessionsListViewModel
+    let range: RangeSelection
     
     var body: some View {
         
         VStack {
+            
+            let tournamentProfit = viewModel.tallyBankroll(range: range, bankroll: .tournaments)
+            let tournamentHourlyRate = viewModel.hourlyRate(range: range, bankroll: .tournaments)
+            let tournamentAvgDuration = viewModel.avgDuration(range: range, bankroll: .tournaments)
+            let avgTournamentBuyIn = viewModel.avgTournamentBuyIn(range: range)
+            let tournamentCount = viewModel.tournamentCount(range: range)
+            let itmRatio = viewModel.inTheMoneyRatio(range: range)
+            let tournamentROI = viewModel.tournamentReturnOnInvestment(range: range)
+            let tournamentHrsPlayed = viewModel.totalHoursPlayed(range: range, bankroll: .tournaments)
             
             HStack {
                 Text("Tournament Profit")
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(viewModel.tallyBankroll(bankroll: sessionFilter), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(viewModel.tallyBankroll(bankroll: sessionFilter) > 0 ? .green
-                                     : viewModel.tallyBankroll(bankroll: sessionFilter) < 0 ? .red
-                                     : .primary)
+                Text(tournamentProfit, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .foregroundColor(tournamentProfit > 0 ? .green : tournamentProfit < 0 ? .red : .primary)
             }
             
             Divider()
@@ -519,10 +537,8 @@ struct TournamentStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(viewModel.hourlyRate(bankroll: sessionFilter), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(viewModel.hourlyRate(bankroll: sessionFilter) > 0 ? .green
-                                     : viewModel.hourlyRate(bankroll: sessionFilter) < 0 ? .red
-                                     : .primary)
+                Text(tournamentHourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .foregroundColor(tournamentHourlyRate > 0 ? .green : tournamentHourlyRate < 0 ? .red : .primary)
             }
             
             Divider()
@@ -532,7 +548,7 @@ struct TournamentStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(viewModel.avgDuration(bankroll: sessionFilter))
+                Text(tournamentAvgDuration)
             }
             
             Divider()
@@ -542,7 +558,7 @@ struct TournamentStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(viewModel.avgTournamentBuyIn(), format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                Text(avgTournamentBuyIn, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
             }
             
             Divider()
@@ -552,7 +568,7 @@ struct TournamentStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text("\(viewModel.sessions.filter({ $0.isTournament == true }).count)")
+                Text("\(tournamentCount)")
             }
             
             Divider()
@@ -562,7 +578,7 @@ struct TournamentStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(viewModel.inTheMoneyRatio())
+                Text(itmRatio)
             }
             
             Divider()
@@ -572,7 +588,7 @@ struct TournamentStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(viewModel.tournamentReturnOnInvestment())
+                Text(tournamentROI)
             }
             
             Divider()
@@ -582,7 +598,7 @@ struct TournamentStats: View {
                     .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(viewModel.totalHoursPlayed(bankroll: sessionFilter))
+                Text(tournamentHrsPlayed)
             }
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))

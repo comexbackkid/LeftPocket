@@ -13,6 +13,7 @@ struct SessionDetailView: View {
     @Binding var activeSheet: Sheet?
     @State private var isPressed = false
     @State private var showError = false
+    
     let pokerSession: PokerSession
     
     var body: some View {

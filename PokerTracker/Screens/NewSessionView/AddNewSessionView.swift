@@ -525,7 +525,7 @@ struct AddNewSessionView: View {
                     .padding(.trailing, 10)
                     .padding(.bottom, 10)
                     .transition(.opacity.combined(with: .asymmetric(insertion: .push(from: .leading),
-                                                                                           removal: .scale(scale: 0, anchor: .topLeading))))
+                                                                                           removal: .scale(scale: 0, anchor: .bottomLeading))))
                 }
                 
                 // Cash Out
@@ -534,7 +534,7 @@ struct AddNewSessionView: View {
                         .font(.callout)
                         .foregroundColor(newSession.cashOut.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
-                    TextField(newSession.sessionType == .tournament ? "Winnings" : "Cash Out", text: $newSession.cashOut)
+                    TextField(newSession.sessionType == .tournament ? "Total Winnings" : "Cash Out", text: $newSession.cashOut)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
                 }
@@ -574,7 +574,7 @@ struct AddNewSessionView: View {
                             .font(.callout)
                             .foregroundColor(newSession.rebuyCount.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                         
-                        TextField("Rebuys", text: $newSession.rebuyCount)
+                        TextField("Rebuy Ct.", text: $newSession.rebuyCount)
                             .font(.custom("Asap-Regular", size: 17))
                             .keyboardType(.numberPad)
                     }
@@ -593,6 +593,10 @@ struct AddNewSessionView: View {
                 
                 HStack {
                     
+                    Text("#")
+                        .font(.callout)
+                        .foregroundColor(newSession.entrants.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                    
                     TextField("No. of Entrants", text: $newSession.entrants)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
@@ -605,6 +609,10 @@ struct AddNewSessionView: View {
                 .transition(.opacity.combined(with: .scale))
                 
                 HStack {
+                    
+                    Text("#")
+                        .font(.callout)
+                        .foregroundColor(newSession.finish.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("Your Finish", text: $newSession.finish)
                         .font(.custom("Asap-Regular", size: 17))
@@ -659,7 +667,8 @@ struct AddNewSessionView: View {
                 .cornerRadius(15)
                 .padding(.horizontal)
                 .padding(.bottom, 10)
-                .transition(.opacity.combined(with: .scale))
+                .transition(.opacity.combined(with: .asymmetric(insertion: .push(from: .bottom),
+                                                                                       removal: .scale(scale: 0, anchor: .bottom))))
             }
         }
         .padding(.horizontal, 8)

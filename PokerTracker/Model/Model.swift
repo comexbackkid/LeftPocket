@@ -115,7 +115,7 @@ struct MockData {
                                                endTime: Date().modifyTime(minutes: 395),
                                                expenses: 400,
                                                isTournament: true,
-                                               entrants: 8782,
+                                               entrants: 878,
                                                finish: 312,
                                                highHandBonus: nil,
                                                buyIn: 200,
