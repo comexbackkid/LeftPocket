@@ -20,15 +20,7 @@ struct LocationGridView: View {
         
         ScrollView(.vertical) {
             
-            HStack {
-                
-                Text("My Locations")
-                    .titleStyle()
-                    .padding(.top, -37)
-                    .padding(.horizontal)
-                
-                Spacer()
-            }
+            title
             
             if #available(iOS 17.0, *) {
                 
@@ -39,12 +31,7 @@ struct LocationGridView: View {
                     .padding(.bottom)
             }
             
-            if vm.locations.isEmpty {
-                
-                EmptyState(title: "No Locations", image: .locations)
-                    .padding(.top, 150)
-                
-            } else {
+            if !vm.locations.isEmpty {
                 
                 LazyVGrid(columns: columns) {
                     ForEach(vm.locations) { location in
@@ -53,6 +40,10 @@ struct LocationGridView: View {
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 50)
+                
+            } else {
+                EmptyState(title: "No Locations", image: .locations)
+                    .padding(.top, 150)
             }
         }
         .background(Color.brandBackground)
@@ -62,6 +53,19 @@ struct LocationGridView: View {
             addLocationButton
                 
             resetLocationsButton
+        }
+    }
+    
+    var title: some View {
+        
+        HStack {
+            
+            Text("My Locations")
+                .titleStyle()
+                .padding(.top, -37)
+                .padding(.horizontal)
+            
+            Spacer()
         }
     }
     

@@ -17,7 +17,8 @@ struct SessionsListView: View {
     @EnvironmentObject var subManager: SubscriptionManager
     
     @State var activeSheet: Sheet?
-    @State var isPresented = false
+//    @State var isPresented = false
+    @State var showEditScreen = false
     @State var showPaywall = false
     @State var showTip = false
     @State var showDateFilter = false
@@ -29,10 +30,7 @@ struct SessionsListView: View {
     @State var endDate: Date = .now
     @State var datesInitialized = false
     @State var listFilter: ListFilter = .sessions
-    
-    // Still testing this out, ability to edit a PokerSession
-    @State private var selectedSession: PokerSession?
-    @State private var isEditViewPresented = false
+    @State var selectedSession: PokerSession?
     
     var firstSessionDate: Date {
         vm.sessions.last?.date ?? Date().modifyDays(days: 15000)
@@ -112,25 +110,45 @@ struct SessionsListView: View {
                                         })
                                     .listRowBackground(Color.brandBackground)
                                     .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 18))
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                                Button(role: .destructive) {
+                                                    deleteSession(session)
+                                                } label: {
+                                                    Image(systemName: "trash")
+                                                }
+                                                .tint(.red)
+
+                                                Button {
+                                                    selectedSession = session
+                                                } label: {
+                                                    Image(systemName: "pencil")
+                                                }
+                                                .tint(Color.donutChartOrange)
+                                            }
+                                    
                                 }
-                                .onDelete(perform: { indexSet in
-                                    let sessionIdsToDelete = indexSet.map { filteredSessions[$0].id }
-                                    for sessionId in sessionIdsToDelete {
-                                        if let index = vm.sessions.firstIndex(where: { $0.id == sessionId }) {
-                                            vm.sessions.remove(at: index)
-                                        }
-                                    }
-                                })
+//                                .onDelete(perform: { indexSet in
+//                                    let sessionIdsToDelete = indexSet.map { filteredSessions[$0].id }
+//                                    for sessionId in sessionIdsToDelete {
+//                                        if let index = vm.sessions.firstIndex(where: { $0.id == sessionId }) {
+//                                            vm.sessions.remove(at: index)
+//                                        }
+//                                    }
+//                                })
+                                
                             }
                             .listStyle(.plain)
+                            .sheet(item: $selectedSession) { session in
+                                EditSession(pokerSession: session)
+                            }
                             
                             if #available(iOS 17.0, *) {
                                 filterTip
                             }
                             
                         } else {
-                            emptySessionsView
                             
+                            emptySessionsView
                         }
                         
                     case .transactions:
@@ -193,6 +211,7 @@ struct SessionsListView: View {
                     datesInitialized = true
                 }
             }
+            
         }
         .accentColor(.brandPrimary)
     }
@@ -351,6 +370,12 @@ struct SessionsListView: View {
         stakesFilter = nil
         startDate = firstSessionDate
         endDate = Date.now
+    }
+    
+    private func deleteSession(_ session: PokerSession) {
+        if let index = vm.sessions.firstIndex(where: { $0.id == session.id }) {
+            vm.sessions.remove(at: index)
+        }
     }
     
     private func deleteTransaction(at offsets: IndexSet) {

@@ -8,7 +8,6 @@
 import SwiftUI
 import RevenueCatUI
 import RevenueCat
-import TipKit
 import AVFoundation
 import AVKit
 

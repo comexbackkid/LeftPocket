@@ -229,19 +229,6 @@ struct SessionDetailView: View {
                 .subtitleStyle()
                 .padding(.bottom, 5)
             
-            HStack {
-                Text("Date")
-                    .bodyStyle()
-                    .foregroundColor(.secondary)
-                
-                Spacer()
-                
-                Text("\(pokerSession.date.dateStyle())")
-                    .bodyStyle()
-            }
-            
-            Divider()
-            
             HStack (spacing: 0) {
                 
                 Text("Start / End")
@@ -584,7 +571,7 @@ struct GraphicHeaderView: View {
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleTournament)
+            SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
                 .preferredColorScheme(.dark)
                 .environmentObject(SessionsListViewModel())
         }

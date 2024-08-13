@@ -10,9 +10,9 @@ import RevenueCat
 import RevenueCatUI
 import TipKit
 
+enum SessionType: String, Codable { case cash, tournament }
+
 final class NewSessionViewModel: ObservableObject {
-    
-    enum SessionType: String, Codable { case cash, tournament }
     
     @Published var location: LocationModel = LocationModel(name: "", localImage: "", imageURL: "")
     @Published var game: String = ""

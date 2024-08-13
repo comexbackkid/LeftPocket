@@ -540,7 +540,7 @@ struct SleepAnalytics: View {
                 if countWithLessSleep == 0 {
                     return "No data available to compare performances yet."
                 }
-                return "Uh oh! All sessions played with under 6 hours of sleep. No baseline available."
+                return "Uh oh! All sessions played with under 6 hours of sleep."
             }
 
             let avgHourlyRateWithEnoughSleep = hourlyRateWithEnoughSleep / Double(countWithEnoughSleep)
@@ -551,7 +551,7 @@ struct SleepAnalytics: View {
                 let improvement = ((avgHourlyRateWithEnoughSleep - avgHourlyRateWithLessSleep) / abs(avgHourlyRateWithLessSleep)) * 100
                 return "Your hourly rate is \(improvement.formatted(.number.precision(.fractionLength(0))))% \(improvement > 0 ? "greater" : "worse") on days you sleep at least 6 hours."
             } else {
-                return "Great! No sessions played with under 6 hours of sleep. No baseline available."
+                return "Great! No sessions played with less than 6 hours of sleep."
             }
     }
     
