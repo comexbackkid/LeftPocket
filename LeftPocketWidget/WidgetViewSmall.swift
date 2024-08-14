@@ -57,6 +57,24 @@ struct WidgetViewSmall : View {
     var numbers: some View {
         
         VStack {
+            
+            HStack {
+                Text("Hourly Rate")
+                    .foregroundColor(.secondary)
+                    .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
+                
+                Spacer()
+            }
+            
+            HStack {
+                Text(entry.hourlyRate, format: .currency(code: entry.currency).precision(.fractionLength(0)))
+                    .foregroundColor(.widgetForegroundText)
+                    .font(.custom("Asap-Medium", size: 18, relativeTo: .caption2))
+                
+                Spacer()
+            }
+            
+            Spacer()
 
             HStack {
                 Text("Total Profit")
@@ -94,7 +112,7 @@ struct WidgetViewSmall : View {
             .padding(.top, -18)
         }
         .padding(.horizontal, 12)
-        .padding(.bottom, 12)
+        .padding(.vertical, 12)
     }
 }
 

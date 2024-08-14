@@ -8,8 +8,6 @@
 import SwiftUI
 import RevenueCatUI
 import RevenueCat
-import AVFoundation
-import AVKit
 
 struct AddNewSessionView: View {
 

@@ -13,6 +13,7 @@ struct AddNewTransaction: View {
     @Environment(\.colorScheme) var colorScheme
     
     @Binding var showNewTransaction: Bool
+    @Binding var audioConfirmation: Bool
     
     @State private var type: TransactionType?
     @State private var amount: String = ""
@@ -50,6 +51,7 @@ struct AddNewTransaction: View {
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .frame(maxHeight: .infinity)
         .background(Color.brandBackground)
+        .onAppear { audioConfirmation = false }
         .alert(item: $alertItem) { alertItem in
             Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
         }
@@ -247,6 +249,7 @@ struct AddNewTransaction: View {
                 let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
                 saveButtonPressed()
+                audioConfirmation = true
                 
             } label: {
                 PrimaryButton(title: "Save Transaction")
@@ -274,7 +277,7 @@ struct AddNewTransaction: View {
 }
 
 #Preview {
-    AddNewTransaction(showNewTransaction: .constant(true))
+    AddNewTransaction(showNewTransaction: .constant(true), audioConfirmation: .constant(false))
         .environmentObject(SessionsListViewModel())
         .preferredColorScheme(.dark)
 }

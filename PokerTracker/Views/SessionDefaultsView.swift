@@ -19,10 +19,9 @@ struct SessionDefaultsView: View {
     @State private var currency: CurrencyType = .USD
     @State private var resultMessage: String = ""
     @State private var errorMessage: String?
+    @State private var showAlertModal = false
     @State private var addStakesIsShowing = false
     @State private var addLocationIsShowing = false
-    
-    enum SessionType: String, Codable { case cash, tournament }
     
     var body: some View {
             
@@ -50,17 +49,6 @@ struct SessionDefaultsView: View {
                                 .foregroundColor(.red)
                         }
                         
-                    } else if !resultMessage.isEmpty {
-                        
-                        VStack {
-                            Text("Success!")
-                            Text(resultMessage)
-                            Image(systemName: "checkmark.circle")
-                                .resizable()
-                                .frame(width: 50, height: 50)
-                                .padding(.top, 1)
-                                .foregroundColor(.green)
-                        }
                     }
                 }
                 .background(Color.brandBackground)
@@ -70,9 +58,13 @@ struct SessionDefaultsView: View {
             }
             .background(Color.brandBackground)
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                resetDefaultsButton
-            }
+            .toolbar { resetDefaultsButton }
+            .sheet(isPresented: $showAlertModal, content: {
+                AlertModal(message: resultMessage)
+                    .presentationDetents([.height(220)])
+                    .presentationBackground(.ultraThinMaterial)
+                
+            })
     }
     
     var title: some View {
@@ -122,21 +114,17 @@ struct SessionDefaultsView: View {
                 Menu {
                     
                     Picker("Picker", selection: $sessionType) {
-                        Text("Cash Game").tag(Optional(SessionDefaultsView.SessionType.cash))
+                        Text("Cash Game").tag(Optional(SessionType.cash))
                         
                         // Right now we're just choosing to hide the Tournament option unless user is subscribed
                         if subManager.isSubscribed {
-                            Text("Tournament").tag(Optional(SessionDefaultsView.SessionType.tournament))
+                            Text("Tournament").tag(Optional(SessionType.tournament))
                         }
                     }
                     .onChange(of: sessionType, perform: { value in
                         errorMessage = nil
                         resultMessage = ""
                     })
-//                    .onChange(of: sessionType) {
-//                        errorMessage = nil
-//                        resultMessage = ""
-//                    }
                     
                 } label: {
                     
@@ -456,6 +444,8 @@ struct SessionDefaultsView: View {
         switch saveResult {
         case .success:
             resultMessage = "Session Defaults have been saved."
+            showAlertModal = true
+            
         case .failure(let error):
             errorMessage = "\(error.localizedDescription)"
         }

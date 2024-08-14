@@ -203,8 +203,12 @@ struct LeftPocketCustomTabBar: View {
                         Spacer()
                         
                     }
-                    .sheet(isPresented: $showNewTransaction, content: {
-                        AddNewTransaction(showNewTransaction: $showNewTransaction)
+                    .sheet(isPresented: $showNewTransaction, onDismiss: { 
+                        if audioConfirmation {
+                            playSound()
+                        }
+                     }, content: {
+                        AddNewTransaction(showNewTransaction: $showNewTransaction, audioConfirmation: $audioConfirmation)
                     })
                     .onTapGesture(perform: {
                         let impact = UIImpactFeedbackGenerator(style: .medium)
@@ -331,6 +335,7 @@ struct LeftPocketCustomTabBar: View {
     }
     
     func logCompletedSession() {
+        
         let impact = UIImpactFeedbackGenerator(style: .soft)
         impact.impactOccurred()
         

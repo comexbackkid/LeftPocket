@@ -28,11 +28,11 @@ struct DeleteLocationTip: Tip {
 struct MonthlyReportTip: Tip {
     
     var title: Text {
-        Text("About These Metrics")
+        Text("Metrics Columns")
     }
     
     var message: Text? {
-        Text("The \(Image(systemName: "dollarsign")) column is your net profit, \(Image(systemName: "gauge.high")) hourly rate, and \(Image(systemName: "clock")) are the total hours. Change the year displayed from the upper right corner of the screen.")
+        Text("The \(Image(systemName: "dollarsign")) column is your net profit, \(Image(systemName: "gauge.high")) hourly rate, and \(Image(systemName: "clock")) your total hours. Change years from the upper right corner of the screen.")
     }
     
     var image: Image? {

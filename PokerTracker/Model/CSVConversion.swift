@@ -52,6 +52,9 @@ class CSVConversion: ObservableObject {
             let entrants = "\"\(session.entrants ?? 0)\""
             let highHandBonus = "\(session.highHandBonus ?? 0)"
             let notes = "\"\(escapeQuotes(session.notes))\""
+//            if let buyIn = session.buyIn {
+//                let buyIn = "\(buyIn)"
+//            }
             
             let rowText = "\(location),\(game),\(stakes),\(date),\(profit),\(expenses),\(startTime),\(endTime),\(isTournament),\(entrants),\(highHandBonus),\(notes)\n"
             csvText.append(rowText)

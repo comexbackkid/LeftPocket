@@ -805,6 +805,7 @@ struct EditSession: View {
     }
     
     private var tournamentRebuys: Int {
+        
         guard !rebuyCount.isEmpty else { return 0 }
         
         let buyIn = Int(self.buyIn) ?? 0

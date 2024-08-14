@@ -37,9 +37,7 @@ struct UserSettings: View {
                 VStack (spacing: 40) {
                     
                     displayOptions
-                    
-                    if !subManager.isSubscribed { upgradeToPro }
-                    
+                                        
                     Divider()
                     
                     middleSection
@@ -56,7 +54,6 @@ struct UserSettings: View {
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 50)
-                
             }
             .background(Color.brandBackground)
             .navigationBarHidden(true)
@@ -78,6 +75,37 @@ struct UserSettings: View {
                             .titleStyle()
                         
                         Spacer()
+                    }
+                    
+                    if !subManager.isSubscribed {
+                        
+                        Button {
+                            
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                            showPaywall = true
+                            
+                        } label: {
+                            
+                            HStack {
+                                Spacer()
+                                VStack {
+                                    Text("Try Left Pocket Pro FREE 🎁")
+                                        .subtitleStyle()
+                                        .foregroundStyle(.white)
+                                    
+                                    Text("Unlock access for more advanced features.")
+                                        .captionStyle()
+                                        .foregroundStyle(.white)
+                                }
+                                Spacer()
+                            }
+                            .frame(height: 75)
+                            .background(Color.brandPrimary.gradient)
+                            .clipShape(.rect(cornerRadius: 15))
+                            .padding(.bottom, 25)
+                        }
+                        .buttonStyle(.plain)
                     }
                     
                     HStack {
@@ -442,7 +470,6 @@ struct UserSettings: View {
             
             let impact = UIImpactFeedbackGenerator(style: .soft)
             impact.impactOccurred()
-            
             showPaywall = true
             
         } label: {

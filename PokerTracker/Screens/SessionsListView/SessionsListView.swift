@@ -17,7 +17,6 @@ struct SessionsListView: View {
     @EnvironmentObject var subManager: SubscriptionManager
     
     @State var activeSheet: Sheet?
-//    @State var isPresented = false
     @State var showEditScreen = false
     @State var showPaywall = false
     @State var showTip = false
@@ -111,40 +110,16 @@ struct SessionsListView: View {
                                     .listRowBackground(Color.brandBackground)
                                     .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 18))
                                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                                Button(role: .destructive) {
-                                                    deleteSession(session)
-                                                } label: {
-                                                    Image(systemName: "trash")
-                                                }
-                                                .tint(.red)
-
-                                                Button {
-                                                    selectedSession = session
-                                                } label: {
-                                                    Image(systemName: "pencil")
-                                                }
-                                                .tint(Color.donutChartOrange)
-                                            }
-                                    
+                                        swipeActions(session)
+                                    }
                                 }
-//                                .onDelete(perform: { indexSet in
-//                                    let sessionIdsToDelete = indexSet.map { filteredSessions[$0].id }
-//                                    for sessionId in sessionIdsToDelete {
-//                                        if let index = vm.sessions.firstIndex(where: { $0.id == sessionId }) {
-//                                            vm.sessions.remove(at: index)
-//                                        }
-//                                    }
-//                                })
-                                
                             }
                             .listStyle(.plain)
                             .sheet(item: $selectedSession) { session in
                                 EditSession(pokerSession: session)
                             }
                             
-                            if #available(iOS 17.0, *) {
-                                filterTip
-                            }
+                            if #available(iOS 17.0, *) { filterTip }
                             
                         } else {
                             
@@ -211,7 +186,6 @@ struct SessionsListView: View {
                     datesInitialized = true
                 }
             }
-            
         }
         .accentColor(.brandPrimary)
     }
@@ -360,6 +334,24 @@ struct SessionsListView: View {
                 .padding(20)
             
             Spacer()
+        }
+    }
+    
+    private func swipeActions(_ session: PokerSession) -> some View {
+        Group {
+            Button(role: .destructive) {
+                deleteSession(session)
+            } label: {
+                Image(systemName: "trash")
+            }
+            .tint(.red)
+            
+            Button {
+                selectedSession = session
+            } label: {
+                Image(systemName: "pencil")
+            }
+            .tint(Color.donutChartOrange)
         }
     }
     
