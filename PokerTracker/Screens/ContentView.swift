@@ -119,52 +119,52 @@ struct ContentView: View {
         .padding(.bottom, -20)
     }
     
-    var quickMetrics: some View {
-        
-        HStack (spacing: 18) {
-            
-            VStack (spacing: 3) {
-                Text(String(viewModel.sessions.count))
-                    .font(.system(size: 20, design: .rounded))
-                    .opacity(0.75)
-                
-                Text(viewModel.sessions.count == 1 ? "Session" : "Sessions")
-                    .captionStyle()
-                    .fontWeight(.thin)
-            }
-            
-            Divider()
-            
-            VStack (spacing: 3) {
-                Text(String(viewModel.totalWinRate(bankroll: .all)))
-                    .font(.system(size: 20, design: .rounded))
-                    .opacity(0.75)
-                
-                Text("Win Ratio")
-                    .captionStyle()
-                    .fontWeight(.thin)
-            }
-            
-            Divider()
-            
-            VStack (spacing: 3) {
-                Text(viewModel.totalHoursPlayedHomeScreen())
-                    .font(.system(size: 20, design: .rounded))
-                    .opacity(0.75)
-                
-                Text("Hours")
-                    .captionStyle()
-                    .fontWeight(.thin)
-            }
-        }
-        .padding(20)
-        .frame(width: UIScreen.main.bounds.width * 0.85)
-        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
-        .cornerRadius(20)
-        .padding(.bottom, 25)
-        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
-        
-    }
+//    var quickMetrics: some View {
+//        
+//        HStack (spacing: 18) {
+//            
+//            VStack (spacing: 3) {
+//                Text(String(viewModel.sessions.count))
+//                    .font(.system(size: 20, design: .rounded))
+//                    .opacity(0.75)
+//                
+//                Text(viewModel.sessions.count == 1 ? "Session" : "Sessions")
+//                    .captionStyle()
+//                    .fontWeight(.thin)
+//            }
+//            
+//            Divider()
+//            
+//            VStack (spacing: 3) {
+//                Text(String(viewModel.totalWinRate(bankroll: .all)))
+//                    .font(.system(size: 20, design: .rounded))
+//                    .opacity(0.75)
+//                
+//                Text("Win Ratio")
+//                    .captionStyle()
+//                    .fontWeight(.thin)
+//            }
+//            
+//            Divider()
+//            
+//            VStack (spacing: 3) {
+//                Text(viewModel.totalHoursPlayedHomeScreen())
+//                    .font(.system(size: 20, design: .rounded))
+//                    .opacity(0.75)
+//                
+//                Text("Hours")
+//                    .captionStyle()
+//                    .fontWeight(.thin)
+//            }
+//        }
+//        .padding(20)
+//        .frame(width: UIScreen.main.bounds.width * 0.85)
+//        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+//        .cornerRadius(20)
+//        .padding(.bottom, 25)
+//        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+//        
+//    }
     
     var metricsCard: some View {
         

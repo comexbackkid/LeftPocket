@@ -48,11 +48,13 @@ class CSVImporter {
                 let startTime = convertToDate(columns[0].trimmingCharacters(in: .init(charactersIn: "\"")))
                 let endTime = convertToDate(columns[1].trimmingCharacters(in: .init(charactersIn: "\"")))
                 let expenses = Int(columns[27])
+                let buyIn = Int(columns[9])
+                let cashOut = Int(columns[10])
                 
                 // Tournament Data
                 let sessionType = columns[4].trimmingCharacters(in: .init(charactersIn: "\""))
                 let entrants = Int(columns[31]) ?? 0
-                let buyIn = Int(columns[9]) ?? 0
+                let tournamentBuyIn = Int(columns[9]) ?? 0
                 
                 // Need to figure out how to handle the buyIn being the same as expenses
                 let session = PokerSession(location: location,
@@ -63,13 +65,13 @@ class CSVImporter {
                                            notes: notes,
                                            startTime: startTime ?? Date().modifyTime(minutes: -360),
                                            endTime: endTime ?? Date(),
-                                           expenses: sessionType == "Tournament" ? buyIn : expenses,
+                                           expenses: sessionType == "Tournament" ? tournamentBuyIn : expenses,
                                            isTournament: sessionType == "Tournament" ? true : false,
                                            entrants: entrants,
                                            finish: nil,
                                            highHandBonus: nil,
-                                           buyIn: nil,
-                                           cashOut: nil,
+                                           buyIn: buyIn,
+                                           cashOut: cashOut,
                                            rebuyCount: nil,
                                            tournamentSize: nil,
                                            tournamentSpeed: nil)
@@ -175,24 +177,26 @@ class CSVImporter {
                 columns.append("")
             }
            
-            if columns.count == 12 {
+            if columns.count == 14 {
                 
                 // Extract only relevant data and create a PokerSession object
                 let game = columns[1].trimmingCharacters(in: .init(charactersIn: "\""))
                 let location = LocationModel(name: columns[0].trimmingCharacters(in: .init(charactersIn: "\"")), localImage: "", imageURL: "")
                 let stakes = columns[2].trimmingCharacters(in: .init(charactersIn: "\""))
                 let date = convertToDateFromLeftPocket(columns[3].trimmingCharacters(in: .init(charactersIn: "\"")))
-                let profit = columns[4]
-                let notes = columns[11].trimmingCharacters(in: .init(charactersIn: "\""))
-                let startTime = convertToDateFromLeftPocket(columns[6].trimmingCharacters(in: .init(charactersIn: "\"")))
-                let endTime = convertToDateFromLeftPocket(columns[7].trimmingCharacters(in: .init(charactersIn: "\"")))
-                let expenses = Int(columns[5].trimmingCharacters(in: .init(charactersIn: "\"")))
-                let highHandBonus = columns[10]
+                let profit = columns[6]
+                let notes = columns[13].trimmingCharacters(in: .init(charactersIn: "\""))
+                let startTime = convertToDateFromLeftPocket(columns[8].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let endTime = convertToDateFromLeftPocket(columns[9].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let expenses = Int(columns[7].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let highHandBonus = columns[12]
+                let buyIn = columns[4]
+                let cashOut = columns[5]
                 
                 // Tournament Data
-                let isTournament = columns[8].trimmingCharacters(in: .init(charactersIn: "\""))
-                let entrants = Int(columns[9].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
-                let buyIn = Int(columns[5].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
+                let isTournament = columns[10].trimmingCharacters(in: .init(charactersIn: "\""))
+                let entrants = Int(columns[11].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
+                let tournamentBuyIn = Int(columns[7].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
                 
                 // Need to figure out how to handle the buyIn being the same as expenses
                 let session = PokerSession(location: location,
@@ -203,13 +207,13 @@ class CSVImporter {
                                            notes: notes,
                                            startTime: startTime ?? Date().modifyTime(minutes: -360),
                                            endTime: endTime ?? Date(),
-                                           expenses: isTournament == "true" ? buyIn : expenses,
+                                           expenses: isTournament == "true" ? tournamentBuyIn : expenses,
                                            isTournament: isTournament == "true" ? true : false,
                                            entrants: entrants,
                                            finish: nil,
                                            highHandBonus: Int(highHandBonus) ?? 0,
-                                           buyIn: nil,
-                                           cashOut: nil,
+                                           buyIn: Int(buyIn),
+                                           cashOut: Int(cashOut),
                                            rebuyCount: nil,
                                            tournamentSize: nil,
                                            tournamentSpeed: nil)

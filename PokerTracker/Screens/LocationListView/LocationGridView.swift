@@ -22,14 +22,7 @@ struct LocationGridView: View {
             
             title
             
-            if #available(iOS 17.0, *) {
-                
-                let deleteTip = DeleteLocationTip()
-                TipView(deleteTip)
-                    .tipViewStyle(CustomTipViewStyle())
-                    .padding(.horizontal, 20)
-                    .padding(.bottom)
-            }
+            if #available(iOS 17.0, *) { locationTip }
             
             if !vm.locations.isEmpty {
                 
@@ -42,6 +35,7 @@ struct LocationGridView: View {
                 .padding(.bottom, 50)
                 
             } else {
+                
                 EmptyState(title: "No Locations", image: .locations)
                     .padding(.top, 150)
             }
@@ -105,6 +99,18 @@ struct LocationGridView: View {
             }
         } message: {
             Text("This will restore the original Locations. Your custom Locations will NOT be affected.")
+        }
+    }
+    
+    @available(iOS 17.0, *)
+    var locationTip: some View {
+        
+        VStack {
+            let deleteTip = DeleteLocationTip()
+            TipView(deleteTip)
+                .tipViewStyle(CustomTipViewStyle())
+                .padding(.horizontal, 20)
+                .padding(.bottom)
         }
     }
 }

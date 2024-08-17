@@ -33,7 +33,7 @@ class CSVConversion: ObservableObject {
 
     static private func convertToCSV(data: [PokerSession]) -> String {
         
-        var csvText = "Location,Game,Stakes,Date,Profit,Expenses,Start Time,End Time,Tournament,Entrants,High Hand Bonus,Notes\n"
+        var csvText = "Location,Game,Stakes,Date,Buy In, Cash Out,Profit,Expenses,Start Time,End Time,Tournament,Entrants,High Hand Bonus,Notes\n"
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
@@ -51,12 +51,11 @@ class CSVConversion: ObservableObject {
             let isTournament = "\"\(session.isTournament ?? false)\""
             let entrants = "\"\(session.entrants ?? 0)\""
             let highHandBonus = "\(session.highHandBonus ?? 0)"
-            let notes = "\"\(escapeQuotes(session.notes))\""
-//            if let buyIn = session.buyIn {
-//                let buyIn = "\(buyIn)"
-//            }
+            let notes = ""
+            let buyIn = session.buyIn != nil ? "\(session.buyIn!)" : ""
+            let cashOut = session.cashOut != nil ? "\(session.cashOut!)" : ""
             
-            let rowText = "\(location),\(game),\(stakes),\(date),\(profit),\(expenses),\(startTime),\(endTime),\(isTournament),\(entrants),\(highHandBonus),\(notes)\n"
+            let rowText = "\(location),\(game),\(stakes),\(date),\(buyIn),\(cashOut),\(profit),\(expenses),\(startTime),\(endTime),\(isTournament),\(entrants),\(highHandBonus),\(notes)\n"
             csvText.append(rowText)
         }
         

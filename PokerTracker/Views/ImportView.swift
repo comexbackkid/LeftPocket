@@ -626,8 +626,6 @@ struct LeftPocketImportView: View {
                 
                 VStack (alignment: .leading, spacing: 20) {
                     
-                    
-                    
                     HStack {
                         
                         Image(systemName: "1.circle.fill")
@@ -686,6 +684,7 @@ struct LeftPocketImportView: View {
                         .padding(.top, 1)
                         .foregroundColor(.red)
                 }
+                .padding(.horizontal)
                 
             } else if let showSuccessMessage {
                 
@@ -698,6 +697,7 @@ struct LeftPocketImportView: View {
                         .padding(.top, 1)
                         .foregroundColor(.green)
                 }
+                .padding(.horizontal)
             }
             
             HStack {
@@ -754,10 +754,11 @@ struct LeftPocketImportView: View {
                 case .invalidData:
                     errorMessage = "Error: Invalid Data"
                 case .parsingFailed:
-                    errorMessage = "Error: Parsing Failed"
+                    errorMessage = "Error: Incorrect number of columns. Try exporting your data again and importing a new CSV file."
                 case .saveFailed:
                     errorMessage = "Error: Failed to Save Data"
                 }
+                
                 print("CSV Import Error: \(error)")
                 
             } catch {

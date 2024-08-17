@@ -176,7 +176,7 @@ extension SessionsListViewModel {
         } else {
             switch range {
             case .all:
-                sessionsArray = sessions
+                sessionsArray = sessions.filter { $0.isTournament != true }
             case .oneMonth:
                 sessionsArray = filterSessionsLastMonth().filter { $0.isTournament != true }
             case .sixMonth:

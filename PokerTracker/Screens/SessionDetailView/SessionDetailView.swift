@@ -10,6 +10,7 @@ import SwiftUI
 struct SessionDetailView: View {
     
     @EnvironmentObject var vm: SessionsListViewModel
+    @Environment(\.colorScheme) var colorScheme
     @Binding var activeSheet: Sheet?
     @State private var isPressed = false
     @State private var showError = false
@@ -20,37 +21,32 @@ struct SessionDetailView: View {
         
         ZStack {
             
+            // Main Scrolling View
             ScrollView (.vertical) {
                 
-                VStack(spacing: 4) {
+                headerGraphic
                     
-                    GraphicHeaderView(location: pokerSession.location, date: pokerSession.date)
+                VStack {
                     
-                    Divider().frame(width: UIScreen.main.bounds.width * 0.5)
+                    headerText
                     
-                    if pokerSession.isTournament ?? false {
+                    if pokerSession.isTournament == true {
                         
                         tournamentMetrics
                         
-                    } else { cashMetrics }
-                    
-                    VStack(alignment: .leading) {
+                    } else {
                         
-                        notes
-        
-                        details
-                        
+                        cashMetrics
                     }
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
-                    .padding(30)
-                    .padding(.bottom, activeSheet == .recentSession ? 0 : 70)
+                    
+                    bottomSection
                 }
+                .offset(y: -95)
             }
             .background(.regularMaterial)
-            .background(!pokerSession.location.localImage.isEmpty 
-                        ? Image(pokerSession.location.localImage).resizable().aspectRatio(contentMode: .fill)
-                        : backgroundImage().resizable().aspectRatio(contentMode: .fill)).ignoresSafeArea()
+            .background(locationBackground()).ignoresSafeArea()
             
+            // Floating Buttons
             VStack {
                 
                 if activeSheet == .recentSession {
@@ -96,6 +92,71 @@ struct SessionDetailView: View {
                   dismissButton: .default(Text("Ok")))
         }
     }
+    
+    var headerGraphic: some View {
+        
+        GraphicHeaderView(location: pokerSession.location)
+            .overlay {
+                GraphicHeaderView(location: pokerSession.location)
+                    .blur(radius: 12, opaque: true)
+                    .mask(
+                        LinearGradient(gradient: Gradient(stops: [
+                            Gradient.Stop(color: Color(white: 0, opacity: 0), location: 0.75),
+                            Gradient.Stop(color: Color(white: 0, opacity: 1), location: 0.85),
+                        ]), startPoint: .top, endPoint: .bottom)
+                    )
+            }
+            .overlay(
+                LinearGradient(gradient: Gradient(stops: [
+                    Gradient.Stop(color: Color(white: 0, opacity: 0), location: 0.6),
+                    Gradient.Stop(color: Color(white: 0, opacity: 0.3), location: 1),
+                ]), startPoint: .top, endPoint: .bottom)
+            )
+    }
+    
+    var headerText: some View {
+        
+        VStack (spacing: 2) {
+            
+            Text(pokerSession.location.name)
+                .font(.custom("Asap-Black", size: 32))
+                .minimumScaleFactor(0.8)
+                .lineLimit(1)
+                .padding(.bottom, 0.2)
+                .foregroundStyle(.white)
+            
+            HStack (spacing: 4) {
+                
+                Text("\(pokerSession.date.dateStyle())")
+                    .calloutStyle()
+                
+                Text("•")
+                    .calloutStyle()
+                
+                Text(pokerSession.game)
+                    .calloutStyle()
+                
+            }
+            .foregroundStyle(.white.opacity(0.5))
+            
+        }
+        .padding(.bottom, 30)
+    }
+    
+    var bottomSection: some View {
+        
+        VStack(alignment: .leading) {
+            
+            notes
+
+            details
+            
+        }
+        .frame(maxWidth: .infinity, alignment: .topLeading)
+        .padding(.horizontal, 30)
+        .padding(.top, 20)
+        .padding(.bottom, activeSheet == .recentSession ? 0 : 20)
+    }
 
     var cashMetrics: some View {
         
@@ -111,9 +172,15 @@ struct SessionDetailView: View {
                 Spacer()
                 
                 Text(pokerSession.playingTIme)
-                    .fontWeight(.semibold)
+
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.16)
+            .padding(20)
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .cornerRadius(12)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+            
+            Spacer()
             
             VStack {
                 Image(systemName: "trophy.fill")
@@ -125,10 +192,16 @@ struct SessionDetailView: View {
                 
                 Text(pokerSession.profit, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: pokerSession.profit)
-                    .fontWeight(.semibold)
                 
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.16)
+            .padding(20)
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .cornerRadius(12)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+            
+            
+            Spacer()
             
             VStack {
                 Image(systemName: "gauge.high")
@@ -138,20 +211,26 @@ struct SessionDetailView: View {
                 
                 Spacer()
                 
-                Text("\(pokerSession.hourlyRate, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0))) / hr").profitColor(total: pokerSession.hourlyRate)
-                    .fontWeight(.semibold)
+                Text("\(pokerSession.hourlyRate, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))").profitColor(total: pokerSession.hourlyRate)
+                
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.16)
+            .padding(20)
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .cornerRadius(12)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         }
-        .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
-        .frame(maxWidth: .infinity)
-        .padding()
+        .font(.custom("Asap-Regular", size: 16, relativeTo: .body))
+        .padding(.horizontal, 30)
+        .padding(.vertical, 10)
+        .padding(.top, 5)
         
     }
     
     var tournamentMetrics: some View {
         
         HStack(spacing: 0) {
+            
             VStack {
                 
                 Image(systemName: "clock")
@@ -165,7 +244,13 @@ struct SessionDetailView: View {
                     .fontWeight(.semibold)
                 
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.16)
+            .padding(20)
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .cornerRadius(12)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+            
+            Spacer()
             
             VStack {
                 Image(systemName: "trophy.fill")
@@ -179,7 +264,13 @@ struct SessionDetailView: View {
                     .profitColor(total: pokerSession.profit)
                     .fontWeight(.semibold)
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.16)
+            .padding(20)
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .cornerRadius(12)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+            
+            Spacer()
             
             VStack {
                 Image(systemName: "person.2.fill")
@@ -198,11 +289,17 @@ struct SessionDetailView: View {
                         .fontWeight(.semibold)
                 }
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.25)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.16)
+            .padding(20)
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .cornerRadius(12)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+            
         }
-        .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
-        .frame(maxWidth: .infinity)
-        .padding()
+        .font(.custom("Asap-Regular", size: 16, relativeTo: .body))
+        .padding(.horizontal, 30)
+        .padding(.vertical, 10)
+        .padding(.top, 5)
     }
     
     var notes: some View {
@@ -212,7 +309,6 @@ struct SessionDetailView: View {
             Text(pokerSession.isTournament ?? false ? "Tournament Notes" : "Session Notes")
                 .subtitleStyle()
                 .padding(.bottom, 5)
-                .padding(.top, 20)
             
             Text(pokerSession.notes)
                 .bodyStyle()
@@ -417,7 +513,6 @@ struct SessionDetailView: View {
                 }
             }
         }
-        .padding(.bottom)
     }
     
     var shareSummary: some View {
@@ -478,7 +573,18 @@ struct SessionDetailView: View {
         }
     }
     
-    func backgroundImage() -> Image {
+    func locationBackground() -> some View {
+        
+        guard !pokerSession.location.localImage.isEmpty else {
+            return importedBackgroundImage().resizable().aspectRatio(contentMode: .fill)
+                    
+        }
+        
+        return Image(pokerSession.location.localImage).resizable().aspectRatio(contentMode: .fill)
+            
+    }
+    
+    func importedBackgroundImage() -> Image {
         
         if pokerSession.location.imageURL != "" {
             
@@ -504,68 +610,42 @@ struct SessionDetailView: View {
 struct GraphicHeaderView: View {
     
     let location: LocationModel
-    let date: Date
     
     var body: some View {
         
         VStack {
             
-            if location.imageURL != "" {
+            if location.importedImage != nil {
                 
-                AsyncImage(url: URL(string: location.imageURL), scale: 1, transaction: Transaction(animation: .easeIn)) { phase in
-                    
-                    if let image = phase.image {
-                        
-                        image
-                            .detailViewStyle()
-                        
-                    } else if phase.error != nil {
-                        
-                        FailureView()
-                            .frame(height: 290)
-                            .clipped()
-                            .padding(.bottom)
-                        
-                    } else {
-                        
-                        PlaceholderView()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(height: 290)
-                            .clipped()
-                            .padding(.bottom)
-                    }
-                }
-                
-            } else if location.importedImage != nil {
-                
-                if let photoData = location.importedImage,
-                   let uiImage = UIImage(data: photoData) {
+                if let photoData = location.importedImage, let uiImage = UIImage(data: photoData) {
                     
                     Image(uiImage: uiImage)
-                        .detailViewStyle()
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 430)
+                        .clipped()
                 }
                 
+            } else if location.imageURL != "" {
+                
+                Image("defaultlocation-header")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 430)
+                    .clipped()
+                
             } else {
-
+                
                 Image(location.localImage != "" ? location.localImage : "defaultlocation-header")
-                    .detailViewStyle()
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 430)
+                    .clipped()
             }
-            
-            Text(location.name)
-                .signInTitleStyle()
-                .fontWeight(.bold)
-                .lineLimit(1)
-                .padding(.bottom, 0.2)
-            
-            Text("\(date.dateStyle())")
-                .calloutStyle()
-                .foregroundColor(.secondary)
-                .padding(.bottom, 40)
         }
         .frame(maxWidth: UIScreen.main.bounds.width)
+        
     }
-    
-    
 }
 
 struct SessionDetailView_Previews: PreviewProvider {
