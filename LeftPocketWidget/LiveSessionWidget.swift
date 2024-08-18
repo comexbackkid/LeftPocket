@@ -53,8 +53,7 @@ struct LeftPocketLiveSessionTimer: Widget {
     }
     
     @DynamicIslandExpandedContentBuilder
-    private func expandedContent(contentState: LiveSessionWidgetAttributes.ContentState,
-                                 isStale: Bool) -> DynamicIslandExpandedContent<some View> {
+    private func expandedContent(contentState: LiveSessionWidgetAttributes.ContentState, isStale: Bool) -> DynamicIslandExpandedContent<some View> {
         
         // Account for the different Region sizes here
         DynamicIslandExpandedRegion(.leading) {
@@ -102,10 +101,10 @@ struct LiveSessionTimerView: View {
                 VStack (alignment: .leading, spacing: 1) {
                     
                     Text("Left Pocket")
-                        .font(.custom("Asap-Bold", size: 20, relativeTo: .subheadline))
+                        .font(.custom("Asap-Bold", size: 22, relativeTo: .subheadline))
                     
                     
-                    Text("Live Session Started " + "\(state.startTime.formatted(date: .omitted, time: .shortened))")
+                    Text("Session Started " + "\(state.startTime.formatted(date: .omitted, time: .shortened))")
                         .opacity(0.5)
                         .font(.custom("Asap-Regular", size: 13, relativeTo: .caption))
                         .padding(.bottom, 6)

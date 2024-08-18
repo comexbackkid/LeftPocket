@@ -424,3 +424,39 @@ class AnnualReportViewModel: ObservableObject {
         }
     }
 }
+
+extension SessionsListViewModel {
+    
+    func numOfCashesByYear(year: String) -> Int {
+        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
+        let profitableSessions = sessions.filter({ $0.date.getYear() == year }).filter { $0.profit > 0 }
+        return profitableSessions.count
+    }
+    
+    func tournamentROIbyYear(year: String) -> String {
+        guard !allTournamentSessions().isEmpty else { return "0%" }
+        let totalBuyIns = allTournamentSessions().filter({ $0.date.getYear() == year }).map({ $0.expenses! }).reduce(0,+)
+        let totalWinnings = allTournamentSessions().filter({ $0.date.getYear() == year }).map({ $0.profit + $0.expenses! }).reduce(0,+)
+        let returnOnInvestment = (Double(totalWinnings) - Double(totalBuyIns)) / Double(totalBuyIns)
+        return returnOnInvestment.asPercent()
+    }
+    
+    func allSessionDataByYear(year: String) -> [PokerSession] {
+        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return [] }
+        return sessions.filter({ $0.date.getYear() == year })
+    }
+    
+    func grossIncome() -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        let netProfit = sessions.map { Int($0.profit) }.reduce(0, +)
+        let totalExpenses = sessions.map { Int($0.expenses ?? 0) }.reduce(0, +)
+        let grossIncome = netProfit + totalExpenses
+        return grossIncome
+    }
+    
+    func totalExpenses() -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        let expenses = sessions.map { $0.expenses ?? 0 }.reduce(0,+)
+        return expenses
+    }
+}

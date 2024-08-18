@@ -41,7 +41,7 @@ struct SessionDetailView: View {
                     
                     bottomSection
                 }
-                .offset(y: -95)
+                .offset(y: -90)
             }
             .background(.regularMaterial)
             .background(locationBackground()).ignoresSafeArea()
@@ -140,7 +140,7 @@ struct SessionDetailView: View {
             .foregroundStyle(.white.opacity(0.5))
             
         }
-        .padding(.bottom, 30)
+        .padding(.bottom, 25)
     }
     
     var bottomSection: some View {

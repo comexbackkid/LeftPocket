@@ -21,7 +21,6 @@ struct UserSettings: View {
     @StateObject var exportUtility = CSVConversion()
     
     @AppStorage("exportCounter") var exportCounter: Int = 1
-    @AppStorage("importCounter") var importCounter: Int = 1
     
     @State private var showError: Bool = false
     @State private var showPaywall = false
