@@ -199,7 +199,7 @@ struct LeftPocketCustomTabBar: View {
                         Spacer()
                         Image(systemName: isCounting ? "stop.fill" : "plus")
                             .font(.system(size: 30, weight: .black))
-                            .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
+                            .foregroundColor(Color(.systemGray3))
                         Spacer()
                         
                     }
@@ -251,7 +251,7 @@ struct LeftPocketCustomTabBar: View {
                         Spacer()
                         Image(systemName: "stop.fill")
                             .font(.system(size: 30, weight: .black))
-                            .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
+                            .foregroundColor(Color(.systemGray3))
                         Spacer()
                         
                     }

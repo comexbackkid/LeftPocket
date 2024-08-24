@@ -10,7 +10,6 @@ import SwiftUI
 struct RingCharts: View {
     
     @ObservedObject var viewModel: SessionsListViewModel
-    
     @Binding var yearFilter: String
     
     var body: some View {
@@ -28,7 +27,6 @@ struct RingCharts: View {
             
             HStack (alignment: .top, spacing: 10) {
                 
-                // Only display the top 3 locations otherwise it's too messy
                 ForEach(locations.prefix(3), id: \.self) { location in
                     RingChart(viewModel: viewModel, location: location, yearFilter: $yearFilter)
                 }
@@ -36,7 +34,6 @@ struct RingCharts: View {
             .padding(.top)
             .padding(.bottom, 10)
         }
-        
     }
 }
 
@@ -70,16 +67,16 @@ struct RingChart: View {
                 
                 Text("\(winRate.asPercent())")
                     .captionStyle()
+                    .dynamicTypeSize(...DynamicTypeSize.medium)
             }
             
             Text("\(location)")
                 .captionStyle()
                 .padding(.top, 10)
+                .lineLimit(2)
         }
         .frame(maxWidth: 100)
-        .onAppear {
-            locationWinRate(location: location, year: yearFilter)
-        }
+        .onAppear { locationWinRate(location: location, year: yearFilter) }
         .onChange(of: yearFilter, perform: { value in
             locationWinRate(location: location, year: yearFilter)
         })

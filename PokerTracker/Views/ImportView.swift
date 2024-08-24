@@ -754,7 +754,7 @@ struct LeftPocketImportView: View {
                 case .invalidData:
                     errorMessage = "Error: Invalid Data"
                 case .parsingFailed:
-                    errorMessage = "Error: Incorrect number of columns. Try exporting your data again and importing a new CSV file."
+                    errorMessage = "Error: Parsing Failed. Ensure correct number of columns & formatting in each cell"
                 case .saveFailed:
                     errorMessage = "Error: Failed to Save Data"
                 }

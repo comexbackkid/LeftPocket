@@ -37,25 +37,13 @@ struct ProfitByLocationView: View {
 
                         VStack (spacing: 10) {
                             
-                            headerInfo
-                            
-                            Divider().padding(.bottom, 10)
-                            
                             locationTotals
                             
+                            yearTotal
                         }
-                        .navigationBarTitleDisplayMode(.inline)
-                        .navigationBarTitle(Text("Location Statistics"))
-                        .padding(20)
-                        .frame(width: UIScreen.main.bounds.width * 0.9)
-                        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
-                        .cornerRadius(20)
-                        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
-                        
-                        
-                        yearTotal
-                        
+                                                
                         if subManager.isSubscribed {
+                            
                             locationWinRatesChart
                             
                         } else {
@@ -109,21 +97,20 @@ struct ProfitByLocationView: View {
             }
             .padding(.bottom, 60)
         }
+        .toolbar { headerInfo }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitle(Text("Location Statistics"))
         .background(Color.brandBackground)
         .dynamicTypeSize(.xSmall...DynamicTypeSize.large)
     }
     
     var headerInfo: some View {
         
-        VStack (spacing: 7) {
+        VStack {
+            
+            let allYears = viewModel.sessions.map({ $0.date.getYear() }).uniqued()
             
             HStack {
-                Text("Select Year")
-                    
-                
-                Spacer()
-                
-                let allYears = viewModel.sessions.map({ $0.date.getYear() }).uniqued()
                 
                 Menu {
                     Picker("", selection: $yearFilter) {
@@ -133,50 +120,99 @@ struct ProfitByLocationView: View {
                     }
                 } label: {
                     Text(yearFilter + " ›")
-                        
+                        .bodyStyle()
                 }
                 .accentColor(Color.brandPrimary)
                 .transaction { transaction in
                     transaction.animation = nil
                 }
             }
-            .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
-            
-            HStack {
-                Text("Select Metric")
-                    
-                
-                Spacer()
-                
-                Menu {
-                    Picker("", selection: $metricFilter) {
-                        Text("Total").tag("Total")
-                        Text("Hourly").tag("Hourly")
-                    }
-                } label: {
-                    Text(metricFilter + " ›")
-                        
-                }
-                .accentColor(Color.brandPrimary)
-                .transaction { transaction in
-                    transaction.animation = nil
-                }
-            }
-            .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
         }
-        .padding(.bottom, 10)
+        
+//        VStack (spacing: 7) {
+//            
+//            HStack {
+//                Text("Select Year")
+//                    
+//                
+//                Spacer()
+//                
+//                let allYears = viewModel.sessions.map({ $0.date.getYear() }).uniqued()
+//                
+//                Menu {
+//                    Picker("", selection: $yearFilter) {
+//                        ForEach(allYears, id: \.self) {
+//                            Text($0)
+//                        }
+//                    }
+//                } label: {
+//                    Text(yearFilter + " ›")
+//                        
+//                }
+//                .accentColor(Color.brandPrimary)
+//                .transaction { transaction in
+//                    transaction.animation = nil
+//                }
+//            }
+//            .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
+//            
+//            HStack {
+//                Text("Select Metric")
+//                    
+//                
+//                Spacer()
+//                
+//                Menu {
+//                    Picker("", selection: $metricFilter) {
+//                        Text("Total").tag("Total")
+//                        Text("Hourly").tag("Hourly")
+//                    }
+//                } label: {
+//                    Text(metricFilter + " ›")
+//                        
+//                }
+//                .accentColor(Color.brandPrimary)
+//                .transaction { transaction in
+//                    transaction.animation = nil
+//                }
+//            }
+//            .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
+//        }
+//        .padding(.bottom, 10)
     }
     
     var locationTotals: some View {
         
         VStack (spacing: 10) {
             
+            HStack {
+                
+                Spacer()
+                
+                Image(systemName: "dollarsign")
+                    .foregroundColor(Color(.systemGray))
+                    .frame(width: 60, alignment: .trailing)
+                    .fontWeight(.bold)
+                
+                Image(systemName: "gauge.high")
+                    .foregroundColor(Color(.systemGray))
+                    .frame(width: 60, alignment: .trailing)
+                    .fontWeight(.bold)
+                
+                Image(systemName: "clock")
+                    .foregroundColor(Color(.systemGray))
+                    .frame(width: 60, alignment: .trailing)
+                    .fontWeight(.bold)
+            }
+            .padding(.bottom, 10)
+            
+            Divider().padding(.bottom, 10)
+            
             let locationList = viewModel.sessions.map({ $0.location.name }).uniqued()
             
             ForEach(locationList, id: \.self) { location in
-                HStack (spacing: 0) {
+                HStack {
                     Text(location)
-                        .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
                         .lineLimit(1)
                     
                     Spacer()
@@ -185,21 +221,29 @@ struct ProfitByLocationView: View {
                     let filteredByYear = viewModel.sessions.filter({ $0.date.getYear() == yearFilter })
                     let total = filteredByYear.filter({ $0.location.name == location }).map({ $0.profit }).reduce(0,+)
                     let hourlyRate = hourlyByLocation(location: location, sessions: filteredByYear)
+                    let hoursPlayed = filteredByYear.filter({ $0.location.name == location }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
                     
-                    if metricFilter == "Total" {
-                        Text(total, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                            .profitColor(total: total)
-                            .frame(width: 80, alignment: .trailing)
-                    } else {
-                        Text("\(hourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))) / hr")
-                            .profitColor(total: hourlyRate)
-                            .frame(width: 80, alignment: .trailing)
-                    }
+                    Text(total.axisShortHand(viewModel.userCurrency))
+                        .profitColor(total: total)
+                        .frame(width: 62, alignment: .trailing)
+                    
+                    
+                    Text(hourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                        .profitColor(total: hourlyRate)
+                        .frame(width: 62, alignment: .trailing)
+                    
+                    Text(hoursPlayed.abbreviateHourTotal + "h")
+                        .frame(width: 62, alignment: .trailing)
                     
                 }
                 .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
             }
         }
+        .padding(20)
+        .frame(width: UIScreen.main.bounds.width * 0.9)
+        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+        .cornerRadius(20)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     
     var yearTotal: some View {

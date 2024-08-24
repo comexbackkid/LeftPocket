@@ -47,7 +47,19 @@ struct SleepMetric: Identifiable {
         SleepMetric(date: Calendar.current.date(byAdding: .day, value: -25, to: .now)!, value: 9),
         SleepMetric(date: Calendar.current.date(byAdding: .day, value: -26, to: .now)!, value: 7),
         SleepMetric(date: Calendar.current.date(byAdding: .day, value: -27, to: .now)!, value: 6.2),
-        SleepMetric(date: Calendar.current.date(byAdding: .day, value: -28, to: .now)!, value: 8.0)
+        SleepMetric(date: Calendar.current.date(byAdding: .day, value: -28, to: .now)!, value: 8.0),
+        SleepMetric(date: Calendar.current.date(byAdding: .day, value: -29, to: .now)!, value: 8.4),
+        SleepMetric(date: Calendar.current.date(byAdding: .day, value: -30, to: .now)!, value: 8.2),
+        SleepMetric(date: Calendar.current.date(byAdding: .day, value: -31, to: .now)!, value: 7.5),
+        SleepMetric(date: Calendar.current.date(byAdding: .day, value: -32, to: .now)!, value: 8.0),
+        SleepMetric(date: Calendar.current.date(byAdding: .day, value: -33, to: .now)!, value: 7.2),
+        SleepMetric(date: Calendar.current.date(byAdding: .day, value: -34, to: .now)!, value: 5.6),
+        SleepMetric(date: Calendar.current.date(byAdding: .day, value: -35, to: .now)!, value: 6.1),
+        SleepMetric(date: Calendar.current.date(byAdding: .day, value: -36, to: .now)!, value: 6.9),
+        SleepMetric(date: Calendar.current.date(byAdding: .day, value: -37, to: .now)!, value: 7.9),
+        SleepMetric(date: Calendar.current.date(byAdding: .day, value: -38, to: .now)!, value: 6.7),
+        SleepMetric(date: Calendar.current.date(byAdding: .day, value: -39, to: .now)!, value: 8.0),
+        SleepMetric(date: Calendar.current.date(byAdding: .day, value: -40, to: .now)!, value: 7.8)
         ]
         
         return sleepArray

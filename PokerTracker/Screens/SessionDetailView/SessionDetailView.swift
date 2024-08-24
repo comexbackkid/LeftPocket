@@ -650,10 +650,9 @@ struct GraphicHeaderView: View {
 
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
-                .preferredColorScheme(.dark)
-                .environmentObject(SessionsListViewModel())
-        }
+        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
+            .preferredColorScheme(.dark)
+            .environmentObject(SessionsListViewModel())
+        
     }
 }

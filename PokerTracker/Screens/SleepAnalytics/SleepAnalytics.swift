@@ -44,6 +44,7 @@ struct SleepAnalytics: View {
     var body: some View {
         
         ZStack {
+            
             ScrollView {
                 
                 VStack {
@@ -54,12 +55,12 @@ struct SleepAnalytics: View {
                     
                     VStack (spacing: 22) {
                         
+                        selectedSessionStats
+                        
                         if #available(iOS 17.0, *) {
                             sleepChart
                             
                         } else { oldSleepChart }
-                        
-                        selectedSessionStats
                         
                         ToolTipView(image: "bed.double.fill",
                                     message: "So far this year, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 || countLowSleepSessions() < 1  ? "s" : "") under-rested.",
@@ -337,12 +338,16 @@ struct SleepAnalytics: View {
                         }
                 }
                 
-                ForEach(hkManager.sleepData) { sleep in
+//                ForEach(hkManager.sleepData) { sleep in
+                ForEach(SleepMetric.MockData) { sleep in
                     BarMark(x: .value("Date", sleep.date), y: .value("Hours", sleep.value))
                         .foregroundStyle(calculateBarColor(healthMetric: sleep, viewModel: viewModel).gradient)
                         .opacity(rawSelectedDate == nil || sleep.date == selectedSleepMetric?.date ? 1.0 : 0.1)
                 }
             }
+            .chartScrollableAxes(.horizontal)
+            .chartXVisibleDomain(length: 86400*28)
+            .chartScrollPosition(initialX: Date().modifyDays(days: -28))
             .sensoryFeedback(.selection, trigger: selectedSleepMetric?.value)
             .chartXSelection(value: $rawSelectedDate.animation(.easeInOut))
             .chartXAxis {
@@ -367,20 +372,23 @@ struct SleepAnalytics: View {
             }
             .padding(.leading, 6)
         }
-        .overlay {
-            if hkManager.sleepData.isEmpty {
-                VStack {
-                    ProgressView()
-                        .padding(.bottom, 5)
-                    Text("No sleep data to display.")
-                        .calloutStyle()
-                        .foregroundStyle(.secondary)
-                    Text("Grant permissions in iOS Settings.")
-                        .calloutStyle()
-                        .foregroundStyle(.secondary)
-                }
-            }
-        }
+//        .overlay {
+//            if hkManager.sleepData.isEmpty {
+//                VStack {
+//                    
+//                    ProgressView()
+//                        .padding(.bottom, 5)
+//                    
+//                    Text("No sleep data to display.")
+//                        .calloutStyle()
+//                        .foregroundStyle(.secondary)
+//                    
+//                    Text("Grant permissions in iOS Settings.")
+//                        .calloutStyle()
+//                        .foregroundStyle(.secondary)
+//                }
+//            }
+//        }
         .padding()
         .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
         .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
@@ -514,6 +522,7 @@ struct SleepAnalytics: View {
     
     // Calculates your hourly rate when you get at least 6 hours of sleep
     private func performanceComparison() -> String {
+        
         let sleepDataByDate = Dictionary(hkManager.sleepData.map { metric in
             (Calendar.current.startOfDay(for: metric.date), metric.value)
         }, uniquingKeysWith: { first, _ in first })  // Assume no duplicate dates for simplicity
@@ -567,5 +576,5 @@ struct SleepAnalytics: View {
     SleepAnalytics(activeSheet: .constant(.sleepAnalytics))
         .environmentObject(SessionsListViewModel())
         .environmentObject(HealthKitManager())
-//        .preferredColorScheme(.dark)
+        .preferredColorScheme(.dark)
 }
