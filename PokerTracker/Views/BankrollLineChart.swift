@@ -124,7 +124,7 @@ struct BankrollLineChart: View {
                                     spacing: overlayAnnotation ? 12 : 8,
                                     overflowResolution: .init(x: .fit(to: .chart))) {
                             
-                            Text(profitAnnotation ?? 0, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                            Text(profitAnnotation?.axisShortHand(viewModel.userCurrency) ?? "\(viewModel.userCurrency.symbol)0")
                                 .captionStyle()
                                 .padding(10)
                                 .background(.gray.opacity(0.1))

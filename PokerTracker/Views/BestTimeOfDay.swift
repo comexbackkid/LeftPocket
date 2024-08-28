@@ -52,7 +52,7 @@ struct BestTimeOfDay: View {
             if let highestData = highestRateData(sessions: viewModel.sessions) {
                 
                 HStack {
-                    Text("You average $\(highestData.hourlyRate) / hr from \(highestData.bucket.rawValue)")
+                    Text("You average \(highestData.hourlyRate.axisShortHand(viewModel.userCurrency)) / hr from \(highestData.bucket.rawValue)")
                         .subHeadlineStyle()
                         .padding(.top, 6)
                     

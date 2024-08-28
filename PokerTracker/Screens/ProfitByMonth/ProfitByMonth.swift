@@ -39,9 +39,7 @@ struct ProfitByMonth: View {
                 Spacer()
             }
         }
-        .toolbar {
-            headerInfo
-        }
+        .toolbar { headerInfo }
         .background(Color.brandBackground)
         .dynamicTypeSize(.xSmall...DynamicTypeSize.large)
         .navigationBarTitleDisplayMode(.inline)
@@ -116,7 +114,7 @@ struct ProfitByMonth: View {
                         .profitColor(total: total)
                         .frame(width: 62, alignment: .trailing)
                     
-                    Text("\(hourlyRate, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))")
+                    Text(hourlyRate.axisShortHand(vm.userCurrency))
                         .profitColor(total: hourlyRate)
                         .frame(width: 62, alignment: .trailing)
                     
@@ -140,6 +138,7 @@ struct ProfitByMonth: View {
         VStack (spacing: 7) {
             
             let bankrollTotalByYear = vm.bankrollByYear(year: yearFilter, sessionFilter: .all)
+            let totalHoursPlayed = vm.sessions.filter({ $0.date.getYear() == yearFilter }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
             
             HStack {
                 Image(systemName: "dollarsign")
@@ -152,6 +151,18 @@ struct ProfitByMonth: View {
                 
                 Text(bankrollTotalByYear, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: bankrollTotalByYear)
+            }
+            
+            HStack {
+                Image(systemName: "clock")
+                    .frame(width: 20)
+                    .foregroundColor(Color(.systemGray))
+                
+                Text("Hours Played")
+                
+                Spacer()
+                
+                Text("\(totalHoursPlayed)h")
             }
             
             HStack {

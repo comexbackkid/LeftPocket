@@ -200,7 +200,7 @@ struct SleepAnalytics: View {
                 Divider()
                 
                 VStack (spacing: 2) {
-                    Text(pokerSessionMatch?.hourlyRate.asCurrency() ?? "$0")
+                    Text(pokerSessionMatch?.hourlyRate.axisShortHand(viewModel.userCurrency) ?? "\(viewModel.userCurrency.symbol)0")
                         .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
                     
                     Text("Hourly")
@@ -338,16 +338,17 @@ struct SleepAnalytics: View {
                         }
                 }
                 
-//                ForEach(hkManager.sleepData) { sleep in
-                ForEach(SleepMetric.MockData) { sleep in
+                ForEach(hkManager.sleepData) { sleep in
+//                ForEach(SleepMetric.MockData) { sleep in
                     BarMark(x: .value("Date", sleep.date), y: .value("Hours", sleep.value))
                         .foregroundStyle(calculateBarColor(healthMetric: sleep, viewModel: viewModel).gradient)
                         .opacity(rawSelectedDate == nil || sleep.date == selectedSleepMetric?.date ? 1.0 : 0.1)
                 }
             }
-            .chartScrollableAxes(.horizontal)
-            .chartXVisibleDomain(length: 86400*28)
-            .chartScrollPosition(initialX: Date().modifyDays(days: -28))
+//            .chartScrollableAxes(.horizontal)
+//            .chartXVisibleDomain(length: 86400*28)
+//            .chartScrollPosition(initialX: Date().modifyDays(days: -28))
+//            .chartScrollTargetBehavior(.paging)
             .sensoryFeedback(.selection, trigger: selectedSleepMetric?.value)
             .chartXSelection(value: $rawSelectedDate.animation(.easeInOut))
             .chartXAxis {
@@ -372,23 +373,23 @@ struct SleepAnalytics: View {
             }
             .padding(.leading, 6)
         }
-//        .overlay {
-//            if hkManager.sleepData.isEmpty {
-//                VStack {
-//                    
-//                    ProgressView()
-//                        .padding(.bottom, 5)
-//                    
-//                    Text("No sleep data to display.")
-//                        .calloutStyle()
-//                        .foregroundStyle(.secondary)
-//                    
-//                    Text("Grant permissions in iOS Settings.")
-//                        .calloutStyle()
-//                        .foregroundStyle(.secondary)
-//                }
-//            }
-//        }
+        .overlay {
+            if hkManager.sleepData.isEmpty {
+                VStack {
+                    
+                    ProgressView()
+                        .padding(.bottom, 5)
+                    
+                    Text("No sleep data to display.")
+                        .calloutStyle()
+                        .foregroundStyle(.secondary)
+                    
+                    Text("Grant permissions in iOS Settings.")
+                        .calloutStyle()
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
         .padding()
         .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
         .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)

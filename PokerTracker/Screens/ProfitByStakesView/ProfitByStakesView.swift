@@ -177,7 +177,7 @@ struct ProfitByStakesView: View {
                         .profitColor(total: total)
                         .frame(width: 62, alignment: .trailing)
                     
-                    Text("\(hourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))")
+                    Text(hourlyRate.axisShortHand(viewModel.userCurrency))
                         .profitColor(total: hourlyRate)
                         .frame(width: 62, alignment: .trailing)
                     

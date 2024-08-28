@@ -42,9 +42,7 @@ struct AdvancedTournamentReport: View {
                 Spacer()
             }
         }
-        .toolbar {
-            headerInfo
-        }
+        .toolbar { headerInfo }
         .background(Color.brandBackground)
         .dynamicTypeSize(.xSmall...DynamicTypeSize.large)
         .navigationBarTitleDisplayMode(.inline)

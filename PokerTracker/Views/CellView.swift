@@ -35,7 +35,7 @@ struct CellView: View {
                             .foregroundColor(.secondary)
                         
                         if pokerSession.isTournament == true {
-                            Text("$\(pokerSession.expenses!) Buy In ")
+                            Text("\(currency.symbol)" + "\(pokerSession.expenses!) Buy In ")
                                 .captionStyle()
                                 .foregroundColor(.secondary)
                             
@@ -44,7 +44,7 @@ struct CellView: View {
                                 .foregroundColor(.secondary)
                             
                         } else {
-                            Text("$" + pokerSession.stakes + " • ")
+                            Text("\(currency.symbol)" + pokerSession.stakes + " • ")
                                 .captionStyle()
                                 .foregroundColor(.secondary)
                             
@@ -59,7 +59,7 @@ struct CellView: View {
             
             Spacer()
             
-            Text(pokerSession.profit, format: .currency(code: currency.rawValue).precision(.fractionLength(0)))
+            Text(pokerSession.profit.axisShortHand(currency))
                 .subHeadlineStyle()
                 .bold()
                 .foregroundColor(pokerSession.profit > 0 ? .green : .red)
@@ -72,7 +72,7 @@ struct CellView: View {
 
 struct CellView_Previews: PreviewProvider {
     static var previews: some View {
-        CellView(pokerSession: MockData.sampleTournament, currency: .USD, viewStyle: .constant(.standard))
+        CellView(pokerSession: MockData.sampleSession, currency: .THB, viewStyle: .constant(.standard))
             .previewLayout(.sizeThatFits)
             .preferredColorScheme(.dark)
     }

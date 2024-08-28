@@ -70,7 +70,7 @@ class HealthKitManager: ObservableObject {
             
             let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
             let endDate = Date()
-            let startDate = Calendar.current.date(byAdding: .day, value: -59, to: endDate)!
+            let startDate = Calendar.current.date(byAdding: .day, value: -29, to: endDate)!
             let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
             let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
             

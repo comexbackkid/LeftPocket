@@ -10,9 +10,7 @@ import SwiftUI
 struct NewStakesView: View {
     
     @Environment(\.colorScheme) var colorScheme
-    
     @EnvironmentObject var vm: SessionsListViewModel
-    
     @StateObject var newStakesViewModel = NewStakesViewModel()
     @Binding var addStakesIsShowing: Bool
     
@@ -76,6 +74,8 @@ struct NewStakesView: View {
                     Text("40").tag("40")
                     Text("50").tag("50")
                     Text("100").tag("100")
+                    Text("200").tag("200")
+                    Text("500").tag("500")
                     
                 }
                 .pickerStyle(.wheel)
@@ -114,6 +114,8 @@ struct NewStakesView: View {
                     Text("80").tag("80")
                     Text("100").tag("100")
                     Text("200").tag("200")
+                    Text("400").tag("400")
+                    Text("1000").tag("1000")
                     
                 }
                 .pickerStyle(.wheel)
@@ -128,7 +130,6 @@ struct NewStakesView: View {
         .frame(maxHeight: 150)
         .padding(.horizontal, 25)
         .padding(.bottom, 50)
-        
     }
     
     var buttons: some View {

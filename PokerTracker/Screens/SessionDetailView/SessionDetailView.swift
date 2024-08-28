@@ -95,6 +95,10 @@ struct SessionDetailView: View {
     
     var headerGraphic: some View {
         
+//        DetailHeader(startingHeight: 430) {
+//            Image("mgmspringfield-header")
+//        }
+        
         GraphicHeaderView(location: pokerSession.location)
             .overlay {
                 GraphicHeaderView(location: pokerSession.location)
@@ -172,6 +176,7 @@ struct SessionDetailView: View {
                 Spacer()
                 
                 Text(pokerSession.playingTIme)
+                    .fontWeight(.semibold)
 
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.16)
@@ -190,8 +195,9 @@ struct SessionDetailView: View {
                 
                 Spacer()
                 
-                Text(pokerSession.profit, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                Text(pokerSession.profit.axisShortHand(vm.userCurrency))
                     .profitColor(total: pokerSession.profit)
+                    .fontWeight(.semibold)
                 
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.16)
@@ -211,7 +217,9 @@ struct SessionDetailView: View {
                 
                 Spacer()
                 
-                Text("\(pokerSession.hourlyRate, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))").profitColor(total: pokerSession.hourlyRate)
+                Text(pokerSession.hourlyRate.axisShortHand(vm.userCurrency))
+                    .profitColor(total: pokerSession.hourlyRate)
+                    .fontWeight(.semibold)
                 
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.16)
@@ -260,7 +268,7 @@ struct SessionDetailView: View {
                 
                 Spacer()
                 
-                Text(pokerSession.profit, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                Text(pokerSession.profit.axisShortHand(vm.userCurrency))
                     .profitColor(total: pokerSession.profit)
                     .fontWeight(.semibold)
             }
@@ -607,6 +615,48 @@ struct SessionDetailView: View {
     }
 }
 
+struct DetailHeader<Header: View>: View {
+    var startingHeight: CGFloat = 200
+    var coordinateSpace: CoordinateSpace = .global
+    let header: Header
+
+    init(
+        startingHeight: CGFloat,
+        @ViewBuilder header: () -> Header
+
+    ) {
+        self.startingHeight = startingHeight
+        self.header = header()
+    }
+
+    var body: some View {
+        
+        GeometryReader { geometry in
+            let offset = yOffset(geometry)
+            let heightModifier = stretchedHeight(geometry)
+            
+            header
+                .frame(width: geometry.size.width, height: geometry.size.height + heightModifier)
+                .clipped()
+                .offset(y: offset)
+        }
+        .frame(height: startingHeight)
+    }
+
+    private func yOffset(_ geo: GeometryProxy) -> CGFloat {
+        let frame = geo.frame(in: coordinateSpace)
+        if frame.minY < 0 {
+            return -frame.minY * 0.8
+        }
+        return -frame.minY
+    }
+
+    private func stretchedHeight(_ geo: GeometryProxy) -> CGFloat {
+        let frame = geo.frame(in: coordinateSpace)
+        return max(0, frame.minY)
+    }
+}
+
 struct GraphicHeaderView: View {
     
     let location: LocationModel
@@ -650,7 +700,7 @@ struct GraphicHeaderView: View {
 
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
+        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleTournament)
             .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
         

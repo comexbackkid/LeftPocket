@@ -495,12 +495,14 @@ enum CurrencyType: String, CaseIterable, Identifiable, Codable {
     case EUR
     case GBP
     case BRL
+    case SGD
     case MXN
     case CNY
     case JPY
     case PHP
     case SEK
     case INR
+    case THB
     
     var id: String { self.rawValue }
     
@@ -510,12 +512,14 @@ enum CurrencyType: String, CaseIterable, Identifiable, Codable {
         case .EUR: return "Euro"
         case .GBP: return "British Pound"
         case .BRL: return "Brazilian Real"
+        case .SGD: return "Singapore Dollar"
         case .MXN: return "Mexican Peso"
         case .CNY: return "Chinese Yuan"
         case .JPY: return "Japanese Yen"
         case .PHP: return "Philippines Peso"
         case .SEK: return "Swedish Krona"
         case .INR: return "Indian Rupee"
+        case .THB: return "Thai Baht"
         }
     }
     
@@ -525,12 +529,14 @@ enum CurrencyType: String, CaseIterable, Identifiable, Codable {
         case .EUR: return "€"
         case .GBP: return "£"
         case .BRL: return "R$"
+        case .SGD: return "S$"
         case .MXN: return "MX$"
         case .CNY: return "¥"
         case .JPY: return "¥"
         case .PHP: return "₱"
         case .SEK: return "kr"
         case .INR: return "₹"
+        case .THB: return "฿"
         }
     }
 }
