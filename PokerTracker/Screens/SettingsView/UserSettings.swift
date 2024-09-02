@@ -257,7 +257,7 @@ struct UserSettings: View {
     var sessionDefaults: some View {
         
         NavigationLink(
-            destination: SessionDefaultsView(),
+            destination: SessionDefaultsView(isPresentedAsSheet: .constant(false)),
             label: {
                 HStack {
                     

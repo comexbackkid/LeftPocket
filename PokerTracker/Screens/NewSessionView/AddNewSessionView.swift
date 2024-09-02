@@ -41,6 +41,7 @@ struct AddNewSessionView: View {
                     saveButton
                 }
             }
+            .scrollDismissesKeyboard(.immediately)
         }
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .frame(maxHeight: .infinity)
@@ -551,12 +552,22 @@ struct AddNewSessionView: View {
                         .font(.callout)
                         .foregroundColor(newSession.sessionType == .tournament && newSession.buyIn.isEmpty || newSession.sessionType == .cash && newSession.expenses.isEmpty || newSession.sessionType == nil && newSession.expenses.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
-                    TextField(newSession.sessionType == .tournament ? "Buy In" : "Expenses (Meals, tips, etc.)", text: newSession.sessionType == .tournament ? $newSession.buyIn : $newSession.expenses)
-                                        .font(.custom("Asap-Regular", size: 17))
-                                        .keyboardType(.numberPad)
-                                        .onChange(of: newSession.sessionType, perform: { value in
-                                            newSession.expenses = ""
-                                        })
+                    TextField(newSession.sessionType == .tournament ? "Buy In" : "Expenses", text: newSession.sessionType == .tournament ? $newSession.buyIn : $newSession.expenses)
+                        .font(.custom("Asap-Regular", size: 17))
+                        .keyboardType(.numberPad)
+                        .onChange(of: newSession.sessionType, perform: { value in
+                            newSession.expenses = ""
+                        })
+                }
+                .overlay {
+                    HStack {
+                        
+                        Spacer()
+                        Image(systemName: "plus.square.fill")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundStyle(.secondary)
+                    }
                 }
                 .padding(18)
                 .background(.gray.opacity(0.2))

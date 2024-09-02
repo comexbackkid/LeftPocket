@@ -38,7 +38,7 @@ struct ContentView: View {
                 } else {
                     
                     HStack {
-                        QuickMetricBox(title: "Total Profit", metric: String(viewModel.tallyBankroll(bankroll: .all).axisShortHand(viewModel.userCurrency)))
+                        QuickMetricBox(title: "Total Profit", metric: String(viewModel.tallyBankroll(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
                         
                         Spacer()
                         
@@ -225,7 +225,7 @@ struct ContentView: View {
                     })
                 }
                 
-                Text(bankroll.axisShortHand(viewModel.userCurrency))
+                Text(bankroll, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .font(.custom("Asap-Bold", size: 60, relativeTo: .title2))
                     .opacity(0.85)
                 

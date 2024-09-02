@@ -11,6 +11,9 @@ struct SessionDefaultsView: View {
     
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var vm: SessionsListViewModel
+    @Environment(\.dismiss) var dismiss
+    
+    @Binding var isPresentedAsSheet: Bool?
     
     @State private var sessionType: SessionType?
     @State private var location = LocationModel(name: "", localImage: "", imageURL: "")
@@ -59,12 +62,18 @@ struct SessionDefaultsView: View {
             .background(Color.brandBackground)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { resetDefaultsButton }
+            
             .sheet(isPresented: $showAlertModal, content: {
                 AlertModal(message: resultMessage)
                     .presentationDetents([.height(220)])
                     .presentationBackground(.ultraThinMaterial)
                 
             })
+            .overlay {
+                if isPresentedAsSheet == true {
+                    dismissButton
+                }
+            }
     }
     
     var title: some View {
@@ -72,12 +81,28 @@ struct SessionDefaultsView: View {
         HStack {
             Text("Session Defaults")
                 .titleStyle()
-                .padding(.top, -37)
+                .padding(.top, isPresentedAsSheet ?? false ? 0 : -37)
                 .padding(.horizontal)
             
             Spacer()
         }
         
+    }
+    
+    var dismissButton: some View {
+        
+        VStack {
+            HStack {
+                Spacer()
+                DismissButton()
+                    .shadow(color: Color.black.opacity(0.1), radius: 8)
+                    .onTapGesture {
+                        dismiss()
+                    }
+            }
+            Spacer()
+        }
+        .padding()
     }
     
     var instructions: some View {
@@ -543,7 +568,7 @@ enum CurrencyType: String, CaseIterable, Identifiable, Codable {
 
 #Preview {
     NavigationView {
-        SessionDefaultsView()
+        SessionDefaultsView(isPresentedAsSheet: .constant(true))
             .environmentObject(SubscriptionManager())
             .environmentObject(SessionsListViewModel())
             .preferredColorScheme(.dark)

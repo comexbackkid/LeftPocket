@@ -81,6 +81,7 @@ struct EditSession: View {
                     }
                 }
             }
+            .scrollDismissesKeyboard(.immediately)
         }
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .frame(maxHeight: .infinity)
