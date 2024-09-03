@@ -31,6 +31,7 @@ struct LiveSessionCounter: View {
             
             Text(timerViewModel.liveSessionTimer)
                 .font(.custom("Asap-Regular", size: 26))
+                .offset(x: 4)
             
             Image(systemName: "dollarsign.arrow.circlepath")
                 .foregroundColor(.brandPrimary)
@@ -42,10 +43,30 @@ struct LiveSessionCounter: View {
                     showRebuyModal = true
                 }
         }
+        .dynamicTypeSize(.medium)
         .padding(12)
         .padding(.horizontal, 2)
         .background(.ultraThinMaterial)
         .cornerRadius(16)
+        .contextMenu {
+            Button {
+                showSessionDefaultsView = true
+            } label: {
+                HStack {
+                    Text("Update Session Details")
+                    Image(systemName: "suit.club.fill")
+                }
+            }
+            
+            Button {
+                showRebuyModal = true
+            } label: {
+                HStack {
+                    Text("Add Rebuy")
+                    Image(systemName: "dollarsign.arrow.circlepath")
+                }
+            }
+        }
         .sheet(isPresented: $showRebuyModal, onDismiss: {
             if rebuyConfirmationSound {
                 playSound()
@@ -57,14 +78,6 @@ struct LiveSessionCounter: View {
         })
         .padding(.horizontal)
         .onAppear { loadUserDefaults() }
-        .contextMenu {
-            Button("Update Session Details") {
-                showSessionDefaultsView = true
-            }
-            Button("Add Rebuy") {
-                showRebuyModal = true
-            }
-        }
         .sheet(isPresented: $showSessionDefaultsView, onDismiss: { loadUserDefaults() }, content: {
             SessionDefaultsView(isPresentedAsSheet: .constant(true))
         })
@@ -142,7 +155,7 @@ struct LiveSessionCounter: View {
         VStack (alignment: .leading) {
             
             Text("Live Session at")
-                .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
+                .font(.custom("Asap-Regular", size: 19, relativeTo: .callout))
                 .bold()
             
             if let location {

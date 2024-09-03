@@ -110,7 +110,7 @@ struct SessionDefaultsView: View {
         VStack (alignment: .leading) {
             
             HStack {
-                Text("Choose your default settings here. These values will automatically populate every time you log a new Session.")
+                Text("Set your default settings here. These values will automatically populate every time you log a completed Session, or start a Live Session.")
                     .bodyStyle()
                 
                 Spacer()
@@ -568,7 +568,7 @@ enum CurrencyType: String, CaseIterable, Identifiable, Codable {
 
 #Preview {
     NavigationView {
-        SessionDefaultsView(isPresentedAsSheet: .constant(true))
+        SessionDefaultsView(isPresentedAsSheet: .constant(false))
             .environmentObject(SubscriptionManager())
             .environmentObject(SessionsListViewModel())
             .preferredColorScheme(.dark)

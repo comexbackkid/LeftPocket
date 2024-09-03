@@ -559,16 +559,6 @@ struct AddNewSessionView: View {
                             newSession.expenses = ""
                         })
                 }
-                .overlay {
-                    HStack {
-                        
-                        Spacer()
-                        Image(systemName: "plus.square.fill")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundStyle(.secondary)
-                    }
-                }
                 .padding(18)
                 .background(.gray.opacity(0.2))
                 .cornerRadius(15)
