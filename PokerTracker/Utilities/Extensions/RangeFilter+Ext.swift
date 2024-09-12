@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 enum RangeSelection: CaseIterable {
-    case all, oneMonth, sixMonth, oneYear, ytd
+    case all, oneMonth, threeMonth, sixMonth, oneYear, ytd
     
     var displayName: String {
             switch self {
@@ -17,6 +17,8 @@ enum RangeSelection: CaseIterable {
                 return "All"
             case .oneMonth:
                 return "1M"
+            case .threeMonth:
+                return "3M"
             case .sixMonth:
                 return "6M"
             case .oneYear:
@@ -59,6 +61,16 @@ extension SessionsListViewModel {
         return sessions.filter { session in
             guard let sixMonthsAgo = sixMonthsAgo else { return false }
             return session.date >= sixMonthsAgo
+        }
+    }
+    
+    func filterSessionsLastThreeMonths() -> [PokerSession] {
+        let calendar = Calendar.current
+        let threeMonthsAgo = calendar.date(byAdding: .month, value: -3, to: Date())
+        
+        return sessions.filter { session in
+            guard let threeMonthsAgo = threeMonthsAgo else { return false }
+            return session.date >= threeMonthsAgo
         }
     }
     

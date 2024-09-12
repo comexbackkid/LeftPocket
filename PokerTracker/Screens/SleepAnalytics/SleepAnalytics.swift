@@ -277,7 +277,7 @@ struct SleepAnalytics: View {
         .padding(.horizontal)
         .padding(.bottom, activeSheet == .sleepAnalytics ? 0 : 40)
         .popover(isPresented: $numbersLookOffPopup, arrowEdge: .bottom, content: {
-            PopoverView(bodyText: "If your sleep data looks different than what your smart device is reporting, kindly let us know. On occaision, sleep numbers can get double-counted in Apple's Health App. Email leftpocketpoker@gmail.com.")
+            PopoverView(bodyText: "If your sleep data looks different than what your smart device is reporting, kindly let us know. On occasion, sleep numbers can get double-counted in Apple's Health App. Email leftpocketpoker@gmail.com.")
                 .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                 .frame(height: 180)
                 .dynamicTypeSize(.medium...DynamicTypeSize.medium)

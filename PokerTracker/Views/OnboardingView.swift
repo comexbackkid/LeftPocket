@@ -24,9 +24,9 @@ struct OnboardingView: View {
             WelcomeScreen(selectedPage: $selectedPage).tag(0)
             
             PageView(title: "Logging Poker Sessions",
-                     subtitle: Text("Add a completed Session, or activate a Live Session by tapping the \(Image(systemName: "plus")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button."),
+                     subtitle: Text("Add a completed Session, or activate a Live Session by tapping the \(Image(systemName: "plus")) in the navigation bar. To enter rebuys, press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Use Transactions to log deposits, withdrawals, & expenses."),
                      imageName: "doc.text",
-                     videoURL: "logging-sessions",
+                     videoURL: "logging-sessions-new",
                      showDismissButton: false,
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).tag(1)

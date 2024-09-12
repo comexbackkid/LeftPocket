@@ -75,7 +75,7 @@ struct AddNewTransaction: View {
         VStack (alignment: .leading, spacing: 20) {
             
             HStack {
-                Text("Enter transaction details below. Transactions do not factor into your player metrics or statistics. Include an optional note such as, \"Starting Bankroll.\"")
+                Text("Enter transaction details below. Transactions do NOT factor into your player metrics or stats. Use this screen for logging \"off-the-felt\" expenses such as meals, travel, or memberships.")
                     .bodyStyle()
                 
                 Spacer()
@@ -99,9 +99,9 @@ struct AddNewTransaction: View {
                 .foregroundStyle(Color.brandPrimary)
             }
             .popover(isPresented: $transactionPopup, arrowEdge: .bottom, content: {
-                PopoverView(bodyText: "Transactions are optional. They're for poker players who want a precise ledger of their current, actual bankroll figure. Use transactions to log when you contribute or withdraw funds from your poker bankroll.")
+                PopoverView(bodyText: "Transactions are optional. They're for players who want a precise ledger of their current, actual bankroll figure. Use transactions to log when you contribute or withdraw funds from your bankroll.\n\nTransactions do not factor in to your player stats.")
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
-                    .frame(height: 190)
+                    .frame(height: 230)
                     .dynamicTypeSize(.medium...DynamicTypeSize.medium)
                     .presentationCompactAdaptation(.popover)
                     .preferredColorScheme(colorScheme == .dark ? .dark : .light)
@@ -139,6 +139,10 @@ struct AddNewTransaction: View {
                         type = .withdrawal
                     }
                     
+                    Button("Expense") {
+                        type = .expense
+                    }
+                    
                 } label: {
                     switch type {
                     case .deposit:
@@ -149,6 +153,12 @@ struct AddNewTransaction: View {
                         
                     case .withdrawal:
                         Text("Withdrawal")
+                            .bodyStyle()
+                            .fixedSize()
+                            .lineLimit(1)
+                        
+                    case .expense:
+                        Text("Expense")
                             .bodyStyle()
                             .fixedSize()
                             .lineLimit(1)
@@ -271,7 +281,7 @@ struct AddNewTransaction: View {
     
     private func saveButtonPressed() {
         guard isValidForm else { return }
-        vm.addTransaction(date: date, type: type ?? .deposit, amount: Int(amount) ?? 0, notes: notes)
+        vm.addTransaction(date: date, type: type!, amount: Int(amount) ?? 0, notes: notes)
         showNewTransaction = false
     }
 }

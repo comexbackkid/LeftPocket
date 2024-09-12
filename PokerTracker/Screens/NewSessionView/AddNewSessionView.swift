@@ -552,7 +552,7 @@ struct AddNewSessionView: View {
                         .font(.callout)
                         .foregroundColor(newSession.sessionType == .tournament && newSession.buyIn.isEmpty || newSession.sessionType == .cash && newSession.expenses.isEmpty || newSession.sessionType == nil && newSession.expenses.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
-                    TextField(newSession.sessionType == .tournament ? "Buy In" : "Expenses", text: newSession.sessionType == .tournament ? $newSession.buyIn : $newSession.expenses)
+                    TextField(newSession.sessionType == .tournament ? "Buy In" : "Expenses (Tips, rake, etc.)", text: newSession.sessionType == .tournament ? $newSession.buyIn : $newSession.expenses)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
                         .onChange(of: newSession.sessionType, perform: { value in

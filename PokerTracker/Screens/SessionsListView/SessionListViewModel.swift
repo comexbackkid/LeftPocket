@@ -99,7 +99,7 @@ class SessionsListViewModel: ObservableObject {
                 try encodedData.write(to: transactionsPath)
             }
         } catch {
-            print("Failed to write Transactions. Erro: \(error)")
+            print("Failed to write Transactions. Error: \(error)")
         }
     }
     
@@ -394,7 +394,7 @@ class SessionsListViewModel: ObservableObject {
     
     func addTransaction(date: Date, type: TransactionType, amount: Int, notes: String) {
         
-        if type == .withdrawal {
+        if type == .withdrawal || type == .expense {
             let newAmount = -(amount)
             let newTransaction = BankrollTransaction(date: date, type: type, amount: newAmount, notes: notes)
             transactions.append(newTransaction)

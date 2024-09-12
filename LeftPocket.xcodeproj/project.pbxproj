@@ -88,7 +88,6 @@
 		7C67DDBC2BAB9BD2008C7029 /* WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C67DDBB2BAB9BD2008C7029 /* WidgetBundle.swift */; };
 		7C68FE4126D709530019BA53 /* PlusButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE4026D709530019BA53 /* PlusButton.swift */; };
 		7C68FE4326D7CEA40019BA53 /* RecentSessionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C68FE4226D7CEA40019BA53 /* RecentSessionCardView.swift */; };
-		7C6906AC2C0CCED3009CD0D5 /* logging-sessions.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7C6906AB2C0CCED3009CD0D5 /* logging-sessions.mp4 */; };
 		7C6E75BB2BAA16BE006173A4 /* LiveSessionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E75BA2BAA16BE006173A4 /* LiveSessionCounter.swift */; };
 		7C6E75BE2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E75BD2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift */; };
 		7C6E7D8F2C2CC67300D178E2 /* DateFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E7D8E2C2CC67300D178E2 /* DateFilter.swift */; };
@@ -112,6 +111,7 @@
 		7C8834102735BB5D0093B201 /* NewLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */; };
 		7C944D562BBDA26E009E6EC5 /* ProductUpdates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C944D552BBDA26E009E6EC5 /* ProductUpdates.swift */; };
 		7C9D32772B261FA700900C8C /* AdditionalMetricsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */; };
+		7C9F23672C933939001AA6A6 /* logging-sessions-new.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7C9F23662C933939001AA6A6 /* logging-sessions-new.mp4 */; };
 		7C9FEC7E2C1F68B70062208B /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9FEC7D2C1F68B70062208B /* ImageSaver.swift */; };
 		7CA7F8152B6FF5FB00F976EE /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7F8142B6FF5FB00F976EE /* Tips.swift */; };
 		7CA7F8162B6FF5FB00F976EE /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7F8142B6FF5FB00F976EE /* Tips.swift */; };
@@ -334,7 +334,6 @@
 		7C67DDBB2BAB9BD2008C7029 /* WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetBundle.swift; sourceTree = "<group>"; };
 		7C68FE4026D709530019BA53 /* PlusButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusButton.swift; sourceTree = "<group>"; };
 		7C68FE4226D7CEA40019BA53 /* RecentSessionCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentSessionCardView.swift; sourceTree = "<group>"; };
-		7C6906AB2C0CCED3009CD0D5 /* logging-sessions.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "logging-sessions.mp4"; sourceTree = "<group>"; };
 		7C6E75BA2BAA16BE006173A4 /* LiveSessionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionCounter.swift; sourceTree = "<group>"; };
 		7C6E75BD2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionCounterViewModel.swift; sourceTree = "<group>"; };
 		7C6E7D8E2C2CC67300D178E2 /* DateFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFilter.swift; sourceTree = "<group>"; };
@@ -358,6 +357,7 @@
 		7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLocationViewModel.swift; sourceTree = "<group>"; };
 		7C944D552BBDA26E009E6EC5 /* ProductUpdates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductUpdates.swift; sourceTree = "<group>"; };
 		7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalMetricsCardView.swift; sourceTree = "<group>"; };
+		7C9F23662C933939001AA6A6 /* logging-sessions-new.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "logging-sessions-new.mp4"; sourceTree = "<group>"; };
 		7C9FEC7D2C1F68B70062208B /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		7CA7F8142B6FF5FB00F976EE /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
 		7CA7F8172B6FFAA700F976EE /* CSVImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVImport.swift; sourceTree = "<group>"; };
@@ -790,9 +790,9 @@
 		7C6906AA2C0CCEAA009CD0D5 /* Video */ = {
 			isa = PBXGroup;
 			children = (
+				7C9F23662C933939001AA6A6 /* logging-sessions-new.mp4 */,
 				7CFDD83D2C0CFF00002C9775 /* homescreen-widget.mp4 */,
 				7CFDD83B2C0CF656002C9775 /* custom-locations.mp4 */,
-				7C6906AB2C0CCED3009CD0D5 /* logging-sessions.mp4 */,
 			);
 			path = Video;
 			sourceTree = "<group>";
@@ -1106,6 +1106,7 @@
 				7CAFE01C2B2CA9E300B7338D /* AsapCondensed-Italic.ttf in Resources */,
 				7CAFE0262B2CA9E300B7338D /* AsapCondensed-Black.ttf in Resources */,
 				7CAFE0062B2CA9E300B7338D /* AsapCondensed-Light.ttf in Resources */,
+				7C9F23672C933939001AA6A6 /* logging-sessions-new.mp4 in Resources */,
 				7CAFE00E2B2CA9E300B7338D /* AsapCondensed-ExtraBold.ttf in Resources */,
 				7CAFE00A2B2CA9E300B7338D /* AsapCondensed-ExtraLightItalic.ttf in Resources */,
 				7CFDD83C2C0CF656002C9775 /* custom-locations.mp4 in Resources */,
@@ -1137,7 +1138,6 @@
 				7C63949A26C14E8400939F40 /* Assets.xcassets in Resources */,
 				7CAFE0532B2CAC1B00B7338D /* Asap-Regular.ttf in Resources */,
 				7CAFE05B2B2CAC1B00B7338D /* Asap-Light.ttf in Resources */,
-				7C6906AC2C0CCED3009CD0D5 /* logging-sessions.mp4 in Resources */,
 				7C63FC392B35EF1200FE731C /* StoreKitTestCertificate.cer in Resources */,
 				7CAFE0412B2CAC1B00B7338D /* Asap-ExtraBold.ttf in Resources */,
 				7CAFE04F2B2CAC1B00B7338D /* Asap-ExtraLightItalic.ttf in Resources */,
@@ -1315,7 +1315,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.4.2;
+				MARKETING_VERSION = 4.4.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1346,7 +1346,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.4.2;
+				MARKETING_VERSION = 4.4.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1496,7 +1496,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.4.2;
+				MARKETING_VERSION = 4.4.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1524,7 +1524,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.4.2;
+				MARKETING_VERSION = 4.4.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

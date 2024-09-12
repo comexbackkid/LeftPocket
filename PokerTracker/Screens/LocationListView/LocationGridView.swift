@@ -185,7 +185,6 @@ struct LocationGridItem: View {
         
     }
     
-    // Need to set up testing with broken image links to make sure this works
     func fetchLocationImage(location: LocationModel) -> some View {
         
         AsyncImage(url: URL(string: location.imageURL), scale: 1, transaction: Transaction(animation: .easeIn)) { phase in

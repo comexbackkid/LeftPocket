@@ -83,38 +83,6 @@ struct LiveSessionCounter: View {
         })
     }
     
-//    var body: some View {
-//        
-//        HStack (spacing: 10) {
-//            
-//            Text(timerViewModel.liveSessionTimer)
-//                .font(.custom("Asap-Regular", size: 21))
-//            
-//            Image(systemName: "dollarsign.arrow.circlepath")
-//                .foregroundColor(.brandPrimary)
-//                .fontWeight(.medium)
-//                .font(.title2)
-//                .onTapGesture {
-//                    let impact = UIImpactFeedbackGenerator(style: .soft)
-//                    impact.impactOccurred()
-//                    showRebuyModal = true
-//                }
-//        }
-//        .padding()
-//        .padding(.horizontal, 8)
-//        .background(.thickMaterial.opacity(0.97))
-//        .cornerRadius(20)
-//        .sheet(isPresented: $showRebuyModal, onDismiss: {
-//            if rebuyConfirmationSound {
-//                playSound()
-//            }
-//        }, content: {
-//            LiveSessionRebuyModal(timerViewModel: timerViewModel, rebuyConfirmationSound: $rebuyConfirmationSound)
-//                .presentationDetents([.height(350), .large])
-//                .presentationBackground(.ultraThinMaterial)
-//        })
-//    }
-    
     var locationImage: some View {
         
         VStack {
@@ -199,5 +167,5 @@ struct LiveSessionCounter: View {
 
 #Preview {
     LiveSessionCounter(timerViewModel: TimerViewModel())
-        .preferredColorScheme(.dark)
+//        .preferredColorScheme(.dark)
 }

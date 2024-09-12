@@ -596,7 +596,7 @@ struct SessionDetailView: View {
         
         if pokerSession.location.imageURL != "" {
             
-            return Image("encore-header")
+            return Image("encore-header2")
             
         } else {
             
@@ -606,7 +606,7 @@ struct SessionDetailView: View {
                     
             else {
                 
-                return Image("encore-header")
+                return Image("encore-header2")
             }
             
             return Image(uiImage: uiImage)

@@ -25,6 +25,7 @@ struct BankrollLineChart: View {
         switch chartRange {
         case .all: return viewModel.sessions
         case .oneMonth: return viewModel.filterSessionsLastMonth()
+        case .threeMonth: return viewModel.filterSessionsLastThreeMonths()
         case .sixMonth: return viewModel.filterSessionsLastSixMonths()
         case .oneYear: return viewModel.filterSessionsLastTwelveMonths()
         case .ytd: return viewModel.filterSessionsYTD()

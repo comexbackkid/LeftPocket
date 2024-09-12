@@ -28,7 +28,7 @@ struct DeleteLocationTip: Tip {
 struct MonthlyReportTip: Tip {
     
     var title: Text {
-        Text("Metrics Columns")
+        Text("Columns Legend")
     }
     
     var message: Text? {

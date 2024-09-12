@@ -21,6 +21,7 @@ struct ProfitByYear: View {
     @State private var showError: Bool = false
     @State private var showPaywall = false
     @State private var highHandPopover = false
+    @State private var expensesPopover = false
     @State private var sessionFilter: SessionFilter = .all
     
     var body: some View {
@@ -187,25 +188,29 @@ struct ProfitByYear: View {
                 }
             }
             
-            VStack (spacing: 5) {
-                HStack {
-                    Text("Expenses")
-                    
-                    Spacer()
-                    Text(totalExpenses, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                        .foregroundColor(totalExpenses > 0 ? .red : Color(.systemGray))
-                }
+            HStack {
+                Text("Expenses")
                 
-                if sessionFilter == .all {
-                    HStack {
-                        Text("(Includes Tournament Buy Ins)")
-                            .captionStyle()
-                            .foregroundColor(.secondary)
-                        
-                        Spacer()
-                        
-                    }
+                Button {
+                    expensesPopover = true
+                } label: {
+                    Image(systemName: "info.circle")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.brandPrimary)
                 }
+                .popover(isPresented: $expensesPopover, arrowEdge: .bottom, content: {
+                    PopoverView(bodyText: "When sorting Session Type by \"All,\" expenses include both on & off-the-table expenses such as meals, travel, lodings, etc. in addition to Tournament buy ins.")
+                        .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                        .frame(height: 145)
+                        .dynamicTypeSize(.medium...DynamicTypeSize.medium)
+                        .presentationCompactAdaptation(.popover)
+                        .preferredColorScheme(colorScheme == .dark ? .dark : .light)
+                        .shadow(radius: 10)
+                })
+                
+                Spacer()
+                Text(totalExpenses, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .foregroundColor(totalExpenses > 0 ? .red : Color(.systemGray))
             }
             
             HStack {

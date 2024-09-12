@@ -94,7 +94,7 @@ struct ProductUpdates: View {
     
     var backgroundImage: some View {
         
-        Image("encore-header")
+        Image("encore-header2")
             .resizable()
             .scaledToFill()
             .offset(y: 100)
