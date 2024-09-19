@@ -75,7 +75,7 @@ struct AddNewTransaction: View {
         VStack (alignment: .leading, spacing: 20) {
             
             HStack {
-                Text("Enter transaction details below. Transactions do NOT factor into your player metrics or stats. Use this screen for logging \"off-the-felt\" expenses such as meals, travel, or memberships.")
+                Text("Enter transaction details below. Transactions do NOT factor into your player metrics or stats. Use this screen for logging \"off-the-felt\" expenses such as meals, travel, and memberships, or for managing withdrawals & deposits to your bankroll.")
                     .bodyStyle()
                 
                 Spacer()
@@ -99,9 +99,9 @@ struct AddNewTransaction: View {
                 .foregroundStyle(Color.brandPrimary)
             }
             .popover(isPresented: $transactionPopup, arrowEdge: .bottom, content: {
-                PopoverView(bodyText: "Transactions are optional. They're for players who want a precise ledger of their current, actual bankroll figure. Use transactions to log when you contribute or withdraw funds from your bankroll.\n\nTransactions do not factor in to your player stats.")
+                PopoverView(bodyText: "Transactions are optional. They're for players who want a precise ledger of their current, actual bankroll figure. Transactions do not factor in to your player stats.")
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
-                    .frame(height: 230)
+                    .frame(height: 180)
                     .dynamicTypeSize(.medium...DynamicTypeSize.medium)
                     .presentationCompactAdaptation(.popover)
                     .preferredColorScheme(colorScheme == .dark ? .dark : .light)

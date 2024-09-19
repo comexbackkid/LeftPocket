@@ -24,7 +24,6 @@ struct ProfitByStakesView: View {
     var body: some View {
         
         ScrollView {
-            
             ZStack {
                 VStack {
                     
@@ -44,8 +43,14 @@ struct ProfitByStakesView: View {
                     
                     yearTotal
                     
+                    let bestStakes = ueserBestStakes(sessions: viewModel.sessions.filter({ $0.date.getYear() == yearFilter }))
+                    
+                    ToolTipView(image: "dollarsign.circle", message: "Based on your hourly rates, it seems you play best at the \(bestStakes) games.", color: Color.donutChartPurple)
+                        .padding(.top)
+                    
                     if subManager.isSubscribed {
                         stakesChart
+                        
                     } else {
                         stakesChart
                             .blur(radius: 8)
@@ -102,6 +107,7 @@ struct ProfitByStakesView: View {
                     EmptyState(title: "No Sessions", image: .sessions)
                 }
             }
+            .dynamicTypeSize(.xSmall...DynamicTypeSize.large)
             .padding(.bottom, 60)
         }
         .background(Color.brandBackground)
@@ -143,17 +149,23 @@ struct ProfitByStakesView: View {
                 
                 Image(systemName: "dollarsign")
                     .foregroundColor(Color(.systemGray))
-                    .frame(width: 60, alignment: .trailing)
+                    .frame(width: 55, alignment: .trailing)
                     .fontWeight(.bold)
                 
                 Image(systemName: "gauge.high")
                     .foregroundColor(Color(.systemGray))
-                    .frame(width: 60, alignment: .trailing)
+                    .frame(width: 55, alignment: .trailing)
+                    .fontWeight(.bold)
+                
+                Text("BB")
+                    .font(.custom("Asap-Regular", size: 20, relativeTo: .body))
+                    .foregroundColor(Color(.systemGray))
+                    .frame(width: 55, alignment: .trailing)
                     .fontWeight(.bold)
                 
                 Image(systemName: "clock")
                     .foregroundColor(Color(.systemGray))
-                    .frame(width: 60, alignment: .trailing)
+                    .frame(width: 55, alignment: .trailing)
                     .fontWeight(.bold)
             }
             .padding(.bottom, 10)
@@ -172,17 +184,22 @@ struct ProfitByStakesView: View {
                     let total = viewModel.profitByStakes(stakes, year: yearFilter)
                     let hourlyRate = hourlyByStakes(stakes: stakes, sessions: filteredByYear)
                     let hoursPlayed = filteredByYear.filter({ $0.stakes == stakes }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+                    let bbPerHr = bbPerHourByStakes(stakes: stakes, sessions: filteredByYear.filter({ $0.stakes == stakes }))
+                    
                     
                     Text(total.axisShortHand(viewModel.userCurrency))
                         .profitColor(total: total)
-                        .frame(width: 62, alignment: .trailing)
+                        .frame(width: 57, alignment: .trailing)
                     
                     Text(hourlyRate.axisShortHand(viewModel.userCurrency))
                         .profitColor(total: hourlyRate)
-                        .frame(width: 62, alignment: .trailing)
+                        .frame(width: 57, alignment: .trailing)
+                    
+                    Text("\(bbPerHr, format: .number.precision(.fractionLength(2)))")
+                        .frame(width: 57, alignment: .trailing)
                     
                     Text(hoursPlayed.abbreviateHourTotal + "h")
-                        .frame(width: 62, alignment: .trailing)
+                        .frame(width: 57, alignment: .trailing)
                
                 }
                 .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
@@ -259,6 +276,44 @@ struct ProfitByStakesView: View {
             return Int(Float(totalEarnings) / totalTime)
         }
     }
+    
+    private func bbPerHourByStakes(stakes: String, sessions: [PokerSession]) -> Double {
+                
+        guard !sessions.isEmpty else { return 0 }
+        
+        let totalBigBlindRate = sessions.map({ $0.bigBlindPerHour }).reduce(0, +)
+        let count = Double(sessions.count)
+        
+        guard count > 0 else { return 0 }
+        
+        return totalBigBlindRate / count
+    }
+    
+    private func ueserBestStakes(sessions: [PokerSession]) -> String {
+        // Group sessions by stakes
+        let stakesGrouped = Dictionary(grouping: sessions, by: { $0.stakes })
+        
+        // Create a dictionary to store the hourly rate by stakes
+        var hourlyRatesByStakes: [String: Int] = [:]
+        
+        // Iterate through each stake group and calculate the hourly rate using your existing function
+        for (stakes, sessionsAtStakes) in stakesGrouped {
+            let hourlyRate = hourlyByStakes(stakes: stakes, sessions: sessionsAtStakes)
+            hourlyRatesByStakes[stakes] = hourlyRate
+        }
+        
+        // Check if we have any hourly rates to compare
+        guard !hourlyRatesByStakes.isEmpty else {
+            return "No stakes data available to compare."
+        }
+        
+        // Find the stake with the best hourly rate
+        let bestStakes = hourlyRatesByStakes.max { a, b in a.value < b.value }
+        
+        // Return the stake with the best hourly rate
+        return bestStakes?.key ?? "No stakes data available to compare."
+    }
+
 }
 
 struct ProfitByStakesView_Previews: PreviewProvider {

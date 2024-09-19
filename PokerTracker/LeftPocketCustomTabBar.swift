@@ -33,6 +33,7 @@ struct LeftPocketCustomTabBar: View {
     @State private var audioPlayer: AVAudioPlayer?
     @State private var audioConfirmation = false
     @State private var showAlert = false
+    @State private var showBuyInScreen = false
     @State private var activity: Activity<LiveSessionWidgetAttributes>?
     
     var isCounting: Bool {
@@ -289,6 +290,12 @@ struct LeftPocketCustomTabBar: View {
             default: break
             }
         }
+        .sheet(isPresented: $showBuyInScreen) {
+            LiveSessionInitialBuyIn(timerViewModel: timerViewModel)
+                .presentationDetents([.height(350), .large])
+                .presentationBackground(.ultraThinMaterial)
+                .interactiveDismissDisabled()
+        }
     }
     
     func playSound() {
@@ -319,6 +326,7 @@ struct LeftPocketCustomTabBar: View {
             showPaywall = true
             
         } else {
+            
             if notificationsAllowed != true {
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { success, error in
                     if success {
@@ -328,9 +336,10 @@ struct LeftPocketCustomTabBar: View {
                     }
                 }
             }
-        
+            
             timerViewModel.startSession()
             activity = LiveActivityManager().startActivity(startTime: Date(), elapsedTime: timerViewModel.liveSessionTimer)
+            showBuyInScreen = true
         }
     }
     

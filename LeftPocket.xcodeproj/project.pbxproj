@@ -23,7 +23,6 @@
 		7C15DD39276D575600889FB2 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C15DD38276D575600889FB2 /* PlaceholderView.swift */; };
 		7C1941252BDAA33E00377364 /* BestTimeOfDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */; };
 		7C1CB5EF2C6FDFAA005F16A5 /* SessionDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1CB5EE2C6FDFAA005F16A5 /* SessionDetail.swift */; };
-		7C1F8C82271094B50068E8B1 /* ProfitByWeekdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1F8C81271094B50068E8B1 /* ProfitByWeekdayView.swift */; };
 		7C20CFB2271E2D1600739764 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20CFB1271E2D1600739764 /* OnboardingView.swift */; };
 		7C23A4C328A3DEE100FB5604 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C23A4C228A3DEE100FB5604 /* AppGroup.swift */; };
 		7C23A4C428A3DEE100FB5604 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C23A4C228A3DEE100FB5604 /* AppGroup.swift */; };
@@ -52,6 +51,7 @@
 		7C4254A12784E25C00B5DA79 /* ProfitByYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4254A02784E25C00B5DA79 /* ProfitByYear.swift */; };
 		7C44A68B2C2EEA5B00110359 /* RangeFilter+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C44A68A2C2EEA5B00110359 /* RangeFilter+Ext.swift */; };
 		7C44A68D2C2F3D0100110359 /* MetricsCalculations+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C44A68C2C2F3D0100110359 /* MetricsCalculations+Ext.swift */; };
+		7C455DF02C98CD50008C1446 /* LiveSessionInitialBuyIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C455DEF2C98CD50008C1446 /* LiveSessionInitialBuyIn.swift */; };
 		7C463C232B487B040095E6C6 /* CSVConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C463C222B487B040095E6C6 /* CSVConversion.swift */; };
 		7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C483255270E3F32005AAFA1 /* FilterCardView.swift */; };
 		7C4C7BA728A4684700DBC886 /* Text+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4C7BA628A4684700DBC886 /* Text+Ext.swift */; };
@@ -272,7 +272,6 @@
 		7C15DD38276D575600889FB2 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestTimeOfDay.swift; sourceTree = "<group>"; };
 		7C1CB5EE2C6FDFAA005F16A5 /* SessionDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetail.swift; sourceTree = "<group>"; };
-		7C1F8C81271094B50068E8B1 /* ProfitByWeekdayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfitByWeekdayView.swift; sourceTree = "<group>"; };
 		7C20CFB1271E2D1600739764 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		7C23A4C028A3DB3600FB5604 /* LeftPocket.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LeftPocket.entitlements; sourceTree = "<group>"; };
 		7C23A4C128A3DB8200FB5604 /* LeftPocketWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LeftPocketWidgetExtension.entitlements; sourceTree = "<group>"; };
@@ -300,6 +299,7 @@
 		7C4254A02784E25C00B5DA79 /* ProfitByYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByYear.swift; sourceTree = "<group>"; };
 		7C44A68A2C2EEA5B00110359 /* RangeFilter+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RangeFilter+Ext.swift"; sourceTree = "<group>"; };
 		7C44A68C2C2F3D0100110359 /* MetricsCalculations+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetricsCalculations+Ext.swift"; sourceTree = "<group>"; };
+		7C455DEF2C98CD50008C1446 /* LiveSessionInitialBuyIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionInitialBuyIn.swift; sourceTree = "<group>"; };
 		7C463C222B487B040095E6C6 /* CSVConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVConversion.swift; sourceTree = "<group>"; };
 		7C483255270E3F32005AAFA1 /* FilterCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCardView.swift; sourceTree = "<group>"; };
 		7C4C7BA628A4684700DBC886 /* Text+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Text+Ext.swift"; sourceTree = "<group>"; };
@@ -505,14 +505,6 @@
 			path = LeftPocketWidget;
 			sourceTree = "<group>";
 		};
-		7C1F8C7E2710943B0068E8B1 /* ProfitByWeekdayView */ = {
-			isa = PBXGroup;
-			children = (
-				7C1F8C81271094B50068E8B1 /* ProfitByWeekdayView.swift */,
-			);
-			path = ProfitByWeekdayView;
-			sourceTree = "<group>";
-		};
 		7C2614CA26D930BA00986183 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -565,7 +557,6 @@
 				7C2FC655273EF1CE00E3BE0B /* ProfitByStakesView */,
 				7C7F4F6C270E60F3002ECF6D /* ProfitByLocationView */,
 				7C8134BE2729F1A8004E1CE1 /* ProfitByMonth */,
-				7C1F8C7E2710943B0068E8B1 /* ProfitByWeekdayView */,
 				7C42549F2784E21C00B5DA79 /* ProfitByYear */,
 				7C82E13226EFC84E00E3EB6F /* SessionDetailView */,
 				7C2614CE26D9313E00986183 /* SessionsListView */,
@@ -803,6 +794,7 @@
 				7C6E75BA2BAA16BE006173A4 /* LiveSessionCounter.swift */,
 				7C6E75BD2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift */,
 				7CD010E82BF23FE300998FD5 /* LiveSessionRebuyModal.swift */,
+				7C455DEF2C98CD50008C1446 /* LiveSessionInitialBuyIn.swift */,
 			);
 			path = LiveSessionCounter;
 			sourceTree = "<group>";
@@ -1234,6 +1226,7 @@
 				7CA7F8152B6FF5FB00F976EE /* Tips.swift in Sources */,
 				7C6350042C1A4E5B00407E17 /* Bundle+Ext.swift in Sources */,
 				7CBEF44627596DEE00744F4A /* Colors+Ext.swift in Sources */,
+				7C455DF02C98CD50008C1446 /* LiveSessionInitialBuyIn.swift in Sources */,
 				7C1941252BDAA33E00377364 /* BestTimeOfDay.swift in Sources */,
 				7CB3EB9F26C310F5009E8DF3 /* SessionDetailView.swift in Sources */,
 				7C4C7BA728A4684700DBC886 /* Text+Ext.swift in Sources */,
@@ -1272,7 +1265,6 @@
 				7CFF1BFF2BD9AA81000D56BC /* HeatMap.swift in Sources */,
 				7C757F032C1F2A9F00AD71EE /* ShareButton.swift in Sources */,
 				7CFB683A2B7CFC92005AB81F /* BarChartByYear.swift in Sources */,
-				7C1F8C82271094B50068E8B1 /* ProfitByWeekdayView.swift in Sources */,
 				7C44A68B2C2EEA5B00110359 /* RangeFilter+Ext.swift in Sources */,
 				7C63FC3F2B3640FF00FE731C /* SubscriptionManager.swift in Sources */,
 				7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */,
@@ -1315,7 +1307,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.4.3;
+				MARKETING_VERSION = 4.4.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1346,7 +1338,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.4.3;
+				MARKETING_VERSION = 4.4.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1496,7 +1488,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.4.3;
+				MARKETING_VERSION = 4.4.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1524,7 +1516,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.4.3;
+				MARKETING_VERSION = 4.4.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

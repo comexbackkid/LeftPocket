@@ -167,5 +167,5 @@ struct LiveSessionCounter: View {
 
 #Preview {
     LiveSessionCounter(timerViewModel: TimerViewModel())
-//        .preferredColorScheme(.dark)
+        .preferredColorScheme(.dark)
 }
