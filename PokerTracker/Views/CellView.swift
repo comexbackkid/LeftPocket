@@ -29,21 +29,21 @@ struct CellView: View {
                     .lineLimit(1)
                 
                 if viewStyle == .standard {
+                   
                     HStack (alignment: .firstTextBaseline, spacing: 0) {
+                      
                         Text("\(pokerSession.date.dateStyle())" + " • ")
                             .captionStyle()
                             .foregroundColor(.secondary)
                         
                         if pokerSession.isTournament == true {
+                            
                             Text("\(currency.symbol)" + "\(pokerSession.expenses!) Buy In ")
                                 .captionStyle()
                                 .foregroundColor(.secondary)
                             
-                            Text(" • \(pokerSession.entrants!) Entrants")
-                                .captionStyle()
-                                .foregroundColor(.secondary)
-                            
                         } else {
+                            
                             Text("\(currency.symbol)" + pokerSession.stakes + " • ")
                                 .captionStyle()
                                 .foregroundColor(.secondary)

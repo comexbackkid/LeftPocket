@@ -30,9 +30,11 @@ struct TransactionCellView: View {
                         .captionStyle()
                         .foregroundStyle(.secondary)
                     
-                    Text(" • " + transaction.notes)
-                        .captionStyle()
-                        .foregroundStyle(.secondary)
+                    if !transaction.notes.isEmpty {
+                        Text(" • " + transaction.notes)
+                            .captionStyle()
+                            .foregroundStyle(.secondary)
+                    }
                 }
                 .lineLimit(1)
             }
@@ -52,6 +54,5 @@ struct TransactionCellView: View {
 
 #Preview {
     TransactionCellView(transaction: MockData.sampleTransactions[0], currency: .USD)
-        .previewLayout(.sizeThatFits)
         .preferredColorScheme(.dark)
 }

@@ -38,6 +38,7 @@ struct ContentView: View {
                 } else {
                     
                     HStack {
+                        
                         QuickMetricBox(title: "Total Profit", metric: String(viewModel.tallyBankroll(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
                         
                         Spacer()
@@ -214,7 +215,7 @@ struct ContentView: View {
                         
                     }
                     .foregroundStyle(Color.brandPrimary)
-                    .popover(isPresented: $showBankrollPopup, arrowEdge: .bottom, content: {
+                    .popover(isPresented: $showBankrollPopup, arrowEdge: .top, content: {
                         PopoverView(bodyText: "\"My Bankroll\" is your true bankroll ledger, including all transactions. \"Total Profit\" represents your poker winnings over time.")
                             .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                             .frame(height: 150)

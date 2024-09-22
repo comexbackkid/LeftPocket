@@ -25,6 +25,7 @@ struct AlertModal: View {
                 let impact = UIImpactFeedbackGenerator(style: .soft)
                 impact.impactOccurred()
                 dismiss()
+                
             } label: { PrimaryButton(title: "OK") }
             
             Spacer()
@@ -38,7 +39,10 @@ struct AlertModal: View {
         HStack {
             
             Text("Success!")
-                .titleStyle()
+                .font(.custom("Asap-Black", size: 34))
+                .bold()
+                .padding(.bottom, 25)
+                .padding(.top, 20)
                 .padding(.horizontal)
                 .padding(.bottom, -20)
             
@@ -52,6 +56,7 @@ struct AlertModal: View {
         VStack (alignment: .leading) {
             
             HStack {
+                
                 Text(message)
                     .bodyStyle()
                     .foregroundStyle(.secondary)

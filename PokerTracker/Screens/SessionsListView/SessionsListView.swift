@@ -73,7 +73,7 @@ struct SessionsListView: View {
             result = result.filter { $0.stakes == stakesFilter }
         }
         
-        // Apply date range filter
+        // Apply Date Range filter
         result = result.filter { session in
             let sessionDate = session.date
             return sessionDate >= startDate && sessionDate <= endDate

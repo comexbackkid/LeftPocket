@@ -430,7 +430,7 @@ struct UserSettings: View {
         }
         .sheet(isPresented: $showAlertModal, content: {
             AlertModal(message: "Your data was exported successfully.")
-                .presentationDetents([.height(220)])
+                .presentationDetents([.height(210)])
                 .presentationBackground(.ultraThinMaterial)
             
         })

@@ -253,11 +253,6 @@ struct AdvancedTournamentReport: View {
                         .foregroundStyle(LinearGradient(colors: [.donutChartOrange, .orange], startPoint: .topTrailing, endPoint: .bottomLeading))
                         .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
                     
-                    if convertedData.count > 1 {
-                        PointMark(x: .value("Point", index), y: .value("Profit", total))
-                            .foregroundStyle(Color.donutChartOrange)
-                    }
-                    
                     AreaMark(x: .value("Time", index), y: .value("Profit", total))
                         .foregroundStyle(LinearGradient(colors: [.donutChartOrange, .clear], startPoint: .top, endPoint: .bottom))
                         .opacity(0.18)
@@ -291,7 +286,7 @@ struct AdvancedTournamentReport: View {
         .padding(.top, 20)
         .padding(.bottom, 30)
         .padding(.horizontal, 20)
-        .frame(width: UIScreen.main.bounds.width * 0.9, height: 280)
+        .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)
         .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)

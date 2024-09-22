@@ -73,7 +73,7 @@ struct BestTimeOfDay: View {
             ForEach(chartData, id: \.bucket) { data in
                 SectorMark(
                     angle: .value("Type", data.averageHourlyRate),
-                    innerRadius: .ratio(0.6),
+                    innerRadius: .ratio(0.7),
                     angularInset: 3
                 )
                 .foregroundStyle(by: .value("Bucket", data.bucket.rawValue))

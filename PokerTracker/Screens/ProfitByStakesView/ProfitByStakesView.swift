@@ -24,88 +24,95 @@ struct ProfitByStakesView: View {
     var body: some View {
         
         ScrollView {
+
             ZStack {
-                VStack {
-                    
-                    VStack (spacing: 10) {
-                        
-                        stakesTotals
-                        
-                    }
-                    .navigationBarTitleDisplayMode(.inline)
-                    .navigationBarTitle(Text("Game Stakes"))
-                    .padding(20)
-                    .frame(width: UIScreen.main.bounds.width * 0.9)
-                    .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
-                    .cornerRadius(20)
-                    .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
-                    .padding(.top, 50)
-                    
-                    yearTotal
-                    
-                    let bestStakes = ueserBestStakes(sessions: viewModel.sessions.filter({ $0.date.getYear() == yearFilter }))
-                    
-                    ToolTipView(image: "dollarsign.circle", message: "Based on your hourly rates, it seems you play best at the \(bestStakes) games.", color: Color.donutChartPurple)
-                        .padding(.top)
-                    
-                    if subManager.isSubscribed {
-                        stakesChart
-                        
-                    } else {
-                        stakesChart
-                            .blur(radius: 8)
-                            .overlay {
-                                Button {
-                                    showPaywall = true
-                                    
-                                } label: {
-                                    Text("Upgrade for Access")
-                                        .buttonTextStyle()
-                                        .frame(height: 55)
-                                        .frame(width: UIScreen.main.bounds.width * 0.7)
-                                        .background(Color.brandPrimary)
-                                        .foregroundColor(.white)
-                                        .cornerRadius(30)
-                                        .shadow(radius: 10)
-                                }
-                            }
-                    }
-                    
-                    HStack {
-                        Spacer()
-                    }
-                }
-                .sheet(isPresented: $showPaywall) {
-                    PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                        .dynamicTypeSize(.medium...DynamicTypeSize.large)
-                        .overlay {
-                            HStack {
-                                Spacer()
-                                VStack {
-                                    DismissButton()
-                                        .padding()
-                                        .onTapGesture {
-                                            showPaywall = false
-                                        }
-                                    Spacer()
-                                }
-                            }
-                        }
-                }
-                .toolbar {
-                    headerInfo
-                }
-                .task {
-                    for await customerInfo in Purchases.shared.customerInfoStream {
-                        showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
-                        await subManager.checkSubscriptionStatus()
-                    }
-                }
                 
                 // Must use this for empty state just in case the user only plays Tournments
-                if viewModel.sessions.filter({ $0.isTournament != true }).isEmpty {
-                    EmptyState(title: "No Sessions", image: .sessions)
+                if !viewModel.sessions.filter({ $0.isTournament != true }).isEmpty {
+
+                    VStack {
+                        
+                        VStack (spacing: 10) {
+                            
+                            stakesTotals
+                            
+                        }
+                        .navigationBarTitleDisplayMode(.inline)
+                        .navigationBarTitle(Text("Game Stakes"))
+                        .padding(20)
+                        .frame(width: UIScreen.main.bounds.width * 0.9)
+                        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+                        .cornerRadius(20)
+                        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+                        .padding(.top, 50)
+                        
+                        yearTotal
+                        
+                        let bestStakes = ueserBestStakes(sessions: viewModel.sessions.filter({ $0.date.getYear() == yearFilter }))
+                        
+                        ToolTipView(image: "dollarsign.circle", message: "Based on your hourly rates, your best game stakes are \(bestStakes).", color: Color.donutChartPurple)
+                            .padding(.top)
+                        
+                        if subManager.isSubscribed {
+                            stakesChart
+                            
+                        } else {
+                            stakesChart
+                                .blur(radius: 8)
+                                .overlay {
+                                    Button {
+                                        showPaywall = true
+                                        
+                                    } label: {
+                                        Text("Upgrade for Access")
+                                            .buttonTextStyle()
+                                            .frame(height: 55)
+                                            .frame(width: UIScreen.main.bounds.width * 0.7)
+                                            .background(Color.brandPrimary)
+                                            .foregroundColor(.white)
+                                            .cornerRadius(30)
+                                            .shadow(radius: 10)
+                                    }
+                                }
+                        }
+                        
+                        HStack {
+                            Spacer()
+                        }
+                    }
+                    .sheet(isPresented: $showPaywall) {
+                        PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                            .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                            .overlay {
+                                HStack {
+                                    Spacer()
+                                    VStack {
+                                        DismissButton()
+                                            .padding()
+                                            .onTapGesture {
+                                                showPaywall = false
+                                            }
+                                        Spacer()
+                                    }
+                                }
+                            }
+                    }
+                    .toolbar {
+                        headerInfo
+                    }
+                    .task {
+                        for await customerInfo in Purchases.shared.customerInfoStream {
+                            showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                            await subManager.checkSubscriptionStatus()
+                        }
+                    }
+                } else {
+                    VStack {
+                        EmptyState(title: "No Sessions", image: .sessions)
+                    }
+                    
                 }
+                
             }
             .dynamicTypeSize(.xSmall...DynamicTypeSize.large)
             .padding(.bottom, 60)
@@ -200,7 +207,7 @@ struct ProfitByStakesView: View {
                     
                     Text(hoursPlayed.abbreviateHourTotal + "h")
                         .frame(width: 57, alignment: .trailing)
-               
+                    
                 }
                 .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
             }
@@ -278,7 +285,7 @@ struct ProfitByStakesView: View {
     }
     
     private func bbPerHourByStakes(stakes: String, sessions: [PokerSession]) -> Double {
-                
+        
         guard !sessions.isEmpty else { return 0 }
         
         let totalBigBlindRate = sessions.map({ $0.bigBlindPerHour }).reduce(0, +)
@@ -304,16 +311,16 @@ struct ProfitByStakesView: View {
         
         // Check if we have any hourly rates to compare
         guard !hourlyRatesByStakes.isEmpty else {
-            return "No stakes data available to compare."
+            return "TBD"
         }
         
         // Find the stake with the best hourly rate
         let bestStakes = hourlyRatesByStakes.max { a, b in a.value < b.value }
         
         // Return the stake with the best hourly rate
-        return bestStakes?.key ?? "No stakes data available to compare."
+        return bestStakes?.key ?? "TBD"
     }
-
+    
 }
 
 struct ProfitByStakesView_Previews: PreviewProvider {
@@ -321,7 +328,7 @@ struct ProfitByStakesView_Previews: PreviewProvider {
         NavigationView {
             ProfitByStakesView(viewModel: SessionsListViewModel())
                 .environmentObject(SubscriptionManager())
-                .preferredColorScheme(.dark)
         }
+        .preferredColorScheme(.dark)
     }
 }

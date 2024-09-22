@@ -664,7 +664,7 @@ struct AdditionalMetricsView: View {
                     HStack (spacing: 12) {
                         
                         NavigationLink(
-                            destination: ProfitByYear(vm: AnnualReportViewModel()),
+                            destination: ProfitByYear(),
                             label: {
                                 AdditionalMetricsCardView(title: "Annual Report",
                                                           description: "Review & export your results from \nthe previous year.",

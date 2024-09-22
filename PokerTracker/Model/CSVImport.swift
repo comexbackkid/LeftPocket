@@ -16,6 +16,145 @@ class CSVImporter {
         case saveFailed
     }
     
+    // MARK: Poker Income Import
+    
+    func importCashCSVFromPokerIncome(data: Data) throws -> [PokerSession] {
+        
+        guard let csvString = String(data: data, encoding: .utf8) else {
+            throw ImportError.invalidData
+        }
+        
+        let rows = csvString.components(separatedBy: "\n")
+        var importedSessions: [PokerSession] = []
+        
+        // Iterate through rows in the CSV ignoring the first 1 rows
+        for rowIndex in 1..<rows.count {
+            
+            let row = rows[rowIndex]
+            let columns = row.components(separatedBy: ",")
+            let numberFormatter = NumberFormatter()
+            numberFormatter.decimalSeparator = "."
+            numberFormatter.numberStyle = .decimal
+            
+            // Can we use a guard statement that just ignores columns that don't match 44?
+            if columns.count == 18 {
+                
+                // Extract only relevant data and create a PokerSession object
+                let game = columns[5].trimmingCharacters(in: .init(charactersIn: "\""))
+                let limit = columns[6].trimmingCharacters(in: .init(charactersIn: "\""))
+                let location = LocationModel(name: columns[7].trimmingCharacters(in: .init(charactersIn: "\"")), localImage: "", imageURL: "")
+                let stakes = columns[17].trimmingCharacters(in: .whitespacesAndNewlines)
+                let date = convertToDateFromPokerIncome(columns[0].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let profit = numberFormatter.number(from: columns[10])?.intValue
+                let notes = columns[11].trimmingCharacters(in: .init(charactersIn: "\""))
+                let startTime = convertToDateFromPokerIncome(columns[0].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let endTime = convertToDateFromPokerIncome(columns[1].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let expenses = Int(columns[15])
+                let buyIn = numberFormatter.number(from: columns[8])?.intValue
+                let cashOut = numberFormatter.number(from: columns[9])?.intValue
+                
+                // Need to figure out how to handle the buyIn being the same as expenses
+                let session = PokerSession(location: location,
+                                           game: limit + " \(game)",
+                                           stakes: stakes,
+                                           date: date ?? Date(),
+                                           profit: profit ?? 0,
+                                           notes: notes,
+                                           startTime: startTime ?? Date().modifyTime(minutes: -360),
+                                           endTime: endTime ?? Date(),
+                                           expenses: expenses,
+                                           isTournament: false,
+                                           entrants: nil,
+                                           finish: nil,
+                                           highHandBonus: nil,
+                                           buyIn: buyIn,
+                                           cashOut: cashOut,
+                                           rebuyCount: nil,
+                                           tournamentSize: nil,
+                                           tournamentSpeed: nil)
+                
+                importedSessions.append(session)
+                
+            } else {
+                
+                print("Column count: \(columns.count)")
+                throw ImportError.parsingFailed
+                
+            }
+        }
+        
+        return importedSessions
+        
+    }
+    
+    func importTournamentCSVFromPokerIncome(data: Data) throws -> [PokerSession] {
+        
+        guard let csvString = String(data: data, encoding: .utf8) else {
+            throw ImportError.invalidData
+        }
+        
+        let rows = csvString.components(separatedBy: "\n")
+        var importedSessions: [PokerSession] = []
+        
+        // Iterate through rows in the CSV ignoring the first 1 rows
+        for rowIndex in 1..<rows.count {
+            
+            let row = rows[rowIndex]
+            let columns = row.components(separatedBy: ",")
+            let numberFormatter = NumberFormatter()
+            numberFormatter.decimalSeparator = "."
+            numberFormatter.numberStyle = .decimal
+            
+            if columns.count == 21 {
+                
+                // Extract only relevant data and create a PokerSession object
+                let date = convertToDateFromPokerIncome(columns[0])
+                let startTime = convertToDateFromPokerIncome(columns[0])
+                let endTime = convertToDateFromPokerIncome(columns[1])
+                let game = columns[5]
+                let limit = columns[6]
+                let location = LocationModel(name: columns[7], localImage: "", imageURL: "")
+                let profit = numberFormatter.number(from: columns[10])?.intValue
+                let notes = columns[11]
+                let entrants = Int(columns[18])
+                let finish = Int(columns[20])
+                let buyIn = numberFormatter.number(from: columns[8])?.intValue
+                let cashOut = numberFormatter.number(from: columns[9])?.intValue
+                let tournamentSize = columns[17]
+                
+                // Need to figure out how to handle the buyIn being the same as expenses
+                let session = PokerSession(location: location,
+                                           game: limit + " \(game)",
+                                           stakes: "",
+                                           date: date ?? Date(),
+                                           profit: profit ?? 0,
+                                           notes: notes,
+                                           startTime: startTime ?? Date().modifyTime(minutes: -360),
+                                           endTime: endTime ?? Date(),
+                                           expenses: buyIn,
+                                           isTournament: true,
+                                           entrants: entrants,
+                                           finish: finish,
+                                           highHandBonus: nil,
+                                           buyIn: buyIn,
+                                           cashOut: cashOut,
+                                           rebuyCount: nil,
+                                           tournamentSize: tournamentSize == "Sit & Go" ? tournamentSize : "MTT",
+                                           tournamentSpeed: "Standard")
+                
+                importedSessions.append(session)
+                
+            } else {
+                
+                print("Column count: \(columns.count)")
+                throw ImportError.parsingFailed
+                
+            }
+        }
+        
+        return importedSessions
+    }
+    
     // MARK: Poker Bankroll Tracker Import
     
     func importCSVFromPokerBankrollTracker(data: Data) throws -> [PokerSession] {
@@ -302,6 +441,23 @@ class CSVImporter {
         return importedSessions
     }
     
+    // Poker Income date conversion
+    func convertToDateFromPokerIncome(_ rawDate: String) -> Date? {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "M/d/yy h:mm a"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // Ensures the date format is interpreted correctly
+        dateFormatter.timeZone = TimeZone.current // Adjusts for the device's current timezone
+        
+        if let date = dateFormatter.date(from: rawDate) {
+            return date
+            
+        } else {
+            print("Error: Unable to convert string to Date.")
+            return nil
+        }
+    }
+
     // Poker Bankroll Tracker date conversion
     func convertToDate(_ rawDate: String) -> Date? {
         

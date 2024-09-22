@@ -31,8 +31,7 @@ struct NotificationsView: View {
                     
                 } else { button }
                 
-                Divider()
-                    .padding()
+                Divider().padding()
                 
                 bottomDescription
                 
@@ -50,7 +49,7 @@ struct NotificationsView: View {
             })
             .sheet(isPresented: $showSuccessAlert, content: {
                 AlertModal(message: "Notifications successfully enabled. You can now receive Live Session check ins.")
-                    .presentationDetents([.height(220)])
+                    .presentationDetents([.height(210)])
                     .presentationBackground(.ultraThinMaterial)
                 
             })

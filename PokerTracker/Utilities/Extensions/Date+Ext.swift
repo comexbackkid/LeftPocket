@@ -81,6 +81,7 @@ extension Date {
 
 // Used in charting with Swift Charts
 extension Calendar {
+    
     func startOfMonth(for date: Date) -> Date {
         let components = self.dateComponents([.year, .month], from: date)
         return self.date(from: components)!

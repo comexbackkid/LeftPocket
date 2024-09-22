@@ -15,7 +15,7 @@ struct ProfitByYear: View {
     
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var viewModel: SessionsListViewModel
-    @StateObject var vm: AnnualReportViewModel
+    @StateObject var vm = AnnualReportViewModel()
     @StateObject var exportUtility = CSVConversion()
     
     @State private var showError: Bool = false

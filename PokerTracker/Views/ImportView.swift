@@ -53,7 +53,7 @@ struct ImportView: View {
                 .bold()
                 .padding(.top, 10)
             
-            Text("Left Pocket supports data in CSV format from Poker Bankroll Tracker, Poker Analytics, & Pokerbase. These apps format their CSV data differently, & you may be required to lightly modify the contents of the file.\n\nIt's recommended that you import old data first, before your Left Pocket journey begins.")
+            Text("Left Pocket supports data in CSV format from Poker Income, Poker Bankroll Tracker, Poker Analytics, & Pokerbase. These apps format their data differently, & you may need to lightly modify the contents of the file.\n\nIt's recommended that you import old data first, before your Left Pocket journey begins.")
                 .bodyStyle()
                 .padding(.top, 1)
         }
@@ -63,6 +63,36 @@ struct ImportView: View {
     var navigationLinks: some View {
         
         VStack (spacing: 15) {
+            
+            NavigationLink {
+                PokerIncomeImportView()
+            } label: {
+                HStack {
+                    VStack (alignment: .leading) {
+                        HStack {
+                            
+                            Image(systemName: "tray.and.arrow.down.fill")
+                                .frame(width: 20)
+                                .fontWeight(.black)
+                                .padding(.trailing, 5)
+                                .foregroundColor(.secondary)
+                            
+                            Text("Poker Income")
+                                .bodyStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Divider()
             
             NavigationLink {
                 PokerBankrollTrackerImportView()
@@ -191,6 +221,249 @@ struct ImportView: View {
     }
 }
 
+struct PokerIncomeImportView: View {
+    
+    @EnvironmentObject var vm: SessionsListViewModel
+    
+    @State private var showCashFileImporter = false
+    @State private var showTournamentFileImporter = false
+    @State private var errorMessage: String?
+    @State private var showSuccessMessage: String?
+    
+    var body: some View {
+        
+        ScrollView (.vertical) {
+            
+            VStack (alignment: .leading) {
+                
+                Text("Poker Income Import")
+                    .subtitleStyle()
+                    .bold()
+                    .padding(.top, 10)
+                
+                Text("Please be sure to follow each step and read carefully.")
+                    .bodyStyle()
+                    .padding(.top, 1)
+                
+                VStack (alignment: .leading, spacing: 20) {
+                    
+                    HStack {
+                        
+                        Image(systemName: "1.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Export data from Poker Income.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                    
+                    HStack {
+                        
+                        Image(systemName: "2.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("You'll need to create a CSV file in Excel and populate your session data into a table. Do this for cash and tournament games separately.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                    
+                    HStack {
+                        
+                        Image(systemName: "3.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Export as a CSV file to a folder in your iCloud Drive, using UTF-8 encoding.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                    
+                    HStack {
+                        
+                        Image(systemName: "4.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Tap the Import CSV Data button below.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                }
+                .lineSpacing(5)
+                .padding(.vertical, 20)
+            }
+            .padding(.horizontal)
+            
+            cashImportButton
+            
+            tournamentImportButton
+            
+            if let errorMessage {
+                
+                VStack {
+                    Text("Uh oh! There was a problem.")
+                    Text(errorMessage)
+                    Image(systemName: "x.circle")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .padding(.bottom, 15)
+                        .foregroundColor(.red)
+                }
+                
+            } else if let showSuccessMessage {
+                
+                VStack {
+                    Text("Success!")
+                    Text(showSuccessMessage)
+                    Image(systemName: "checkmark.circle")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .padding(.bottom, 15)
+                        .foregroundColor(.green)
+                }
+            }
+            
+            HStack {
+                Spacer()
+            }
+        }
+        .background(Color.brandBackground)
+    }
+    
+    var cashImportButton: some View {
+        
+        Button {
+            
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            showCashFileImporter = true
+            
+        } label: {
+            
+            PrimaryButton(title: "Import CSV Data (Cash)")
+            
+        }
+        .fileImporter(isPresented: $showCashFileImporter,
+                      allowedContentTypes: [.plainText, .commaSeparatedText],
+                      onCompletion: { result in
+                        
+            do {
+                let selectedURL = try result.get()
+                
+                if selectedURL.startAccessingSecurityScopedResource() {
+                    let csvData = try Data(contentsOf: selectedURL)
+                    let csvImporter = CSVImporter()
+                    let importedSessions = try csvImporter.importCashCSVFromPokerIncome(data: csvData)
+                    
+                    // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
+                    vm.sessions += importedSessions
+                    vm.sessions.sort(by: {$0.date > $1.date})
+                    showSuccessMessage = "All sessions imported successfully."
+                }
+                
+                selectedURL.stopAccessingSecurityScopedResource()
+                
+            } catch let error as URLError {
+                
+                // Handle URLError from the fileImporter
+                errorMessage = "URL Error: \(error.localizedDescription)"
+                print("URL Error: \(error)")
+                
+            } catch let error as CSVImporter.ImportError {
+                
+                // Handle specific CSV import errors from our class
+                switch error {
+                case .invalidData:
+                    errorMessage = "Error: Invalid Data"
+                case .parsingFailed:
+                    errorMessage = "Error: Parsing Failed"
+                case .saveFailed:
+                    errorMessage = "Error: Failed to Save Data"
+                }
+                print("CSV Import Error: \(error)")
+                
+            } catch {
+                
+                // Handle other errors
+                errorMessage = error.localizedDescription
+                print("Error importing file: \(error)")
+            }
+        })
+    }
+    
+    var tournamentImportButton: some View {
+        
+        Button {
+            
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            showTournamentFileImporter = true
+            
+        } label: {
+            
+            PrimaryButton(title: "Import CSV Data (Tournaments)")
+            
+        }
+        .fileImporter(isPresented: $showTournamentFileImporter,
+                      allowedContentTypes: [.plainText, .commaSeparatedText],
+                      onCompletion: { result in
+                        
+            do {
+                let selectedURL = try result.get()
+                
+                if selectedURL.startAccessingSecurityScopedResource() {
+                    let csvData = try Data(contentsOf: selectedURL)
+                    let csvImporter = CSVImporter()
+                    let importedSessions = try csvImporter.importTournamentCSVFromPokerIncome(data: csvData)
+                    
+                    // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
+                    vm.sessions += importedSessions
+                    vm.sessions.sort(by: {$0.date > $1.date})
+                    showSuccessMessage = "All sessions imported successfully."
+                }
+                
+                selectedURL.stopAccessingSecurityScopedResource()
+                
+            } catch let error as URLError {
+                
+                // Handle URLError from the fileImporter
+                errorMessage = "URL Error: \(error.localizedDescription)"
+                print("URL Error: \(error)")
+                
+            } catch let error as CSVImporter.ImportError {
+                
+                // Handle specific CSV import errors from our class
+                switch error {
+                case .invalidData:
+                    errorMessage = "Error: Invalid Data"
+                case .parsingFailed:
+                    errorMessage = "Error: Parsing Failed"
+                case .saveFailed:
+                    errorMessage = "Error: Failed to Save Data"
+                }
+                print("CSV Import Error: \(error)")
+                
+            } catch {
+                
+                // Handle other errors
+                errorMessage = error.localizedDescription
+                print("Error importing file: \(error)")
+            }
+        })
+        .offset(y: -20)
+    }
+}
+
 struct PokerBankrollTrackerImportView: View {
     
     @EnvironmentObject var vm: SessionsListViewModel
@@ -210,7 +483,7 @@ struct PokerBankrollTrackerImportView: View {
                     .bold()
                     .padding(.top, 10)
                 
-                Text("Please be sure to follow each step and read carefully. Poker Bankroll Tracker allows for exporting of session notes and you will need to account for how the text is formatted.")
+                Text("Please be sure to follow each step and read carefully. Poker Bankroll Tracker allows for exporting of session notes and you will need to modify the that text prior to import.")
                     .bodyStyle()
                     .padding(.top, 1)
                 
@@ -237,7 +510,7 @@ struct PokerBankrollTrackerImportView: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Open the CSV on your computer. In the notes column, you'll need to __remove ALL COMMAS and SOFT RETURNS__. Text must be on one line.")
+                        Text("Open the CSV on your computer. In the notes column, you'll need to __remove ALL COMMAS and SOFT RETURNS__ (Text must be on one line).")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -390,7 +663,7 @@ struct PokerbaseImportView: View {
                     .bold()
                     .padding(.top, 10)
                 
-                Text("Please be sure to follow each step and read carefully. At this time Pokerbase exports do not include tournament info, stakes, or notes. If your sessions were only one stake, you can select it from the picker below & it'll be applied to your entire import.")
+                Text("Please be sure to follow each step and read carefully. Unfortunately exports from Pokerbase do not include tournament info, or stakes info. If you only played one game stake, you can select it from the picker below & it'll be applied to your entire import.")
                     .bodyStyle()
                     .padding(.top, 1)
                 
@@ -634,7 +907,7 @@ struct LeftPocketImportView: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("If you're importing a CSV that contains sessions with notes, you'll need to either remove all commas from the notes column or simply delete the note.")
+                        Text("If you're importing a CSV that contains Sessions with notes, you'll need to either remove all commas from the notes column, or just delete the cell contents.")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -647,7 +920,7 @@ struct LeftPocketImportView: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Save the CSV file to your iCloud Drive in UTF-8 format.")
+                        Text("Save or upload the CSV file to your iCloud Drive in UTF-8 format.")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -955,7 +1228,7 @@ struct ImportView_Previews: PreviewProvider {
     static var previews: some View {
         ImportView()
             .preferredColorScheme(.dark)
-        LeftPocketImportView()
+        PokerIncomeImportView()
             .preferredColorScheme(.dark)
     }
 }

@@ -16,7 +16,7 @@ struct DeleteLocationTip: Tip {
     }
     
     var message: Text? {
-        Text("To add your own location, tap the \(Image(systemName: "plus")) button above. Tap & hold a thumbnail to delete.")
+        Text("To add your own location, tap the \(Image(systemName: "plus")) button above. Tap & hold a thumbnail to delete. If you've imported data from another app, be sure location names match exactly.")
     }
     
     var image: Image? {

@@ -65,7 +65,7 @@ struct SessionDefaultsView: View {
             
             .sheet(isPresented: $showAlertModal, content: {
                 AlertModal(message: resultMessage)
-                    .presentationDetents([.height(220)])
+                    .presentationDetents([.height(210)])
                     .presentationBackground(.ultraThinMaterial)
                 
             })
