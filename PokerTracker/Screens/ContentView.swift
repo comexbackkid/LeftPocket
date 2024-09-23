@@ -237,11 +237,13 @@ struct ContentView: View {
                         Image(systemName: "arrow.up.right")
                             .resizable()
                             .frame(width: 13, height: 13)
+                            .fontWeight(.bold)
                             .foregroundColor(lastSession > 0 ? .green : lastSession < 0 ? .red : Color(.systemGray))
                             .rotationEffect(lastSession >= 0 ? .degrees(0) : .degrees(90))
                         
                         Text(lastSession, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                             .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+                            .fontWeight(.bold)
                             .profitColor(total: lastSession)
                         
                     }

@@ -128,17 +128,7 @@ struct LiveSessionRebuyModal: View {
         } label: { PrimaryButton(title: "Add Rebuy") }
     }
     
-    private var isValidForm: Bool {
-        guard !timerViewModel.initialBuyInAmount.isEmpty else {
-            alertItem = AlertContext.invalidBuyIn
-            return false
-        }
-        
-        return true
-    }
-    
     private func saveButtonPressed() {
-        guard isValidForm else { return }
         timerViewModel.addRebuy()
         dismiss()
     }

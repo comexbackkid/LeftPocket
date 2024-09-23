@@ -78,7 +78,7 @@ struct LiveSessionInitialBuyIn: View {
                 .font(.callout)
                 .foregroundColor(timerViewModel.initialBuyInAmount.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
             
-            TextField("Buy In", text: $timerViewModel.initialBuyInAmount)
+            TextField("Initial Buy In", text: $timerViewModel.initialBuyInAmount)
                 .font(.custom("Asap-Regular", size: 17))
                 .keyboardType(.numberPad)
         }

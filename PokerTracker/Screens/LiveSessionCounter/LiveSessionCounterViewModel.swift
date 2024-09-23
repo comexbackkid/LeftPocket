@@ -130,7 +130,6 @@ class TimerViewModel: ObservableObject {
     }
     
     func addRebuy() {
-        guard !reBuyAmount.isEmpty else { return }
         
         // Add rebuy amount to variable, then write that amount to UserDefaults
         // That way, if the app is quit or terminates we can recover the rebuy and initial buy in entries
@@ -149,10 +148,6 @@ class TimerViewModel: ObservableObject {
     @objc private func appWillResignActive() {
         // This method would be useful if you need to handle app becoming inactive
     }
-    
-//    @objc func applicationWillTerminate(_ application: UIApplication) {
-        // Use to run code if the app is about to be terminated
-//    }
     
     private func formatTimeInterval(_ interval: TimeInterval) -> String {
         let hours = Int(interval) / 3600
