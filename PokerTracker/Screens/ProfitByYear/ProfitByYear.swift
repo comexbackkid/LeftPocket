@@ -12,7 +12,6 @@ import RevenueCatUI
 struct ProfitByYear: View {
     
     @Environment(\.colorScheme) var colorScheme
-    
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var viewModel: SessionsListViewModel
     @StateObject var vm = AnnualReportViewModel()
@@ -22,7 +21,7 @@ struct ProfitByYear: View {
     @State private var showPaywall = false
     @State private var highHandPopover = false
     @State private var expensesPopover = false
-    @State private var sessionFilter: SessionFilter = .all
+    @AppStorage("sessionFilter") private var sessionFilter: SessionFilter = .all
     
     var body: some View {
 
@@ -60,6 +59,7 @@ struct ProfitByYear: View {
         }
         .background(Color.brandBackground)
         .accentColor(.brandPrimary)
+        .onAppear {  }
     }
     
     var lineChart: some View {

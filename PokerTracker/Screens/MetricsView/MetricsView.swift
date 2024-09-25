@@ -68,9 +68,7 @@ struct MetricsView: View {
                                     .padding(.bottom, activeSheet == .metricsAsSheet ? 0 : 50)
                             }
                         }
-                        .fullScreenCover(isPresented: $viewModel.lineChartFullScreen, content: {
-                            LineChartFullScreen(lineChartFullScreen: $viewModel.lineChartFullScreen)
-                        })
+                        
                         
                     } else {
                         EmptyState(title: "No Sessions", image: .metrics)
@@ -266,7 +264,6 @@ struct AllStats: View {
             
             HStack {
                 Text("Total Profit")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 
                 Spacer()
@@ -279,7 +276,6 @@ struct AllStats: View {
             
             HStack {
                 Text("Hourly Rate")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 
                 Spacer()
@@ -292,7 +288,6 @@ struct AllStats: View {
             
             HStack {
                 Text("Profit Per Session")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 
                 Spacer()
@@ -305,7 +300,6 @@ struct AllStats: View {
             
             HStack {
                 Text("Avg. Duration")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 
                 Spacer()
@@ -317,7 +311,6 @@ struct AllStats: View {
             
             HStack {
                 Text("Total No. of Sessions")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 
                 Spacer()
@@ -329,7 +322,6 @@ struct AllStats: View {
             
             HStack {
                 Text("Win Ratio")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 
                 Spacer()
@@ -341,7 +333,6 @@ struct AllStats: View {
             
             HStack {
                 Text("Total Hours Played")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 
                 Spacer()
@@ -349,7 +340,7 @@ struct AllStats: View {
                 Text(totalHours)
             }
         }
-        .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
+        .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
     }
 }
 
@@ -378,7 +369,6 @@ struct CashStats: View {
             
             HStack {
                 Text("Cash Profit")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 
                 Spacer()
@@ -391,7 +381,6 @@ struct CashStats: View {
             
             HStack {
                 Text("Hourly Rate")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 
                 Spacer()
@@ -404,7 +393,6 @@ struct CashStats: View {
             
             HStack {
                 Text("Profit Per Session")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 
                 Spacer()
@@ -417,7 +405,6 @@ struct CashStats: View {
             
             HStack (alignment: .lastTextBaseline, spacing: 4) {
                 Text("High Hand Bonuses")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 Button {
                     highHandPopover = true
@@ -447,7 +434,6 @@ struct CashStats: View {
             
             HStack {
                 Text("Avg. BB / Hr")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
                 Text("\(viewModel.bbPerHour(range: range), specifier: "%.2f")")
@@ -457,7 +443,6 @@ struct CashStats: View {
             
             HStack {
                 Text("Avg. Duration")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(avgDuration)
@@ -467,7 +452,6 @@ struct CashStats: View {
             
             HStack {
                 Text("No. of Cashes")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
                 Text("\(cashWinCount)")
@@ -475,10 +459,8 @@ struct CashStats: View {
             
             Divider()
             
-            // Needs to filter just for cash games
             HStack {
                 Text("Win Ratio")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 
                 Spacer()
@@ -490,7 +472,6 @@ struct CashStats: View {
             
             HStack {
                 Text("Hours Played")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 
                 Spacer()
@@ -498,7 +479,7 @@ struct CashStats: View {
                 Text(cashTotalHours)
             }
         }
-        .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
+        .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
     }
 }
 
@@ -523,7 +504,6 @@ struct TournamentStats: View {
             
             HStack {
                 Text("Tournament Profit")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(tournamentProfit, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
@@ -534,7 +514,6 @@ struct TournamentStats: View {
             
             HStack {
                 Text("Hourly Rate")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(tournamentHourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
@@ -545,7 +524,6 @@ struct TournamentStats: View {
             
             HStack {
                 Text("Avg. Duration")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(tournamentAvgDuration)
@@ -555,7 +533,6 @@ struct TournamentStats: View {
             
             HStack {
                 Text("Avg. Buy In")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(avgTournamentBuyIn, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
@@ -565,7 +542,6 @@ struct TournamentStats: View {
             
             HStack {
                 Text("No. of Tournaments")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
                 Text("\(tournamentCount)")
@@ -575,7 +551,6 @@ struct TournamentStats: View {
             
             HStack {
                 Text("ITM Ratio")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(itmRatio)
@@ -585,7 +560,6 @@ struct TournamentStats: View {
             
             HStack {
                 Text("ROI")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(tournamentROI)
@@ -595,13 +569,12 @@ struct TournamentStats: View {
             
             HStack {
                 Text("Hours Played")
-                    .calloutStyle()
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(tournamentHrsPlayed)
             }
         }
-        .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
+        .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
     }
 }
 

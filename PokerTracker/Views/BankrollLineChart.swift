@@ -15,12 +15,11 @@ struct BankrollLineChart: View {
     @State private var selectedIndex: Int?
     @State private var animationProgress: CGFloat = 0.0
     @State private var showChart: Bool = false
-    @State private var sessionFilter: SessionFilter = .all
+    @AppStorage("sessionFilter") private var chartSessionFilter: SessionFilter = .all
     @State private var chartRange: RangeSelection = .all
     
     // Optional year selector, only used in Annual Report View. Overrides dateRange if used
     var yearSelection: [PokerSession]?
-    
     var dateRange: [PokerSession] {
         switch chartRange {
         case .all: return viewModel.sessions
@@ -39,7 +38,7 @@ struct BankrollLineChart: View {
         
         // Start with zero as our initial data point so chart doesn't look goofy
         var originalDataPoint = [0]
-        let newDataPoints = viewModel.calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange, sessionFilter: sessionFilter)
+        let newDataPoints = viewModel.calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange, sessionFilter: chartSessionFilter)
         originalDataPoint += newDataPoints
         return originalDataPoint
     }
@@ -66,6 +65,9 @@ struct BankrollLineChart: View {
                     filterButton
                 }
                 .padding(.bottom, 40)
+                .fullScreenCover(isPresented: $viewModel.lineChartFullScreen, content: {
+                    LineChartFullScreen(lineChartFullScreen: $viewModel.lineChartFullScreen)
+                })
             }
             
             // Annotations not available pre-iOS 17. Display plain chart if so.
@@ -84,7 +86,8 @@ struct BankrollLineChart: View {
         
         VStack {
             
-            let cumulativeProfitArray = viewModel.calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange, sessionFilter: sessionFilter)
+            let cumulativeProfitArray = viewModel.calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange,
+                                                                            sessionFilter: chartSessionFilter)
             
             Chart {
                 
@@ -94,7 +97,7 @@ struct BankrollLineChart: View {
                         .opacity(showChart ? 1.0 : 0.0)
                     
                     AreaMark(x: .value("Time", index), y: .value("Profit", total))
-                        .foregroundStyle(LinearGradient(colors: [sessionFilter != .tournaments ? Color("lightBlue") : .donutChartOrange, .clear], startPoint: .top, endPoint: .bottom))
+                        .foregroundStyle(LinearGradient(colors: [chartSessionFilter != .tournaments ? Color("lightBlue") : .donutChartOrange, .clear], startPoint: .top, endPoint: .bottom))
                         .opacity(showChart ? 0.18 : 0.0)
                     
                     if let selectedIndex {
@@ -103,8 +106,8 @@ struct BankrollLineChart: View {
                             .foregroundStyle(Color.brandWhite)
                     }
                 }
-                .foregroundStyle(LinearGradient(colors: [sessionFilter != .tournaments ? .chartAccent : .donutChartOrange,
-                                                         sessionFilter != .tournaments ? .chartBase : .orange],
+                .foregroundStyle(LinearGradient(colors: [chartSessionFilter != .tournaments ? .chartAccent : .donutChartOrange,
+                                                         chartSessionFilter != .tournaments ? .chartBase : .orange],
                                                 startPoint: .topTrailing, endPoint: .bottomLeading))
                 .interpolationMethod(.catmullRom)
                 .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
@@ -174,7 +177,7 @@ struct BankrollLineChart: View {
         
         VStack {
             
-            let cumulativeProfitArray = viewModel.calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange, sessionFilter: sessionFilter)
+            let cumulativeProfitArray = viewModel.calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange, sessionFilter: chartSessionFilter)
             
             Chart {
                 
@@ -184,11 +187,11 @@ struct BankrollLineChart: View {
                         .opacity(showChart ? 1.0 : 0.0)
                     
                     AreaMark(x: .value("Time", index), y: .value("Profit", total))
-                        .foregroundStyle(LinearGradient(colors: [sessionFilter != .tournaments ? Color("lightBlue") : .donutChartGreen, .clear], startPoint: .top, endPoint: .bottom))
+                        .foregroundStyle(LinearGradient(colors: [chartSessionFilter != .tournaments ? Color("lightBlue") : .donutChartGreen, .clear], startPoint: .top, endPoint: .bottom))
                         .opacity(showChart ? 0.2 : 0.0)
                 }
-                .foregroundStyle(LinearGradient(colors: [sessionFilter != .tournaments ? .chartAccent : .donutChartGreen,
-                                                         sessionFilter != .tournaments ? .chartBase : .donutChartDarkBlue],
+                .foregroundStyle(LinearGradient(colors: [chartSessionFilter != .tournaments ? .chartAccent : .donutChartGreen,
+                                                         chartSessionFilter != .tournaments ? .chartBase : .donutChartDarkBlue],
                                                 startPoint: .topTrailing, endPoint: .bottomLeading))
                 .interpolationMethod(.catmullRom)
                 .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
@@ -243,13 +246,13 @@ struct BankrollLineChart: View {
     var filterButton: some View {
         
         Menu {
-            Picker("", selection: $sessionFilter) {
+            Picker("", selection: $chartSessionFilter) {
                 ForEach(SessionFilter.allCases, id: \.self) {
                     Text($0.rawValue.capitalized).tag($0)
                 }
             }
         } label: {
-            Text(sessionFilter.rawValue.capitalized + " ›")
+            Text(chartSessionFilter.rawValue.capitalized + " ›")
                 .bodyStyle()
         }
         .tint(.brandPrimary)

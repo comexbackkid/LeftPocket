@@ -19,9 +19,9 @@ struct LineChartFullScreen: View {
         
         VStack {
             BankrollLineChart(showTitle: false,
-                                    showYAxis: true,
-                                    showRangeSelector: true,
-                                    overlayAnnotation: true)
+                              showYAxis: true,
+                              showRangeSelector: true,
+                              overlayAnnotation: true)
             
             // Swap width and height to match landscape dimensions
             .transaction { transaction in
