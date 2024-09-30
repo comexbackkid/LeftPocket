@@ -15,6 +15,8 @@ struct ContentView: View {
     @EnvironmentObject var subManager: SubscriptionManager
     @Environment(\.colorScheme) var colorScheme
     
+    @AppStorage("hideBankroll") var hideBankroll: Bool = false
+    
     @State private var showMetricsAsSheet = false
     @State private var showSleepAnalyticsAsSheet = false
     @State private var showPaywall = false
@@ -29,7 +31,7 @@ struct ContentView: View {
             
             VStack(spacing: 20) {
                 
-                bankrollView
+                if !hideBankroll { bankrollView }
                 
                 if viewModel.sessions.isEmpty {
                     
@@ -46,7 +48,8 @@ struct ContentView: View {
                         QuickMetricBox(title: "Hours Played", metric: viewModel.totalHoursPlayedHomeScreen())
                     }
                     .frame(width: UIScreen.main.bounds.width * 0.85)
-                    
+                    .padding(.top, hideBankroll ? 30 : 0)
+                                        
                     metricsCard
                     
                     recentSessionCard
@@ -56,6 +59,7 @@ struct ContentView: View {
                     Spacer()
                 }
             }
+            .frame(width: UIScreen.main.bounds.width)
             .padding(.bottom, 50)
         }
         .background { Color.brandBackground.ignoresSafeArea() }
@@ -67,6 +71,7 @@ struct ContentView: View {
             case .metricsAsSheet: MetricsView(activeSheet: $activeSheet)
             }
         }
+        
     }
     
     var bankroll: Int {
@@ -131,10 +136,46 @@ struct ContentView: View {
             activeSheet = .metricsAsSheet
             
         }, label: {
-            MetricsCardView()
+            if !hideBankroll {
+                MetricsCardView()
+                
+            } else { metricsMiniCard }
         })
         .buttonStyle(PlainButtonStyle())
         .zIndex(1.0)
+    }
+    
+    var metricsMiniCard: some View {
+        
+        VStack {
+            
+            HStack {
+                BankrollLineChart(showTitle: false, showYAxis: false, showRangeSelector: false, overlayAnnotation: false)
+                    .frame(width: 80, height: 50)
+                
+                VStack (alignment: .leading, spacing: 5) {
+                    
+                    Text("Bankroll & Metrics")
+                        .headlineStyle()
+                    
+                    Text("Tap to view your bankroll progress, player metrics, analytics, & reports.")
+                        .calloutStyle()
+                        .opacity(0.7)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(3)
+                }
+                .padding(.leading, 12)
+                .dynamicTypeSize(...DynamicTypeSize.large)
+                
+                Spacer()
+            }
+        }
+        .padding()
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+        .cornerRadius(20)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+        .frame(width: UIScreen.main.bounds.width * 0.85)
     }
     
     var recentSessionCard: some View {
@@ -229,6 +270,7 @@ struct ContentView: View {
                 Text(bankroll, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .font(.custom("Asap-Bold", size: 60, relativeTo: .title2))
                     .opacity(0.85)
+                    .blur(radius: hideBankroll ? 20 : 0)
                 
                 if !viewModel.sessions.isEmpty {
                     

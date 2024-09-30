@@ -73,7 +73,7 @@ struct DateFilter: View {
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30)
                 
-                DatePicker("Start Date", selection: $startDate, displayedComponents: [.date])
+                DatePicker("Start Date", selection: $startDate, in: ...endDate, displayedComponents: [.date])
                     .padding(.leading, 4)
                     .font(.custom("Asap-Regular", size: 18))
                     .datePickerStyle(.compact)

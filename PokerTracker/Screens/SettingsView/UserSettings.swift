@@ -21,6 +21,7 @@ struct UserSettings: View {
     @StateObject var exportUtility = CSVConversion()
     
     @AppStorage("exportCounter") var exportCounter: Int = 1
+    @AppStorage("hideBankroll") var hideBankroll: Bool = false
     
     @State private var showError: Bool = false
     @State private var showPaywall = false
@@ -145,6 +146,34 @@ struct UserSettings: View {
                     }
                     
                     Text("Using System Display will override Dark Mode and use your current device preferences.")
+                        .calloutStyle()
+                        .opacity(0.8)
+                        .padding(.top, 1)
+                    
+                }
+                
+                Spacer()
+                
+            }
+            
+            HStack {
+                
+                VStack (alignment: .leading) {
+                    
+                    HStack (spacing: -10) {
+                        Text("Incognito Bankroll")
+                            .subtitleStyle()
+                            .bold()
+                        
+                        Toggle("", isOn: $hideBankroll)
+                            .tint(.brandPrimary)
+                            .onChange(of: hideBankroll, perform: { _ in
+                                
+                                hideBankroll.toggle()
+                            })
+                    }
+                    
+                    Text("Minimal Dashboard view to conceal sensitive bankroll numbers.")
                         .calloutStyle()
                         .opacity(0.8)
                         .padding(.top, 1)

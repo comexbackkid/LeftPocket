@@ -113,6 +113,7 @@
 		7C9D32772B261FA700900C8C /* AdditionalMetricsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */; };
 		7C9F23672C933939001AA6A6 /* logging-sessions-new.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7C9F23662C933939001AA6A6 /* logging-sessions-new.mp4 */; };
 		7C9FEC7E2C1F68B70062208B /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9FEC7D2C1F68B70062208B /* ImageSaver.swift */; };
+		7CA658502CA60A5A00A74CE4 /* MyGoals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA6584F2CA60A5A00A74CE4 /* MyGoals.swift */; };
 		7CA7F8152B6FF5FB00F976EE /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7F8142B6FF5FB00F976EE /* Tips.swift */; };
 		7CA7F8162B6FF5FB00F976EE /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7F8142B6FF5FB00F976EE /* Tips.swift */; };
 		7CA7F8182B6FFAA700F976EE /* CSVImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7F8172B6FFAA700F976EE /* CSVImport.swift */; };
@@ -203,7 +204,6 @@
 		7CBEF44627596DEE00744F4A /* Colors+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBEF44527596DEE00744F4A /* Colors+Ext.swift */; };
 		7CC1D0462C2703E500791847 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC1D0452C2703E500791847 /* LiveActivityManager.swift */; };
 		7CC1D0472C2703E500791847 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC1D0452C2703E500791847 /* LiveActivityManager.swift */; };
-		7CC20EB3272B19D200137F51 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC20EB2272B19D200137F51 /* HelpView.swift */; };
 		7CC81FB8294CBAD400E849A9 /* BestLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC81FB7294CBAD400E849A9 /* BestLocationView.swift */; };
 		7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */; };
 		7CD010E92BF23FE300998FD5 /* LiveSessionRebuyModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD010E82BF23FE300998FD5 /* LiveSessionRebuyModal.swift */; };
@@ -359,6 +359,7 @@
 		7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalMetricsCardView.swift; sourceTree = "<group>"; };
 		7C9F23662C933939001AA6A6 /* logging-sessions-new.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "logging-sessions-new.mp4"; sourceTree = "<group>"; };
 		7C9FEC7D2C1F68B70062208B /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
+		7CA6584F2CA60A5A00A74CE4 /* MyGoals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGoals.swift; sourceTree = "<group>"; };
 		7CA7F8142B6FF5FB00F976EE /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
 		7CA7F8172B6FFAA700F976EE /* CSVImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVImport.swift; sourceTree = "<group>"; };
 		7CA940F82BECF8E3009B54BA /* SleepAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepAnalytics.swift; sourceTree = "<group>"; };
@@ -410,7 +411,6 @@
 		7CBEB52D2C2A1EF00099C7CF /* DeepLlinking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLlinking.swift; sourceTree = "<group>"; };
 		7CBEF44527596DEE00744F4A /* Colors+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Ext.swift"; sourceTree = "<group>"; };
 		7CC1D0452C2703E500791847 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
-		7CC20EB2272B19D200137F51 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		7CC81FB7294CBAD400E849A9 /* BestLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestLocationView.swift; sourceTree = "<group>"; };
 		7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSessionViewModel.swift; sourceTree = "<group>"; };
 		7CD010E82BF23FE300998FD5 /* LiveSessionRebuyModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionRebuyModal.swift; sourceTree = "<group>"; };
@@ -542,6 +542,7 @@
 		7C2614CC26D930D900986183 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				7CA658522CA60A9E00A74CE4 /* Goals */,
 				7C45B06B29428EEB00587078 /* BarChartView */,
 				7C2614CD26D9310E00986183 /* CardViews */,
 				7C3EF3E32C64E5BF00835467 /* EditSessionView */,
@@ -609,7 +610,6 @@
 				7C757F022C1F2A9F00AD71EE /* ShareButton.swift */,
 				7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */,
 				7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */,
-				7CC20EB2272B19D200137F51 /* HelpView.swift */,
 				7C2E6BF82B711C89002C01C9 /* ImportView.swift */,
 				7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */,
 				7CF39C912BE6DBB4003B4C00 /* NotificationsView.swift */,
@@ -888,6 +888,14 @@
 				7CAFE05F2B2DE52B00B7338D /* LocationGridView.swift */,
 			);
 			path = LocationListView;
+			sourceTree = "<group>";
+		};
+		7CA658522CA60A9E00A74CE4 /* Goals */ = {
+			isa = PBXGroup;
+			children = (
+				7CA6584F2CA60A5A00A74CE4 /* MyGoals.swift */,
+			);
+			path = Goals;
 			sourceTree = "<group>";
 		};
 		7CA940F72BECF8C5009B54BA /* SleepAnalytics */ = {
@@ -1172,7 +1180,6 @@
 				7CBEB52E2C2A1EF00099C7CF /* DeepLlinking.swift in Sources */,
 				7C7B78E22C3DD11900855723 /* SystemThemeManager.swift in Sources */,
 				7CE37EC92C3055D0002ACA81 /* QuickMetricBox.swift in Sources */,
-				7CC20EB3272B19D200137F51 /* HelpView.swift in Sources */,
 				7C72E0A62BC05B6100C411F2 /* UsingLeftPocket.swift in Sources */,
 				7C13FDF02BF4D07600497DF5 /* AlertModal.swift in Sources */,
 				7CD2B1582C1BB5B300A90C79 /* PopoverView.swift in Sources */,
@@ -1262,6 +1269,7 @@
 				7C2B3E6926F565B200B84D52 /* EmptyState.swift in Sources */,
 				7CAFE0602B2DE52B00B7338D /* LocationGridView.swift in Sources */,
 				7C62F1ED2BD034B200F14483 /* NewStakesView.swift in Sources */,
+				7CA658502CA60A5A00A74CE4 /* MyGoals.swift in Sources */,
 				7CFF1BFF2BD9AA81000D56BC /* HeatMap.swift in Sources */,
 				7C757F032C1F2A9F00AD71EE /* ShareButton.swift in Sources */,
 				7CFB683A2B7CFC92005AB81F /* BarChartByYear.swift in Sources */,
@@ -1307,7 +1315,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.4.8;
+				MARKETING_VERSION = 4.4.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1338,7 +1346,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.4.8;
+				MARKETING_VERSION = 4.4.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1488,7 +1496,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.4.8;
+				MARKETING_VERSION = 4.4.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1516,7 +1524,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.4.8;
+				MARKETING_VERSION = 4.4.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

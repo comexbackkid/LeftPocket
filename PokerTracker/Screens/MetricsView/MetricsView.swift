@@ -69,11 +69,9 @@ struct MetricsView: View {
                             }
                         }
                         
-                        
                     } else {
                         EmptyState(title: "No Sessions", image: .metrics)
                             .padding(.bottom, 50)
-
                     }
                 }
                 .frame(maxHeight: .infinity)
@@ -348,6 +346,7 @@ struct CashStats: View {
     
     @Environment(\.colorScheme) var colorScheme
     @State private var highHandPopover = false
+    @State private var bbPerHrPopover = false
     
     let sessionFilter: SessionFilter
     let viewModel: SessionsListViewModel
@@ -364,6 +363,7 @@ struct CashStats: View {
             let highHandBonus = viewModel.totalHighHands(range: range)
             let avgDuration = viewModel.avgDuration(range: range, bankroll: sessionFilter)
             let cashWinCount = viewModel.numOfCashes(range: range)
+            let totalSessions = viewModel.countSessions(range: range, bankroll: sessionFilter)
             let cashWinRate = viewModel.totalWinRate(range: range, bankroll: sessionFilter)
             let cashTotalHours = viewModel.totalHoursPlayed(range: range, bankroll: sessionFilter)
             
@@ -432,10 +432,31 @@ struct CashStats: View {
             
             Divider()
             
-            HStack {
-                Text("Avg. BB / Hr")
-                    .foregroundColor(.secondary)
+            HStack (alignment: .lastTextBaseline, spacing: 4) {
+                
+                HStack {
+                    Text("Avg. BB / Hr")
+                        .foregroundColor(.secondary)
+                    Button {
+                        bbPerHrPopover = true
+                    } label: {
+                        Image(systemName: "info.circle")
+                            .font(.subheadline)
+                            .foregroundStyle(Color.brandPrimary)
+                    }
+                    .popover(isPresented: $bbPerHrPopover, arrowEdge: .bottom, content: {
+                        PopoverView(bodyText: "This number is an average of all your big blind per hour finishes across ALL stakes. For a more detailed breakdown of your BB / Hr rate, scroll down to your Game Stakes Report.")
+                            .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                            .frame(height: 180)
+                            .dynamicTypeSize(.medium...DynamicTypeSize.medium)
+                            .presentationCompactAdaptation(.popover)
+                            .preferredColorScheme(colorScheme == .dark ? .dark : .light)
+                            .shadow(radius: 10)
+                    })
+                }
+                
                 Spacer()
+                
                 Text("\(viewModel.bbPerHour(range: range), specifier: "%.2f")")
             }
             
@@ -454,7 +475,7 @@ struct CashStats: View {
                 Text("No. of Cashes")
                     .foregroundColor(.secondary)
                 Spacer()
-                Text("\(cashWinCount)")
+                Text("\(cashWinCount) of \(totalSessions)")
             }
             
             Divider()

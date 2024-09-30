@@ -339,7 +339,7 @@ struct LoggingSessionsDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("During a Live Session, tap the \(Image(systemName: "dollarsign.arrow.circlepath")) button on the counter to add a rebuy")
+                        Text("During a Live Session, tap the \(Image(systemName: "dollarsign.arrow.circlepath")) button, or tap & hold on the counter to add a rebuy")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -395,7 +395,7 @@ struct BrowseAndFilterDocumentation: View {
                     Spacer()
                 }
                 
-                Text("After navigating to the Sessions List view, you will see all of your logged poker Sessions, with the most recent at the top. \n\nTo start filtering:")
+                Text("After navigating to the Sessions List view, you'll see all of your logged poker Sessions, the most recent at the top. \n\nTo start filtering:")
                     .bodyStyle()
                     .padding(.bottom, 20)
                 
@@ -407,7 +407,7 @@ struct BrowseAndFilterDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("By default, every session is shown")
+                        Text("By default, every Session is shown")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -419,7 +419,7 @@ struct BrowseAndFilterDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("In the top right, tap the \(Image(systemName: "slider.horizontal.3")) button")
+                        Text("In the top menu bar, tap the \(Image(systemName: "slider.horizontal.3")) button for filtering options, or the \(Image(systemName: "creditcard.fill")) button to view Transactions")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -431,7 +431,7 @@ struct BrowseAndFilterDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("You can filter your Sessions by cash games or tournaments, location, stakes, game type, and by date range")
+                        Text("You can filter your Sessions by cash or tournaments, location, stakes, game type, and by date range")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -455,7 +455,7 @@ struct BrowseAndFilterDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("To delete a Session, swipe left on it from the Sessions List view")
+                        Text("To edit or delete a Session, swipe left on it from the Sessions List view")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -487,7 +487,7 @@ struct MetricsDocumentation: View {
                     Spacer()
                 }
                 
-                Text("Left Pocket offers a variety of advanced metrics & analytics to help with your study and progress as a player. More metrics and data points are added regularly, most recently, Sleep Analytics. If you have any suggestions, feel free to reach out to us.\n\nTo begin:")
+                Text("Left Pocket offers a variety of advanced metrics & analytics to help with your study and progress as a player. More metrics & data points are added regularly. Most recently, Sleep Analytics. If you have any suggestions, feel free to reach out to us.\n\nTo begin:")
                     .bodyStyle()
                     .padding(.bottom, 20)
                 
@@ -511,7 +511,7 @@ struct MetricsDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Scroll down to view your bankroll chart, player stats, monthly progress, and at the bottom, your reports")
+                        Text("Scroll down to view your profit chart, player stats, monthly snapshot, and at the bottom, your reports")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -564,7 +564,7 @@ struct ChartsDocumentation: View {
                     Text("**Chart Locations**\nFrom the Dashboard & Metrics view you can get a look at your bankroll progress as a line chart. In the Metrics view, you will also find a bar chart of your net profits by month. Additionally, there is a line chart in the Annual Report that can be filtered by year.")
                         .bodyStyle()
                     
-                    Text("**Interactivity**\nIf you're on the latest version of iOS, all of the charts in Left Pocket are interactive. Simply tap + hold on the chart for an annotation with more detail to appear.")
+                    Text("**Interactivity**\nIf you're on the latest version of iOS, most of the charts in Left Pocket are interactive. Simply tap & hold on the chart for an annotation with more detail to appear.")
                         .bodyStyle()
                   
                     Text("If you need additional help, feel free to reach out to Support via email.")
@@ -618,7 +618,7 @@ struct ReportsDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("You have access to detailed reports on an annual basis, monthly, by location, and by game stakes")
+                        Text("You have access to detailed reports on an annual basis, monthly, by location, game stakes, & a tournament report")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -674,7 +674,7 @@ struct ImportDocumentation: View {
                     Spacer()
                 }
                 
-                Text("In addition to Left Pocket exports, you can also import exported CSV data from other poker bankroll apps like Pokerbase, Poker Bankroll Tracker, & Poker Analytics. It's best to start your journey here if you have a lot of past session data you want migrated over.\n\nTo import data:")
+                Text("In addition to Left Pocket exports, you can also import CSV data from other poker bankroll apps like Pokerbase, Poker Income, Poker Bankroll Tracker, & Poker Analytics. It's best to start your journey here if you have a lot of data you want migrated over.\n\nTo import data:")
                     .bodyStyle()
                     .padding(.bottom, 20)
                 
@@ -698,7 +698,7 @@ struct ImportDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Choose from the list the app that you're exporting data from, and carefully follow the directions provided")
+                        Text("From the list, choose the app that you're exporting data from, and carefully follow the directions provided")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -754,7 +754,7 @@ struct WidgetsDocumentation: View {
                     Spacer()
                 }
                 
-                Text("Widgets are available to all users and come in two sizes for your Home Screen – small or medium. The Left Pocket widget provides a glance at your bankroll chart, along with some key player stats.\n\nTo activate widgets:")
+                Text("Widgets are available to all users and come in two sizes for your Home Screen – small or medium. The Left Pocket widget provides a glance at your profit chart, along with some key player stats.\n\nTo activate widgets:")
                     .bodyStyle()
                     .padding(.bottom, 20)
                 
@@ -834,7 +834,7 @@ struct LocationsDocumentation: View {
                     Spacer()
                 }
                 
-                Text("A few locations come pre-loaded onto Left Pocket by default, however, you can easily add your own custom locations. Locations can be added from two different places.\n\nTo add a location:")
+                Text("A few locations come pre-loaded onto Left Pocket by default, however, you can easily add your own custom locations. They can be added from two different places.\n\nTo add a location:")
                     .bodyStyle()
                     .padding(.bottom, 20)
                 
@@ -915,6 +915,6 @@ struct LocationsDocumentation: View {
 }
 
 #Preview {
-    MetricsDocumentation()
+    LocationsDocumentation()
         .preferredColorScheme(.dark)
 }

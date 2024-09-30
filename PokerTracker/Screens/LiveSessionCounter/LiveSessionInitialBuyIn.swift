@@ -23,7 +23,6 @@ struct LiveSessionInitialBuyIn: View {
             VStack (spacing: 10) {
                 
                 instructions
-                
             }
             
             inputFields
@@ -59,7 +58,7 @@ struct LiveSessionInitialBuyIn: View {
         VStack (alignment: .leading) {
             
             HStack {
-                Text("Before continuing, please enter your initial Buy In amount for this Live Session. You can add rebuys later by tapping & holding on the Live Session indicator bar.")
+                Text("Enter your initial Buy In amount for this Live Session. Add rebuys later by tapping & holding on the Live Session indicator bar.")
                     .bodyStyle()
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.leading)

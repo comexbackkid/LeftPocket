@@ -43,7 +43,7 @@ struct PokerSession: Hashable, Codable, Identifiable {
     // Individual session hourly rate
     var hourlyRate: Int {
         let totalHours = sessionDuration.durationInHours == 0 ? 1 : sessionDuration.durationInHours
-        return Int(Float(self.profit) / totalHours)
+        return Int(round(Float(self.profit) / totalHours))
     }
     
     // Individual big blind per hour rate 
@@ -54,7 +54,9 @@ struct PokerSession: Hashable, Codable, Identifiable {
             return 0
         }
         
-        return Double(hourlyRate) / Double(bigBlind)
+        let totalHours = sessionDuration.durationInHours == 0 ? 1 : sessionDuration.durationInHours
+        let bigBlindWin = Float(self.profit) / Float(bigBlind)
+        return Double(bigBlindWin) / Double(totalHours)
     }
 }
 

@@ -193,7 +193,6 @@ struct ProfitByStakesView: View {
                     let hoursPlayed = filteredByYear.filter({ $0.stakes == stakes }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
                     let bbPerHr = bbPerHourByStakes(stakes: stakes, sessions: filteredByYear.filter({ $0.stakes == stakes }))
                     
-                    
                     Text(total.axisShortHand(viewModel.userCurrency))
                         .profitColor(total: total)
                         .frame(width: 57, alignment: .trailing)
@@ -287,13 +286,19 @@ struct ProfitByStakesView: View {
     private func bbPerHourByStakes(stakes: String, sessions: [PokerSession]) -> Double {
         
         guard !sessions.isEmpty else { return 0 }
+        guard !sessions.filter({ $0.stakes == stakes }).isEmpty else { return 0 }
         
-        let totalBigBlindRate = sessions.map({ $0.bigBlindPerHour }).reduce(0, +)
-        let count = Double(sessions.count)
+        guard let lastSlashIndex = stakes.lastIndex(of: "/"),
+              let bigBlind = Int(stakes[lastSlashIndex...].trimmingCharacters(in: .punctuationCharacters)) else {
+              
+            return 0
+        }
         
-        guard count > 0 else { return 0 }
+        let hoursPlayed = sessions.filter({ $0.stakes == stakes }).map { $0.sessionDuration.durationInHours }.reduce(0, +)
+        let profit = sessions.filter({ $0.stakes == stakes }).map { $0.profit }.reduce(0, +)
+        let bigBlindsWon = Float(profit / bigBlind)
         
-        return totalBigBlindRate / count
+        return Double(bigBlindsWon / hoursPlayed)
     }
     
     private func ueserBestStakes(sessions: [PokerSession]) -> String {

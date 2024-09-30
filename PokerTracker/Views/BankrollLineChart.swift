@@ -280,6 +280,7 @@ struct BankrollLineChart: View {
             }
             
             Spacer()
+            
         }
         .padding(.top, 20)
     }
