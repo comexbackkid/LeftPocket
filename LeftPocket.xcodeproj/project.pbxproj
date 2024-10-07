@@ -11,6 +11,7 @@
 		7C0208DB26F24B4900AC6151 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0208DA26F24B4900AC6151 /* Date+Ext.swift */; };
 		7C028F982C3587FC0098CA8C /* RedeemOfferCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C028F972C3587FC0098CA8C /* RedeemOfferCode.swift */; };
 		7C028F9A2C36B5960098CA8C /* AdvancedTournamentReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C028F992C36B5960098CA8C /* AdvancedTournamentReport.swift */; };
+		7C12A58B2CB1CABE00CA8922 /* DashboardConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C12A58A2CB1CABE00CA8922 /* DashboardConfig.swift */; };
 		7C13FDF02BF4D07600497DF5 /* AlertModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C13FDEF2BF4D07600497DF5 /* AlertModal.swift */; };
 		7C1587F328A2DD5E00B11F77 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C1587F228A2DD5E00B11F77 /* WidgetKit.framework */; };
 		7C1587F528A2DD5E00B11F77 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C1587F428A2DD5E00B11F77 /* SwiftUI.framework */; };
@@ -259,6 +260,7 @@
 		7C0208DA26F24B4900AC6151 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		7C028F972C3587FC0098CA8C /* RedeemOfferCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemOfferCode.swift; sourceTree = "<group>"; };
 		7C028F992C36B5960098CA8C /* AdvancedTournamentReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedTournamentReport.swift; sourceTree = "<group>"; };
+		7C12A58A2CB1CABE00CA8922 /* DashboardConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardConfig.swift; sourceTree = "<group>"; };
 		7C13FDEF2BF4D07600497DF5 /* AlertModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModal.swift; sourceTree = "<group>"; };
 		7C1587F028A2DD5E00B11F77 /* LeftPocketWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LeftPocketWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C1587F228A2DD5E00B11F77 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -603,11 +605,10 @@
 				7CB1EBD92950DF4800FA306B /* BestSessionView.swift */,
 				7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */,
 				7CB3EB9C26C3093D009E8DF3 /* CellView.swift */,
-				7C85492F2C46C4BE0038ADB4 /* TransactionCellView.swift */,
+				7C12A58A2CB1CABE00CA8922 /* DashboardConfig.swift */,
 				7C25CB5227887D9200866511 /* CustomPicker.swift */,
 				7CAFDFF22B2C884100B7338D /* CustomToggle.swift */,
 				7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */,
-				7C757F022C1F2A9F00AD71EE /* ShareButton.swift */,
 				7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */,
 				7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */,
 				7C2E6BF82B711C89002C01C9 /* ImportView.swift */,
@@ -622,7 +623,9 @@
 				7C028F972C3587FC0098CA8C /* RedeemOfferCode.swift */,
 				7CEB453E2BCEA90800AAF710 /* RingCharts.swift */,
 				7CDE9FC62B78F6CC00B4AA33 /* SessionDefaultsView.swift */,
+				7C757F022C1F2A9F00AD71EE /* ShareButton.swift */,
 				7C757EFE2C1F218900AD71EE /* SocialShareView.swift */,
+				7C85492F2C46C4BE0038ADB4 /* TransactionCellView.swift */,
 				7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */,
 			);
 			path = Views;
@@ -1232,6 +1235,7 @@
 				7C3F43AC2728512700A9C842 /* LocationModel.swift in Sources */,
 				7CA7F8152B6FF5FB00F976EE /* Tips.swift in Sources */,
 				7C6350042C1A4E5B00407E17 /* Bundle+Ext.swift in Sources */,
+				7C12A58B2CB1CABE00CA8922 /* DashboardConfig.swift in Sources */,
 				7CBEF44627596DEE00744F4A /* Colors+Ext.swift in Sources */,
 				7C455DF02C98CD50008C1446 /* LiveSessionInitialBuyIn.swift in Sources */,
 				7C1941252BDAA33E00377364 /* BestTimeOfDay.swift in Sources */,
@@ -1315,7 +1319,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.4.9;
+				MARKETING_VERSION = 4.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1346,7 +1350,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.4.9;
+				MARKETING_VERSION = 4.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1496,7 +1500,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.4.9;
+				MARKETING_VERSION = 4.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1524,7 +1528,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.4.9;
+				MARKETING_VERSION = 4.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct ShareButton: View {
+    
     var body: some View {
+        
         ZStack {
+            
             Circle()
-                .frame(width: 38, height: 38)
+                .frame(width: 33, height: 33)
                 .foregroundColor(.white)
                 .opacity(0.6)
             

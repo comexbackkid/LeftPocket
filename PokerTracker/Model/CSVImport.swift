@@ -10,12 +10,6 @@ import Foundation
 
 class CSVImporter {
     
-    enum ImportError: Error {
-        case invalidData
-        case parsingFailed
-        case saveFailed
-    }
-    
     // MARK: Poker Income Import
     
     func importCashCSVFromPokerIncome(data: Data) throws -> [PokerSession] {
@@ -407,6 +401,7 @@ class CSVImporter {
                 let sessionType = columns[3].trimmingCharacters(in: .init(charactersIn: "\""))
                 let entrants = Int(columns[23].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
                 let buyIn = Int(columns[6].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
+                let cashOut = Int(columns[7].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
                 
                 // Need to figure out how to handle the buyIn being the same as expenses
                 let session = PokerSession(location: location,
@@ -422,8 +417,8 @@ class CSVImporter {
                                            entrants: entrants,
                                            finish: nil,
                                            highHandBonus: nil,
-                                           buyIn: nil,
-                                           cashOut: nil,
+                                           buyIn: buyIn,
+                                           cashOut: cashOut,
                                            rebuyCount: nil,
                                            tournamentSize: nil,
                                            tournamentSpeed: nil)
@@ -516,5 +511,11 @@ class CSVImporter {
             print("Error: Unable to convert string to Date.")
             return nil
         }
+    }
+    
+    enum ImportError: Error {
+        case invalidData
+        case parsingFailed
+        case saveFailed
     }
 }

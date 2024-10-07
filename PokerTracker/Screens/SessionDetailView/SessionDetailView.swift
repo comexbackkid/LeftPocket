@@ -52,6 +52,7 @@ struct SessionDetailView: View {
                 if activeSheet == .recentSession {
                     
                     dismissButton
+                    
                     shareButton
                     
                     Spacer()
@@ -150,10 +151,10 @@ struct SessionDetailView: View {
     var bottomSection: some View {
         
         VStack(alignment: .leading) {
-            
-            notes
 
             details
+            
+            notes
             
         }
         .frame(maxWidth: .infinity, alignment: .topLeading)
@@ -230,8 +231,7 @@ struct SessionDetailView: View {
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .body))
         .padding(.horizontal, 30)
-        .padding(.vertical, 10)
-        .padding(.top, 5)
+        .padding(.top, 12)
         
     }
     
@@ -306,8 +306,7 @@ struct SessionDetailView: View {
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .body))
         .padding(.horizontal, 30)
-        .padding(.vertical, 10)
-        .padding(.top, 5)
+        .padding(.top, 12)
     }
     
     var notes: some View {
@@ -320,7 +319,6 @@ struct SessionDetailView: View {
             
             Text(pokerSession.notes)
                 .bodyStyle()
-                .padding(.bottom, 30)
                 .textSelection(.enabled)
         }
     }
@@ -347,19 +345,6 @@ struct SessionDetailView: View {
                 Text(" / ")
                 
                 Text(pokerSession.endTime, style: .time)
-                    .bodyStyle()
-            }
-            
-            Divider()
-            
-            HStack {
-                Text("Game")
-                    .bodyStyle()
-                    .foregroundColor(.secondary)
-                
-                Spacer()
-                
-                Text(pokerSession.game)
                     .bodyStyle()
             }
             
@@ -521,6 +506,7 @@ struct SessionDetailView: View {
                 }
             }
         }
+        .padding(.bottom, 30)
     }
     
     var shareSummary: some View {
@@ -700,7 +686,7 @@ struct GraphicHeaderView: View {
 
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleTournament)
+        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
             .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
         

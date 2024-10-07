@@ -17,7 +17,9 @@ struct QuickMetricBox: View {
     var body: some View {
         
         HStack {
+            
             VStack (alignment: .leading) {
+                
                 Text(title)
                     .captionStyle()
                     .foregroundStyle(.secondary)
@@ -32,9 +34,8 @@ struct QuickMetricBox: View {
             
         }
         .padding(20)
-        .frame(width: 157)
         .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
-        .cornerRadius(20)
+        .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
 }

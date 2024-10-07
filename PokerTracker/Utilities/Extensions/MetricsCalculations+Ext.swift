@@ -215,7 +215,8 @@ extension SessionsListViewModel {
         
         guard count > 0 else { return 0 }
         
-        return totalBigBlindRate / count
+        let result = totalBigBlindRate / count
+        return (result * 100).rounded() / 100
     }
     
     func totalHoursPlayed(range: RangeSelection = .all, bankroll: SessionFilter) -> String {

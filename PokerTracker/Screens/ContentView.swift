@@ -39,16 +39,7 @@ struct ContentView: View {
                     
                 } else {
                     
-                    HStack {
-                        
-                        QuickMetricBox(title: "Total Profit", metric: String(viewModel.tallyBankroll(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
-                        
-                        Spacer()
-                        
-                        QuickMetricBox(title: "Hours Played", metric: viewModel.totalHoursPlayedHomeScreen())
-                    }
-                    .frame(width: UIScreen.main.bounds.width * 0.85)
-                    .padding(.top, hideBankroll ? 30 : 0)
+                    quickMetricsBoxes
                                         
                     metricsCard
                     
@@ -71,7 +62,6 @@ struct ContentView: View {
             case .metricsAsSheet: MetricsView(activeSheet: $activeSheet)
             }
         }
-        
     }
     
     var bankroll: Int {
@@ -127,6 +117,24 @@ struct ContentView: View {
         .padding(.bottom, -20)
     }
     
+    var quickMetricsBoxes: some View {
+        
+        VStack (spacing: 20) {
+            HStack {
+                
+                QuickMetricBox(title: "Total Profit", metric: String(viewModel.tallyBankroll(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
+                    .padding(.trailing, 5)
+                
+                Spacer()
+                
+                QuickMetricBox(title: "Hours Played", metric: viewModel.totalHoursPlayedHomeScreen())
+                    .padding(.leading, 5)
+            }
+            .frame(width: UIScreen.main.bounds.width * 0.85)
+            .padding(.top, hideBankroll ? 30 : 0)
+        }
+    }
+    
     var metricsCard: some View {
         
         Button(action: {
@@ -173,7 +181,7 @@ struct ContentView: View {
         }
         .padding()
         .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
-        .cornerRadius(20)
+        .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         .frame(width: UIScreen.main.bounds.width * 0.85)
     }

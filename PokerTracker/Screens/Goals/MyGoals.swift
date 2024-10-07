@@ -21,14 +21,20 @@ struct MyGoals: View {
                 
                 GoalCell(goalTitle: "Study Habit",
                          goalSubtitle: "Read 6 hrs this month",
-                         progress: 0.8)
+                         progress: 0.8,
+                         image: "book")
                 
                 GoalCell(goalTitle: "Log Enough Hours",
                          goalSubtitle: "Play 40 hours this month",
-                         progress: 0.2)
+                         progress: 0.2,
+                         image: "pencil")
             }
         }
         .background(Color.brandBackground)
+        .toolbar {
+            Image(systemName: "plus")
+                .foregroundStyle(Color.brandPrimary)
+        }
     }
     
     var title: some View {
@@ -37,6 +43,7 @@ struct MyGoals: View {
             
             Text("My Goals")
                 .titleStyle()
+                .padding(.top, -37)
             
             Spacer()
         }
@@ -62,6 +69,7 @@ struct GoalCell: View {
     let goalTitle: String
     let goalSubtitle: String
     var progress: CGFloat
+    let image: String
     
     var body: some View {
         
@@ -81,13 +89,12 @@ struct GoalCell: View {
                 
                 VStack (alignment:.trailing) {
                     
-                    Image(systemName: "book")
+                    Image(systemName: image)
                         .fontWeight(.bold)
                         .foregroundStyle(.secondary.opacity(0.7))
                     
                     Spacer()
                 }
-                
             }
             .padding(.bottom, 25)
             
@@ -138,6 +145,8 @@ struct CustomProgressView: View {
 }
 
 #Preview {
-    MyGoals()
-//        .preferredColorScheme(.dark)
+    NavigationView {
+        MyGoals()
+            .preferredColorScheme(.dark)
+    }
 }
