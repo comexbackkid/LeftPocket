@@ -54,7 +54,7 @@ struct ProfitByLocationView: View {
                                         showPaywall = true
                                         
                                     } label: {
-                                        Text("Upgrade for Access")
+                                        Text("🔒 Tap to Upgrade")
                                             .buttonTextStyle()
                                             .frame(height: 55)
                                             .frame(width: UIScreen.main.bounds.width * 0.7)

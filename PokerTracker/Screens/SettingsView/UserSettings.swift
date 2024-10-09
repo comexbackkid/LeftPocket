@@ -218,6 +218,30 @@ struct UserSettings: View {
             
             sessionDefaults
             
+            NavigationLink(
+                destination: DashboardConfig(),
+                label: {
+                    HStack {
+                        
+                        VStack (alignment: .leading) {
+                            
+                            HStack {
+                                Text("Dashboard Layout")
+                                    .subtitleStyle()
+                                    .bold()
+                                
+                                Spacer()
+                                
+                                Text("›")
+                                    .font(.title2)
+                            }
+                        }
+                        
+                        Spacer()
+                    }
+                })
+            .buttonStyle(PlainButtonStyle())
+            
             importData
             
             exportData

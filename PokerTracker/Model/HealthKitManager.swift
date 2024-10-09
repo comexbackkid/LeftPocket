@@ -70,7 +70,7 @@ class HealthKitManager: ObservableObject {
             
             let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
             let endDate = Date()
-            let startDate = Calendar.current.date(byAdding: .day, value: -29, to: endDate)!
+            let startDate = Calendar.current.date(byAdding: .day, value: -30, to: endDate)!
             let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
             let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
             
@@ -148,6 +148,7 @@ class HealthKitManager: ObservableObject {
         }
     
     private func adjustedDateForGrouping(date: Date, calendar: Calendar) -> Date {
+        
         var components = calendar.dateComponents([.year, .month, .day, .hour], from: date)
         
         // Adjust the date if the hour is before 6 PM

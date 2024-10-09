@@ -182,8 +182,6 @@ struct BarChartByYear: View {
             }
         }
         
-        
-        
         // Convert the dictionary to an array of tuples
         let result = monthlyProfits.map { (month: $0.key, profit: $0.value) }
         

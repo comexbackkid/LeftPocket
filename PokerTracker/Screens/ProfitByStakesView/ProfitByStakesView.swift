@@ -26,7 +26,7 @@ struct ProfitByStakesView: View {
         ScrollView {
 
             ZStack {
-                
+                                
                 // Must use this for empty state just in case the user only plays Tournments
                 if !viewModel.sessions.filter({ $0.isTournament != true }).isEmpty {
 
@@ -64,7 +64,7 @@ struct ProfitByStakesView: View {
                                         showPaywall = true
                                         
                                     } label: {
-                                        Text("Upgrade for Access")
+                                        Text("🔒 Tap to Upgrade")
                                             .buttonTextStyle()
                                             .frame(height: 55)
                                             .frame(width: UIScreen.main.bounds.width * 0.7)
@@ -256,14 +256,13 @@ struct ProfitByStakesView: View {
     var stakesChart: some View {
         
         BarChartByStakes(viewModel: viewModel, yearFilter: $yearFilter ,showTitle: true)
-            .padding(.horizontal, 30)
+            .padding(.horizontal, 20)
             .padding(.vertical, 20)
             .frame(width: UIScreen.main.bounds.width * 0.9)
             .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
             .cornerRadius(20)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             .padding(.top, 15)
-            .frame(height: 275)
     }
     
     private func hourlyByStakes(stakes: String, sessions: [PokerSession]) -> Int {

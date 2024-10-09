@@ -154,7 +154,7 @@ struct BankrollLineChart: View {
                             if let intValue = value.as(Int.self) {
                                 Text(intValue.axisShortHand(viewModel.userCurrency))
                                     .captionStyle()
-                                    .padding(.leading, 25)
+                                    .padding(.leading, 20)
                             }
                         }
                     }

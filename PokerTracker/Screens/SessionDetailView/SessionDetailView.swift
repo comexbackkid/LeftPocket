@@ -47,7 +47,7 @@ struct SessionDetailView: View {
             .background(locationBackground()).ignoresSafeArea()
             
             // Floating Buttons
-            VStack {
+            VStack (spacing: 0) {
                 
                 if activeSheet == .recentSession {
                     
@@ -180,8 +180,8 @@ struct SessionDetailView: View {
                     .fontWeight(.semibold)
 
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.16)
-            .padding(20)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
+            .padding(.vertical, 20)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -201,8 +201,8 @@ struct SessionDetailView: View {
                     .fontWeight(.semibold)
                 
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.16)
-            .padding(20)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
+            .padding(.vertical, 20)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -218,13 +218,14 @@ struct SessionDetailView: View {
                 
                 Spacer()
                 
-                Text(pokerSession.hourlyRate.axisShortHand(vm.userCurrency))
+                Text(pokerSession.hourlyRate.axisShortHand(vm.userCurrency) + " / Hr")
                     .profitColor(total: pokerSession.hourlyRate)
                     .fontWeight(.semibold)
+                    .lineLimit(1)
                 
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.16)
-            .padding(20)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
+            .padding(.vertical, 20)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -232,6 +233,7 @@ struct SessionDetailView: View {
         .font(.custom("Asap-Regular", size: 16, relativeTo: .body))
         .padding(.horizontal, 30)
         .padding(.top, 12)
+        .dynamicTypeSize(.large)
         
     }
     
@@ -252,8 +254,8 @@ struct SessionDetailView: View {
                     .fontWeight(.semibold)
                 
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.16)
-            .padding(20)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
+            .padding(.vertical, 20)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -272,8 +274,8 @@ struct SessionDetailView: View {
                     .profitColor(total: pokerSession.profit)
                     .fontWeight(.semibold)
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.16)
-            .padding(20)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
+            .padding(.vertical, 20)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -297,8 +299,8 @@ struct SessionDetailView: View {
                         .fontWeight(.semibold)
                 }
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.16)
-            .padding(20)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
+            .padding(.vertical, 20)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -307,6 +309,7 @@ struct SessionDetailView: View {
         .font(.custom("Asap-Regular", size: 16, relativeTo: .body))
         .padding(.horizontal, 30)
         .padding(.top, 12)
+        .dynamicTypeSize(.large)
     }
     
     var notes: some View {
@@ -317,9 +320,17 @@ struct SessionDetailView: View {
                 .subtitleStyle()
                 .padding(.bottom, 5)
             
-            Text(pokerSession.notes)
-                .bodyStyle()
-                .textSelection(.enabled)
+            if pokerSession.notes.isEmpty {
+                Text("None")
+                    .bodyStyle()
+                    .foregroundStyle(.secondary)
+                
+            } else {
+                
+                Text(pokerSession.notes)
+                    .bodyStyle()
+                    .textSelection(.enabled)
+            }
         }
     }
     
@@ -539,7 +550,7 @@ struct SessionDetailView: View {
                                 .tint(.brandPrimary)
                                 .background(
                                     Circle()
-                                        .frame(width: 38, height: 38)
+                                        .frame(width: 33, height: 33)
                                         .foregroundColor(.white)
                                         .opacity(0.6))
                         }
