@@ -112,9 +112,9 @@ class AnnualReportViewModel: ObservableObject {
             let totalEarnings = Float(vm.bankrollByYear(year: ytd, sessionFilter: sessionFilter))
             
             if totalHours < 1 {
-                return Int(Float(vm.bankrollByYear(year: ytd, sessionFilter: sessionFilter)) / (totalMinutes / 60))
+                return Int(round(totalEarnings / (totalMinutes / 60)))
             } else {
-                return Int(totalEarnings / totalTime)
+                return Int(round(totalEarnings / totalTime))
             }
         case .lastYear:
             guard !vm.sessions.filter({ $0.date.getYear() == lastYear }).isEmpty else { return 0 }

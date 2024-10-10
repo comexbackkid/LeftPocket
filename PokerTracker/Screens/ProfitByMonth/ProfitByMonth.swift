@@ -211,9 +211,9 @@ struct ProfitByMonth: View {
         
         guard totalTime > 0 else { return 0 }
         if totalHours < 1 {
-            return Int(Float(totalEarnings) / (totalMinutes / 60))
+            return Int(round(Float(totalEarnings) / (totalMinutes / 60)))
         } else {
-            return Int(Float(totalEarnings) / totalTime)
+            return Int(round(Float(totalEarnings) / totalTime))
         }
     }
 }

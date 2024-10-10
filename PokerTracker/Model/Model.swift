@@ -46,6 +46,18 @@ struct PokerSession: Hashable, Codable, Identifiable {
         return Int(round(Float(self.profit) / totalHours))
     }
     
+    // Individual big blinds won
+    var bigBlindsWon: Double {
+        guard let lastSlashIndex = stakes.lastIndex(of: "/"),
+              let bigBlind = Int(stakes[lastSlashIndex...].trimmingCharacters(in: .punctuationCharacters)) else {
+              
+            return 0
+        }
+        
+        let bigBlindWin = Float(self.profit) / Float(bigBlind)
+        return Double(bigBlindWin)
+    }
+    
     // Individual big blind per hour rate 
     var bigBlindPerHour: Double {
         guard let lastSlashIndex = stakes.lastIndex(of: "/"),

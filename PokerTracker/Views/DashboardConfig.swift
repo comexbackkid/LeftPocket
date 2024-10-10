@@ -207,12 +207,22 @@ struct DashboardConfig: View {
         
         let defaults = UserDefaults.standard
         
-        self.playerProfit = defaults.bool(forKey: "dashboardPlayerProfit")
+        if defaults.object(forKey: "dashboardPlayerProfit") == nil {
+            self.playerProfit = true
+        } else {
+            self.playerProfit = defaults.bool(forKey: "dashboardPlayerProfit")
+        }
+        
         self.bbPerHr = defaults.bool(forKey: "dashboardBbPerHr")
         self.hourlyRate = defaults.bool(forKey: "dashboardHourlyRate")
         self.profitPerSession = defaults.bool(forKey: "dashboardProfitPerSession")
         self.winRatio = defaults.bool(forKey: "dashboardWinRatio")
-        self.hoursPlayed = defaults.bool(forKey: "dashboardHoursPlayed")
+        
+        if defaults.object(forKey: "dashboardHoursPlayed") == nil {
+            self.hoursPlayed = true
+        } else {
+            self.hoursPlayed = defaults.bool(forKey: "dashboardHoursPlayed")
+        }
     }
 }
 

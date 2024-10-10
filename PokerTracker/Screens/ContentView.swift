@@ -65,7 +65,12 @@ struct ContentView: View {
     }
     
     var bankroll: Int {
-        return viewModel.tallyBankroll(bankroll: .all) + viewModel.transactions.map({ $0.amount }).reduce(0, +)
+        
+        let highHandTotals = viewModel.sessions.map({ $0.highHandBonus ?? 0 }).reduce(0, +)
+        let transactions = viewModel.transactions.map({ $0.amount }).reduce(0, +)
+        let playerProfits = viewModel.tallyBankroll(bankroll: .all)
+        
+        return playerProfits + transactions + highHandTotals
     }
     
     var emptyState: some View {
@@ -121,21 +126,6 @@ struct ContentView: View {
         
         QuickMetricsBoxGrid(viewModel: viewModel)
             .padding(.top, hideBankroll ? 30 : 0)
-        
-//        VStack (spacing: 20) {
-//            HStack {
-//                
-//                QuickMetricBox(title: "Total Profit", metric: String(viewModel.tallyBankroll(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
-//                    .padding(.trailing, 5)
-//                
-//                Spacer()
-//                
-//                QuickMetricBox(title: "Hours Played", metric: viewModel.totalHoursPlayedHomeScreen())
-//                    .padding(.leading, 5)
-//            }
-//            .frame(width: UIScreen.main.bounds.width * 0.85)
-//            .padding(.top, hideBankroll ? 30 : 0)
-//        }
     }
     
     var metricsCard: some View {
@@ -384,7 +374,7 @@ struct ContentView: View {
             
             // Use the default value of true for "PlayerProfit" and "HoursPlayed" if none found in UserDefaults
             if defaults.object(forKey: "dashboardPlayerProfit") == nil {
-                self.playerProfit = true // Default value
+                self.playerProfit = true
             } else {
                 self.playerProfit = defaults.bool(forKey: "dashboardPlayerProfit")
             }
@@ -396,7 +386,7 @@ struct ContentView: View {
             
             // Use the default value of true for "HoursPlayed" if not found in UserDefaults
             if defaults.object(forKey: "dashboardHoursPlayed") == nil {
-                self.hoursPlayed = true // Default value
+                self.hoursPlayed = true
             } else {
                 self.hoursPlayed = defaults.bool(forKey: "dashboardHoursPlayed")
             }

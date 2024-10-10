@@ -180,9 +180,9 @@ extension SessionsListViewModel {
         let totalEarnings = Float(tallyBankroll(range: range, bankroll: bankroll))
         
         if totalHours < 1 {
-            return Int(totalEarnings / (totalMinutes / 60))
+            return Int(round(totalEarnings / (totalMinutes / 60)))
         } else {
-            return Int(totalEarnings / totalTime)
+            return Int(round(totalEarnings / totalTime))
         }
     }
     
@@ -210,12 +210,13 @@ extension SessionsListViewModel {
         
         guard !sessionsArray.isEmpty else { return 0 }
         
-        let totalBigBlindRate = sessionsArray.map({ $0.bigBlindPerHour }).reduce(0, +)
-        let count = Double(sessionsArray.count)
+        let totalBigBlindsWon = Float(sessionsArray.map({ $0.bigBlindsWon }).reduce(0, +))
         
-        guard count > 0 else { return 0 }
-        
-        let result = totalBigBlindRate / count
+        let totalHours = Float(sessionsArray.map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+))
+        let totalMinutes = Float(sessionsArray.map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
+        let totalTime = totalHours + (totalMinutes / 60)
+       
+        let result = Double(totalBigBlindsWon / totalTime)
         return (result * 100).rounded() / 100
     }
     
