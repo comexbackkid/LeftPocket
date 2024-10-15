@@ -220,6 +220,37 @@ extension SessionsListViewModel {
         return (result * 100).rounded() / 100
     }
     
+    func avgROI(range: RangeSelection = .all) -> String {
+        
+        var sessionsArray: [PokerSession] {
+            switch range {
+            case .all:
+                return sessions
+            case .oneMonth:
+                return filterSessionsLastMonth()
+            case .threeMonth:
+                return filterSessionsLastThreeMonths()
+            case .sixMonth:
+                return filterSessionsLastSixMonths()
+            case .oneYear:
+                return filterSessionsLastTwelveMonths()
+            case .ytd:
+                return filterSessionsYTD()
+            }
+        }
+        
+        guard !sessionsArray.isEmpty else { return "0" }
+        let tournamentBuyIns = sessionsArray.filter({ $0.isTournament == true }).map({ $0.expenses ?? 0 }).reduce(0, +)
+        let cashGameBuyIns = sessionsArray.filter({ $0.isTournament != true }).map({ $0.buyIn ?? 0 }).reduce(0, +)
+        
+        let tournamentWinnings = sessionsArray.filter({ $0.isTournament == true }).map({ $0.profit }).reduce(0,+)
+        let cashGameWinnings = sessionsArray.filter({ $0.isTournament != true }).map({ $0.profit }).reduce(0, +)
+        
+        let avgROI = Float(tournamentWinnings + cashGameWinnings) / Float(tournamentBuyIns + cashGameBuyIns)
+        return avgROI.asPercent()
+
+    }
+    
     func totalHoursPlayed(range: RangeSelection = .all, bankroll: SessionFilter) -> String {
         
         var sessionsArray: [PokerSession] {
@@ -360,7 +391,7 @@ extension SessionsListViewModel {
                 return tallyBankroll(range: .threeMonth, bankroll: .all) / filterSessionsLastThreeMonths().count
             case .sixMonth:
                 guard !filterSessionsLastSixMonths().isEmpty else { return 0 }
-                return tallyBankroll(range: .oneMonth, bankroll: .all) / filterSessionsLastSixMonths().count
+                return tallyBankroll(range: .sixMonth, bankroll: .all) / filterSessionsLastSixMonths().count
             case .oneYear:
                 guard !filterSessionsLastTwelveMonths().isEmpty else { return 0 }
                 return tallyBankroll(range: .oneYear, bankroll: .all) / filterSessionsLastTwelveMonths().count
@@ -478,8 +509,6 @@ extension SessionsListViewModel {
                 return filterSessionsYTD().filter{ $0.isTournament == true }
             }
         }
-        
-        
         
         let tournamentBuyIns = tournamentArray.map { $0.expenses ?? 0 }.reduce(0, +)
         let count = tournamentArray.count

@@ -35,6 +35,7 @@ struct LeftPocketCustomTabBar: View {
     @State private var showAlert = false
     @State private var showBuyInScreen = false
     @State private var activity: Activity<LiveSessionWidgetAttributes>?
+    @State private var buyInConfirmationSound = false
     
     var isCounting: Bool {
         timerViewModel.isCounting
@@ -290,17 +291,32 @@ struct LeftPocketCustomTabBar: View {
             default: break
             }
         }
-        .sheet(isPresented: $showBuyInScreen) {
-            LiveSessionInitialBuyIn(timerViewModel: timerViewModel)
+        .sheet(isPresented: $showBuyInScreen, onDismiss: {
+            if buyInConfirmationSound {
+                playBuyInCashSound()
+            }
+        }, content: {
+            LiveSessionInitialBuyIn(timerViewModel: timerViewModel, buyInConfirmationSound: $buyInConfirmationSound)
                 .presentationDetents([.height(350), .large])
                 .presentationBackground(.ultraThinMaterial)
                 .interactiveDismissDisabled()
-        }
+        })
     }
     
     func playSound() {
             
         guard let url = Bundle.main.url(forResource: "cash-sfx", withExtension: ".wav") else { return }
+        
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.play()
+        } catch {
+            print("Error loading sound: \(error.localizedDescription)")
+        }
+    }
+    
+    func playBuyInCashSound() {
+        guard let url = Bundle.main.url(forResource: "rebuy-sfx", withExtension: ".wav") else { return }
         
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: url)

@@ -13,6 +13,7 @@ struct LiveSessionInitialBuyIn: View {
     @EnvironmentObject var vm: SessionsListViewModel
     @ObservedObject var timerViewModel: TimerViewModel
     @State private var alertItem: AlertItem?
+    @Binding var buyInConfirmationSound: Bool
     
     var body: some View {
         
@@ -36,6 +37,9 @@ struct LiveSessionInitialBuyIn: View {
         .alert(item: $alertItem) { alert in
             Alert(title: alert.title, message: alert.message, dismissButton: alert.dismissButton)
         }
+        .onAppear(perform: {
+            buyInConfirmationSound = false
+        })
     }
     
     var title: some View {
@@ -94,6 +98,7 @@ struct LiveSessionInitialBuyIn: View {
         Button {
             let impact = UIImpactFeedbackGenerator(style: .heavy)
             impact.impactOccurred()
+            buyInConfirmationSound = true
             saveButtonPressed()
             
         } label: { PrimaryButton(title: "Save") }
@@ -116,6 +121,6 @@ struct LiveSessionInitialBuyIn: View {
 }
 
 #Preview {
-    LiveSessionInitialBuyIn(timerViewModel: TimerViewModel())
+    LiveSessionInitialBuyIn(timerViewModel: TimerViewModel(), buyInConfirmationSound: .constant(false))
         .environmentObject(SessionsListViewModel())
 }

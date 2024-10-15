@@ -11,18 +11,17 @@ import Charts
 struct BarChartByStakes: View {
     
     @ObservedObject var viewModel: SessionsListViewModel
-    @Binding var yearFilter: String
     
     let showTitle: Bool
+    let filteredSessions: [PokerSession]
     
     var body: some View {
         
         VStack {
             
-            let filteredSessions = viewModel.sessions.filter({ $0.date.getYear() == yearFilter && $0.isTournament != true })
             let stakesCount = viewModel.uniqueStakes.count
-            let baseHeight: CGFloat = 50 // Height per stake
-            let minHeight: CGFloat = 150 // Minimum height for the chart
+            let baseHeight: CGFloat = 50
+            let minHeight: CGFloat = 150
             
             // Calculate the height based on the number of stakes, ensuring a minimum height
             let chartHeight = max(minHeight, CGFloat(stakesCount) * baseHeight)
@@ -72,5 +71,5 @@ struct BarChartByStakes: View {
 }
 
 #Preview {
-    BarChartByStakes(viewModel: SessionsListViewModel(), yearFilter: .constant("2024") ,showTitle: true)
+    BarChartByStakes(viewModel: SessionsListViewModel(), showTitle: true, filteredSessions: [MockData.sampleSession])
 }

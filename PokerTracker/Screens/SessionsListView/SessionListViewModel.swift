@@ -351,6 +351,11 @@ class SessionsListViewModel: ObservableObject {
         return sessionsByStakes(stakes).filter({ $0.date.getYear() == year }).reduce(0) { $0 + $1.profit }
     }
     
+    // Take in the stakes, and feed it which sessions to filter from
+    func profitByStakesTwo(stakes: String, sessions: [PokerSession]) -> Int {
+        return sessions.filter({ $0.stakes == stakes }).reduce(0) { $0 + $1.profit }
+    }
+    
     // Function that adds a new session to variable sessions, above, from NewSessionView
     func addSession(location: LocationModel,
                     game: String,

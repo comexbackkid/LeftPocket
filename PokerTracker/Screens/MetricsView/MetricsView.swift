@@ -107,7 +107,7 @@ struct MetricsView: View {
             .padding(.top)
             .padding(.bottom, 20)
             .padding(.horizontal)
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 370)
+            .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)
             .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
             .cornerRadius(20)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -243,6 +243,9 @@ struct MetricsView: View {
 
 struct AllStats: View {
     
+    @State private var highHandPopover = false
+    @Environment(\.colorScheme) var colorScheme
+    
     let sessionFilter: SessionFilter
     let viewModel: SessionsListViewModel
     let range: RangeSelection
@@ -255,10 +258,12 @@ struct AllStats: View {
             let totalBankroll = viewModel.tallyBankroll(range: range, bankroll: sessionFilter)
             let hourlyRate = viewModel.hourlyRate(range: range, bankroll: sessionFilter)
             let profitPerSession = viewModel.avgProfit(range: range, bankroll: sessionFilter)
+            let highHandBonus = viewModel.totalHighHands(range: range)
             let avgDuration = viewModel.avgDuration(range: range, bankroll: sessionFilter)
             let totalSessions = viewModel.countSessions(range: range, bankroll: sessionFilter)
             let totalWinRate = viewModel.totalWinRate(range: range, bankroll: sessionFilter)
             let totalHours = viewModel.totalHoursPlayed(range: range, bankroll: sessionFilter)
+            let avgROI = viewModel.avgROI(range: range)
             
             HStack {
                 Text("Total Profit")
@@ -292,6 +297,46 @@ struct AllStats: View {
                 
                 Text(profitPerSession, format: .currency(code: currencyType).precision(.fractionLength(0)))
                     .foregroundColor(profitPerSession > 0 ? .green : profitPerSession < 0 ? .red : .primary)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Avg. ROI")
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Text(avgROI)
+            }
+            
+            Divider()
+            
+            HStack (alignment: .lastTextBaseline, spacing: 4) {
+                Text("High Hand Bonuses")
+                    .foregroundColor(.secondary)
+                Button {
+                    highHandPopover = true
+                } label: {
+                    Image(systemName: "info.circle")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.brandPrimary)
+                }
+                .popover(isPresented: $highHandPopover, arrowEdge: .bottom, content: {
+                    PopoverView(bodyText: "High hand bonuses are not counted towards your bankroll or player metrics. They are tallied in your Annual Report.")
+                        .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                        .frame(height: 130)
+                        .dynamicTypeSize(.medium...DynamicTypeSize.medium)
+                        .presentationCompactAdaptation(.popover)
+                        .preferredColorScheme(colorScheme == .dark ? .dark : .light)
+                        .shadow(radius: 10)
+                })
+                
+                Spacer()
+                
+                Text(highHandBonus, format: .currency(code: currencyType).precision(.fractionLength(0)))
+                    .foregroundColor(highHandBonus > 0 ? .green : .primary)
+                                    
             }
             
             Divider()
