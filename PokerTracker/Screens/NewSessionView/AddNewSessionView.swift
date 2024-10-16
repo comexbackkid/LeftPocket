@@ -11,16 +11,18 @@ import RevenueCat
 
 struct AddNewSessionView: View {
 
-    @StateObject var newSession = NewSessionViewModel()
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
+    @StateObject var newSession = NewSessionViewModel()
     @ObservedObject var timerViewModel: TimerViewModel
     
     @Binding var isPresented: Bool
     @Binding var audioConfirmation: Bool
+    
     @State var addLocationIsShowing = false
     @State var addStakesIsShowing = false
     @State var showPaywall = false
+    @State var showCashRebuyField = false
     
     var body: some View {
         
@@ -505,7 +507,8 @@ struct AddNewSessionView: View {
             
             HStack (alignment: .top) {
                 
-                // Buy In
+                // MARK: CASH GAME BUY IN
+                
                 if newSession.sessionType != .tournament {
                     HStack {
                         Text(vm.userCurrency.symbol)
@@ -526,7 +529,7 @@ struct AddNewSessionView: View {
                                                                                            removal: .scale(scale: 0, anchor: .bottomLeading))))
                 }
                 
-                // Cash Out
+                // MARK: CASH GAME CASH OUT
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
@@ -544,7 +547,28 @@ struct AddNewSessionView: View {
                 .padding(.bottom, 10)
             }
             
-            // This .foregroundColor logic is gnarly because the symbol needs to change to white and account for both cash & tournament modes
+            // MARK: CASH GAME REBUYS
+            if timerViewModel.totalBuyInForLiveSession == 0 && newSession.sessionType != .tournament {
+                HStack {
+                    Text(vm.userCurrency.symbol)
+                        .font(.callout)
+                        .foregroundStyle(newSession.cashRebuys.isEmpty ? .secondary.opacity(0.5) : Color.brandWhite)
+                    
+                    TextField("Rebuys / Top Offs", text: $newSession.cashRebuys)
+                        .font(.custom("Asap-Regular", size: 17))
+                        .keyboardType(.numberPad)
+                    
+                }
+                .padding(18)
+                .background(.gray.opacity(0.2))
+                .cornerRadius(15)
+                .padding(.leading)
+                .padding(.trailing, 16)
+                .padding(.bottom, 10)
+            }
+            
+            
+            // MARK: TOURNAMENTS & GASH, EXPENSES / BUY IN HANDLING
             HStack {
                 
                 HStack {

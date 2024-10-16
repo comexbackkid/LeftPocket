@@ -44,7 +44,7 @@ struct UserSettings: View {
                     
                     Divider()
                     
-                    externalLinks
+                    bottomSection
                     
                     Divider()
                     
@@ -94,7 +94,7 @@ struct UserSettings: View {
                                         .subtitleStyle()
                                         .foregroundStyle(.white)
                                     
-                                    Text("Unlock access for more advanced features.")
+                                    Text("Unlock access to all advanced features.")
                                         .captionStyle()
                                         .foregroundStyle(.white)
                                 }
@@ -218,37 +218,13 @@ struct UserSettings: View {
             
             sessionDefaults
             
-            NavigationLink(
-                destination: DashboardConfig(),
-                label: {
-                    HStack {
-                        
-                        VStack (alignment: .leading) {
-                            
-                            HStack {
-                                Text("Dashboard Layout")
-                                    .subtitleStyle()
-                                    .bold()
-                                
-                                Spacer()
-                                
-                                Text("›")
-                                    .font(.title2)
-                            }
-                        }
-                        
-                        Spacer()
-                    }
-                })
-            .buttonStyle(PlainButtonStyle())
+            dashboardConfig
             
             importData
             
             exportData
             
             howToGuide
-            
-            redeemOfferCode
             
         }
         .sheet(isPresented: $showPaywall) {
@@ -309,35 +285,127 @@ struct UserSettings: View {
     
     var sessionDefaults: some View {
         
-        NavigationLink(
-            destination: SessionDefaultsView(isPresentedAsSheet: .constant(false)),
-            label: {
-                HStack {
-                    
-                    VStack (alignment: .leading) {
-                        
+        HStack {
+            
+            if subManager.isSubscribed {
+                
+                NavigationLink(
+                    destination: SessionDefaultsView(isPresentedAsSheet: .constant(false)),
+                    label: {
                         HStack {
-                            Text("Session Defaults")
-                                .subtitleStyle()
-                                .bold()
+                            
+                            VStack (alignment: .leading) {
+                                
+                                HStack {
+                                    Text("Session Defaults")
+                                        .subtitleStyle()
+                                        .bold()
+                                    
+                                    Spacer()
+                                    
+                                    Text("›")
+                                        .font(.title2)
+                                }
+                            }
                             
                             Spacer()
-                            
-                            Text("›")
-                                .font(.title2)
                         }
-                    }
+                    })
+                .buttonStyle(PlainButtonStyle())
+                
+            } else {
+                
+                Button {
+                    showPaywall = true
+                } label: {
                     
-                    Spacer()
+                    HStack {
+                        
+                        VStack (alignment: .leading) {
+                            
+                            HStack {
+                                Text("Session Defaults")
+                                    .subtitleStyle()
+                                    .bold()
+                                
+                                Spacer()
+                                
+                                Image(systemName: "lock.fill")
+                                    .font(.title2)
+                            }
+                        }
+                        
+                        Spacer()
+                    }
                 }
-            })
-        .buttonStyle(PlainButtonStyle())
-        
+                .buttonStyle(PlainButtonStyle())
+            }
+        }
     }
     
-    var externalLinks: some View {
+    var dashboardConfig: some View {
+        
+        VStack {
+            if subManager.isSubscribed {
+                NavigationLink(
+                    destination: DashboardConfig(),
+                    label: {
+                        HStack {
+                            
+                            VStack (alignment: .leading) {
+                                
+                                HStack {
+                                    Text("Dashboard Layout")
+                                        .subtitleStyle()
+                                        .bold()
+                                    
+                                    Spacer()
+                                    
+                                    Text("›")
+                                        .font(.title2)
+                                }
+                            }
+                            
+                            Spacer()
+                        }
+                    })
+                .buttonStyle(PlainButtonStyle())
+                
+            } else {
+                
+                Button {
+                    showPaywall = true
+                } label: {
+                    
+                    HStack {
+                        
+                        VStack (alignment: .leading) {
+                            
+                            HStack {
+                                Text("Dashboard Layout")
+                                    .subtitleStyle()
+                                    .bold()
+                                
+                                Spacer()
+                                
+                                Image(systemName: "lock.fill")
+                                    .font(.title2)
+                            }
+                        }
+                        
+                        Spacer()
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+        }
+    }
+    
+    var bottomSection: some View {
         
         VStack(spacing: 40) {
+            
+            redeemOfferCode
             
             Link(destination: URL(string: "https://apps.apple.com/us/app/left-pocket/id1601858981")!,
                  label: {
@@ -467,7 +535,6 @@ struct UserSettings: View {
                                         .font(.title2)
                                 }
                                 
-                                // We're showing this text because of the else statement. We know the user is not subscribed
                                 Text("Upgrade to Left Pocket Pro for unlimited exports. You have \(exportCounter) " + "export\(exportCounter > 0 ? "" : "s") remaining.")
                                     .calloutStyle()
                                     .opacity(0.8)
@@ -514,33 +581,6 @@ struct UserSettings: View {
                 }
                 .buttonStyle(PlainButtonStyle())
         }
-    }
-    
-    var upgradeToPro: some View {
-        
-        Button {
-            
-            let impact = UIImpactFeedbackGenerator(style: .soft)
-            impact.impactOccurred()
-            showPaywall = true
-            
-        } label: {
-            
-            HStack {
-                Text("About Left Pocket Pro")
-                    .subtitleStyle()
-                    .bold()
-                
-                Spacer()
-                
-                Text("›")
-                    .font(.title2)
-            }
-            
-            Spacer()
-        }
-        .buttonStyle(PlainButtonStyle())
-        
     }
     
     var howToGuide: some View {

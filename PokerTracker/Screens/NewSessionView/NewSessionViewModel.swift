@@ -31,13 +31,14 @@ final class NewSessionViewModel: ObservableObject {
     @Published var cashOut: String = ""
     @Published var highHandBonus: String = ""
     @Published var rebuyCount: String = ""
+    @Published var cashRebuys: String = ""
     @Published var finish: String = ""
     @Published var size: String = ""
     @Published var speed: String = ""
     
     // Just using this value for Cash games
     var computedProfit: Int {
-        (Int(cashOut) ?? 0) - Int(buyIn)!
+        (Int(cashOut) ?? 0) - Int(buyIn)! - (Int(cashRebuys) ?? 0)
     }
     
     // Adds up the total dollar amount of Tournament rebuys
@@ -173,7 +174,7 @@ final class NewSessionViewModel: ObservableObject {
                              entrants: Int(self.entrants) ?? 0,
                              finish: Int(self.finish) ?? 0,
                              highHandBonus: Int(self.highHandBonus) ?? 0,
-                             buyIn: Int(self.buyIn) ?? 0,
+                             buyIn: (Int(self.buyIn) ?? 0) + (Int(self.cashRebuys) ?? 0),
                              cashOut: Int(self.cashOut) ?? 0,
                              rebuyCount: Int(self.rebuyCount) ?? 0,
                              tournamentSize: self.size,
