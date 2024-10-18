@@ -66,6 +66,7 @@
 		7C5D5D332BE2B6A8003DC94D /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5D322BE2B6A8003DC94D /* HealthKitManager.swift */; };
 		7C5EDA1828906F25008ACFEF /* EditLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5EDA1728906F25008ACFEF /* EditLocationView.swift */; };
 		7C6039772C245BAA00CEE12C /* LiveSessionCounterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E75BD2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift */; };
+		7C608EDF2CC19B5800527405 /* DayOfWeekChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C608EDE2CC19B5800527405 /* DayOfWeekChart.swift */; };
 		7C62F1ED2BD034B200F14483 /* NewStakesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C62F1EC2BD034B200F14483 /* NewStakesView.swift */; };
 		7C62F1EF2BD0493400F14483 /* NewStakesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C62F1EE2BD0493400F14483 /* NewStakesViewModel.swift */; };
 		7C6350042C1A4E5B00407E17 /* Bundle+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6350032C1A4E5B00407E17 /* Bundle+Ext.swift */; };
@@ -315,6 +316,7 @@
 		7C5C79952B2780210088A841 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		7C5D5D322BE2B6A8003DC94D /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
 		7C5EDA1728906F25008ACFEF /* EditLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocationView.swift; sourceTree = "<group>"; };
+		7C608EDE2CC19B5800527405 /* DayOfWeekChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeekChart.swift; sourceTree = "<group>"; };
 		7C62F1EC2BD034B200F14483 /* NewStakesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStakesView.swift; sourceTree = "<group>"; };
 		7C62F1EE2BD0493400F14483 /* NewStakesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStakesViewModel.swift; sourceTree = "<group>"; };
 		7C6350032C1A4E5B00407E17 /* Bundle+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Ext.swift"; sourceTree = "<group>"; };
@@ -608,6 +610,7 @@
 				7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */,
 				7CB3EB9C26C3093D009E8DF3 /* CellView.swift */,
 				7C12A58A2CB1CABE00CA8922 /* DashboardConfig.swift */,
+				7C608EDE2CC19B5800527405 /* DayOfWeekChart.swift */,
 				7C25CB5227887D9200866511 /* CustomPicker.swift */,
 				7CAFDFF22B2C884100B7338D /* CustomToggle.swift */,
 				7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */,
@@ -1270,6 +1273,7 @@
 				7C757EFF2C1F218900AD71EE /* SocialShareView.swift in Sources */,
 				7CA940F92BECF8E3009B54BA /* SleepAnalytics.swift in Sources */,
 				7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */,
+				7C608EDF2CC19B5800527405 /* DayOfWeekChart.swift in Sources */,
 				7CC1D0462C2703E500791847 /* LiveActivityManager.swift in Sources */,
 				7C67DDB52BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift in Sources */,
 				7C25CB5327887D9200866511 /* CustomPicker.swift in Sources */,
@@ -1310,7 +1314,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1323,7 +1327,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.5.1;
+				MARKETING_VERSION = 4.5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1341,7 +1345,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1354,7 +1358,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.5.1;
+				MARKETING_VERSION = 4.5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1493,7 +1497,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1504,7 +1508,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.5.1;
+				MARKETING_VERSION = 4.5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1521,7 +1525,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1532,7 +1536,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.5.1;
+				MARKETING_VERSION = 4.5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

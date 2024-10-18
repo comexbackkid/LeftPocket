@@ -47,17 +47,17 @@ struct MetricsView: View {
                                 
                                 ToolTipView(image: "calendar",
                                             message: "Your best month so far this year has been \(viewModel.bestMonth).",
-                                            color: .brandPrimary)
+                                            color: .donutChartOrange)
                                 
                                 barChart
                                 
                                 ToolTipView(image: "stopwatch",
                                             message: "You tend to play better when your Session lasts \(viewModel.bestSessionLength()).",
-                                            color: .donutChartDarkBlue)
+                                            color: .brandPrimary)
 
                                 if #available(iOS 17.0, *) {
                                     HStack {
-                                        heatMap
+                                        dayOfWeekChart
                                         Spacer()
                                         donutChart
                                     }
@@ -107,7 +107,7 @@ struct MetricsView: View {
             .padding(.top)
             .padding(.bottom, 20)
             .padding(.horizontal)
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)
+            .frame(width: UIScreen.main.bounds.width * 0.9, height: 435)
             .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
             .cornerRadius(20)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -133,11 +133,11 @@ struct MetricsView: View {
     }
     
     @available(iOS 17.0, *)
-    var heatMap: some View {
+    var dayOfWeekChart: some View {
         
         HStack {
-            HeatMap()
-                .padding()
+            DayOfWeekChart(sessions: viewModel.sessions)
+                .padding(.leading, 7)
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
                 .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
                 .cornerRadius(20)

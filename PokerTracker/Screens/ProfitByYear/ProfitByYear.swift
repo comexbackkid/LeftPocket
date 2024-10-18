@@ -27,14 +27,7 @@ struct ProfitByYear: View {
 
         ScrollView {
             
-            HStack {
-                Text("Annual Report")
-                    .titleStyle()
-                    .padding(.top, -37)
-                    .padding(.horizontal)
-                
-                Spacer()
-            }
+            title
             
             VStack {
                 
@@ -60,6 +53,18 @@ struct ProfitByYear: View {
         .background(Color.brandBackground)
         .accentColor(.brandPrimary)
         .onAppear {  }
+    }
+    
+    var title: some View {
+        
+        HStack {
+            Text("Annual Report")
+                .titleStyle()
+                .padding(.top, -37)
+                .padding(.horizontal)
+            
+            Spacer()
+        }
     }
     
     var lineChart: some View {
@@ -572,8 +577,8 @@ struct ProfitByYear: View {
             
             if subManager.isSubscribed {
                 do {
-                    
-                    let fileURL = try CSVConversion.exportCSV(from: viewModel.allSessionDataByYear(year: vm.lastYear))
+                    let year = vm.chartRange(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+                    let fileURL = try CSVConversion.exportCSV(from: year)
                     shareFile(fileURL)
                     
                 } catch {

@@ -64,7 +64,7 @@ struct BarChartByYear: View {
             ForEach(sessionProfitByMonth, id: \.month) { monthlyTotal in
                 
                 BarMark(x: .value("Month", monthlyTotal.month, unit: .month), y: .value("Profit", monthlyTotal.profit))
-                    .cornerRadius(7)
+                    .cornerRadius(4)
                     .foregroundStyle(Color.pink.gradient)
                     .opacity(selectedMonth == nil || selectedMonth?.getMonth() == monthlyTotal.month.getMonth() ? 1 : 0.4)
             }
@@ -81,7 +81,6 @@ struct BarChartByYear: View {
                             .background(.gray.opacity(0.1))
                             .cornerRadius(10)
                     }
-                
             }
         }
         .sensoryFeedback(.selection, trigger: profitAnnotation)
@@ -118,7 +117,7 @@ struct BarChartByYear: View {
             ForEach(sessionProfitByMonth, id: \.month) { monthlyTotal in
                 
                 BarMark(x: .value("Month", monthlyTotal.month, unit: .month), y: .value("Profit", monthlyTotal.profit))
-                    .cornerRadius(7)
+                    .cornerRadius(4)
                     .foregroundStyle(Color.pink.gradient)
                     .opacity(selectedMonth == nil || selectedMonth?.getMonth() == monthlyTotal.month.getMonth() ? 1 : 0.4)
             }
@@ -203,4 +202,5 @@ struct BarChartByYear: View {
         .environmentObject(SessionsListViewModel())
         .frame(height: 350)
         .padding()
+//        .preferredColorScheme(.dark)
 }

@@ -71,7 +71,7 @@ struct LiveSessionInitialBuyIn: View {
             }
         }
         .padding(.horizontal)
-        .padding(.bottom)
+        .padding(.bottom, 30)
     }
     
     var inputFields: some View {
@@ -89,8 +89,6 @@ struct LiveSessionInitialBuyIn: View {
         .background(.gray.opacity(0.2))
         .cornerRadius(15)
         .padding(.horizontal)
-        .padding(.bottom)
-
     }
     
     var saveButton: some View {

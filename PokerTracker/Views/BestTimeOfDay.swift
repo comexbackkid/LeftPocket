@@ -38,21 +38,29 @@ struct BestTimeOfDay: View {
        
         VStack (spacing: 0) {
             
-//            ZStack {
-//                
-//                Image(systemName: "clock")
-//                    .resizable()
-//                    .frame(width: 25, height: 25)
-//                    .foregroundStyle(Color.gray.opacity(0.1))
-//                    .fontWeight(.semibold)
+            ZStack {
+                
+                if let highestData = highestRateData(sessions: viewModel.sessions) {
+                    
+                    VStack (spacing: 0) {
+                        
+                        Text("\(highestData.hourlyRate.axisShortHand(viewModel.userCurrency))")
+                            .font(.custom("Asap-Bold", size: 28, relativeTo: .title2))
+                        
+                        Text("per Hour")
+                            .font(.custom("Asap-Regular", size: 10, relativeTo: .caption2))
+                            .opacity(0.6)
+                            .offset(y: -2)
+                    }
+                }
                 
                 donutChart
-//            }
+            }
             
             if let highestData = highestRateData(sessions: viewModel.sessions) {
                 
                 HStack {
-                    Text("You average \(highestData.hourlyRate.axisShortHand(viewModel.userCurrency)) / hr from \(highestData.bucket.rawValue)")
+                    Text("You perform the best between \(highestData.bucket.rawValue)")
                         .subHeadlineStyle()
                         .padding(.top, 6)
                     
@@ -73,7 +81,7 @@ struct BestTimeOfDay: View {
             ForEach(chartData, id: \.bucket) { data in
                 SectorMark(
                     angle: .value("Type", data.averageHourlyRate),
-                    innerRadius: .ratio(0.7),
+                    innerRadius: .ratio(0.83),
                     angularInset: 3
                 )
                 .foregroundStyle(by: .value("Bucket", data.bucket.rawValue))
