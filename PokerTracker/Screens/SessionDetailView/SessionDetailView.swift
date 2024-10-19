@@ -96,10 +96,6 @@ struct SessionDetailView: View {
     
     var headerGraphic: some View {
         
-//        DetailHeader(startingHeight: 430) {
-//            Image("mgmspringfield-header")
-//        }
-        
         GraphicHeaderView(location: pokerSession.location)
             .overlay {
                 GraphicHeaderView(location: pokerSession.location)

@@ -22,6 +22,7 @@ struct SleepAnalytics: View {
     @State private var numbersLookOffPopup = false
     @State private var comparisonPopup = false
     @State private var rawSelectedDate: Date?
+    @State private var dailyMindfulMinutes: [Date: Double] = [:]
     @Binding var activeSheet: Sheet?
     
     @EnvironmentObject var viewModel: SessionsListViewModel
@@ -43,65 +44,72 @@ struct SleepAnalytics: View {
         
     var body: some View {
         
-        ZStack {
-            
-            ScrollView {
+        NavigationStack {
+            ZStack {
                 
-                VStack {
+                ScrollView {
                     
-                    title
-                    
-                    instructions
-                    
-                    VStack (spacing: 22) {
+                    VStack {
                         
-                        selectedSessionStats
+                        title
                         
-                        if #available(iOS 17.0, *) {
-                            sleepChart
+                        instructions
+                        
+                        VStack (spacing: 22) {
                             
-                        } else { oldSleepChart }
-                        
-                        ToolTipView(image: "bed.double.fill",
-                                    message: "So far this year, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 || countLowSleepSessions() < 1  ? "s" : "") under-rested.",
-                                    color: .donutChartOrange)
-                        
-                        ToolTipView(image: "gauge",
-                                    message: performanceComparison(),
-                                    color: .chartAccent)
-                        
-                        sleepImportance
-                        
-                        disclaimerText
-                        
+                            selectedSessionStats
+                            
+                            if #available(iOS 17.0, *) {
+                                sleepChart
+                                
+                            } else { oldSleepChart }
+                            
+                            ToolTipView(image: "bed.double.fill",
+                                        message: "So far this year, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 || countLowSleepSessions() < 1  ? "s" : "") under-rested.",
+                                        color: .donutChartOrange)
+                            
+                            ToolTipView(image: "gauge",
+                                        message: performanceComparison(),
+                                        color: .chartAccent)
+                            
+                            //                        sleepImportance
+                            NavigationLink(destination: MindfulnessAnalytics(dailyMindfulMinutes: dailyMindfulMinutes)) {
+                                mindfulnessCard
+                            }
+                            .buttonStyle(.plain)
+                            
+                            disclaimerText
+                            
+                        }
+                        .navigationBarTitleDisplayMode(.inline)
+                        .navigationTitle("")
+                        .padding(.bottom, 50)
+                        .padding(.top)
+                        .onAppear {
+                            isShowingPermissionPrimingSheet = !hasSeenPermissionPriming
+                        }
+                        .sheet(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
+                            Task { await handleAuthorizationChecksAndDataFetch() }
+                        }, content: {
+                            HealthKitPrimingView(hasSeen: $hasSeenPermissionPriming)
+                        })
                     }
-                    .navigationBarTitleDisplayMode(.inline)
-                    .navigationTitle("")
-                    .padding(.bottom, 50)
-                    .padding(.top)
-                    .onAppear {
-                        isShowingPermissionPrimingSheet = !hasSeenPermissionPriming
-                    }
-                    .sheet(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
-                        Task { await handleAuthorizationChecksAndDataFetch() }
-                    }, content: {
-                        HealthKitPrimingView(hasSeen: $hasSeenPermissionPriming)
-                    })
                 }
+                .background(Color.brandBackground)
+                
+                if activeSheet == .sleepAnalytics { dismissButton }
             }
-            .background(Color.brandBackground)
-            
-            if activeSheet == .sleepAnalytics { dismissButton }
+            .task { await handleAuthorizationChecksAndDataFetch() }
+            .onChange(of: hkManager.errorMsg, perform: { _ in
+                showError = true
+            })
+            .alert(isPresented: $showError) {
+                Alert(title: Text("Uh oh!"), 
+                      message: Text(hkManager.errorMsg ?? "An unknown error occurred."),
+                      dismissButton: .default(Text("Ok")))
+            }
         }
-        .task { await handleAuthorizationChecksAndDataFetch() }
-        .onChange(of: hkManager.errorMsg, perform: { _ in
-            showError = true
-        })
-        .alert(isPresented: $showError) {
-            Alert(title: Text("Uh oh!"), 
-                  message: Text(hkManager.errorMsg ?? "An unknown error occurred."),
-                  dismissButton: .default(Text("Ok")))
-        }
+        .tint(.brandPrimary)
     }
     
     var title: some View {
@@ -220,26 +228,70 @@ struct SleepAnalytics: View {
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     
-    var sleepImportance: some View {
+//    var sleepImportance: some View {
+//        
+//        VStack (alignment: .leading) {
+//            
+//            Text("Importance of Sleep 🌙")
+//                .cardTitleStyle()
+//                .padding(.bottom)
+//            
+//            HStack {
+//                Text("""
+//                     The recommended sleep for adults older than 18 years is at least 7 hours per night.
+//                     
+//                     Sleep is essential to achieve the best state of physical and mental health. Research suggests that sleep plays an important role in learning, memory, mood, judgment, and overall it affects how well you perform when you're awake.
+//                     
+//                     When thinking about playing optimal poker, getting enough rest should be at or near the top of your priorities.
+//                     """)
+//                    .bodyStyle()
+//                
+//                Spacer()
+//            }
+//        }
+//        .foregroundStyle(.white)
+//        .padding(20)
+//        .frame(width: UIScreen.main.bounds.width * 0.9)
+//        .background(
+//            Image("nightsky")
+//                .resizable()
+//                .clipped()
+//                .overlay(.ultraThinMaterial)
+//        )
+//        .cornerRadius(20)
+//        .padding(.top, 12)
+//    }
+    
+    var mindfulnessCard: some View {
         
         VStack (alignment: .leading) {
             
-            Text("Importance of Sleep 🌙")
-                .cardTitleStyle()
-                .padding(.bottom)
-            
-            HStack {
-                Text("""
-                     The recommended sleep for adults older than 18 years is at least 7 hours per night.
-                     
-                     Sleep is essential to achieve the best state of physical and mental health. Research suggests that sleep plays an important role in learning, memory, mood, judgment, and overall it affects how well you perform when you're awake.
-                     
-                     When thinking about playing optimal poker, getting enough rest should be at or near the top of your priorities.
-                     """)
-                    .bodyStyle()
+            HStack (alignment: .top) {
+                Image(systemName: "figure.mind.and.body")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 60, height: 60)
+                    .foregroundStyle(Color.white.gradient)
+                
+                VStack (alignment: .leading) {
+                    Text("Mindfulness")
+                        .cardTitleStyle()
+                        .foregroundStyle(Color.white)
+                    
+                    Text("Establish your focus & headspace before you play")
+                        .calloutStyle()
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.leading)
                 
                 Spacer()
+                
+                Image(systemName: "arrow.right")
+                    .bold()
+                    .foregroundStyle(.secondary)
             }
+            
+            
         }
         .foregroundStyle(.white)
         .padding(20)
@@ -251,7 +303,6 @@ struct SleepAnalytics: View {
                 .overlay(.ultraThinMaterial)
         )
         .cornerRadius(20)
-        .padding(.top, 12)
     }
     
     var disclaimerText: some View {
@@ -477,6 +528,7 @@ struct SleepAnalytics: View {
         if hkManager.authorizationStatus != .notDetermined {
             do {
                 try await hkManager.fetchSleepData()
+                dailyMindfulMinutes = try await hkManager.fetchDailyMindfulMinutesData()
             } catch let error as HKError {
                 hkManager.errorMsg = error.description
             } catch {

@@ -123,6 +123,7 @@
 		7CA940F92BECF8E3009B54BA /* SleepAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA940F82BECF8E3009B54BA /* SleepAnalytics.swift */; };
 		7CA940FB2BECF925009B54BA /* HealthMetricModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA940FA2BECF925009B54BA /* HealthMetricModel.swift */; };
 		7CA940FD2BECF9EE009B54BA /* HealthKitPrimingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA940FC2BECF9EE009B54BA /* HealthKitPrimingView.swift */; };
+		7CA9900E2CC2E5D400446D66 /* MindfulnessAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA9900D2CC2E5D400446D66 /* MindfulnessAnalytics.swift */; };
 		7CAFDFF32B2C884100B7338D /* CustomToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF22B2C884100B7338D /* CustomToggle.swift */; };
 		7CAFE0062B2CA9E300B7338D /* AsapCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */; };
 		7CAFE0072B2CA9E300B7338D /* AsapCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */; };
@@ -371,6 +372,7 @@
 		7CA940F82BECF8E3009B54BA /* SleepAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepAnalytics.swift; sourceTree = "<group>"; };
 		7CA940FA2BECF925009B54BA /* HealthMetricModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthMetricModel.swift; sourceTree = "<group>"; };
 		7CA940FC2BECF9EE009B54BA /* HealthKitPrimingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitPrimingView.swift; sourceTree = "<group>"; };
+		7CA9900D2CC2E5D400446D66 /* MindfulnessAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindfulnessAnalytics.swift; sourceTree = "<group>"; };
 		7CAFDFF22B2C884100B7338D /* CustomToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToggle.swift; sourceTree = "<group>"; };
 		7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-Light.ttf"; sourceTree = "<group>"; };
 		7CAFDFF62B2CA9E300B7338D /* AsapCondensed-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-LightItalic.ttf"; sourceTree = "<group>"; };
@@ -913,6 +915,7 @@
 				7CA940FA2BECF925009B54BA /* HealthMetricModel.swift */,
 				7CA940F82BECF8E3009B54BA /* SleepAnalytics.swift */,
 				7CA940FC2BECF9EE009B54BA /* HealthKitPrimingView.swift */,
+				7CA9900D2CC2E5D400446D66 /* MindfulnessAnalytics.swift */,
 			);
 			path = SleepAnalytics;
 			sourceTree = "<group>";
@@ -1196,6 +1199,7 @@
 				7C3EF3E52C64E5D700835467 /* EditSession.swift in Sources */,
 				7C5C79962B2780210088A841 /* UserSettings.swift in Sources */,
 				7C6394A926C14F6400939F40 /* SessionsListView.swift in Sources */,
+				7CA9900E2CC2E5D400446D66 /* MindfulnessAnalytics.swift in Sources */,
 				7CD7468C28A6CFA200D5A2D0 /* FailureView.swift in Sources */,
 				7C8134C3272A13B6004E1CE1 /* ViewModifiers.swift in Sources */,
 				7C20CFB2271E2D1600739764 /* OnboardingView.swift in Sources */,
