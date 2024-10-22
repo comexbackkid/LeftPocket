@@ -41,6 +41,22 @@ struct MonthlyReportTip: Tip {
 }
 
 @available(iOS 17.0, *)
+struct MeditationTip: Tip {
+    
+    var title: Text {
+        Text("About Meditations")
+    }
+    
+    var message: Text? {
+        Text("Tap to start your meditation. Once complete, tap the Stop button to log your time.")
+    }
+    
+    var image: Image? {
+        Image(systemName: "figure.mind.and.body")
+    }
+}
+
+@available(iOS 17.0, *)
 struct AddSessionTip: Tip {
     
     static let sessionCount = Event(id: "clickedAddSessionButton")

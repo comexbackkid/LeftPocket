@@ -12,7 +12,8 @@ import Charts
 struct SleepAnalytics: View {
     
     @AppStorage("hasSeenPermissionPriming") private var hasSeenPermissionPriming = false
-    
+    @EnvironmentObject var viewModel: SessionsListViewModel
+    @EnvironmentObject var hkManager: HealthKitManager
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
     
@@ -24,17 +25,13 @@ struct SleepAnalytics: View {
     @State private var rawSelectedDate: Date?
     @State private var dailyMindfulMinutes: [Date: Double] = [:]
     @Binding var activeSheet: Sheet?
-    
-    @EnvironmentObject var viewModel: SessionsListViewModel
-    @EnvironmentObject var hkManager: HealthKitManager
-    
+
     var selectedSleepMetric: SleepMetric? {
         guard let rawSelectedDate else { return nil }
         return hkManager.sleepData.first {
             Calendar.current.isDate(rawSelectedDate, inSameDayAs: $0.date)
         }
     }
-    
     var pokerSessionMatch: PokerSession? {
         guard let rawSelectedDate else { return nil }
         return viewModel.sessions.first {
@@ -72,12 +69,11 @@ struct SleepAnalytics: View {
                                         message: performanceComparison(),
                                         color: .chartAccent)
                             
-                            //                        sleepImportance
                             NavigationLink(destination: MindfulnessAnalytics(dailyMindfulMinutes: dailyMindfulMinutes)) {
                                 mindfulnessCard
                             }
                             .buttonStyle(.plain)
-                            
+                                                    
                             disclaimerText
                             
                         }
@@ -228,40 +224,6 @@ struct SleepAnalytics: View {
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     
-//    var sleepImportance: some View {
-//        
-//        VStack (alignment: .leading) {
-//            
-//            Text("Importance of Sleep 🌙")
-//                .cardTitleStyle()
-//                .padding(.bottom)
-//            
-//            HStack {
-//                Text("""
-//                     The recommended sleep for adults older than 18 years is at least 7 hours per night.
-//                     
-//                     Sleep is essential to achieve the best state of physical and mental health. Research suggests that sleep plays an important role in learning, memory, mood, judgment, and overall it affects how well you perform when you're awake.
-//                     
-//                     When thinking about playing optimal poker, getting enough rest should be at or near the top of your priorities.
-//                     """)
-//                    .bodyStyle()
-//                
-//                Spacer()
-//            }
-//        }
-//        .foregroundStyle(.white)
-//        .padding(20)
-//        .frame(width: UIScreen.main.bounds.width * 0.9)
-//        .background(
-//            Image("nightsky")
-//                .resizable()
-//                .clipped()
-//                .overlay(.ultraThinMaterial)
-//        )
-//        .cornerRadius(20)
-//        .padding(.top, 12)
-//    }
-    
     var mindfulnessCard: some View {
         
         VStack (alignment: .leading) {
@@ -278,7 +240,7 @@ struct SleepAnalytics: View {
                         .cardTitleStyle()
                         .foregroundStyle(Color.white)
                     
-                    Text("Establish your focus & headspace before you play")
+                    Text("Establish your focus & headspace before you play.")
                         .calloutStyle()
                         .foregroundStyle(.secondary)
                 }
@@ -523,17 +485,25 @@ struct SleepAnalytics: View {
     }
     
     private func handleAuthorizationChecksAndDataFetch() async {
+        
         await hkManager.checkAuthorizationStatus()
         
         if hkManager.authorizationStatus != .notDetermined {
+            
             do {
                 try await hkManager.fetchSleepData()
                 dailyMindfulMinutes = try await hkManager.fetchDailyMindfulMinutesData()
+                
             } catch let error as HKError {
                 hkManager.errorMsg = error.description
+                
             } catch {
                 hkManager.errorMsg = HKError.unableToCompleteRequest.description
             }
+        }
+        
+        if hkManager.authorizationStatus == .notDetermined {
+            isShowingPermissionPrimingSheet = true
         }
     }
     

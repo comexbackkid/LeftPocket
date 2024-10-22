@@ -7,12 +7,16 @@
 
 import SwiftUI
 import Charts
+import TipKit
 
 struct MindfulnessAnalytics: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var hkManager: HealthKitManager
     @Environment(\.colorScheme) var colorScheme
+    
+    @State private var showMeditationView = false
+    @State private var selectedMeditation: Meditation?
     
     let dailyMindfulMinutes: [Date: Double]
     
@@ -35,12 +39,14 @@ struct MindfulnessAnalytics: View {
                     meditationChart
                     
                     ToolTipView(image: "chart.line.uptrend.xyaxis",
-                                message: "On days you meditate you see a spike of about 47% in your profit",
+                                message: meditationPerformanceComparison(),
                                 color: .indigo)
                     
-                    recentMeditations
+                    meditationClasses
                     
                     checkInButton
+                    
+                    recentMeditations
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -80,12 +86,65 @@ struct MindfulnessAnalytics: View {
         .padding(.bottom)
     }
     
+    var meditationClasses: some View {
+        
+        VStack {
+            VStack {
+                HStack {
+                    
+                    Text("Start a Meditation")
+                        .font(.custom("Asap-Black", size: 24))
+                        .bold()
+                        .padding(.horizontal)
+                        .padding(.top)
+                        .padding(.bottom, 5)
+                    
+                    Spacer()
+                }
+                
+                HStack {
+                    Text("Choose from our own curated meditation sounds to prepare for a new Session. Find a quiet place to begin.")
+                        .bodyStyle()
+                    
+                    Spacer()
+                }
+                .padding(.horizontal)
+                .padding(.bottom)
+            }
+
+            let columns = [GridItem(.flexible()), GridItem(.flexible())]
+            
+            LazyVGrid(columns: columns) {
+                
+                ForEach(Meditation.meditations) { meditation in
+                    Button {
+                        selectedMeditation = meditation
+                    } label: {
+                        Text(meditation.title)
+                            .font(.custom("Asap-Bold", size: 18, relativeTo: .title2))
+                            .foregroundStyle(Color.white)
+                            .frame(width: 170, height: 100)
+                            .multilineTextAlignment(.center)
+                            .background(Image(meditation.background).resizable().aspectRatio(contentMode: .fill))
+                            .clipped()
+                            .clipShape(.rect(cornerRadius: 12))
+                    }
+                }
+            }
+            .frame(width: UIScreen.main.bounds.width * 0.9)
+        }
+        .padding(.bottom)
+        .fullScreenCover(item: $selectedMeditation) { meditation in
+            MeditationView(meditation: meditation)
+        }
+    }
+    
     var recentMeditations: some View {
         
         VStack (alignment: .leading) {
             
             HStack {
-                Text("Recent Meditations")
+                Text("Tagged Sessions")
                     .font(.custom("Asap-Black", size: 24))
                     .bold()
                     .padding(.horizontal)
@@ -94,17 +153,29 @@ struct MindfulnessAnalytics: View {
                 Spacer()
             }
             
+            let matchedSessions = viewModel.sessions.prefix(10).filter { session in
+                dailyMindfulMinutes.keys.contains { isSameDay($0, session.date) }
+            }
+            
+            if matchedSessions.isEmpty {
+                Text("No matched sessions found!")
+                    .bodyStyle()
+                    .padding(.leading)
+                    .padding(.top, 1)
+                    .foregroundStyle(.secondary)
+            }
+            
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(viewModel.sessions.prefix(10).filter { session in
-                        dailyMindfulMinutes.keys.contains { isSameDay($0, session.date) }
-                    }, id: \.id) { session in
+                    ForEach(matchedSessions, id: \.id) { session in
                         ZStack {
                             VStack {
                                 Text(session.location.name)
                                     .cardTitleStyle()
+                                    .foregroundStyle(Color.white)
                                 Text("\(session.date.dateStyle())")
                                     .captionStyle()
+                                    .foregroundStyle(Color.white)
                             }
                             
                             VStack {
@@ -115,16 +186,23 @@ struct MindfulnessAnalytics: View {
                                             .resizable()
                                             .aspectRatio(contentMode: .fill)
                                             .frame(width: 19, height: 19)
+                                            .foregroundStyle(Color.white)
+                                        
                                         Text("\(minutes, specifier: "%.0f") min")
                                             .headlineStyle()
+                                            .foregroundStyle(Color.white)
                                     }
                                     Spacer()
+                                    
                                     Image(systemName: "trophy.fill")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .frame(width: 15, height: 15)
+                                        .foregroundStyle(Color.white)
+                                    
                                     Text(session.profit.axisShortHand(viewModel.userCurrency))
                                         .headlineStyle()
+                                        .foregroundStyle(Color.white)
                                 }
                                 .opacity(0.8)
                             }
@@ -159,7 +237,7 @@ struct MindfulnessAnalytics: View {
                     }
                 }
             }
-            .padding(.bottom, 20)
+            .padding(.bottom, 60)
         }
     }
     
@@ -220,6 +298,7 @@ struct MindfulnessAnalytics: View {
                     Text("No mindfulness data to display.")
                         .calloutStyle()
                         .foregroundStyle(.secondary)
+                        .padding(.bottom, 10)
                     
                     Text("Check permissions in iOS Settings, or log minutes here.")
                         .calloutStyle()
@@ -236,7 +315,9 @@ struct MindfulnessAnalytics: View {
     
     var checkInButton: some View {
         
-        PrimaryButton(title: "Mood Check-In")
+        Button(action: {  }) {
+            PrimaryButton(title: "Log Your Mood")
+        }
     }
     
     private func backgroundImage(_ session: PokerSession) -> String {
@@ -278,6 +359,58 @@ struct MindfulnessAnalytics: View {
         let average = totalMinutes / Double(daysWithData)
         return String(format: "%.2f", average)
     }
+    
+    private func meditationPerformanceComparison() -> String {
+        
+        // Convert meditation data into a dictionary with the date as the key
+        let meditationDates = Set(dailyMindfulMinutes.keys.map { Calendar.current.startOfDay(for: $0) })
+
+        var hourlyRateWithMeditation = 0.0
+        var countWithMeditation = 0
+        var hourlyRateWithoutMeditation = 0.0
+        var countWithoutMeditation = 0
+        var reasoning = ""
+
+        // Iterate through poker sessions and categorize based on meditation
+        for session in viewModel.sessions {
+            let sessionDate = Calendar.current.startOfDay(for: session.date)
+
+            if meditationDates.contains(sessionDate) {
+                hourlyRateWithMeditation += Double(session.hourlyRate)
+                countWithMeditation += 1
+            } else {
+                hourlyRateWithoutMeditation += Double(session.hourlyRate)
+                countWithoutMeditation += 1
+            }
+        }
+
+        // Handle cases where no data is available
+        if countWithMeditation == 0 {
+            if countWithoutMeditation == 0 {
+                return "No data available to compare performances yet."
+            }
+            return "Bummer! No sessions were played on days you've meditated."
+        }
+
+        // Calculate average hourly rates
+        let avgHourlyRateWithMeditation = hourlyRateWithMeditation / Double(countWithMeditation)
+        let avgHourlyRateWithoutMeditation = countWithoutMeditation > 0 ? hourlyRateWithoutMeditation / Double(countWithoutMeditation) : 0
+
+        // Calculate percentage improvement
+        if avgHourlyRateWithoutMeditation != 0 {
+            
+            let improvement = ((avgHourlyRateWithMeditation - avgHourlyRateWithoutMeditation) / abs(avgHourlyRateWithoutMeditation)) * 100
+            if improvement < 0 {
+                reasoning = "This could be due to a small sample size. Keep at it!"
+            }
+            
+            return "Your hourly rate is \(improvement.formatted(.number.precision(.fractionLength(0))))% \(improvement > 0 ? "greater" : "worse") on days you meditate. \(reasoning)"
+            
+        } else {
+            
+            return "No sessions logged on non-meditation days. More data is needed."
+        }
+    }
 }
 
 #Preview {
@@ -287,6 +420,8 @@ struct MindfulnessAnalytics: View {
                                                    Date().modifyDays(days: -4): 3,
                                                    Date().modifyDays(days: -5): 5,
                                                    Date().modifyDays(days: -9): 4,
+                                                   Date().modifyDays(days: -10): 4,
+                                                   Date().modifyDays(days: -12): 3,
                                                    Date().modifyDays(days: -18): 2])
             .environmentObject(SessionsListViewModel())
             .environmentObject(HealthKitManager())

@@ -11,6 +11,9 @@
 		7C0208DB26F24B4900AC6151 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0208DA26F24B4900AC6151 /* Date+Ext.swift */; };
 		7C028F982C3587FC0098CA8C /* RedeemOfferCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C028F972C3587FC0098CA8C /* RedeemOfferCode.swift */; };
 		7C028F9A2C36B5960098CA8C /* AdvancedTournamentReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C028F992C36B5960098CA8C /* AdvancedTournamentReport.swift */; };
+		7C0B3FF62CC5454B00F446EA /* MeditationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B3FF52CC5454B00F446EA /* MeditationView.swift */; };
+		7C0B3FFA2CC6989A00F446EA /* MeditationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B3FF92CC6989A00F446EA /* MeditationModel.swift */; };
+		7C0B3FFD2CC6D51600F446EA /* forest.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7C0B3FFC2CC6D51600F446EA /* forest.wav */; };
 		7C12A58B2CB1CABE00CA8922 /* DashboardConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C12A58A2CB1CABE00CA8922 /* DashboardConfig.swift */; };
 		7C13FDF02BF4D07600497DF5 /* AlertModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C13FDEF2BF4D07600497DF5 /* AlertModal.swift */; };
 		7C1587F328A2DD5E00B11F77 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C1587F228A2DD5E00B11F77 /* WidgetKit.framework */; };
@@ -24,6 +27,7 @@
 		7C15DD39276D575600889FB2 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C15DD38276D575600889FB2 /* PlaceholderView.swift */; };
 		7C1941252BDAA33E00377364 /* BestTimeOfDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */; };
 		7C1CB5EF2C6FDFAA005F16A5 /* SessionDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1CB5EE2C6FDFAA005F16A5 /* SessionDetail.swift */; };
+		7C1DF2B52CC6D63100E3D69E /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1DF2B42CC6D63100E3D69E /* AudioManager.swift */; };
 		7C20CFB2271E2D1600739764 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20CFB1271E2D1600739764 /* OnboardingView.swift */; };
 		7C23A4C328A3DEE100FB5604 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C23A4C228A3DEE100FB5604 /* AppGroup.swift */; };
 		7C23A4C428A3DEE100FB5604 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C23A4C228A3DEE100FB5604 /* AppGroup.swift */; };
@@ -209,6 +213,7 @@
 		7CC1D0462C2703E500791847 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC1D0452C2703E500791847 /* LiveActivityManager.swift */; };
 		7CC1D0472C2703E500791847 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC1D0452C2703E500791847 /* LiveActivityManager.swift */; };
 		7CC81FB8294CBAD400E849A9 /* BestLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC81FB7294CBAD400E849A9 /* BestLocationView.swift */; };
+		7CCBDE252CC831620002A77B /* city.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7CCBDE242CC831620002A77B /* city.wav */; };
 		7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */; };
 		7CD010E92BF23FE300998FD5 /* LiveSessionRebuyModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD010E82BF23FE300998FD5 /* LiveSessionRebuyModal.swift */; };
 		7CD2B1582C1BB5B300A90C79 /* PopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD2B1572C1BB5B300A90C79 /* PopoverView.swift */; };
@@ -263,6 +268,9 @@
 		7C0208DA26F24B4900AC6151 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		7C028F972C3587FC0098CA8C /* RedeemOfferCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemOfferCode.swift; sourceTree = "<group>"; };
 		7C028F992C36B5960098CA8C /* AdvancedTournamentReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedTournamentReport.swift; sourceTree = "<group>"; };
+		7C0B3FF52CC5454B00F446EA /* MeditationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationView.swift; sourceTree = "<group>"; };
+		7C0B3FF92CC6989A00F446EA /* MeditationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationModel.swift; sourceTree = "<group>"; };
+		7C0B3FFC2CC6D51600F446EA /* forest.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = forest.wav; sourceTree = "<group>"; };
 		7C12A58A2CB1CABE00CA8922 /* DashboardConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardConfig.swift; sourceTree = "<group>"; };
 		7C13FDEF2BF4D07600497DF5 /* AlertModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModal.swift; sourceTree = "<group>"; };
 		7C1587F028A2DD5E00B11F77 /* LeftPocketWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LeftPocketWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -277,6 +285,7 @@
 		7C15DD38276D575600889FB2 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestTimeOfDay.swift; sourceTree = "<group>"; };
 		7C1CB5EE2C6FDFAA005F16A5 /* SessionDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetail.swift; sourceTree = "<group>"; };
+		7C1DF2B42CC6D63100E3D69E /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		7C20CFB1271E2D1600739764 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		7C23A4C028A3DB3600FB5604 /* LeftPocket.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LeftPocket.entitlements; sourceTree = "<group>"; };
 		7C23A4C128A3DB8200FB5604 /* LeftPocketWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LeftPocketWidgetExtension.entitlements; sourceTree = "<group>"; };
@@ -420,6 +429,7 @@
 		7CBEF44527596DEE00744F4A /* Colors+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Ext.swift"; sourceTree = "<group>"; };
 		7CC1D0452C2703E500791847 /* LiveActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
 		7CC81FB7294CBAD400E849A9 /* BestLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestLocationView.swift; sourceTree = "<group>"; };
+		7CCBDE242CC831620002A77B /* city.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = city.wav; sourceTree = "<group>"; };
 		7CCE17D426D9A07300B9F6CC /* NewSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSessionViewModel.swift; sourceTree = "<group>"; };
 		7CD010E82BF23FE300998FD5 /* LiveSessionRebuyModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionRebuyModal.swift; sourceTree = "<group>"; };
 		7CD2B1572C1BB5B300A90C79 /* PopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverView.swift; sourceTree = "<group>"; };
@@ -477,6 +487,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7C0B3FFB2CC6D4EE00F446EA /* Meditations */ = {
+			isa = PBXGroup;
+			children = (
+				7C0B3FFC2CC6D51600F446EA /* forest.wav */,
+				7CCBDE242CC831620002A77B /* city.wav */,
+			);
+			path = Meditations;
+			sourceTree = "<group>";
+		};
 		7C1587F128A2DD5E00B11F77 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -635,6 +654,7 @@
 				7C757EFE2C1F218900AD71EE /* SocialShareView.swift */,
 				7C85492F2C46C4BE0038ADB4 /* TransactionCellView.swift */,
 				7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */,
+				7C0B3FF52CC5454B00F446EA /* MeditationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -643,12 +663,14 @@
 			isa = PBXGroup;
 			children = (
 				7CD2EEC62BE8F0DB00AEE64E /* AppDelegate.swift */,
+				7C1DF2B42CC6D63100E3D69E /* AudioManager.swift */,
 				7C463C222B487B040095E6C6 /* CSVConversion.swift */,
 				7CA7F8172B6FFAA700F976EE /* CSVImport.swift */,
 				7C4CE7032773560D0070B16E /* DefaultLocations.swift */,
 				7C5D5D322BE2B6A8003DC94D /* HealthKitManager.swift */,
 				7CC1D0452C2703E500791847 /* LiveActivityManager.swift */,
 				7C3F43AB2728512700A9C842 /* LocationModel.swift */,
+				7C0B3FF92CC6989A00F446EA /* MeditationModel.swift */,
 				7CB3EBA426C352C6009E8DF3 /* Model.swift */,
 				7C63FC3E2B3640FF00FE731C /* SubscriptionManager.swift */,
 				7C8549312C47ED830038ADB4 /* SceneDelegate.swift */,
@@ -758,6 +780,7 @@
 				7C2E54CA2B28CCEC00831ABA /* LeftPocketCustomTabBar.swift */,
 				7C2614CF26D9315F00986183 /* Views */,
 				7C2614CC26D930D900986183 /* Screens */,
+				7C0B3FFB2CC6D4EE00F446EA /* Meditations */,
 				7C7D09642BF7871E002FA350 /* SoundFX */,
 				7C2614D026D9318A00986183 /* Model */,
 				7C2614CA26D930BA00986183 /* Utilities */,
@@ -1146,6 +1169,7 @@
 				7CAFE03B2B2CAC1B00B7338D /* Asap-ExtraLight.ttf in Resources */,
 				7CAFE04D2B2CAC1B00B7338D /* Asap-LightItalic.ttf in Resources */,
 				7CAFE0222B2CA9E300B7338D /* AsapCondensed-ExtraBoldItalic.ttf in Resources */,
+				7C0B3FFD2CC6D51600F446EA /* forest.wav in Resources */,
 				7CFDD83E2C0CFF00002C9775 /* homescreen-widget.mp4 in Resources */,
 				7C63949A26C14E8400939F40 /* Assets.xcassets in Resources */,
 				7CAFE0532B2CAC1B00B7338D /* Asap-Regular.ttf in Resources */,
@@ -1153,6 +1177,7 @@
 				7C63FC392B35EF1200FE731C /* StoreKitTestCertificate.cer in Resources */,
 				7CAFE0412B2CAC1B00B7338D /* Asap-ExtraBold.ttf in Resources */,
 				7CAFE04F2B2CAC1B00B7338D /* Asap-ExtraLightItalic.ttf in Resources */,
+				7CCBDE252CC831620002A77B /* city.wav in Resources */,
 				7CAFE0242B2CA9E300B7338D /* AsapCondensed-Bold.ttf in Resources */,
 				7CAFE00C2B2CA9E300B7338D /* AsapCondensed-MediumItalic.ttf in Resources */,
 			);
@@ -1217,6 +1242,8 @@
 				7C2E54CB2B28CCEC00831ABA /* LeftPocketCustomTabBar.swift in Sources */,
 				7C5B0C882BBF201E00A5014B /* LineChartFullScreen.swift in Sources */,
 				7CB3EBA126C345A1009E8DF3 /* MetricsCardView.swift in Sources */,
+				7C0B3FFA2CC6989A00F446EA /* MeditationModel.swift in Sources */,
+				7C0B3FF62CC5454B00F446EA /* MeditationView.swift in Sources */,
 				7C2B3E6626F5488E00B84D52 /* PrimaryButton.swift in Sources */,
 				7C6769E22B8CD300006ACB7D /* BankrollProgressView.swift in Sources */,
 				7C1CB5EF2C6FDFAA005F16A5 /* SessionDetail.swift in Sources */,
@@ -1281,6 +1308,7 @@
 				7CC1D0462C2703E500791847 /* LiveActivityManager.swift in Sources */,
 				7C67DDB52BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift in Sources */,
 				7C25CB5327887D9200866511 /* CustomPicker.swift in Sources */,
+				7C1DF2B52CC6D63100E3D69E /* AudioManager.swift in Sources */,
 				7CD7468A28A6CA8F00D5A2D0 /* Images+Ext.swift in Sources */,
 				7C2B3E6926F565B200B84D52 /* EmptyState.swift in Sources */,
 				7CAFE0602B2DE52B00B7338D /* LocationGridView.swift in Sources */,
@@ -1318,7 +1346,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1331,7 +1359,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.5.2;
+				MARKETING_VERSION = 4.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1349,7 +1377,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1362,7 +1390,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.5.2;
+				MARKETING_VERSION = 4.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1501,7 +1529,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1512,7 +1540,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.5.2;
+				MARKETING_VERSION = 4.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1529,7 +1557,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1540,7 +1568,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.5.2;
+				MARKETING_VERSION = 4.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
