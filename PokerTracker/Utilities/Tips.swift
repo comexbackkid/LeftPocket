@@ -44,11 +44,11 @@ struct MonthlyReportTip: Tip {
 struct MeditationTip: Tip {
     
     var title: Text {
-        Text("About Meditations")
+        Text("Using Meditations")
     }
     
     var message: Text? {
-        Text("Tap to start your meditation. Once complete, tap the Stop button to log your time.")
+        Text("Start your mindfulness practice here. Once finished, the Stop button will dismiss the view & log your time.")
     }
     
     var image: Image? {

@@ -232,6 +232,8 @@
 		7CF39C922BE6DBB4003B4C00 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF39C912BE6DBB4003B4C00 /* NotificationsView.swift */; };
 		7CFB683A2B7CFC92005AB81F /* BarChartByYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */; };
 		7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */; };
+		7CFD1E1B2CC980AC009E81D9 /* beach.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7CFD1E1A2CC980AC009E81D9 /* beach.wav */; };
+		7CFD1E1F2CC9872E009E81D9 /* snow.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7CFD1E1E2CC9872E009E81D9 /* snow.wav */; };
 		7CFD78A92B34DF2D00C1A9F6 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 7CFD78A82B34DF2D00C1A9F6 /* RevenueCat */; };
 		7CFD78AB2B34DF2D00C1A9F6 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7CFD78AA2B34DF2D00C1A9F6 /* RevenueCatUI */; };
 		7CFD78AD2B34E46100C1A9F6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFD78AC2B34E46100C1A9F6 /* StoreKit.framework */; };
@@ -448,6 +450,8 @@
 		7CF39C912BE6DBB4003B4C00 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartByYear.swift; sourceTree = "<group>"; };
 		7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
+		7CFD1E1A2CC980AC009E81D9 /* beach.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beach.wav; sourceTree = "<group>"; };
+		7CFD1E1E2CC9872E009E81D9 /* snow.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = snow.wav; sourceTree = "<group>"; };
 		7CFD78AC2B34E46100C1A9F6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		7CFDD83B2C0CF656002C9775 /* custom-locations.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "custom-locations.mp4"; sourceTree = "<group>"; };
 		7CFDD83D2C0CFF00002C9775 /* homescreen-widget.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "homescreen-widget.mp4"; sourceTree = "<group>"; };
@@ -492,6 +496,8 @@
 			children = (
 				7C0B3FFC2CC6D51600F446EA /* forest.wav */,
 				7CCBDE242CC831620002A77B /* city.wav */,
+				7CFD1E1A2CC980AC009E81D9 /* beach.wav */,
+				7CFD1E1E2CC9872E009E81D9 /* snow.wav */,
 			);
 			path = Meditations;
 			sourceTree = "<group>";
@@ -1156,6 +1162,7 @@
 				7CAFE04B2B2CAC1B00B7338D /* Asap-Bold.ttf in Resources */,
 				7CAFE0082B2CA9E300B7338D /* AsapCondensed-LightItalic.ttf in Resources */,
 				7CAFE01E2B2CA9E300B7338D /* AsapCondensed-Medium.ttf in Resources */,
+				7CFD1E1B2CC980AC009E81D9 /* beach.wav in Resources */,
 				7CAFE0572B2CAC1B00B7338D /* Asap-Black.ttf in Resources */,
 				7C63FC362B35ED7200FE731C /* StoreKitConfiguration.storekit in Resources */,
 				7CAFE05D2B2CAC1B00B7338D /* Asap-Italic.ttf in Resources */,
@@ -1176,6 +1183,7 @@
 				7CAFE05B2B2CAC1B00B7338D /* Asap-Light.ttf in Resources */,
 				7C63FC392B35EF1200FE731C /* StoreKitTestCertificate.cer in Resources */,
 				7CAFE0412B2CAC1B00B7338D /* Asap-ExtraBold.ttf in Resources */,
+				7CFD1E1F2CC9872E009E81D9 /* snow.wav in Resources */,
 				7CAFE04F2B2CAC1B00B7338D /* Asap-ExtraLightItalic.ttf in Resources */,
 				7CCBDE252CC831620002A77B /* city.wav in Resources */,
 				7CAFE0242B2CA9E300B7338D /* AsapCondensed-Bold.ttf in Resources */,

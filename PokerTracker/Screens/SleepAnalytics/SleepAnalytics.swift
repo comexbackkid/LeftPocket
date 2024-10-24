@@ -7,6 +7,7 @@
 
 import SwiftUI
 import HealthKit
+import HealthKitUI
 import Charts
 
 struct SleepAnalytics: View {
@@ -18,6 +19,7 @@ struct SleepAnalytics: View {
     @Environment(\.colorScheme) var colorScheme
     
     @State private var isShowingPermissionPrimingSheet = false
+    @State private var trigger = false
     @State private var showError = false
     @State private var howThisWorksPopup = false
     @State private var numbersLookOffPopup = false
@@ -69,7 +71,7 @@ struct SleepAnalytics: View {
                                         message: performanceComparison(),
                                         color: .chartAccent)
                             
-                            NavigationLink(destination: MindfulnessAnalytics(dailyMindfulMinutes: dailyMindfulMinutes)) {
+                            NavigationLink(destination: MindfulnessAnalytics()) {
                                 mindfulnessCard
                             }
                             .buttonStyle(.plain)
@@ -112,7 +114,7 @@ struct SleepAnalytics: View {
         
         HStack {
             
-            Text("Sleep Analytics")
+            Text("Health Analytics")
                 .titleStyle()
                 
             
@@ -130,7 +132,7 @@ struct SleepAnalytics: View {
         VStack (alignment: .leading, spacing: 20) {
             
             HStack {
-                Text("Gain a deeper understanding of how sleep affects your game. Green bars represent winning sessions, red bars are days you lost money over the last month.")
+                Text("Gain a deeper understanding of how your health habits affect your game. Start by assessing your sleep numbers, mindfulness, and mood below.")
                     .bodyStyle()
                 
                 Spacer()
@@ -262,7 +264,7 @@ struct SleepAnalytics: View {
             Image("nightsky")
                 .resizable()
                 .clipped()
-                .overlay(.ultraThinMaterial)
+                .blur(radius: 22, opaque: true)
         )
         .cornerRadius(20)
     }
@@ -492,7 +494,7 @@ struct SleepAnalytics: View {
             
             do {
                 try await hkManager.fetchSleepData()
-                dailyMindfulMinutes = try await hkManager.fetchDailyMindfulMinutesData()
+                hkManager.totalMindfulMinutesPerDay = try await hkManager.fetchDailyMindfulMinutesData()
                 
             } catch let error as HKError {
                 hkManager.errorMsg = error.description
@@ -502,9 +504,9 @@ struct SleepAnalytics: View {
             }
         }
         
-        if hkManager.authorizationStatus == .notDetermined {
-            isShowingPermissionPrimingSheet = true
-        }
+//        if hkManager.authorizationStatus == .notDetermined {
+//            isShowingPermissionPrimingSheet = true
+//        }
     }
     
     // Dynamically return red vs. green if the user won or lost money
@@ -599,5 +601,5 @@ struct SleepAnalytics: View {
     SleepAnalytics(activeSheet: .constant(.sleepAnalytics))
         .environmentObject(SessionsListViewModel())
         .environmentObject(HealthKitManager())
-        .preferredColorScheme(.dark)
+//        .preferredColorScheme(.dark)
 }

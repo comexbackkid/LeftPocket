@@ -16,9 +16,9 @@ struct MindfulnessAnalytics: View {
     @Environment(\.colorScheme) var colorScheme
     
     @State private var showMeditationView = false
+    @State private var showError = false
     @State private var selectedMeditation: Meditation?
-    
-    let dailyMindfulMinutes: [Date: Double]
+    @State private var selectedSession: PokerSession?
     
     var body: some View {
         
@@ -33,7 +33,7 @@ struct MindfulnessAnalytics: View {
                 VStack (spacing: 22) {
                     
                     ToolTipView(image: "figure.mind.and.body",
-                                message: "You've logged about \(totalMindfulMinutes()) mindfulness minutes the last 30 days",
+                                message: "You've logged about \(totalMindfulMinutes()) mindfulness minutes the last 30 days.",
                                 color: .mint)
 
                     meditationChart
@@ -49,13 +49,20 @@ struct MindfulnessAnalytics: View {
                     recentMeditations
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                Image(systemName: "plus")
-                    .foregroundColor(.brandPrimary)
-            }
+        }
+        .onChange(of: hkManager.errorMsg, perform: { _ in
+            showError = true
+        })
+        .alert(isPresented: $showError) {
+            Alert(title: Text("Uh oh!"),
+                  message: Text(hkManager.errorMsg ?? "An unknown error occurred."),
+                  dismissButton: .default(Text("Ok")))
         }
         .background(Color.brandBackground)
+        .navigationBarTitleDisplayMode(.inline)
+        .sheet(item: $selectedSession) { session in
+            SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: session)
+        }
     }
     
     var title: some View {
@@ -103,7 +110,7 @@ struct MindfulnessAnalytics: View {
                 }
                 
                 HStack {
-                    Text("Choose from our own curated meditation sounds to prepare for a new Session. Find a quiet place to begin.")
+                    Text("Choose from our own curated meditation sounds to prepare for a new mindfulness session. Find a quiet place to begin.")
                         .bodyStyle()
                     
                     Spacer()
@@ -113,11 +120,12 @@ struct MindfulnessAnalytics: View {
             }
 
             let columns = [GridItem(.flexible()), GridItem(.flexible())]
-            
-            LazyVGrid(columns: columns) {
+            LazyVGrid(columns: columns, spacing: 16) {
                 
                 ForEach(Meditation.meditations) { meditation in
                     Button {
+                        let impact = UIImpactFeedbackGenerator(style: .soft)
+                        impact.impactOccurred()
                         selectedMeditation = meditation
                     } label: {
                         Text(meditation.title)
@@ -154,7 +162,7 @@ struct MindfulnessAnalytics: View {
             }
             
             let matchedSessions = viewModel.sessions.prefix(10).filter { session in
-                dailyMindfulMinutes.keys.contains { isSameDay($0, session.date) }
+                hkManager.totalMindfulMinutesPerDay.keys.contains { isSameDay($0, session.date) }
             }
             
             if matchedSessions.isEmpty {
@@ -181,7 +189,7 @@ struct MindfulnessAnalytics: View {
                             VStack {
                                 Spacer()
                                 HStack {
-                                    if let minutes = dailyMindfulMinutes.first(where: { isSameDay($0.key, session.date) })?.value {
+                                    if let minutes = hkManager.totalMindfulMinutesPerDay.first(where: { isSameDay($0.key, session.date) })?.value {
                                         Image(systemName: "figure.mind.and.body")
                                             .resizable()
                                             .aspectRatio(contentMode: .fill)
@@ -234,6 +242,9 @@ struct MindfulnessAnalytics: View {
                         )
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                         .padding(.horizontal, 5)
+                        .onTapGesture {
+                            selectedSession = session
+                        }
                     }
                 }
             }
@@ -269,7 +280,7 @@ struct MindfulnessAnalytics: View {
                     .foregroundStyle(Color.cyan.gradient)
                 }
             }
-            .chartXScale(domain: startDate()...Date(), range: .plotDimension(padding: 10))
+//            .chartXScale(domain: startDate()...Date(), range: .plotDimension(padding: 10))
             .chartXAxis {
                 AxisMarks(values: .automatic) {
                     AxisValueLabel(format: .dateTime.month(.twoDigits).day(), verticalSpacing: 10)
@@ -328,11 +339,11 @@ struct MindfulnessAnalytics: View {
     }
     
     private func totalMindfulMinutes() -> Int {
-        Int(round(dailyMindfulMinutes.values.reduce(0, +)))
+        Int(round(hkManager.totalMindfulMinutesPerDay.values.reduce(0, +)))
     }
 
     private func sortedMindfulData() -> [(key: Date, value: Double)] {
-        return dailyMindfulMinutes.sorted { $0.key < $1.key }
+        return hkManager.totalMindfulMinutesPerDay.sorted { $0.key < $1.key }
     }
     
     private func dateFormatted(_ date: Date) -> String {
@@ -351,10 +362,10 @@ struct MindfulnessAnalytics: View {
     }
     
     private func averageMeditationTime() -> String {
-        guard !dailyMindfulMinutes.isEmpty else { return "0.00" }
+        guard !hkManager.totalMindfulMinutesPerDay.isEmpty else { return "0.00" }
 
-        let totalMinutes = dailyMindfulMinutes.values.reduce(0, +)
-        let daysWithData = dailyMindfulMinutes.count
+        let totalMinutes = hkManager.totalMindfulMinutesPerDay.values.reduce(0, +)
+        let daysWithData = hkManager.totalMindfulMinutesPerDay.count
 
         let average = totalMinutes / Double(daysWithData)
         return String(format: "%.2f", average)
@@ -363,7 +374,7 @@ struct MindfulnessAnalytics: View {
     private func meditationPerformanceComparison() -> String {
         
         // Convert meditation data into a dictionary with the date as the key
-        let meditationDates = Set(dailyMindfulMinutes.keys.map { Calendar.current.startOfDay(for: $0) })
+        let meditationDates = Set(hkManager.totalMindfulMinutesPerDay.keys.map { Calendar.current.startOfDay(for: $0) })
 
         var hourlyRateWithMeditation = 0.0
         var countWithMeditation = 0
@@ -415,17 +426,17 @@ struct MindfulnessAnalytics: View {
 
 #Preview {
     NavigationStack {
-        MindfulnessAnalytics(dailyMindfulMinutes: [Date():4,
-                                                   Date().modifyDays(days: -1): 5,
-                                                   Date().modifyDays(days: -4): 3,
-                                                   Date().modifyDays(days: -5): 5,
-                                                   Date().modifyDays(days: -9): 4,
-                                                   Date().modifyDays(days: -10): 4,
-                                                   Date().modifyDays(days: -12): 3,
-                                                   Date().modifyDays(days: -18): 2])
+        MindfulnessAnalytics()
+//        MindfulnessAnalytics(dailyMindfulMinutes: [Date():4,
+//                                                   Date().modifyDays(days: -1): 5,
+//                                                   Date().modifyDays(days: -4): 3,
+//                                                   Date().modifyDays(days: -5): 5,
+//                                                   Date().modifyDays(days: -9): 4,
+//                                                   Date().modifyDays(days: -10): 4,
+//                                                   Date().modifyDays(days: -12): 3,
+//                                                   Date().modifyDays(days: -18): 2])
             .environmentObject(SessionsListViewModel())
             .environmentObject(HealthKitManager())
             .preferredColorScheme(.dark)
     }
-
 }

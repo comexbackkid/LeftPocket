@@ -16,8 +16,10 @@ struct Meditation: Codable, Hashable, Identifiable {
     let track: String
     let duration: TimeInterval
     
-    static let meditations: [Meditation] = [forest, city]
+    static let meditations: [Meditation] = [forest, city, snow, beach]
     
     static let forest = Meditation(title: "Forest Ambiance", background: "meditation-forest", track: "forest", duration: 177)
-    static let city = Meditation(title: "City Sounds", background: "meditation-city", track: "city", duration: 177)
+    static let city = Meditation(title: "City Rain", background: "meditation-city", track: "city", duration: 176)
+    static let snow = Meditation(title: "Winter Cabin", background: "meditation-snow", track: "snow", duration: 135)
+    static let beach =   Meditation(title: "Beach Escape", background: "meditation-beach", track: "beach", duration: 178)
 }

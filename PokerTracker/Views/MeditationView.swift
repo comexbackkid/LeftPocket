@@ -12,11 +12,14 @@ import TipKit
 struct MeditationView: View {
     
     @Environment(\.dismiss) var dismiss
-    @State private var isPlaying = false
+    @EnvironmentObject var hkManager: HealthKitManager
+    
     @State private var player: AVAudioPlayer?
     @State private var value: Double = 0.0
+    @State private var isPlaying = false
     @State private var isEditing = false
     @State private var isLooping = false
+    @State private var isSessionCompleted = false
     
     let audioManager = AudioManager()
     let meditation: Meditation
@@ -27,6 +30,8 @@ struct MeditationView: View {
     var body: some View {
         
         VStack {
+            
+            Spacer()
             
             Spacer()
             
@@ -46,7 +51,15 @@ struct MeditationView: View {
         .ignoresSafeArea()
         .onAppear {
             audioManager.setupAudioPlayer(track: meditation.track)
-            audioManager.onFinish = { stopPlaybackAndReset() }
+            audioManager.onFinish = {
+                stopPlaybackAndReset()
+                isSessionCompleted = true
+            }
+        }
+        .onDisappear {
+            Task {
+                try? await hkManager.fetchDailyMindfulMinutesData()
+            }
         }
         .onReceive(timer) { _ in
             guard let player = audioManager.player, player.isPlaying, !isEditing else { return }
@@ -58,13 +71,12 @@ struct MeditationView: View {
                 let meditationTip = MeditationTip()
                 
                 VStack {
-                    Spacer()
-                    
+
                     TipView(meditationTip)
                         .tipViewStyle(CustomTipViewStyle())
                         .padding(.horizontal, 20)
+                        .padding(.top, 20)
                     
-                    Spacer()
                     Spacer()
                 }
             }
@@ -95,8 +107,11 @@ struct MeditationView: View {
                 Image(systemName: "repeat")
                     .resizable()
                     .frame(width: 20, height: 20)
+                    .fontWeight(isLooping ? .heavy : .regular)
                     .foregroundStyle(isLooping ? Color.brandPrimary : .white)
                     .onTapGesture {
+                        let impact = UIImpactFeedbackGenerator(style: .soft)
+                        impact.impactOccurred()
                         toggleLoop()
                     }
                 
@@ -107,12 +122,18 @@ struct MeditationView: View {
                     .frame(width: 25, height: 25)
                     .foregroundStyle(.white)
                     .onTapGesture {
+                        let impact = UIImpactFeedbackGenerator(style: .soft)
+                        impact.impactOccurred()
                         seek(by: -15)
                     }
                 
                 Spacer()
                 
-                Button(action: { togglePlayPause() }) {
+                Button {
+                    let impact = UIImpactFeedbackGenerator(style: .medium)
+                    impact.impactOccurred()
+                    togglePlayPause()
+                } label: {
                     Image(systemName: isPlaying ? "pause.fill" : "play.fill")
                         .resizable()
                         .frame(width: 35, height: 35)
@@ -127,12 +148,19 @@ struct MeditationView: View {
                     .frame(width: 25, height: 25)
                     .foregroundStyle(.white)
                     .onTapGesture {
+                        let impact = UIImpactFeedbackGenerator(style: .soft)
+                        impact.impactOccurred()
                         seek(by: 15)
                     }
                 
                 Spacer()
                 
-                Button(action: { dismiss() }) {
+                Button {
+                    let impact = UIImpactFeedbackGenerator(style: .medium)
+                    impact.impactOccurred()
+                    if isSessionCompleted { hkManager.saveMindfulMinutes(Int(meditation.duration)) }
+                    dismiss()
+                } label: {
                     Image(systemName: "stop.fill")
                         .resizable()
                         .frame(width: 20, height: 20)
@@ -216,6 +244,7 @@ struct MeditationView: View {
 }
 
 #Preview {
-    MeditationView(meditation: Meditation.forest)
+    MeditationView(meditation: Meditation.beach)
+        .environmentObject(HealthKitManager())
         .preferredColorScheme(.dark)
 }

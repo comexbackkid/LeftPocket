@@ -12,10 +12,8 @@ import HealthKit
 class HealthKitManager: ObservableObject {
     
     let store = HKHealthStore()
-    let types: Set = [
-        HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!,
-        HKObjectType.categoryType(forIdentifier: .mindfulSession)!
-    ]
+    let types: Set = [HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!, HKObjectType.categoryType(forIdentifier: .mindfulSession)!]
+    let typesToShare: Set = [HKObjectType.categoryType(forIdentifier: .mindfulSession)!]
     
     @Published var sleepData: [SleepMetric] = []
     @Published var mindfulMinutes: Double = 0.0
@@ -34,7 +32,7 @@ class HealthKitManager: ObservableObject {
         }
         
         await withCheckedContinuation { continuation in
-            store.getRequestStatusForAuthorization(toShare: [], read: types) { (status, error) in
+            store.getRequestStatusForAuthorization(toShare: typesToShare, read: types) { (status, error) in
                 DispatchQueue.main.async {
                     
                     if error != nil {
@@ -46,6 +44,7 @@ class HealthKitManager: ObservableObject {
                         self.authorizationStatus = .sharingAuthorized
                     case .shouldRequest:
                         self.authorizationStatus = .notDetermined
+                        self.requestAuthorization()
                     case .unknown:
                         self.authorizationStatus = .sharingDenied
                     @unknown default:
@@ -58,7 +57,7 @@ class HealthKitManager: ObservableObject {
     }
     
     func requestAuthorization() {
-        store.requestAuthorization(toShare: [], read: types) { (success, error) in
+        store.requestAuthorization(toShare: typesToShare, read: types) { (success, error) in
             DispatchQueue.main.async {
                 if success {
                     self.authorizationStatus = .sharingAuthorized
@@ -156,8 +155,8 @@ class HealthKitManager: ObservableObject {
     
     @MainActor
     func fetchDailyMindfulMinutesData() async throws -> [Date: Double] {
-        guard store.authorizationStatus(for: HKObjectType.categoryType(forIdentifier: .mindfulSession)!) != .sharingAuthorized else {
-            throw HKError.authNotDetermined
+        guard store.authorizationStatus(for: HKObjectType.categoryType(forIdentifier: .mindfulSession)!) == .sharingAuthorized else {
+            throw HKError.mindfulMinutesNotDetermined
         }
         
         let mindfulType = HKObjectType.categoryType(forIdentifier: .mindfulSession)!
@@ -188,12 +187,30 @@ class HealthKitManager: ObservableObject {
                 
                 DispatchQueue.main.async {
                     self?.mindfulMinutes = dailyMinutes.values.reduce(0, +)
+                    self?.totalMindfulMinutesPerDay = dailyMinutes
                 }
                 
                 continuation.resume(returning: dailyMinutes)
             }
             
             store.execute(query)
+        }
+    }
+    
+    func saveMindfulMinutes(_ seconds: Int) {
+        
+        let endDate = Date()
+        let startDate = endDate.addingTimeInterval(-(TimeInterval(seconds)))
+        let sample = HKCategorySample(type: HKObjectType.categoryType(forIdentifier: .mindfulSession)!,
+                                      value: 0,
+                                      start: startDate,
+                                      end: endDate)
+        
+        store.save(sample) { success, error in
+            
+            if let error = error {
+                self.errorMsg = error.localizedDescription
+            }
         }
     }
     
@@ -226,6 +243,7 @@ extension HKCategoryValueSleepAnalysis {
 
 enum HKError: Error {
     case authNotDetermined
+    case mindfulMinutesNotDetermined
     case sharingDenied
     case noData
     case unableToQuerySleepData
@@ -235,6 +253,8 @@ enum HKError: Error {
             switch self {
             case .authNotDetermined:
                 return "An error occurred. HealthKit authorization could not be determined."
+            case .mindfulMinutesNotDetermined:
+                return" An error occurred. Mindful minutes access could not be determined. You may need to allow access from the iOS Health app settings."
             case .sharingDenied:
                 return "An error occurred. HealthKit authorization was denied."
             case .noData:

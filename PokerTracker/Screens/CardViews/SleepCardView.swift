@@ -33,12 +33,12 @@ struct SleepCardView: View {
                     
                     VStack (alignment: .leading, spacing: 5) {
                         
-                        Text("Measure Sleep Correlation")
+                        Text("Sleep & Mindfulness Correlation")
                             .headlineStyle()
                             .lineLimit(1)
                             .foregroundStyle(.white)
                         
-                        Text("Ever wonder how sleep affects your poker game? Explore the data here.")
+                        Text("Ever wonder how sleep, mindfulness & mood affects your poker game?")
                             .calloutStyle()
                             .opacity(0.7)
                             .foregroundStyle(.white)
@@ -67,7 +67,7 @@ struct SleepCardView: View {
                     .font(.headline)
                     .foregroundColor(.white).opacity(0.5)
                 
-                Text("Sleep Analytics")
+                Text("Health Analytics")
                     .signInTitleStyle()
                     .fontWeight(.heavy)
                     .foregroundColor(Color(.white))

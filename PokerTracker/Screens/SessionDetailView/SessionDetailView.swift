@@ -11,6 +11,7 @@ struct SessionDetailView: View {
     
     @EnvironmentObject var vm: SessionsListViewModel
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.dismiss) var dismiss
     @Binding var activeSheet: Sheet?
     @State private var isPressed = false
     @State private var showError = false
@@ -569,6 +570,7 @@ struct SessionDetailView: View {
                     .padding(.top, 20)
                     .onTapGesture {
                         activeSheet = nil
+                        dismiss()
                     }
             }
         }

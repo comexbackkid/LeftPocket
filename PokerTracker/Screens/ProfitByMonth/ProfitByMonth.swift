@@ -191,7 +191,7 @@ struct ProfitByMonth: View {
         BarChartByYear(showTitle: true, moreAxisMarks: false, cashOnly: false)
             .padding(.horizontal, 20)
             .padding(.vertical, 20)
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 275)
+            .frame(width: UIScreen.main.bounds.width * 0.9, height: 375)
             .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
             .cornerRadius(20)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)

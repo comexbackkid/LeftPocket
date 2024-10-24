@@ -49,9 +49,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSHealthShareUsageDescription</key>
-	<string>This app accesses your sleep data to display in a chart for analysis.</string>
+	<string>This app accesses your sleep &amp; mindfulness data to display in a chart for analysis.</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>This app accesses your sleep data to display in a chart for analysis.</string>
+	<string>This app accesses your sleep &amp; mindfulness data to display in a chart for analysis.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Your Session Summary will be saved as an image to your Photo Library.</string>
 	<key>NSSupportsLiveActivities</key>
