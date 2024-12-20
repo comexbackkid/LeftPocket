@@ -26,10 +26,9 @@ struct WidgetViewSmall : View {
         .widgetBackground(Color.clear)
     }
         
-    
     var backgroundGradient: some View {
         Color("WidgetBackground")
-            .overlay(LinearGradient(colors: [Color("WidgetBackround"), .black.opacity(colorScheme == .dark ? 0.7 : 0.1)],
+            .overlay(LinearGradient(colors: [Color("WidgetBackround"), .black.opacity(colorScheme == .dark ? 0.8 : 0.1)],
                                     startPoint: .bottomTrailing,
                                     endPoint: .topLeading))
     }
@@ -58,44 +57,64 @@ struct WidgetViewSmall : View {
     var numbers: some View {
         
         VStack {
-
+            
             HStack {
-                Text("My Bankroll")
+                Text("Hourly Rate")
                     .foregroundColor(.secondary)
-                    .font(.caption)
-                Spacer()
-            }
-            HStack {
-                Text(entry.bankroll.accountingStyle())
-                    .foregroundColor(.widgetForegroundText)
-                    .font(.system(.title, design: .rounded))
+                    .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
                 
                 Spacer()
             }
             
             HStack {
+                Text(entry.hourlyRate, format: .currency(code: entry.currency).precision(.fractionLength(0)))
+                    .foregroundColor(.widgetForegroundText)
+                    .font(.custom("Asap-Medium", size: 18, relativeTo: .caption2))
+                
+                Spacer()
+            }
+            
+            Spacer()
+
+            HStack {
+                Text("Total Profit")
+                    .foregroundColor(.secondary)
+                    .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
+                
+                Spacer()
+            }
+            HStack {
+                Text(entry.bankroll, format: .currency(code: entry.currency).precision(.fractionLength(0)))
+                    .foregroundColor(.widgetForegroundText)
+                    .font(.custom("Asap-Bold", size: 28, relativeTo: .title3))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+
+                Spacer()
+            }
+            
+            HStack {
                 if entry.recentSessionAmount != 0 {
-                    Image(systemName: "arrowtriangle.up.fill")
+                    Image(systemName: "arrow.up.right")
                         .resizable()
                         .frame(width: 11, height: 11)
                         .foregroundColor(entry.recentSessionAmount > 0 ? .green : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
-                        .rotationEffect(entry.recentSessionAmount >= 0 ? .degrees(0) : .degrees(180))
+                        .rotationEffect(entry.recentSessionAmount >= 0 ? .degrees(0) : .degrees(90))
                 }
                 
-                Text(entry.recentSessionAmount.accountingStyle())
+                Text(entry.recentSessionAmount, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                     .foregroundColor(entry.recentSessionAmount > 0 ? .green : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
-                    .font(.subheadline)
-                    .bold()
+                    .font(.custom("Asap-Medium", size: 16, relativeTo: .caption2))
+
                 
                 Spacer()
             }
             .padding(.top, -18)
         }
         .padding(.horizontal, 12)
-        .padding(.bottom, 12)
+        .padding(.vertical, 12)
     }
 }
-
 
 extension Int {
     
@@ -112,12 +131,13 @@ extension Int {
 struct WidgetView_Previews: PreviewProvider {
     static var previews: some View {
         WidgetViewSmall(entry: SimpleEntry(date: Date(),
-                                           bankroll: 6351,
+                                           bankroll: 267351,
                                            recentSessionAmount: 150,
-                                           chartData: MockData.mockDataCoords,
+                                           swiftChartData: [0, 5, 20],
                                            hourlyRate: 32,
-                                           totalSessions: 14))
+                                           totalSessions: 14,
+                                           currency: "USD"))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
-        
+            .preferredColorScheme(.dark)
     }
 }

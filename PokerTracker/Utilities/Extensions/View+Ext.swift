@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 
-// Styles background of the Onboarding View
 extension View {
     
     func onBoardingBackgroundStyle(colorScheme: ColorScheme) -> some View {
@@ -17,5 +16,18 @@ extension View {
                                        startPoint: .bottomTrailing,
                                        endPoint: .topLeading))
             .background(Color.onboardingBG)
+    }
+    
+    func cardStyle(colorScheme: ColorScheme, height: CGFloat? = nil) -> some View {
+        self
+            .padding()
+            .frame(width: UIScreen.main.bounds.width * 0.9, height: height)
+            .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+            .cornerRadius(20)
+    }
+    
+    func cardShadow(colorScheme: ColorScheme) -> some View {
+        self
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
 }

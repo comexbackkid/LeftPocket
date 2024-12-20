@@ -21,19 +21,19 @@ struct MetricsCardView: View {
             VStack (alignment: .leading) {
                 
                 Spacer()
-                                
-//                CustomChartView(viewModel: viewModel, data: viewModel.chartCoordinates(), background: true)
-                SwiftLineChartsPractice(showTitle: false, overlayAnnotation: true)
+         
+                BankrollLineChart(showTitle: false, showYAxis: true, showRangeSelector: false, overlayAnnotation: false)
                     .padding(.top, 25)
                     .padding(.horizontal, 20)
                 
                 HStack {
+                    
                     VStack (alignment: .leading, spacing: 5) {
                         
                         Text("Bankroll & Metrics")
                             .headlineStyle()
                         
-                        Text("View your current bankroll, advanced metrics, analytics, & reports.")
+                        Text("Tap to view your bankroll progress, player metrics, analytics, & reports.")
                             .calloutStyle()
                             .opacity(0.7)
                             .foregroundColor(.secondary)
@@ -42,20 +42,21 @@ struct MetricsCardView: View {
                             .padding(.bottom, 10)
                     }
                     .padding()
+                    .dynamicTypeSize(...DynamicTypeSize.large)
+                    
+                    Spacer()
                 }
             }
         }
         .frame(width: width, height: 350)
-        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
-        .cornerRadius(20)
-        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.23),
-                radius: 12, x: 0, y: 5)
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.5 : 1.0))
+        .cornerRadius(12)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
 }
 
 struct MetricsCardView_Previews: PreviewProvider {
     static var previews: some View {
         MetricsCardView().environmentObject(SessionsListViewModel())
-//            .preferredColorScheme(.dark)
     }
 }

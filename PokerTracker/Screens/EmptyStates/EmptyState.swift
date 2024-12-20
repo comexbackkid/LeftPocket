@@ -9,6 +9,8 @@ import SwiftUI
 
 struct EmptyState: View {
     
+    let title: String
+    
     var body: some View {
         
         ZStack {
@@ -22,15 +24,17 @@ struct EmptyState: View {
                         .frame(width: 125, height: 125)
                 }
                 
-                Text("No Sessions")
+                Text(title)
                     .cardTitleStyle()
                     .bold()
                     .multilineTextAlignment(.center)
                     .padding(.top)
                 
-                Text("Click the + to get started!")
+                Text("Tap the \(Image(systemName: "cross.fill")) button below to get started.\nDuring a Live Session, add rebuys by\npressing the \(Image(systemName: "dollarsign.arrow.circlepath")) button.")
                     .foregroundColor(.secondary)
                     .subHeadlineStyle()
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(3)
             }
             
             .frame(maxWidth: .infinity)
@@ -60,6 +64,6 @@ struct EmptyState: View {
 
 struct EmptyState_Previews: PreviewProvider {
     static var previews: some View {
-        EmptyState(image: .locations)
+        EmptyState(title: "No Sessions", image: .sessions)
     }
 }

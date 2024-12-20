@@ -8,71 +8,83 @@
 import Foundation
 import RevenueCat
 import SwiftUI
+import AdSupport
 
-// MARK: Original
+class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
+    
+    @Published var isSubscribed = false
+    @AppStorage("rcUserId") private var rcUserID: String = ""
+    
+    override init() {
+        super.init()
+        
+        Purchases.logLevel = .debug
+        Purchases.configure(withAPIKey: "appl_nzoxZjFOdCffwvTEKrdMdDqjfzO")
+        Purchases.shared.delegate = self
+        Purchases.shared.attribution.collectDeviceIdentifiers()
+        
+        rcUserID = Purchases.shared.appUserID
+        print("Your RevenueCat UserID is: " + rcUserID)
+        
+        Task {
+            await self.checkSubscriptionStatus()
+            Purchases.shared.attribution.collectDeviceIdentifiers()
+        }
+    }
+    
+    @MainActor
+    func checkSubscriptionStatus() async {
+        do {
+            let customerInfo = try await Purchases.shared.customerInfo()
+            self.isSubscribed = customerInfo.entitlements["premium"]?.isActive == true
+        } catch {
+            print("Problem checking subscription status: \(error)")
+        }
+    }
+    
+    // This listener should be able to handle whenever an Offer Code is redeemed
+    func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) {
+        // Handle the updated CustomerInfo
+        Task {
+            await MainActor.run {
+                self.isSubscribed = customerInfo.entitlements["premium"]?.isActive == true
+            }
+        }
+    }
+}
 
-//class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
+//class SubscriptionManager: ObservableObject {
 //
 //    @Published var isSubscribed = false
+//    @AppStorage("rcUserId") private var rcUserID: String = ""
 //
-//    override init() {
+//    init() {
 //
-//        super.init()
 //        Purchases.logLevel = .debug
 //        Purchases.configure(withAPIKey: "appl_nzoxZjFOdCffwvTEKrdMdDqjfzO")
-//        Purchases.shared.delegate = self
+//        Purchases.shared.attribution.collectDeviceIdentifiers()
 //
-//        Task { @MainActor in
+//        rcUserID = Purchases.shared.appUserID
+//        print("Your RevenueCat UserID is: " + rcUserID)
+//
+//        Task {
 //            await self.checkSubscriptionStatus()
+//            Purchases.shared.attribution.collectDeviceIdentifiers()
 //        }
 //    }
 //
-//    @MainActor func checkSubscriptionStatus() async {
+//    @MainActor
+//    func checkSubscriptionStatus() async {
 //
 //        do {
+//
 //            let customerInfo = try await Purchases.shared.customerInfo()
 //            self.isSubscribed = customerInfo.entitlements["premium"]?.isActive == true
 //
 //        } catch {
+//
 //            print("Problem checking subscription status: \(error)")
+//
 //        }
 //    }
-//
-//    func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) {
-//            // handle any changes to customerInfo
-//        Task { await checkSubscriptionStatus() }
-//        print("We wuz subscribed")
-//    }
 //}
-
-// MARK: MY IDIOT VERSION OF THE SUBSCRIPTION MANAGER
-
-class SubscriptionManager: ObservableObject {
-
-    @Published var isSubscribed = false
-
-    init() {
-
-        Purchases.logLevel = .debug
-        Purchases.configure(withAPIKey: "appl_nzoxZjFOdCffwvTEKrdMdDqjfzO")
-
-        Task {
-            await self.checkSubscriptionStatus()
-        }
-    }
-
-    @MainActor
-    func checkSubscriptionStatus() async {
-
-        do {
-            
-            let customerInfo = try await Purchases.shared.customerInfo()
-            self.isSubscribed = customerInfo.entitlements["premium"]?.isActive == true
-
-        } catch {
-            
-            print("Problem checking subscription status: \(error)")
-            
-        }
-    }
-}

@@ -6,114 +6,126 @@
 //
 
 import SwiftUI
+import RevenueCat
+import RevenueCatUI
 
 struct ContentView: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
+    @EnvironmentObject var subManager: SubscriptionManager
     @Environment(\.colorScheme) var colorScheme
     
+    @AppStorage("hideBankroll") var hideBankroll: Bool = false
+    
     @State private var showMetricsAsSheet = false
+    @State private var showSleepAnalyticsAsSheet = false
+    @State private var showPaywall = false
+    @State private var showBankrollPopup = false
     @State var activeSheet: Sheet?
+    
+    let lastSeenVersionKey = "LastSeenAppVersion"
     
     var body: some View {
         
         ScrollView(.vertical) {
             
-            VStack(spacing: 5) {
+            VStack(spacing: 20) {
                 
-                bankrollView
+                if !hideBankroll { bankrollView }
                 
                 if viewModel.sessions.isEmpty {
                     
-                    EmptyState(image: .sessions)
-                        .padding(.top, 85)
+                    emptyState
                     
                 } else {
                     
-                    quickMetrics
-                    
+                    quickMetricsBoxes
+                                        
                     metricsCard
                     
                     recentSessionCard
+                    
+                    sleepAnalyticsCard
 
                     Spacer()
                 }
             }
+            .frame(width: UIScreen.main.bounds.width)
             .padding(.bottom, 50)
-            .fullScreenCover(isPresented: $showMetricsAsSheet) {
-                MetricsView()
-            }
         }
-        .background(
-            RadialGradient(colors: [.brandBackground, Color("newWhite").opacity(0.3)],
-                           center: .topLeading,
-                           startRadius: 500,
-                           endRadius: 5))
+        .background { Color.brandBackground.ignoresSafeArea() }
         .sheet(item: $activeSheet) { sheet in
-            
             switch sheet {
-            case .newSession: NewSessionView(isPresented: .init(get: {
-                activeSheet == .newSession
-            }, set: { isPresented in
-                activeSheet = isPresented ? .newSession : nil
-            }))
-            case .recentSession: SessionDetailView(activeSheet: $activeSheet,
-                                                   pokerSession: viewModel.sessions.first!)
+            case .productUpdates: ProductUpdates(activeSheet: $activeSheet)
+            case .recentSession: SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
+            case .sleepAnalytics: SleepAnalytics(activeSheet: $activeSheet)
+            case .metricsAsSheet: MetricsView(activeSheet: $activeSheet)
             }
         }
     }
     
-    var bankroll: String {
-        return viewModel.tallyBankroll().asCurrency()
+    var bankroll: Int {
+        
+        let highHandTotals = viewModel.sessions.map({ $0.highHandBonus ?? 0 }).reduce(0, +)
+        let transactions = viewModel.transactions.map({ $0.amount }).reduce(0, +)
+        let playerProfits = viewModel.tallyBankroll(bankroll: .all)
+        
+        return playerProfits + transactions + highHandTotals
+    }
+    
+    var emptyState: some View {
+        
+        VStack (spacing: 5) {
+            
+            Image("pokerchipsvector-transparent")
+                .resizable()
+                .frame(width: 125, height: 125)
+            
+            Text("No Sessions")
+                .cardTitleStyle()
+                .bold()
+                .multilineTextAlignment(.center)
+                .padding(.top)
+            
+            Text("Tap the \(Image(systemName: "cross.fill")) button below to get started.\nDuring a Live Session, add rebuys by\npressing the \(Image(systemName: "dollarsign.arrow.circlepath")) button.")
+                .foregroundColor(.secondary)
+                .subHeadlineStyle()
+                .multilineTextAlignment(.center)
+                .lineSpacing(3)
+            
+            Image("squigleArrow")
+                .resizable()
+                .frame(width: 80, height: 150)
+                .padding(.top, 20)
+        }
+        
     }
     
     var lastSession: Int {
         return viewModel.sessions.first?.profit ?? 0
     }
     
-    var quickMetrics: some View {
+    var productUpdatesIcon: some View {
         
-        HStack (spacing: 18) {
-            
-            VStack (spacing: 3) {
-                Text(String(viewModel.sessions.count))
-                    .font(.system(size: 22, design: .rounded))
-//                    .bold()
+        HStack {
+            Button {
+                activeSheet = .productUpdates
+            } label: {
+                Image(systemName: "bell.fill")
                     .opacity(0.75)
-                
-                Text(viewModel.sessions.count == 1 ? "Session" : "Sessions")
-                    .captionStyle()
-                    .fontWeight(.thin)
             }
+            .buttonStyle(.plain)
             
-            Divider()
-            
-            VStack (spacing: 3) {
-                Text(String(viewModel.winRate()))
-                    .font(.system(size: 22, design: .rounded))
-//                    .bold()
-                    .opacity(0.75)
-                
-                Text("Win Rate")
-                    .captionStyle()
-                    .fontWeight(.thin)
-            }
-            
-            Divider()
-            
-            VStack (spacing: 3) {
-                Text(viewModel.totalHoursPlayedHomeScreen())
-                    .font(.system(size: 22, design: .rounded))
-//                    .bold()
-                    .opacity(0.75)
-                
-                Text("Hours")
-                    .captionStyle()
-                    .fontWeight(.thin)
-            }
+            Spacer()
         }
-        .padding(.bottom, 30)
+        .padding(.horizontal, 30)
+        .padding(.bottom, -20)
+    }
+    
+    var quickMetricsBoxes: some View {
         
+        QuickMetricsBoxGrid(viewModel: viewModel)
+            .padding(.top, hideBankroll ? 30 : 0)
     }
     
     var metricsCard: some View {
@@ -122,16 +134,49 @@ struct ContentView: View {
             
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
-            showMetricsAsSheet = true
+            activeSheet = .metricsAsSheet
             
         }, label: {
-            
-            MetricsCardView()
-                .padding(.bottom)
+            if !hideBankroll {
+                MetricsCardView()
+                
+            } else { metricsMiniCard }
         })
-        .padding(.bottom, 12)
         .buttonStyle(PlainButtonStyle())
         .zIndex(1.0)
+    }
+    
+    var metricsMiniCard: some View {
+        
+        VStack {
+            
+            HStack {
+                BankrollLineChart(showTitle: false, showYAxis: false, showRangeSelector: false, overlayAnnotation: false)
+                    .frame(width: 80, height: 50)
+                
+                VStack (alignment: .leading, spacing: 5) {
+                    
+                    Text("Bankroll & Metrics")
+                        .headlineStyle()
+                    
+                    Text("Tap to view your bankroll progress, player metrics, analytics, & reports.")
+                        .calloutStyle()
+                        .opacity(0.7)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(3)
+                }
+                .padding(.leading, 12)
+                .dynamicTypeSize(...DynamicTypeSize.large)
+                
+                Spacer()
+            }
+        }
+        .padding()
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.5 : 1.0))
+        .cornerRadius(12)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+        .frame(width: UIScreen.main.bounds.width * 0.85)
     }
     
     var recentSessionCard: some View {
@@ -140,15 +185,56 @@ struct ContentView: View {
             
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
-            
             activeSheet = .recentSession
             
         }, label: {
             
             RecentSessionCardView(pokerSession: viewModel.sessions.first!)
+            
         })
         .buttonStyle(CardViewButtonStyle())
-        .padding(.bottom, 30)
+    }
+    
+    var sleepAnalyticsCard: some View {
+        
+        Button(action: {
+            
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            if subManager.isSubscribed {
+                activeSheet = .sleepAnalytics
+            } else {
+                showPaywall = true
+            }
+        
+        }, label: {
+            
+            SleepCardView()
+        })
+        .buttonStyle(CardViewButtonStyle())
+        .sheet(isPresented: $showPaywall, content: {
+            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                .overlay {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            DismissButton()
+                                .padding()
+                                .onTapGesture {
+                                    showPaywall = false
+                            }
+                            Spacer()
+                        }
+                    }
+                }
+        })
+        .task {
+            for await customerInfo in Purchases.shared.customerInfoStream {
+                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                await subManager.checkSubscriptionStatus()
+            }
+        }
     }
     
     var bankrollView: some View {
@@ -157,71 +243,188 @@ struct ContentView: View {
             
             VStack {
                 
-                Text("BANKROLL")
-                    .font(.custom("Asap-Regular", size: 13))
-                    .opacity(0.5)
+                HStack (spacing: 5) {
+                    Text("My Bankroll")
+                        .font(.custom("Asap-Regular", size: 13))
+                        .opacity(0.5)
+                    
+                    Button {
+                        showBankrollPopup = true
+
+                    } label: {
+                        Image(systemName: "info.circle")
+                            .font(.custom("Asap-Regular", size: 13))
+                        
+                    }
+                    .foregroundStyle(Color.brandPrimary)
+                    .popover(isPresented: $showBankrollPopup, arrowEdge: .top, content: {
+                        PopoverView(bodyText: "\"My Bankroll\" is your true bankroll ledger, including all transactions. \"Total Profit\" represents your poker winnings over time.")
+                            .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                            .frame(height: 150)
+                            .dynamicTypeSize(.medium...DynamicTypeSize.medium)
+                            .presentationCompactAdaptation(.popover)
+                            .preferredColorScheme(colorScheme == .dark ? .dark : .light)
+                            .shadow(radius: 10)
+                    })
+                }
                 
-                Text(bankroll)
-                    .font(.system(size: 60, design: .rounded))
-                    .opacity(0.75)
+                Text(bankroll, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .font(.custom("Asap-Bold", size: 60, relativeTo: .title2))
+                    .opacity(0.85)
+                    .blur(radius: hideBankroll ? 20 : 0)
                 
                 if !viewModel.sessions.isEmpty {
                     
                     HStack {
                         
-                        Image(systemName: "arrowtriangle.up.fill")
+                        Image(systemName: "arrow.up.right")
                             .resizable()
-                            .frame(width: 11, height: 11)
+                            .frame(width: 13, height: 13)
+                            .fontWeight(.bold)
                             .foregroundColor(lastSession > 0 ? .green : lastSession < 0 ? .red : Color(.systemGray))
-                            .rotationEffect(lastSession >= 0 ? .degrees(0) : .degrees(180))
+                            .rotationEffect(lastSession >= 0 ? .degrees(0) : .degrees(90))
                         
-                        Text(lastSession.asCurrency())
-                            .fontWeight(.light)
-                            .font(.system(size: 20, design: .rounded))
+                        Text(lastSession, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                            .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+                            .fontWeight(.bold)
                             .profitColor(total: lastSession)
                         
                     }
-                    .padding(.top, -40)
-                    
+                    .offset(y: -32)
                 }
-                
-
             }
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 30)
-        .padding(.bottom, 20)
+        .padding(.bottom, 10)
+        .padding(.top, 20)
+    }
+    
+    func checkForUpdate() {
+        let currentVersion = Bundle.main.appVersion
+        let lastSeenVersion = UserDefaults.standard.string(forKey: lastSeenVersionKey) ?? "0.0"
+        
+        // Assuming major updates are determined by the first digit (e.g., 3.4.6 to 4.0)
+        if isMajorUpdate(from: lastSeenVersion, to: currentVersion) {
+            activeSheet = .productUpdates
+        }
+        
+        // Update the stored version to the current version
+        UserDefaults.standard.set(currentVersion, forKey: lastSeenVersionKey)
+    }
+    
+    func isMajorUpdate(from oldVersion: String, to newVersion: String) -> Bool {
+            let oldComponents = oldVersion.split(separator: ".")
+            let newComponents = newVersion.split(separator: ".")
+            
+            guard oldComponents.count > 0, newComponents.count > 0 else {
+                return false
+            }
+            
+            return oldComponents[0] != newComponents[0]
+        }
+    
+    struct QuickMetricsBoxGrid: View {
+        
+        @ObservedObject var viewModel: SessionsListViewModel
+        
+        @State private var playerProfit: Bool = false
+        @State private var bbPerHr: Bool = false
+        @State private var hourlyRate: Bool = false
+        @State private var profitPerSession: Bool = false
+        @State private var winRatio: Bool = false
+        @State private var hoursPlayed: Bool = false
+        
+        private let columns = [GridItem(.flexible()), GridItem(.flexible())]
+        
+        var body: some View {
+            
+            LazyVGrid(columns: columns, spacing: 10) {
+                
+                if playerProfit {
+                    QuickMetricBox(title: "Total Profit", metric: String(viewModel.tallyBankroll(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
+                }
+                
+                if bbPerHr {
+                    QuickMetricBox(title: "BB / Hr", metric: String(format: "%.2f", viewModel.bbPerHour()))
+                }
+                
+                if hourlyRate {
+                    QuickMetricBox(title: "Hourly Rate", metric: String(viewModel.hourlyRate(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
+                }
+                
+                if profitPerSession {
+                    QuickMetricBox(title: "Avg. Session Profit", metric: String(viewModel.avgProfit(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
+                }
+                
+                if winRatio {
+                    QuickMetricBox(title: "Win Ratio", metric: viewModel.winRate())
+                }
+                
+                if hoursPlayed {
+                    QuickMetricBox(title: "Hours Played", metric: viewModel.totalHoursPlayedHomeScreen())
+                }
+            }
+            .frame(width: UIScreen.main.bounds.width * 0.85)
+            .onAppear { loadDashboardConfig() }
+        }
+        
+        private func loadDashboardConfig() {
+            
+            let defaults = UserDefaults.standard
+            
+            // Use the default value of true for "PlayerProfit" and "HoursPlayed" if none found in UserDefaults
+            if defaults.object(forKey: "dashboardPlayerProfit") == nil {
+                self.playerProfit = true
+            } else {
+                self.playerProfit = defaults.bool(forKey: "dashboardPlayerProfit")
+            }
+            
+            self.bbPerHr = defaults.bool(forKey: "dashboardBbPerHr")
+            self.hourlyRate = defaults.bool(forKey: "dashboardHourlyRate")
+            self.profitPerSession = defaults.bool(forKey: "dashboardProfitPerSession")
+            self.winRatio = defaults.bool(forKey: "dashboardWinRatio")
+            
+            // Use the default value of true for "HoursPlayed" if not found in UserDefaults
+            if defaults.object(forKey: "dashboardHoursPlayed") == nil {
+                self.hoursPlayed = true
+            } else {
+                self.hoursPlayed = defaults.bool(forKey: "dashboardHoursPlayed")
+            }
+        }
+    }
+}
+
+extension SessionsListViewModel {
+
+    func totalHoursPlayedHomeScreen() -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        
+        guard !sessions.isEmpty else { return "0h" } // Return "0h" if there are no sessions
+        
+        let totalHours = sessions.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
+        let totalMins = sessions.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
+        let dateComponents = DateComponents(hour: totalHours, minute: totalMins)
+        let totalTime = Int(dateComponents.durationInHours)
+        let formattedTotalTime = formatter.string(from: NSNumber(value: totalTime)) ?? "0"
+        return "\(formattedTotalTime)h"
     }
 }
 
 enum Sheet: String, Identifiable {
     
-    case newSession, recentSession
+    case productUpdates, recentSession, sleepAnalytics, metricsAsSheet
+    
     var id: String {
         rawValue
     }
 }
 
-struct CardViewButtonStyle: ButtonStyle {
-    
-    // This just removes some weird button styling from our custom card view that couldn't otherwise be made
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .overlay {
-                
-                if configuration.isPressed {
-                    Color.black.opacity(0.1).cornerRadius(20)
-                    
-                } else {
-                    Color.clear
-                }
-            }
-    }
-}
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(SessionsListViewModel())
+        ContentView()
+            .environmentObject(SessionsListViewModel())
+            .environmentObject(SubscriptionManager())
             .preferredColorScheme(.dark)
     }
 }

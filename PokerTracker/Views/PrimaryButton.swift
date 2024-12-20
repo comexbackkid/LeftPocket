@@ -15,8 +15,7 @@ struct PrimaryButton: View {
         
         Text(title)
             .buttonTextStyle()
-            .font(.title3)
-            .frame(height: 55)
+            .frame(height: 52)
             .frame(width: UIScreen.main.bounds.width * 0.9)
             .background(Color.brandPrimary)
             .foregroundColor(.white)

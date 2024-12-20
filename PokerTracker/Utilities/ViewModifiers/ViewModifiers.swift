@@ -40,3 +40,21 @@ extension View {
         ModifiedContent(content: self, modifier: Primary(font: .system(size: 13, weight: .semibold, design: .default)))
     }
 }
+
+// Handles styling of Card Views located in ContentView
+struct CardViewButtonStyle: ButtonStyle {
+    
+    // This just removes some weird button styling from our custom card view that couldn't otherwise be made
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .overlay {
+                
+                if configuration.isPressed {
+                    Color.black.opacity(0.1).cornerRadius(20)
+                    
+                } else {
+                    Color.clear
+                }
+            }
+    }
+}

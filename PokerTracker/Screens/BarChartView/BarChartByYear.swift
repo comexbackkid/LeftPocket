@@ -14,72 +14,103 @@ struct BarChartByYear: View {
     @State private var selectedMonth: Date?
     
     let showTitle: Bool
+    let moreAxisMarks: Bool
     let firstDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 1, day: 1)
     let lastDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 12, day: 31)
-    
-    var sessionProfitByMonth: [(month: Date, profit: Int)] {
-        
-        sessionsByMonth(sessions: viewModel.sessions)
-
-    }
-    var profitAnnotation: Int? {
-        
-        profitByMonth(month: selectedMonth ?? Date(), data: viewModel.sessions)
-        
-    }
+    let cashOnly: Bool
     
     var body: some View {
         
         VStack {
             
-            if showTitle {
-                HStack {
-                    Text("Monthly Totals")
-                        .cardTitleStyle()
-                    
-                    Spacer()
-                    
-                }
-                .padding(.bottom, 40)
+            if #available(iOS 17.0, *) {
+                
+                barChart
+                
+            } else {
+                
+                barChartOldVersion
             }
+        }
+    }
+    
+    @available(iOS 17, *)
+    var barChart: some View {
+        
+        VStack {
+            
+            VStack (alignment: .leading, spacing: 3) {
+                if showTitle {
+                    
+                    HStack {
+                        Text("Monthly Totals")
+                            .cardTitleStyle()
+                        
+                        Spacer()
+                        
+                    }
+                    
+                    let amount = profitAnnotation
+                    let month = Text(selectedMonth?.getMonth() ?? "No Selection")
+
+                    Group {
+                        if let amount {
+                            HStack (spacing: 5) {
+                                
+                                if amount != 0 {
+                                    Image(systemName: "arrow.up.right")
+                                        .foregroundStyle(amount > 0 ? .green : .red)
+                                        .rotationEffect(.degrees(amount < 0 ? 90 : 0))
+                                        .animation(.default.speed(2), value: amount)
+                                }
+                                
+                                Text("\(amount.formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))")
+                                    .font(.custom("Asap-Medium", size: 17, relativeTo: .caption2))
+                                    .foregroundStyle(amount > 0 ? .green : amount < 0 ? .red : .secondary)
+                                
+                                Text("in \(month)")
+                                    .font(.custom("Asap-Medium", size: 17, relativeTo: .caption2))
+                                    .foregroundStyle(.secondary)
+                            }
+                            
+                        } else {
+                            Text("\(month)")  // Show only the month if amount is nil
+                                .font(.custom("Asap-Medium", size: 17, relativeTo: .caption2))
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .animation(nil, value: selectedMonth)
+                }
+            }
+            .padding(.bottom, 30)
             
             Chart {
-                
-                // The reason for the ForEach statement is because it's the only way to use the 'if let' statement getting
-                // values from RuleMark and using it as an overlay
                 ForEach(sessionProfitByMonth, id: \.month) { monthlyTotal in
                     
                     BarMark(x: .value("Month", monthlyTotal.month, unit: .month), y: .value("Profit", monthlyTotal.profit))
-                        .cornerRadius(5)
-                        .foregroundStyle(Color.pink.gradient)
-                        .opacity(selectedMonth == nil || selectedMonth?.getMonth() == monthlyTotal.month.getMonth() ? 1 : 0.5)
+                        .cornerRadius(3)
+                        .foregroundStyle(monthlyTotal.profit > 0 ? Color.lightGreen.gradient : Color.donutChartRed.gradient)
+                        .opacity(selectedMonth == nil || selectedMonth?.getMonth() == monthlyTotal.month.getMonth() ? 1 : 0.4)
                 }
                 
-                // When seeing only last year's results, the annotation line marker lets you select beyond December. Don't want that.
                 if let selectedMonth {
                     
                     RuleMark(x: .value("Selected Date", selectedMonth, unit: .month))
                         .foregroundStyle(.gray.opacity(0.3))
                         .zIndex(-1)
-                        .annotation(position: .top, spacing: 7, overflowResolution: .init(x: .fit(to: .chart))) {
-                            Text(profitAnnotation?.asCurrency() ?? "$0")
-                                .captionStyle()
-                                .padding(10)
-                                .background(.gray.opacity(0.1))
-                                .cornerRadius(10)
-                        }
                 }
             }
             .sensoryFeedback(.selection, trigger: profitAnnotation)
+            .chartXSelection(value: $selectedMonth.animation(.easeInOut.speed(2.0)))
             .chartXScale(domain: [firstDay, lastDay])
-            .chartXSelection(value: $selectedMonth)
             .chartYAxis {
-                AxisMarks(position: .leading) { value in
+                AxisMarks(position: .leading, values: .automatic(desiredCount: moreAxisMarks ? 4 : 3)) { value in
                     AxisGridLine()
-                        .foregroundStyle(.gray.opacity(0.2))
+                        .foregroundStyle(.gray.opacity(0.33))
                     AxisValueLabel() {
                         if let intValue = value.as(Int.self) {
-                            Text(intValue.axisFormat)
+                            Text(intValue.axisShortHand(viewModel.userCurrency))
+                                .captionStyle()
                                 .padding(.trailing, 15)
                         }
                     }
@@ -87,29 +118,102 @@ struct BarChartByYear: View {
             }
             .chartXAxis {
                 AxisMarks {
+                    AxisGridLine(stroke: StrokeStyle(lineWidth: 1, dash: [2, 8]))
+                        .foregroundStyle(.gray.opacity(0.33))
                     AxisValueLabel(format: .dateTime.month(.abbreviated),
                                    horizontalSpacing: sessionProfitByMonth.isEmpty ? 25 : 0,
-                                   verticalSpacing: 15)
+                                   verticalSpacing: 15).font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
                 }
             }
         }
     }
     
+    var barChartOldVersion: some View {
+        
+        Chart {
+            
+            // The reason for the ForEach statement is because it's the only way to use the 'if let' statement getting
+            // values from RuleMark and using it as an overlay
+            ForEach(sessionProfitByMonth, id: \.month) { monthlyTotal in
+                
+                BarMark(x: .value("Month", monthlyTotal.month, unit: .month), y: .value("Profit", monthlyTotal.profit))
+                    .cornerRadius(3)
+                    .foregroundStyle(monthlyTotal.profit > 0 ? Color.lightGreen.gradient : Color.pink.gradient)
+                    .opacity(selectedMonth == nil || selectedMonth?.getMonth() == monthlyTotal.month.getMonth() ? 1 : 0.4)
+            }
+        }
+        .chartXScale(domain: [firstDay, lastDay])
+        .chartYAxis {
+            AxisMarks(position: .leading, values: .automatic(desiredCount: moreAxisMarks ? 4 : 3)) { value in
+                AxisGridLine()
+                    .foregroundStyle(.gray.opacity(0.33))
+                AxisValueLabel() {
+                    if let intValue = value.as(Int.self) {
+                        Text(intValue.axisShortHand(viewModel.userCurrency))
+                            .captionStyle()
+                            .padding(.trailing, 15)
+                    }
+                }
+            }
+        }
+        .chartXAxis {
+            AxisMarks {
+                AxisValueLabel(format: .dateTime.month(.abbreviated),
+                               horizontalSpacing: sessionProfitByMonth.isEmpty ? 25 : 0,
+                               verticalSpacing: 15).font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
+            }
+        }
+        
+    }
+    
+    var profitAnnotation: Int? {
+        
+        guard let selectedMonth = selectedMonth else {
+            
+            return nil
+        }
+        
+        return profitByMonth(month: selectedMonth, data: viewModel.sessions)
+    }
+    
+    var sessionProfitByMonth: [(month: Date, profit: Int)] {
+        
+        sessionsByMonth(sessions: viewModel.sessions, cashOnly: cashOnly)
+    }
+    
     // Formats data so we have the profit totals of every month, i.e. only 12 total items in the array. Checks current year only
-    func sessionsByMonth(sessions: [PokerSession]) -> [(month: Date, profit: Int)] {
+    func sessionsByMonth(sessions: [PokerSession], cashOnly: Bool) -> [(month: Date, profit: Int)] {
         
         var monthlyProfits: [Date: Int] = [:]
         let currentYear = Calendar.current.component(.year, from: Date())
         
-        // Iterate through sessions and accumulate profit for each month
-        for session in sessions {
+        if cashOnly == true {
+            let cashSessions = sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
             
-            let yearOfSession = Calendar.current.component(.year, from: session.date)
+            for session in cashSessions {
+                
+                let yearOfSession = Calendar.current.component(.year, from: session.date)
+                
+                // Check if the session is from the current year
+                if yearOfSession == currentYear {
+                    let month = Calendar.current.startOfMonth(for: session.date)
+                    
+                    monthlyProfits[month, default: 0] += session.profit
+                }
+            }
             
-            // Check if the session is from the current year
-            if yearOfSession == currentYear {
-                let month = Calendar.current.startOfMonth(for: session.date)
-                monthlyProfits[month, default: 0] += session.profit
+        } else {
+            // Iterate through sessions and accumulate profit for each month
+            for session in sessions {
+                
+                let yearOfSession = Calendar.current.component(.year, from: session.date)
+                
+                // Check if the session is from the current year
+                if yearOfSession == currentYear {
+                    let month = Calendar.current.startOfMonth(for: session.date)
+                    
+                    monthlyProfits[month, default: 0] += session.profit
+                }
             }
         }
         
@@ -119,7 +223,7 @@ struct BarChartByYear: View {
         return result
     }
     
-    // For use in calculating annoations value
+    // Calculates annoations value
     func profitByMonth(month: Date, data: [PokerSession]) -> Int {
         
         let currentYear = Calendar.current.component(.year, from: Date())
@@ -130,8 +234,9 @@ struct BarChartByYear: View {
 }
 
 #Preview {
-    BarChartByYear(showTitle: true)
+    BarChartByYear(showTitle: true, moreAxisMarks: true, cashOnly: false)
         .environmentObject(SessionsListViewModel())
         .frame(height: 350)
         .padding()
+        .preferredColorScheme(.dark)
 }

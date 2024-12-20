@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 struct LocationGridView: View {
     
@@ -13,28 +14,17 @@ struct LocationGridView: View {
     @State var addLocationIsShowing = false
     @State var showAlert = false
     
-    let deleteTip = DeleteLocationTip()
     let columns = [GridItem(.fixed(165), spacing: 20), GridItem(.fixed(165))]
     
     var body: some View {
         
         ScrollView(.vertical) {
             
-            HStack {
-                
-                Text("My Locations")
-                    .titleStyle()
-                    .padding(.top, -37)
-                    .padding(.horizontal)
-                
-                Spacer()
-            }
+            title
             
-            if vm.locations.isEmpty {
-                
-                EmptyState(image: .locations)
-                
-            } else {
+            if #available(iOS 17.0, *) { locationTip }
+            
+            if !vm.locations.isEmpty {
                 
                 LazyVGrid(columns: columns) {
                     ForEach(vm.locations) { location in
@@ -43,6 +33,11 @@ struct LocationGridView: View {
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 50)
+                
+            } else {
+                
+                EmptyState(title: "No Locations", image: .locations)
+                    .padding(.top, 150)
             }
         }
         .background(Color.brandBackground)
@@ -53,7 +48,19 @@ struct LocationGridView: View {
                 
             resetLocationsButton
         }
+    }
+    
+    var title: some View {
         
+        HStack {
+            
+            Text("My Locations")
+                .titleStyle()
+                .padding(.top, -37)
+                .padding(.horizontal)
+            
+            Spacer()
+        }
     }
     
     var addLocationButton: some View {
@@ -93,7 +100,18 @@ struct LocationGridView: View {
         } message: {
             Text("This will restore the original Locations. Your custom Locations will NOT be affected.")
         }
+    }
+    
+    @available(iOS 17.0, *)
+    var locationTip: some View {
         
+        VStack {
+            let deleteTip = DeleteLocationTip()
+            TipView(deleteTip)
+                .tipViewStyle(CustomTipViewStyle())
+                .padding(.horizontal, 20)
+                .padding(.bottom)
+        }
     }
 }
 
@@ -103,7 +121,6 @@ struct LocationGridItem: View {
     @EnvironmentObject var vm: SessionsListViewModel
 
     let location: LocationModel
-    let deleteTip = DeleteLocationTip()
     
     var body: some View {
         
@@ -117,12 +134,10 @@ struct LocationGridItem: View {
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
-                            deleteTip.invalidate(reason: .actionPerformed)
                         } label: {
                             Label("Delete Location", systemImage: "trash")
                         }
                     }
-                    .popoverTip(deleteTip)
                 
             } else if location.imageURL != "" {
                 
@@ -139,7 +154,6 @@ struct LocationGridItem: View {
                         .contextMenu {
                             Button(role: .destructive) {
                                 delete()
-                                deleteTip.invalidate(reason: .actionPerformed)
                             } label: { Label("Delete Location", systemImage: "trash") }
                         }
                 }
@@ -152,7 +166,6 @@ struct LocationGridItem: View {
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
-                            deleteTip.invalidate(reason: .actionPerformed)
                         } label: { Label("Delete Location", systemImage: "trash") }
                     }
             }
@@ -163,7 +176,7 @@ struct LocationGridItem: View {
                 .fontWeight(.semibold)
                 .padding(.top, 7)
             
-            Text("\(vm.uniqueLocationCount(location: location))" + " Sessions")
+            Text("\(vm.uniqueLocationCount(location: location))" + " Visits")
                 .captionStyle()
                 .opacity(0.75)
                 .lineLimit(1)
@@ -172,7 +185,6 @@ struct LocationGridItem: View {
         
     }
     
-    // Need to set up testing with broken image links to make sure this works
     func fetchLocationImage(location: LocationModel) -> some View {
         
         AsyncImage(url: URL(string: location.imageURL), scale: 1, transaction: Transaction(animation: .easeIn)) { phase in
@@ -184,7 +196,6 @@ struct LocationGridItem: View {
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
-                            deleteTip.invalidate(reason: .actionPerformed)
                         } label: {
                             Label("Delete Location", systemImage: "trash")
                         }
@@ -201,7 +212,6 @@ struct LocationGridItem: View {
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
-                            deleteTip.invalidate(reason: .actionPerformed)
                         } label: {
                             Label("Delete Location", systemImage: "trash")
                         }
@@ -218,7 +228,6 @@ struct LocationGridItem: View {
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
-                            deleteTip.invalidate(reason: .actionPerformed)
                         } label: {
                             Label("Delete Location", systemImage: "trash")
                         }
@@ -234,15 +243,20 @@ struct LocationGridItem: View {
     }
 }
 
+extension SessionsListViewModel {
+    
+    // This is only working when you filter by .name versus the .id not sure why? Does it matter? What if the name is changed by the user?
+    func uniqueLocationCount(location: LocationModel) -> Int {
+        let array = self.sessions.filter({ $0.location.id == location.id })
+        return array.count
+    }
+}
+
 struct LocationGridView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             LocationGridView()
                 .environmentObject(SessionsListViewModel())
-            //            LocationGridItem(image: "encore-header", name: "Encore Boston Harbor", count: 3)
-            //                            .preferredColorScheme(.dark)
         }
     }
 }
-
-

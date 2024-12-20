@@ -22,24 +22,30 @@ struct RecentSessionCardView: View {
             
             VStack (alignment: .leading) {
                 
-                if pokerSession.location.imageURL != "" {
-                    
-                    downloadedImage
-                    
-                } else if pokerSession.location.importedImage != nil {
-                    
-                    if let photoData = pokerSession.location.importedImage,
-                       let uiImage = UIImage(data: photoData) {
+                VStack {
+                    if pokerSession.location.imageURL != "" {
                         
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: width)
-                            .clipped()
+                        downloadedImage
+                        
+                    } else if pokerSession.location.importedImage != nil {
+                        
+                        if let photoData = pokerSession.location.importedImage,
+                           let uiImage = UIImage(data: photoData) {
+                            
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: width)
+                                .clipped()
+                        }
+                    }
+                    
+                    else { 
+                        localImage
                     }
                 }
-                
-                else { localImage }
+                .frame(maxHeight: 250)
+                .clipped()
                 
                 Spacer()
                 
@@ -49,17 +55,22 @@ struct RecentSessionCardView: View {
                         
                         Text(pokerSession.location.name)
                             .headlineStyle()
+                            .lineLimit(1)
                             .foregroundStyle(.white)
                         
-                        Text("Tap here to quickly review your last Session, hand notes, & key stats.")
+                        Text("Tap here to quickly review your last session, hand notes, & key stats.")
                             .calloutStyle()
                             .opacity(0.7)
                             .foregroundStyle(.white)
                             .multilineTextAlignment(.leading)
                             .lineLimit(2)
+                        
                     }
                     .padding()
                     .padding(.top, -8)
+                    .dynamicTypeSize(...DynamicTypeSize.large)
+                    
+                    Spacer()
                 }
                 
                 Spacer()
@@ -95,16 +106,17 @@ struct RecentSessionCardView: View {
                     .signInTitleStyle()
                     .fontWeight(.heavy)
                     .foregroundColor(Color(.white))
+                
+                Spacer()
             }
-            .offset(y: -135)
+            
             .padding()
                 
         }
         .frame(width: width, height: 360)
         .background(Color(.systemBackground))
-        .cornerRadius(20)
-        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.23),
-                radius: 12, x: 0, y: 5)
+        .cornerRadius(12)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     
     var downloadedImage: some View {
@@ -141,7 +153,7 @@ struct RecentSessionCardView: View {
         // We need this ternary operator as a final check to make sure no nil value for an image gets displayed
         Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "defaultlocation-header")
             .resizable()
-            .aspectRatio(contentMode: .fill)
+            .scaledToFill()
             .frame(width: width)
             .clipped()
     }
@@ -159,6 +171,7 @@ struct RecentSessionCardView: View {
         }
         
         return Image(uiImage: uiImage)
+        
     }
 }
 

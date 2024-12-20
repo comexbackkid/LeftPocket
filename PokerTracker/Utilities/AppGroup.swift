@@ -13,7 +13,9 @@ enum AppGroup {
     static let bankrollKey = "bankrollTotal"
     static let lastSessionKey = "lastSessionAmount"
     static let chartKey = "chartData"
+    static let swiftChartKey = "swiftChartData"
     static let hourlyKey = "hourlyKey"
     static let totalSessionsKey = "sessionsKey"
     static let bankrollSuite = "group.com.chrisnachtrieb.WidgetGroup"
+    static let currencyKey = "currencyKey"
 }

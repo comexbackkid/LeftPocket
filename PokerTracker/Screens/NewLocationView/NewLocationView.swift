@@ -8,8 +8,6 @@
 import SwiftUI
 import PhotosUI
 
-
-
 struct NewLocationView: View {
     
     @Environment(\.colorScheme) var colorScheme
@@ -19,51 +17,86 @@ struct NewLocationView: View {
     @Binding var addLocationIsShowing: Bool
     
     @State private var photoPickerItem: PhotosPickerItem?
-//    @State private var selectedImageData: Data?
     @State private var photoError: Error?
     
     var body: some View {
         
         NavigationView {
             
-            VStack {
-                HStack {
-                    Text("New Location")
-                        .titleStyle()
-                        .padding(.horizontal)
-                    
-                    Spacer()
-                }
+            ScrollView {
                 
-                Form {
+                VStack (alignment: .leading) {
                     
-                    Section (header: Text("Information"),
-                             footer: Text("Enter the name of the Location, and import a photo of your choice for the Location header. If you don't import an image, a default graphic will be provided.")) {
-                       
-                        TextField("Location Name", text: $newLocationViewModel.locationName)
-                            .font(.custom("Asap-Regular", size: 17))
-                            .submitLabel(.next)
+                    HStack {
+                        Text("New Location")
+                            .titleStyle()
+                            .padding(.horizontal)
                         
-                        PhotosPicker(selection: $photoPickerItem) {
-                            Label(
-                                title: { Text("Import Header Photo").font(.custom("Asap-Regular", size: 17)) },
-                                icon: { Image(systemName: newLocationViewModel.importedImage != nil ? "checkmark.circle.fill" : "photo")
-                                    .foregroundColor(newLocationViewModel.importedImage != nil ? .green : .brandPrimary)}
-                            )
-                        }
+                        Spacer()
                     }
                     
-                    Section {
+                    Text("Enter the name of the location, and import a photo (optional) from your photo library. If you don't choose an image, a default graphic will be provided.")
+                        .bodyStyle()
+                        .padding(.horizontal)
+                        .padding(.bottom, 40)
+                    
+                    // MARK: LOCATION NAME
+                    
+                    VStack {
                         
-                        Button(action: {
+                        HStack {
+                            Image(systemName: "textformat.alt")
+                                .font(.headline).frame(width: 25)
+                                .foregroundColor(.secondary)
+                                .padding(.trailing, 10)
+                            
+                            TextField("Location Name", text: $newLocationViewModel.locationName)
+                                .font(.custom("Asap-Regular", size: 17))
+                                .submitLabel(.next)
+                            
+                        }
+                        .padding(.bottom, 8)
+                        
+                        Divider()
+                        
+                        // MARK: PHOTO SELECTOR
+                        
+                        HStack {
+                            Image(systemName: newLocationViewModel.importedImage != nil ? "checkmark.circle.fill" : "photo")
+                                .font(.headline).frame(width: 25)
+                                .foregroundColor(newLocationViewModel.importedImage != nil ? .green : .secondary)
+                                .padding(.trailing, 10)
+                            
+                            PhotosPicker(newLocationViewModel.importedImage != nil ? "Image Added!" : "Add Image", selection: $photoPickerItem)
+                                .font(.custom("Asap-Regular", size: 17))
+                                .foregroundColor(newLocationViewModel.importedImage != nil ? .primary : .brandPrimary)
+                            
+                            Spacer()
+                                
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 8)
+                    }
+                    .padding(18)
+                    .background(.gray.opacity(0.2))
+                    .cornerRadius(15)
+                    .padding(.horizontal)
+                    .padding(.bottom, 40)
+                    
+                    VStack {
+                        Button {
+                            let impact = UIImpactFeedbackGenerator(style: .heavy)
+                            impact.impactOccurred()
                             newLocationViewModel.saveLocation(viewModel: vm)
                             addLocationIsShowing = newLocationViewModel.presentation ?? true
-                        }, label: {
-                            Text("Save Location")
-                                .bodyStyle()
-                        })
+                        } label: {
+                            PrimaryButton(title: "Save Location")
+                        }
+                        .tint(Color.brandPrimary)
                         
                         Button(role: .cancel) {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
                             addLocationIsShowing.toggle()
                         } label: {
                             Text("Cancel")
@@ -71,8 +104,10 @@ struct NewLocationView: View {
                         }
                         .tint(.red)
                     }
+                    
+                    Spacer()
+
                 }
-                .scrollDisabled(true)
                 .navigationBarTitle(Text(""))
                 .alert(item: $newLocationViewModel.alertItem) { alertItem in
                     
@@ -81,8 +116,9 @@ struct NewLocationView: View {
                           dismissButton: alertItem.dismissButton)
                 }
             }
-            .background(colorScheme == .light ? Color(.systemGray6) : Color(.systemGray6))
+            .background(Color.brandBackground)
         }
+        .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .accentColor(.brandPrimary)
         .errorAlert(error: $photoError)
         .task(id: photoPickerItem) {
@@ -103,7 +139,7 @@ extension View {
     @ViewBuilder func errorAlert(error: Binding<Error?>) -> some View {
         let isPresented: Binding<Bool> = Binding<Bool>(get: { error.wrappedValue != nil }, set: { newValue in if newValue { error.wrappedValue = nil} })
         
-       self
+        self
             .alert(error.wrappedValue?.localizedDescription ?? "A problem has occurred", isPresented: isPresented, actions: {
                 Button("OK") { }
             })

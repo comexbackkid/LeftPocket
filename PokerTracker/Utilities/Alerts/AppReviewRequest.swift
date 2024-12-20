@@ -15,7 +15,7 @@ import SwiftUI
 // The variables appBuild & appVersion keep track of the version so the user isn't prompted more than once per each update
 enum AppReviewRequest {
     
-    static var threshold = 3
+    static var threshold = 5
     @AppStorage("runsSinceLastRequest") static var runsSinceLastRequest = 0
     @AppStorage("version") static var version = ""
     

@@ -7,32 +7,46 @@
 
 import SwiftUI
 import TipKit
+import BranchSDK
+import RevenueCat
 
 @main
 struct LeftPocketApp: App {
     
+    @StateObject var hkManager = HealthKitManager()
     @StateObject var vm = SessionsListViewModel()
     @StateObject var subManager = SubscriptionManager()
     @AppStorage("shouldShowOnboarding") var showWelcomeScreen: Bool = true
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    
+    private let qaService = QAService.shared
 
     var body: some Scene {
         WindowGroup {
             LeftPocketCustomTabBar()
                 .fullScreenCover(isPresented: $showWelcomeScreen, content: {
-                    SignInTest(showWelcomeScreen: $showWelcomeScreen)
+                    OnboardingView(shouldShowOnboarding: $showWelcomeScreen)
                 })
                 .environmentObject(vm)
                 .environmentObject(subManager)
+                .environmentObject(hkManager)
+                .environmentObject(qaService)
+                .onOpenURL(perform: { url in
+                    handleDeepLinkURL(url: url)
+                    Branch.getInstance().handleDeepLink(url)
+                })
         }
     }
-    
+        
     init() {
         configureTips()
     }
     
     func configureTips() {
+        if #available(iOS 17.0, *) {
 //            try? Tips.resetDatastore()
             try? Tips.configure([.datastoreLocation(TipKitConfig.storeLocation),
                                  .displayFrequency(TipKitConfig.displayFrequency)])
         }
+    }
 }

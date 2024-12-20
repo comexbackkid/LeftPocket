@@ -11,15 +11,20 @@ struct SessionDefaultsView: View {
     
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var vm: SessionsListViewModel
+    @Environment(\.dismiss) var dismiss
+    
+    @Binding var isPresentedAsSheet: Bool?
     
     @State private var sessionType: SessionType?
     @State private var location = LocationModel(name: "", localImage: "", imageURL: "")
     @State private var stakes = ""
     @State private var game = ""
+    @State private var currency: CurrencyType = .USD
     @State private var resultMessage: String = ""
     @State private var errorMessage: String?
-    
-    enum SessionType: String, Codable { case cash, tournament }
+    @State private var showAlertModal = false
+    @State private var addStakesIsShowing = false
+    @State private var addLocationIsShowing = false
     
     var body: some View {
             
@@ -47,17 +52,6 @@ struct SessionDefaultsView: View {
                                 .foregroundColor(.red)
                         }
                         
-                    } else if !resultMessage.isEmpty {
-                        
-                        VStack {
-                            Text("Success!")
-                            Text(resultMessage)
-                            Image(systemName: "checkmark.circle")
-                                .resizable()
-                                .frame(width: 50, height: 50)
-                                .padding(.top, 1)
-                                .foregroundColor(.green)
-                        }
                     }
                 }
                 .background(Color.brandBackground)
@@ -67,9 +61,18 @@ struct SessionDefaultsView: View {
             }
             .background(Color.brandBackground)
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
+            .toolbar { resetDefaultsButton }
+            
+            .sheet(isPresented: $showAlertModal, content: {
+                AlertModal(message: resultMessage)
+                    .presentationDetents([.height(210)])
+                    .presentationBackground(.ultraThinMaterial)
                 
-                resetDefaultsButton
+            })
+            .overlay {
+                if isPresentedAsSheet == true {
+                    dismissButton
+                }
             }
     }
     
@@ -78,7 +81,7 @@ struct SessionDefaultsView: View {
         HStack {
             Text("Session Defaults")
                 .titleStyle()
-                .padding(.top, -37)
+                .padding(.top, isPresentedAsSheet ?? false ? 0 : -37)
                 .padding(.horizontal)
             
             Spacer()
@@ -86,12 +89,32 @@ struct SessionDefaultsView: View {
         
     }
     
-    var instructions: some View {
+    var dismissButton: some View {
         
         VStack {
+            HStack {
+                Spacer()
+                DismissButton()
+                    .shadow(color: Color.black.opacity(0.1), radius: 8)
+                    .onTapGesture {
+                        dismiss()
+                    }
+            }
+            Spacer()
+        }
+        .padding()
+    }
+    
+    var instructions: some View {
+        
+        VStack (alignment: .leading) {
             
-            Text("Choose your default Session settings here. These values will automatically populate every time you log a new Session.")
-                .bodyStyle()
+            HStack {
+                Text("Set your default settings here. These values will automatically populate every time you log a completed Session, or start a Live Session.")
+                    .bodyStyle()
+                
+                Spacer()
+            }
         }
         .padding(.horizontal)
     }
@@ -116,13 +139,17 @@ struct SessionDefaultsView: View {
                 Menu {
                     
                     Picker("Picker", selection: $sessionType) {
-                        Text("Cash Game").tag(Optional(SessionDefaultsView.SessionType.cash))
+                        Text("Cash Game").tag(Optional(SessionType.cash))
                         
                         // Right now we're just choosing to hide the Tournament option unless user is subscribed
                         if subManager.isSubscribed {
-                            Text("Tournament").tag(Optional(SessionDefaultsView.SessionType.tournament))
+                            Text("Tournament").tag(Optional(SessionType.tournament))
                         }
                     }
+                    .onChange(of: sessionType, perform: { value in
+                        errorMessage = nil
+                        resultMessage = ""
+                    })
                     
                 } label: {
                     
@@ -138,7 +165,8 @@ struct SessionDefaultsView: View {
                             .bodyStyle()
                             .fixedSize()
                             .lineLimit(1)
-                    default:
+                        
+                    case .none:
                         Text("Please select ›")
                             .bodyStyle()
                             .lineLimit(1)
@@ -146,6 +174,9 @@ struct SessionDefaultsView: View {
                 }
                 .foregroundColor(sessionType == nil ? .brandPrimary : .brandWhite)
                 .buttonStyle(PlainButtonStyle())
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
             }
             .padding(.bottom, 10)
             .padding(.top, 10)
@@ -165,11 +196,24 @@ struct SessionDefaultsView: View {
                 
                 Menu {
                     
+                    Button {
+                        addLocationIsShowing.toggle()
+                    } label: {
+                        HStack {
+                            Text("Add Location")
+                            Image(systemName: "mappin.and.ellipse")
+                        }
+                    }
+                    
                     Picker("Picker", selection: $location) {
                         ForEach(vm.locations) { location in
                             Text(location.name).tag(location)
                         }
                     }
+                    .onChange(of: location, perform: { value in
+                        errorMessage = nil
+                        resultMessage = ""
+                    })
                     
                 } label: {
                     
@@ -183,12 +227,19 @@ struct SessionDefaultsView: View {
                         Text(location.name)
                             .bodyStyle()
                             .lineLimit(1)
+                            .fixedSize()
                     }
                 }
                 .foregroundColor(location.name.isEmpty ? .brandPrimary : .brandWhite)
                 .buttonStyle(PlainButtonStyle())
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
             }
             .padding(.bottom, 10)
+            .sheet(isPresented: $addLocationIsShowing, content: {
+                NewLocationView(addLocationIsShowing: $addLocationIsShowing)
+            })
             
             HStack {
                 Image(systemName: "dollarsign.circle")
@@ -204,38 +255,45 @@ struct SessionDefaultsView: View {
                 
                 Menu {
                     
+                    Button {
+                        addStakesIsShowing = true
+                    } label: {
+                        HStack {
+                            Text("Add Stakes")
+                            Image(systemName: "dollarsign.circle")
+                        }
+                    }
+                    
                     Picker("Picker", selection: $stakes) {
-                        Text("1/2").tag("1/2")
-                        Text("1/3").tag("1/3")
-                        Text("2/2").tag("2/2")
-                        Text("2/3").tag("2/3")
-                        Text("2/5").tag("2/5")
-                        Text("5/5").tag("5/5")
-                        Text("5/10").tag("5/10")
-                        Text("10/10").tag("10/10")
-                        Text("10/20").tag("10/20")
-                        Text("50/100").tag("50/100")
-                        Text("100/200").tag("100/200")
+                        ForEach(vm.userStakes, id: \.self) {
+                            Text($0).tag($0)
+                        }
+                        .onChange(of: stakes, perform: { value in
+                            errorMessage = nil
+                            resultMessage = ""
+                        })
                     }
                     
                 } label: {
-                    
                     if stakes.isEmpty {
                         Text("Please select ›")
                             .bodyStyle()
-                            .fixedSize()
                     } else {
-                        
                         Text(stakes)
                             .bodyStyle()
                             .fixedSize()
-                            .lineLimit(1)
                     }
                 }
                 .foregroundColor(stakes.isEmpty ? .brandPrimary : .brandWhite)
                 .buttonStyle(PlainButtonStyle())
+                .transaction { transaction in
+                    transaction.animation = .none
+                }
             }
             .padding(.bottom, 10)
+            .sheet(isPresented: $addStakesIsShowing, content: {
+                NewStakesView(addStakesIsShowing: $addStakesIsShowing)
+            })
             
             HStack {
                 
@@ -258,6 +316,10 @@ struct SessionDefaultsView: View {
                         Text("Seven Card Stud").tag("Seven Card Stud")
                         Text("Mixed").tag("Mixed")
                     }
+                    .onChange(of: game, perform: { value in
+                        errorMessage = nil
+                        resultMessage = ""
+                    })
                     
                 } label: {
                     
@@ -275,6 +337,49 @@ struct SessionDefaultsView: View {
                 }
                 .foregroundColor(game.isEmpty ? .brandPrimary : .brandWhite)
                 .buttonStyle(PlainButtonStyle())
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
+            }
+            .padding(.bottom, 10)
+            
+            HStack {
+                
+                Image(systemName: "banknote.fill")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30)
+                
+                Text("Currency")
+                    .bodyStyle()
+                    .padding(.leading, 4)
+                
+                Spacer()
+                
+                Menu {
+                    
+                    Picker("Picker", selection: $currency) {
+                        ForEach(CurrencyType.allCases) {
+                            Text($0.symbol).tag($0)
+                        }
+                    }
+                    .onChange(of: currency, perform: { value in
+                        errorMessage = nil
+                        resultMessage = ""
+                    })
+
+                } label: {
+                    
+                    Text(currency.name)
+                        .bodyStyle()
+                        .fixedSize()
+                        .lineLimit(1)
+                }
+                .foregroundColor(.brandWhite)
+                .buttonStyle(PlainButtonStyle())
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
             }
             .padding(.bottom, 10)
             
@@ -290,6 +395,7 @@ struct SessionDefaultsView: View {
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
             saveToUserDefaults()
+            vm.writeToWidget()
             
         } label: {
             PrimaryButton(title: "Save Defaults")
@@ -312,12 +418,13 @@ struct SessionDefaultsView: View {
         .foregroundColor(.brandPrimary)
     }
     
-    func resetUserDefaults() {
+    private func resetUserDefaults() {
         
         sessionType = nil
         location = LocationModel(name: "", localImage: "", imageURL: "")
         stakes = ""
         game = ""
+        currency = .USD
         
         let defaults = UserDefaults.standard
         let resetResult = Result {
@@ -326,18 +433,18 @@ struct SessionDefaultsView: View {
             defaults.removeObject(forKey: "locationDefault")
             defaults.removeObject(forKey: "stakesDefault")
             defaults.removeObject(forKey: "gameDefault")
-            
+            defaults.removeObject(forKey: "currencyDefault")
         }
         
         switch resetResult {
         case .success:
-            resultMessage = "Session Defaults reset!"
+            resultMessage = "Session Defaults reset."
         case .failure(let error):
             resultMessage = "\(error.localizedDescription)"
         }
     }
     
-    func saveToUserDefaults() {
+    private func saveToUserDefaults() {
         
         let defaults = UserDefaults.standard
         let saveResult = Result {
@@ -350,21 +457,36 @@ struct SessionDefaultsView: View {
                 defaults.set(encodedLocation, forKey: "locationDefault")
             }
             
+            if let encodedCurrency = try? JSONEncoder().encode(currency) {
+                defaults.set(encodedCurrency, forKey: "currencyDefault")
+            }
+            
             defaults.set(stakes, forKey: "stakesDefault")
             defaults.set(game, forKey: "gameDefault")
+            vm.loadCurrency()
         }
         
         switch saveResult {
         case .success:
-            resultMessage = "Session Defaults have been saved"
+            resultMessage = "Session Defaults have been saved."
+            showAlertModal = true
+            
         case .failure(let error):
             errorMessage = "\(error.localizedDescription)"
         }
     }
     
-    func loadUserDefaults() {
+    private func loadUserDefaults() {
         
         let defaults = UserDefaults.standard
+        
+        guard
+            let encodedCurrency = defaults.object(forKey: "currencyDefault") as? Data,
+            let decodedCurrency = try? JSONDecoder().decode(CurrencyType.self, from: encodedCurrency)
+                
+        else { return }
+        
+        currency = decodedCurrency
         
         guard
             let encodedSessionType = defaults.object(forKey: "sessionTypeDefault") as? Data,
@@ -393,9 +515,60 @@ struct SessionDefaultsView: View {
     }
 }
 
+enum CurrencyType: String, CaseIterable, Identifiable, Codable {
+    case USD
+    case EUR
+    case GBP
+    case BRL
+    case SGD
+    case MXN
+    case CNY
+    case JPY
+    case PHP
+    case SEK
+    case INR
+    case THB
+    
+    var id: String { self.rawValue }
+    
+    var name: String {
+        switch self {
+        case .USD: return "US Dollar"
+        case .EUR: return "Euro"
+        case .GBP: return "British Pound"
+        case .BRL: return "Brazilian Real"
+        case .SGD: return "Singapore Dollar"
+        case .MXN: return "Mexican Peso"
+        case .CNY: return "Chinese Yuan"
+        case .JPY: return "Japanese Yen"
+        case .PHP: return "Philippines Peso"
+        case .SEK: return "Swedish Krona"
+        case .INR: return "Indian Rupee"
+        case .THB: return "Thai Baht"
+        }
+    }
+    
+    var symbol: String {
+        switch self {
+        case .USD: return "$"
+        case .EUR: return "€"
+        case .GBP: return "£"
+        case .BRL: return "R$"
+        case .SGD: return "S$"
+        case .MXN: return "MX$"
+        case .CNY: return "¥"
+        case .JPY: return "¥"
+        case .PHP: return "₱"
+        case .SEK: return "kr"
+        case .INR: return "₹"
+        case .THB: return "฿"
+        }
+    }
+}
+
 #Preview {
     NavigationView {
-        SessionDefaultsView()
+        SessionDefaultsView(isPresentedAsSheet: .constant(false))
             .environmentObject(SubscriptionManager())
             .environmentObject(SessionsListViewModel())
             .preferredColorScheme(.dark)

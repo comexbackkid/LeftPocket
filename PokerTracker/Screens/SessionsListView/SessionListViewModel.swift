@@ -10,28 +10,59 @@ import WidgetKit
 
 class SessionsListViewModel: ObservableObject {
     
+    @Published var alertMessage: String?
     @Published var uniqueStakes: [String] = []
-    @Published var locations: [LocationModel] = DefaultLocations.allLocations
-    {
+    @Published var stakesProgress: Float = 0.0
+    @Published var userStakes: [String] = ["1/2", "1/3", "2/5", "5/10"] {
+        didSet {
+            saveUserStakes()
+        }
+    }
+    @Published var userCurrency: CurrencyType = .USD
+    @Published var lineChartFullScreen = false
+    @Published var convertedLineChartData: [Int]?
+    @Published var locations: [LocationModel] = DefaultLocations.allLocations {
         didSet {
             saveLocations()
         }
     }
-    
     @Published var sessions: [PokerSession] = [] {
         didSet {
             saveSessions()
             setUniqueStakes()
             writeToWidget()
+            updateStakesProgress()
+            objectWillChange.send()
+        }
+    }
+    @Published var transactions: [BankrollTransaction] = [] {
+        didSet {
+            saveTransactions()
         }
     }
     
     init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(fileAccessAvailable), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
         getSessions()
+        getTransactions()
         getLocations()
+        getUserStakes()
+        loadCurrency()
+        writeToWidget()
     }
     
-    // MARK: SAVING & LOADING APP DATA
+    // MARK: SAVING & LOADING APP DATA: SESSIONS, LOCATIONS, STAKES
+    
+    // We're running this in the event the app gets launched in the background prior to having permissions to read/write data to the file system.
+    // What we do is simply check for an error message, and then attempt to load the data again once triggered by the NotificationCenter.
+    @objc func fileAccessAvailable() {
+        if alertMessage != nil {
+            getSessions()
+            getLocations()
+            getUserStakes()
+            alertMessage = nil
+        }
+    }
     
     var sessionsPath: URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("sessions.json")
@@ -39,6 +70,14 @@ class SessionsListViewModel: ObservableObject {
     
     var locationsPath: URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("locations.json")
+    }
+    
+    var stakesPath: URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("stakes.json")
+    }
+    
+    var transactionsPath: URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("transactions.json")
     }
     
     // Saves the list of sessions with FileManager
@@ -49,21 +88,47 @@ class SessionsListViewModel: ObservableObject {
                 try encodedData.write(to: sessionsPath)
             }
         } catch {
-            print("Failed to write out sessions \(error)")
+            print("Failed to write out Sessions \(error)")
+        }
+    }
+    
+    func saveTransactions() {
+        do {
+            if let encodedData = try? JSONEncoder().encode(transactions) {
+                try? FileManager.default.removeItem(at: transactionsPath)
+                try encodedData.write(to: transactionsPath)
+            }
+        } catch {
+            print("Failed to write Transactions. Error: \(error)")
         }
     }
     
     // Loads all sessions from FileManager upon app launch
     func getSessions() {
-        guard
-            let data = try? Data(contentsOf: sessionsPath),
-            let savedSessions = try? JSONDecoder().decode([PokerSession].self, from: data)
-        else { return }
-        
-        self.sessions = savedSessions
+        do {
+            let data = try Data(contentsOf: sessionsPath)
+            let savedSessions = try JSONDecoder().decode([PokerSession].self, from: data)
+            self.sessions = savedSessions
+
+        } catch {
+            print("Failed to load session with error \(error)")
+            alertMessage = error.localizedDescription
+            return
+        }
     }
     
-    // MARK: LOCATION FUNCTIONS SUCH AS ADD, DELETE, & MERGE
+    func getTransactions() {
+        do {
+            let data = try Data(contentsOf: transactionsPath)
+            let savedTransactions = try JSONDecoder().decode([BankrollTransaction].self, from: data)
+            self.transactions = savedTransactions
+            
+        } catch {
+            print("Failed to load Transactions with error \(error)")
+            alertMessage = error.localizedDescription
+            return
+        }
+    }
     
     // Saves the list of locations the user has created with FileManager
     func saveLocations() {
@@ -73,12 +138,23 @@ class SessionsListViewModel: ObservableObject {
                 try encodedData.write(to: locationsPath)
             }
         } catch {
-            print("Failed to write out locations, \(error)")
+            print("Failed to save locations, \(error)")
+        }
+    }
+    
+    // Saves the list of stakes the user has created, in addition to the 3x defaults
+    func saveUserStakes() {
+        do {
+            if let encodedData = try? JSONEncoder().encode(userStakes) {
+                try? FileManager.default.removeItem(at: stakesPath)
+                try encodedData.write(to: stakesPath)
+            }
+        } catch {
+            print("Failed to save user's stakes, \(error)")
         }
     }
     
     // Function to delete from user's list of Locations from the Settings screen
-    // I'm not sure we're even using this right now
     func delete(_ location: LocationModel) {
         if let index = locations.firstIndex(where: { $0.id == location.id })
         {
@@ -89,18 +165,31 @@ class SessionsListViewModel: ObservableObject {
     
     // Loads the locations the user has created upon app launch
     func getLocations() {
-        guard
-            let data = try? Data(contentsOf: locationsPath),
-            let savedLocations = try? JSONDecoder().decode([LocationModel].self, from: data)
-                
-        else { return }
-        
-        self.locations = savedLocations
+        do {
+            let data = try Data(contentsOf: locationsPath)
+            let importedLocations = try JSONDecoder().decode([LocationModel].self, from: data)
+            self.locations = importedLocations
+            
+        } catch {
+            print("Failed to load saved Locations with error: \(error)")
+            alertMessage = error.localizedDescription
+        }
+    }
+    
+    // Loads the stakes the user has saved
+    func getUserStakes() {
+        do {
+            let data = try Data(contentsOf: stakesPath)
+            let importedStakes = try JSONDecoder().decode([String].self, from: data)
+            self.userStakes = importedStakes
+            
+        } catch {
+            print("Failed to load Stakes with error: \(error)")
+            alertMessage = error.localizedDescription
+        }
     }
     
     // Will merge Default Locations in to the current saved Locations and also keep the same order
-    // Question is, do we absolutely need to run this? If a user deletes a default location, they presumably don't want it back?
-    // Maybe there's a "Restore to Defaults" button?
     func mergeLocations() {
         var modifiedLocations = self.locations
         
@@ -115,183 +204,76 @@ class SessionsListViewModel: ObservableObject {
     
     // Adds a new Location to the app
     func addLocation(name: String, localImage: String, imageURL: String, importedImage: Data?) {
-        
         let newLocation = LocationModel(name: name, localImage: localImage, imageURL: imageURL, importedImage: importedImage)
         
         locations.append(newLocation)
     }
     
-    // This is only working when you filter by .name versus the .id not sure why? Does it matter? What if the name is changed by the user?
-    func uniqueLocationCount(location: LocationModel) -> Int {
-        let array = self.sessions.filter({ $0.location.id == location.id })
-        return array.count
+    func addStakes(_ stakes: String) {
+        guard !userStakes.contains(stakes) else {
+            return
+        }
+        
+        userStakes.append(stakes)
     }
     
     func setUniqueStakes() {
-        uniqueStakes = Array(Set(sessions.filter({ $0.isTournament == false || $0.isTournament == nil }).map({ $0.stakes })))
+        let sortedSessions = allCashSessions().sorted(by: { $0.date > $1.date })
+        uniqueStakes = Array(Set(sortedSessions.map({ $0.stakes })))
     }
     
-    // MARK: CALCULATIONS & DATA PRESENTATION FOR USE IN CHARTS & METRICS VIEW
+    // MARK: LOADING USER'S PREFERRED CURRENCY
     
-    // Calculate current bankroll
-    func tallyBankroll() -> Int {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.usesGroupingSeparator = true
-        let bankroll = sessions.map { Int($0.profit) }.reduce(0, +)
-        return bankroll
+    func loadCurrency() {
+        let defaults = UserDefaults.standard
+        
+        guard
+            let data = defaults.object(forKey: "currencyDefault") as? Data,
+            let currency = try? JSONDecoder().decode(CurrencyType.self, from: data)
+                
+        else { return }
+        
+        userCurrency = currency
     }
     
-    // Creates an array of our running, cumulative bankroll for use with charts
-    func chartArray() -> [Double] {
-        let profitsArray = sessions.map { Double($0.profit) }
-        var cumBankroll = [Double]()
-        var runningTotal = 0.0
-        cumBankroll.append(0.0)
-        
-        for value in profitsArray.reversed() {
-            runningTotal += value
-            cumBankroll.append(runningTotal)
-        }
-        return cumBankroll
-    }
+    // MARK: CALCULATIONS & DATA PRESENTATION FOR CHARTS & METRICS VIEW
     
-    // Converts our profit data into coordinates tuples for charting
-    // Might need to think of a more elegant way of doing this. What if the user is a heavy user with a thousand sessions?
-    func chartCoordinates() -> [Point] {
-        
-        var fewSessions = [Double]()
-        var manySessions = [Double]()
-        
-        for (index, item) in chartArray().enumerated() {
-            
-            if index.isMultiple(of: 2) {
-                fewSessions.append(item)
-            }
-        }
-        
-        for (index, item) in chartArray().enumerated() {
-            
-            if index.isMultiple(of: 5) {
-                manySessions.append(item)
-            }
-        }
-        
-        // If there's over 25 sessions, we will use every other data point to build the chart.
-        // If there's over 50 sessions, we count by 5's in order to smooth out the chart and make it appear less erratic
-        if chartArray().count > 50 {
-            return manySessions.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
-            
-        } else if chartArray().count > 25 {
-            return fewSessions.enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
-        }
-        
-        else {
-            return chartArray().enumerated().map({ Point(x:CGFloat($0.offset), y: $0.element) })
-        }
-    }
-    
-    // Returns a tuple array for use in Swift Charts bar chart
-    func barChartByDay() -> [SessionData] {
-        let sunday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Sunday" }).map({ $0.profit }).reduce(0,+)
-        let monday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Monday" }).map({ $0.profit }).reduce(0,+)
-        let tuesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Tuesday" }).map({ $0.profit }).reduce(0,+)
-        let wednesday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Wednesday" }).map({ $0.profit }).reduce(0,+)
-        let thursday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Thursday" }).map({ $0.profit }).reduce(0,+)
-        let friday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Friday" }).map({ $0.profit }).reduce(0,+)
-        let saturday = sessions.filter({ $0.date.dayOfWeek(day: $0.date) == "Saturday" }).map({ $0.profit }).reduce(0,+)
-        return [("Su", sunday), ("M", monday), ("T", tuesday), ("W", wednesday), ("Th", thursday), ("F", friday), ("S", saturday)].map(SessionData.init)
-    }
-    
-    // Simply counts how many sessions played by year. Used in Study section
+    // Simply counts how many sessions played each year
     func sessionsPerYear(year: String) -> Int {
         guard !sessions.isEmpty else { return 0 }
         return sessions.filter({ $0.date.getYear() == year }).count
     }
     
-    // Adds up total number of profitable sessions
-    func numOfCashes() -> Int {
-        guard !sessions.isEmpty else { return 0 }
-        return sessions.filter { $0.profit > 0 }.count
-    }
-    
-    // Returns percentage of winning seessions
+    // Returns percentage of winning sessions
     func winRate() -> String {
-        guard !sessions.isEmpty else { return "0%" }
-        let winPercentage = Double(numOfCashes()) / Double(sessions.count)
+        guard !allCashSessions().isEmpty else { return "0%" }
+        let cashSessions = allCashSessions()
+        let winPercentage = Double(numOfCashes()) / Double(cashSessions.count)
         return winPercentage.asPercent()
     }
     
-    // Standard deviation function on a per session basis
-    func standardDeviation() -> Int {
+    // MARK: ADDITIONAL CALCULATIONS
+    
+    func bankrollByYear(year: String, sessionFilter: SessionFilter) -> Int {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
         
-        guard sessions.count > 1 else {
-            // Not enough data points to calculate standard deviation
-            return 0
+        var bankroll: Int {
+            switch sessionFilter {
+            case .all:
+                sessions.filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
+            case .cash:
+                allCashSessions().filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
+            case .tournaments:
+                allTournamentSessions().filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
+            }
         }
 
-        let profitArray = sessions.map { $0.profit }
-        let mean = profitArray.reduce(0, +) / profitArray.count
-        let variance = profitArray.reduce(0) { (result, profit) in
-            result + pow(Double(profit - mean), 2)
-        } / Double(profitArray.count - 1)
-
-        return Int(sqrt(variance))
+        return bankroll
     }
     
-    // Calculate total hourly earnings rate for MetricsView
-    func hourlyRate() -> Int {
-        guard !sessions.isEmpty else { return 0 }
-        let totalHours = sessions.map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
-        let totalMinutes = Float(sessions.map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
-        
-        if totalHours < 1 {
-            return Int(Float(tallyBankroll()) / (totalMinutes / 60))
-        } else {
-            return tallyBankroll() / totalHours
-        }
-    }
-    
-    // Calculate average session duration for MetricsView
-    func avgDuration() -> String {
-        guard !sessions.isEmpty else { return "0" }
-        let hoursArray: [Int] = sessions.map { $0.sessionDuration.hour ?? 0 }
-        let minutesArray: [Int] = sessions.map { $0.sessionDuration.minute ?? 0 }
-        let totalHours = hoursArray.reduce(0, +) / sessions.count
-        let totalMinutes = minutesArray.reduce(0, +) / sessions.count
-        let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
-        return dateComponents.formattedDuration
-    }
-    
-    // Calculate average profit per session
-    func avgProfit() -> Int {
-        guard !sessions.isEmpty else { return 0 }
-        return tallyBankroll() / sessions.count
-    }
-    
-    // Calculate average cost of Tournament buy in's
-    func avgTournamentBuyIn() -> Int {
-        guard !sessions.isEmpty else { return 0 }
-        guard sessions.contains(where: { $0.isTournament == true }) else {
-            return 0
-        }
-        
-        let tournamentBuyIns = sessions.filter { $0.isTournament == true }.map { $0.expenses ?? 0 }.reduce(0, +)
-        let count = sessions.filter { $0.isTournament == true }.count
-        
-        return tournamentBuyIns / count
-    }
-    
-    // Total hours played from all sessions
-    func totalHoursPlayed() -> String {
-        guard !sessions.isEmpty else { return "0" }
-        let totalHours = sessions.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
-        let totalMins = sessions.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
-        let dateComponents = DateComponents(hour: totalHours, minute: totalMins)
-        return dateComponents.abbreviated(duration: dateComponents)
-    }
-    
-    // User's longest win streak
+    // User's longest win streak. Not being used yet
     func winStreak() -> Int {
         var consecutiveCount = 0
         var maxConsecutiveCount = 0
@@ -308,215 +290,50 @@ class SessionsListViewModel: ObservableObject {
         return maxConsecutiveCount
     }
     
-    // Formatted specifically for home screen dashboard
-    func totalHoursPlayedHomeScreen() -> String {
-        guard !sessions.isEmpty else { return "0" }
-        let totalHours = sessions.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
-        let totalMins = sessions.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
-        let dateComponents = DateComponents(hour: totalHours, minute: totalMins)
-        return String(Int(dateComponents.durationInHours).abbreviateHourTotal)
-    }
-    
-    // MARK: CALCULATIONS FOR ANNUAL REPORT VIEW
-    
-    func allSessionDataByYear(year: String) -> [PokerSession] {
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return [] }
-        return sessions.filter({ $0.date.getYear() == year })
-    }
-    
-    func grossIncome() -> Int {
-        guard !sessions.isEmpty else { return 0 }
-        let netProfit = sessions.map { Int($0.profit) }.reduce(0, +)
-        let totalExpenses = sessions.map { Int($0.expenses ?? 0) }.reduce(0, +)
-        let grossIncome = netProfit + totalExpenses
-        return grossIncome
-    }
-    
-    func grossIncomeByYear(year: String) -> Int {
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
-        let netProfit = sessions.filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
-        let totalExpenses = sessions.filter({ $0.date.getYear() == year }).map { Int($0.expenses ?? 0) }.reduce(0, +)
-        let grossIncome = netProfit + totalExpenses
-        return grossIncome
-    }
-    
-    func bankrollByYear(year: String) -> Int {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
-        let bankroll = sessions.filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
-        return bankroll
-    }
-    
-    func hourlyByYear(year: String) -> Int {
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
-        let hoursArray = sessions.filter({ $0.date.getYear() == year }).map { Int($0.sessionDuration.hour ?? 0) }
-        let minutesArray = sessions.filter({ $0.date.getYear() == year }).map { Int($0.sessionDuration.minute ?? 0) }
-        let totalHours = hoursArray.reduce(0,+)
-        let totalMinutes = Float(minutesArray.reduce(0, +))
-        
-        if totalHours < 1 {
-            return Int(Float(bankrollByYear(year: year)) / (totalMinutes / 60))
-        } else {
-            return bankrollByYear(year: year) / totalHours
-        }
-    }
-    
-    func hourlyByLocation(venue: String, total: Int) -> Int {
-        guard !sessions.filter({ $0.location.name == venue }).isEmpty else { return 0 }
-        let totalHours = sessions.filter({ $0.location.name == venue }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
-        return total / totalHours
-    }
-    
-    func hourlyByStakes(stakes: String, total: Int) -> Int {
-        guard !sessions.filter({$0.stakes == stakes}).isEmpty else { return 0 }
-        let totalHours = sessions.filter({ $0.stakes == stakes }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
-        return total / totalHours
-    }
-    
-    func avgProfitByYear(year: String) -> Int {
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
-        return bankrollByYear(year: year) / sessions.filter({ $0.date.getYear() == year }).count
-    }
-    
-    func hoursPlayedByYear(year: String) -> String {
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return "0" }
-        let hoursArray: [Int] = sessions.filter({ $0.date.getYear() == year }).map { $0.sessionDuration.hour ?? 0 }
-        let minutesArray: [Int] = sessions.filter({ $0.date.getYear() == year }).map { $0.sessionDuration.minute ?? 0 }
-        let totalHours = hoursArray.reduce(0, +)
-        let totalMinutes = minutesArray.reduce(0, +)
-        let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
-        return dateComponents.abbreviated(duration: dateComponents)
-    }
-    
-    func totalExpenses() -> Int {
-        guard !sessions.isEmpty else { return 0 }
-        let expenses = sessions.map { $0.expenses ?? 0 }.reduce(0,+)
-        return expenses
-    }
-    
-    func totalExpensesByYear(year: String) -> Int {
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
-        let expenses = sessions.filter({ $0.date.getYear() == year }).map { $0.expenses ?? 0 }.reduce(0,+)
-        return expenses
-    }
-    
-    func numOfCashesByYear(year: String) -> Int {
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
-        let profitableSessions = sessions.filter({ $0.date.getYear() == year }).filter { $0.profit > 0 }
-        return profitableSessions.count
-    }
-    
-    func winRateByYear(year: String) -> String {
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return "0%" }
-        let wins = Double(numOfCashesByYear(year: year))
-        let sessions = Double(sessionsPerYear(year: year))
-        let winPercentage = wins / sessions
-        return winPercentage.asPercent()
-    }
-    
-    func bestLocation(year: String? = nil) -> LocationModel? {
-        guard !sessions.isEmpty else { return DefaultData.defaultLocation }
-        if let yearFilter = year {
-            let filteredSessions = sessions.filter({ $0.date.getYear() == yearFilter }).map({ ($0.location, $0.profit) })
-            let maxProfit = Dictionary(filteredSessions, uniquingKeysWith: { $0 + $1 }).max { $0.value < $1.value }
-            return maxProfit?.key
-            
-        } else {
-            let locationTuple = sessions.map({ ($0.location, $0.profit) })
-            let maxProfit = Dictionary(locationTuple, uniquingKeysWith: { $0 + $1 }).max { $0.value < $1.value }
-            return maxProfit?.key
-        }   
-    }
-    
-    func bestSession(year: String? = nil) -> Int? {
-        guard !sessions.isEmpty else { return 0 }
-        if let yearFilter = year {
-            let filteredSessions = sessions.filter({ $0.date.getYear() == yearFilter })
-            return filteredSessions.map({ $0.profit }).max(by: { $0 < $1 })
-        }
-        
-        else {
-            let bestSession = sessions.map({ $0.profit }).max(by: { $0 < $1 })
-            return bestSession
-        }
-    }
-    
     // MARK: CHARTING FUNCTIONS
     
-    func yearlyChartArray(year: String) -> [Double] {
-        let profitsArray = sessions.filter({ $0.date.getYear() == year }).map { Double($0.profit) }
-        var cumBankroll = [Double]()
-        var runningTotal = 0.0
-        cumBankroll.append(0.0)
-
-        for value in profitsArray.reversed() {
-            runningTotal += value
-            cumBankroll.append(runningTotal)
+    func convertToLineChartData() {
+        var convertedData: [Int] {
+            
+            // Start with zero as our initial data point so chart doesn't look goofy
+            var originalDataPoint = [0]
+            let newDataPoints = calculateCumulativeProfit(sessions: self.sessions, sessionFilter: .all)
+            originalDataPoint += newDataPoints
+            return originalDataPoint
         }
-        return cumBankroll
-    }
-
-    func yearlyChartCoordinates(year: String) -> [Point] {
-        return yearlyChartArray(year: year).enumerated().map({Point(x:CGFloat($0.offset), y: $0.element)})
+        
+        self.convertedLineChartData = convertedData
     }
     
-    // Used in ToolTipView for Bar Chart in Metrics View
-    func mostProfitableMonth(in sessions: [PokerSession]) -> String {
+    // Chart function used to sum up a cumulative array of Integers for Swift Charts X-Axis
+    func calculateCumulativeProfit(sessions: [PokerSession], sessionFilter: SessionFilter) -> [Int] {
         
-        // Create a dictionary to store total profit for each month
-        var monthlyProfits: [Int: Int] = [:]
+        // We run this so tha twe can just use the Index as our X Axis value. Keeps spacing uniform and neat looking.
+        // Then, in chart configuration we just plot along the Index value, and Int is our cumulative profit amount.
+        var cumulativeProfit = 0
         
-        let currentYear = Calendar.current.component(.year, from: Date())
-        
-        // Iterate through sessions and accumulate profit for each month
-        for session in sessions {
-            
-            let yearOfSession = Calendar.current.component(.year, from: session.date)
-            
-            // Check if the session is from the current year
-            if yearOfSession == currentYear {
-                let month = Calendar.current.component(.month, from: session.date)
-                monthlyProfits[month, default: 0] += session.profit
+        // Take the cash / tournament filter and assign to this variable
+        var filteredSessions: [PokerSession] {
+            switch sessionFilter {
+            case .all:
+                return sessions
+            case .cash:
+                return sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
+            case .tournaments:
+                return sessions.filter({ $0.isTournament == true })
             }
         }
-        
-        // Find the month with the highest profit
-        if let mostProfitableMonth = monthlyProfits.max(by: { $0.value < $1.value }) {
-            let monthFormatter = DateFormatter()
-            monthFormatter.dateFormat = "MMMM"
-            let monthString = monthFormatter.monthSymbols[mostProfitableMonth.key - 1]
-            
-            return monthString
-            
-        } else {
-            return "No data available"
+
+        // I'm having to manually sort the sessions array here, even though it's doing it in the Add Session function. Don't know why.
+        let result = filteredSessions.sorted(by: { $0.date < $1.date }).map { session -> Int in
+            cumulativeProfit += session.profit
+            return cumulativeProfit
         }
-    }
-    
-    var bestMonth: String {
-        
-        mostProfitableMonth(in: sessions)
-        
+
+        return result
     }
     
     // MARK: ADDITIONAL METRICS CARDS
-    
-    func sessionsByLocation(_ location: String) -> [PokerSession] {
-        sessions.filter({ $0.location.name == location })
-    }
-    
-    func profitByLocation(_ location: String) -> Int {
-        return sessionsByLocation(location).reduce(0) { $0 + $1.profit }
-    }
-    
-    func sessionsByDayOfWeek(_ day: String) -> [PokerSession] {
-        sessions.filter({ $0.date.dayOfWeek(day: $0.date) == day })
-    }
-
-    func profitByDayOfWeek(_ day: String) -> Int {
-        return sessionsByDayOfWeek(day).reduce(0) { $0 + $1.profit }
-    }
     
     func sessionsByMonth(_ month: String) -> [PokerSession] {
         sessions.filter({ $0.date.monthOfYear(month: $0.date) == month })
@@ -530,8 +347,9 @@ class SessionsListViewModel: ObservableObject {
         sessions.filter({ $0.stakes == stakes })
     }
     
-    func profitByStakes(_ stakes: String) -> Int {
-        return sessionsByStakes(stakes).reduce(0) { $0 + $1.profit }
+    // Take in the stakes, and feed it which sessions to filter from
+    func profitByStakes(stakes: String, sessions: [PokerSession]) -> Int {
+        return sessions.filter({ $0.stakes == stakes }).reduce(0) { $0 + $1.profit }
     }
     
     // Function that adds a new session to variable sessions, above, from NewSessionView
@@ -544,7 +362,14 @@ class SessionsListViewModel: ObservableObject {
                     startTime: Date, endTime: Date,
                     expenses: Int,
                     isTournament: Bool,
-                    entrants: Int) {
+                    entrants: Int,
+                    finish: Int,
+                    highHandBonus: Int,
+                    buyIn: Int,
+                    cashOut: Int,
+                    rebuyCount: Int,
+                    tournamentSize: String,
+                    tournamentSpeed: String) {
         
         let newSession = PokerSession(location: location,
                                       game: game,
@@ -555,40 +380,87 @@ class SessionsListViewModel: ObservableObject {
                                       startTime: startTime, endTime: endTime,
                                       expenses: expenses,
                                       isTournament: isTournament,
-                                      entrants: entrants)
+                                      entrants: entrants,
+                                      finish: finish,
+                                      highHandBonus: highHandBonus,
+                                      buyIn: buyIn,
+                                      cashOut: cashOut,
+                                      rebuyCount: rebuyCount,
+                                      tournamentSize: tournamentSize,
+                                      tournamentSpeed: tournamentSpeed
+        )
         sessions.append(newSession)
         sessions.sort(by: {$0.date > $1.date})
+    }
+    
+    func addTransaction(date: Date, type: TransactionType, amount: Int, notes: String) {
+        
+        if type == .withdrawal || type == .expense {
+            let newAmount = -(amount)
+            let newTransaction = BankrollTransaction(date: date, type: type, amount: newAmount, notes: notes)
+            transactions.append(newTransaction)
+        } else {
+            let newTransaction = BankrollTransaction(date: date, type: type, amount: amount, notes: notes)
+            transactions.append(newTransaction)
+        }
+        
+        transactions.sort(by: {$0.date > $1.date})
     }
     
     // MARK: WIDGET FUNCTIONS
     
     func writeToWidget() {
+        
         guard let defaults = UserDefaults(suiteName: AppGroup.bankrollSuite) else {
             print("Unable to write to User Defaults!")
             return
         }
 
-        defaults.set(self.tallyBankroll(), forKey: AppGroup.bankrollKey)
+        defaults.set(self.tallyBankroll(bankroll: .all), forKey: AppGroup.bankrollKey)
         defaults.set(self.sessions.first?.profit ?? 0, forKey: AppGroup.lastSessionKey)
-        defaults.set(self.hourlyRate(), forKey: AppGroup.hourlyKey)
+        defaults.set(self.hourlyRate(bankroll: .all), forKey: AppGroup.hourlyKey)
         defaults.set(self.sessions.count, forKey: AppGroup.totalSessionsKey)
-
-        guard let chartData = try? JSONEncoder().encode(self.chartCoordinates()) else {
+        defaults.set(self.userCurrency.rawValue, forKey: AppGroup.currencyKey)
+        
+        self.convertToLineChartData()
+        
+        guard let swiftChartData = try? JSONEncoder().encode(self.convertedLineChartData) else {
             print("Error writing chart data")
             return
         }
-
-        defaults.set(chartData, forKey: AppGroup.chartKey)
+        defaults.set(swiftChartData, forKey: AppGroup.swiftChartKey)
         WidgetCenter.shared.reloadAllTimelines()
+    }
+    
+    // MARK: COUNT USER ACTIVITY FOR PAYWALL LOGIC
+    
+    func sessionsLoggedThisMonth(sessions: [PokerSession]) -> Int {
+        let calendar = Calendar.current
+        let currentDate = Date()
+        let currentMonth = calendar.component(.month, from: currentDate)
+        let currentYear = calendar.component(.year, from: currentDate)
+        
+        return sessions.filter { session in
+            let sessionDate = session.date
+            let sessionMonth = calendar.component(.month, from: sessionDate)
+            let sessionYear = calendar.component(.year, from: sessionDate)
+            return sessionMonth == currentMonth && sessionYear == currentYear
+        }.count
+    }
+    
+    // Returns false if the user tries to add a 6th session for the month
+    func canLogNewSession() -> Bool {
+        let loggedThisMonth = sessionsLoggedThisMonth(sessions: self.sessions)
+        return loggedThisMonth < 5
     }
     
     // MARK: MOCK DATA FOR PREVIEW & TESTING
     
     // Loading fake data for Preview Provider
-    func getMockSessions() {
-        let fakeSessions = MockData.allSessions.sorted(by: {$0.date > $1.date})
-        self.sessions = fakeSessions
-    }
+//    func getMockSessions() {
+//        let fakeSessions = MockData.allSessions.sorted(by: {$0.date > $1.date})
+//        self.sessions = fakeSessions
+//    }
     
     // Loading fake locations so our filtered views can work correctly
     func getMockLocations() {
@@ -597,6 +469,16 @@ class SessionsListViewModel: ObservableObject {
     }
     
     let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    let daysOfWeekAbbreviated = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+}
+
+extension SessionsListViewModel {
+    
+    func allTournamentSessions() -> [PokerSession] {
+        return sessions.filter({ $0.isTournament == true })
+    }
+    
+    func allCashSessions() -> [PokerSession] {
+        return sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
+    }
 }

@@ -12,6 +12,7 @@ struct BestSessionView: View {
     @Environment(\.colorScheme) var colorScheme
     
     let profit: Int
+    let currency: CurrencyType
     
     var body: some View {
         
@@ -23,10 +24,12 @@ struct BestSessionView: View {
                 
                 Spacer()
                 
-                Text(profit.asCurrency())
+                Text(profit, format: .currency(code: currency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: profit)
                     .lineLimit(1)
-                    .font(.headline)
+                    .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+                    .lineSpacing(2.5)
+                    
             }
         }
         .font(.subheadline)
@@ -34,12 +37,13 @@ struct BestSessionView: View {
         .frame(width: UIScreen.main.bounds.width * 0.9, height: 60)
         .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
         .cornerRadius(20)
-        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+        
     }
 }
 
 struct BestSessionView_Previews: PreviewProvider {
     static var previews: some View {
-        BestSessionView(profit: 1200)
+        BestSessionView(profit: 1200, currency: .EUR)
     }
 }

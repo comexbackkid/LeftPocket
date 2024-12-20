@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WidgetKit
+import Charts
 
 struct WidgetViewMedium: View {
     
@@ -22,7 +23,7 @@ struct WidgetViewMedium: View {
             
             numbers
             
-            chart
+            swiftChart
             
             logo
             
@@ -44,21 +45,25 @@ struct WidgetViewMedium: View {
             HStack(spacing: 40) {
                 
                 VStack(alignment: .leading) {
+                    
                     Text("Hourly Rate")
                         .foregroundColor(.secondary)
-                        .font(.caption)
-                    Text(entry.hourlyRate.accountingStyle())
+                        .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
+                    
+                    Text(entry.hourlyRate, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                         .foregroundColor(.widgetForegroundText)
-                        .font(.system(.subheadline, design: .rounded))
+                        .font(.custom("Asap-Medium", size: 18, relativeTo: .caption2))
                 }
                 
                 VStack (alignment: .leading) {
+                    
                     Text("Sessions")
                         .foregroundColor(.secondary)
-                        .font(.caption)
+                        .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
+                    
                     Text("\(entry.totalSessions)")
                         .foregroundColor(.widgetForegroundText)
-                        .font(.system(.subheadline, design: .rounded))
+                        .font(.custom("Asap-Medium", size: 18, relativeTo: .caption2))
                 }
                 
                 Spacer()
@@ -68,15 +73,18 @@ struct WidgetViewMedium: View {
             Spacer()
 
             HStack {
-                Text("My Bankroll")
+                Text("Total Profit")
+                    .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
                     .foregroundColor(.secondary)
-                    .font(.caption)
+
                 Spacer()
             }
             HStack {
-                Text(entry.bankroll.accountingStyle())
+                Text(entry.bankroll, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                     .foregroundColor(.widgetForegroundText)
-                    .font(.system(.title, design: .rounded))
+                    .font(.custom("Asap-Bold", size: 28, relativeTo: .title3))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.9)
                 
                 Spacer()
             }
@@ -84,17 +92,16 @@ struct WidgetViewMedium: View {
             HStack {
                 
                 if entry.recentSessionAmount != 0 {
-                    Image(systemName: "arrowtriangle.up.fill")
+                    Image(systemName: "arrow.up.right")
                         .resizable()
                         .frame(width: 11, height: 11)
                         .foregroundColor(entry.recentSessionAmount > 0 ? .green : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
-                        .rotationEffect(entry.recentSessionAmount >= 0 ? .degrees(0) : .degrees(180))
+                        .rotationEffect(entry.recentSessionAmount >= 0 ? .degrees(0) : .degrees(90))
                 }
                 
-                Text(entry.recentSessionAmount.accountingStyle())
+                Text(entry.recentSessionAmount, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                     .foregroundColor(entry.recentSessionAmount > 0 ? .green : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
-                    .font(.subheadline)
-                    .bold()
+                    .font(.custom("Asap-Medium", size: 18, relativeTo: .caption2))
                 
                 Spacer()
             }
@@ -104,15 +111,43 @@ struct WidgetViewMedium: View {
         .padding(.bottom, 12)
     }
     
-    var chart: some View {
+    var swiftChart: some View {
         
         HStack {
+            
             Spacer()
             
-            WidgetChart(data: entry.chartData)
-                .frame(maxWidth: 190, maxHeight: 75)
-                .padding(.vertical, 15)
-                .padding(.trailing,15)
+            Chart {
+                ForEach(Array(entry.swiftChartData.enumerated()), id: \.offset) { index, total in
+                    
+                    LineMark(x: .value("Time", index), y: .value("Profit", total))
+                        .foregroundStyle(LinearGradient(colors: [.chartAccent, .chartBase], startPoint: .topTrailing, endPoint: .bottomLeading))
+                        
+                    
+                    AreaMark(x: .value("Time", index), y: .value("Profit", total))
+                        .foregroundStyle(LinearGradient(colors: [Color("lightBlue").opacity(0.4), .clear], startPoint: .top, endPoint: .bottom))
+                }
+                .interpolationMethod(.catmullRom)
+                .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+            }
+            .overlay(
+                PatternView()
+                    
+                    .allowsHitTesting(false)
+                    .mask(
+                        Chart {
+                            ForEach(Array(entry.swiftChartData.enumerated()), id: \.offset) { index, total in
+                                AreaMark(x: .value("Time", index), y: .value("Profit", total))
+                            }
+                            .interpolationMethod(.catmullRom)
+                        }
+                    )
+            )
+            .chartXAxis(.hidden)
+            .chartYAxis(.hidden)
+            .frame(maxWidth: 165, maxHeight: 75)
+            .padding(.trailing, 15)
+            .padding(.bottom, 15)
         }
     }
     
@@ -140,15 +175,40 @@ struct WidgetViewMedium: View {
     }
 }
 
+struct PatternView: View {
+    
+    var body: some View {
+        
+        GeometryReader { geometry in
+            let patternSize: CGFloat = 3 // Size of individual dots
+            let spacing: CGFloat = 7 // Spacing between dots
+            let dotColor: Color = Color("lightBlue").opacity(0.1)
+
+            Canvas { context, size in
+                for y in stride(from: 0, to: size.height, by: patternSize + spacing) {
+                    for x in stride(from: 0, to: size.width, by: patternSize + spacing) {
+                        context.fill(
+                            Path(ellipseIn: CGRect(x: x, y: y, width: patternSize, height: patternSize)),
+                            with: .color(dotColor)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
 struct WidgetViewMedium_Previews: PreviewProvider {
     static var previews: some View {
         WidgetViewMedium(entry: SimpleEntry(date: Date(),
                                             bankroll: 63351,
                                             recentSessionAmount: 150,
-                                            chartData: MockData.mockDataCoords,
+                                            swiftChartData: [0,350,220,457,900,719,333,1211,1400,1765,1500,1828,1721],
                                             hourlyRate: 32,
-                                            totalSessions: 14))
+                                            totalSessions: 14,
+                                            currency: "USD"))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
             .preferredColorScheme(.dark)
+        
     }
 }

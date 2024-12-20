@@ -97,12 +97,11 @@ struct BestLocationView: View {
                 }
             }
         }
-        .font(.subheadline)
         .padding(30)
         .frame(width: UIScreen.main.bounds.width * 0.9, height: 120)
-        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
+        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(20)
-        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 5)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
 }
 
