@@ -12,6 +12,7 @@ extension Color {
     static let brandWhite = Color("brandWhite")
     static let brandBackground = Color("brandBlack")
     static let lightBlue = Color("lightBlue")
+    static let lightGreen = Color("lightGreen")
     static let onboardingBG = Color("onboardingBG")
     static let widgetBackground = Color("widgetBackground")
     static let chartBase = Color("chartBase")

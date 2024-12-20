@@ -22,7 +22,7 @@ struct MetricsCardView: View {
                 
                 Spacer()
          
-                BankrollLineChart(showTitle: false, showYAxis: true, showRangeSelector: false, overlayAnnotation: true)
+                BankrollLineChart(showTitle: false, showYAxis: true, showRangeSelector: false, overlayAnnotation: false)
                     .padding(.top, 25)
                     .padding(.horizontal, 20)
                 
@@ -49,7 +49,7 @@ struct MetricsCardView: View {
             }
         }
         .frame(width: width, height: 350)
-        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.5 : 1.0))
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }

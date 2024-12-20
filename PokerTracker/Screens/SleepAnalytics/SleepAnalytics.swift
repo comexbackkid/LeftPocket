@@ -36,7 +36,10 @@ struct SleepAnalytics: View {
     }
     var pokerSessionMatch: PokerSession? {
         guard let rawSelectedDate else { return nil }
-        return viewModel.sessions.first {
+        let last30Days = Calendar.current.date(byAdding: .day, value: -30, to: Date())!
+        let sessions = viewModel.sessions.filter({ $0.date >= last30Days })
+        
+        return sessions.first {
             Calendar.current.isDate(rawSelectedDate, inSameDayAs: $0.date)
         }
     }
@@ -44,6 +47,7 @@ struct SleepAnalytics: View {
     var body: some View {
         
         NavigationStack {
+            
             ZStack {
                 
                 ScrollView {
@@ -62,9 +66,9 @@ struct SleepAnalytics: View {
                                 sleepChart
                                 
                             } else { oldSleepChart }
-                            
+                                                        
                             ToolTipView(image: "bed.double.fill",
-                                        message: "So far this year, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 || countLowSleepSessions() < 1  ? "s" : "") under-rested.",
+                                        message: "In the last month, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 || countLowSleepSessions() < 1  ? "s" : "") under-rested.",
                                         color: .donutChartOrange)
                             
                             ToolTipView(image: "gauge",
@@ -75,9 +79,6 @@ struct SleepAnalytics: View {
                                 mindfulnessCard
                             }
                             .buttonStyle(.plain)
-                                                    
-                            disclaimerText
-                            
                         }
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationTitle("")
@@ -91,6 +92,7 @@ struct SleepAnalytics: View {
                         }, content: {
                             HealthKitPrimingView(hasSeen: $hasSeenPermissionPriming)
                         })
+                        .padding(.bottom, activeSheet == .sleepAnalytics ? 0 : 40)
                     }
                 }
                 .background(Color.brandBackground)
@@ -181,6 +183,8 @@ struct SleepAnalytics: View {
             
             HStack {
                 
+                Spacer()
+                
                 VStack (spacing: 2) {
                     Text(selectedSleepMetric?.dayNoYear ?? "None")
                         .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
@@ -221,7 +225,7 @@ struct SleepAnalytics: View {
         .animation(nil, value: rawSelectedDate)
         .padding()
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
@@ -290,7 +294,7 @@ struct SleepAnalytics: View {
             Spacer()
         }
         .padding(.horizontal)
-        .padding(.bottom, activeSheet == .sleepAnalytics ? 0 : 40)
+        
         .popover(isPresented: $numbersLookOffPopup, arrowEdge: .bottom, content: {
             PopoverView(bodyText: "If your sleep data looks different than what your smart device is reporting, kindly let us know. On occasion, sleep numbers can get double-counted in Apple's Health App. Email leftpocketpoker@gmail.com.")
                 .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
@@ -328,7 +332,7 @@ struct SleepAnalytics: View {
         VStack {
             VStack (alignment: .leading, spacing: 3) {
                 HStack {
-                    Text("Daily Sleep Totals")
+                    Text("Last 30 Days of Sleep")
                         .cardTitleStyle()
                     
                     Spacer()
@@ -337,6 +341,7 @@ struct SleepAnalytics: View {
                 Text("Avg " + avgSleep() + " hrs")
                     .subHeadlineStyle()
                     .foregroundStyle(.secondary)
+                    .animation(nil, value: avgSleep())
             }
             .padding(.bottom, 40)
             
@@ -344,13 +349,6 @@ struct SleepAnalytics: View {
                 if let selectedSleepMetric {
                     RuleMark(x: .value("Selected Metric", selectedSleepMetric.date))
                         .foregroundStyle(.gray.opacity(0.3))
-                        .annotation(position: .top, spacing: 7, overflowResolution: .init(x: .fit(to: .chart))) {
-                            Text("\(selectedSleepMetric.value, format: .number.rounded(increment: 0.1)) hrs")
-                                .captionStyle()
-                                .padding(10)
-                                .background(.gray.opacity(0.1))
-                                .cornerRadius(10)
-                        }
                 }
                 
                 ForEach(hkManager.sleepData) { sleep in
@@ -375,7 +373,7 @@ struct SleepAnalytics: View {
             .chartYAxis {
                 AxisMarks { value in
                     AxisGridLine()
-                        .foregroundStyle(Color.secondary.opacity(0.3))
+                        .foregroundStyle(Color.secondary.opacity(0.33))
                     
                     AxisValueLabel {
                         if let value = value.as(Double.self), value != 0 {
@@ -392,14 +390,12 @@ struct SleepAnalytics: View {
             if hkManager.sleepData.isEmpty {
                 VStack {
                     
-                    ProgressView()
-                        .padding(.bottom, 5)
-                    
                     Text("No sleep data to display.")
                         .calloutStyle()
                         .foregroundStyle(.secondary)
+                        .padding(.bottom, 10)
                     
-                    Text("Grant permissions in iOS Settings.")
+                    Text("Check permissions in iOS Settings.")
                         .calloutStyle()
                         .foregroundStyle(.secondary)
                 }
@@ -407,7 +403,7 @@ struct SleepAnalytics: View {
         }
         .padding()
         .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
-        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
@@ -452,7 +448,7 @@ struct SleepAnalytics: View {
             .chartYAxis {
                 AxisMarks { value in
                     AxisGridLine()
-                        .foregroundStyle(Color.secondary.opacity(0.3))
+                        .foregroundStyle(Color.secondary.opacity(0.33))
                     
                     AxisValueLabel {
                         if let value = value.as(Double.self), value != 0 {
@@ -481,7 +477,7 @@ struct SleepAnalytics: View {
         }
         .padding()
         .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
-        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
@@ -503,10 +499,6 @@ struct SleepAnalytics: View {
                 hkManager.errorMsg = HKError.unableToCompleteRequest.description
             }
         }
-        
-//        if hkManager.authorizationStatus == .notDetermined {
-//            isShowingPermissionPrimingSheet = true
-//        }
     }
     
     // Dynamically return red vs. green if the user won or lost money
@@ -574,7 +566,7 @@ struct SleepAnalytics: View {
                 if countWithLessSleep == 0 {
                     return "No data available to compare performances yet."
                 }
-                return "Uh oh! All sessions played with under 6 hours of sleep."
+                return "Uh oh! All your sessions have been with less than 6 hours of sleep."
             }
 
             let avgHourlyRateWithEnoughSleep = hourlyRateWithEnoughSleep / Double(countWithEnoughSleep)
@@ -601,5 +593,5 @@ struct SleepAnalytics: View {
     SleepAnalytics(activeSheet: .constant(.sleepAnalytics))
         .environmentObject(SessionsListViewModel())
         .environmentObject(HealthKitManager())
-//        .preferredColorScheme(.dark)
+        .preferredColorScheme(.dark)
 }

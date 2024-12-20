@@ -13,7 +13,7 @@ extension SessionsListViewModel {
     // MARK: FUNCTIONS FOR STAKES PROGRESS INDICATOR
     
     func calculateTargetBankrollSize(from pokerSessions: [PokerSession]) -> Int? {
-        guard let lastStake = pokerSessions.filter({ $0.isTournament == false || $0.isTournament == nil }).sorted(by: { $0.date > $1.date }).map({ $0.stakes }).first,
+        guard let lastStake = pokerSessions.filter({ $0.isTournament != true }).sorted(by: { $0.date > $1.date }).map({ $0.stakes }).first,
               let lastSlashIndex = lastStake.lastIndex(of: "/"),
               let bigBlind = Int(lastStake[lastSlashIndex...].trimmingCharacters(in: .punctuationCharacters)) else {
             

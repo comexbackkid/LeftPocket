@@ -15,7 +15,7 @@ final class AudioManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
     
     func setupAudioPlayer(track: String) {
         
-        guard let url = Bundle.main.url(forResource: track, withExtension: "wav") else {
+        guard let url = Bundle.main.url(forResource: track, withExtension: "mp3") else {
             print("Audio file not found")
             return
         }

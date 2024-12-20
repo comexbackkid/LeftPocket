@@ -87,7 +87,7 @@ struct ContentView: View {
                 .multilineTextAlignment(.center)
                 .padding(.top)
             
-            Text("Tap the \(Image(systemName: "plus")) button below to get started.\nDuring a Live Session, add rebuys by\npressing the \(Image(systemName: "dollarsign.arrow.circlepath")) button.")
+            Text("Tap the \(Image(systemName: "cross.fill")) button below to get started.\nDuring a Live Session, add rebuys by\npressing the \(Image(systemName: "dollarsign.arrow.circlepath")) button.")
                 .foregroundColor(.secondary)
                 .subHeadlineStyle()
                 .multilineTextAlignment(.center)
@@ -173,7 +173,7 @@ struct ContentView: View {
             }
         }
         .padding()
-        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.5 : 1.0))
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         .frame(width: UIScreen.main.bounds.width * 0.85)
@@ -399,7 +399,9 @@ extension SessionsListViewModel {
     func totalHoursPlayedHomeScreen() -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
+        
         guard !sessions.isEmpty else { return "0h" } // Return "0h" if there are no sessions
+        
         let totalHours = sessions.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
         let totalMins = sessions.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
         let dateComponents = DateComponents(hour: totalHours, minute: totalMins)

@@ -132,7 +132,7 @@ struct AdvancedTournamentReport: View {
         }
         .padding(20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
@@ -228,7 +228,7 @@ struct AdvancedTournamentReport: View {
         .padding(.horizontal, 20)
         .padding(.vertical, 20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         .padding(.top, 15)
@@ -262,7 +262,7 @@ struct AdvancedTournamentReport: View {
             .chartXAxis(.hidden)
             .chartYAxis {
                 AxisMarks(position: .trailing, values: .automatic(desiredCount: 4)) { value in
-                    AxisGridLine().foregroundStyle(.gray.opacity(0.25))
+                    AxisGridLine().foregroundStyle(.gray.opacity(0.33))
                     AxisValueLabel() {
                         if let intValue = value.as(Int.self) {
                             Text(intValue.axisShortHand(vm.userCurrency))
@@ -287,7 +287,7 @@ struct AdvancedTournamentReport: View {
         .padding(.bottom, 30)
         .padding(.horizontal, 20)
         .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)
-        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         .padding(.top, 15)

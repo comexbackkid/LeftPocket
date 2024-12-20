@@ -15,7 +15,9 @@ struct MetricsView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel: SessionsListViewModel
+    @EnvironmentObject var subManager: SubscriptionManager
     
+    @State private var showPaywall = false
     @State private var progressIndicator: Float = 0.0
     @State private var sessionFilter: SessionFilter = .cash
     @State private var statsRange: RangeSelection = .all
@@ -56,20 +58,48 @@ struct MetricsView: View {
                                             color: .brandPrimary)
 
                                 if #available(iOS 17.0, *) {
+                                    
                                     HStack {
+                                        
                                         dayOfWeekChart
                                         Spacer()
                                         donutChart
                                     }
                                     .frame(width: UIScreen.main.bounds.width * 0.9)
+                                    
+                                    performanceChart
                                 }
                                 
                                 AdditionalMetricsView()
                                     .padding(.bottom, activeSheet == .metricsAsSheet ? 0 : 50)
                             }
                         }
+                        .sheet(isPresented: $showPaywall, content: {
+                            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                                .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                                .overlay {
+                                    HStack {
+                                        Spacer()
+                                        VStack {
+                                            DismissButton()
+                                                .padding()
+                                                .onTapGesture {
+                                                    showPaywall = false
+                                            }
+                                            Spacer()
+                                        }
+                                    }
+                                }
+                        })
+                        .task {
+                            for await customerInfo in Purchases.shared.customerInfoStream {
+                                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                                await subManager.checkSubscriptionStatus()
+                            }
+                        }
                         
                     } else {
+                        
                         EmptyState(title: "No Sessions", image: .metrics)
                             .padding(.bottom, 50)
                     }
@@ -104,13 +134,9 @@ struct MetricsView: View {
     var bankrollChart: some View {
         
         BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, overlayAnnotation: false)
-            .padding(.top)
-            .padding(.bottom, 20)
-            .padding(.horizontal)
-            .frame(width: UIScreen.main.bounds.width * 0.9, height: 435)
-            .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
-            .cornerRadius(20)
-            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+            .padding(.bottom, 5)
+            .cardStyle(colorScheme: colorScheme, height: 435)
+            .cardShadow(colorScheme: colorScheme)
     }
     
     var bankrollProgressView: some View {
@@ -122,24 +148,58 @@ struct MetricsView: View {
             .onReceive(viewModel.$sessions, perform: { _ in
                 self.progressIndicator = viewModel.stakesProgress
             })
-            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+            .cardShadow(colorScheme: colorScheme)
     }
     
     var barChart: some View {
         
         BarChartByYear(showTitle: true, moreAxisMarks: true, cashOnly: false)
             .cardStyle(colorScheme: colorScheme, height: 380)
-            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+            .cardShadow(colorScheme: colorScheme)
+    }
+    
+    var performanceChart: some View {
+        
+        VStack {
+            if subManager.isSubscribed {
+                
+                PerformanceLineChart()
+                    .cardStyle(colorScheme: colorScheme, height: 380)
+                    .cardShadow(colorScheme: colorScheme)
+                
+            } else {
+                
+                PerformanceLineChart()
+                    .cardStyle(colorScheme: colorScheme, height: 380)
+                    .cardShadow(colorScheme: colorScheme)
+                    .blur(radius: 2)
+                    .allowsHitTesting(false)
+                    .overlay {
+                        Button {
+                           showPaywall = true
+                        } label: {
+                            Text("🔒 Tap to Upgrade")
+                                .buttonTextStyle()
+                                .frame(height: 55)
+                                .frame(width: UIScreen.main.bounds.width * 0.6)
+                                .background(Color.white)
+                                .foregroundColor(Color.black.opacity(0.8))
+                                .cornerRadius(30)
+                                .shadow(color: colorScheme == .dark ? .black : .black.opacity(0.25), radius: 20)
+                        }
+                    }
+            }
+        }
     }
     
     @available(iOS 17.0, *)
     var dayOfWeekChart: some View {
         
         HStack {
-            DayOfWeekChart(sessions: viewModel.sessions)
+            DayOfWeekChart(sessions: viewModel.allCashSessions())
                 .padding(.leading, 7)
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
-                .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+                .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                 .cornerRadius(20)
                 .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         }
@@ -152,7 +212,7 @@ struct MetricsView: View {
             BestTimeOfDay()
                 .padding()
                 .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
-                .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+                .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                 .cornerRadius(20)
                 .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         }
@@ -323,7 +383,7 @@ struct AllStats: View {
                         .foregroundStyle(Color.brandPrimary)
                 }
                 .popover(isPresented: $highHandPopover, arrowEdge: .bottom, content: {
-                    PopoverView(bodyText: "High hand bonuses are not counted towards your bankroll or player metrics. They are tallied in your Annual Report.")
+                    PopoverView(bodyText: "High hand bonuses are not counted towards your profit numbers or player metrics. They are tallied in your Annual Report.")
                         .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                         .frame(height: 130)
                         .dynamicTypeSize(.medium...DynamicTypeSize.medium)
@@ -459,7 +519,7 @@ struct CashStats: View {
                         .foregroundStyle(Color.brandPrimary)
                 }
                 .popover(isPresented: $highHandPopover, arrowEdge: .bottom, content: {
-                    PopoverView(bodyText: "High hand bonuses are not counted towards your bankroll or player metrics. They are tallied in your Annual Report.")
+                    PopoverView(bodyText: "High hand bonuses are not counted towards your profit numbers or player metrics. They are tallied in your Annual Report.")
                         .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                         .frame(height: 130)
                         .dynamicTypeSize(.medium...DynamicTypeSize.medium)
@@ -670,7 +730,7 @@ struct ToolTipView: View {
         }
         .padding(20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
@@ -678,6 +738,7 @@ struct ToolTipView: View {
 
 struct AdditionalMetricsView: View {
     
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
     @State private var showPaywall = false
@@ -706,7 +767,7 @@ struct AdditionalMetricsView: View {
                             destination: ProfitByYear(),
                             label: {
                                 AdditionalMetricsCardView(title: "Annual Report",
-                                                          description: "Review & export your results from \nthe previous year.",
+                                                          description: "Review & export your results from the previous year.",
                                                           image: "list.clipboard",
                                                           color: .donutChartDarkBlue)
                             })
@@ -717,17 +778,17 @@ struct AdditionalMetricsView: View {
                             NavigationLink(
                                 destination: SleepAnalytics(activeSheet: .constant(.none)),
                                 label: {
-                                    AdditionalMetricsCardView(title: "Sleep Analytics",
-                                                              description: "See how your sleep is affecting\nyour poker results.",
-                                                              image: "bed.double.fill",
-                                                              color: .donutChartOrange)
+                                    AdditionalMetricsCardView(title: "Health Analytics",
+                                                              description: "See how sleep & mindfulness affects your poker results.",
+                                                              image: "stethoscope",
+                                                              color: .lightGreen)
                                     
                                 })
                             .buttonStyle(PlainButtonStyle())
                         } else {
                             
-                            AdditionalMetricsCardView(title: "Sleep Analytics",
-                                                      description: "See how your sleep is affecting\nyour poker results.",
+                            AdditionalMetricsCardView(title: "Health Analytics",
+                                                      description: "See how sleep & mindfulness affects your poker results.",
                                                       image: "bed.double.fill",
                                                       color: Color(.systemGray4))
                             .blur(radius: 2)
@@ -739,10 +800,10 @@ struct AdditionalMetricsView: View {
                                         .buttonTextStyle()
                                         .frame(height: 55)
                                         .frame(width: UIScreen.main.bounds.width * 0.6)
-                                        .background(Color.brandPrimary)
-                                        .foregroundColor(.white)
+                                        .background(Color.white)
+                                        .foregroundColor(Color.black.opacity(0.8))
                                         .cornerRadius(30)
-                                        .shadow(color: .black, radius: 20)
+                                        .shadow(color: colorScheme == .dark ? .black : .black.opacity(0.25), radius: 20)
                                 }
                             }
                         }
@@ -751,7 +812,7 @@ struct AdditionalMetricsView: View {
                             destination: ProfitByMonth(vm: viewModel),
                             label: {
                                 AdditionalMetricsCardView(title: "Monthly Snapshot",
-                                                          description: "View your results on a month by \nmonth basis.",
+                                                          description: "View your results on a month by month basis.",
                                                           image: "calendar",
                                                           color: .donutChartGreen)
                             })
@@ -761,9 +822,9 @@ struct AdditionalMetricsView: View {
                             destination: AdvancedTournamentReport(vm: viewModel),
                             label: {
                                 AdditionalMetricsCardView(title: "Tournament Report",
-                                                          description: "Advanced tournament stats & \nbreakdown by month and year.",
+                                                          description: "Advanced tournament stats, filtered by year.",
                                                           image: "person.2",
-                                                          color: .donutChartBlack)
+                                                          color: .brandPrimary)
                             })
                         .buttonStyle(PlainButtonStyle())
                         
@@ -771,7 +832,7 @@ struct AdditionalMetricsView: View {
                             destination: ProfitByLocationView(viewModel: viewModel),
                             label: {
                                 AdditionalMetricsCardView(title: "Location Statistics",
-                                                          description: "View your profit or loss for every \nlocation you've played at.",
+                                                          description: "View your profit or loss for every location you've played at.",
                                                           image: "mappin.and.ellipse",
                                                           color: .donutChartRed)
                             })
@@ -781,7 +842,7 @@ struct AdditionalMetricsView: View {
                             destination: ProfitByStakesView(viewModel: viewModel),
                             label: {
                                 AdditionalMetricsCardView(title: "Game Stakes", 
-                                                          description: "Break down your game by different \ntable stakes.",
+                                                          description: "Break down your game by different table stakes.",
                                                           image: "dollarsign.circle",
                                                           color: .donutChartPurple)
                             })
@@ -824,10 +885,10 @@ struct AdditionalMetricsView: View {
                     HStack (spacing: 12) {
                         
                         NavigationLink(
-                            destination: ProfitByYear(vm: AnnualReportViewModel()),
+                            destination: ProfitByYear(),
                             label: {
                                 AdditionalMetricsCardView(title: "Annual Report",
-                                                          description: "Review & export your results from \nthe previous year.",
+                                                          description: "Review & export your results from the previous year.",
                                                           image: "list.clipboard",
                                                           color: .donutChartDarkBlue)
                             })
@@ -838,17 +899,17 @@ struct AdditionalMetricsView: View {
                             NavigationLink(
                                 destination: SleepAnalytics(activeSheet: .constant(.none)),
                                 label: {
-                                    AdditionalMetricsCardView(title: "Sleep Analytics",
-                                                              description: "See how your sleep is affecting\nyour poker results.",
-                                                              image: "bed.double.fill",
-                                                              color: .donutChartOrange)
+                                    AdditionalMetricsCardView(title: "Health Analytics",
+                                                              description: "See how sleep & mindfulness affects your poker results.",
+                                                              image: "stethoscope",
+                                                              color: .lightGreen)
                                     
                                 })
                             .buttonStyle(PlainButtonStyle())
                         } else {
                             
-                            AdditionalMetricsCardView(title: "Sleep Analytics",
-                                                      description: "See how your sleep is affecting\nyour poker results.",
+                            AdditionalMetricsCardView(title: "Health Analytics",
+                                                      description: "See how sleep & mindfulness affects your poker results.",
                                                       image: "bed.double.fill",
                                                       color: Color(.systemGray4))
                             .blur(radius: 2)
@@ -860,10 +921,10 @@ struct AdditionalMetricsView: View {
                                         .buttonTextStyle()
                                         .frame(height: 55)
                                         .frame(width: UIScreen.main.bounds.width * 0.6)
-                                        .background(Color.brandPrimary)
-                                        .foregroundColor(.white)
+                                        .background(Color.white)
+                                        .foregroundColor(Color.black.opacity(0.8))
                                         .cornerRadius(30)
-                                        .shadow(color: .black, radius: 20)
+                                        .shadow(color: colorScheme == .dark ? .black : .black.opacity(0.25), radius: 20)
                                 }
                             }
                         }
@@ -872,7 +933,7 @@ struct AdditionalMetricsView: View {
                             destination: ProfitByMonth(vm: viewModel),
                             label: {
                                 AdditionalMetricsCardView(title: "Monthly Snapshot",
-                                                          description: "View your results on a month by \nmonth basis.",
+                                                          description: "View your results on a month by month basis.",
                                                           image: "calendar",
                                                           color: .donutChartGreen)
                             })
@@ -882,9 +943,9 @@ struct AdditionalMetricsView: View {
                             destination: AdvancedTournamentReport(vm: viewModel),
                             label: {
                                 AdditionalMetricsCardView(title: "Tournament Report",
-                                                          description: "Advanced tournament stats & breakdown \nby month and year.",
+                                                          description: "Advanced tournament stats, filtered by year.",
                                                           image: "person.2",
-                                                          color: .donutChartBlack)
+                                                          color: .brandPrimary)
                             })
                         .buttonStyle(PlainButtonStyle())
                         
@@ -892,7 +953,7 @@ struct AdditionalMetricsView: View {
                             destination: ProfitByLocationView(viewModel: viewModel),
                             label: {
                                 AdditionalMetricsCardView(title: "Location Statistics",
-                                                          description: "View your profit or loss for every \nlocation you've played at.",
+                                                          description: "View your profit or loss for every location you've played at.",
                                                           image: "mappin.and.ellipse",
                                                           color: .donutChartRed)
                             })
@@ -902,7 +963,7 @@ struct AdditionalMetricsView: View {
                             destination: ProfitByStakesView(viewModel: viewModel),
                             label: {
                                 AdditionalMetricsCardView(title: "Game Stakes",
-                                                          description: "Break down your game by different \ntable stakes.",
+                                                          description: "Break down your game by different table stakes.",
                                                           image: "dollarsign.circle",
                                                           color: .donutChartPurple)
                             })

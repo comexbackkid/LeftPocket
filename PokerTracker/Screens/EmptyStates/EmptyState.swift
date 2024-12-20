@@ -30,7 +30,7 @@ struct EmptyState: View {
                     .multilineTextAlignment(.center)
                     .padding(.top)
                 
-                Text("Tap the \(Image(systemName: "plus")) button below to get started.\nDuring a Live Session, add rebuys by\npressing the \(Image(systemName: "dollarsign.arrow.circlepath")) button.")
+                Text("Tap the \(Image(systemName: "cross.fill")) button below to get started.\nDuring a Live Session, add rebuys by\npressing the \(Image(systemName: "dollarsign.arrow.circlepath")) button.")
                     .foregroundColor(.secondary)
                     .subHeadlineStyle()
                     .multilineTextAlignment(.center)

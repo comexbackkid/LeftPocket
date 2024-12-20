@@ -15,6 +15,7 @@ struct CellView: View {
     @Binding var viewStyle: ViewStyle
     
     var body: some View {
+        
         HStack (spacing: 4) {
             
             if viewStyle == .standard {
@@ -60,19 +61,20 @@ struct CellView: View {
             Spacer()
             
             Text(pokerSession.profit.axisShortHand(currency))
-                .subHeadlineStyle()
+                .bodyStyle()
                 .bold()
                 .foregroundColor(pokerSession.profit > 0 ? .green : .red)
         }
         .padding(.leading, viewStyle == .compact ? 5 : 10)
         .padding(.vertical, viewStyle == .compact ? 0 : 12)
         .background(Color.brandBackground)
+        .dynamicTypeSize(...DynamicTypeSize.large)
     }
 }
 
 struct CellView_Previews: PreviewProvider {
     static var previews: some View {
-        CellView(pokerSession: MockData.sampleSession, currency: .THB, viewStyle: .constant(.standard))
+        CellView(pokerSession: MockData.sampleSession, currency: .USD, viewStyle: .constant(.standard))
             .previewLayout(.sizeThatFits)
             .preferredColorScheme(.dark)
     }

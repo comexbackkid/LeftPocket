@@ -75,7 +75,7 @@ struct ProfitByStakesView: View {
                 }
                 .padding(20)
                 .frame(width: UIScreen.main.bounds.width * 0.9)
-                .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+                .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                 .cornerRadius(20)
                 .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
                 
@@ -103,11 +103,11 @@ struct ProfitByStakesView: View {
                                 Text("🔒 Tap to Upgrade")
                                     .buttonTextStyle()
                                     .frame(height: 55)
-                                    .frame(width: UIScreen.main.bounds.width * 0.7)
-                                    .background(Color.brandPrimary)
-                                    .foregroundColor(.white)
+                                    .frame(width: UIScreen.main.bounds.width * 0.6)
+                                    .background(Color.white)
+                                    .foregroundColor(Color.black.opacity(0.8))
                                     .cornerRadius(30)
-                                    .shadow(radius: 10)
+                                    .shadow(color: colorScheme == .dark ? .black : .black.opacity(0.25), radius: 20)
                             }
                         }
                 }
@@ -249,9 +249,9 @@ struct ProfitByStakesView: View {
                     
                     Spacer()
                     
-                    let total = viewModel.profitByStakesTwo(stakes: stakes, sessions: filteredSessions)
+                    let total = viewModel.profitByStakes(stakes: stakes, sessions: filteredSessions)
                     let hourlyRate = hourlyByStakes(stakes: stakes, sessions: filteredSessions)
-                    let hoursPlayed = filteredSessions.filter({ $0.stakes == stakes }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+                    let hoursPlayed = viewModel.hoursAbbreviated(filteredSessions.filter({ $0.stakes == stakes }))
                     let bbPerHr = bbPerHourByStakes(stakes: stakes, sessions: filteredSessions.filter({ $0.stakes == stakes }))
                     
                     Text(total.axisShortHand(viewModel.userCurrency))
@@ -265,7 +265,7 @@ struct ProfitByStakesView: View {
                     Text("\(bbPerHr, format: .number.precision(.fractionLength(2)))")
                         .frame(width: 57, alignment: .trailing)
                     
-                    Text(hoursPlayed.abbreviateHourTotal + "h")
+                    Text(hoursPlayed)
                         .frame(width: 57, alignment: .trailing)
                     
                 }
@@ -308,7 +308,7 @@ struct ProfitByStakesView: View {
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
         .padding(20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         .padding(.top, 15)
@@ -321,7 +321,7 @@ struct ProfitByStakesView: View {
                 .padding(.horizontal, 20)
                 .padding(.vertical, 20)
                 .frame(width: UIScreen.main.bounds.width * 0.9)
-                .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+                .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                 .cornerRadius(20)
                 .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
                 .padding(.top, 15)
@@ -410,6 +410,24 @@ struct ProfitByStakesView: View {
         return bankroll
     }
     
+}
+
+extension SessionsListViewModel {
+    
+    func hoursAbbreviated(_ sessions: [PokerSession]) -> String {
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        
+        guard !sessions.isEmpty else { return "0h" } // Return "0h" if there are no sessions
+        
+        let totalHours = sessions.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
+        let totalMins = sessions.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
+        let dateComponents = DateComponents(hour: totalHours, minute: totalMins)
+        let totalTime = Int(dateComponents.durationInHours)
+        let formattedTotalTime = formatter.string(from: NSNumber(value: totalTime)) ?? "0"
+        return "\(formattedTotalTime)h"
+    }
 }
 
 struct ProfitByStakesView_Previews: PreviewProvider {

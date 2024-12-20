@@ -8,11 +8,15 @@
 import SwiftUI
 import UIKit
 import UserNotifications
+import Combine
 
 class TimerViewModel: ObservableObject {
     
     private var timer: Timer?
-    
+//    private let motionMonitor = MotionMonitor()
+//    private var cancellable: AnyCancellable?
+        
+//    @Published var alertTriggered = false
     @Published var liveSessionStartTime: Date?
     @Published var liveSessionTimer: String = "00:00"
     @Published var reBuyAmount: String = ""
@@ -32,10 +36,14 @@ class TimerViewModel: ObservableObject {
     }
     
     init() {
+//        cancellable = motionMonitor.$pickupCount
+//            .sink { [weak self] count in
+//                self?.checkForExcessivePickups(count: count)
+//            }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(fileAccessAvailable), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appDidResume), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillTerminate), name: UIApplication.willTerminateNotification, object: nil)
         loadTimerData()
     }
     
@@ -81,6 +89,7 @@ class TimerViewModel: ObservableObject {
     }
     
     func startSession() {
+//        motionMonitor.startMonitoring()
         let now = Date()
         liveSessionStartTime = now
         UserDefaults.standard.set(now, forKey: "liveSessionStartTime")
@@ -109,6 +118,7 @@ class TimerViewModel: ObservableObject {
     }
     
     func stopTimer() {
+//        motionMonitor.stopMonitoring()
         timer?.invalidate()
         UserDefaults.standard.removeObject(forKey: "liveSessionStartTime")
         UserDefaults.standard.removeObject(forKey: "initialBuyInAmount")
@@ -117,6 +127,7 @@ class TimerViewModel: ObservableObject {
     }
     
     func resetTimer() {
+//        motionMonitor.stopMonitoring()
         timer?.invalidate()
         liveSessionStartTime = nil
         liveSessionTimer = "00:00"
@@ -154,16 +165,39 @@ class TimerViewModel: ObservableObject {
         let minutes = Int(interval) / 60 % 60
         
         if hours > 0 {
-            // Format as "HH:MM" if there's one or more hours
+
             return String(format: "%02d:%02d", hours, minutes)
         } else {
-            // Format as "MM:SS" if less than an hour
+
             let seconds = Int(interval) % 60
             return String(format: "%02d:%02d", minutes, seconds)
         }
     }
     
+//    private func checkForExcessivePickups(count: Int) {
+//        
+//        if count >= 2 && !alertTriggered {
+//            alertTriggered = true
+//            triggerExcessiveUsageAlert()
+//        }
+//    }
+    
+//    private func triggerExcessiveUsageAlert() {
+//        
+//        let content = UNMutableNotificationContent()
+//        content.title = "Pay Attention"
+//        content.body = "You’ve picked up your phone 5 times. Try to stay focused on your current game."
+//        content.sound = UNNotificationSound.default
+//        
+//        let request = UNNotificationRequest(identifier: "excessiveUsageAlert",
+//                                            content: content,
+//                                            trigger: nil)
+//
+//        UNUserNotificationCenter.current().add(request)
+//    }
+    
     deinit {
+//        cancellable?.cancel()
         timer?.invalidate()
         NotificationCenter.default.removeObserver(self)
         cancelUserNotifications()

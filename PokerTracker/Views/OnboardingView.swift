@@ -23,29 +23,37 @@ struct OnboardingView: View {
             
             WelcomeScreen(selectedPage: $selectedPage).tag(0)
             
-            PageView(title: "Logging Poker Sessions",
-                     subtitle: Text("Add a completed Session, or activate a Live Session by tapping the \(Image(systemName: "plus")) in the navigation bar. To enter rebuys, press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Use Transactions to log deposits, withdrawals, & expenses."),
+            PageView(title: "Log Sessions Anywhere",
+                     subtitle: Text("Add a completed Session, or activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Use Transactions to log deposits, withdrawals, & expenses."),
                      imageName: "doc.text",
                      videoURL: "logging-sessions-new",
                      showDismissButton: false,
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).tag(1)
             
-            PageView(title: "Custom Locations",
-                     subtitle: Text("Enter your own custom locations and header photos. Navigate to the Settings \(Image(systemName: "gearshape.fill")) screen and tap on Locations."),
+            PageView(title: "Locations & Photos",
+                     subtitle: Text("Enter your own custom locations and header photos. Just navigate to the Settings \(Image(systemName: "gearshape.fill")) screen, and tap on Locations. Also in Settings you can customize your Dashboard, save Session Defaults, import & export data, and so much more."),
                      imageName: "chart.line.uptrend.xyaxis",
                      videoURL: "custom-locations",
                      showDismissButton: false,
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).tag(2)
             
-            PageView(title: "Advanced iOS Features",
-                     subtitle: Text("Add a stunning bankroll widget to your home screen! Tap & hold your iOS wallpaper, press the Plus button & search for Left Pocket."),
+            PageView(title: "Home Screen Widgets",
+                     subtitle: Text("Add a stunning bankroll widget to your home screen! Tap & hold your iOS wallpaper, press the \(Image(systemName: "plus")) button and search for Left Pocket."),
                      imageName: "paintbrush",
                      videoURL: "homescreen-widget",
+                     showDismissButton: false,
+                     nextAction: nextPage,
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(3)
+            
+            PageView(title: "Utilize Health Metrics",
+                     subtitle: Text("Subscribers to Left Pocket Pro have access to our one-of-a-kind health analytics suite that tracks your sleep, mental wellbeing, & correlates this data to your poker performance."),
+                     imageName: "paintbrush",
+                     videoURL: "health-metrics",
                      showDismissButton: true,
                      nextAction: { showPaywall = true },
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(3)
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(4)
         }
         .onBoardingBackgroundStyle(colorScheme: .light)
         .tabViewStyle(PageTabViewStyle())

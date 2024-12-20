@@ -80,7 +80,6 @@ struct DayOfWeekChart: View {
     }
 }
 
-// Function to group PokerSessions by day of the week and calculate proportions
 func calculateProportions(sessions: [PokerSession]) -> [DayOfWeekProfit] {
     let calendar = Calendar.current
     
@@ -93,20 +92,23 @@ func calculateProportions(sessions: [PokerSession]) -> [DayOfWeekProfit] {
     }.mapValues { sessions in
         sessions.map { Double($0.profit) }.reduce(0, +)
     }
-
-    // Get the total profit across all sessions
-    let totalProfit = groupedProfits.values.reduce(0, +)
+    
+    // Filter out negative profits and calculate total positive profit
+    let positiveProfits = groupedProfits.filter { $0.value > 0 }
+    let totalPositiveProfit = positiveProfits.values.reduce(0, +)
 
     // Ensure all days of the week are represented
     let allDays: [(Int, String)] = Array(1...7).map { weekday in
-        (weekday, dayAbbreviations[weekday - 1]) // Use custom abbreviations
+        (weekday, dayAbbreviations[weekday - 1])
     }
 
-    // Create DayOfWeekProfit data with zero-filled days if necessary
+    // Create DayOfWeekProfit data
     return allDays.map { (weekday, dayName) in
-        let profit = groupedProfits[weekday] ?? 0
-        let proportion = totalProfit > 0 ? profit / totalProfit : 0
-        return DayOfWeekProfit(day: dayName, profit: profit, proportion: proportion)
+        let profit = (groupedProfits[weekday] ?? 0)
+        let validProfit = profit > 0 ? profit : 0 // Ignore negative profits
+        
+        let proportion = totalPositiveProfit > 0 ? validProfit / totalPositiveProfit : 0
+        return DayOfWeekProfit(day: dayName, profit: validProfit, proportion: proportion)
     }
 }
 

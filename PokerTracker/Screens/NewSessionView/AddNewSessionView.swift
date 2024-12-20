@@ -8,6 +8,7 @@
 import SwiftUI
 import RevenueCatUI
 import RevenueCat
+import TipKit
 
 struct AddNewSessionView: View {
 
@@ -81,9 +82,13 @@ struct AddNewSessionView: View {
         
         VStack (alignment: .leading) {
             
+            if #available(iOS 17.0, *) { newSessionTip }
+            
             sessionSelection
+                .animation(nil)
             
             locationSelection
+                .animation(nil)
             
             if newSession.sessionType != .tournament { stakesSelection }
             
@@ -723,6 +728,18 @@ struct AddNewSessionView: View {
             .tint(.red)
         }
         .padding(.bottom, 10)
+    }
+    
+    @available(iOS 17.0, *)
+    var newSessionTip: some View {
+        
+        VStack {
+            let newSessionTip = NewSessionViewTip()
+            TipView(newSessionTip)
+                .tipViewStyle(CustomTipViewStyle())
+                .padding(.horizontal, 16)
+                .padding(.bottom)
+        }
     }
 }
 

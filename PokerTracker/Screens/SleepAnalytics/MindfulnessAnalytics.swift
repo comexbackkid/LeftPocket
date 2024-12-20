@@ -43,9 +43,7 @@ struct MindfulnessAnalytics: View {
                                 color: .indigo)
                     
                     meditationClasses
-                    
-                    checkInButton
-                    
+                                        
                     recentMeditations
                 }
             }
@@ -110,7 +108,7 @@ struct MindfulnessAnalytics: View {
                 }
                 
                 HStack {
-                    Text("Choose from our own curated meditation sounds to prepare for a new mindfulness session. Find a quiet place to begin.")
+                    Text("Choose from our own curated ambient meditation tracks to start a new mindfulness session before you play.")
                         .bodyStyle()
                     
                     Spacer()
@@ -143,7 +141,7 @@ struct MindfulnessAnalytics: View {
         }
         .padding(.bottom)
         .fullScreenCover(item: $selectedMeditation) { meditation in
-            MeditationView(meditation: meditation)
+            MeditationView(passedMeditation: $selectedMeditation, meditation: meditation)
         }
     }
     
@@ -152,7 +150,7 @@ struct MindfulnessAnalytics: View {
         VStack (alignment: .leading) {
             
             HStack {
-                Text("Tagged Sessions")
+                Text("Mindful Poker Sessions")
                     .font(.custom("Asap-Black", size: 24))
                     .bold()
                     .padding(.horizontal)
@@ -166,7 +164,7 @@ struct MindfulnessAnalytics: View {
             }
             
             if matchedSessions.isEmpty {
-                Text("No matched sessions found!")
+                Text("No sessions found!")
                     .bodyStyle()
                     .padding(.leading)
                     .padding(.top, 1)
@@ -218,11 +216,11 @@ struct MindfulnessAnalytics: View {
                         }
                         .frame(width: 300, height: 200)
                         .background(
-                            Image(backgroundImage(session))
+                            backgroundImage(session)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .overlay {
-                                    Image(backgroundImage(session))
+                                    backgroundImage(session)
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .blur(radius: 5, opaque: true)
@@ -243,6 +241,8 @@ struct MindfulnessAnalytics: View {
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                         .padding(.horizontal, 5)
                         .onTapGesture {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
                             selectedSession = session
                         }
                     }
@@ -280,17 +280,17 @@ struct MindfulnessAnalytics: View {
                     .foregroundStyle(Color.cyan.gradient)
                 }
             }
-//            .chartXScale(domain: startDate()...Date(), range: .plotDimension(padding: 10))
+            .chartXScale(domain: startDate()...Date())
             .chartXAxis {
-                AxisMarks(values: .automatic) {
-                    AxisValueLabel(format: .dateTime.month(.twoDigits).day(), verticalSpacing: 10)
+                AxisMarks(preset: .aligned, values: .automatic) {
+                    AxisValueLabel(format: .dateTime.month(.defaultDigits).day(), verticalSpacing: 10)
                         .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
                 }
             }
             .chartYAxis {
                 AxisMarks(position: .leading) { value in
                     AxisGridLine()
-                        .foregroundStyle(Color.secondary.opacity(0.3))
+                        .foregroundStyle(Color.secondary.opacity(0.33))
                     
                     AxisValueLabel {
                         if let value = value.as(Double.self), value != 0 {
@@ -311,7 +311,7 @@ struct MindfulnessAnalytics: View {
                         .foregroundStyle(.secondary)
                         .padding(.bottom, 10)
                     
-                    Text("Check permissions in iOS Settings, or log minutes here.")
+                    Text("Check permissions in iOS Settings, or begin a meditation below.")
                         .calloutStyle()
                         .foregroundStyle(.secondary)
                 }
@@ -319,7 +319,7 @@ struct MindfulnessAnalytics: View {
         }
         .padding()
         .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
-        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
@@ -331,11 +331,17 @@ struct MindfulnessAnalytics: View {
         }
     }
     
-    private func backgroundImage(_ session: PokerSession) -> String {
+    private func backgroundImage(_ session: PokerSession) -> Image {
         
-        guard !session.location.localImage.isEmpty else { return "defaultlocation-header" }
-        
-        return session.location.localImage
+        if let importedImageData = session.location.importedImage, let uiImage = UIImage(data: importedImageData) {
+            return Image(uiImage: uiImage)
+            
+        } else if !session.location.localImage.isEmpty {
+            return Image(session.location.localImage)
+            
+        } else {
+            return Image("defaultlocation-header")
+        }
     }
     
     private func totalMindfulMinutes() -> Int {
@@ -383,7 +389,7 @@ struct MindfulnessAnalytics: View {
         var reasoning = ""
 
         // Iterate through poker sessions and categorize based on meditation
-        for session in viewModel.sessions {
+        for session in viewModel.sessions.filter({ $0.date.getYear() == Date().getYear() }) {
             let sessionDate = Calendar.current.startOfDay(for: session.date)
 
             if meditationDates.contains(sessionDate) {
@@ -415,26 +421,19 @@ struct MindfulnessAnalytics: View {
                 reasoning = "This could be due to a small sample size. Keep at it!"
             }
             
-            return "Your hourly rate is \(improvement.formatted(.number.precision(.fractionLength(0))))% \(improvement > 0 ? "greater" : "worse") on days you meditate. \(reasoning)"
+            return "On the year, your hourly rate is \(improvement.formatted(.number.precision(.fractionLength(0))))% \(improvement > 0 ? "greater" : "worse") on days you meditate. \(reasoning)"
             
         } else {
             
             return "No sessions logged on non-meditation days. More data is needed."
         }
     }
+    
 }
 
 #Preview {
     NavigationStack {
         MindfulnessAnalytics()
-//        MindfulnessAnalytics(dailyMindfulMinutes: [Date():4,
-//                                                   Date().modifyDays(days: -1): 5,
-//                                                   Date().modifyDays(days: -4): 3,
-//                                                   Date().modifyDays(days: -5): 5,
-//                                                   Date().modifyDays(days: -9): 4,
-//                                                   Date().modifyDays(days: -10): 4,
-//                                                   Date().modifyDays(days: -12): 3,
-//                                                   Date().modifyDays(days: -18): 2])
             .environmentObject(SessionsListViewModel())
             .environmentObject(HealthKitManager())
             .preferredColorScheme(.dark)

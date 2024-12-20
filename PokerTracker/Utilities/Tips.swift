@@ -16,7 +16,7 @@ struct DeleteLocationTip: Tip {
     }
     
     var message: Text? {
-        Text("To add your own location, tap the \(Image(systemName: "plus")) button above. Tap & hold a thumbnail to delete. If you've imported data from another app, be sure location names match exactly.")
+        Text("To add a location, press the \(Image(systemName: "plus")) above. Tap & hold a thumbnail to delete. If you've imported data, be sure location names match.")
     }
     
     var image: Image? {
@@ -32,11 +32,27 @@ struct MonthlyReportTip: Tip {
     }
     
     var message: Text? {
-        Text("The \(Image(systemName: "dollarsign")) column is your net profit, \(Image(systemName: "gauge.high")) hourly rate, and \(Image(systemName: "clock")) your total hours. Change years from the upper right corner of the screen.")
+        Text("The \(Image(systemName: "dollarsign")) column is your net profit, \(Image(systemName: "gauge.high")) hourly rate, and \(Image(systemName: "clock")) your total hours.")
     }
     
     var image: Image? {
         Image(systemName: "chart.bar.xaxis")
+    }
+}
+
+@available(iOS 17.0, *)
+struct NewSessionViewTip: Tip {
+    
+    var title: Text {
+        Text("Add Session Details")
+    }
+    
+    var message: Text? {
+        Text("Enter details from your Session here. You can add Locations & Stakes from the dropdown menus below.")
+    }
+    
+    var image: Image? {
+        Image(systemName: "pencil.line")
     }
 }
 
@@ -48,7 +64,7 @@ struct MeditationTip: Tip {
     }
     
     var message: Text? {
-        Text("Start your mindfulness practice here. Once finished, the Stop button will dismiss the view & log your time.")
+        Text("Start your mindfulness practice here. Press the Stop button to end early & dismiss this screen.")
     }
     
     var image: Image? {
@@ -69,7 +85,7 @@ struct AddSessionTip: Tip {
     }
     
     var message: Text? {
-        Text("Tap the \(Image(systemName: "plus")) button to start a Live Session, log a completed one, or enter a Transaction.")
+        Text("Tap the \(Image(systemName: "cross.fill")) button to start a Live Session, log a completed one, or enter a Transaction.")
     }
     
     var image: Image? {
@@ -125,7 +141,7 @@ struct SettingsTip: Tip {
     }
     
     var message: Text? {
-        Text("In Settings \(Image(systemName: "gearshape.fill")) you can enable push notifications, import & export data, and set custom Session defaults.")
+        Text("In Settings \(Image(systemName: "gearshape.fill")) you can toggle push notifications, import & export data, set your Session Defaults, & more.")
     }
     
     var image: Image? {

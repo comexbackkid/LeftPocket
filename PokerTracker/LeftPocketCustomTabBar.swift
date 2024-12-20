@@ -143,10 +143,10 @@ struct LeftPocketCustomTabBar: View {
                         
                         Spacer()
                         
-                        let tabBarImages = ["house.fill", "list.bullet", "plus", "chart.bar.fill", "gearshape.fill"]
+                        let tabBarImages = ["house.fill", "list.bullet", "cross.fill", "chart.bar.fill", "gearshape.fill"]
                         
                         Image(systemName: tabBarImages[index])
-                            .font(.system(size: index == 2 ? 30 : 22, weight: .black))
+                            .font(.system(size: index == 2 ? 28 : 22, weight: .black))
                             .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
                         
                         Spacer()
@@ -199,8 +199,8 @@ struct LeftPocketCustomTabBar: View {
                     } label: {
                         
                         Spacer()
-                        Image(systemName: isCounting ? "stop.fill" : "plus")
-                            .font(.system(size: 30, weight: .black))
+                        Image(systemName: isCounting ? "stop.fill" : "cross.fill")
+                            .font(.system(size: 28, weight: .medium))
                             .foregroundColor(Color(.systemGray3))
                         Spacer()
                         

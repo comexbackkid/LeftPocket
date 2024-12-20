@@ -57,11 +57,11 @@ struct ProfitByLocationView: View {
                                         Text("🔒 Tap to Upgrade")
                                             .buttonTextStyle()
                                             .frame(height: 55)
-                                            .frame(width: UIScreen.main.bounds.width * 0.7)
-                                            .background(Color.brandPrimary)
-                                            .foregroundColor(.white)
+                                            .frame(width: UIScreen.main.bounds.width * 0.6)
+                                            .background(Color.white)
+                                            .foregroundColor(Color.black.opacity(0.8))
                                             .cornerRadius(30)
-                                            .shadow(radius: 10)
+                                            .shadow(color: colorScheme == .dark ? .black : .black.opacity(0.25), radius: 20)
                                     }
                                 }
                         }
@@ -221,7 +221,7 @@ struct ProfitByLocationView: View {
                     let filteredByYear = viewModel.sessions.filter({ $0.date.getYear() == yearFilter })
                     let total = filteredByYear.filter({ $0.location.name == location }).map({ $0.profit }).reduce(0,+)
                     let hourlyRate = hourlyByLocation(location: location, sessions: filteredByYear)
-                    let hoursPlayed = filteredByYear.filter({ $0.location.name == location }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+                    let hoursPlayed = viewModel.hoursAbbreviated(filteredByYear.filter({ $0.location.name == location }))
                     
                     Text(total.axisShortHand(viewModel.userCurrency))
                         .profitColor(total: total)
@@ -232,7 +232,7 @@ struct ProfitByLocationView: View {
                         .profitColor(total: hourlyRate)
                         .frame(width: 62, alignment: .trailing)
                     
-                    Text(hoursPlayed.abbreviateHourTotal + "h")
+                    Text(hoursPlayed)
                         .frame(width: 62, alignment: .trailing)
                     
                 }
@@ -241,7 +241,7 @@ struct ProfitByLocationView: View {
         }
         .padding(20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
@@ -280,7 +280,7 @@ struct ProfitByLocationView: View {
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
         .padding(20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         .padding(.top, 15)
@@ -292,7 +292,7 @@ struct ProfitByLocationView: View {
             .padding(.horizontal, 30)
             .padding(.vertical, 20)
             .frame(width: UIScreen.main.bounds.width * 0.9)
-            .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+            .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
             .cornerRadius(20)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             .padding(.top, 15)

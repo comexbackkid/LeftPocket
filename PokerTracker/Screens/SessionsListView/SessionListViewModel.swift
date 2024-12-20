@@ -347,12 +347,8 @@ class SessionsListViewModel: ObservableObject {
         sessions.filter({ $0.stakes == stakes })
     }
     
-    func profitByStakes(_ stakes: String, year: String) -> Int {
-        return sessionsByStakes(stakes).filter({ $0.date.getYear() == year }).reduce(0) { $0 + $1.profit }
-    }
-    
     // Take in the stakes, and feed it which sessions to filter from
-    func profitByStakesTwo(stakes: String, sessions: [PokerSession]) -> Int {
+    func profitByStakes(stakes: String, sessions: [PokerSession]) -> Int {
         return sessions.filter({ $0.stakes == stakes }).reduce(0) { $0 + $1.profit }
     }
     

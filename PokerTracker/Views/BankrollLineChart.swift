@@ -54,9 +54,32 @@ struct BankrollLineChart: View {
             
             if showTitle {
                 
-                HStack {
-                    Text("Player Profit")
-                        .cardTitleStyle()
+                HStack (alignment: .top) {
+                    
+                    VStack (alignment: .leading, spacing: 3) {
+                        Text("Player Profit")
+                            .cardTitleStyle()
+                        
+                        let amountText: Int? = profitAnnotation
+                        
+                        Group {
+                            if let amountText {
+                                HStack (spacing: 5) {
+                                    if amountText != 0 {
+                                        Image(systemName: "arrow.up.right")
+                                            .foregroundStyle(amountText > 0 ? .green : .red)
+                                            .rotationEffect(.degrees(amountText < 0 ? 90 : 0))
+                                            .animation(.default.speed(2), value: amountText)
+                                    }
+                                    
+                                    Text(amountText == 0 ? "No Selection" : "\(amountText.formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))")
+                                        .font(.custom("Asap-Medium", size: 17, relativeTo: .caption2))
+                                        .foregroundStyle(amountText > 0 ? .green : amountText < 0 ? .red : .secondary)
+                                }
+                            }
+                        }
+                        .animation(nil, value: selectedIndex)
+                    }
                     
                     Spacer()
                     
@@ -64,20 +87,19 @@ struct BankrollLineChart: View {
                     
                     filterButton
                 }
-                .padding(.bottom, 40)
+                .padding(.bottom)
+                
                 .fullScreenCover(isPresented: $viewModel.lineChartFullScreen, content: {
                     LineChartFullScreen(lineChartFullScreen: $viewModel.lineChartFullScreen)
                 })
             }
             
-            // Annotations not available pre-iOS 17. Display plain chart if so.
             if #available(iOS 17.0, *) {
                 lineChart
                 
             } else { lineChartOldVersion }
             
             if showRangeSelector { rangeSelector }
-            
         }
     }
     
@@ -88,6 +110,10 @@ struct BankrollLineChart: View {
             
             let cumulativeProfitArray = viewModel.calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange,
                                                                             sessionFilter: chartSessionFilter)
+            let lineGradient = LinearGradient(colors: [chartSessionFilter != .tournaments ? .chartAccent : .donutChartOrange,
+                                                   chartSessionFilter != .tournaments ? .chartBase : .orange],
+                                          startPoint: .topTrailing, endPoint: .bottomLeading)
+            let areaGradient = LinearGradient(colors: [chartSessionFilter != .tournaments ? Color("lightBlue").opacity(0.85) : .donutChartOrange, .clear], startPoint: .top, endPoint: .bottom)
             
             Chart {
                 
@@ -95,10 +121,12 @@ struct BankrollLineChart: View {
                     
                     LineMark(x: .value("Time", index), y: .value("Profit", total))
                         .opacity(showChart ? 1.0 : 0.0)
+                        .foregroundStyle(lineGradient)
                     
                     AreaMark(x: .value("Time", index), y: .value("Profit", total))
-                        .foregroundStyle(LinearGradient(colors: [chartSessionFilter != .tournaments ? Color("lightBlue") : .donutChartOrange, .clear], startPoint: .top, endPoint: .bottom))
-                        .opacity(showChart ? 0.18 : 0.0)
+                        .foregroundStyle(areaGradient)
+                        .opacity(showChart ? 0.15 : 0.0)
+                    
                     
                     if let selectedIndex {
                         
@@ -106,34 +134,14 @@ struct BankrollLineChart: View {
                             .foregroundStyle(Color.brandWhite)
                     }
                 }
-                .foregroundStyle(LinearGradient(colors: [chartSessionFilter != .tournaments ? .chartAccent : .donutChartOrange,
-                                                         chartSessionFilter != .tournaments ? .chartBase : .orange],
-                                                startPoint: .topTrailing, endPoint: .bottomLeading))
                 .interpolationMethod(.catmullRom)
-                .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
+                .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
                 
                 if let selectedIndex {
                     
                     RuleMark(x: .value("Selected Date", selectedIndex))
                         .lineStyle(StrokeStyle(lineWidth: 10, lineCap: .round))
                         .foregroundStyle(.gray.opacity(0.2))
-                        .annotation(position: overlayAnnotation
-                                    ?  (selectedIndex == 0 && convertedData.count == 2)
-                                    || ((0...1).contains(selectedIndex) && convertedData.count > 2)
-                                    || ((0...6).contains(selectedIndex) && convertedData.count > 8)
-                                    || ((0...18).contains(selectedIndex) && convertedData.count > 25)
-                                    || ((0...30).contains(selectedIndex) && convertedData.count > 50)
-                                    ?  .trailing : .leading
-                                    :  .top,
-                                    spacing: overlayAnnotation ? 12 : 8,
-                                    overflowResolution: .init(x: .fit(to: .chart))) {
-                            
-                            Text(profitAnnotation?.axisShortHand(viewModel.userCurrency) ?? "\(viewModel.userCurrency.symbol)0")
-                                .captionStyle()
-                                .padding(10)
-                                .background(.gray.opacity(0.1))
-                                .cornerRadius(10)
-                        }
                 }
             }
             .onAppear {
@@ -141,6 +149,19 @@ struct BankrollLineChart: View {
                     showChart = true
                 }
             }
+            .overlay(
+                PatternView()
+                    .opacity(showChart ? 1.0 : 0.0)
+                    .allowsHitTesting(false)
+                    .mask(
+                        Chart {
+                            ForEach(Array(convertedData.enumerated()), id: \.offset) { index, total in
+                                AreaMark(x: .value("Time", index), y: .value("Profit", total))
+                            }
+                            .interpolationMethod(.catmullRom)
+                        }
+                    )
+            )
             .animation(.easeIn(duration: 1.2), value: showChart)
             .sensoryFeedback(.selection, trigger: selectedIndex)
             .chartXSelection(value: $selectedIndex)
@@ -148,13 +169,14 @@ struct BankrollLineChart: View {
             .chartYScale(domain: [convertedData.min()!, convertedData.max()!])
             .chartYAxis {
                 AxisMarks(position: .trailing, values: .automatic(desiredCount: 4)) { value in
-                    AxisGridLine().foregroundStyle(.gray.opacity(0.25))
+                    AxisGridLine()
+                        .foregroundStyle(.gray.opacity(0.33))
                     AxisValueLabel() {
                         if showYAxis {
                             if let intValue = value.as(Int.self) {
                                 Text(intValue.axisShortHand(viewModel.userCurrency))
                                     .captionStyle()
-                                    .padding(.leading, 20)
+                                    .padding(.leading, 12)
                             }
                         }
                     }
@@ -187,32 +209,45 @@ struct BankrollLineChart: View {
                         .opacity(showChart ? 1.0 : 0.0)
                     
                     AreaMark(x: .value("Time", index), y: .value("Profit", total))
-                        .foregroundStyle(LinearGradient(colors: [chartSessionFilter != .tournaments ? Color("lightBlue") : .donutChartGreen, .clear], startPoint: .top, endPoint: .bottom))
+                        .foregroundStyle(LinearGradient(colors: [chartSessionFilter != .tournaments ? Color("lightBlue").opacity(0.85) : .donutChartGreen, .clear], startPoint: .top, endPoint: .bottom))
                         .opacity(showChart ? 0.2 : 0.0)
                 }
                 .foregroundStyle(LinearGradient(colors: [chartSessionFilter != .tournaments ? .chartAccent : .donutChartGreen,
                                                          chartSessionFilter != .tournaments ? .chartBase : .donutChartDarkBlue],
                                                 startPoint: .topTrailing, endPoint: .bottomLeading))
                 .interpolationMethod(.catmullRom)
-                .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
+                .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
             }
             .onAppear {
                 withAnimation {
                     showChart = true
                 }
             }
+            .overlay(
+                PatternView()
+                    .opacity(showChart ? 1.0 : 0.0)
+                    .allowsHitTesting(false)
+                    .mask(
+                        Chart {
+                            ForEach(Array(convertedData.enumerated()), id: \.offset) { index, total in
+                                AreaMark(x: .value("Time", index), y: .value("Profit", total))
+                            }
+                            .interpolationMethod(.catmullRom)
+                        }
+                    )
+            )
             .animation(.easeIn(duration: 1.2), value: showChart)
             .chartXAxis(.hidden)
             .chartYScale(domain: [convertedData.min()!, convertedData.max()!])
             .chartYAxis {
                 AxisMarks(position: .trailing, values: .automatic(desiredCount: 4)) { value in
-                    AxisGridLine().foregroundStyle(.gray.opacity(0.25))
+                    AxisGridLine().foregroundStyle(.gray.opacity(0.33))
                     AxisValueLabel() {
                         if showYAxis {
                             if let intValue = value.as(Int.self) {
                                 Text(intValue.axisShortHand(viewModel.userCurrency))
                                     .captionStyle()
-                                    .padding(.leading, 25)
+                                    .padding(.leading, 12)
                             }
                         }
                     }
@@ -295,6 +330,39 @@ struct BankrollLineChart: View {
 
         return cumulativeProfits[index]
     }
+    
+    private func calculatePercentChange(from oldValue: Int, to newValue: Int) -> String {
+        
+        guard oldValue != 0 else {
+            return "N/A"
+        }
+        
+        let change = (Double(newValue) - Double(oldValue)) / Double(oldValue) * 100
+        return String(format: "%.2f%%", change)
+    }
+    
+    struct PatternView: View {
+        
+        var body: some View {
+            
+            GeometryReader { geometry in
+                let patternSize: CGFloat = 3 // Size of individual dots
+                let spacing: CGFloat = 7 // Spacing between dots
+                let dotColor: Color = Color("lightBlue").opacity(0.1)
+
+                Canvas { context, size in
+                    for y in stride(from: 0, to: size.height, by: patternSize + spacing) {
+                        for x in stride(from: 0, to: size.width, by: patternSize + spacing) {
+                            context.fill(
+                                Path(ellipseIn: CGRect(x: x, y: y, width: patternSize, height: patternSize)),
+                                with: .color(dotColor)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 struct SwiftChartsPractice_Previews: PreviewProvider {
@@ -303,7 +371,7 @@ struct SwiftChartsPractice_Previews: PreviewProvider {
         BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, overlayAnnotation: true)
             .environmentObject(SessionsListViewModel())
             .preferredColorScheme(.dark)
-            .frame(height: 350)
+            .frame(height: 400)
             .padding()
     }
 }

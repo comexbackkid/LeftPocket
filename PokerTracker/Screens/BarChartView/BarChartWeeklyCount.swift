@@ -69,7 +69,7 @@ struct BarChartWeeklySessionCount: View {
         .chartYAxis {
             AxisMarks(position: .leading) { value in
                 AxisGridLine()
-                    .foregroundStyle(.gray.opacity(0.2))
+                    .foregroundStyle(.gray.opacity(0.33))
                 AxisValueLabel() {
                     if let intValue = value.as(Int.self) {
                         Text("\(intValue)")

@@ -14,11 +14,14 @@ struct MeditationView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var hkManager: HealthKitManager
     
+    @Binding var passedMeditation: Meditation?
+    
     @State private var player: AVAudioPlayer?
     @State private var value: Double = 0.0
     @State private var isPlaying = false
     @State private var isEditing = false
     @State private var isLooping = false
+    @State private var isPressed = false
     @State private var isSessionCompleted = false
     
     let audioManager = AudioManager()
@@ -29,55 +32,65 @@ struct MeditationView: View {
     
     var body: some View {
         
-        VStack {
+        NavigationStack {
             
-            Spacer()
-            
-            Spacer()
-            
-            Spacer()
-            
-            Spacer()
-            
-            titleSection
-            
-            Spacer()
-
-            playerControls
-            
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Image(meditation.background).resizable().aspectRatio(contentMode: .fill))
-        .ignoresSafeArea()
-        .onAppear {
-            audioManager.setupAudioPlayer(track: meditation.track)
-            audioManager.onFinish = {
-                stopPlaybackAndReset()
-                isSessionCompleted = true
-            }
-        }
-        .onDisappear {
-            Task {
-                try? await hkManager.fetchDailyMindfulMinutesData()
-            }
-        }
-        .onReceive(timer) { _ in
-            guard let player = audioManager.player, player.isPlaying, !isEditing else { return }
-            value = player.currentTime
-        }
-        .overlay {
-            if #available(iOS 17.0, *) {
+            VStack {
                 
-                let meditationTip = MeditationTip()
+                Spacer()
                 
-                VStack {
-
-                    TipView(meditationTip)
-                        .tipViewStyle(CustomTipViewStyle())
-                        .padding(.horizontal, 20)
-                        .padding(.top, 20)
+                Spacer()
+                
+                Spacer()
+                
+                Spacer()
+                
+                titleSection
+                
+                Spacer()
+                
+                playerControls
+                
+            }
+            .navigationDestination(isPresented: $isSessionCompleted) {
+                MindfulnessCompleted(passedMeditation: $passedMeditation, meditation: meditation)
+                    .navigationBarBackButtonHidden(true)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Image(meditation.background).resizable().aspectRatio(contentMode: .fill))
+            .ignoresSafeArea()
+            .onAppear {
+                UIApplication.shared.isIdleTimerDisabled = true
+                audioManager.setupAudioPlayer(track: meditation.track)
+                audioManager.onFinish = {
+                    stopPlaybackAndReset()
+                    isSessionCompleted = true
+                    if isSessionCompleted { hkManager.saveMindfulMinutes(Int(meditation.duration)) }
+                }
+            }
+            .onDisappear {
+                UIApplication.shared.isIdleTimerDisabled = false
+                Task {
+                    try? await hkManager.fetchDailyMindfulMinutesData()
+                }
+            }
+            .onReceive(timer) { _ in
+                guard let player = audioManager.player, player.isPlaying, !isEditing else { return }
+                value = player.currentTime
+            }
+            .overlay {
+                if #available(iOS 17.0, *) {
                     
-                    Spacer()
+                    let meditationTip = MeditationTip()
+                    
+                    VStack {
+                        
+                        TipView(meditationTip)
+                            .tipViewStyle(CustomTipViewStyle())
+                            .padding(.horizontal, 20)
+                            .padding(.top, 20)
+                        
+                        Spacer()
+                    }
                 }
             }
         }
@@ -117,48 +130,63 @@ struct MeditationView: View {
                 
                 Spacer()
                 
-                Image(systemName: "gobackward.15")
-                    .resizable()
-                    .frame(width: 25, height: 25)
-                    .foregroundStyle(.white)
-                    .onTapGesture {
-                        let impact = UIImpactFeedbackGenerator(style: .soft)
-                        impact.impactOccurred()
-                        seek(by: -15)
-                    }
+                Button {
+                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                    impact.impactOccurred()
+                    seek(by: -15)
+                } label: {
+                    Image(systemName: "gobackward.15")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                        .foregroundStyle(.white)
+                }
                 
                 Spacer()
                 
                 Button {
                     let impact = UIImpactFeedbackGenerator(style: .medium)
                     impact.impactOccurred()
+                    
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0.5)) {
+                        isPressed = true
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0.5)) {
+                            isPressed = false
+                        }
+                    }
                     togglePlayPause()
+                    
                 } label: {
                     Image(systemName: isPlaying ? "pause.fill" : "play.fill")
                         .resizable()
                         .frame(width: 35, height: 35)
                         .foregroundStyle(.white)
+                        .scaleEffect(isPressed ? 0.7 : 1.0)
                         .animation(.none, value: isPlaying)
                 }
                 
                 Spacer()
                 
-                Image(systemName: "goforward.15")
-                    .resizable()
-                    .frame(width: 25, height: 25)
-                    .foregroundStyle(.white)
-                    .onTapGesture {
-                        let impact = UIImpactFeedbackGenerator(style: .soft)
-                        impact.impactOccurred()
-                        seek(by: 15)
-                    }
-                
+                Button {
+                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                    impact.impactOccurred()
+                    seek(by: 15)
+                } label: {
+                    Image(systemName: "goforward.15")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                        .foregroundStyle(.white)
+                }
+
                 Spacer()
                 
                 Button {
                     let impact = UIImpactFeedbackGenerator(style: .medium)
                     impact.impactOccurred()
-                    if isSessionCompleted { hkManager.saveMindfulMinutes(Int(meditation.duration)) }
+//                    if isSessionCompleted { hkManager.saveMindfulMinutes(Int(meditation.duration)) }
+                    stopPlaybackAndReset()
                     dismiss()
                 } label: {
                     Image(systemName: "stop.fill")
@@ -244,7 +272,7 @@ struct MeditationView: View {
 }
 
 #Preview {
-    MeditationView(meditation: Meditation.beach)
+    MeditationView(passedMeditation: .constant(.forest), meditation: Meditation.forest)
         .environmentObject(HealthKitManager())
         .preferredColorScheme(.dark)
 }

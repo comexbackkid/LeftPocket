@@ -610,48 +610,6 @@ struct SessionDetailView: View {
     }
 }
 
-struct DetailHeader<Header: View>: View {
-    var startingHeight: CGFloat = 200
-    var coordinateSpace: CoordinateSpace = .global
-    let header: Header
-
-    init(
-        startingHeight: CGFloat,
-        @ViewBuilder header: () -> Header
-
-    ) {
-        self.startingHeight = startingHeight
-        self.header = header()
-    }
-
-    var body: some View {
-        
-        GeometryReader { geometry in
-            let offset = yOffset(geometry)
-            let heightModifier = stretchedHeight(geometry)
-            
-            header
-                .frame(width: geometry.size.width, height: geometry.size.height + heightModifier)
-                .clipped()
-                .offset(y: offset)
-        }
-        .frame(height: startingHeight)
-    }
-
-    private func yOffset(_ geo: GeometryProxy) -> CGFloat {
-        let frame = geo.frame(in: coordinateSpace)
-        if frame.minY < 0 {
-            return -frame.minY * 0.8
-        }
-        return -frame.minY
-    }
-
-    private func stretchedHeight(_ geo: GeometryProxy) -> CGFloat {
-        let frame = geo.frame(in: coordinateSpace)
-        return max(0, frame.minY)
-    }
-}
-
 struct GraphicHeaderView: View {
     
     let location: LocationModel

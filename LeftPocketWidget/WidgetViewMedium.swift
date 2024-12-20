@@ -114,7 +114,9 @@ struct WidgetViewMedium: View {
     var swiftChart: some View {
         
         HStack {
+            
             Spacer()
+            
             Chart {
                 ForEach(Array(entry.swiftChartData.enumerated()), id: \.offset) { index, total in
                     
@@ -126,8 +128,21 @@ struct WidgetViewMedium: View {
                         .foregroundStyle(LinearGradient(colors: [Color("lightBlue").opacity(0.4), .clear], startPoint: .top, endPoint: .bottom))
                 }
                 .interpolationMethod(.catmullRom)
-                .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
+                .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
             }
+            .overlay(
+                PatternView()
+                    
+                    .allowsHitTesting(false)
+                    .mask(
+                        Chart {
+                            ForEach(Array(entry.swiftChartData.enumerated()), id: \.offset) { index, total in
+                                AreaMark(x: .value("Time", index), y: .value("Profit", total))
+                            }
+                            .interpolationMethod(.catmullRom)
+                        }
+                    )
+            )
             .chartXAxis(.hidden)
             .chartYAxis(.hidden)
             .frame(maxWidth: 165, maxHeight: 75)
@@ -156,6 +171,29 @@ struct WidgetViewMedium: View {
             }
             .padding(20)
             Spacer()
+        }
+    }
+}
+
+struct PatternView: View {
+    
+    var body: some View {
+        
+        GeometryReader { geometry in
+            let patternSize: CGFloat = 3 // Size of individual dots
+            let spacing: CGFloat = 7 // Spacing between dots
+            let dotColor: Color = Color("lightBlue").opacity(0.1)
+
+            Canvas { context, size in
+                for y in stride(from: 0, to: size.height, by: patternSize + spacing) {
+                    for x in stride(from: 0, to: size.width, by: patternSize + spacing) {
+                        context.fill(
+                            Path(ellipseIn: CGRect(x: x, y: y, width: patternSize, height: patternSize)),
+                            with: .color(dotColor)
+                        )
+                    }
+                }
+            }
         }
     }
 }

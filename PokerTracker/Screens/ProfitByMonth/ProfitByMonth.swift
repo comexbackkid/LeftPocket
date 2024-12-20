@@ -108,7 +108,7 @@ struct ProfitByMonth: View {
                     let filteredMonths = vm.sessions.filter({ $0.date.getYear() == yearFilter })
                     let total = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.profit }.reduce(0,+)
                     let hourlyRate = hourlyByMonth(month: month, sessions: filteredMonths)
-                    let hoursPlayed = filteredMonths.filter({ $0.date.getMonth() == month }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+                    let hoursPlayed = vm.hoursAbbreviated(filteredMonths.filter({ $0.date.getMonth() == month }))
                     
                     Text(total.axisShortHand(vm.userCurrency))
                         .profitColor(total: total)
@@ -118,8 +118,8 @@ struct ProfitByMonth: View {
                         .profitColor(total: hourlyRate)
                         .frame(width: 62, alignment: .trailing)
                     
-                    Text(hoursPlayed.abbreviateHourTotal + "h")
-                        .foregroundColor(hoursPlayed == 0 ? Color(.systemGray) : .primary)
+                    Text(hoursPlayed)
+                        .foregroundColor(hoursPlayed == "0h" ? Color(.systemGray) : .primary)
                         .frame(width: 62, alignment: .trailing)
                     
                 }
@@ -128,7 +128,7 @@ struct ProfitByMonth: View {
         }
         .padding(20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
@@ -180,7 +180,7 @@ struct ProfitByMonth: View {
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
         .padding(20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
-        .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         .padding(.top, 15)
@@ -192,7 +192,7 @@ struct ProfitByMonth: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 20)
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 375)
-            .background(colorScheme == .dark ? Color.black.opacity(0.35) : Color.white)
+            .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
             .cornerRadius(20)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             .padding(.top, 15)
