@@ -40,7 +40,7 @@ struct MetricsView: View {
                                 ToolTipView(image: "lightbulb",
                                             message: "Track your performance from here. Tap & hold charts for more info.",
                                             color: .yellow)
-                                
+                                                                
                                 bankrollChart
                                 
                                 bankrollProgressView
@@ -135,7 +135,7 @@ struct MetricsView: View {
         
         BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, overlayAnnotation: false)
             .padding(.bottom, 5)
-            .cardStyle(colorScheme: colorScheme, height: 435)
+            .cardStyle(colorScheme: colorScheme, height: 455)
             .cardShadow(colorScheme: colorScheme)
     }
     

@@ -322,74 +322,74 @@ struct ContentView: View {
             
             return oldComponents[0] != newComponents[0]
         }
+}
+
+struct QuickMetricsBoxGrid: View {
     
-    struct QuickMetricsBoxGrid: View {
+    @ObservedObject var viewModel: SessionsListViewModel
+    
+    @State private var playerProfit: Bool = false
+    @State private var bbPerHr: Bool = false
+    @State private var hourlyRate: Bool = false
+    @State private var profitPerSession: Bool = false
+    @State private var winRatio: Bool = false
+    @State private var hoursPlayed: Bool = false
+    
+    private let columns = [GridItem(.flexible()), GridItem(.flexible())]
+    
+    var body: some View {
         
-        @ObservedObject var viewModel: SessionsListViewModel
-        
-        @State private var playerProfit: Bool = false
-        @State private var bbPerHr: Bool = false
-        @State private var hourlyRate: Bool = false
-        @State private var profitPerSession: Bool = false
-        @State private var winRatio: Bool = false
-        @State private var hoursPlayed: Bool = false
-        
-        private let columns = [GridItem(.flexible()), GridItem(.flexible())]
-        
-        var body: some View {
+        LazyVGrid(columns: columns, spacing: 10) {
             
-            LazyVGrid(columns: columns, spacing: 10) {
-                
-                if playerProfit {
-                    QuickMetricBox(title: "Total Profit", metric: String(viewModel.tallyBankroll(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
-                }
-                
-                if bbPerHr {
-                    QuickMetricBox(title: "BB / Hr", metric: String(format: "%.2f", viewModel.bbPerHour()))
-                }
-                
-                if hourlyRate {
-                    QuickMetricBox(title: "Hourly Rate", metric: String(viewModel.hourlyRate(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
-                }
-                
-                if profitPerSession {
-                    QuickMetricBox(title: "Avg. Session Profit", metric: String(viewModel.avgProfit(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
-                }
-                
-                if winRatio {
-                    QuickMetricBox(title: "Win Ratio", metric: viewModel.winRate())
-                }
-                
-                if hoursPlayed {
-                    QuickMetricBox(title: "Hours Played", metric: viewModel.totalHoursPlayedHomeScreen())
-                }
+            if playerProfit {
+                QuickMetricBox(title: "Total Profit", metric: String(viewModel.tallyBankroll(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
             }
-            .frame(width: UIScreen.main.bounds.width * 0.85)
-            .onAppear { loadDashboardConfig() }
+            
+            if bbPerHr {
+                QuickMetricBox(title: "BB / Hr", metric: String(format: "%.2f", viewModel.bbPerHour()))
+            }
+            
+            if hourlyRate {
+                QuickMetricBox(title: "Hourly Rate", metric: String(viewModel.hourlyRate(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
+            }
+            
+            if profitPerSession {
+                QuickMetricBox(title: "Avg. Session Profit", metric: String(viewModel.avgProfit(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
+            }
+            
+            if winRatio {
+                QuickMetricBox(title: "Win Ratio", metric: viewModel.winRate())
+            }
+            
+            if hoursPlayed {
+                QuickMetricBox(title: "Hours Played", metric: viewModel.totalHoursPlayedHomeScreen())
+            }
+        }
+        .frame(width: UIScreen.main.bounds.width * 0.85)
+        .onAppear { loadDashboardConfig() }
+    }
+    
+    private func loadDashboardConfig() {
+        
+        let defaults = UserDefaults.standard
+        
+        // Use the default value of true for "PlayerProfit" and "HoursPlayed" if none found in UserDefaults
+        if defaults.object(forKey: "dashboardPlayerProfit") == nil {
+            self.playerProfit = true
+        } else {
+            self.playerProfit = defaults.bool(forKey: "dashboardPlayerProfit")
         }
         
-        private func loadDashboardConfig() {
-            
-            let defaults = UserDefaults.standard
-            
-            // Use the default value of true for "PlayerProfit" and "HoursPlayed" if none found in UserDefaults
-            if defaults.object(forKey: "dashboardPlayerProfit") == nil {
-                self.playerProfit = true
-            } else {
-                self.playerProfit = defaults.bool(forKey: "dashboardPlayerProfit")
-            }
-            
-            self.bbPerHr = defaults.bool(forKey: "dashboardBbPerHr")
-            self.hourlyRate = defaults.bool(forKey: "dashboardHourlyRate")
-            self.profitPerSession = defaults.bool(forKey: "dashboardProfitPerSession")
-            self.winRatio = defaults.bool(forKey: "dashboardWinRatio")
-            
-            // Use the default value of true for "HoursPlayed" if not found in UserDefaults
-            if defaults.object(forKey: "dashboardHoursPlayed") == nil {
-                self.hoursPlayed = true
-            } else {
-                self.hoursPlayed = defaults.bool(forKey: "dashboardHoursPlayed")
-            }
+        self.bbPerHr = defaults.bool(forKey: "dashboardBbPerHr")
+        self.hourlyRate = defaults.bool(forKey: "dashboardHourlyRate")
+        self.profitPerSession = defaults.bool(forKey: "dashboardProfitPerSession")
+        self.winRatio = defaults.bool(forKey: "dashboardWinRatio")
+        
+        // Use the default value of true for "HoursPlayed" if not found in UserDefaults
+        if defaults.object(forKey: "dashboardHoursPlayed") == nil {
+            self.hoursPlayed = true
+        } else {
+            self.hoursPlayed = defaults.bool(forKey: "dashboardHoursPlayed")
         }
     }
 }

@@ -649,6 +649,7 @@
 				7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */,
 				7C2E6BF82B711C89002C01C9 /* ImportView.swift */,
 				7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */,
+				7C0B3FF52CC5454B00F446EA /* MeditationView.swift */,
 				7CF39C912BE6DBB4003B4C00 /* NotificationsView.swift */,
 				7C20CFB1271E2D1600739764 /* OnboardingView.swift */,
 				7CC26E6B2CDEA7C500095D4C /* PerformanceLineChart.swift */,
@@ -662,10 +663,9 @@
 				7CDE9FC62B78F6CC00B4AA33 /* SessionDefaultsView.swift */,
 				7C757F022C1F2A9F00AD71EE /* ShareButton.swift */,
 				7C757EFE2C1F218900AD71EE /* SocialShareView.swift */,
+				7C71AB112D0B3C7700487AB5 /* SystemSounds.swift */,
 				7C85492F2C46C4BE0038ADB4 /* TransactionCellView.swift */,
 				7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */,
-				7C0B3FF52CC5454B00F446EA /* MeditationView.swift */,
-				7C71AB112D0B3C7700487AB5 /* SystemSounds.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

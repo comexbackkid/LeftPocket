@@ -150,7 +150,6 @@ struct SessionsListView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .padding(.bottom, 50)
             .accentColor(.brandPrimary)
             .background(Color.brandBackground)
             .toolbar {
@@ -286,6 +285,7 @@ struct SessionsListView: View {
             EmptyState(title: "No Sessions", image: .sessions)
             Spacer()
         }
+        .padding(.bottom, 50)
     }
     
     var emptySessionsView: some View {

@@ -151,7 +151,7 @@ struct BankrollLineChart: View {
             }
             .overlay(
                 PatternView()
-                    .opacity(showChart ? 1.0 : 0.0)
+                    .opacity(showChart ? 0.5 : 0.0)
                     .allowsHitTesting(false)
                     .mask(
                         Chart {
@@ -225,7 +225,7 @@ struct BankrollLineChart: View {
             }
             .overlay(
                 PatternView()
-                    .opacity(showChart ? 1.0 : 0.0)
+                    .opacity(showChart ? 0.5 : 0.0)
                     .allowsHitTesting(false)
                     .mask(
                         Chart {

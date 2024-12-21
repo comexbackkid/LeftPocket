@@ -36,11 +36,11 @@ struct LineChartFullScreen: View {
                     dismissButton
                     Spacer()
                 }
-                .padding(.leading, 15)
+                .padding(.leading, 10)
                 
                 Spacer()
             }
-            .padding(30)
+            .padding(20)
         }
         .rotationEffect(.degrees(90)) // Rotate 90 degrees
         .frame(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)

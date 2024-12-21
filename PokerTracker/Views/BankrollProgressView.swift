@@ -33,9 +33,9 @@ struct BankrollProgressView: View {
             case .notReady:
                 return "You're not quite ready to move up in stakes yet."
             case .nearlyReady:
-                return "Keep going! You're almost ready to move up in stakes."
+                return "Keep it up, you're almost ready to move up stakes!"
             case .ready:
-                return "Congratulations! You can now safely move up in stakes."
+                return "Well done! Now's a good time to consider moving up stakes."
             case .undefined:
                 return "Progress undefined"
             }
