@@ -80,6 +80,12 @@ struct SessionsListView: View {
             return sessionDate >= startDate && sessionDate <= endDate
         }
         
+        if let tagsFilter = tagsFilter {
+            result = result.filter { session in
+                session.tags?.contains(tagsFilter) ?? false
+            }
+        }
+        
         return result
     }
     
@@ -255,7 +261,14 @@ struct SessionsListView: View {
             Menu {
                 Picker("Tags", selection: $tagsFilter) {
                     Text("None").tag(nil as String?)
-                    ForEach(vm.sessions.map { $0.tags?.first ?? "" }.uniqued(), id: \.self) { tag in
+                    ForEach(
+                        vm.sessions
+                            .compactMap { $0.tags }
+                            .flatMap { $0 }
+                            .filter { !$0.isEmpty }
+                            .uniqued(),
+                        id: \.self
+                    ) { tag in
                         Text(tag).tag(tag as String?)
                     }
                 }

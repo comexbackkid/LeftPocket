@@ -10,8 +10,6 @@ import RevenueCat
 import RevenueCatUI
 import TipKit
 
-enum SessionType: String, Codable { case cash, tournament }
-
 final class NewSessionViewModel: ObservableObject {
     
     @Published var location: LocationModel = LocationModel(name: "", localImage: "", imageURL: "")
@@ -52,6 +50,7 @@ final class NewSessionViewModel: ObservableObject {
         return buyIn * numberOfRebuys
     }
     
+    // Checking for form validity
     var isValidForm: Bool {
         
         guard sessionType != nil else {
@@ -128,6 +127,7 @@ final class NewSessionViewModel: ObservableObject {
         return true
     }
     
+    // If user has saved Session Defaults load them first
     func loadUserDefaults() {
         
         let defaults = UserDefaults.standard
@@ -194,3 +194,5 @@ final class NewSessionViewModel: ObservableObject {
         self.presentation = false
     }
 }
+
+enum SessionType: String, Codable { case cash, tournament }
