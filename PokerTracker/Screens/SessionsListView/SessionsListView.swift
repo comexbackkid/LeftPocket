@@ -181,6 +181,7 @@ struct SessionsListView: View {
             }
             .onAppear {
                 if !datesInitialized {
+                    
                     startDate = firstSessionDate
                     datesInitialized = true
                 }
