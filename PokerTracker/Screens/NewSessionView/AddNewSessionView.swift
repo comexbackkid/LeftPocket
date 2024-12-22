@@ -518,6 +518,7 @@ struct AddNewSessionView: View {
                     HStack {
                         Text(vm.userCurrency.symbol)
                             .font(.callout)
+                            .frame(width: 13)
                             .foregroundColor(newSession.buyIn.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                         
                         TextField("Buy In", text: $newSession.buyIn)
@@ -538,6 +539,7 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
+                        .frame(width: 13)
                         .foregroundColor(newSession.cashOut.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField(newSession.sessionType == .tournament ? "Total Winnings" : "Cash Out", text: $newSession.cashOut)
@@ -557,6 +559,7 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
+                        .frame(width: 13)
                         .foregroundStyle(newSession.cashRebuys.isEmpty ? .secondary.opacity(0.5) : Color.brandWhite)
                     
                     TextField("Rebuys / Top Offs", text: $newSession.cashRebuys)
@@ -579,6 +582,7 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
+                        .frame(width: 13)
                         .foregroundColor(newSession.sessionType == .tournament && newSession.buyIn.isEmpty || newSession.sessionType == .cash && newSession.expenses.isEmpty || newSession.sessionType == nil && newSession.expenses.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField(newSession.sessionType == .tournament ? "Buy In" : "Expenses (Tips, rake, etc.)", text: newSession.sessionType == .tournament ? $newSession.buyIn : $newSession.expenses)
@@ -599,6 +603,7 @@ struct AddNewSessionView: View {
                     HStack {
                         Text("#")
                             .font(.callout)
+                            .frame(width: 13)
                             .foregroundColor(newSession.rebuyCount.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                         
                         TextField("Rebuy Ct.", text: $newSession.rebuyCount)
@@ -622,6 +627,7 @@ struct AddNewSessionView: View {
                     
                     Text("#")
                         .font(.callout)
+                        .frame(width: 13)
                         .foregroundColor(newSession.entrants.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("No. of Entrants", text: $newSession.entrants)
@@ -639,6 +645,7 @@ struct AddNewSessionView: View {
                     
                     Text("#")
                         .font(.callout)
+                        .frame(width: 13)
                         .foregroundColor(newSession.finish.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("Your Finish", text: $newSession.finish)
@@ -683,6 +690,7 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
+                        .frame(width: 13)
                         .foregroundColor(newSession.highHandBonus.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("High Hand Bonus (Optional)", text: $newSession.highHandBonus)
@@ -697,6 +705,21 @@ struct AddNewSessionView: View {
                 .transition(.opacity.combined(with: .asymmetric(insertion: .push(from: .bottom),
                                                                                        removal: .scale(scale: 0, anchor: .bottom))))
             }
+            
+            HStack {
+                Image(systemName: "tag.fill")
+                    .font(.caption2)
+                    .frame(width: 13)
+                    .foregroundColor(newSession.tags.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                
+                TextField("Tags (Optional)", text: $newSession.tags)
+                    .font(.custom("Asap-Regular", size: 17))
+            }
+            .padding(18)
+            .background(.gray.opacity(0.2))
+            .cornerRadius(15)
+            .padding(.horizontal)
+            .padding(.bottom, 10)
         }
         .padding(.horizontal, 8)
     }

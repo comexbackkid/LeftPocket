@@ -840,7 +840,8 @@ struct EditSession: View {
                                  cashOut: Int(cashOut) ?? 0,
                                  rebuyCount: Int(rebuyCount) ?? 0,
                                  tournamentSize: size,
-                                 tournamentSpeed: speed)
+                                 tournamentSpeed: speed,
+                                 tags: [""])
             
             viewModel.sessions.removeAll { session in
                 session.id == pokerSession.id

@@ -35,6 +35,7 @@ final class NewSessionViewModel: ObservableObject {
     @Published var finish: String = ""
     @Published var size: String = ""
     @Published var speed: String = ""
+    @Published var tags: String = ""
     
     // Just using this value for Cash games
     var computedProfit: Int {
@@ -178,7 +179,8 @@ final class NewSessionViewModel: ObservableObject {
                              cashOut: Int(self.cashOut) ?? 0,
                              rebuyCount: Int(self.rebuyCount) ?? 0,
                              tournamentSize: self.size,
-                             tournamentSpeed: self.speed)
+                             tournamentSpeed: self.speed,
+                             tags: [self.tags])
         
         Task {
             

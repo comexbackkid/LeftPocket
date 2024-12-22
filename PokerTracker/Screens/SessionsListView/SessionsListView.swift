@@ -24,6 +24,7 @@ struct SessionsListView: View {
     @State var sessionFilter: SessionFilter = .all
     @State var locationFilter: LocationModel?
     @State var gameTypeFilter: String?
+    @State var tagsFilter: String?
     @State var stakesFilter: String?
     @State var startDate: Date = Date()
     @State var endDate: Date = .now
@@ -239,7 +240,7 @@ struct SessionsListView: View {
                 }
             }
             
-            Menu{
+            Menu {
                 Picker("Select Stakes", selection: $stakesFilter) {
                     Text("All").tag(nil as String?)
                     ForEach(vm.allCashSessions().map { $0.stakes }.uniqued(), id: \.self) { stakes in
@@ -249,6 +250,20 @@ struct SessionsListView: View {
             } label: {
                 Text("Stakes")
                 Image(systemName: "dollarsign.circle")
+            }
+            
+            Menu {
+                Picker("Tags", selection: $tagsFilter) {
+                    Text("None").tag(nil as String?)
+                    ForEach(vm.sessions.map { $0.tags?.first ?? "" }.uniqued(), id: \.self) { tag in
+                        Text(tag).tag(tag as String?)
+                    }
+                }
+            } label: {
+                HStack {
+                    Text("Tags")
+                    Image(systemName: "tag.fill")
+                }
             }
             
             Divider()

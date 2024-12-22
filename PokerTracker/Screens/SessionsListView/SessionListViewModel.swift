@@ -369,7 +369,8 @@ class SessionsListViewModel: ObservableObject {
                     cashOut: Int,
                     rebuyCount: Int,
                     tournamentSize: String,
-                    tournamentSpeed: String) {
+                    tournamentSpeed: String,
+                    tags: [String]) {
         
         let newSession = PokerSession(location: location,
                                       game: game,
@@ -387,7 +388,8 @@ class SessionsListViewModel: ObservableObject {
                                       cashOut: cashOut,
                                       rebuyCount: rebuyCount,
                                       tournamentSize: tournamentSize,
-                                      tournamentSpeed: tournamentSpeed
+                                      tournamentSpeed: tournamentSpeed,
+                                      tags: tags
         )
         sessions.append(newSession)
         sessions.sort(by: {$0.date > $1.date})

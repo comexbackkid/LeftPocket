@@ -28,6 +28,7 @@ struct PokerSession: Hashable, Codable, Identifiable {
     let rebuyCount: Int?
     let tournamentSize: String?
     let tournamentSpeed: String?
+    let tags: [String]?
     
     // Individual session playing time formatted for Session Detail View
     var playingTIme: String {
@@ -120,7 +121,8 @@ struct MockData {
                                             cashOut: 1121,
                                             rebuyCount: nil,
                                             tournamentSize: nil,
-                                            tournamentSpeed: nil)
+                                            tournamentSpeed: nil,
+                                            tags: ["Vegas 2024"])
     
     static let sampleTournament = PokerSession(location: mockLocation,
                                                game: "NL Texas Hold Em",
@@ -139,7 +141,8 @@ struct MockData {
                                                cashOut: 375,
                                                rebuyCount: 1,
                                                tournamentSize: "MTT",
-                                               tournamentSpeed: "Standard")
+                                               tournamentSpeed: "Standard",
+                                               tags: nil)
     
     static let allLocations = [
         LocationModel(name: "MGM Springfield", localImage: "mgmspringfield-header", imageURL: ""),
@@ -170,7 +173,8 @@ struct MockData {
                      cashOut: nil,
                      rebuyCount: nil,
                      tournamentSize: nil,
-                     tournamentSpeed: nil),
+                     tournamentSpeed: nil,
+                     tags: ["Vegas 2024"]),
 
         PokerSession(location: allLocations[0],
                      game: "NL Texas Hold Em",
@@ -189,7 +193,8 @@ struct MockData {
                      cashOut: nil,
                      rebuyCount: nil,
                      tournamentSize: nil,
-                     tournamentSpeed: nil),
+                     tournamentSpeed: nil,
+                     tags: nil),
         
         PokerSession(location: allLocations[4],
                      game: "NL Texas Hold Em",
@@ -208,7 +213,8 @@ struct MockData {
                      cashOut: nil,
                      rebuyCount: nil,
                      tournamentSize: nil,
-                     tournamentSpeed: nil),
+                     tournamentSpeed: nil,
+                     tags: nil),
     ]
     
     static let sampleTransactions = [
