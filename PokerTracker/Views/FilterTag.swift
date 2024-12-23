@@ -9,12 +9,13 @@ import SwiftUI
 
 struct FilterTag: View {
     
+    let type: String
     let filterName: String
     
     var body: some View {
         
         HStack {
-            Text("Filter: \(filterName)")
+            Text("\(type):" + "\(filterName)")
                 .captionStyle()
         }
         .frame(height: 20)
@@ -26,6 +27,6 @@ struct FilterTag: View {
 }
 
 #Preview {
-    FilterTag(filterName: "2024")
+    FilterTag(type: "Filter", filterName: "2024")
         .preferredColorScheme(.dark)
 }

@@ -59,11 +59,11 @@ struct ProfitByStakesView: View {
                     Spacer()
                     
                     if showCustomDatesTag {
-                        FilterTag(filterName: "Custom Dates")
+                        FilterTag(type: "Filter", filterName: "Custom Dates")
                     }
                     
                     if let yearFilter {
-                        FilterTag(filterName: "\(yearFilter)")
+                        FilterTag(type: "Filter", filterName: "\(yearFilter)")
                     }
                 }
                 .padding(.top, showCustomDatesTag == true || yearFilter != nil ? 30 : 50)
