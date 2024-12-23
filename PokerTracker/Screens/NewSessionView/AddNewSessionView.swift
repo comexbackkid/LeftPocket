@@ -715,11 +715,25 @@ struct AddNewSessionView: View {
                 TextField("Tags (Optional)", text: $newSession.tags)
                     .font(.custom("Asap-Regular", size: 17))
             }
+            .allowsHitTesting(subManager.isSubscribed ? true : false)
             .padding(18)
             .background(.gray.opacity(0.2))
             .cornerRadius(15)
             .padding(.horizontal)
             .padding(.bottom, 10)
+            .overlay {
+                if !subManager.isSubscribed {
+                    HStack {
+                        Spacer()
+                        Image(systemName: "lock.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 20)
+                            .padding(.bottom, 10)
+                            .padding(.trailing, 40)
+                    }
+                }
+            }
         }
         .padding(.horizontal, 8)
     }
