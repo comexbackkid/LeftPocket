@@ -137,6 +137,10 @@ struct TagReport: View {
             
             let sessionCount = tagSessionCount(tag: tagsFilter)
             let hoursPlayed = tagTotalHours(tag: tagsFilter)
+            let winRatio = tagWinRatio(tag: tagsFilter)
+            let highhands = tagHighHands(tag: tagsFilter)
+            let bestSession = tagBestSession(tag: tagsFilter)
+            let profitPerSession = tagProfitPerSession(tag: tagsFilter)
             
             HStack {
                 Text("Hourly Rate")
@@ -152,8 +156,8 @@ struct TagReport: View {
                 
                 Spacer()
                 
-                Text(220, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .profitColor(total: 220)
+                Text(profitPerSession, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: profitPerSession)
             }
             
             HStack {
@@ -161,8 +165,8 @@ struct TagReport: View {
                 
                 Spacer()
                 
-                Text(220, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .profitColor(total: 220)
+                Text(bestSession, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: bestSession)
             }
             
             HStack {
@@ -170,8 +174,8 @@ struct TagReport: View {
                 
                 Spacer()
                 
-                Text(220, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .profitColor(total: 220)
+                Text(highhands, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: highhands)
             }
             
             HStack {
@@ -179,8 +183,8 @@ struct TagReport: View {
                 
                 Spacer()
                 
-                Text(220, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .profitColor(total: 220)
+                Text(winRatio)
+                    
             }
             
             HStack {
@@ -233,6 +237,52 @@ struct TagReport: View {
         let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
         
         return dateComponents.abbreviated(duration: dateComponents)
+    }
+    
+    private func tagWinRatio(tag: String) -> String {
+        
+        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
+        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        guard !matchedSessions.isEmpty else { return "0%" }
+        
+        let wins = Double(matchedSessions.filter({ $0.profit > 0 }).count)
+        let sessions = Double(matchedSessions.count)
+        let winRatio = wins / sessions
+        return winRatio.asPercent()
+    }
+    
+    private func tagHighHands(tag: String) -> Int {
+        
+        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
+        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        guard !matchedSessions.isEmpty else { return 0 }
+        
+        let highHandsTotal = matchedSessions.map({ $0.highHandBonus ?? 0 }).reduce(0, +)
+        return highHandsTotal
+    }
+    
+    private func tagBestSession(tag: String) -> Int {
+        
+        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
+        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        guard !matchedSessions.isEmpty else { return 0 }
+        
+        guard let bestSession = matchedSessions.map({ $0.profit }).max(by: { $0 < $1 }) else {
+            return 0
+        }
+        
+        return bestSession
+    }
+    
+    private func tagProfitPerSession(tag: String) -> Int {
+        
+        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
+        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        guard !matchedSessions.isEmpty else { return 0 }
+        
+        let profit = matchedSessions.map({ $0.profit }).reduce(0, +)
+        let count = matchedSessions.count
+        return profit / count
     }
 }
 
