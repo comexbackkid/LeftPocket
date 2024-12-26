@@ -370,7 +370,7 @@ class SessionsListViewModel: ObservableObject {
                     rebuyCount: Int,
                     tournamentSize: String,
                     tournamentSpeed: String,
-                    tags: [String]) {
+                    tags: [String]?) {
         
         let newSession = PokerSession(location: location,
                                       game: game,

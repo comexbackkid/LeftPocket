@@ -180,7 +180,7 @@ final class NewSessionViewModel: ObservableObject {
                              rebuyCount: Int(self.rebuyCount) ?? 0,
                              tournamentSize: self.size,
                              tournamentSpeed: self.speed,
-                             tags: [self.tags])
+                             tags: self.tags.isEmpty ? nil : [self.tags])
         
         Task {
             
