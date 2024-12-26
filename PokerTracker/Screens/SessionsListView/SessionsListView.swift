@@ -354,6 +354,8 @@ struct SessionsListView: View {
             }
         }
         .padding(.horizontal)
+        .minimumScaleFactor(0.9)
+        .lineLimit(1)
         .listRowBackground(Color.brandBackground)
         .listRowSeparator(.hidden)
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
