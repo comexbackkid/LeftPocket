@@ -847,6 +847,16 @@ struct AdditionalMetricsView: View {
                                                           color: .donutChartPurple)
                             })
                         .buttonStyle(PlainButtonStyle())
+                        
+                        NavigationLink(
+                            destination: TagReport(),
+                            label: {
+                                AdditionalMetricsCardView(title: "Tag Report",
+                                                          description: "Generate a report via tags applied to your sessions.",
+                                                          image: "tag.fill",
+                                                          color: .brandWhite)
+                            })
+                        .buttonStyle(PlainButtonStyle())
                     }
                     .padding(.leading)
                     .padding(.trailing)

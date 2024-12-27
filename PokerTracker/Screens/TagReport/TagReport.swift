@@ -13,6 +13,21 @@ struct TagReport: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var tagsFilter: String = ""
     
+    var headerImage: Image {
+        
+        let sessions = viewModel.sessions.filter({ $0.tags?.first == tagsFilter })
+        let firstLocation = sessions.first?.location
+        
+        if let photoData = firstLocation?.importedImage, let uiImage = UIImage(data: photoData) {
+            
+            return Image(uiImage: uiImage)
+                
+        } else {
+            
+            return Image("encore-header2")
+        }
+    }
+    
     var body: some View {
         
         ScrollView {
@@ -21,24 +36,33 @@ struct TagReport: View {
             
             VStack (spacing: 12) {
                 
-                tagSelection
+                headerImage
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 200)
+                    .clipped()
                 
-                Divider().padding(.vertical)
-                
-                toplineIncome
-                
-                Divider().padding(.vertical)
-                
-                detailedIncome
-                
+                VStack {
+                    
+                    tagSelection
+                    
+                    Divider().padding(.vertical)
+                    
+                    toplineIncome
+                    
+                    Divider().padding(.vertical)
+                    
+                    detailedIncome
+                }
+                .padding(30)
             }
             .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
             .lineSpacing(2.5)
-            .padding(30)
             .frame(width: UIScreen.main.bounds.width * 0.9)
             .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
             .cornerRadius(20)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+            .padding(.bottom, 80)
         }
         .background(Color.brandBackground)
         .accentColor(.brandPrimary)
@@ -47,7 +71,7 @@ struct TagReport: View {
     var title: some View {
         
         HStack {
-            Text("Trip Report")
+            Text("Tags Report")
                 .titleStyle()
                 .padding(.top, -37)
                 .padding(.horizontal)
@@ -59,7 +83,7 @@ struct TagReport: View {
     var tagSelection: some View {
         
         HStack {
-            Text("Tag Selection")
+            Text("Tag Name")
                 .bodyStyle()
             
             Spacer()
@@ -92,14 +116,19 @@ struct TagReport: View {
         
         VStack (spacing: 12) {
             
+            let highHands = tagHighHands(tag: tagsFilter)
+            let grossIncome = tagGrossIncome(tag: tagsFilter) + highHands
+            let expenses = tagExpenses(tag: tagsFilter)
+            let netProfit = grossIncome - expenses
+            
             VStack (spacing: 5) {
                 
                 HStack {
                     Text("Gross Income")
                     
                     Spacer()
-                    Text(400, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                        .profitColor(total: 400)
+                    Text(grossIncome, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                        .profitColor(total: grossIncome)
                 }
                 
                 HStack {
@@ -116,8 +145,8 @@ struct TagReport: View {
                 Text("Expenses")
                 
                 Spacer()
-                Text(150, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(150 > 0 ? .red : Color(.systemGray))
+                Text(expenses, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .foregroundColor(expenses > 0 ? .red : Color(.systemGray))
             }
             
             HStack {
@@ -125,8 +154,8 @@ struct TagReport: View {
                 
                 Spacer()
                 
-                Text(220, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .profitColor(total: 220)
+                Text(netProfit, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: netProfit)
             }
         }
     }
@@ -138,17 +167,18 @@ struct TagReport: View {
             let sessionCount = tagSessionCount(tag: tagsFilter)
             let hoursPlayed = tagTotalHours(tag: tagsFilter)
             let winRatio = tagWinRatio(tag: tagsFilter)
-            let highhands = tagHighHands(tag: tagsFilter)
+            let highHands = tagHighHands(tag: tagsFilter)
             let bestSession = tagBestSession(tag: tagsFilter)
             let profitPerSession = tagProfitPerSession(tag: tagsFilter)
+            let hourlyRate = tagHourlyRate(tag: tagsFilter)
             
             HStack {
                 Text("Hourly Rate")
                 
                 Spacer()
                 
-                Text(220, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .profitColor(total: 220)
+                Text(hourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: hourlyRate)
             }
             
             HStack {
@@ -174,8 +204,8 @@ struct TagReport: View {
                 
                 Spacer()
                 
-                Text(highhands, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .profitColor(total: highhands)
+                Text(highHands, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: highHands)
             }
             
             HStack {
@@ -283,6 +313,46 @@ struct TagReport: View {
         let profit = matchedSessions.map({ $0.profit }).reduce(0, +)
         let count = matchedSessions.count
         return profit / count
+    }
+    
+    private func tagHourlyRate(tag: String) -> Int {
+        
+        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
+        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        guard !matchedSessions.isEmpty else { return 0 }
+        
+        let totalHours = Float(matchedSessions.map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+))
+        let totalMinutes = Float(matchedSessions.map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
+        let totalTime = totalHours + (totalMinutes / 60)
+        let totalEarnings = Float(matchedSessions.map({ $0.profit }).reduce(0, +))
+        
+        if totalHours < 1 {
+            return Int(round(totalEarnings / (totalMinutes / 60)))
+        } else {
+            return Int(round(totalEarnings / totalTime))
+        }
+    }
+    
+    private func tagGrossIncome(tag: String) -> Int {
+        
+        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
+        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        guard !matchedSessions.isEmpty else { return 0 }
+        
+        let netProfit = matchedSessions.map { Int($0.profit) }.reduce(0, +)
+        let totalExpenses = matchedSessions.map { Int($0.expenses ?? 0) }.reduce(0, +)
+        let grossIncome = netProfit + totalExpenses
+        return grossIncome
+    }
+    
+    private func tagExpenses(tag: String) -> Int {
+        
+        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
+        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        guard !matchedSessions.isEmpty else { return 0 }
+        
+        let totalExpenses = matchedSessions.map({ $0.expenses ?? 0 }).reduce(0, +)
+        return totalExpenses
     }
 }
 
