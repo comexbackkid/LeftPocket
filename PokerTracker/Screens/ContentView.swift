@@ -107,19 +107,23 @@ struct ContentView: View {
     
     var productUpdatesIcon: some View {
         
-        HStack {
-            Button {
-                activeSheet = .productUpdates
-            } label: {
-                Image(systemName: "bell.fill")
-                    .opacity(0.75)
+        VStack {
+            HStack {
+                
+                Button {
+                    activeSheet = .productUpdates
+                } label: {
+                    Image(systemName: "bell.fill")
+                        .opacity(0.75)
+                }
+                .buttonStyle(.plain)
+                
+                Spacer()
             }
-            .buttonStyle(.plain)
+            .padding(.horizontal, 30)
             
             Spacer()
         }
-        .padding(.horizontal, 30)
-        .padding(.bottom, -20)
     }
     
     var quickMetricsBoxes: some View {
@@ -300,6 +304,7 @@ struct ContentView: View {
     }
     
     func checkForUpdate() {
+        
         let currentVersion = Bundle.main.appVersion
         let lastSeenVersion = UserDefaults.standard.string(forKey: lastSeenVersionKey) ?? "0.0"
         
@@ -313,15 +318,16 @@ struct ContentView: View {
     }
     
     func isMajorUpdate(from oldVersion: String, to newVersion: String) -> Bool {
-            let oldComponents = oldVersion.split(separator: ".")
-            let newComponents = newVersion.split(separator: ".")
-            
-            guard oldComponents.count > 0, newComponents.count > 0 else {
-                return false
-            }
-            
-            return oldComponents[0] != newComponents[0]
+        
+        let oldComponents = oldVersion.split(separator: ".")
+        let newComponents = newVersion.split(separator: ".")
+        
+        guard oldComponents.count > 0, newComponents.count > 0 else {
+            return false
         }
+        
+        return oldComponents[0] != newComponents[0]
+    }
 }
 
 struct QuickMetricsBoxGrid: View {

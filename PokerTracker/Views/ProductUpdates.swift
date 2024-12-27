@@ -67,7 +67,7 @@ struct ProductUpdates: View {
             let updates = [
                 "Poker Mindfulness is here! Track your meditation habits & correlation to poker results.",
                 "Now you can log rebuys for both Completed Sessions & Live Sessions.",
-                "Quickly add new Locations and your own custom stakes right from the New Session view.",
+                "Session Tags! Add a tag to your Session for custom grouping & reporting for trips or challenges.",
             ]
             
             VStack (alignment: .leading, spacing: 20) {
@@ -104,14 +104,14 @@ struct ProductUpdates: View {
                 .padding(.horizontal)
                 
                 HStack (alignment: .center, spacing: 18) {
-                    Image(systemName: "mappin")
+                    Image(systemName: "tag.fill")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 35, height: 35)
                         .fontWeight(.bold)
                         .foregroundStyle(Color.brandPrimary)
                     
-                    Text(updates[1])
+                    Text(updates[2])
                         .bodyStyle()
                 }
                 .padding(.bottom, 6)
@@ -150,9 +150,11 @@ struct ProductUpdates: View {
     }
     
     func getAppVersion() -> String {
+        
         if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
             return appVersion
         }
+        
         return "Unknown"
     }
 }
