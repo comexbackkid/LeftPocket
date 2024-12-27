@@ -852,7 +852,7 @@ struct AdditionalMetricsView: View {
                             destination: TagReport(),
                             label: {
                                 AdditionalMetricsCardView(title: "Tag Report",
-                                                          description: "Generate a report via tags applied to your sessions.",
+                                                          description: "Generate a report sorted via tags applied to your Sessions.",
                                                           image: "tag.fill",
                                                           color: .brandWhite)
                             })

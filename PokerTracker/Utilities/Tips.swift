@@ -48,7 +48,7 @@ struct NewSessionViewTip: Tip {
     }
     
     var message: Text? {
-        Text("Enter details from your Session here. You can add Locations & Stakes from the dropdown menus below.")
+        Text("Enter details from your Session. Add new Locations & Stakes from the dropdown menus below. Use Tags to group like Sessions.")
     }
     
     var image: Image? {
