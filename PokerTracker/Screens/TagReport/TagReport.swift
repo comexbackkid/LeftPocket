@@ -13,18 +13,22 @@ struct TagReport: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var tagsFilter: String = ""
     
-    var headerImage: Image {
+    var imageGenerator: Image {
         
         let sessions = viewModel.sessions.filter({ $0.tags?.first == tagsFilter })
-        let firstLocation = sessions.first?.location
+        let firstLocation = sessions.last?.location
         
         if let photoData = firstLocation?.importedImage, let uiImage = UIImage(data: photoData) {
             
             return Image(uiImage: uiImage)
                 
+        } else if let localImage = firstLocation?.localImage{
+            
+            return Image(localImage)
+            
         } else {
             
-            return Image("encore-header2")
+            return Image("defaultlocation-header")
         }
     }
     
@@ -32,15 +36,11 @@ struct TagReport: View {
         
         ScrollView {
             
-            title
+            HStack { Spacer() }
             
-            VStack (spacing: 12) {
+            VStack (spacing: 0) {
                 
                 headerImage
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(height: 200)
-                    .clipped()
                 
                 VStack {
                     
@@ -80,9 +80,35 @@ struct TagReport: View {
         }
     }
     
+    var headerImage: some View {
+        
+        imageGenerator
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(height: 200)
+            .clipped()
+            .overlay {
+                LinearGradient(colors: [.black, .clear, .clear], startPoint: .topTrailing, endPoint: .bottomLeading)
+                    .opacity(0.75)
+            }
+            .overlay {
+                HStack {
+                    Spacer()
+                    VStack {
+                        Image(systemName: "tag.fill")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                        Spacer()
+                    }
+                }
+                .padding()
+            }
+    }
+    
     var tagSelection: some View {
         
         HStack {
+            
             Text("Tag Name")
                 .bodyStyle()
             
@@ -171,6 +197,7 @@ struct TagReport: View {
             let bestSession = tagBestSession(tag: tagsFilter)
             let profitPerSession = tagProfitPerSession(tag: tagsFilter)
             let hourlyRate = tagHourlyRate(tag: tagsFilter)
+            let roi = tagTournamentROI(tag: tagsFilter)
             
             HStack {
                 Text("Hourly Rate")
@@ -230,8 +257,7 @@ struct TagReport: View {
                 
                 Spacer()
                 
-                Text(220, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .profitColor(total: 220)
+                Text(roi)
             }
             
             HStack {
@@ -353,6 +379,18 @@ struct TagReport: View {
         
         let totalExpenses = matchedSessions.map({ $0.expenses ?? 0 }).reduce(0, +)
         return totalExpenses
+    }
+    
+    private func tagTournamentROI(tag: String) -> String {
+        
+        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
+        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag && $0.isTournament == true })
+        guard !matchedSessions.isEmpty else { return "0%" }
+        
+        let totalBuyIns = matchedSessions.map({ $0.expenses! }).reduce(0,+)
+        let totalWinnings = matchedSessions.map({ $0.profit + $0.expenses! }).reduce(0,+)
+        let returnOnInvestment = (Double(totalWinnings) - Double(totalBuyIns)) / Double(totalBuyIns)
+        return returnOnInvestment.asPercent()
     }
 }
 
