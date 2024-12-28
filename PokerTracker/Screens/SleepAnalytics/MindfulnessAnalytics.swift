@@ -164,7 +164,7 @@ struct MindfulnessAnalytics: View {
             }
             
             if matchedSessions.isEmpty {
-                Text("No sessions found!")
+                Text("No matched Sessions found!")
                     .bodyStyle()
                     .padding(.leading)
                     .padding(.top, 1)

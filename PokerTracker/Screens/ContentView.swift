@@ -341,11 +341,11 @@ struct QuickMetricsBoxGrid: View {
     @State private var winRatio: Bool = false
     @State private var hoursPlayed: Bool = false
     
-    private let columns = [GridItem(.flexible()), GridItem(.flexible())]
+    private let columns = [GridItem(spacing: 20), GridItem()]
     
     var body: some View {
         
-        LazyVGrid(columns: columns, spacing: 10) {
+        LazyVGrid(columns: columns, spacing: 20) {
             
             if playerProfit {
                 QuickMetricBox(title: "Total Profit", metric: String(viewModel.tallyBankroll(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
