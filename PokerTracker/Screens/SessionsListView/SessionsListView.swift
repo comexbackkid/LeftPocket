@@ -80,6 +80,7 @@ struct SessionsListView: View {
             return sessionDate >= startDate && sessionDate <= endDate
         }
         
+        // Apply Tags filter
         if let tagsFilter = tagsFilter {
             result = result.filter { session in
                 session.tags?.contains(tagsFilter) ?? false

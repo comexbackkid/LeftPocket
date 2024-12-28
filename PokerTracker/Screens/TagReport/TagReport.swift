@@ -85,11 +85,11 @@ struct TagReport: View {
         imageGenerator
             .resizable()
             .aspectRatio(contentMode: .fill)
-            .frame(height: 200)
+            .frame(height: 150)
             .clipped()
             .overlay {
                 LinearGradient(colors: [.black, .clear, .clear], startPoint: .topTrailing, endPoint: .bottomLeading)
-                    .opacity(0.75)
+                    .opacity(0.7)
             }
             .overlay {
                 HStack {
@@ -192,12 +192,13 @@ struct TagReport: View {
             
             let sessionCount = tagSessionCount(tag: tagsFilter)
             let hoursPlayed = tagTotalHours(tag: tagsFilter)
-            let winRatio = tagWinRatio(tag: tagsFilter)
             let highHands = tagHighHands(tag: tagsFilter)
             let bestSession = tagBestSession(tag: tagsFilter)
             let profitPerSession = tagProfitPerSession(tag: tagsFilter)
             let hourlyRate = tagHourlyRate(tag: tagsFilter)
             let roi = tagTournamentROI(tag: tagsFilter)
+            let startDate = tagDateRange(tag: tagsFilter)?.0.formatted(.dateTime.month(.defaultDigits).day(.defaultDigits).year(.twoDigits))
+            let endDate = tagDateRange(tag: tagsFilter)?.1.formatted(.dateTime.month(.defaultDigits).day(.defaultDigits).year(.twoDigits))
             
             HStack {
                 Text("Hourly Rate")
@@ -236,15 +237,6 @@ struct TagReport: View {
             }
             
             HStack {
-                Text("Win Ratio")
-                
-                Spacer()
-                
-                Text(winRatio)
-                    
-            }
-            
-            HStack {
                 Text("No. of Sessions")
                 
                 Spacer()
@@ -267,6 +259,18 @@ struct TagReport: View {
                 
                 Text(hoursPlayed)
                     
+            }
+            
+            HStack {
+                Text("Dates")
+                
+                Spacer()
+                
+                if let startDate, let endDate {
+                    Text("\(startDate) - \(endDate)")
+                } else {
+                    Text("None")
+                }
             }
         }
     }
@@ -391,6 +395,18 @@ struct TagReport: View {
         let totalWinnings = matchedSessions.map({ $0.profit + $0.expenses! }).reduce(0,+)
         let returnOnInvestment = (Double(totalWinnings) - Double(totalBuyIns)) / Double(totalBuyIns)
         return returnOnInvestment.asPercent()
+    }
+    
+    private func tagDateRange(tag: String) -> (Date, Date)? {
+        
+        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
+        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        guard !matchedSessions.isEmpty else { return nil }
+        
+        let firstDay = matchedSessions.last!.date
+        let lastDay = matchedSessions.first!.date
+        
+        return (firstDay, lastDay)
     }
 }
 

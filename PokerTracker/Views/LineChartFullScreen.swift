@@ -36,7 +36,7 @@ struct LineChartFullScreen: View {
                     dismissButton
                     Spacer()
                 }
-                .padding(.leading, 10)
+                .padding(.leading, 20)
                 
                 Spacer()
             }
