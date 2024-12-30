@@ -85,10 +85,8 @@ struct AddNewSessionView: View {
             if #available(iOS 17.0, *) { newSessionTip }
             
             sessionSelection
-                .animation(nil)
             
             locationSelection
-                .animation(nil)
             
             if newSession.sessionType != .tournament { stakesSelection }
             
@@ -167,11 +165,9 @@ struct AddNewSessionView: View {
                         }
                 }
             }
-            .transaction { transaction in
-                transaction.animation = nil
-            }
             .foregroundColor(newSession.sessionType == nil ? .brandPrimary : .brandWhite)
             .buttonStyle(PlainButtonStyle())
+            .animation(.none, value: newSession.sessionType)
         }
         .padding(.horizontal)
         .padding(.bottom, 10)
@@ -245,22 +241,18 @@ struct AddNewSessionView: View {
                         .bodyStyle()
                         .lineLimit(1)
                         .fixedSize()
+                        .animation(nil, value: newSession.location)
                 }
             }
-            .animation(nil, value: newSession.location)
             .foregroundColor(newSession.location.name.isEmpty ? .brandPrimary : .brandWhite)
             .buttonStyle(PlainButtonStyle())
-            .transaction { transaction in
-                transaction.animation = .none
-            }
-            
         }
         .padding(.horizontal)
         .padding(.bottom, 10)
         .sheet(isPresented: $addLocationIsShowing, content: {
             NewLocationView(addLocationIsShowing: $addLocationIsShowing)
         })
-        
+        .animation(nil, value: newSession.location)
     }
     
     var stakesSelection: some View {
