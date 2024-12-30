@@ -183,6 +183,14 @@ struct UserSettings: View {
                 Spacer()
                 
             }
+        }
+    }
+    
+    var middleSection: some View {
+        
+        VStack (spacing: 40) {
+            
+            locations
             
             NavigationLink {
                 NotificationsView()
@@ -207,14 +215,6 @@ struct UserSettings: View {
                 }
             }
             .buttonStyle(PlainButtonStyle())
-        }
-    }
-    
-    var middleSection: some View {
-        
-        VStack (spacing: 40) {
-            
-            locations
             
             sessionDefaults
             
