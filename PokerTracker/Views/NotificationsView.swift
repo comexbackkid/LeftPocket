@@ -14,7 +14,7 @@ struct NotificationsView: View {
     @State private var showSuccessAlert = false
     @AppStorage("pushNotificationsAllowed") private var notificationsAllowed: Bool?
     
-    let alertMessage = "Notifications have been disabled at the system level. Please enable them from your device Settings."
+    let alertMessage = "Notifications have been disabled at the system level. Please enable them in your device's settings."
     
     var body: some View {
         
@@ -25,11 +25,7 @@ struct NotificationsView: View {
                 
                 description
                 
-                if notificationsAllowed == true {
-                    
-                    notificationsAllowedView
-                    
-                } else { button }
+                button
                 
                 Divider().padding()
                 
@@ -79,23 +75,6 @@ struct NotificationsView: View {
         
     }
     
-    var notificationsAllowedView: some View {
-        
-        HStack {
-            
-            Spacer()
-            Image(systemName: "checkmark.circle")
-                .foregroundStyle(.green)
-            Text("Notifications Allowed!")
-                .bodyStyle()
-            Spacer()
-        }
-        .frame(height: 55)
-        .padding()
-        .padding(.bottom, 10)
-        
-    }
-    
     var button: some View {
         
         Button {
@@ -117,8 +96,10 @@ struct NotificationsView: View {
                 }
             }
         } label: {
-            PrimaryButton(title: "Enable Notfications")
+            PrimaryButton(title: notificationsAllowed == true ? "Notifications Allowed" : "Enable Notfications",
+                          color: notificationsAllowed == true ? Color.gray : .brandPrimary)
         }
+        .allowsHitTesting(notificationsAllowed == true ? false : true)
         .padding(.bottom, 10)
         .alert(isPresented: $showAlert) {
             Alert(title: Text("Uh Oh!"), message: Text(alertMessage), dismissButton: .default(Text("Ok")))
