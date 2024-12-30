@@ -58,7 +58,30 @@ struct AddNewSessionView: View {
                 newSession.startTime = liveSessionStartTime
                 newSession.buyIn = timerViewModel.totalBuyInForLiveSession == 0 ? "" : String(timerViewModel.totalBuyInForLiveSession)
             }
-
+        }
+        .sheet(isPresented: $showPaywall) {
+            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                .overlay {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            DismissButton()
+                                .padding()
+                                .onTapGesture {
+                                    showPaywall = false
+                            }
+                            Spacer()
+                        }
+                    }
+                }
+        }
+        .task {
+            for await customerInfo in Purchases.shared.customerInfoStream {
+                
+                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                await subManager.checkSubscriptionStatus()
+            }
         }
         .alert(item: $newSession.alertItem) { alertItem in
             Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
@@ -171,30 +194,7 @@ struct AddNewSessionView: View {
         }
         .padding(.horizontal)
         .padding(.bottom, 10)
-        .sheet(isPresented: $showPaywall) {
-            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                .dynamicTypeSize(.medium...DynamicTypeSize.large)
-                .overlay {
-                    HStack {
-                        Spacer()
-                        VStack {
-                            DismissButton()
-                                .padding()
-                                .onTapGesture {
-                                    showPaywall = false
-                            }
-                            Spacer()
-                        }
-                    }
-                }
-        }
-        .task {
-            for await customerInfo in Purchases.shared.customerInfoStream {
-                
-                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
-                await subManager.checkSubscriptionStatus()
-            }
-        }
+        
     }
     
     var locationSelection: some View {
@@ -652,6 +652,8 @@ struct AddNewSessionView: View {
                 .transition(.opacity.combined(with: .scale))
             }
             
+            // MARK: NOTES
+            
             TextEditor(text: $newSession.notes)
                 .font(.custom("Asap-Regular", size: 17))
                 .padding(12)
@@ -698,6 +700,8 @@ struct AddNewSessionView: View {
                                                                                        removal: .scale(scale: 0, anchor: .bottom))))
             }
             
+            // MARK: TAGS
+            
             HStack {
                 Image(systemName: "tag.fill")
                     .font(.caption2)
@@ -717,12 +721,17 @@ struct AddNewSessionView: View {
                 if !subManager.isSubscribed {
                     HStack {
                         Spacer()
-                        Image(systemName: "lock.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(height: 20)
-                            .padding(.bottom, 10)
-                            .padding(.trailing, 40)
+                        Button {
+                            showPaywall = true
+                        } label: {
+                            Image(systemName: "lock.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 20)
+                                .padding(.bottom, 10)
+                                .padding(.trailing, 40)
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
             }
