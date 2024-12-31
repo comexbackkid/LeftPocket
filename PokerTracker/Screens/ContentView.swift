@@ -58,8 +58,8 @@ struct ContentView: View {
             switch sheet {
             case .productUpdates: ProductUpdates(activeSheet: $activeSheet)
             case .recentSession: SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
-            case .sleepAnalytics: SleepAnalytics(activeSheet: $activeSheet)
-            case .metricsAsSheet: MetricsView(activeSheet: $activeSheet)
+            case .sleepAnalytics: SleepAnalytics(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
+            case .metricsAsSheet: MetricsView(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
             }
         }
     }

@@ -109,6 +109,8 @@ struct TagReport: View {
         
         HStack {
             
+            let taggedSessions = viewModel.sessions.compactMap { $0.tags?.first }.filter { !$0.isEmpty }.uniqued()
+            
             Text("Tag Name")
                 .bodyStyle()
             
@@ -116,8 +118,14 @@ struct TagReport: View {
             
             Menu {
                 Picker("Tag Selection", selection: $tagsFilter) {
-                    ForEach(viewModel.sessions.compactMap { $0.tags?.first }.filter { !$0.isEmpty }.uniqued(), id: \.self) {
+                    ForEach(taggedSessions, id: \.self) {
                         Text($0.capitalized).tag($0)
+                    }
+                    
+                    if taggedSessions.isEmpty {
+                        Text("No tags found")
+                            .disabled(true)
+                            .allowsHitTesting(false)
                     }
                 }
             } label: {
