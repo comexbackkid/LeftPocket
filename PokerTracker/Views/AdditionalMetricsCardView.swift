@@ -15,51 +15,15 @@ struct AdditionalMetricsCardView: View {
     let description: String
     let image: String
     let color: Color
+    let premium: Bool?
     
-//    var body: some View {
-        
-//        ZStack {
-//            VStack {
-//                
-//                HStack {
-//                    
-//                    VStack (alignment: .leading, spacing: 3) {
-//                        
-//                        Text(title)
-//                            .cardTitleStyle()
-//                            .font(.title2)
-//                            .foregroundColor(.white)
-//                        
-//                        Text(description)
-//                            .captionStyle()
-//                            .font(.caption)
-//                            .foregroundColor(.white)
-//                            .opacity(0.8)
-//                    }
-//                    
-//                    Spacer()
-//                }
-//                .padding(20)
-//                
-//                Spacer()
-//            }
-//        }
-//        .frame(width: 300, height: 120)
-//        .background(
-//            HStack {
-//                Spacer()
-//                Image(systemName: image)
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fit)
-//                    .frame(width: 180, height: 200)
-//                    .offset(x: 0, y: 30)
-//                    .rotationEffect(Angle(degrees: -30))
-//                    .foregroundColor(.white.opacity(0.15))
-//            }
-//        )
-//        .background(LinearGradient(colors: [.black, color.opacity(2.5)], startPoint: .bottomTrailing, endPoint: .topLeading))
-//        .cornerRadius(15)
-//    }
+    init(title: String, description: String, image: String, color: Color, premium: Bool? = nil) {
+        self.title = title
+        self.description = description
+        self.image = image
+        self.color = color
+        self.premium = premium
+    }
     
     var body: some View {
         
@@ -83,10 +47,20 @@ struct AdditionalMetricsCardView: View {
                     
                 VStack (alignment: .leading, spacing: 3) {
                     
-                    Text(title + " ›")
-                        .headlineStyle()
-                        .font(.title2)
-                        .lineLimit(1)
+                    HStack (alignment: .center, spacing: 5) {
+                        Text(title)
+                            .headlineStyle()
+                        
+                        if premium == true {
+                            Image(systemName: "lock.fill")
+                                .font(.footnote)
+                            
+                        } else {
+                            Text("›")
+                                .headlineStyle()
+                        }
+                    }
+                    .lineLimit(1)
                     
                     Text(description)
                         .captionStyle()
