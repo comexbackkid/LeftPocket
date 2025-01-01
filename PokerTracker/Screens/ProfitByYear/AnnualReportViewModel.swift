@@ -118,8 +118,8 @@ class AnnualReportViewModel: ObservableObject {
             }
         case .lastYear:
             guard !vm.sessions.filter({ $0.date.getYear() == lastYear }).isEmpty else { return 0 }
-            let totalHours = Float(vm.sessions.filter({ $0.date.getYear() == ytd }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+))
-            let totalMinutes = Float(vm.sessions.filter({ $0.date.getYear() == ytd }).map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
+            let totalHours = Float(vm.sessions.filter({ $0.date.getYear() == lastYear }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+))
+            let totalMinutes = Float(vm.sessions.filter({ $0.date.getYear() == lastYear }).map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
             let totalTime = totalHours + (totalMinutes / 60)
             let totalEarnings = Float(vm.bankrollByYear(year: lastYear, sessionFilter: sessionFilter))
             
