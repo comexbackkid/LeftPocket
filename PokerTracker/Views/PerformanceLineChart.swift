@@ -48,13 +48,13 @@ struct PerformanceLineChart: View {
                     HStack(spacing: 5) {
                         textAnnotation()
                         Text("in \(month)")
-                            .font(.custom("Asap-Medium", size: 17, relativeTo: .caption2))
+                            .font(.custom("Asap-Medium", size: 17))
                             .foregroundStyle(.secondary)
                     }
                 } else {
                     Text("No Selection")
                         .foregroundStyle(.secondary)
-                        .font(.custom("Asap-Medium", size: 17, relativeTo: .caption2))
+                        .font(.custom("Asap-Medium", size: 17))
                 }
             }
             .animation(nil, value: selectedMonth)

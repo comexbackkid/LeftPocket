@@ -65,11 +65,11 @@ struct BarChartByYear: View {
                                 }
                                 
                                 Text("\(amount.formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))")
-                                    .font(.custom("Asap-Medium", size: 17, relativeTo: .caption2))
+                                    .font(.custom("Asap-Medium", size: 17))
                                     .foregroundStyle(amount > 0 ? .green : amount < 0 ? .red : .secondary)
                                 
                                 Text("in \(month)")
-                                    .font(.custom("Asap-Medium", size: 17, relativeTo: .caption2))
+                                    .font(.custom("Asap-Medium", size: 17))
                                     .foregroundStyle(.secondary)
                             }
                             

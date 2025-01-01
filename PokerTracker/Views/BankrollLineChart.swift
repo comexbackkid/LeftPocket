@@ -73,7 +73,7 @@ struct BankrollLineChart: View {
                                     }
                                     
                                     Text(amountText == 0 ? "No Selection" : "\(amountText.formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))")
-                                        .font(.custom("Asap-Medium", size: 17, relativeTo: .caption2))
+                                        .font(.custom("Asap-Medium", size: 17))
                                         .foregroundStyle(amountText > 0 ? .green : amountText < 0 ? .red : .secondary)
                                 }
                             }

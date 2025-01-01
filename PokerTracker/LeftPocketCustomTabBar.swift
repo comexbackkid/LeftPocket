@@ -405,6 +405,7 @@ struct LeftPocketCustomTabBar_Previews: PreviewProvider {
         LeftPocketCustomTabBar()
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
+            .environmentObject(QAService())
             .preferredColorScheme(.dark)
     }
 }
