@@ -312,6 +312,69 @@ extension SessionsListViewModel {
         return dateComponents.abbreviated(duration: dateComponents)
     }
     
+    func handsPlayed(range: RangeSelection = .all, bankroll: SessionFilter) -> Int {
+        
+        var sessionsArray: [PokerSession] {
+            switch bankroll {
+            case .all:
+                switch range {
+                case .all:
+                    return sessions
+                case .oneMonth:
+                    return filterSessionsLastMonth()
+                case .threeMonth:
+                    return filterSessionsLastThreeMonths()
+                case .sixMonth:
+                    return filterSessionsLastSixMonths()
+                case .oneYear:
+                    return filterSessionsLastTwelveMonths()
+                case .ytd:
+                    return filterSessionsYTD()
+                }
+            case .cash:
+                switch range {
+                case .all:
+                    return allCashSessions()
+                case .oneMonth:
+                    return filterSessionsLastMonth().filter { $0.isTournament != true }
+                case .threeMonth:
+                    return filterSessionsLastThreeMonths().filter { $0.isTournament != true }
+                case .sixMonth:
+                    return filterSessionsLastSixMonths().filter { $0.isTournament != true }
+                case .oneYear:
+                    return filterSessionsLastTwelveMonths().filter { $0.isTournament != true }
+                case .ytd:
+                    return filterSessionsYTD().filter { $0.isTournament != true }
+                }
+            case .tournaments:
+                switch range {
+                case .all:
+                    return allTournamentSessions()
+                case .oneMonth:
+                    return filterSessionsLastMonth().filter { $0.isTournament == true }
+                case .threeMonth:
+                    return filterSessionsLastThreeMonths().filter { $0.isTournament == true }
+                case .sixMonth:
+                    return filterSessionsLastSixMonths().filter { $0.isTournament == true }
+                case .oneYear:
+                    return filterSessionsLastTwelveMonths().filter { $0.isTournament == true }
+                case .ytd:
+                    return filterSessionsYTD().filter { $0.isTournament == true }
+                }
+            }
+        }
+        
+        guard !sessionsArray.isEmpty else { return 0 }
+        let totalHours = Float(sessionsArray.map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+))
+        let totalMinutes = Float(sessionsArray.map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
+        
+        // Add up all the hours & minutes together to simply get a sum of hours
+        let totalTime = totalHours + (totalMinutes / 60)
+        let handsPerHour = 25
+        let totalHands = Int(totalTime) * handsPerHour
+        return totalHands
+    }
+    
     func avgDuration(range: RangeSelection = .all, bankroll: SessionFilter) -> String {
         
         var sessionsArray: [PokerSession] {

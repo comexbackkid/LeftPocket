@@ -472,6 +472,8 @@ struct CashStats: View {
             let totalSessions = viewModel.countSessions(range: range, bankroll: sessionFilter)
             let cashWinRate = viewModel.totalWinRate(range: range, bankroll: sessionFilter)
             let cashTotalHours = viewModel.totalHoursPlayed(range: range, bankroll: sessionFilter)
+            let handsPlayed = viewModel.handsPlayed(range: range, bankroll: sessionFilter)
+            let profitPer100 = Int(Double(cashBankroll) / Double(handsPlayed) * 100)
             
             HStack {
                 Text("Cash Profit")
@@ -505,6 +507,18 @@ struct CashStats: View {
                 
                 Text(profitPerSession, format: .currency(code: currencyType).precision(.fractionLength(0)))
                     .foregroundColor(profitPerSession > 0 ? .green : profitPerSession < 0 ? .red : .primary)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Profit Per 100 Hands")
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Text(profitPer100, format: .currency(code: currencyType).precision(.fractionLength(0)))
+                    .foregroundColor(profitPer100 > 0 ? .green : profitPer100 < 0 ? .red : .primary)
             }
             
             Divider()
@@ -593,6 +607,17 @@ struct CashStats: View {
                 Spacer()
                 
                 Text(cashWinRate)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Hands Dealt")
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Text("\(handsPlayed)")
             }
             
             Divider()
