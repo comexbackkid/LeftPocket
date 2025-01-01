@@ -151,7 +151,7 @@ struct BankrollLineChart: View {
             }
             .overlay(
                 PatternView()
-                    .opacity(showChart ? 0.5 : 0.0)
+                    .opacity(showChart ? 0.33 : 0.0)
                     .allowsHitTesting(false)
                     .mask(
                         Chart {
@@ -210,7 +210,7 @@ struct BankrollLineChart: View {
                     
                     AreaMark(x: .value("Time", index), y: .value("Profit", total))
                         .foregroundStyle(LinearGradient(colors: [chartSessionFilter != .tournaments ? Color("lightBlue").opacity(0.85) : .donutChartGreen, .clear], startPoint: .top, endPoint: .bottom))
-                        .opacity(showChart ? 0.2 : 0.0)
+                        .opacity(showChart ? 0.15 : 0.0)
                 }
                 .foregroundStyle(LinearGradient(colors: [chartSessionFilter != .tournaments ? .chartAccent : .donutChartGreen,
                                                          chartSessionFilter != .tournaments ? .chartBase : .donutChartDarkBlue],
@@ -225,7 +225,7 @@ struct BankrollLineChart: View {
             }
             .overlay(
                 PatternView()
-                    .opacity(showChart ? 0.5 : 0.0)
+                    .opacity(showChart ? 0.33 : 0.0)
                     .allowsHitTesting(false)
                     .mask(
                         Chart {
@@ -347,7 +347,7 @@ struct BankrollLineChart: View {
             
             GeometryReader { geometry in
                 let patternSize: CGFloat = 3 // Size of individual dots
-                let spacing: CGFloat = 7 // Spacing between dots
+                let spacing: CGFloat = 10 // Spacing between dots
                 let dotColor: Color = Color("lightBlue").opacity(0.1)
 
                 Canvas { context, size in
