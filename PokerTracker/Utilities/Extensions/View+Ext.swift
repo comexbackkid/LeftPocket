@@ -23,7 +23,7 @@ extension View {
             .padding()
             .frame(width: UIScreen.main.bounds.width * 0.9, height: height)
             .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
-            .cornerRadius(20)
+            .cornerRadius(12)
     }
     
     func cardShadow(colorScheme: ColorScheme) -> some View {

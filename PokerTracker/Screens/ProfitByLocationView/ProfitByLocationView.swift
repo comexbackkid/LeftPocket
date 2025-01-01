@@ -242,7 +242,7 @@ struct ProfitByLocationView: View {
         .padding(20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
-        .cornerRadius(20)
+        .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     
@@ -281,7 +281,7 @@ struct ProfitByLocationView: View {
         .padding(20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
-        .cornerRadius(20)
+        .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         .padding(.top, 15)
     }
@@ -293,7 +293,7 @@ struct ProfitByLocationView: View {
             .padding(.vertical, 20)
             .frame(width: UIScreen.main.bounds.width * 0.9)
             .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
-            .cornerRadius(20)
+            .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             .padding(.top, 15)
         
