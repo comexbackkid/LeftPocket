@@ -125,6 +125,7 @@ struct MetricsView: View {
             
             Text("Metrics")
                 .titleStyle()
+                .padding(.top, activeSheet == .metricsAsSheet ? 30 : 0)
                 .padding(.horizontal)
             
             Spacer()
@@ -135,7 +136,7 @@ struct MetricsView: View {
         
         BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, overlayAnnotation: false)
             .padding(.bottom, 5)
-            .cardStyle(colorScheme: colorScheme, height: 455)
+            .cardStyle(colorScheme: colorScheme, height: 475)
             .cardShadow(colorScheme: colorScheme)
     }
     

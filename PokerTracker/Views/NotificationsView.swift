@@ -58,7 +58,6 @@ struct NotificationsView: View {
         HStack {
             Text("Notifications")
                 .titleStyle()
-                .padding(.top, -37)
                 .padding(.horizontal)
             
             Spacer()

@@ -98,6 +98,7 @@ struct EditSession: View {
             
             Text("Edit Session")
                 .titleStyle()
+                .padding(.top, 30)
                 .padding(.horizontal)
             
             Spacer()

@@ -81,7 +81,7 @@ struct SessionDefaultsView: View {
         HStack {
             Text("Session Defaults")
                 .titleStyle()
-                .padding(.top, isPresentedAsSheet ?? false ? 0 : -37)
+                .padding(.top, isPresentedAsSheet ?? false ? 30 : 0)
                 .padding(.horizontal)
             
             Spacer()

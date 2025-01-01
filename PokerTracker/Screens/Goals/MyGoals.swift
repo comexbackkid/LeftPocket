@@ -43,7 +43,6 @@ struct MyGoals: View {
             
             Text("My Goals")
                 .titleStyle()
-                .padding(.top, -37)
             
             Spacer()
         }

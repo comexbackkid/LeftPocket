@@ -71,6 +71,7 @@ struct AddNewSessionView: View {
             
             Text("New Session")
                 .titleStyle()
+                .padding(.top, 30)
                 .padding(.horizontal)
             
             Spacer()

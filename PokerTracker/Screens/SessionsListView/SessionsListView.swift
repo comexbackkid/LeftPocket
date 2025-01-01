@@ -317,7 +317,6 @@ struct SessionsListView: View {
         
         Text(listFilter == .sessions ? sessionsTitle : "All Transactions")
             .titleStyle()
-            .padding(.top, -38)
             .padding(.horizontal)
             .listRowBackground(Color.brandBackground)
             .listRowSeparator(.hidden)

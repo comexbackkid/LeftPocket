@@ -50,7 +50,6 @@ struct DashboardConfig: View {
         
         Text("Dashboard Layout")
             .titleStyle()
-            .padding(.top, -38)
             .padding(.horizontal)
             
     }

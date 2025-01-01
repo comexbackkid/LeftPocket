@@ -118,15 +118,11 @@ struct SleepAnalytics: View {
             
             Text("Health Analytics")
                 .titleStyle()
-                
-            
-            Text("(Beta)")
-                .headlineStyle()
             
             Spacer()
         }
         .padding(.horizontal)
-        .padding(.top, activeSheet == .sleepAnalytics ? 0 : -37)
+        .padding(.top, activeSheet == .sleepAnalytics ? 30 : 0)
     }
     
     var instructions: some View {

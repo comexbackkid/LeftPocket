@@ -36,7 +36,6 @@ struct ImportView: View {
             
             Text("Import Data")
                 .titleStyle()
-                .padding(.top, -37)
                 .padding(.horizontal)
             
             Spacer()

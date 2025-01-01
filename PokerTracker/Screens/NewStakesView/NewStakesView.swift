@@ -41,6 +41,7 @@ struct NewStakesView: View {
         HStack {
             Text("New Stakes")
                 .titleStyle()
+                .padding(.top, 30)
                 .padding(.horizontal)
             
             Spacer()

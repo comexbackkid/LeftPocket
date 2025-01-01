@@ -73,7 +73,6 @@ struct MindfulnessAnalytics: View {
             Spacer()
         }
         .padding(.horizontal)
-        .padding(.top, -37)
     }
     
     var instructions: some View {

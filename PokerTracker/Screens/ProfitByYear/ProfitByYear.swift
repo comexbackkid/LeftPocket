@@ -60,7 +60,6 @@ struct ProfitByYear: View {
         HStack {
             Text("Annual Report")
                 .titleStyle()
-                .padding(.top, -37)
                 .padding(.horizontal)
             
             Spacer()

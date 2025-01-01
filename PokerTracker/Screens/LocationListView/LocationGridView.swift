@@ -56,7 +56,6 @@ struct LocationGridView: View {
             
             Text("My Locations")
                 .titleStyle()
-                .padding(.top, -37)
                 .padding(.horizontal)
             
             Spacer()

@@ -30,6 +30,7 @@ struct NewLocationView: View {
                     HStack {
                         Text("New Location")
                             .titleStyle()
+                            .padding(.top, 30)
                             .padding(.horizontal)
                         
                         Spacer()

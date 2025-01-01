@@ -23,7 +23,6 @@ struct RedeemOfferCode: View {
                 HStack {
                     Text("Redeem Offer Code")
                         .titleStyle()
-                        .padding(.top, -37)
                         .padding(.horizontal)
                     
                     Spacer()
@@ -51,7 +50,7 @@ struct RedeemOfferCode: View {
                     .padding()
                     .foregroundColor(.red)
             }
-            .padding()
+            
         }
         .background(Color.brandBackground)
         .navigationBarTitleDisplayMode(.inline)

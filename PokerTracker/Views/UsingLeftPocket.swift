@@ -40,7 +40,6 @@ struct UsingLeftPocket: View {
         HStack {
             Text("Using Left Pocket")
                 .titleStyle()
-                .padding(.top, -37)
                 .padding(.horizontal)
             
             Spacer()

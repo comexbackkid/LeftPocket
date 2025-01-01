@@ -15,7 +15,6 @@ extension Text {
         self.font(.custom("Asap-Black", size: 34))
             .bold()
             .padding(.bottom, 25)
-            .padding(.top, 40)
     }
     
     func signInTitleStyle() -> some View {

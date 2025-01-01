@@ -63,6 +63,7 @@ struct AddNewTransaction: View {
             
             Text("New Transaction")
                 .titleStyle()
+                .padding(.top, 30)
                 .padding(.horizontal)
             
             Spacer()
