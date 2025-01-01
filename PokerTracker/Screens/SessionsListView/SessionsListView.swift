@@ -341,7 +341,6 @@ struct SessionsListView: View {
         HStack (alignment: .center) {
             Text(listFilter == .sessions ? sessionsTitle : "All Transactions")
                 .titleStyle()
-                .padding(.top, -38)
             
             Spacer()
             
