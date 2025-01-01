@@ -287,38 +287,9 @@ struct UserSettings: View {
         
         HStack {
             
-            if subManager.isSubscribed {
-                
-                NavigationLink(
-                    destination: SessionDefaultsView(isPresentedAsSheet: .constant(false)),
-                    label: {
-                        HStack {
-                            
-                            VStack (alignment: .leading) {
-                                
-                                HStack {
-                                    Text("Session Defaults")
-                                        .subtitleStyle()
-                                        .bold()
-                                    
-                                    Spacer()
-                                    
-                                    Text("›")
-                                        .font(.title2)
-                                }
-                            }
-                            
-                            Spacer()
-                        }
-                    })
-                .buttonStyle(PlainButtonStyle())
-                
-            } else {
-                
-                Button {
-                    showPaywall = true
-                } label: {
-                    
+            NavigationLink(
+                destination: SessionDefaultsView(isPresentedAsSheet: .constant(false)),
+                label: {
                     HStack {
                         
                         VStack (alignment: .leading) {
@@ -330,16 +301,15 @@ struct UserSettings: View {
                                 
                                 Spacer()
                                 
-                                Image(systemName: "lock.fill")
+                                Text("›")
                                     .font(.title2)
                             }
                         }
                         
                         Spacer()
                     }
-                }
-                .buttonStyle(PlainButtonStyle())
-            }
+                })
+            .buttonStyle(PlainButtonStyle())
         }
     }
     
