@@ -12,8 +12,14 @@ import AdSupport
 import RevenueCat
 import ActivityKit
 import UIKit
+import InterfaceOrientation
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    // MARK: Handles Orientation Functionality
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+            InterfaceOrientationCoordinator.shared.supportedOrientations
+        }
     
     // MARK: QuickAction Functionality
     private let qaService = QAService.shared

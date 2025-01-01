@@ -91,7 +91,7 @@ struct BankrollLineChart: View {
                 
                 .fullScreenCover(isPresented: $viewModel.lineChartFullScreen, content: {
                     LineChartFullScreen(lineChartFullScreen: $viewModel.lineChartFullScreen)
-                    
+                        .interfaceOrientations(.allButUpsideDown)
                 })
             }
             

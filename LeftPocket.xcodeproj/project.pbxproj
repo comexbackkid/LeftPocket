@@ -11,6 +11,7 @@
 		7C0208DB26F24B4900AC6151 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0208DA26F24B4900AC6151 /* Date+Ext.swift */; };
 		7C028F982C3587FC0098CA8C /* RedeemOfferCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C028F972C3587FC0098CA8C /* RedeemOfferCode.swift */; };
 		7C028F9A2C36B5960098CA8C /* AdvancedTournamentReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C028F992C36B5960098CA8C /* AdvancedTournamentReport.swift */; };
+		7C0866752D25B25D006B5D39 /* InterfaceOrientation in Frameworks */ = {isa = PBXBuildFile; productRef = 7C0866742D25B25D006B5D39 /* InterfaceOrientation */; };
 		7C0B3FF62CC5454B00F446EA /* MeditationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B3FF52CC5454B00F446EA /* MeditationView.swift */; };
 		7C0B3FFA2CC6989A00F446EA /* MeditationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B3FF92CC6989A00F446EA /* MeditationModel.swift */; };
 		7C12A58B2CB1CABE00CA8922 /* DashboardConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C12A58A2CB1CABE00CA8922 /* DashboardConfig.swift */; };
@@ -480,6 +481,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C3E8E102BC9E88A005A8992 /* LinkPresentation.framework in Frameworks */,
+				7C0866752D25B25D006B5D39 /* InterfaceOrientation in Frameworks */,
 				7C3E8E0E2BC9E87C005A8992 /* AdSupport.framework in Frameworks */,
 				7C3E8E0C2BC9E869005A8992 /* AdServices.framework in Frameworks */,
 				7C3E8E0A2BC9E85E005A8992 /* CoreSpotlight.framework in Frameworks */,
@@ -1048,6 +1050,7 @@
 				7CFD78AA2B34DF2D00C1A9F6 /* RevenueCatUI */,
 				7C3E8DFF2BC9E5EC005A8992 /* BranchSDK */,
 				7CBB6B6D2C41A55200DAD20D /* Glur */,
+				7C0866742D25B25D006B5D39 /* InterfaceOrientation */,
 			);
 			productName = PokerTracker;
 			productReference = 7C63949226C14E8300939F40 /* LeftPocket.app */;
@@ -1085,6 +1088,7 @@
 				7CFD78A72B34DF2D00C1A9F6 /* XCRemoteSwiftPackageReference "purchases-ios" */,
 				7C3E8DFE2BC9E5EC005A8992 /* XCRemoteSwiftPackageReference "ios-branch-deep-linking" */,
 				7CBB6B6C2C41A55200DAD20D /* XCRemoteSwiftPackageReference "Glur" */,
+				7C0866732D25B25D006B5D39 /* XCRemoteSwiftPackageReference "swiftui-interface-orientation" */,
 			);
 			productRefGroup = 7C63949326C14E8300939F40 /* Products */;
 			projectDirPath = "";
@@ -1631,6 +1635,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7C0866732D25B25D006B5D39 /* XCRemoteSwiftPackageReference "swiftui-interface-orientation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/wvteijlingen/swiftui-interface-orientation.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.0.0;
+			};
+		};
 		7C0E48DC276BB3BF005EFA62 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-algorithms.git";
@@ -1666,6 +1678,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7C0866742D25B25D006B5D39 /* InterfaceOrientation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C0866732D25B25D006B5D39 /* XCRemoteSwiftPackageReference "swiftui-interface-orientation" */;
+			productName = InterfaceOrientation;
+		};
 		7C3E8DFF2BC9E5EC005A8992 /* BranchSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7C3E8DFE2BC9E5EC005A8992 /* XCRemoteSwiftPackageReference "ios-branch-deep-linking" */;

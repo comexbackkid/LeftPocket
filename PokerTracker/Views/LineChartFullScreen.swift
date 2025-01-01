@@ -20,18 +20,13 @@ struct LineChartFullScreen: View {
     var body: some View {
         
         VStack {
-            BankrollLineChart(showTitle: false,
-                              showYAxis: true,
-                              showRangeSelector: true,
-                              overlayAnnotation: true)
-            
+            BankrollLineChart(showTitle: false, showYAxis: true, showRangeSelector: true, overlayAnnotation: true)
         }
         .padding(20)
         .padding(.leading, verticalSizeClass == .regular ? 0 : 50)
         .padding(.top, verticalSizeClass == .regular ? 0 : 25)
         .overlay {
             HStack {
-                
                 VStack {
                     dismissButton
                     Spacer()
@@ -42,6 +37,7 @@ struct LineChartFullScreen: View {
             .padding(.leading, verticalSizeClass == .regular ? 0 : 48)
         }
         .frame(width: UIScreen.main.bounds.width)
+        .interfaceOrientations(.allButUpsideDown)
     }
     
     var dismissButton: some View {
