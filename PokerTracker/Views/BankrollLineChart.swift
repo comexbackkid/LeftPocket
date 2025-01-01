@@ -92,6 +92,12 @@ struct BankrollLineChart: View {
                 .fullScreenCover(isPresented: $viewModel.lineChartFullScreen, content: {
                     LineChartFullScreen(lineChartFullScreen: $viewModel.lineChartFullScreen)
                 })
+//                .fullScreenCover(isPresented: $viewModel.lineChartFullScreen) {
+//                    OrientationManager.lockOrientation(.portrait, rotateTo: .portrait)
+//                } content: {
+//                    LineChartFullScreen(lineChartFullScreen: $viewModel.lineChartFullScreen)
+//                }
+
             }
             
             if #available(iOS 17.0, *) {
@@ -269,6 +275,7 @@ struct BankrollLineChart: View {
     var fullScreenToggleButton: some View {
         
         Button {
+//            OrientationManager.lockOrientation(.all, rotateTo: .landscapeRight)
             viewModel.lineChartFullScreen.toggle()
         } label: {
             Image(systemName: "arrow.up.left.and.down.right.and.arrow.up.right.and.down.left")

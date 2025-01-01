@@ -11,6 +11,8 @@ struct LineChartFullScreen: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
     @Environment(\.dismiss) var dismiss
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     
     @State private var statsRange: RangeSelection = .all
     @Binding var lineChartFullScreen: Bool
@@ -23,27 +25,23 @@ struct LineChartFullScreen: View {
                               showRangeSelector: true,
                               overlayAnnotation: true)
             
-            // Swap width and height to match landscape dimensions
-            .transaction { transaction in
-                transaction.animation = .none
-            }
         }
-        .padding(30)
-        .padding(.horizontal, 30)
+        .padding(20)
+        .padding(.leading, verticalSizeClass == .regular ? 0 : 50)
+        .padding(.top, verticalSizeClass == .regular ? 0 : 25)
         .overlay {
             HStack {
+                
                 VStack {
                     dismissButton
                     Spacer()
                 }
-                .padding(.leading, 20)
-                
                 Spacer()
             }
-            .padding(20)
+            .padding(12)
+            .padding(.leading, verticalSizeClass == .regular ? 0 : 48)
         }
-        .rotationEffect(.degrees(90)) // Rotate 90 degrees
-        .frame(width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
+        .frame(width: UIScreen.main.bounds.width)
     }
     
     var dismissButton: some View {

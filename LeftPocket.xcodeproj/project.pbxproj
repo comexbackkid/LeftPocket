@@ -11,6 +11,7 @@
 		7C0208DB26F24B4900AC6151 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0208DA26F24B4900AC6151 /* Date+Ext.swift */; };
 		7C028F982C3587FC0098CA8C /* RedeemOfferCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C028F972C3587FC0098CA8C /* RedeemOfferCode.swift */; };
 		7C028F9A2C36B5960098CA8C /* AdvancedTournamentReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C028F992C36B5960098CA8C /* AdvancedTournamentReport.swift */; };
+		7C0866722D2593B1006B5D39 /* OrientationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0866712D2593B1006B5D39 /* OrientationManager.swift */; };
 		7C0B3FF62CC5454B00F446EA /* MeditationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B3FF52CC5454B00F446EA /* MeditationView.swift */; };
 		7C0B3FFA2CC6989A00F446EA /* MeditationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B3FF92CC6989A00F446EA /* MeditationModel.swift */; };
 		7C12A58B2CB1CABE00CA8922 /* DashboardConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C12A58A2CB1CABE00CA8922 /* DashboardConfig.swift */; };
@@ -274,6 +275,7 @@
 		7C0208DA26F24B4900AC6151 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		7C028F972C3587FC0098CA8C /* RedeemOfferCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemOfferCode.swift; sourceTree = "<group>"; };
 		7C028F992C36B5960098CA8C /* AdvancedTournamentReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedTournamentReport.swift; sourceTree = "<group>"; };
+		7C0866712D2593B1006B5D39 /* OrientationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationManager.swift; sourceTree = "<group>"; };
 		7C0B3FF52CC5454B00F446EA /* MeditationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationView.swift; sourceTree = "<group>"; };
 		7C0B3FF92CC6989A00F446EA /* MeditationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationModel.swift; sourceTree = "<group>"; };
 		7C12A58A2CB1CABE00CA8922 /* DashboardConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardConfig.swift; sourceTree = "<group>"; };
@@ -552,10 +554,11 @@
 				7C27D8D226F9176E001C43B4 /* Alerts */,
 				7C2614CB26D930C100986183 /* Extensions */,
 				7C23A4C228A3DEE100FB5604 /* AppGroup.swift */,
-				7CA7F8142B6FF5FB00F976EE /* Tips.swift */,
-				7C9FEC7D2C1F68B70062208B /* ImageSaver.swift */,
 				7CBEB52D2C2A1EF00099C7CF /* DeepLlinking.swift */,
+				7C9FEC7D2C1F68B70062208B /* ImageSaver.swift */,
+				7C0866712D2593B1006B5D39 /* OrientationManager.swift */,
 				7C7B78E12C3DD11900855723 /* SystemThemeManager.swift */,
+				7CA7F8142B6FF5FB00F976EE /* Tips.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1329,6 +1332,7 @@
 				7C608EDF2CC19B5800527405 /* DayOfWeekChart.swift in Sources */,
 				7CC1D0462C2703E500791847 /* LiveActivityManager.swift in Sources */,
 				7C67DDB52BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift in Sources */,
+				7C0866722D2593B1006B5D39 /* OrientationManager.swift in Sources */,
 				7C25CB5327887D9200866511 /* CustomPicker.swift in Sources */,
 				7C1DF2B52CC6D63100E3D69E /* AudioManager.swift in Sources */,
 				7CD7468A28A6CA8F00D5A2D0 /* Images+Ext.swift in Sources */,
@@ -1368,7 +1372,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1399,7 +1403,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1551,7 +1555,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1579,7 +1583,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
