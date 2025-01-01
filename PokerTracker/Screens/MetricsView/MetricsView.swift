@@ -325,6 +325,8 @@ struct AllStats: View {
             let totalWinRate = viewModel.totalWinRate(range: range, bankroll: sessionFilter)
             let totalHours = viewModel.totalHoursPlayed(range: range, bankroll: sessionFilter)
             let avgROI = viewModel.avgROI(range: range)
+            let handsPlayed = viewModel.handsPlayed(range: range, bankroll: sessionFilter)
+            let profitPer100 = Int(Double(totalBankroll) / Double(handsPlayed) * 100)
             
             HStack {
                 Text("Total Profit")
@@ -358,6 +360,18 @@ struct AllStats: View {
                 
                 Text(profitPerSession, format: .currency(code: currencyType).precision(.fractionLength(0)))
                     .foregroundColor(profitPerSession > 0 ? .green : profitPerSession < 0 ? .red : .primary)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Profit Per 100 Hands")
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Text(profitPer100, format: .currency(code: currencyType).precision(.fractionLength(0)))
+                    .foregroundColor(profitPer100 > 0 ? .green : profitPer100 < 0 ? .red : .primary)
             }
             
             Divider()
@@ -431,6 +445,17 @@ struct AllStats: View {
                 Spacer()
                 
                 Text(totalWinRate)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Total Hands Dealt")
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Text("\(handsPlayed)")
             }
             
             Divider()
@@ -653,6 +678,7 @@ struct TournamentStats: View {
             let itmRatio = viewModel.inTheMoneyRatio(range: range)
             let tournamentROI = viewModel.tournamentReturnOnInvestment(range: range)
             let tournamentHrsPlayed = viewModel.totalHoursPlayed(range: range, bankroll: .tournaments)
+            let handsPlayed = viewModel.handsPlayed(range: range, bankroll: .tournaments)
             
             HStack {
                 Text("Tournament Profit")
@@ -715,6 +741,17 @@ struct TournamentStats: View {
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(tournamentROI)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Hands Dealt")
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Text("\(handsPlayed)")
             }
             
             Divider()
