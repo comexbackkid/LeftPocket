@@ -375,6 +375,12 @@ extension SessionsListViewModel {
         return totalHands
     }
     
+    func profitPer100(hands: Int, bankroll: Int) -> Int {
+        
+        guard hands != 0 else { return 0 }
+        return Int(Double(bankroll) / Double(hands) * 100)
+    }
+    
     func avgDuration(range: RangeSelection = .all, bankroll: SessionFilter) -> String {
         
         var sessionsArray: [PokerSession] {

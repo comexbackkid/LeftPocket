@@ -326,7 +326,7 @@ struct AllStats: View {
             let totalHours = viewModel.totalHoursPlayed(range: range, bankroll: sessionFilter)
             let avgROI = viewModel.avgROI(range: range)
             let handsPlayed = viewModel.handsPlayed(range: range, bankroll: sessionFilter)
-            let profitPer100 = Int(Double(totalBankroll) / Double(handsPlayed) * 100)
+            let profitPer100 = viewModel.profitPer100(hands: handsPlayed, bankroll: totalBankroll)
             
             HStack {
                 Text("Total Profit")
@@ -498,7 +498,7 @@ struct CashStats: View {
             let cashWinRate = viewModel.totalWinRate(range: range, bankroll: sessionFilter)
             let cashTotalHours = viewModel.totalHoursPlayed(range: range, bankroll: sessionFilter)
             let handsPlayed = viewModel.handsPlayed(range: range, bankroll: sessionFilter)
-            let profitPer100 = Int(Double(cashBankroll) / Double(handsPlayed) * 100)
+            let profitPer100 = viewModel.profitPer100(hands: handsPlayed, bankroll: cashBankroll)
             
             HStack {
                 Text("Cash Profit")
@@ -658,6 +658,8 @@ struct CashStats: View {
         }
         .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
     }
+    
+    
 }
 
 struct TournamentStats: View {
