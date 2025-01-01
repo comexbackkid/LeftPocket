@@ -153,6 +153,7 @@ struct SessionDetailView: View {
             
             notes
             
+            tags
         }
         .frame(maxWidth: .infinity, alignment: .topLeading)
         .padding(.horizontal, 30)
@@ -327,6 +328,33 @@ struct SessionDetailView: View {
                 Text(pokerSession.notes)
                     .bodyStyle()
                     .textSelection(.enabled)
+            }
+        }
+        .padding(.bottom, 30)
+
+    }
+    
+    var tags: some View {
+        
+        VStack (alignment: .leading) {
+            
+            Text("Tags")
+                .subtitleStyle()
+                .padding(.bottom, 5)
+            
+            if let tag = pokerSession.tags?.first {
+                Text(tag)
+                    .bodyStyle()
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 10)
+                    .background(Color.secondary)
+                    .clipShape(.capsule)
+            } else {
+                
+                Text("None")
+                    .bodyStyle()
+                    .foregroundStyle(.secondary)
             }
         }
     }
@@ -656,6 +684,5 @@ struct SessionDetailView_Previews: PreviewProvider {
         SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
             .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
-        
     }
 }

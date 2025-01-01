@@ -58,7 +58,30 @@ struct AddNewSessionView: View {
                 newSession.startTime = liveSessionStartTime
                 newSession.buyIn = timerViewModel.totalBuyInForLiveSession == 0 ? "" : String(timerViewModel.totalBuyInForLiveSession)
             }
-
+        }
+        .sheet(isPresented: $showPaywall) {
+            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                .overlay {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            DismissButton()
+                                .padding()
+                                .onTapGesture {
+                                    showPaywall = false
+                            }
+                            Spacer()
+                        }
+                    }
+                }
+        }
+        .task {
+            for await customerInfo in Purchases.shared.customerInfoStream {
+                
+                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                await subManager.checkSubscriptionStatus()
+            }
         }
         .alert(item: $newSession.alertItem) { alertItem in
             Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
@@ -86,10 +109,8 @@ struct AddNewSessionView: View {
             if #available(iOS 17.0, *) { newSessionTip }
             
             sessionSelection
-                .animation(nil)
             
             locationSelection
-                .animation(nil)
             
             if newSession.sessionType != .tournament { stakesSelection }
             
@@ -168,38 +189,13 @@ struct AddNewSessionView: View {
                         }
                 }
             }
-            .transaction { transaction in
-                transaction.animation = nil
-            }
             .foregroundColor(newSession.sessionType == nil ? .brandPrimary : .brandWhite)
             .buttonStyle(PlainButtonStyle())
+            .animation(.none, value: newSession.sessionType)
         }
         .padding(.horizontal)
         .padding(.bottom, 10)
-        .sheet(isPresented: $showPaywall) {
-            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                .dynamicTypeSize(.medium...DynamicTypeSize.large)
-                .overlay {
-                    HStack {
-                        Spacer()
-                        VStack {
-                            DismissButton()
-                                .padding()
-                                .onTapGesture {
-                                    showPaywall = false
-                            }
-                            Spacer()
-                        }
-                    }
-                }
-        }
-        .task {
-            for await customerInfo in Purchases.shared.customerInfoStream {
-                
-                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
-                await subManager.checkSubscriptionStatus()
-            }
-        }
+        
     }
     
     var locationSelection: some View {
@@ -246,22 +242,18 @@ struct AddNewSessionView: View {
                         .bodyStyle()
                         .lineLimit(1)
                         .fixedSize()
+                        .animation(nil, value: newSession.location)
                 }
             }
-            .animation(nil, value: newSession.location)
             .foregroundColor(newSession.location.name.isEmpty ? .brandPrimary : .brandWhite)
             .buttonStyle(PlainButtonStyle())
-            .transaction { transaction in
-                transaction.animation = .none
-            }
-            
         }
         .padding(.horizontal)
         .padding(.bottom, 10)
         .sheet(isPresented: $addLocationIsShowing, content: {
             NewLocationView(addLocationIsShowing: $addLocationIsShowing)
         })
-        
+        .animation(nil, value: newSession.location)
     }
     
     var stakesSelection: some View {
@@ -519,6 +511,7 @@ struct AddNewSessionView: View {
                     HStack {
                         Text(vm.userCurrency.symbol)
                             .font(.callout)
+                            .frame(width: 13)
                             .foregroundColor(newSession.buyIn.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                         
                         TextField("Buy In", text: $newSession.buyIn)
@@ -539,6 +532,7 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
+                        .frame(width: 13)
                         .foregroundColor(newSession.cashOut.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField(newSession.sessionType == .tournament ? "Total Winnings" : "Cash Out", text: $newSession.cashOut)
@@ -558,6 +552,7 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
+                        .frame(width: 13)
                         .foregroundStyle(newSession.cashRebuys.isEmpty ? .secondary.opacity(0.5) : Color.brandWhite)
                     
                     TextField("Rebuys / Top Offs", text: $newSession.cashRebuys)
@@ -580,6 +575,7 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
+                        .frame(width: 13)
                         .foregroundColor(newSession.sessionType == .tournament && newSession.buyIn.isEmpty || newSession.sessionType == .cash && newSession.expenses.isEmpty || newSession.sessionType == nil && newSession.expenses.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField(newSession.sessionType == .tournament ? "Buy In" : "Expenses (Tips, rake, etc.)", text: newSession.sessionType == .tournament ? $newSession.buyIn : $newSession.expenses)
@@ -600,6 +596,7 @@ struct AddNewSessionView: View {
                     HStack {
                         Text("#")
                             .font(.callout)
+                            .frame(width: 13)
                             .foregroundColor(newSession.rebuyCount.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                         
                         TextField("Rebuy Ct.", text: $newSession.rebuyCount)
@@ -623,6 +620,7 @@ struct AddNewSessionView: View {
                     
                     Text("#")
                         .font(.callout)
+                        .frame(width: 13)
                         .foregroundColor(newSession.entrants.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("No. of Entrants", text: $newSession.entrants)
@@ -640,6 +638,7 @@ struct AddNewSessionView: View {
                     
                     Text("#")
                         .font(.callout)
+                        .frame(width: 13)
                         .foregroundColor(newSession.finish.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("Your Finish", text: $newSession.finish)
@@ -653,6 +652,8 @@ struct AddNewSessionView: View {
                 .padding(.bottom, 10)
                 .transition(.opacity.combined(with: .scale))
             }
+            
+            // MARK: NOTES
             
             TextEditor(text: $newSession.notes)
                 .font(.custom("Asap-Regular", size: 17))
@@ -684,6 +685,7 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
+                        .frame(width: 13)
                         .foregroundColor(newSession.highHandBonus.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("High Hand Bonus (Optional)", text: $newSession.highHandBonus)
@@ -697,6 +699,42 @@ struct AddNewSessionView: View {
                 .padding(.bottom, 10)
                 .transition(.opacity.combined(with: .asymmetric(insertion: .push(from: .bottom),
                                                                                        removal: .scale(scale: 0, anchor: .bottom))))
+            }
+            
+            // MARK: TAGS
+            
+            HStack {
+                Image(systemName: "tag.fill")
+                    .font(.caption2)
+                    .frame(width: 13)
+                    .foregroundColor(newSession.tags.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                
+                TextField("Tags (Optional)", text: $newSession.tags)
+                    .font(.custom("Asap-Regular", size: 17))
+            }
+            .allowsHitTesting(subManager.isSubscribed ? true : false)
+            .padding(18)
+            .background(.gray.opacity(0.2))
+            .cornerRadius(15)
+            .padding(.horizontal)
+            .padding(.bottom, 10)
+            .overlay {
+                if !subManager.isSubscribed {
+                    HStack {
+                        Spacer()
+                        Button {
+                            showPaywall = true
+                        } label: {
+                            Image(systemName: "lock.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 20)
+                                .padding(.bottom, 10)
+                                .padding(.trailing, 40)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
             }
         }
         .padding(.horizontal, 8)

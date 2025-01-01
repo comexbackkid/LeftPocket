@@ -13,6 +13,7 @@ struct EditSession: View {
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel: SessionsListViewModel
+    @EnvironmentObject var subManager: SubscriptionManager
     
     @State private var location: LocationModel = LocationModel(name: "", localImage: "", imageURL: "")
     @State private var date: Date = Date()
@@ -30,6 +31,7 @@ struct EditSession: View {
     @State private var speed: String = ""
     @State private var size: String = ""
     @State private var rebuyCount: String = ""
+    @State private var tags: String = ""
     @State private var addLocationIsShowing = false
     @State private var addStakesIsShowing = false
     @State private var alertItem: AlertItem?
@@ -527,7 +529,35 @@ struct EditSession: View {
                 .padding(.bottom, 10)
                 .transition(.opacity.combined(with: .asymmetric(insertion: .push(from: .bottom),
                                                                 removal: .scale(scale: 0, anchor: .bottom))))
-            
+         
+            HStack {
+                Image(systemName: "tag.fill")
+                    .font(.caption2)
+                    .frame(width: 13)
+                    .foregroundColor(tags.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                
+                TextField("Tags (Optional)", text: $tags)
+                    .font(.custom("Asap-Regular", size: 17))
+            }
+            .allowsHitTesting(subManager.isSubscribed ? true : false)
+            .padding(18)
+            .background(.gray.opacity(0.2))
+            .cornerRadius(15)
+            .padding(.horizontal)
+            .padding(.bottom, 10)
+            .overlay {
+                if !subManager.isSubscribed {
+                    HStack {
+                        Spacer()
+                        Image(systemName: "lock.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 20)
+                            .padding(.bottom, 10)
+                            .padding(.trailing, 40)
+                    }
+                }
+            }
         }
         .padding(.horizontal, 8)
         .onAppear {
@@ -536,6 +566,7 @@ struct EditSession: View {
             self.expenses = pokerSession.expenses.map { String($0) } ?? ""
             self.highHandBonus = pokerSession.highHandBonus.map { String($0) } ?? ""
             self.notes = pokerSession.notes
+            self.tags = pokerSession.tags?.joined(separator: ", ") ?? ""
         }
     }
     
@@ -658,6 +689,35 @@ struct EditSession: View {
                     })
                 .padding(.horizontal)
                 .padding(.bottom, 10)
+            
+            HStack {
+                Image(systemName: "tag.fill")
+                    .font(.caption2)
+                    .frame(width: 13)
+                    .foregroundColor(tags.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                
+                TextField("Tags (Optional)", text: $tags)
+                    .font(.custom("Asap-Regular", size: 17))
+            }
+            .allowsHitTesting(subManager.isSubscribed ? true : false)
+            .padding(18)
+            .background(.gray.opacity(0.2))
+            .cornerRadius(15)
+            .padding(.horizontal)
+            .padding(.bottom, 10)
+            .overlay {
+                if !subManager.isSubscribed {
+                    HStack {
+                        Spacer()
+                        Image(systemName: "lock.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(height: 20)
+                            .padding(.bottom, 10)
+                            .padding(.trailing, 40)
+                    }
+                }
+            }
         }
         .padding(.horizontal, 8)
         .onAppear {
@@ -667,6 +727,7 @@ struct EditSession: View {
             self.entrants = pokerSession.entrants.map { String($0) } ?? ""
             self.finish = pokerSession.finish.map { String($0) } ?? ""
             self.notes = pokerSession.notes
+            self.tags = pokerSession.tags?.joined(separator: ", ") ?? ""
         }
     }
     
@@ -841,7 +902,8 @@ struct EditSession: View {
                                  cashOut: Int(cashOut) ?? 0,
                                  rebuyCount: Int(rebuyCount) ?? 0,
                                  tournamentSize: size,
-                                 tournamentSpeed: speed)
+                                 tournamentSpeed: speed,
+                                 tags: tags.isEmpty ? nil : [tags])
             
             viewModel.sessions.removeAll { session in
                 session.id == pokerSession.id
@@ -855,5 +917,6 @@ struct EditSession: View {
 #Preview {
     EditSession(pokerSession: MockData.sampleTournament)
         .environmentObject(SessionsListViewModel())
+        .environmentObject(SubscriptionManager())
         .preferredColorScheme(.dark)
 }

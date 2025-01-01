@@ -25,9 +25,17 @@ struct CellView: View {
             
             VStack (alignment: .leading, spacing: 2) {
                 
-                Text(pokerSession.location.name)
-                    .bodyStyle()
-                    .lineLimit(1)
+                HStack {
+                    Text(pokerSession.location.name)
+                        .bodyStyle()
+                        .lineLimit(1)
+                    
+                    if pokerSession.tags != nil {
+                        Image(systemName: "tag.fill")
+                            .resizable()
+                            .frame(width: 14, height: 14)
+                    }
+                }
                 
                 if viewStyle == .standard {
                    

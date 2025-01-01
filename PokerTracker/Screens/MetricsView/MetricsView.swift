@@ -850,25 +850,16 @@ struct AdditionalMetricsView: View {
                             .buttonStyle(PlainButtonStyle())
                         } else {
                             
-                            AdditionalMetricsCardView(title: "Health Analytics",
-                                                      description: "See how sleep & mindfulness affects your poker results.",
-                                                      image: "bed.double.fill",
-                                                      color: Color(.systemGray4))
-                            .blur(radius: 2)
-                            .overlay {
-                                Button {
-                                   showPaywall = true
-                                } label: {
-                                    Text("🔒 Tap to Upgrade")
-                                        .buttonTextStyle()
-                                        .frame(height: 55)
-                                        .frame(width: UIScreen.main.bounds.width * 0.6)
-                                        .background(Color.white)
-                                        .foregroundColor(Color.black.opacity(0.8))
-                                        .cornerRadius(30)
-                                        .shadow(color: colorScheme == .dark ? .black : .black.opacity(0.25), radius: 20)
-                                }
+                            Button {
+                                showPaywall = true
+                            } label: {
+                                AdditionalMetricsCardView(title: "Health Analytics",
+                                                          description: "See how sleep & mindfulness affects your poker results.",
+                                                          image: "bed.double.fill",
+                                                          color: .lightGreen,
+                                                          premium: true)
                             }
+                            .buttonStyle(PlainButtonStyle())
                         }
                         
                         NavigationLink(
@@ -908,6 +899,16 @@ struct AdditionalMetricsView: View {
                                                           description: "Break down your game by different table stakes.",
                                                           image: "dollarsign.circle",
                                                           color: .donutChartPurple)
+                            })
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        NavigationLink(
+                            destination: TagReport(),
+                            label: {
+                                AdditionalMetricsCardView(title: "Tag Report",
+                                                          description: "Generate a report sorted via tags applied to your Sessions.",
+                                                          image: "tag.fill",
+                                                          color: .brandWhite)
                             })
                         .buttonStyle(PlainButtonStyle())
                     }
@@ -971,25 +972,16 @@ struct AdditionalMetricsView: View {
                             .buttonStyle(PlainButtonStyle())
                         } else {
                             
-                            AdditionalMetricsCardView(title: "Health Analytics",
-                                                      description: "See how sleep & mindfulness affects your poker results.",
-                                                      image: "bed.double.fill",
-                                                      color: Color(.systemGray4))
-                            .blur(radius: 2)
-                            .overlay {
-                                Button {
-                                   showPaywall = true
-                                } label: {
-                                    Text("🔒 Tap to Upgrade")
-                                        .buttonTextStyle()
-                                        .frame(height: 55)
-                                        .frame(width: UIScreen.main.bounds.width * 0.6)
-                                        .background(Color.white)
-                                        .foregroundColor(Color.black.opacity(0.8))
-                                        .cornerRadius(30)
-                                        .shadow(color: colorScheme == .dark ? .black : .black.opacity(0.25), radius: 20)
-                                }
+                            Button {
+                                showPaywall = true
+                            } label: {
+                                AdditionalMetricsCardView(title: "Health Analytics",
+                                                          description: "See how sleep & mindfulness affects your poker results.",
+                                                          image: "bed.double.fill",
+                                                          color: .lightGreen,
+                                                          premium: true)
                             }
+                            .buttonStyle(PlainButtonStyle())
                         }
                         
                         NavigationLink(

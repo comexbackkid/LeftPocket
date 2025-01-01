@@ -97,6 +97,7 @@
 		7C72E0A62BC05B6100C411F2 /* UsingLeftPocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */; };
 		7C757EFF2C1F218900AD71EE /* SocialShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C757EFE2C1F218900AD71EE /* SocialShareView.swift */; };
 		7C757F032C1F2A9F00AD71EE /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C757F022C1F2A9F00AD71EE /* ShareButton.swift */; };
+		7C7A019E2D1DD13900EC30D4 /* TagReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A019D2D1DD13900EC30D4 /* TagReport.swift */; };
 		7C7B2F8B26D5A2A90069F9C5 /* SessionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B2F8A26D5A2A90069F9C5 /* SessionListViewModel.swift */; };
 		7C7B78E22C3DD11900855723 /* SystemThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B78E12C3DD11900855723 /* SystemThemeManager.swift */; };
 		7C7D09662BF78734002FA350 /* cash-sfx.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7C7D09652BF78734002FA350 /* cash-sfx.wav */; };
@@ -357,6 +358,7 @@
 		7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsingLeftPocket.swift; sourceTree = "<group>"; };
 		7C757EFE2C1F218900AD71EE /* SocialShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialShareView.swift; sourceTree = "<group>"; };
 		7C757F022C1F2A9F00AD71EE /* ShareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButton.swift; sourceTree = "<group>"; };
+		7C7A019D2D1DD13900EC30D4 /* TagReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagReport.swift; sourceTree = "<group>"; };
 		7C7B2F8A26D5A2A90069F9C5 /* SessionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListViewModel.swift; sourceTree = "<group>"; };
 		7C7B78E12C3DD11900855723 /* SystemThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemThemeManager.swift; sourceTree = "<group>"; };
 		7C7D09652BF78734002FA350 /* cash-sfx.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "cash-sfx.wav"; sourceTree = "<group>"; };
@@ -580,11 +582,11 @@
 		7C2614CC26D930D900986183 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				7CA658522CA60A9E00A74CE4 /* Goals */,
 				7C45B06B29428EEB00587078 /* BarChartView */,
 				7C2614CD26D9310E00986183 /* CardViews */,
 				7C3EF3E32C64E5BF00835467 /* EditSessionView */,
 				7C2B3E6726F5659600B84D52 /* EmptyStates */,
+				7CA658522CA60A9E00A74CE4 /* Goals */,
 				7C6E75BC2BAA1DBD006173A4 /* LiveSessionCounter */,
 				7C897F172891BBFB00E42FDA /* LocationListView */,
 				7C82E13126EFC83F00E3EB6F /* MetricsView */,
@@ -600,6 +602,7 @@
 				7C2614CE26D9313E00986183 /* SessionsListView */,
 				7C82E13426EFC87D00E3EB6F /* SettingsView */,
 				7CA940F72BECF8C5009B54BA /* SleepAnalytics */,
+				7C7A019A2D1DD12000EC30D4 /* TagReport */,
 				7C86477F2B29276700F48951 /* WelcomeScreen */,
 				7C63949726C14E8300939F40 /* ContentView.swift */,
 				7CE37EC82C3055D0002ACA81 /* QuickMetricBox.swift */,
@@ -836,6 +839,14 @@
 				7C455DEF2C98CD50008C1446 /* LiveSessionInitialBuyIn.swift */,
 			);
 			path = LiveSessionCounter;
+			sourceTree = "<group>";
+		};
+		7C7A019A2D1DD12000EC30D4 /* TagReport */ = {
+			isa = PBXGroup;
+			children = (
+				7C7A019D2D1DD13900EC30D4 /* TagReport.swift */,
+			);
+			path = TagReport;
 			sourceTree = "<group>";
 		};
 		7C7D09642BF7871E002FA350 /* SoundFX */ = {
@@ -1311,6 +1322,7 @@
 				7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */,
 				7C44A68D2C2F3D0100110359 /* MetricsCalculations+Ext.swift in Sources */,
 				7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */,
+				7C7A019E2D1DD13900EC30D4 /* TagReport.swift in Sources */,
 				7C757EFF2C1F218900AD71EE /* SocialShareView.swift in Sources */,
 				7CA940F92BECF8E3009B54BA /* SleepAnalytics.swift in Sources */,
 				7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */,
@@ -1356,7 +1368,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1369,7 +1381,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.6.6;
+				MARKETING_VERSION = 4.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1387,7 +1399,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1400,7 +1412,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.6.6;
+				MARKETING_VERSION = 4.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1539,7 +1551,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1550,7 +1562,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.6.6;
+				MARKETING_VERSION = 4.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1567,7 +1579,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1578,7 +1590,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.6.6;
+				MARKETING_VERSION = 4.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

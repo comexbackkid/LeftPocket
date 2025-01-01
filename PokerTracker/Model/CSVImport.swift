@@ -65,7 +65,8 @@ class CSVImporter {
                                            cashOut: cashOut,
                                            rebuyCount: nil,
                                            tournamentSize: nil,
-                                           tournamentSpeed: nil)
+                                           tournamentSpeed: nil,
+                                           tags: nil)
                 
                 importedSessions.append(session)
                 
@@ -134,7 +135,8 @@ class CSVImporter {
                                            cashOut: cashOut,
                                            rebuyCount: nil,
                                            tournamentSize: tournamentSize == "Sit & Go" ? tournamentSize : "MTT",
-                                           tournamentSpeed: "Standard")
+                                           tournamentSpeed: "Standard",
+                                           tags: nil)
                 
                 importedSessions.append(session)
                 
@@ -207,7 +209,8 @@ class CSVImporter {
                                            cashOut: cashOut,
                                            rebuyCount: nil,
                                            tournamentSize: nil,
-                                           tournamentSpeed: nil)
+                                           tournamentSpeed: nil,
+                                           tags: nil)
                 
                 importedSessions.append(session)
                 
@@ -269,7 +272,8 @@ class CSVImporter {
                                            cashOut: nil,
                                            rebuyCount: nil,
                                            tournamentSize: nil,
-                                           tournamentSpeed: nil)
+                                           tournamentSpeed: nil,
+                                           tags: nil)
                 
                 importedSessions.append(session)
                 
@@ -349,7 +353,8 @@ class CSVImporter {
                                            cashOut: Int(cashOut),
                                            rebuyCount: nil,
                                            tournamentSize: nil,
-                                           tournamentSpeed: nil)
+                                           tournamentSpeed: nil,
+                                           tags: nil)
                 
                 importedSessions.append(session)
                 
@@ -421,7 +426,8 @@ class CSVImporter {
                                            cashOut: cashOut,
                                            rebuyCount: nil,
                                            tournamentSize: nil,
-                                           tournamentSpeed: nil)
+                                           tournamentSpeed: nil,
+                                           tags: nil)
                 
                 importedSessions.append(session)
                 

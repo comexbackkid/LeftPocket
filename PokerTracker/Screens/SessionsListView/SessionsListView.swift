@@ -24,6 +24,7 @@ struct SessionsListView: View {
     @State var sessionFilter: SessionFilter = .all
     @State var locationFilter: LocationModel?
     @State var gameTypeFilter: String?
+    @State var tagsFilter: String?
     @State var stakesFilter: String?
     @State var startDate: Date = Date()
     @State var endDate: Date = .now
@@ -79,6 +80,13 @@ struct SessionsListView: View {
             return sessionDate >= startDate && sessionDate <= endDate
         }
         
+        // Apply Tags filter
+        if let tagsFilter = tagsFilter {
+            result = result.filter { session in
+                session.tags?.contains(tagsFilter) ?? false
+            }
+        }
+        
         return result
     }
     
@@ -98,6 +106,7 @@ struct SessionsListView: View {
                     case .sessions:
                         
                         if !filteredSessions.isEmpty {
+                            
                             List {
                                 screenTitle
                                 
@@ -239,7 +248,7 @@ struct SessionsListView: View {
                 }
             }
             
-            Menu{
+            Menu {
                 Picker("Select Stakes", selection: $stakesFilter) {
                     Text("All").tag(nil as String?)
                     ForEach(vm.allCashSessions().map { $0.stakes }.uniqued(), id: \.self) { stakes in
@@ -249,6 +258,20 @@ struct SessionsListView: View {
             } label: {
                 Text("Stakes")
                 Image(systemName: "dollarsign.circle")
+            }
+            
+            Menu {
+                Picker("Tags", selection: $tagsFilter) {
+                    Text("None").tag(nil as String?)
+                    ForEach(vm.sessions.compactMap { $0.tags }.flatMap { $0 }.filter { !$0.isEmpty }.uniqued(), id: \.self) { tag in
+                        Text(tag).tag(tag as String?)
+                    }
+                }
+            } label: {
+                HStack {
+                    Text("Tags")
+                    Image(systemName: "tag.fill")
+                }
             }
             
             Divider()
@@ -321,6 +344,28 @@ struct SessionsListView: View {
             .listRowBackground(Color.brandBackground)
             .listRowSeparator(.hidden)
             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        HStack (alignment: .center) {
+            Text(listFilter == .sessions ? sessionsTitle : "All Transactions")
+                .titleStyle()
+                .padding(.top, -38)
+            
+            Spacer()
+            
+            if let tagsFilter {
+                if listFilter == .sessions {
+                    FilterTag(type: "Tag", filterName: "\(tagsFilter)")
+                        .truncationMode(.tail)
+                        .lineLimit(1)
+                        .padding(.bottom)
+                }
+            }
+        }
+        .padding(.horizontal)
+        .minimumScaleFactor(0.9)
+        .lineLimit(1)
+        .listRowBackground(Color.brandBackground)
+        .listRowSeparator(.hidden)
+        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
     
     @available(iOS 17.0, *)
@@ -360,6 +405,7 @@ struct SessionsListView: View {
         locationFilter = nil
         gameTypeFilter = nil
         stakesFilter = nil
+        tagsFilter = nil
         startDate = firstSessionDate
         endDate = Date.now
     }
