@@ -15,16 +15,9 @@ import UIKit
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
+    // MARK: QuickAction Functionality
     private let qaService = QAService.shared
     
-    // MARK: Orientatino Functionality
-//    var orientationLock = UIInterfaceOrientationMask.portrait
-//
-//    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-//        return orientationLock
-//    }
-    
-    // MARK: QuickAction Functionality
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
             if let shortcutItem = options.shortcutItem {
                 qaService.action = QA(shortcutItem: shortcutItem)
@@ -73,15 +66,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
 }
-
-
-//extension AppDelegate {
-//    func lockOrientation(_ orientation: UIInterfaceOrientationMask, rotateTo rotateOrientation: UIInterfaceOrientation? = nil) {
-//        self.orientationLock = orientation
-//
-//        if let rotateOrientation = rotateOrientation {
-//            UIDevice.current.setValue(rotateOrientation.rawValue, forKey: "orientation")
-//            UINavigationController.attemptRotationToDeviceOrientation()
-//        }
-//    }
-//}
