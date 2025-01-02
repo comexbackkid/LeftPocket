@@ -162,7 +162,7 @@ class CSVImporter {
         let rows = csvString.components(separatedBy: "\n")
         var importedSessions: [PokerSession] = []
         
-        // Iterate through rows in the CSV ignoring the first 2 rows
+        // Ignore the first 2 rows (indexes), start at the third row
         for rowIndex in 2..<rows.count {
             
             let row = rows[rowIndex]
@@ -179,7 +179,7 @@ class CSVImporter {
                 let stakes = "\(stakesPart1)/\(stakesPart2)"
                 let date = convertToDate(columns[0].trimmingCharacters(in: .init(charactersIn: "\"")))
                 let profit = columns[11]
-                let notes = columns[39].trimmingCharacters(in: .init(charactersIn: "\""))
+//                let notes = columns[39].trimmingCharacters(in: .init(charactersIn: "\""))
                 let startTime = convertToDate(columns[0].trimmingCharacters(in: .init(charactersIn: "\"")))
                 let endTime = convertToDate(columns[1].trimmingCharacters(in: .init(charactersIn: "\"")))
                 let expenses = Int(columns[27])
@@ -197,7 +197,7 @@ class CSVImporter {
                                            stakes: stakes,
                                            date: date ?? Date(),
                                            profit: Int(profit) ?? 0,
-                                           notes: notes,
+                                           notes: "",
                                            startTime: startTime ?? Date().modifyTime(minutes: -360),
                                            endTime: endTime ?? Date(),
                                            expenses: sessionType == "Tournament" ? tournamentBuyIn : expenses,
@@ -289,7 +289,7 @@ class CSVImporter {
         
     }
     
-    // MARK: LEFT POCKET IMPORT
+    // MARK: Left Pocket IMPORT
     
     func importCSVFromLeftPocket(data: Data) throws -> [PokerSession] {
         
@@ -405,6 +405,7 @@ class CSVImporter {
                 // Tournament Data
                 let sessionType = columns[3].trimmingCharacters(in: .init(charactersIn: "\""))
                 let entrants = Int(columns[23].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
+                let finish = Int(columns[25].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
                 let buyIn = Int(columns[6].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
                 let cashOut = Int(columns[7].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
                 
@@ -420,7 +421,7 @@ class CSVImporter {
                                            expenses: sessionType == "Tournament" ? buyIn : expenses,
                                            isTournament: sessionType == "Tournament" ? true : false,
                                            entrants: entrants,
-                                           finish: nil,
+                                           finish: finish,
                                            highHandBonus: nil,
                                            buyIn: buyIn,
                                            cashOut: cashOut,

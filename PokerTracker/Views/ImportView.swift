@@ -47,7 +47,7 @@ struct ImportView: View {
         
         VStack (alignment: .leading) {
             
-            Text("Left Pocket supports data in CSV format from Poker Income, Poker Bankroll Tracker, Poker Analytics, & Pokerbase. These apps format their data differently, & you may need to lightly modify the contents of the file.\n\nIt's recommended that you import old data first, before your Left Pocket journey begins.")
+            Text("Left Pocket supports data in CSV format from Poker Income, Poker Bankroll Tracker, Poker Analytics, & Pokerbase. These apps all format their data differently, & you may need to lightly modify the contents of the file.\n\nIt's recommended that you import old data first, before your Left Pocket journey begins.")
                 .bodyStyle()
         }
         .padding(.horizontal)
@@ -476,7 +476,7 @@ struct PokerBankrollTrackerImportView: View {
                     .bold()
                     .padding(.top, 10)
                 
-                Text("Please be sure to follow each step and read carefully. Poker Bankroll Tracker allows for exporting of session notes and you will need to modify the that text prior to import.")
+                Text("Please be sure to follow each step and read carefully. Poker Bankroll Tracker allows for exporting of session notes, and you'll need to remove them from the CSV file prior to import.")
                     .bodyStyle()
                     .padding(.top, 1)
                 
@@ -503,7 +503,7 @@ struct PokerBankrollTrackerImportView: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Open the CSV on your computer. In the notes column, you'll need to __remove ALL COMMAS and SOFT RETURNS__ (Text must be on one line).")
+                        Text("Open the CSV on your computer. In the notes column, __delete each cell__ containing any text of any kind.")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -516,7 +516,7 @@ struct PokerBankrollTrackerImportView: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Export this new file to a folder in your iCloud Drive, using UTF-8 encoding.")
+                        Text("Export this new file, & save it to your iCloud Drive, using UTF-8 encoding.")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -1070,11 +1070,11 @@ struct PokerAnalyticsImportView: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Export Sessions (CSV) from Poker Analytics.")
+                        Text("In Poker Analytics, from Settings navigate to Export Data. Choose Sessions (CSV).")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
-                        
+                    
                     HStack {
                         
                         Image(systemName: "2.circle.fill")
@@ -1083,7 +1083,7 @@ struct PokerAnalyticsImportView: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
-                        Text("Open the CSV on your computer. In the Comment column, you'll need to __remove ALL COMMAS and SOFT RETURNS__. Text must be on one line.")
+                        Text("Open the CSV on your computer. In the Comment column, __delete each cell__ containing any text of any kind.")
                             .bodyStyle()
                             .padding(.leading, 6)
                     }
@@ -1219,9 +1219,7 @@ struct PokerAnalyticsImportView: View {
 
 struct ImportView_Previews: PreviewProvider {
     static var previews: some View {
-        ImportView()
-            .preferredColorScheme(.dark)
-        PokerIncomeImportView()
+        PokerAnalyticsImportView()
             .preferredColorScheme(.dark)
     }
 }
