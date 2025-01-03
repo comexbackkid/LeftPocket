@@ -362,6 +362,18 @@ struct LoggingSessionsDocumentation: View {
                             .frame(width: 25, height: 25, alignment: .top)
                             .foregroundColor(Color.brandPrimary)
                         
+                        Text("Use Tags to group like Sessions together. For example, \"100 Hr. Bankroll Challenge\" or, \"Vegas Trip 2024.\"")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                    
+                    HStack {
+                        Image(systemName: "4.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
                         Text("Tap Save Session")
                             .bodyStyle()
                             .padding(.leading, 6)
@@ -914,6 +926,6 @@ struct LocationsDocumentation: View {
 }
 
 #Preview {
-    LocationsDocumentation()
+    LoggingSessionsDocumentation()
         .preferredColorScheme(.dark)
 }

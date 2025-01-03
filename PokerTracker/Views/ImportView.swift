@@ -47,7 +47,7 @@ struct ImportView: View {
         
         VStack (alignment: .leading) {
             
-            Text("Left Pocket supports data in CSV format from Poker Income, Poker Bankroll Tracker, Poker Analytics, & Pokerbase. These apps all format their data differently, & you may need to lightly modify the contents of the file.\n\nIt's recommended that you import old data first, before your Left Pocket journey begins.")
+            Text("Left Pocket supports data in CSV format from Poker Income, Poker Bankroll Tracker, Poker Analytics, & Pokerbase. These apps all format their data differently, & you may need to lightly modify the contents of the file.")
                 .bodyStyle()
         }
         .padding(.horizontal)

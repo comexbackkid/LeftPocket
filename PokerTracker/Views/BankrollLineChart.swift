@@ -270,6 +270,8 @@ struct BankrollLineChart: View {
     var fullScreenToggleButton: some View {
         
         Button {
+            let impact = UIImpactFeedbackGenerator(style: .soft)
+            impact.impactOccurred()
             viewModel.lineChartFullScreen.toggle()
         } label: {
             Image(systemName: "arrow.up.left.and.down.right.and.arrow.up.right.and.down.left")
@@ -304,7 +306,7 @@ struct BankrollLineChart: View {
             
             ForEach(RangeSelection.allCases, id: \.self) { range in
                 Button {
-                    let impact = UIImpactFeedbackGenerator(style: .medium)
+                    let impact = UIImpactFeedbackGenerator(style: .soft)
                     impact.impactOccurred()
                     chartRange = range
                 } label: {

@@ -285,7 +285,7 @@ struct MetricsView: View {
             
             ForEach(RangeSelection.allCases, id: \.self) { range in
                 Button {
-                    let impact = UIImpactFeedbackGenerator(style: .medium)
+                    let impact = UIImpactFeedbackGenerator(style: .soft)
                     impact.impactOccurred()
                     statsRange = range
                 } label: {
