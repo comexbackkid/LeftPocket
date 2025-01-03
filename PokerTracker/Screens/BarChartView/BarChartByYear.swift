@@ -125,6 +125,16 @@ struct BarChartByYear: View {
                                    verticalSpacing: 15).font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
                 }
             }
+            .overlay {
+                if sessionProfitByMonth.isEmpty {
+                    VStack {
+                        Text("No chart data to display.")
+                            .calloutStyle()
+                            .foregroundStyle(.secondary)
+                    }
+                    .offset(y: -20)
+                }
+            }
         }
     }
     

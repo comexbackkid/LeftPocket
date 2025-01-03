@@ -203,7 +203,7 @@ struct LocationActivityView_Previews: PreviewProvider {
     
     static var previews: some View {
         LiveSessionWidgetAttributes(eventDescription: "Live Session")
-            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .dynamicIsland(.expanded))
-//            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .content)
+//            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .dynamicIsland(.expanded))
+            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .content)
     }
 }
