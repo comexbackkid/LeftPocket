@@ -107,9 +107,6 @@ struct MetricsView: View {
                 .frame(maxHeight: .infinity)
                 .background(Color.brandBackground)
                 .navigationBarHidden(true)
-                .onAppear {
-                    AppReviewRequest.requestReviewIfNeeded()
-                }
                 
                 if activeSheet == .metricsAsSheet { dismissButton }
                 

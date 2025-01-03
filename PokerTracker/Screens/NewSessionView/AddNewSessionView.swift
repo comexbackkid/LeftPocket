@@ -750,6 +750,7 @@ struct AddNewSessionView: View {
                 audioConfirmation = true
                 timerViewModel.liveSessionStartTime = nil
                 isPresented = newSession.presentation ?? true
+                AppReviewRequest.requestReviewIfNeeded()
                 
             } label: {
                 PrimaryButton(title: "Save Session")
