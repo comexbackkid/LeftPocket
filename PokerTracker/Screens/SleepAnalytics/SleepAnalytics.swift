@@ -521,16 +521,20 @@ struct SleepAnalytics: View {
         }
     }
     
-    // Calculates how many sessions were played with less than 6 hours sleep since the start of the year
+    // Calculates how many sessions were played with less than 6 hours of sleep in the last 30 days
     private func countLowSleepSessions() -> Int {
         
-        // These are ALL sessions where you've slept under 6 hours. Later we filter for only this year
+        // Calculate the date 30 days ago
+        let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date())!
+        
+        // Filter sessions where you've slept under 6 hours
         let sessions = viewModel.sessions.filter {
             guard let sleep = hkManager.sleepData.sleepHours(on: $0.date) else { return false }
             return sleep < 6
         }
         
-        return sessions.filter({ $0.date.getYear() == Date().getYear() }).count
+        // Further filter sessions that occurred in the last 30 days
+        return sessions.filter { $0.date >= thirtyDaysAgo }.count
     }
     
     // Calculates your hourly rate when you get at least 6 hours of sleep
