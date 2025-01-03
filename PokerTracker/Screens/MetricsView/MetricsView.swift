@@ -979,7 +979,7 @@ struct AdditionalMetricsView: View {
                             } label: {
                                 AdditionalMetricsCardView(title: "Health Analytics",
                                                           description: "See how sleep & mindfulness affects your poker results.",
-                                                          image: "bed.double.fill",
+                                                          image: "stethoscope",
                                                           color: .lightGreen,
                                                           premium: true)
                             }
@@ -1023,6 +1023,16 @@ struct AdditionalMetricsView: View {
                                                           description: "Break down your game by different table stakes.",
                                                           image: "dollarsign.circle",
                                                           color: .donutChartPurple)
+                            })
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        NavigationLink(
+                            destination: TagReport(),
+                            label: {
+                                AdditionalMetricsCardView(title: "Tag Report",
+                                                          description: "Generate a report sorted via tags applied to your Sessions.",
+                                                          image: "tag.fill",
+                                                          color: .brandWhite)
                             })
                         .buttonStyle(PlainButtonStyle())
                     }
