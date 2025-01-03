@@ -103,7 +103,7 @@ struct DefaultData {
 
 struct MockData {
     
-    static let mockLocation = LocationModel(name: "MGM Springfield", localImage: "mgmspringfield-header", imageURL: "")
+    static let mockLocation = LocationModel(name: "Encore Boston Harbor", localImage: "encore-header2", imageURL: "")
     static let sampleSession = PokerSession(location: mockLocation,
                                             game: "NL Texas Hold Em",
                                             stakes: "1/3",
@@ -147,16 +147,13 @@ struct MockData {
     static let allLocations = [
         LocationModel(name: "MGM Springfield", localImage: "mgmspringfield-header", imageURL: ""),
         LocationModel(name: "Encore Boston Harbor", localImage: "encore-header2", imageURL: ""),
-        LocationModel(name: "Boston Billiard Club", localImage: "boston-billiards-header", imageURL: ""),
-        LocationModel(name: "The Brook", localImage: "brook-header", imageURL: ""),
-        LocationModel(name: "Foxwoods Resort & Casino", localImage: "foxwoods-header", imageURL: ""),
-        LocationModel(name: "Mohegan Sun Casino", localImage: "mohegan-sun-header", imageURL: ""),
-        LocationModel(name: "Rivers Casino & Resort", localImage: "rivers-header", imageURL: ""),
-        LocationModel(name: "Turning Stone Casino", localImage: "turningstone-header", imageURL: "")
+        LocationModel(name: "Bellagio Hotel & Casino", localImage: "bellagio-header", imageURL: ""),
+        LocationModel(name: "The Lodge", localImage: "thelodge-header", imageURL: "")
+        
     ]
     
     static let allSessions = [
-        PokerSession(location: allLocations[5],
+        PokerSession(location: allLocations[2],
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
                      date: Date().modifyDays(days: -12),
@@ -196,7 +193,7 @@ struct MockData {
                      tournamentSpeed: nil,
                      tags: nil),
         
-        PokerSession(location: allLocations[4],
+        PokerSession(location: allLocations[1],
                      game: "NL Texas Hold Em",
                      stakes: "1/2",
                      date: Date().modifyDays(days: -4),
