@@ -56,25 +56,49 @@ struct BankrollLineChart: View {
                 
                 HStack (alignment: .top) {
                     
-                    VStack (alignment: .leading, spacing: 3) {
+                    VStack (alignment: .leading, spacing: 0) {
                         Text("Player Profit")
+//                            .calloutStyle()
                             .cardTitleStyle()
+//                            .foregroundStyle(.secondary)
                         
                         let amountText: Int? = profitAnnotation
+//                        let defaultProfit = convertedData.last!
+                        var defaultProfit: Int {
+                            if selectedIndex == 0 {
+                                return convertedData.first!
+                            } else {
+                                return convertedData.last!
+                            }
+                        }
                         
                         Group {
                             if let amountText {
-                                HStack (spacing: 5) {
-                                    if amountText != 0 {
+                                HStack (alignment: .firstTextBaseline, spacing: 5) {
+                                    
+                                    if selectedIndex != 0 {
                                         Image(systemName: "arrow.up.right")
-                                            .foregroundStyle(amountText > 0 ? .green : .red)
-                                            .rotationEffect(.degrees(amountText < 0 ? 90 : 0))
+                                            .font(.title2)
+                                            .foregroundStyle(amountText > 0 ? .green : amountText < 0 ? .red : defaultProfit > 0 ? .green : .red)
+                                            .rotationEffect(.degrees(amountText > 0 ? 0 : amountText < 0 ? 90 : defaultProfit > 0 ? 0 : 90))
                                             .animation(.default.speed(2), value: amountText)
                                     }
                                     
-                                    Text(amountText == 0 ? "No Selection" : "\(amountText.formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))")
-                                        .font(.custom("Asap-Medium", size: 17))
-                                        .foregroundStyle(amountText > 0 ? .green : amountText < 0 ? .red : .secondary)
+//                                    if amountText != 0 {
+//                                        Image(systemName: "arrow.up.right")
+//                                            .font(.title2)
+//                                            .foregroundStyle(amountText > 0 ? .green : .red)
+//                                            .rotationEffect(.degrees(amountText < 0 ? 90 : 0))
+//                                            .animation(.default.speed(2), value: amountText)
+//                                    }
+                                    
+                                    Text(amountText == 0 ? "\(abs(defaultProfit).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))" : "\(abs(amountText).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))")
+                                        .font(.custom("Asap-Bold", size: 34))
+                                        .foregroundStyle(amountText > 0 ? .green : amountText < 0 ? .red : defaultProfit > 0 ? .green : .red)
+                                    
+//                                    Text(amountText == 0 ? "No Selection" : "\(amountText.formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))")
+//                                        .font(.custom("Asap-Bold", size: 24))
+//                                        .foregroundStyle(amountText > 0 ? .green : amountText < 0 ? .red : .secondary)
                                 }
                             }
                         }
