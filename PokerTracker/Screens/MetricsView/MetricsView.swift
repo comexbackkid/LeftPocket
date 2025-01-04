@@ -441,7 +441,7 @@ struct AllStats: View {
                 
                 Spacer()
                 
-                Text(totalWinRate)
+                Text(totalWinRate.asPercent())
             }
             
             Divider()
@@ -628,7 +628,7 @@ struct CashStats: View {
                 
                 Spacer()
                 
-                Text(cashWinRate)
+                Text(cashWinRate.asPercent())
             }
             
             Divider()

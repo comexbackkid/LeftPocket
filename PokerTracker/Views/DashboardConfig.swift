@@ -59,7 +59,7 @@ struct DashboardConfig: View {
         VStack (alignment: .leading) {
             
             HStack {
-                Text("Choose which of your important player metrics you'd like pinned to the Dashboard view of Left Pocket.")
+                Text("Choose which of your important player metrics you'd like pinned to your Dashboard. The percentage change for each metric reflects the increase or decrease from the previous year.")
                     .bodyStyle()
                 
                 Spacer()

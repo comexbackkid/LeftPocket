@@ -341,34 +341,60 @@ struct QuickMetricsBoxGrid: View {
     @State private var winRatio: Bool = false
     @State private var hoursPlayed: Bool = false
     
-    private let columns = [GridItem(spacing: 20), GridItem()]
+    private let columns = [GridItem(spacing: 10), GridItem()]
     
     var body: some View {
         
+        // Stuck trying to figure out how to get a starting number, looking messy this way
+        // Right now I think the previous year calculation is ONLY sessions that happened in that year, not the year's end value cumulatively
         LazyVGrid(columns: columns, spacing: 20) {
             
+            let playerProfitNumber = viewModel.tallyBankroll(bankroll: .all).dashboardPlayerProfitShortHand(viewModel.userCurrency)
+            let bbPerHrNumber = viewModel.bbPerHour()
+            let hourlyRateNumber = viewModel.hourlyRate(bankroll: .all).currencyShortHand(viewModel.userCurrency)
+            let profitPerSessionNumber = viewModel.avgProfit(bankroll: .all).currencyShortHand(viewModel.userCurrency)
+            let winRatioNumber = viewModel.totalWinRate(bankroll: .all)
+            let hoursPlayedNumber = viewModel.totalHoursPlayedHomeScreen()
+            
             if playerProfit {
-                QuickMetricBox(title: "Total Profit", metric: String(viewModel.tallyBankroll(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
+                QuickMetricBox(title: "Total Profit",
+                               metric: playerProfitNumber,
+                               percentageChange: percentChange(Double(viewModel.tallyBankroll(bankroll: .all)),
+                                                               Double(viewModel.tallyBankroll(yearExcluded: Date().getYear(), bankroll: .all))))
             }
             
             if bbPerHr {
-                QuickMetricBox(title: "BB / Hr", metric: String(format: "%.2f", viewModel.bbPerHour()))
+                QuickMetricBox(title: "BB / Hr",
+                               metric: String(format: "%.2f", bbPerHrNumber),
+                               percentageChange: percentChange(bbPerHrNumber,
+                                                               viewModel.bbPerHour(yearExcluded: Date().getYear())))
             }
             
             if hourlyRate {
-                QuickMetricBox(title: "Hourly Rate", metric: String(viewModel.hourlyRate(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
+                QuickMetricBox(title: "Hourly Rate",
+                               metric: hourlyRateNumber,
+                               percentageChange: percentChange(Double(viewModel.hourlyRate(bankroll: .all)),
+                                                               Double(viewModel.hourlyRate(yearExcluded: Date().getYear(), bankroll: .all))))
             }
             
             if profitPerSession {
-                QuickMetricBox(title: "Avg. Session Profit", metric: String(viewModel.avgProfit(bankroll: .all).currencyShortHand(viewModel.userCurrency)))
+                QuickMetricBox(title: "Avg. Session Profit",
+                               metric: profitPerSessionNumber,
+                               percentageChange: percentChange(Double(viewModel.avgProfit(bankroll: .all)),
+                                                               Double(viewModel.avgProfit(yearExcluded: Date().getYear(), bankroll: .all))))
             }
             
             if winRatio {
-                QuickMetricBox(title: "Win Ratio", metric: viewModel.winRate())
+                QuickMetricBox(title: "Win Ratio",
+                               metric: winRatioNumber.asPercent(),
+                               percentageChange: percentChange(winRatioNumber,
+                                                               viewModel.totalWinRate(yearExcluded: Date().getYear(), bankroll: .all)))
             }
             
             if hoursPlayed {
-                QuickMetricBox(title: "Hours Played", metric: viewModel.totalHoursPlayedHomeScreen())
+                QuickMetricBox(title: "Hours Played",
+                               metric: hoursPlayedNumber,
+                               percentageChange: 0)
             }
         }
         .frame(width: UIScreen.main.bounds.width * 0.85)
@@ -398,6 +424,12 @@ struct QuickMetricsBoxGrid: View {
             self.hoursPlayed = defaults.bool(forKey: "dashboardHoursPlayed")
         }
     }
+    
+    private func percentChange(_ newValue: Double, _ oldValue: Double) -> Double {
+        
+        (newValue - oldValue) / oldValue
+    }
+    
 }
 
 extension SessionsListViewModel {
