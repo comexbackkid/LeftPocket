@@ -15,8 +15,8 @@ struct BankrollLineChart: View {
     @State private var selectedIndex: Int?
     @State private var animationProgress: CGFloat = 0.0
     @State private var showChart: Bool = false
-    @AppStorage("sessionFilter") private var chartSessionFilter: SessionFilter = .all
     @State private var chartRange: RangeSelection = .all
+    @AppStorage("sessionFilter") private var chartSessionFilter: SessionFilter = .all
     
     // Optional year selector, only used in Annual Report View. Overrides dateRange if used
     var yearSelection: [PokerSession]?
@@ -58,12 +58,9 @@ struct BankrollLineChart: View {
                     
                     VStack (alignment: .leading, spacing: 0) {
                         Text("Player Profit")
-//                            .calloutStyle()
                             .cardTitleStyle()
-//                            .foregroundStyle(.secondary)
                         
                         let amountText: Int? = profitAnnotation
-//                        let defaultProfit = convertedData.last!
                         var defaultProfit: Int {
                             if selectedIndex == 0 {
                                 return convertedData.first!
@@ -84,21 +81,10 @@ struct BankrollLineChart: View {
                                             .animation(.default.speed(2), value: amountText)
                                     }
                                     
-//                                    if amountText != 0 {
-//                                        Image(systemName: "arrow.up.right")
-//                                            .font(.title2)
-//                                            .foregroundStyle(amountText > 0 ? .green : .red)
-//                                            .rotationEffect(.degrees(amountText < 0 ? 90 : 0))
-//                                            .animation(.default.speed(2), value: amountText)
-//                                    }
-                                    
                                     Text(amountText == 0 ? "\(abs(defaultProfit).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))" : "\(abs(amountText).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))")
                                         .font(.custom("Asap-Bold", size: 34))
                                         .foregroundStyle(amountText > 0 ? .green : amountText < 0 ? .red : defaultProfit > 0 ? .green : .red)
                                     
-//                                    Text(amountText == 0 ? "No Selection" : "\(amountText.formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))")
-//                                        .font(.custom("Asap-Bold", size: 24))
-//                                        .foregroundStyle(amountText > 0 ? .green : amountText < 0 ? .red : .secondary)
                                 }
                             }
                         }

@@ -152,7 +152,7 @@ struct NewStakesView: View {
                 addStakesIsShowing.toggle()
             } label: {
                 Text("Cancel")
-                    .bodyStyle()
+                    .buttonTextStyle()
             }
             .tint(.red)
         }

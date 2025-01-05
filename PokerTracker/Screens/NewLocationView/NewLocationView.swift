@@ -101,7 +101,7 @@ struct NewLocationView: View {
                             addLocationIsShowing.toggle()
                         } label: {
                             Text("Cancel")
-                                .bodyStyle()
+                                .buttonTextStyle()
                         }
                         .tint(.red)
                     }

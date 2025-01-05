@@ -35,7 +35,7 @@ struct QuickMetricBox: View {
                         .lineLimit(1)
                         .layoutPriority(1)
                     
-                    if percentageChange != 0.0 {
+                    if percentageChange != 0.0 && percentageChange.isFinite {
                         
                         HStack (spacing: 2) {
                             

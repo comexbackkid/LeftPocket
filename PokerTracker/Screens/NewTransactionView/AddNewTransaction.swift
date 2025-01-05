@@ -273,7 +273,7 @@ struct AddNewTransaction: View {
                 
             } label: {
                 Text("Cancel")
-                    .bodyStyle()
+                    .buttonTextStyle()
             }
             .tint(.red)
         }

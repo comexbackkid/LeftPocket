@@ -763,7 +763,7 @@ struct AddNewSessionView: View {
                 
             } label: {
                 Text("Cancel")
-                    .bodyStyle()
+                    .buttonTextStyle()
             }
             .tint(.red)
         }

@@ -756,7 +756,7 @@ struct EditSession: View {
                 
             } label: {
                 Text("Cancel")
-                    .bodyStyle()
+                    .buttonTextStyle()
             }
             .tint(.red)
         }
@@ -782,7 +782,7 @@ struct EditSession: View {
                 
             } label: {
                 Text("Cancel")
-                    .bodyStyle()
+                    .buttonTextStyle()
             }
             .tint(.red)
         }

@@ -457,6 +457,7 @@ extension SessionsListViewModel {
     func avgProfit(yearExcluded: String? = nil, range: RangeSelection = .all, bankroll: SessionFilter) -> Int {
         
         if let yearExcluded = yearExcluded {
+            guard !sessions.filter({ $0.date.getYear() != yearExcluded }).isEmpty else { return 0 }
             return tallyBankroll(yearExcluded: yearExcluded, bankroll: .all) / sessions.filter({ $0.date.getYear() != yearExcluded }).count
         } else {
             switch bankroll {
