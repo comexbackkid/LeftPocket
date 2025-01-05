@@ -76,14 +76,14 @@ struct BankrollLineChart: View {
                                     if selectedIndex != 0 {
                                         Image(systemName: "arrow.up.right")
                                             .font(.title2)
-                                            .foregroundStyle(amountText > 0 ? .green : amountText < 0 ? .red : defaultProfit > 0 ? .green : .red)
+                                            .foregroundStyle(amountText > 0 ? Color.lightGreen : amountText < 0 ? .red : defaultProfit > 0 ? Color.lightGreen : .red)
                                             .rotationEffect(.degrees(amountText > 0 ? 0 : amountText < 0 ? 90 : defaultProfit > 0 ? 0 : 90))
                                             .animation(.default.speed(2), value: amountText)
                                     }
                                     
                                     Text(amountText == 0 ? "\(abs(defaultProfit).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))" : "\(abs(amountText).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))")
                                         .font(.custom("Asap-Bold", size: 34))
-                                        .foregroundStyle(amountText > 0 ? .green : amountText < 0 ? .red : defaultProfit > 0 ? .green : .red)
+                                        .foregroundStyle(amountText > 0 ? Color.lightGreen : amountText < 0 ? .red : defaultProfit > 0 ? Color.lightGreen : .red)
                                     
                                 }
                             }

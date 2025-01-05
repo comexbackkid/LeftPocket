@@ -332,7 +332,7 @@ struct AllStats: View {
                 Spacer()
         
                 Text(totalBankroll, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(totalBankroll > 0 ? .green : totalBankroll < 0 ? .red : .primary)
+                    .foregroundColor(totalBankroll > 0 ? Color.lightGreen : totalBankroll < 0 ? .red : .primary)
             }
             
             Divider()
@@ -344,7 +344,7 @@ struct AllStats: View {
                 Spacer()
                 
                 Text(hourlyRate, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(hourlyRate > 0 ? .green : hourlyRate < 0 ? .red : .primary)
+                    .foregroundColor(hourlyRate > 0 ? Color.lightGreen : hourlyRate < 0 ? .red : .primary)
             }
             
             Divider()
@@ -356,7 +356,7 @@ struct AllStats: View {
                 Spacer()
                 
                 Text(profitPerSession, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(profitPerSession > 0 ? .green : profitPerSession < 0 ? .red : .primary)
+                    .foregroundColor(profitPerSession > 0 ? Color.lightGreen : profitPerSession < 0 ? .red : .primary)
             }
             
             Divider()
@@ -368,7 +368,7 @@ struct AllStats: View {
                 Spacer()
                 
                 Text(profitPer100, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(profitPer100 > 0 ? .green : profitPer100 < 0 ? .red : .primary)
+                    .foregroundColor(profitPer100 > 0 ? Color.lightGreen : profitPer100 < 0 ? .red : .primary)
             }
             
             Divider()
@@ -407,7 +407,7 @@ struct AllStats: View {
                 Spacer()
                 
                 Text(highHandBonus, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(highHandBonus > 0 ? .green : .primary)
+                    .foregroundColor(highHandBonus > 0 ? Color.lightGreen : .primary)
                                     
             }
             
@@ -504,7 +504,7 @@ struct CashStats: View {
                 Spacer()
                 
                 Text(cashBankroll, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(cashBankroll > 0 ? .green : cashBankroll < 0 ? .red : .primary)
+                    .foregroundColor(cashBankroll > 0 ? Color.lightGreen : cashBankroll < 0 ? .red : .primary)
             }
             
             Divider()
@@ -516,7 +516,7 @@ struct CashStats: View {
                 Spacer()
                 
                 Text(hourlyRate, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(hourlyRate > 0 ? .green : hourlyRate < 0 ? .red : .primary)
+                    .foregroundColor(hourlyRate > 0 ? Color.lightGreen : hourlyRate < 0 ? .red : .primary)
             }
             
             Divider()
@@ -528,7 +528,7 @@ struct CashStats: View {
                 Spacer()
                 
                 Text(profitPerSession, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(profitPerSession > 0 ? .green : profitPerSession < 0 ? .red : .primary)
+                    .foregroundColor(profitPerSession > 0 ? Color.lightGreen : profitPerSession < 0 ? .red : .primary)
             }
             
             Divider()
@@ -540,7 +540,7 @@ struct CashStats: View {
                 Spacer()
                 
                 Text(profitPer100, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(profitPer100 > 0 ? .green : profitPer100 < 0 ? .red : .primary)
+                    .foregroundColor(profitPer100 > 0 ? Color.lightGreen : profitPer100 < 0 ? .red : .primary)
             }
             
             Divider()
@@ -568,7 +568,7 @@ struct CashStats: View {
                 Spacer()
                 
                 Text(highHandBonus, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(highHandBonus > 0 ? .green : .primary)
+                    .foregroundColor(highHandBonus > 0 ? Color.lightGreen : .primary)
                                     
             }
             
@@ -684,7 +684,7 @@ struct TournamentStats: View {
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(tournamentProfit, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(tournamentProfit > 0 ? .green : tournamentProfit < 0 ? .red : .primary)
+                    .foregroundColor(tournamentProfit > 0 ? Color.lightGreen : tournamentProfit < 0 ? .red : .primary)
             }
             
             Divider()
@@ -694,7 +694,7 @@ struct TournamentStats: View {
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(tournamentHourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(tournamentHourlyRate > 0 ? .green : tournamentHourlyRate < 0 ? .red : .primary)
+                    .foregroundColor(tournamentHourlyRate > 0 ? Color.lightGreen : tournamentHourlyRate < 0 ? .red : .primary)
             }
             
             Divider()

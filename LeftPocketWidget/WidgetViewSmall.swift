@@ -98,12 +98,12 @@ struct WidgetViewSmall : View {
                     Image(systemName: "arrow.up.right")
                         .resizable()
                         .frame(width: 11, height: 11)
-                        .foregroundColor(entry.recentSessionAmount > 0 ? .green : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
+                        .foregroundColor(entry.recentSessionAmount > 0 ? Color.lightGreen : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
                         .rotationEffect(entry.recentSessionAmount >= 0 ? .degrees(0) : .degrees(90))
                 }
                 
                 Text(entry.recentSessionAmount, format: .currency(code: entry.currency).precision(.fractionLength(0)))
-                    .foregroundColor(entry.recentSessionAmount > 0 ? .green : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
+                    .foregroundColor(entry.recentSessionAmount > 0 ? Color.lightGreen : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
                     .font(.custom("Asap-Medium", size: 16, relativeTo: .caption2))
 
                 

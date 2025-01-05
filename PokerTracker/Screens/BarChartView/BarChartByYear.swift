@@ -59,14 +59,14 @@ struct BarChartByYear: View {
                                 
                                 if amount != 0 {
                                     Image(systemName: "arrow.up.right")
-                                        .foregroundStyle(amount > 0 ? .green : .red)
+                                        .foregroundStyle(amount > 0 ? Color.lightGreen : .red)
                                         .rotationEffect(.degrees(amount < 0 ? 90 : 0))
                                         .animation(.default.speed(2), value: amount)
                                 }
                                 
                                 Text("\(amount.formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))")
                                     .font(.custom("Asap-Medium", size: 17))
-                                    .foregroundStyle(amount > 0 ? .green : amount < 0 ? .red : .secondary)
+                                    .foregroundStyle(amount > 0 ? Color.lightGreen : amount < 0 ? .red : .secondary)
                                 
                                 Text("in \(month)")
                                     .font(.custom("Asap-Medium", size: 17))

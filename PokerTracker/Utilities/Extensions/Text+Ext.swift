@@ -62,6 +62,6 @@ extension Text {
     
     // Determine if integer is displayed green or red
     func profitColor(total: Int) -> some View {
-        self.foregroundColor( total > 0 ? .green : total < 0 ? .red : Color(.systemGray))
+        self.foregroundColor( total > 0 ? Color.lightGreen : total < 0 ? .red : Color(.systemGray))
     }
 }

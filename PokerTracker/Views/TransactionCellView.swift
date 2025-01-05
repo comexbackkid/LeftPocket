@@ -44,7 +44,7 @@ struct TransactionCellView: View {
             Text(transaction.amount, format: .currency(code: currency.rawValue).precision(.fractionLength(0)))
                 .subHeadlineStyle()
                 .bold()
-                .foregroundColor(transaction.type == .deposit ? .green : .red)
+                .foregroundColor(transaction.type == .deposit ? Color.lightGreen : .red)
         }
         .padding(.leading, 10)
         .padding(.vertical, 12)

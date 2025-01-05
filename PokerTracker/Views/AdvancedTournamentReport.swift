@@ -123,7 +123,7 @@ struct AdvancedTournamentReport: View {
                         .frame(width: 62, alignment: .trailing)
                     
                     Text(netProfit.currencyShortHand(vm.userCurrency))
-                        .foregroundStyle(netProfit > 0 ? .green : netProfit < 0 ? .red : .secondary)
+                        .foregroundStyle(netProfit > 0 ? Color.lightGreen : netProfit < 0 ? .red : .secondary)
                         .frame(width: 62, alignment: .trailing)
                     
                 }
