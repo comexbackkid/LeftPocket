@@ -61,7 +61,7 @@ struct WidgetViewSmall : View {
             HStack {
                 Text("Hourly Rate")
                     .foregroundColor(.secondary)
-                    .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
+                    .font(.custom("Asap-Regular", size: 12))
                 
                 Spacer()
             }
@@ -69,7 +69,7 @@ struct WidgetViewSmall : View {
             HStack {
                 Text(entry.hourlyRate, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                     .foregroundColor(.widgetForegroundText)
-                    .font(.custom("Asap-Medium", size: 18, relativeTo: .caption2))
+                    .font(.custom("Asap-Medium", size: 18))
                 
                 Spacer()
             }
@@ -79,14 +79,14 @@ struct WidgetViewSmall : View {
             HStack {
                 Text("Total Profit")
                     .foregroundColor(.secondary)
-                    .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
+                    .font(.custom("Asap-Regular", size: 12))
                 
                 Spacer()
             }
             HStack {
                 Text(entry.bankroll, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                     .foregroundColor(.widgetForegroundText)
-                    .font(.custom("Asap-Bold", size: 28, relativeTo: .title3))
+                    .font(.custom("Asap-Bold", size: 28))
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
 
@@ -104,7 +104,7 @@ struct WidgetViewSmall : View {
                 
                 Text(entry.recentSessionAmount, format: .currency(code: entry.currency).precision(.fractionLength(0)))
                     .foregroundColor(entry.recentSessionAmount > 0 ? Color.lightGreen : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
-                    .font(.custom("Asap-Medium", size: 16, relativeTo: .caption2))
+                    .font(.custom("Asap-Medium", size: 16))
 
                 
                 Spacer()

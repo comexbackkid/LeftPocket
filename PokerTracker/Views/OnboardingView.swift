@@ -31,8 +31,8 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).tag(1)
             
-            PageView(title: "Locations & Photos",
-                     subtitle: Text("Enter your own custom locations and header photos. Just navigate to the Settings \(Image(systemName: "gearshape.fill")) screen, tap on Locations, and then tap the \(Image(systemName: "plus")) button."),
+            PageView(title: "Add Locations & Photos",
+                     subtitle: Text("Enter your own custom locations and header photos. Just navigate to the Settings \(Image(systemName: "gearshape.fill")) screen, tap on Locations, and then press the \(Image(systemName: "plus")) button."),
                      imageName: "chart.line.uptrend.xyaxis",
                      videoURL: "custom-locations",
                      showDismissButton: false,
@@ -47,8 +47,8 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).tag(3)
             
-            PageView(title: "Health & Performance",
-                     subtitle: Text("Pro members have access to our one-of-a-kind Health Analytics suite that tracks sleep, mental wellbeing, & correlates your health data to your poker performance!"),
+            PageView(title: "Health & Mindfulness",
+                     subtitle: Text("Pro members have access to our one-of-a-kind Health Analytics suite that tracks sleep, mental wellbeing, & correlates your health data to your performance!"),
                      imageName: "paintbrush",
                      videoURL: "health-metrics",
                      showDismissButton: true,

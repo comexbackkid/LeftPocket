@@ -32,7 +32,7 @@ struct MonthlyReportTip: Tip {
     }
     
     var message: Text? {
-        Text("The \(Image(systemName: "dollarsign")) column is your net profit, \(Image(systemName: "gauge.high")) hourly rate, and \(Image(systemName: "clock")) your total hours.")
+        Text("The columns below, in order from left to right, represent your Net Profit \(Image(systemName: "dollarsign")), Hourly Rate \(Image(systemName: "gauge.high")), and Total Hours \(Image(systemName: "clock"))")
     }
     
     var image: Image? {
