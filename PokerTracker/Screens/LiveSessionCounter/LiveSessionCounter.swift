@@ -18,6 +18,7 @@ struct LiveSessionCounter: View {
     @State private var rebuyConfirmationSound = false
     @State private var audioPlayer: AVAudioPlayer?
     @State private var location: LocationModel?
+    @State private var sessionDefaultCounter = 0
     
     var body: some View {
         
@@ -78,7 +79,10 @@ struct LiveSessionCounter: View {
         })
         .padding(.horizontal)
         .onAppear { loadUserDefaults() }
-        .sheet(isPresented: $showSessionDefaultsView, onDismiss: { loadUserDefaults() }, content: {
+        .sheet(isPresented: $showSessionDefaultsView, onDismiss: {
+            sessionDefaultCounter += 1
+            loadUserDefaults()
+        }, content: {
             SessionDefaultsView(isPresentedAsSheet: .constant(true))
         })
     }
@@ -86,6 +90,7 @@ struct LiveSessionCounter: View {
     var locationImage: some View {
         
         VStack {
+            
             if let location {
                 if location.localImage != "" {
                     
@@ -94,10 +99,9 @@ struct LiveSessionCounter: View {
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 40, height: 40)
                         .clipShape(.rect(cornerRadius: 7))
-                } else {
                     
-                    if location.importedImage != nil {
-                        
+                } else if location.importedImage != nil {
+                    
                         if let photoData = location.importedImage, let uiImage = UIImage(data: photoData) {
                             Image(uiImage: uiImage)
                                 .resizable()
@@ -105,10 +109,16 @@ struct LiveSessionCounter: View {
                                 .frame(width: 40, height: 40)
                                 .clipShape(.rect(cornerRadius: 7))
                         }
-                    }
+                } else {
+                    Image("defaultlocation-header")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 40, height: 40)
+                        .clipShape(.rect(cornerRadius: 7))
                     
                 }
             } else {
+                
                 Image("defaultlocation-header")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -127,7 +137,7 @@ struct LiveSessionCounter: View {
                 .bold()
             
             if let location {
-                Text(location.name)
+                Text(location.name.isEmpty ? "Location Not Selected" : location.name)
                     .captionStyle()
                     .lineLimit(1)
                 
@@ -143,13 +153,20 @@ struct LiveSessionCounter: View {
         
         let defaults = UserDefaults.standard
         
-        guard
-            let encodedLocation = defaults.object(forKey: "locationDefault") as? Data,
-            let decodedLocation = try? JSONDecoder().decode(LocationModel.self, from: encodedLocation)
-                
-        else { return }
+        // Load Location
+        if let encodedLocation = defaults.object(forKey: "locationDefault") as? Data,
+           let decodedLocation = try? JSONDecoder().decode(LocationModel.self, from: encodedLocation) {
+            location = decodedLocation
+        } else {
+            location = LocationModel(name: "", localImage: "", imageURL: "")
+            print("No default location found.")
+        }
         
-        location = decodedLocation
+        // Load AskLiveSessionEachTime
+        let askLiveSessionEachTime = defaults.bool(forKey: "askLiveSessionEachTime")
+        if askLiveSessionEachTime && sessionDefaultCounter == 0 {
+            showSessionDefaultsView = true
+        }
     }
     
     private func playSound() {

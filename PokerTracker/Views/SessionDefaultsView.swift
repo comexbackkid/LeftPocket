@@ -17,8 +17,6 @@ struct SessionDefaultsView: View {
     
     @Binding var isPresentedAsSheet: Bool?
     
-    @AppStorage("askLiveSessionEachTime") private var askLiveSessionEachTime = false
-    
     @State private var askEachTimePopover = false
     @State private var sessionType: SessionType?
     @State private var location = LocationModel(name: "", localImage: "", imageURL: "")
@@ -30,7 +28,7 @@ struct SessionDefaultsView: View {
     @State private var showAlertModal = false
     @State private var addStakesIsShowing = false
     @State private var addLocationIsShowing = false
-    @State private var tempAskLiveSessionEachTime = false
+    @State private var askLiveSessionEachTime = false
     
     var body: some View {
             
@@ -46,6 +44,19 @@ struct SessionDefaultsView: View {
                     
                     saveDefaultsButton
                     
+                    if isPresentedAsSheet == true {
+                        Button(role: .cancel) {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                            dismiss()
+                            
+                        } label: {
+                            Text("Cancel")
+                                .buttonTextStyle()
+                        }
+                        .tint(.red)
+                    }
+                    
                     if let errorMessage {
                         
                         VStack {
@@ -57,21 +68,18 @@ struct SessionDefaultsView: View {
                                 .padding(.top, 1)
                                 .foregroundColor(.red)
                         }
-                        
                     }
                 }
+                .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
                 .background(Color.brandBackground)
+                .padding(.bottom, 20)
             }
             .onAppear {
                 loadUserDefaults()
             }
-            .onDisappear {
-                tempAskLiveSessionEachTime = askLiveSessionEachTime
-            }
             .background(Color.brandBackground)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { resetDefaultsButton }
-            
             .sheet(isPresented: $showAlertModal, content: {
                 AlertModal(message: resultMessage)
                     .presentationDetents([.height(210)])
@@ -119,7 +127,7 @@ struct SessionDefaultsView: View {
         VStack (alignment: .leading) {
             
             HStack {
-                Text("Set your default settings here. These values will automatically populate every time you log a completed Session, or start a Live Session.")
+                Text("Set your default Session info here. These values will automatically pre-populate whenever you log a completed Session, or start a Live Session.")
                     .bodyStyle()
                 
                 Spacer()
@@ -414,7 +422,7 @@ struct SessionDefaultsView: View {
                 }
                 .buttonStyle(.plain)
                 .popover(isPresented: $askEachTimePopover, arrowEdge: .bottom, content: {
-                    PopoverView(bodyText: "Every time you begin a Live Session, you'll be prompted to enter all the details from your Session.")
+                    PopoverView(bodyText: "Every time you begin a Live Session, you'll be prompted to enter all the Session details from the start. You can always change them later.")
                         .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                         .frame(height: 130)
                         .dynamicTypeSize(.medium...DynamicTypeSize.medium)
@@ -425,7 +433,7 @@ struct SessionDefaultsView: View {
                     
                 Spacer()
                 
-                Toggle(isOn: $tempAskLiveSessionEachTime) {
+                Toggle(isOn: $askLiveSessionEachTime) {
                     // No label necessary
                 }
                 .tint(.brandPrimary)
@@ -446,9 +454,9 @@ struct SessionDefaultsView: View {
             vm.writeToWidget()
             
         } label: {
-            PrimaryButton(title: "Save Defaults")
+            PrimaryButton(title: "Save")
         }
-        .padding(.bottom, 20)
+        .padding(.top)
         
     }
     
@@ -473,6 +481,7 @@ struct SessionDefaultsView: View {
         stakes = ""
         game = ""
         currency = .USD
+        askLiveSessionEachTime = false
         
         let defaults = UserDefaults.standard
         let resetResult = Result {
@@ -482,6 +491,7 @@ struct SessionDefaultsView: View {
             defaults.removeObject(forKey: "stakesDefault")
             defaults.removeObject(forKey: "gameDefault")
             defaults.removeObject(forKey: "currencyDefault")
+            defaults.removeObject(forKey: "askLiveSessionEachTime")
         }
         
         switch resetResult {
@@ -494,7 +504,6 @@ struct SessionDefaultsView: View {
     
     private func saveToUserDefaults() {
         
-        askLiveSessionEachTime = tempAskLiveSessionEachTime
         let defaults = UserDefaults.standard
         let saveResult = Result {
             
@@ -512,6 +521,7 @@ struct SessionDefaultsView: View {
             
             defaults.set(stakes, forKey: "stakesDefault")
             defaults.set(game, forKey: "gameDefault")
+            defaults.set(askLiveSessionEachTime, forKey: "askLiveSessionEachTime")
             vm.loadCurrency()
         }
         
@@ -529,39 +539,34 @@ struct SessionDefaultsView: View {
         
         let defaults = UserDefaults.standard
         
-        guard
-            let encodedCurrency = defaults.object(forKey: "currencyDefault") as? Data,
-            let decodedCurrency = try? JSONDecoder().decode(CurrencyType.self, from: encodedCurrency)
-                
-        else { return }
+        // Load Currency
+        if let encodedCurrency = defaults.object(forKey: "currencyDefault") as? Data,
+           let decodedCurrency = try? JSONDecoder().decode(CurrencyType.self, from: encodedCurrency) {
+            currency = decodedCurrency
+        } else {
+            currency = .USD // Provide a default value if missing
+        }
         
-        currency = decodedCurrency
+        // Load Session Type
+        if let encodedSessionType = defaults.object(forKey: "sessionTypeDefault") as? Data,
+           let decodedSessionType = try? JSONDecoder().decode(SessionType.self, from: encodedSessionType) {
+            sessionType = decodedSessionType
+        } else {
+            sessionType = nil // Handle missing session type
+        }
         
-        guard
-            let encodedSessionType = defaults.object(forKey: "sessionTypeDefault") as? Data,
-            let decodedSessionType = try? JSONDecoder().decode(SessionType.self, from: encodedSessionType)
-                
-        else { return }
+        // Load Location
+        if let encodedLocation = defaults.object(forKey: "locationDefault") as? Data,
+           let decodedLocation = try? JSONDecoder().decode(LocationModel.self, from: encodedLocation) {
+            location = decodedLocation
+        } else {
+            location = LocationModel(name: "", localImage: "", imageURL: "")
+        }
         
-        sessionType = decodedSessionType
-        
-        guard
-            let encodedLocation = defaults.object(forKey: "locationDefault") as? Data,
-            let decodedLocation = try? JSONDecoder().decode(LocationModel.self, from: encodedLocation)
-                
-        else { return }
-        
-        location = decodedLocation
-        
-        guard
-            let encodedStakes = defaults.string(forKey: "stakesDefault"),
-            let encodedGame = defaults.string(forKey: "gameDefault")
-                
-        else { return }
-        
-        stakes = encodedStakes
-        game = encodedGame
-        tempAskLiveSessionEachTime = askLiveSessionEachTime
+        // Load Stakes and Game
+        stakes = defaults.string(forKey: "stakesDefault") ?? ""
+        game = defaults.string(forKey: "gameDefault") ?? ""
+        askLiveSessionEachTime = defaults.bool(forKey: "askLiveSessionEachTime")
     }
 }
 

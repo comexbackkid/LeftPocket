@@ -36,6 +36,7 @@ struct LeftPocketCustomTabBar: View {
     @State private var showBuyInScreen = false
     @State private var activity: Activity<LiveSessionWidgetAttributes>?
     @State private var buyInConfirmationSound = false
+    @State private var showSessionDefaultsView = false
     
     var isCounting: Bool {
         timerViewModel.isCounting
@@ -298,6 +299,9 @@ struct LeftPocketCustomTabBar: View {
                 .presentationBackground(.ultraThinMaterial)
                 .interactiveDismissDisabled()
         })
+        .sheet(isPresented: $showSessionDefaultsView) {
+            SessionDefaultsView(isPresentedAsSheet: .constant(true))
+        }
     }
     
     func playSound() {
