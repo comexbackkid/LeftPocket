@@ -90,7 +90,7 @@ struct UserSettings: View {
                             HStack {
                                 Spacer()
                                 VStack {
-                                    Text("Try Left Pocket Pro FREE 🎁")
+                                    Text("⚡️ Try Left Pocket Pro FREE ⚡️")
                                         .subtitleStyle()
                                         .foregroundStyle(.white)
                                     

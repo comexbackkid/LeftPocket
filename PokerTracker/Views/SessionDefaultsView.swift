@@ -11,10 +11,15 @@ struct SessionDefaultsView: View {
     
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var vm: SessionsListViewModel
+    
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     
     @Binding var isPresentedAsSheet: Bool?
     
+    @AppStorage("askLiveSessionEachTime") private var askLiveSessionEachTime = false
+    
+    @State private var askEachTimePopover = false
     @State private var sessionType: SessionType?
     @State private var location = LocationModel(name: "", localImage: "", imageURL: "")
     @State private var stakes = ""
@@ -25,6 +30,7 @@ struct SessionDefaultsView: View {
     @State private var showAlertModal = false
     @State private var addStakesIsShowing = false
     @State private var addLocationIsShowing = false
+    @State private var tempAskLiveSessionEachTime = false
     
     var body: some View {
             
@@ -58,6 +64,9 @@ struct SessionDefaultsView: View {
             }
             .onAppear {
                 loadUserDefaults()
+            }
+            .onDisappear {
+                tempAskLiveSessionEachTime = askLiveSessionEachTime
             }
             .background(Color.brandBackground)
             .navigationBarTitleDisplayMode(.inline)
@@ -383,6 +392,45 @@ struct SessionDefaultsView: View {
             }
             .padding(.bottom, 10)
             
+            HStack {
+                
+                Image(systemName: "questionmark.bubble.fill")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30)
+                
+                
+                
+                Text("Ask Each Time")
+                    .bodyStyle()
+                    .padding(.leading, 4)
+                
+                Button {
+                    askEachTimePopover = true
+                } label: {
+                    Image(systemName: "info.circle")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.brandPrimary)
+                }
+                .buttonStyle(.plain)
+                .popover(isPresented: $askEachTimePopover, arrowEdge: .bottom, content: {
+                    PopoverView(bodyText: "Every time you begin a Live Session, you'll be prompted to enter all the details from your Session.")
+                        .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                        .frame(height: 130)
+                        .dynamicTypeSize(.medium...DynamicTypeSize.medium)
+                        .presentationCompactAdaptation(.popover)
+                        .preferredColorScheme(colorScheme == .dark ? .dark : .light)
+                        .shadow(radius: 10)
+                })
+                    
+                Spacer()
+                
+                Toggle(isOn: $tempAskLiveSessionEachTime) {
+                    // No label necessary
+                }
+                .tint(.brandPrimary)
+            }
+            
         }
         .padding(.horizontal, 25)
         .padding(.top, 5)
@@ -446,6 +494,7 @@ struct SessionDefaultsView: View {
     
     private func saveToUserDefaults() {
         
+        askLiveSessionEachTime = tempAskLiveSessionEachTime
         let defaults = UserDefaults.standard
         let saveResult = Result {
             
@@ -512,6 +561,7 @@ struct SessionDefaultsView: View {
         
         stakes = encodedStakes
         game = encodedGame
+        tempAskLiveSessionEachTime = askLiveSessionEachTime
     }
 }
 
