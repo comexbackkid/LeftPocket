@@ -73,7 +73,7 @@ struct BankrollLineChart: View {
                             if let amountText {
                                 HStack (alignment: .firstTextBaseline, spacing: 5) {
                                     
-                                    if selectedIndex != 0 {
+                                    if selectedIndex != 0 && !dateRange.isEmpty {
                                         Image(systemName: "arrow.up.right")
                                             .font(.title2)
                                             .foregroundStyle(amountText > 0 ? Color.lightGreen : amountText < 0 ? .red : defaultProfit > 0 ? Color.lightGreen : .red)
@@ -203,6 +203,7 @@ struct BankrollLineChart: View {
                     .offset(y: -20)
                 }
             }
+            .allowsHitTesting(cumulativeProfitArray.isEmpty ? false : true)
         }
     }
     
