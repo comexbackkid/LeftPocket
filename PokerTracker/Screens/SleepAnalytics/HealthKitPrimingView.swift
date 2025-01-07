@@ -16,7 +16,7 @@ struct HealthKitPrimingView: View {
     @Binding var hasSeen: Bool
     
     var description = """
-    Left Pocket Pro has the ability to read from your saved health data, specifically sleep & mindfulness numbers, and displays them in chart form.
+    Left Pocket Pro has the ability to read from your saved health data, specifically sleep & mindfulness numbers, and displays them in chart form for your own further evaluation.
 
     
     Your data is private and secure, and is not shared with anyone. You can always turn off sharing from your iOS Settings later.

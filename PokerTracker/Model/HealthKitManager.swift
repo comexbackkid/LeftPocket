@@ -44,7 +44,6 @@ class HealthKitManager: ObservableObject {
                         self.authorizationStatus = .sharingAuthorized
                     case .shouldRequest:
                         self.authorizationStatus = .notDetermined
-                        self.requestAuthorization()
                     case .unknown:
                         self.authorizationStatus = .sharingDenied
                     @unknown default:
