@@ -53,101 +53,96 @@ struct LeftPocketLiveSessionTimer: Widget {
     }
     
     @DynamicIslandExpandedContentBuilder
-//    private func expandedContent(contentState: LiveSessionWidgetAttributes.ContentState, isStale: Bool) -> DynamicIslandExpandedContent<some View> {
-//        
-//        // Account for the different Region sizes here
-//        DynamicIslandExpandedRegion(.leading, priority: 1) {
-//            VStack (alignment: .leading) {
-//
-//                Text(contentState.startTime, style: .relative)
-//                    .lineLimit(1)
-//                    .font(.custom("Asap-Bold", size: 25, relativeTo: .title2))
-//
-//                
-//                Text("Playing at Encore Boston Harbor")
-//                    .font(.custom("Asap-Regular", size: 15, relativeTo: .caption))
-//                    .foregroundColor(.secondary)
-//                    
-//            }
-//            .dynamicIsland(verticalPlacement: .belowIfTooWide)
-//            .padding(.leading, 5)
-//        }
-//
-//        
-//        
-//        
-//        DynamicIslandExpandedRegion(.trailing) {
-////            HStack {
-////                Image("logo-tiny")
-////                    .resizable()
-////                    .clipShape(Circle())
-////                    .aspectRatio(contentMode: .fit)
-////                    .frame(width: 80, height: 80)
-////                
-////            }
-//        }
-//        
-////        DynamicIslandExpandedRegion(.center) {
-////            Text("Left Pocket")
-////                .lineLimit(1)
-////                .font(.custom("Asap-Regular", size: 18))
-////                .dynamicIsland(verticalPlacement: .belowIfTooWide)
-////                
-////        }
-//        
-//        
-//        
-//        
-////        DynamicIslandExpandedRegion(.bottom) {
-////            
-////            VStack (alignment: .leading) {
-////                
-////                HStack {
-////                    
-////                    Text(contentState.startTime, style: .relative)
-////                        .lineLimit(1)
-////                        .font(.custom("Asap-Bold", size: 25, relativeTo: .title2))
-////                }
-////                
-////                Text("Playing at Encore Boston Harbor")
-////                    .font(.custom("Asap-Regular", size: 15, relativeTo: .caption))
-////                    .foregroundColor(.secondary)
-////                    
-////            }
-////            .dynamicIsland(verticalPlacement: .belowIfTooWide)
-////            .padding(.leading, 5)
-////        }
-//    }
-    
     private func expandedContent(contentState: LiveSessionWidgetAttributes.ContentState, isStale: Bool) -> DynamicIslandExpandedContent<some View> {
         
-        // Account for the different Region sizes here
+        // LEADING
         DynamicIslandExpandedRegion(.leading) {
-            VStack (alignment: .leading) {
-                
-                Text("Live Session")
-                    .font(.custom("Asap-Regular", size: 13, relativeTo: .caption))
-                    .foregroundColor(.secondary)
-                
-                Text(contentState.startTime, style: .timer)
-                    .lineLimit(1)
-                    .font(.custom("Asap-Bold", size: 28, relativeTo: .title))
-                    .dynamicIsland(verticalPlacement: .belowIfTooWide)
+            VStack {
+                Spacer()
+                Image(systemName: "timer")
+                    .resizable()
+                    .bold()
+                    .foregroundStyle(Color.lightGreen)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 60, height: 60)
             }
-            .frame(maxHeight: 50)
-            .padding(.leading, 5)
         }
         
+        // TRAILING
         DynamicIslandExpandedRegion(.trailing) {
-            HStack {
+            VStack {
+                Spacer()
                 Image("logo-tiny")
                     .resizable()
                     .clipShape(Circle())
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 50, height: 50)
+                    .frame(width: 60, height: 60)
+                
             }
         }
+        
+        // CENTER
+        DynamicIslandExpandedRegion(.center) {
+            VStack {
+                Text("Left Pocket")
+                    .lineLimit(1)
+                    .font(.custom("Asap-Bold", size: 30))
+                    
+                Text("Session began \(contentState.startTime.formatted(date: .omitted, time: .shortened))")
+                    .font(.custom("Asap-Regular", size: 14, relativeTo: .caption))
+                    .foregroundColor(.secondary)
+            }
+            .dynamicTypeSize(...DynamicTypeSize.large)
+            .dynamicIsland(verticalPlacement: .belowIfTooWide)
+        }
+
+        // BOTTOM
+        DynamicIslandExpandedRegion(.bottom) {
+            
+            VStack (alignment: .leading) {
+                Spacer()
+                HStack {
+                    Text(contentState.startTime, style: .relative)
+                        .lineLimit(1)
+                        .font(.custom("Asap-Regular", size: 24))
+                }
+            }
+            .dynamicTypeSize(...DynamicTypeSize.large)
+            .padding(.bottom, 3)
+        }
+        
+        
     }
+    
+//    private func expandedContent(contentState: LiveSessionWidgetAttributes.ContentState, isStale: Bool) -> DynamicIslandExpandedContent<some View> {
+//        
+//        // Account for the different Region sizes here
+//        DynamicIslandExpandedRegion(.leading) {
+//            VStack (alignment: .leading) {
+//                
+//                Text("Live Session")
+//                    .font(.custom("Asap-Regular", size: 13, relativeTo: .caption))
+//                    .foregroundColor(.secondary)
+//                
+//                Text(contentState.startTime, style: .timer)
+//                    .lineLimit(1)
+//                    .font(.custom("Asap-Bold", size: 28, relativeTo: .title))
+//                    .dynamicIsland(verticalPlacement: .belowIfTooWide)
+//            }
+//            .frame(maxHeight: 50)
+//            .padding(.leading, 5)
+//        }
+//        
+//        DynamicIslandExpandedRegion(.trailing) {
+//            HStack {
+//                Image("logo-tiny")
+//                    .resizable()
+//                    .clipShape(Circle())
+//                    .aspectRatio(contentMode: .fit)
+//                    .frame(width: 50, height: 50)
+//            }
+//        }
+//    }
 }
 
 struct LiveSessionTimerView: View {
@@ -203,7 +198,7 @@ struct LocationActivityView_Previews: PreviewProvider {
     
     static var previews: some View {
         LiveSessionWidgetAttributes(eventDescription: "Live Session")
-//            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .dynamicIsland(.expanded))
-            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .content)
+            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .dynamicIsland(.expanded))
+//            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .content)
     }
 }
