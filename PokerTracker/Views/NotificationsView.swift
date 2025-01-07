@@ -19,6 +19,7 @@ struct NotificationsView: View {
     var body: some View {
         
         ScrollView {
+            
             VStack (alignment: .leading) {
                 
                 title
@@ -67,7 +68,7 @@ struct NotificationsView: View {
     
     var description: some View {
         
-        Text("Left Pocket can send a notification every couple of hours checking in on how you're playing during a live session. Tap the button below to allow notifications.")
+        Text("Left Pocket can help make sure you're fresh & on top of your game during Live Sessions with gentle reminders & check ins. Tap the button below to allow notifications.")
             .bodyStyle()
             .padding(.horizontal)
             .padding(.bottom)
