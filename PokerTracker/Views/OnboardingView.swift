@@ -13,6 +13,8 @@ import AVKit
 struct OnboardingView: View {
     
     @EnvironmentObject var subManager: SubscriptionManager
+    @EnvironmentObject var hkManager: HealthKitManager
+
     @Binding var shouldShowOnboarding: Bool
     @State private var selectedPage: Int = 0
     @State private var showPaywall = false
@@ -52,7 +54,7 @@ struct OnboardingView: View {
                      imageName: "paintbrush",
                      videoURL: "health-metrics",
                      showDismissButton: true,
-                     nextAction: { showPaywall = true },
+                     nextAction: { hkManager.requestAuthorization() },
                      shouldShowOnboarding: $shouldShowOnboarding).tag(4)
         }
         .dynamicTypeSize(...DynamicTypeSize.large)
@@ -60,6 +62,13 @@ struct OnboardingView: View {
         .tabViewStyle(PageTabViewStyle())
         .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
         .preferredColorScheme(.dark)
+        .onChange(of: hkManager.authorizationStatus, perform: { state in
+            if state != .notDetermined {
+                showPaywall = true
+            } else {
+                showPaywall = true
+            }
+        })
         .sheet(isPresented: $showPaywall) {
             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
                 .dynamicTypeSize(.medium...DynamicTypeSize.large)
@@ -206,5 +215,7 @@ struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
         OnboardingView(shouldShowOnboarding: .constant(true))
             .environmentObject(SubscriptionManager())
+            .environmentObject(HealthKitManager())
+
     }
 }
