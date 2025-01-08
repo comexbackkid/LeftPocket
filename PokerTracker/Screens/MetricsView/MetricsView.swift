@@ -333,6 +333,7 @@ struct AllStats: View {
         
                 Text(totalBankroll, format: .currency(code: currencyType).precision(.fractionLength(0)))
                     .foregroundColor(totalBankroll > 0 ? Color.lightGreen : totalBankroll < 0 ? .red : .primary)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -345,6 +346,7 @@ struct AllStats: View {
                 
                 Text(hourlyRate, format: .currency(code: currencyType).precision(.fractionLength(0)))
                     .foregroundColor(hourlyRate > 0 ? Color.lightGreen : hourlyRate < 0 ? .red : .primary)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -357,6 +359,7 @@ struct AllStats: View {
                 
                 Text(profitPerSession, format: .currency(code: currencyType).precision(.fractionLength(0)))
                     .foregroundColor(profitPerSession > 0 ? Color.lightGreen : profitPerSession < 0 ? .red : .primary)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -369,6 +372,7 @@ struct AllStats: View {
                 
                 Text(profitPer100, format: .currency(code: currencyType).precision(.fractionLength(0)))
                     .foregroundColor(profitPer100 > 0 ? Color.lightGreen : profitPer100 < 0 ? .red : .primary)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -380,6 +384,7 @@ struct AllStats: View {
                 Spacer()
                 
                 Text(avgROI)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -408,6 +413,7 @@ struct AllStats: View {
                 
                 Text(highHandBonus, format: .currency(code: currencyType).precision(.fractionLength(0)))
                     .foregroundColor(highHandBonus > 0 ? Color.lightGreen : .primary)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
                                     
             }
             
@@ -420,6 +426,7 @@ struct AllStats: View {
                 Spacer()
                 
                 Text(avgDuration)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -431,6 +438,7 @@ struct AllStats: View {
                 Spacer()
                 
                 Text("\(totalSessions)")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -442,6 +450,7 @@ struct AllStats: View {
                 Spacer()
                 
                 Text(totalWinRate.asPercent())
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -453,6 +462,7 @@ struct AllStats: View {
                 Spacer()
                 
                 Text("\(handsPlayed)")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -464,6 +474,7 @@ struct AllStats: View {
                 Spacer()
                 
                 Text(totalHours)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
         }
         .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
@@ -505,6 +516,7 @@ struct CashStats: View {
                 
                 Text(cashBankroll, format: .currency(code: currencyType).precision(.fractionLength(0)))
                     .foregroundColor(cashBankroll > 0 ? Color.lightGreen : cashBankroll < 0 ? .red : .primary)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -517,6 +529,7 @@ struct CashStats: View {
                 
                 Text(hourlyRate, format: .currency(code: currencyType).precision(.fractionLength(0)))
                     .foregroundColor(hourlyRate > 0 ? Color.lightGreen : hourlyRate < 0 ? .red : .primary)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -529,6 +542,7 @@ struct CashStats: View {
                 
                 Text(profitPerSession, format: .currency(code: currencyType).precision(.fractionLength(0)))
                     .foregroundColor(profitPerSession > 0 ? Color.lightGreen : profitPerSession < 0 ? .red : .primary)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -541,6 +555,7 @@ struct CashStats: View {
                 
                 Text(profitPer100, format: .currency(code: currencyType).precision(.fractionLength(0)))
                     .foregroundColor(profitPer100 > 0 ? Color.lightGreen : profitPer100 < 0 ? .red : .primary)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -569,6 +584,7 @@ struct CashStats: View {
                 
                 Text(highHandBonus, format: .currency(code: currencyType).precision(.fractionLength(0)))
                     .foregroundColor(highHandBonus > 0 ? Color.lightGreen : .primary)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
                                     
             }
             
@@ -600,6 +616,7 @@ struct CashStats: View {
                 Spacer()
                 
                 Text("\(viewModel.bbPerHour(range: range), specifier: "%.2f")")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -609,6 +626,7 @@ struct CashStats: View {
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(avgDuration)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -618,6 +636,7 @@ struct CashStats: View {
                     .foregroundColor(.secondary)
                 Spacer()
                 Text("\(cashWinCount) of \(totalSessions)")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -629,6 +648,7 @@ struct CashStats: View {
                 Spacer()
                 
                 Text(cashWinRate.asPercent())
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -640,6 +660,7 @@ struct CashStats: View {
                 Spacer()
                 
                 Text("\(handsPlayed)")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -651,12 +672,11 @@ struct CashStats: View {
                 Spacer()
                 
                 Text(cashTotalHours)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
         }
         .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
     }
-    
-    
 }
 
 struct TournamentStats: View {
@@ -685,6 +705,7 @@ struct TournamentStats: View {
                 Spacer()
                 Text(tournamentProfit, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .foregroundColor(tournamentProfit > 0 ? Color.lightGreen : tournamentProfit < 0 ? .red : .primary)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -695,6 +716,7 @@ struct TournamentStats: View {
                 Spacer()
                 Text(tournamentHourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .foregroundColor(tournamentHourlyRate > 0 ? Color.lightGreen : tournamentHourlyRate < 0 ? .red : .primary)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -704,6 +726,7 @@ struct TournamentStats: View {
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(tournamentAvgDuration)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -713,6 +736,7 @@ struct TournamentStats: View {
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(avgTournamentBuyIn, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -722,6 +746,7 @@ struct TournamentStats: View {
                     .foregroundColor(.secondary)
                 Spacer()
                 Text("\(tournamentCount)")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -731,6 +756,7 @@ struct TournamentStats: View {
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(itmRatio)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -740,6 +766,7 @@ struct TournamentStats: View {
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(tournamentROI)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -751,6 +778,7 @@ struct TournamentStats: View {
                 Spacer()
                 
                 Text("\(handsPlayed)")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -760,6 +788,7 @@ struct TournamentStats: View {
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(tournamentHrsPlayed)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
         }
         .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
