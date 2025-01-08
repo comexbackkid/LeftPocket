@@ -45,7 +45,7 @@ struct ContentView: View {
                     
                     recentSessionCard
                     
-                    sleepAnalyticsCard
+                    healthAnalyticsCard
 
                     Spacer()
                 }
@@ -58,7 +58,7 @@ struct ContentView: View {
             switch sheet {
             case .productUpdates: ProductUpdates(activeSheet: $activeSheet)
             case .recentSession: SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
-            case .sleepAnalytics: SleepAnalytics(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
+            case .healthAnalytics: SleepAnalytics(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
             case .metricsAsSheet: MetricsView(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
             }
         }
@@ -199,46 +199,42 @@ struct ContentView: View {
         .buttonStyle(CardViewButtonStyle())
     }
     
-    var sleepAnalyticsCard: some View {
+    var healthAnalyticsCard: some View {
         
         Button(action: {
             
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
-            if subManager.isSubscribed {
-                activeSheet = .sleepAnalytics
-            } else {
-                showPaywall = true
-            }
+            activeSheet = .healthAnalytics
         
         }, label: {
             
             SleepCardView()
         })
         .buttonStyle(CardViewButtonStyle())
-        .sheet(isPresented: $showPaywall, content: {
-            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                .dynamicTypeSize(.medium...DynamicTypeSize.large)
-                .overlay {
-                    HStack {
-                        Spacer()
-                        VStack {
-                            DismissButton()
-                                .padding()
-                                .onTapGesture {
-                                    showPaywall = false
-                            }
-                            Spacer()
-                        }
-                    }
-                }
-        })
-        .task {
-            for await customerInfo in Purchases.shared.customerInfoStream {
-                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
-                await subManager.checkSubscriptionStatus()
-            }
-        }
+//        .sheet(isPresented: $showPaywall, content: {
+//            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+//                .dynamicTypeSize(.medium...DynamicTypeSize.large)
+//                .overlay {
+//                    HStack {
+//                        Spacer()
+//                        VStack {
+//                            DismissButton()
+//                                .padding()
+//                                .onTapGesture {
+//                                    showPaywall = false
+//                            }
+//                            Spacer()
+//                        }
+//                    }
+//                }
+//        })
+//        .task {
+//            for await customerInfo in Purchases.shared.customerInfoStream {
+//                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+//                await subManager.checkSubscriptionStatus()
+//            }
+//        }
     }
     
     var bankrollView: some View {
@@ -451,7 +447,7 @@ extension SessionsListViewModel {
 
 enum Sheet: String, Identifiable {
     
-    case productUpdates, recentSession, sleepAnalytics, metricsAsSheet
+    case productUpdates, recentSession, healthAnalytics, metricsAsSheet
     
     var id: String {
         rawValue

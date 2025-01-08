@@ -310,7 +310,8 @@ struct MindfulnessAnalytics: View {
                         .foregroundStyle(.secondary)
                         .padding(.bottom, 10)
                     
-                    Text("Check permissions in iOS Settings, or begin a meditation below.")
+                    // Put a check here, and if they DO have permission, but not logged a meditation
+                    Text("Check permissions in iOS Settings.")
                         .calloutStyle()
                         .foregroundStyle(.secondary)
                 }

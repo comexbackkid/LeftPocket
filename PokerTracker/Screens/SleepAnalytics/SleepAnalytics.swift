@@ -9,18 +9,22 @@ import SwiftUI
 import HealthKit
 import HealthKitUI
 import Charts
+import RevenueCat
+import RevenueCatUI
 
 struct SleepAnalytics: View {
     
     @AppStorage("hasSeenPermissionPriming") private var hasSeenPermissionPriming = false
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var hkManager: HealthKitManager
+    @EnvironmentObject var subManager: SubscriptionManager
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
     
     @State private var isShowingPermissionPrimingSheet = false
     @State private var trigger = false
     @State private var showError = false
+    @State private var showPaywall = false
     @State private var howThisWorksPopup = false
     @State private var numbersLookOffPopup = false
     @State private var comparisonPopup = false
@@ -62,6 +66,12 @@ struct SleepAnalytics: View {
                             
                             selectedSessionStats
                             
+                            Button {
+                                showPaywall = true
+                            } label: {
+                                PrimaryButton(title: "Upgrade to Left Pocket Pro")
+                            }
+                            
                             if #available(iOS 17.0, *) {
                                 sleepChart
                                 
@@ -69,11 +79,14 @@ struct SleepAnalytics: View {
                                                         
                             ToolTipView(image: "bed.double.fill",
                                         message: "In the last month, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 || countLowSleepSessions() < 1  ? "s" : "") under-rested.",
-                                        color: .donutChartOrange)
+                                        color: .donutChartOrange,
+                                        premium: subManager.isSubscribed ? false : true)
+                            
                             
                             ToolTipView(image: "gauge",
                                         message: performanceComparison(),
-                                        color: .chartAccent)
+                                        color: .chartAccent,
+                                        premium: subManager.isSubscribed ? false : true)
                             
                             NavigationLink(destination: MindfulnessAnalytics()) {
                                 mindfulnessCard
@@ -84,20 +97,20 @@ struct SleepAnalytics: View {
                         .navigationTitle("")
                         .padding(.bottom, 50)
                         .padding(.top)
-                        .onAppear {
-                            isShowingPermissionPrimingSheet = !hasSeenPermissionPriming
-                        }
-                        .sheet(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
-                            Task { await handleAuthorizationChecksAndDataFetch() }
-                        }, content: {
-                            HealthKitPrimingView(hasSeen: $hasSeenPermissionPriming)
-                        })
-                        .padding(.bottom, activeSheet == .sleepAnalytics ? 0 : 40)
+//                        .onAppear {
+//                            isShowingPermissionPrimingSheet = !hasSeenPermissionPriming
+//                        }
+//                        .sheet(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
+//                            Task { await handleAuthorizationChecksAndDataFetch() }
+//                        }, content: {
+//                            HealthKitPrimingView(hasSeen: $hasSeenPermissionPriming)
+//                        })
+                        .padding(.bottom, activeSheet == .healthAnalytics ? 0 : 40)
                     }
                 }
                 .background(Color.brandBackground)
                 
-                if activeSheet == .sleepAnalytics { dismissButton }
+                if activeSheet == .healthAnalytics { dismissButton }
             }
             .task { await handleAuthorizationChecksAndDataFetch() }
             .onChange(of: hkManager.errorMsg, perform: { _ in
@@ -107,6 +120,29 @@ struct SleepAnalytics: View {
                 Alert(title: Text("Uh oh!"), 
                       message: Text(hkManager.errorMsg ?? "An unknown error occurred."),
                       dismissButton: .default(Text("Ok")))
+            }
+            .sheet(isPresented: $showPaywall, content: {
+                PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                    .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                    .overlay {
+                        HStack {
+                            Spacer()
+                            VStack {
+                                DismissButton()
+                                    .padding()
+                                    .onTapGesture {
+                                        showPaywall = false
+                                }
+                                Spacer()
+                            }
+                        }
+                    }
+            })
+            .task {
+                for await customerInfo in Purchases.shared.customerInfoStream {
+                    showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                    await subManager.checkSubscriptionStatus()
+                }
             }
         }
         .tint(.brandPrimary)
@@ -122,7 +158,7 @@ struct SleepAnalytics: View {
             Spacer()
         }
         .padding(.horizontal)
-        .padding(.top, activeSheet == .sleepAnalytics ? 30 : 0)
+        .padding(.top, activeSheet == .healthAnalytics ? 30 : 0)
     }
     
     var instructions: some View {
@@ -130,7 +166,7 @@ struct SleepAnalytics: View {
         VStack (alignment: .leading, spacing: 20) {
             
             HStack {
-                Text("Gain a deeper understanding of how your health habits affect your game. Start by assessing your sleep numbers, mindfulness, and mood below.")
+                Text("Gain a deeper understanding of how your health habits affect your poker game. Start by assessing your sleep numbers and mindful minutes below.")
                     .bodyStyle()
                 
                 Spacer()
@@ -153,7 +189,7 @@ struct SleepAnalytics: View {
                 .foregroundStyle(Color.brandPrimary)
             }
             .popover(isPresented: $howThisWorksPopup, arrowEdge: .bottom, content: {
-                PopoverView(bodyText: "Left Pocket gathers sleep numbers recorded from your smart device. If no sleep data is available, it defaults to using the estimated \"In Bed\" times generated by Apple's Health App.")
+                PopoverView(bodyText: "Left Pocket integrates sleep numbers recorded from your smart device, like an Apple Watch or Fitbit. If no sleep data is available, it defaults to using the estimated \"In Bed\" times generated by Apple's Health App.")
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                     .frame(height: 180)
                     .dynamicTypeSize(.medium...DynamicTypeSize.medium)
@@ -177,14 +213,20 @@ struct SleepAnalytics: View {
                 Spacer()
             }
             
-            HStack {
+            HStack (alignment: .bottom) {
                 
                 Spacer()
                 
                 VStack (spacing: 2) {
-                    Text(selectedSleepMetric?.dayNoYear ?? "None")
-                        .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
                     
+                    if subManager.isSubscribed {
+                        Text(selectedSleepMetric?.dayNoYear ?? "None")
+                            .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
+                    } else {
+                        Image(systemName: "lock.fill")
+                            .font(.title2)
+                    }
+
                     Text("Date")
                         .foregroundStyle(.secondary)
                         .font(.custom("Asap-Regular", size: 14, relativeTo: .callout))
@@ -194,8 +236,14 @@ struct SleepAnalytics: View {
                 Divider()
                 
                 VStack (spacing: 2) {
-                    Text("\(selectedSleepMetric?.value ?? 0, format: .number.rounded(increment: 0.1)) hrs")
-                        .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
+                    
+                    if subManager.isSubscribed {
+                        Text("\(selectedSleepMetric?.value ?? 0, format: .number.rounded(increment: 0.1)) hrs")
+                            .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
+                    } else {
+                        Image(systemName: "lock.fill")
+                            .font(.title2)
+                    }
                     
                     Text("Sleep")
                         .foregroundStyle(.secondary)
@@ -206,8 +254,14 @@ struct SleepAnalytics: View {
                 Divider()
                 
                 VStack (spacing: 2) {
-                    Text(pokerSessionMatch?.hourlyRate.axisShortHand(viewModel.userCurrency) ?? "\(viewModel.userCurrency.symbol)0")
-                        .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
+                    
+                    if subManager.isSubscribed {
+                        Text(pokerSessionMatch?.hourlyRate.axisShortHand(viewModel.userCurrency) ?? "\(viewModel.userCurrency.symbol)0")
+                            .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
+                    } else {
+                        Image(systemName: "lock.fill")
+                            .font(.title2)
+                    }
                     
                     Text("Hourly")
                         .foregroundStyle(.secondary)
@@ -385,7 +439,6 @@ struct SleepAnalytics: View {
         .overlay {
             if hkManager.sleepData.isEmpty {
                 VStack {
-                    
                     Text("No sleep data to display.")
                         .calloutStyle()
                         .foregroundStyle(.secondary)
@@ -590,8 +643,9 @@ struct SleepAnalytics: View {
 }
 
 #Preview {
-    SleepAnalytics(activeSheet: .constant(.sleepAnalytics))
+    SleepAnalytics(activeSheet: .constant(.healthAnalytics))
         .environmentObject(SessionsListViewModel())
         .environmentObject(HealthKitManager())
+        .environmentObject(SubscriptionManager())
         .preferredColorScheme(.dark)
 }

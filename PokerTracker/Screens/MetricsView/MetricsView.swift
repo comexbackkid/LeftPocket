@@ -802,6 +802,14 @@ struct ToolTipView: View {
     let image: String
     let message: String
     let color: Color
+    let premium: Bool?
+    
+    init(image: String, message: String, color: Color, premium: Bool? = nil) {
+        self.image = image
+        self.message = message
+        self.color = color
+        self.premium = premium
+    }
     
     var body: some View {
         
@@ -815,6 +823,7 @@ struct ToolTipView: View {
             
             Text(message)
                 .calloutStyle()
+                .blur(radius: premium == true ? 4 : 0)
             
             Spacer()
             
