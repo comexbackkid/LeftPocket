@@ -144,7 +144,7 @@ struct PageView: View {
                 .multilineTextAlignment(.center)
             
             subtitle
-                .subHeadlineStyle()
+                .calloutStyle()
                 .lineSpacing(2.5)
                 .opacity(0.7)
                 .foregroundColor(.brandWhite)
@@ -245,10 +245,14 @@ struct PollView: View {
             
             VStack (alignment: .leading) {
                 Text("Where do you need the most help in your poker career?")
-                    .titleStyle()
+                    .signInTitleStyle()
+                    .foregroundColor(.brandWhite)
                     .fontWeight(.black)
                     .padding(.vertical, 30)
 
+                Text("Choose all that apply:")
+                    .headlineStyle()
+                    .padding(.bottom)
                 
                 VStack (spacing: 20) {
                     HStack {
@@ -260,7 +264,7 @@ struct PollView: View {
                             impact.impactOccurred()
                             bankrollManagement.toggle()
                         } label: {
-                            if #available(iOS 18.0, *) {
+                            if #available(iOS 17.0, *) {
                                 Image(systemName: "checkmark.circle.fill")
                                     .font(.title3)
                                     .foregroundStyle(bankrollManagement == true ? .green : .gray)
@@ -283,9 +287,16 @@ struct PollView: View {
                             impact.impactOccurred()
                             jumpStakes.toggle()
                         } label: {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.title3)
-                                .foregroundStyle(jumpStakes == true ? .green : .gray)
+                            if #available(iOS 17.0, *) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(jumpStakes == true ? .green : .gray)
+                                    .symbolEffect(.bounce, value: jumpStakes)
+                            } else {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(jumpStakes == true ? .green : .gray)
+                            }
                         }
                         .buttonStyle(.plain)
                     }
@@ -299,9 +310,16 @@ struct PollView: View {
                             impact.impactOccurred()
                             focus.toggle()
                         } label: {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.title3)
-                                .foregroundStyle(focus == true ? .green : .gray)
+                            if #available(iOS 17.0, *) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(focus == true ? .green : .gray)
+                                    .symbolEffect(.bounce, value: focus)
+                            } else {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(focus == true ? .green : .gray)
+                            }
                         }
                         .buttonStyle(.plain)
                     }
@@ -315,9 +333,16 @@ struct PollView: View {
                             impact.impactOccurred()
                             mentalGame.toggle()
                         } label: {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.title3)
-                                .foregroundStyle(mentalGame == true ? .green : .gray)
+                            if #available(iOS 17.0, *) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(mentalGame == true ? .green : .gray)
+                                    .symbolEffect(.bounce, value: mentalGame)
+                            } else {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(mentalGame == true ? .green : .gray)
+                            }
                         }
                         .buttonStyle(.plain)
                     }
@@ -331,9 +356,16 @@ struct PollView: View {
                             impact.impactOccurred()
                             notGoingBust.toggle()
                         } label: {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.title3)
-                                .foregroundStyle(notGoingBust == true ? .green : .gray)
+                            if #available(iOS 17.0, *) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(notGoingBust == true ? .green : .gray)
+                                    .symbolEffect(.bounce, value: notGoingBust)
+                            } else {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(notGoingBust == true ? .green : .gray)
+                            }
                         }
                         .buttonStyle(.plain)
                     }
@@ -347,9 +379,16 @@ struct PollView: View {
                             impact.impactOccurred()
                             trackingExpenses.toggle()
                         } label: {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.title3)
-                                .foregroundStyle(trackingExpenses == true ? .green : .gray)
+                            if #available(iOS 17.0, *) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(trackingExpenses == true ? .green : .gray)
+                                    .symbolEffect(.bounce, value: trackingExpenses)
+                            } else {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(trackingExpenses == true ? .green : .gray)
+                            }
                         }
                         .buttonStyle(.plain)
                     }
@@ -363,9 +402,16 @@ struct PollView: View {
                             impact.impactOccurred()
                             handHistory.toggle()
                         } label: {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.title3)
-                                .foregroundStyle(handHistory == true ? .green : .gray)
+                            if #available(iOS 17.0, *) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(handHistory == true ? .green : .gray)
+                                    .symbolEffect(.bounce, value: handHistory)
+                            } else {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(handHistory == true ? .green : .gray)
+                            }
                         }
                         .buttonStyle(.plain)
                     }
@@ -379,9 +425,16 @@ struct PollView: View {
                             impact.impactOccurred()
                             whenToEndSession.toggle()
                         } label: {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.title3)
-                                .foregroundStyle(whenToEndSession == true ? .green : .gray)
+                            if #available(iOS 17.0, *) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(whenToEndSession == true ? .green : .gray)
+                                    .symbolEffect(.bounce, value: whenToEndSession)
+                            } else {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(whenToEndSession == true ? .green : .gray)
+                            }
                         }
                         .buttonStyle(.plain)
                     }
