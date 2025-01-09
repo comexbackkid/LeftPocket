@@ -66,11 +66,7 @@ struct SleepAnalytics: View {
                             
                             selectedSessionStats
                             
-                            Button {
-                                showPaywall = true
-                            } label: {
-                                PrimaryButton(title: "Upgrade to Left Pocket Pro")
-                            }
+                            upgradeButton
                             
                             if #available(iOS 17.0, *) {
                                 sleepChart
@@ -81,12 +77,37 @@ struct SleepAnalytics: View {
                                         message: "In the last month, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 || countLowSleepSessions() < 1  ? "s" : "") under-rested.",
                                         color: .donutChartOrange,
                                         premium: subManager.isSubscribed ? false : true)
-                            
+                            .overlay {
+                                HStack {
+                                    Image(systemName: "lock.fill")
+                                    Text("Upgrade to Pro")
+                                        .calloutStyle()
+                                        .fontWeight(.black)
+                                        
+                                    
+                                }
+                                .padding(35)
+                                .background(Color.black.blur(radius: 25))
+                            }
+                            .clipped()
                             
                             ToolTipView(image: "gauge",
                                         message: performanceComparison(),
                                         color: .chartAccent,
                                         premium: subManager.isSubscribed ? false : true)
+                            .overlay {
+                                HStack {
+                                    Image(systemName: "lock.fill")
+                                    Text("Upgrade to Pro")
+                                        .calloutStyle()
+                                        .fontWeight(.black)
+                                        
+                                    
+                                }
+                                .padding(35)
+                                .background(Color.black.blur(radius: 25))
+                            }
+                            .clipped()
                             
                             NavigationLink(destination: MindfulnessAnalytics()) {
                                 mindfulnessCard
@@ -199,6 +220,17 @@ struct SleepAnalytics: View {
             })
         }
         .padding(.horizontal)
+    }
+    
+    var upgradeButton: some View {
+        
+        VStack {
+            Button {
+                showPaywall = true
+            } label: {
+                PrimaryButton(title: "Try Left Pocket Pro")
+            }
+        }
     }
     
     var selectedSessionStats: some View {

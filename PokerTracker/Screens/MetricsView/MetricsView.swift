@@ -823,7 +823,7 @@ struct ToolTipView: View {
             
             Text(message)
                 .calloutStyle()
-                .blur(radius: premium == true ? 4 : 0)
+                .blur(radius: premium == true ? 3 : 0)
             
             Spacer()
             
