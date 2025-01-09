@@ -252,9 +252,9 @@ enum HKError: Error {
     var description: String {
             switch self {
             case .authNotDetermined:
-                return "An error occurred. HealthKit authorization could not be determined."
+                return "An error occurred. HealthKit authorization could not be determined. You may need to allow access from the iOS Health app settings."
             case .mindfulMinutesNotDetermined:
-                return" An error occurred. Mindful minutes access could not be determined. You may need to allow access from the iOS Health app settings."
+                return" An error occurred. HealthKit authorization could not be determined. You may need to allow access from the iOS Health app settings."
             case .sharingDenied:
                 return "An error occurred. HealthKit authorization was denied."
             case .noData:

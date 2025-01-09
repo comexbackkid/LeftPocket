@@ -127,7 +127,7 @@ struct MindfulnessAnalytics: View {
                 }
                 
                 HStack {
-                    Text("Choose from our own curated ambient meditation tracks to start a new mindfulness session before you play.")
+                    Text("Choose from our own curated ambient meditation tracks to start a new mindfulness session before you play. Matched Sessions where you also meditated are displayed down below.")
                         .bodyStyle()
                     
                     Spacer()
