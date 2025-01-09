@@ -66,8 +66,8 @@ struct SleepAnalytics: View {
                             
                             selectedSessionStats
                             
-                            upgradeButton
-                            
+                            if !subManager.isSubscribed { upgradeButton }
+
                             if #available(iOS 17.0, *) {
                                 sleepChart
                                 
@@ -78,16 +78,18 @@ struct SleepAnalytics: View {
                                         color: .donutChartOrange,
                                         premium: subManager.isSubscribed ? false : true)
                             .overlay {
-                                HStack {
-                                    Image(systemName: "lock.fill")
-                                    Text("Upgrade to Pro")
-                                        .calloutStyle()
-                                        .fontWeight(.black)
+                                if !subManager.isSubscribed {
+                                    HStack {
+                                        Image(systemName: "lock.fill")
+                                        Text("Upgrade to Pro")
+                                            .calloutStyle()
+                                            .fontWeight(.black)
+                                            
                                         
-                                    
+                                    }
+                                    .padding(35)
+                                    .background(Color.black.blur(radius: 25))
                                 }
-                                .padding(35)
-                                .background(Color.black.blur(radius: 25))
                             }
                             .clipped()
                             
@@ -96,16 +98,18 @@ struct SleepAnalytics: View {
                                         color: .chartAccent,
                                         premium: subManager.isSubscribed ? false : true)
                             .overlay {
-                                HStack {
-                                    Image(systemName: "lock.fill")
-                                    Text("Upgrade to Pro")
-                                        .calloutStyle()
-                                        .fontWeight(.black)
+                                if !subManager.isSubscribed {
+                                    HStack {
+                                        Image(systemName: "lock.fill")
+                                        Text("Upgrade to Pro")
+                                            .calloutStyle()
+                                            .fontWeight(.black)
+                                            
                                         
-                                    
+                                    }
+                                    .padding(35)
+                                    .background(Color.black.blur(radius: 25))
                                 }
-                                .padding(35)
-                                .background(Color.black.blur(radius: 25))
                             }
                             .clipped()
                             
