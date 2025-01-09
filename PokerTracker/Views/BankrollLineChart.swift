@@ -384,7 +384,7 @@ struct SwiftChartsPractice_Previews: PreviewProvider {
     static var previews: some View {
         BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, overlayAnnotation: true)
             .environmentObject(SessionsListViewModel())
-            .preferredColorScheme(.dark)
+//            .preferredColorScheme(.dark)
             .frame(height: 400)
             .padding()
     }

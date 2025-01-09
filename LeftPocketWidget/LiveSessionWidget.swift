@@ -113,36 +113,6 @@ struct LeftPocketLiveSessionTimer: Widget {
         
         
     }
-    
-//    private func expandedContent(contentState: LiveSessionWidgetAttributes.ContentState, isStale: Bool) -> DynamicIslandExpandedContent<some View> {
-//        
-//        // Account for the different Region sizes here
-//        DynamicIslandExpandedRegion(.leading) {
-//            VStack (alignment: .leading) {
-//                
-//                Text("Live Session")
-//                    .font(.custom("Asap-Regular", size: 13, relativeTo: .caption))
-//                    .foregroundColor(.secondary)
-//                
-//                Text(contentState.startTime, style: .timer)
-//                    .lineLimit(1)
-//                    .font(.custom("Asap-Bold", size: 28, relativeTo: .title))
-//                    .dynamicIsland(verticalPlacement: .belowIfTooWide)
-//            }
-//            .frame(maxHeight: 50)
-//            .padding(.leading, 5)
-//        }
-//        
-//        DynamicIslandExpandedRegion(.trailing) {
-//            HStack {
-//                Image("logo-tiny")
-//                    .resizable()
-//                    .clipShape(Circle())
-//                    .aspectRatio(contentMode: .fit)
-//                    .frame(width: 50, height: 50)
-//            }
-//        }
-//    }
 }
 
 struct LiveSessionTimerView: View {
@@ -198,7 +168,7 @@ struct LocationActivityView_Previews: PreviewProvider {
     
     static var previews: some View {
         LiveSessionWidgetAttributes(eventDescription: "Live Session")
-            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .dynamicIsland(.expanded))
+            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .dynamicIsland(.compact))
 //            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .content)
     }
 }
