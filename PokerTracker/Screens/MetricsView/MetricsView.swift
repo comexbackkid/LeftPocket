@@ -873,31 +873,16 @@ struct AdditionalMetricsView: View {
                             })
                         .buttonStyle(PlainButtonStyle())
                         
-                        if subManager.isSubscribed {
-                            
-                            NavigationLink(
-                                destination: SleepAnalytics(activeSheet: .constant(.none)),
-                                label: {
-                                    AdditionalMetricsCardView(title: "Health Analytics",
-                                                              description: "See how sleep & mindfulness affects your poker results.",
-                                                              image: "stethoscope",
-                                                              color: .lightGreen)
-                                    
-                                })
-                            .buttonStyle(PlainButtonStyle())
-                        } else {
-                            
-                            Button {
-                                showPaywall = true
-                            } label: {
+                        NavigationLink(
+                            destination: SleepAnalytics(activeSheet: .constant(.none)),
+                            label: {
                                 AdditionalMetricsCardView(title: "Health Analytics",
                                                           description: "See how sleep & mindfulness affects your poker results.",
-                                                          image: "bed.double.fill",
-                                                          color: .lightGreen,
-                                                          premium: true)
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                        }
+                                                          image: "stethoscope",
+                                                          color: .lightGreen)
+                                
+                            })
+                        .buttonStyle(PlainButtonStyle())
                         
                         NavigationLink(
                             destination: ProfitByMonth(vm: viewModel),
@@ -956,29 +941,6 @@ struct AdditionalMetricsView: View {
                 .scrollTargetLayout()
                 .scrollTargetBehavior(.viewAligned)
                 .scrollBounceBehavior(.automatic)
-                .sheet(isPresented: $showPaywall, content: {
-                    PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                        .dynamicTypeSize(.medium...DynamicTypeSize.large)
-                        .overlay {
-                            HStack {
-                                Spacer()
-                                VStack {
-                                    DismissButton()
-                                        .padding()
-                                        .onTapGesture {
-                                            showPaywall = false
-                                    }
-                                    Spacer()
-                                }
-                            }
-                        }
-                })
-                .task {
-                    for await customerInfo in Purchases.shared.customerInfoStream {
-                        showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
-                        await subManager.checkSubscriptionStatus()
-                    }
-                }
                 
             } else {
                 
@@ -995,31 +957,16 @@ struct AdditionalMetricsView: View {
                             })
                         .buttonStyle(PlainButtonStyle())
                         
-                        if subManager.isSubscribed {
-                            
-                            NavigationLink(
-                                destination: SleepAnalytics(activeSheet: .constant(.none)),
-                                label: {
-                                    AdditionalMetricsCardView(title: "Health Analytics",
-                                                              description: "See how sleep & mindfulness affects your poker results.",
-                                                              image: "stethoscope",
-                                                              color: .lightGreen)
-                                    
-                                })
-                            .buttonStyle(PlainButtonStyle())
-                        } else {
-                            
-                            Button {
-                                showPaywall = true
-                            } label: {
+                        NavigationLink(
+                            destination: SleepAnalytics(activeSheet: .constant(.none)),
+                            label: {
                                 AdditionalMetricsCardView(title: "Health Analytics",
                                                           description: "See how sleep & mindfulness affects your poker results.",
                                                           image: "stethoscope",
-                                                          color: .lightGreen,
-                                                          premium: true)
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                        }
+                                                          color: .lightGreen)
+                                
+                            })
+                        .buttonStyle(PlainButtonStyle())
                         
                         NavigationLink(
                             destination: ProfitByMonth(vm: viewModel),
