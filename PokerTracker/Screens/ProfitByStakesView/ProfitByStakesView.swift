@@ -94,15 +94,15 @@ struct ProfitByStakesView: View {
                 } else {
                     
                     stakesChart
-                        .blur(radius: 8)
+                        .blur(radius: 6)
                         .overlay {
                             Button {
                                 showPaywall = true
                                 
                             } label: {
-                                Text("🔒 Tap to Upgrade")
+                                Text("Try Left Pocket Pro")
                                     .buttonTextStyle()
-                                    .frame(height: 55)
+                                    .frame(height: 50)
                                     .frame(width: UIScreen.main.bounds.width * 0.6)
                                     .background(Color.white)
                                     .foregroundColor(Color.black.opacity(0.8))
