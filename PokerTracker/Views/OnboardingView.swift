@@ -25,13 +25,17 @@ struct OnboardingView: View {
             
             WelcomeScreen(selectedPage: $selectedPage).tag(0)
             
-            PageView(title: "Log Sessions Quickly",
+            PollView(showDismissButton: false,
+                     nextAction: nextPage,
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(1)
+            
+            PageView(title: "Log Poker Sessions Fast",
                      subtitle: Text("Add a completed Session, or activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar from any screen. To enter rebuys, press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Use Transactions to log deposits, withdrawals, & expenses to your bankroll."),
                      imageName: "doc.text",
                      videoURL: "logging-sessions-new",
                      showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(1)
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(2)
             
             PageView(title: "Add Locations & Photos",
                      subtitle: Text("Enter your own custom locations and header photos. Just navigate to the Settings \(Image(systemName: "gearshape.fill")) screen, tap on Locations, and then press the \(Image(systemName: "plus")) button."),
@@ -39,7 +43,15 @@ struct OnboardingView: View {
                      videoURL: "custom-locations",
                      showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(2)
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(3)
+            
+            PageView(title: "Advanced Data Reports",
+                     subtitle: Text("Gather valuable information on any number of things – which location you perform the best at, visualize your month-to-month progress, and evaluate your performance by stakes."),
+                     imageName: "paintbrush",
+                     videoURL: "homescreen-widget",
+                     showDismissButton: false,
+                     nextAction: nextPage,
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(4)
             
             PageView(title: "Home Screen Widgets",
                      subtitle: Text("Add a stunning bankroll widget to your home screen! Touch & hold an empty area of your home screen until the apps jiggle. Then press the \"Edit\" button, followed by \"Add Widget\", & search for Left Pocket."),
@@ -47,7 +59,7 @@ struct OnboardingView: View {
                      videoURL: "homescreen-widget",
                      showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(3)
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(5)
             
             PageView(title: "Health & Mindfulness",
                      subtitle: Text("For an optimal experience, Left Pocket needs access to your Health information. This allows us to display your sleep hours & mindful minutes within our Health Analytics section, & integrate numbers measured by other devices, like an Apple Watch."),
@@ -55,7 +67,7 @@ struct OnboardingView: View {
                      videoURL: "health-metrics",
                      showDismissButton: true,
                      nextAction: { hkManager.requestAuthorization() },
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(4)
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(6)
         }
         .dynamicTypeSize(...DynamicTypeSize.large)
         .onBoardingBackgroundStyle(colorScheme: .light)
@@ -100,10 +112,10 @@ struct OnboardingView: View {
     }
     
     func nextPage() {
-            withAnimation {
-                selectedPage += 1
-            }
+        withAnimation {
+            selectedPage += 1
         }
+    }
 }
 
 struct PageView: View {
@@ -180,7 +192,7 @@ struct PageView: View {
             
         } label: {
             
-            Text(showDismissButton ? "Get Started" : "Continue")
+            Text(showDismissButton ? "Let's Do It" : "Continue")
                 .buttonTextStyle()
                 .foregroundColor(.black)
                 .frame(maxWidth: .infinity)
@@ -211,11 +223,206 @@ struct PageView: View {
     
 }
 
+struct PollView: View {
+    
+    let showDismissButton: Bool
+    var nextAction: () -> Void
+    
+    @State private var bankrollManagement = false
+    @State private var jumpStakes = false
+    @State private var focus = false
+    @State private var mentalGame = false
+    @State private var notGoingBust = false
+    @State private var trackingExpenses = false
+    @State private var handHistory = false
+    @State private var whenToEndSession = false
+    
+    @Binding var shouldShowOnboarding: Bool
+    
+    var body: some View {
+        
+        VStack {
+            
+            VStack (alignment: .leading) {
+                Text("Where do you need the most help in your poker career?")
+                    .titleStyle()
+                    .fontWeight(.black)
+                    .padding(.vertical, 30)
+
+                
+                VStack (spacing: 20) {
+                    HStack {
+                        Text("Basic Bankroll Management")
+                            .calloutStyle()
+                        Spacer()
+                        Button {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                            bankrollManagement.toggle()
+                        } label: {
+                            if #available(iOS 18.0, *) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(bankrollManagement == true ? .green : .gray)
+                                    .symbolEffect(.bounce, value: bankrollManagement)
+                            } else {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(bankrollManagement == true ? .green : .gray)
+                            }
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    
+                    HStack {
+                        Text("Moving up Stakes")
+                            .calloutStyle()
+                        Spacer()
+                        Button {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                            jumpStakes.toggle()
+                        } label: {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.title3)
+                                .foregroundStyle(jumpStakes == true ? .green : .gray)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    
+                    HStack {
+                        Text("Focus While Playing")
+                            .calloutStyle()
+                        Spacer()
+                        Button {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                            focus.toggle()
+                        } label: {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.title3)
+                                .foregroundStyle(focus == true ? .green : .gray)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    
+                    HStack {
+                        Text("The Mental Game")
+                            .calloutStyle()
+                        Spacer()
+                        Button {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                            mentalGame.toggle()
+                        } label: {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.title3)
+                                .foregroundStyle(mentalGame == true ? .green : .gray)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    
+                    HStack {
+                        Text("Not Going Bust")
+                            .calloutStyle()
+                        Spacer()
+                        Button {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                            notGoingBust.toggle()
+                        } label: {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.title3)
+                                .foregroundStyle(notGoingBust == true ? .green : .gray)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    
+                    HStack {
+                        Text("Tracking Expenses")
+                            .calloutStyle()
+                        Spacer()
+                        Button {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                            trackingExpenses.toggle()
+                        } label: {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.title3)
+                                .foregroundStyle(trackingExpenses == true ? .green : .gray)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    
+                    HStack {
+                        Text("Reviewing Hand History")
+                            .calloutStyle()
+                        Spacer()
+                        Button {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                            handHistory.toggle()
+                        } label: {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.title3)
+                                .foregroundStyle(handHistory == true ? .green : .gray)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    
+                    HStack {
+                        Text("Knowing When to End a Session")
+                            .calloutStyle()
+                        Spacer()
+                        Button {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                            whenToEndSession.toggle()
+                        } label: {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.title3)
+                                .foregroundStyle(whenToEndSession == true ? .green : .gray)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(25)
+                .background(.thinMaterial)
+                .cornerRadius(12)
+                .padding(.horizontal, 15)
+            }
+            .padding(.horizontal, 25)
+            
+            Spacer()
+            
+            Button {
+                let impact = UIImpactFeedbackGenerator(style: .heavy)
+                impact.impactOccurred()
+                nextAction()
+                
+            } label: {
+                
+                Text(showDismissButton ? "Let's Do It" : "Continue")
+                    .buttonTextStyle()
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background(.white)
+                    .cornerRadius(30)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 65)
+                
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+    }
+}
+
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
+//        PollView(showDismissButton: false)
         OnboardingView(shouldShowOnboarding: .constant(true))
             .environmentObject(SubscriptionManager())
             .environmentObject(HealthKitManager())
-
     }
 }
