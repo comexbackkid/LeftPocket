@@ -50,7 +50,7 @@ struct OnboardingView: View {
                      shouldShowOnboarding: $shouldShowOnboarding).tag(3)
             
             PageView(title: "Health & Mindfulness",
-                     subtitle: Text("Left Pocket needs access to your Health information. This allows us to display your sleep hours & mindful minutes within our Health Analytics section, and integrate numbers measured by other devices, like an Apple Watch."),
+                     subtitle: Text("For an optimal experience, Left Pocket needs access to your Health information. This allows us to display your sleep hours & mindful minutes within our Health Analytics section, & integrate numbers measured by other devices, like an Apple Watch."),
                      imageName: "paintbrush",
                      videoURL: "health-metrics",
                      showDismissButton: true,
