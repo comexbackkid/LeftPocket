@@ -8,15 +8,19 @@
 import SwiftUI
 import Charts
 import TipKit
+import RevenueCat
+import RevenueCatUI
 
 struct MindfulnessAnalytics: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var hkManager: HealthKitManager
+    @EnvironmentObject var subManager: SubscriptionManager
     @Environment(\.colorScheme) var colorScheme
     
     @State private var showMeditationView = false
     @State private var showError = false
+    @State private var showPaywall = false
     @State private var selectedMeditation: Meditation?
     @State private var selectedSession: PokerSession?
     
@@ -40,7 +44,23 @@ struct MindfulnessAnalytics: View {
                     
                     ToolTipView(image: "chart.line.uptrend.xyaxis",
                                 message: meditationPerformanceComparison(),
-                                color: .indigo)
+                                color: .indigo,
+                                premium: subManager.isSubscribed ? false : true)
+                    .overlay {
+                        if !subManager.isSubscribed {
+                            HStack {
+                                Image(systemName: "lock.fill")
+                                Text("Upgrade to Pro")
+                                    .calloutStyle()
+                                    .fontWeight(.black)
+                                    
+                                
+                            }
+                            .padding(35)
+                            .background(Color.black.blur(radius: 25))
+                        }
+                    }
+                    .clipped()
                     
                     meditationClasses
                                         
@@ -123,7 +143,13 @@ struct MindfulnessAnalytics: View {
                     Button {
                         let impact = UIImpactFeedbackGenerator(style: .soft)
                         impact.impactOccurred()
-                        selectedMeditation = meditation
+                        if subManager.isSubscribed == true {
+                            selectedMeditation = meditation
+                        } else if !subManager.isSubscribed && meditation.premium != true {
+                            selectedMeditation = meditation
+                        } else {
+                            showPaywall = true
+                        }
                     } label: {
                         Text(meditation.title)
                             .font(.custom("Asap-Bold", size: 18, relativeTo: .title2))
@@ -134,6 +160,18 @@ struct MindfulnessAnalytics: View {
                             .clipped()
                             .clipShape(.rect(cornerRadius: 12))
                     }
+                    .overlay {
+                        if meditation.premium == true && !subManager.isSubscribed == true {
+                            HStack {
+                                Spacer()
+                                VStack {
+                                    Image(systemName: "lock.fill")
+                                    Spacer()
+                                }
+                            }
+                            .padding(8)
+                        }
+                    }
                 }
             }
             .frame(width: UIScreen.main.bounds.width * 0.9)
@@ -141,6 +179,29 @@ struct MindfulnessAnalytics: View {
         .padding(.bottom)
         .fullScreenCover(item: $selectedMeditation) { meditation in
             MeditationView(passedMeditation: $selectedMeditation, meditation: meditation)
+        }
+        .sheet(isPresented: $showPaywall, content: {
+            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                .overlay {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            DismissButton()
+                                .padding()
+                                .onTapGesture {
+                                    showPaywall = false
+                            }
+                            Spacer()
+                        }
+                    }
+                }
+        })
+        .task {
+            for await customerInfo in Purchases.shared.customerInfoStream {
+                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                await subManager.checkSubscriptionStatus()
+            }
         }
     }
     
@@ -436,6 +497,7 @@ struct MindfulnessAnalytics: View {
         MindfulnessAnalytics()
             .environmentObject(SessionsListViewModel())
             .environmentObject(HealthKitManager())
+            .environmentObject(SubscriptionManager())
             .preferredColorScheme(.dark)
     }
 }
