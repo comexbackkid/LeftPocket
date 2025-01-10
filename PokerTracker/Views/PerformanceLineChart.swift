@@ -10,6 +10,7 @@ import Charts
 
 struct PerformanceLineChart: View {
     
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var viewModel: SessionsListViewModel
     @State private var selectedMonth: Date?
     @State private var metricFilter: MetricFilter = .hourly
@@ -300,16 +301,16 @@ struct PerformanceLineChart: View {
             switch metricFilter {
             case .hourly:
                 return Text(validValue, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(validValue > 0 ? Color.lightGreen : validValue < 0 ? .red : .secondary)
-                    .font(.custom("Asap-Medium", size: 17, relativeTo: .caption2))
+                    .foregroundColor(validValue > 0 ? colorScheme == .dark ? Color.lightGreen : .green : validValue < 0 ? .red : .secondary)
+                    .font(.custom("Asap-Medium", size: 17))
             case .winRate:
                 return Text(validValue, format: .percent.precision(.fractionLength(0)))
-                    .foregroundColor(validValue > 0 ? Color.lightGreen : validValue < 0 ? .red : .secondary)
-                    .font(.custom("Asap-Medium", size: 17, relativeTo: .caption2))
+                    .foregroundColor(validValue > 0 ? colorScheme == .dark ? Color.lightGreen : .green : validValue < 0 ? .red : .secondary)
+                    .font(.custom("Asap-Medium", size: 17))
             case .bbRate:
                 return Text(validValue, format: .number.precision(.fractionLength(2)))
-                    .foregroundColor(validValue > 0 ? Color.lightGreen : validValue < 0 ? .red : .secondary)
-                    .font(.custom("Asap-Medium", size: 17, relativeTo: .caption2))
+                    .foregroundColor(validValue > 0 ? colorScheme == .dark ? Color.lightGreen : .green : validValue < 0 ? .red : .secondary)
+                    .font(.custom("Asap-Medium", size: 17))
             }
         }
         

@@ -10,6 +10,7 @@ import Charts
 
 struct BarChartByYear: View {
     
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var viewModel: SessionsListViewModel
     @State private var selectedMonth: Date?
     
@@ -59,14 +60,14 @@ struct BarChartByYear: View {
                                 
                                 if amount != 0 {
                                     Image(systemName: "arrow.up.right")
-                                        .foregroundStyle(amount > 0 ? Color.lightGreen : .red)
+                                        .profitColor(total: amount)
                                         .rotationEffect(.degrees(amount < 0 ? 90 : 0))
                                         .animation(.default.speed(2), value: amount)
                                 }
                                 
                                 Text("\(amount.formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))")
                                     .font(.custom("Asap-Medium", size: 17))
-                                    .foregroundStyle(amount > 0 ? Color.lightGreen : amount < 0 ? .red : .secondary)
+                                    .profitColor(total: amount)
                                 
                                 Text("in \(month)")
                                     .font(.custom("Asap-Medium", size: 17))
@@ -75,7 +76,7 @@ struct BarChartByYear: View {
                             
                         } else {
                             Text("\(month)")  // Show only the month if amount is nil
-                                .font(.custom("Asap-Medium", size: 17, relativeTo: .caption2))
+                                .font(.custom("Asap-Medium", size: 17))
                                 .foregroundStyle(.secondary)
                         }
                     }
