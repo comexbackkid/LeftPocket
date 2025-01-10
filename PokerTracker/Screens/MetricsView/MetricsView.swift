@@ -131,7 +131,7 @@ struct MetricsView: View {
     
     var bankrollChart: some View {
         
-        BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, overlayAnnotation: false)
+        BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, showPatternBackground: false, overlayAnnotation: false)
             .padding(.bottom, 5)
             .cardStyle(colorScheme: colorScheme, height: 475)
             .cardShadow(colorScheme: colorScheme)

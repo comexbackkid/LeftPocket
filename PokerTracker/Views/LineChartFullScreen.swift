@@ -20,7 +20,11 @@ struct LineChartFullScreen: View {
     var body: some View {
         
         VStack {
-            BankrollLineChart(showTitle: false, showYAxis: true, showRangeSelector: true, overlayAnnotation: true)
+            BankrollLineChart(showTitle: false,
+                              showYAxis: true,
+                              showRangeSelector: true,
+                              showPatternBackground: false,
+                              overlayAnnotation: true)
         }
         .padding(20)
         .padding(.leading, verticalSizeClass == .regular ? 0 : 50)

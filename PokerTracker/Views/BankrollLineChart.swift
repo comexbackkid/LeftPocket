@@ -46,6 +46,7 @@ struct BankrollLineChart: View {
     let showTitle: Bool
     let showYAxis: Bool
     let showRangeSelector: Bool
+    let showPatternBackground: Bool
     let overlayAnnotation: Bool
 
     var body: some View {
@@ -162,7 +163,7 @@ struct BankrollLineChart: View {
             }
             .overlay(
                 PatternView()
-                    .opacity(showChart ? 0.33 : 0.0)
+                    .opacity(showChart && showPatternBackground ? 0.33 : 0.0)
                     .allowsHitTesting(false)
                     .mask(
                         Chart {
@@ -382,9 +383,9 @@ struct BankrollLineChart: View {
 struct SwiftChartsPractice_Previews: PreviewProvider {
     
     static var previews: some View {
-        BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, overlayAnnotation: true)
+        BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, showPatternBackground: false, overlayAnnotation: true)
             .environmentObject(SessionsListViewModel())
-//            .preferredColorScheme(.dark)
+            .preferredColorScheme(.dark)
             .frame(height: 400)
             .padding()
     }
