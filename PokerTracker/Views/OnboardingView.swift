@@ -256,7 +256,7 @@ struct PollView: View {
                 
                 VStack (spacing: 20) {
                     HStack {
-                        Text("Basic Bankroll Management")
+                        Text("Bankroll Management")
                             .calloutStyle()
                         Spacer()
                         Button {
@@ -325,7 +325,7 @@ struct PollView: View {
                     }
                     
                     HStack {
-                        Text("The Mental Game")
+                        Text("Mental Wellbeing")
                             .calloutStyle()
                         Spacer()
                         Button {
@@ -342,29 +342,6 @@ struct PollView: View {
                                 Image(systemName: "checkmark.circle.fill")
                                     .font(.title3)
                                     .foregroundStyle(mentalGame == true ? .green : .gray)
-                            }
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    
-                    HStack {
-                        Text("Not Going Bust")
-                            .calloutStyle()
-                        Spacer()
-                        Button {
-                            let impact = UIImpactFeedbackGenerator(style: .soft)
-                            impact.impactOccurred()
-                            notGoingBust.toggle()
-                        } label: {
-                            if #available(iOS 17.0, *) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(notGoingBust == true ? .green : .gray)
-                                    .symbolEffect(.bounce, value: notGoingBust)
-                            } else {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(notGoingBust == true ? .green : .gray)
                             }
                         }
                         .buttonStyle(.plain)
@@ -417,7 +394,7 @@ struct PollView: View {
                     }
                     
                     HStack {
-                        Text("Knowing When to End a Session")
+                        Text("When to End a Session")
                             .calloutStyle()
                         Spacer()
                         Button {
@@ -434,6 +411,29 @@ struct PollView: View {
                                 Image(systemName: "checkmark.circle.fill")
                                     .font(.title3)
                                     .foregroundStyle(whenToEndSession == true ? .green : .gray)
+                            }
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    
+                    HStack {
+                        Text("Not Going Bust")
+                            .calloutStyle()
+                        Spacer()
+                        Button {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                            notGoingBust.toggle()
+                        } label: {
+                            if #available(iOS 17.0, *) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(notGoingBust == true ? .green : .gray)
+                                    .symbolEffect(.bounce, value: notGoingBust)
+                            } else {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(notGoingBust == true ? .green : .gray)
                             }
                         }
                         .buttonStyle(.plain)
