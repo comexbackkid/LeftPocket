@@ -48,6 +48,7 @@ struct BankrollProgressView: View {
     var statusUpdate: ProgressStatus {
         ProgressStatus(progress: progressIndicator)
     }
+    let isSubscribed: Bool
     
     var body: some View {
         
@@ -75,6 +76,7 @@ struct BankrollProgressView: View {
                     .dynamicTypeSize(...DynamicTypeSize.medium)
             }
             
+            
             Text(statusUpdate.description)
                 .calloutStyle()
                 .padding(.leading, 12)
@@ -82,6 +84,7 @@ struct BankrollProgressView: View {
             Spacer()
             
         }
+        .blur(radius: isSubscribed ? 0 : 5)
         .padding(20)
         .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
@@ -90,5 +93,5 @@ struct BankrollProgressView: View {
 }
 
 #Preview {
-    BankrollProgressView(progressIndicator: .constant(0.77))
+    BankrollProgressView(progressIndicator: .constant(0.77), isSubscribed: true)
 }

@@ -139,7 +139,7 @@ struct MetricsView: View {
     
     var bankrollProgressView: some View {
         
-        BankrollProgressView(progressIndicator: $progressIndicator)
+        BankrollProgressView(progressIndicator: $progressIndicator, isSubscribed: subManager.isSubscribed)
             .onAppear(perform: {
                 self.progressIndicator = viewModel.stakesProgress
             })
@@ -147,6 +147,22 @@ struct MetricsView: View {
                 self.progressIndicator = viewModel.stakesProgress
             })
             .cardShadow(colorScheme: colorScheme)
+            .overlay {
+                if !subManager.isSubscribed {
+                    HStack {
+                        Image(systemName: "lock.fill")
+                        Text("Upgrade to Pro")
+                            .calloutStyle()
+                            .fontWeight(.black)
+                    }
+                    .padding(35)
+                    .background(colorScheme == .dark ? Color.black.blur(radius: 25) : Color.white.blur(radius: 25))
+                    .onTapGesture {
+                        showPaywall = true
+                    }
+                }
+            }
+            .clipped()
     }
     
     var barChart: some View {

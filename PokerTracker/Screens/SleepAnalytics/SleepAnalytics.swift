@@ -88,7 +88,7 @@ struct SleepAnalytics: View {
                                         
                                     }
                                     .padding(35)
-                                    .background(Color.black.blur(radius: 25))
+                                    .background(colorScheme == .dark ? Color.black.blur(radius: 25) : Color.white.blur(radius: 25))
                                 }
                             }
                             .clipped()
@@ -108,7 +108,7 @@ struct SleepAnalytics: View {
                                         
                                     }
                                     .padding(35)
-                                    .background(Color.black.blur(radius: 25))
+                                    .background(colorScheme == .dark ? Color.black.blur(radius: 25) : Color.white.blur(radius: 25))
                                 }
                             }
                             .clipped()
