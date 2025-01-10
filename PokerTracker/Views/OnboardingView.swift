@@ -48,7 +48,7 @@ struct OnboardingView: View {
             PageView(title: "Advanced Data Reports",
                      subtitle: Text("Gather valuable information on any number of things – which location you perform the best at, visualize your month-to-month progress, and evaluate your performance by stakes."),
                      imageName: "paintbrush",
-                     videoURL: "homescreen-widget",
+                     videoURL: "advanced-reporting",
                      showDismissButton: false,
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).tag(4)
@@ -61,7 +61,7 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).tag(5)
             
-            PageView(title: "Health & Mindfulness",
+            PageView(title: "Health & Mental State",
                      subtitle: Text("For an optimal experience, Left Pocket needs access to your Health information. This allows us to display your sleep hours & mindful minutes within our Health Analytics section, & integrate numbers measured by other devices, like an Apple Watch."),
                      imageName: "paintbrush",
                      videoURL: "health-metrics",

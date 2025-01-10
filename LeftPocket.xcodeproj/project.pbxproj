@@ -219,6 +219,7 @@
 		7CD010E92BF23FE300998FD5 /* LiveSessionRebuyModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD010E82BF23FE300998FD5 /* LiveSessionRebuyModal.swift */; };
 		7CD2B1582C1BB5B300A90C79 /* PopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD2B1572C1BB5B300A90C79 /* PopoverView.swift */; };
 		7CD2EEC72BE8F0DB00AEE64E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD2EEC62BE8F0DB00AEE64E /* AppDelegate.swift */; };
+		7CD500322D30A2B000FB4E01 /* advanced-reporting.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CD500312D30A2B000FB4E01 /* advanced-reporting.mp4 */; };
 		7CD7468A28A6CA8F00D5A2D0 /* Images+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD7468928A6CA8F00D5A2D0 /* Images+Ext.swift */; };
 		7CD7468C28A6CFA200D5A2D0 /* FailureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */; };
 		7CDB04812776141C008C5233 /* AppReviewRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDB04802776141C008C5233 /* AppReviewRequest.swift */; };
@@ -441,6 +442,7 @@
 		7CD010E82BF23FE300998FD5 /* LiveSessionRebuyModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionRebuyModal.swift; sourceTree = "<group>"; };
 		7CD2B1572C1BB5B300A90C79 /* PopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverView.swift; sourceTree = "<group>"; };
 		7CD2EEC62BE8F0DB00AEE64E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		7CD500312D30A2B000FB4E01 /* advanced-reporting.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "advanced-reporting.mp4"; sourceTree = "<group>"; };
 		7CD7468928A6CA8F00D5A2D0 /* Images+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+Ext.swift"; sourceTree = "<group>"; };
 		7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailureView.swift; sourceTree = "<group>"; };
 		7CDB04802776141C008C5233 /* AppReviewRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReviewRequest.swift; sourceTree = "<group>"; };
@@ -828,6 +830,7 @@
 				7CFDD83D2C0CFF00002C9775 /* homescreen-widget.mp4 */,
 				7CFDD83B2C0CF656002C9775 /* custom-locations.mp4 */,
 				7CDBB5E02D0DE6D9003D2B0B /* health-metrics.mp4 */,
+				7CD500312D30A2B000FB4E01 /* advanced-reporting.mp4 */,
 			);
 			path = Video;
 			sourceTree = "<group>";
@@ -1162,6 +1165,7 @@
 				7CAFE0262B2CA9E300B7338D /* AsapCondensed-Black.ttf in Resources */,
 				7CAFE0062B2CA9E300B7338D /* AsapCondensed-Light.ttf in Resources */,
 				7C9F23672C933939001AA6A6 /* logging-sessions-new.mp4 in Resources */,
+				7CD500322D30A2B000FB4E01 /* advanced-reporting.mp4 in Resources */,
 				7CAFE00E2B2CA9E300B7338D /* AsapCondensed-ExtraBold.ttf in Resources */,
 				7CAFE00A2B2CA9E300B7338D /* AsapCondensed-ExtraLightItalic.ttf in Resources */,
 				7CFDD83C2C0CF656002C9775 /* custom-locations.mp4 in Resources */,
