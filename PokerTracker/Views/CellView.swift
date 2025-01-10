@@ -71,7 +71,7 @@ struct CellView: View {
             Text(pokerSession.profit.axisShortHand(currency))
                 .bodyStyle()
                 .bold()
-                .foregroundColor(pokerSession.profit > 0 ? Color.lightGreen : .red)
+                .profitColor(total: pokerSession.profit)
         }
         .padding(.leading, viewStyle == .compact ? 5 : 10)
         .padding(.vertical, viewStyle == .compact ? 0 : 12)

@@ -77,14 +77,14 @@ struct BankrollLineChart: View {
                                     if selectedIndex != 0 && !dateRange.isEmpty {
                                         Image(systemName: "arrow.up.right")
                                             .font(.title2)
-                                            .foregroundStyle(amountText > 0 ? Color.lightGreen : amountText < 0 ? .red : defaultProfit > 0 ? Color.lightGreen : .red)
+                                            .chartIntProfitColor(amountText: amountText, defaultProfit: defaultProfit)
                                             .rotationEffect(.degrees(amountText > 0 ? 0 : amountText < 0 ? 90 : defaultProfit > 0 ? 0 : 90))
                                             .animation(.default.speed(2), value: amountText)
                                     }
                                     
                                     Text(amountText == 0 ? "\(abs(defaultProfit).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))" : "\(abs(amountText).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))")
                                         .font(.custom("Asap-Bold", size: 34))
-                                        .foregroundStyle(amountText > 0 ? Color.lightGreen : amountText < 0 ? .red : defaultProfit > 0 ? Color.lightGreen : .red)
+                                        .chartIntProfitColor(amountText: amountText, defaultProfit: defaultProfit)
                                     
                                 }
                             }
@@ -385,7 +385,7 @@ struct SwiftChartsPractice_Previews: PreviewProvider {
     static var previews: some View {
         BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, showPatternBackground: false, overlayAnnotation: true)
             .environmentObject(SessionsListViewModel())
-            .preferredColorScheme(.dark)
+//            .preferredColorScheme(.dark)
             .frame(height: 400)
             .padding()
     }

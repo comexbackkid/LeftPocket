@@ -41,11 +41,11 @@ struct QuickMetricBox: View {
                             
                             Image(systemName: percentageChange > 0 ? "arrow.up.right" : "arrow.down.right")
                                 .font(.custom("Asap-Regular", size: 12))
-                                .foregroundStyle(percentageChange > 0 ? Color.lightGreen : .red)
+                                .foregroundStyle(percentageChange > 0 ? colorScheme == .dark ? Color.lightGreen : .green : .red)
                             
                             Text(abs(percentageChange).asPercent())
                                 .font(.custom("Asap-Regular", size: 12))
-                                .foregroundStyle(percentageChange > 0 ? Color.lightGreen : .red)
+                                .foregroundStyle(percentageChange > 0 ? colorScheme == .dark ? Color.lightGreen : .green : .red)
                                 .lineLimit(1)
                         }
                     }

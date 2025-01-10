@@ -332,7 +332,7 @@ struct AllStats: View {
                 Spacer()
         
                 Text(totalBankroll, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(totalBankroll > 0 ? Color.lightGreen : totalBankroll < 0 ? .red : .primary)
+                    .metricsProfitColor(for: totalBankroll)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
@@ -345,7 +345,7 @@ struct AllStats: View {
                 Spacer()
                 
                 Text(hourlyRate, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(hourlyRate > 0 ? Color.lightGreen : hourlyRate < 0 ? .red : .primary)
+                    .metricsProfitColor(for: hourlyRate)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
@@ -358,7 +358,7 @@ struct AllStats: View {
                 Spacer()
                 
                 Text(profitPerSession, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(profitPerSession > 0 ? Color.lightGreen : profitPerSession < 0 ? .red : .primary)
+                    .metricsProfitColor(for: profitPerSession)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
@@ -371,7 +371,7 @@ struct AllStats: View {
                 Spacer()
                 
                 Text(profitPer100, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(profitPer100 > 0 ? Color.lightGreen : profitPer100 < 0 ? .red : .primary)
+                    .metricsProfitColor(for: profitPer100)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
@@ -412,7 +412,7 @@ struct AllStats: View {
                 Spacer()
                 
                 Text(highHandBonus, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(highHandBonus > 0 ? Color.lightGreen : .primary)
+                    .metricsProfitColor(for: highHandBonus)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
                                     
             }
@@ -515,7 +515,7 @@ struct CashStats: View {
                 Spacer()
                 
                 Text(cashBankroll, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(cashBankroll > 0 ? Color.lightGreen : cashBankroll < 0 ? .red : .primary)
+                    .metricsProfitColor(for: cashBankroll)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
@@ -528,7 +528,7 @@ struct CashStats: View {
                 Spacer()
                 
                 Text(hourlyRate, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(hourlyRate > 0 ? Color.lightGreen : hourlyRate < 0 ? .red : .primary)
+                    .metricsProfitColor(for: hourlyRate)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
@@ -541,7 +541,7 @@ struct CashStats: View {
                 Spacer()
                 
                 Text(profitPerSession, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(profitPerSession > 0 ? Color.lightGreen : profitPerSession < 0 ? .red : .primary)
+                    .metricsProfitColor(for: profitPerSession)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
@@ -554,7 +554,7 @@ struct CashStats: View {
                 Spacer()
                 
                 Text(profitPer100, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(profitPer100 > 0 ? Color.lightGreen : profitPer100 < 0 ? .red : .primary)
+                    .metricsProfitColor(for: profitPer100)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
@@ -583,7 +583,7 @@ struct CashStats: View {
                 Spacer()
                 
                 Text(highHandBonus, format: .currency(code: currencyType).precision(.fractionLength(0)))
-                    .foregroundColor(highHandBonus > 0 ? Color.lightGreen : .primary)
+                    .metricsProfitColor(for: highHandBonus)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
                                     
             }
@@ -704,7 +704,7 @@ struct TournamentStats: View {
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(tournamentProfit, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(tournamentProfit > 0 ? Color.lightGreen : tournamentProfit < 0 ? .red : .primary)
+                    .metricsProfitColor(for: tournamentProfit)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
@@ -715,7 +715,7 @@ struct TournamentStats: View {
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(tournamentHourlyRate, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(tournamentHourlyRate > 0 ? Color.lightGreen : tournamentHourlyRate < 0 ? .red : .primary)
+                    .metricsProfitColor(for: tournamentHourlyRate)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             

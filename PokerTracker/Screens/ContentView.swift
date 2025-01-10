@@ -202,39 +202,14 @@ struct ContentView: View {
     var healthAnalyticsCard: some View {
         
         Button(action: {
-            
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
             activeSheet = .healthAnalytics
         
         }, label: {
-            
             SleepCardView()
         })
         .buttonStyle(CardViewButtonStyle())
-//        .sheet(isPresented: $showPaywall, content: {
-//            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-//                .dynamicTypeSize(.medium...DynamicTypeSize.large)
-//                .overlay {
-//                    HStack {
-//                        Spacer()
-//                        VStack {
-//                            DismissButton()
-//                                .padding()
-//                                .onTapGesture {
-//                                    showPaywall = false
-//                            }
-//                            Spacer()
-//                        }
-//                    }
-//                }
-//        })
-//        .task {
-//            for await customerInfo in Purchases.shared.customerInfoStream {
-//                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
-//                await subManager.checkSubscriptionStatus()
-//            }
-//        }
     }
     
     var bankrollView: some View {
@@ -281,13 +256,13 @@ struct ContentView: View {
                             .resizable()
                             .frame(width: 13, height: 13)
                             .fontWeight(.bold)
-                            .foregroundColor(lastSession > 0 ? Color.lightGreen : lastSession < 0 ? .red : Color(.systemGray))
+                            .metricsProfitColor(for: lastSession)
                             .rotationEffect(lastSession >= 0 ? .degrees(0) : .degrees(90))
                         
                         Text(lastSession, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                             .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
                             .fontWeight(.bold)
-                            .profitColor(total: lastSession)
+                            .metricsProfitColor(for: lastSession)
                         
                     }
                     .offset(y: -32)
@@ -422,7 +397,6 @@ struct QuickMetricsBoxGrid: View {
     }
     
     private func percentChange(_ newValue: Double, _ oldValue: Double) -> Double {
-        
         (newValue - oldValue) / oldValue
     }
     

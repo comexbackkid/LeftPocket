@@ -59,9 +59,4 @@ extension Text {
     func bankrollTextStyle() -> some View {
         self.font(.custom("Asap-Black", size: 60))
     }
-    
-    // Determine if integer is displayed green or red
-    func profitColor(total: Int) -> some View {
-        self.foregroundColor( total > 0 ? Color.lightGreen : total < 0 ? .red : Color(.systemGray))
-    }
 }
