@@ -81,10 +81,18 @@ struct DashboardConfig: View {
                     let impact = UIImpactFeedbackGenerator(style: .soft)
                     impact.impactOccurred()
                 } label: {
-                    Image(systemName: "checkmark.circle.fill")
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                        .foregroundStyle(playerProfit ? .green : .secondary)
+                    if #available(iOS 17.0, *) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundStyle(playerProfit ? .green : .secondary)
+                            .symbolEffect(.bounce, value: playerProfit)
+                    } else {
+                        Image(systemName: "checkmark.circle.fill")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundStyle(playerProfit ? .green : .secondary)
+                    }
                 }
             }
             
@@ -98,10 +106,18 @@ struct DashboardConfig: View {
                     let impact = UIImpactFeedbackGenerator(style: .soft)
                     impact.impactOccurred()
                 } label: {
-                    Image(systemName: "checkmark.circle.fill")
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                        .foregroundStyle(hoursPlayed ? .green : .secondary)
+                    if #available(iOS 17.0, *) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundStyle(hoursPlayed ? .green : .secondary)
+                            .symbolEffect(.bounce, value: hoursPlayed)
+                    } else {
+                        Image(systemName: "checkmark.circle.fill")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundStyle(hoursPlayed ? .green : .secondary)
+                    }
                 }
             }
             
@@ -115,10 +131,18 @@ struct DashboardConfig: View {
                     let impact = UIImpactFeedbackGenerator(style: .soft)
                     impact.impactOccurred()
                 } label: {
-                    Image(systemName: "checkmark.circle.fill")
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                        .foregroundStyle(bbPerHr ? .green : .secondary)
+                    if #available(iOS 17.0, *) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundStyle(bbPerHr ? .green : .secondary)
+                            .symbolEffect(.bounce, value: bbPerHr)
+                    } else {
+                        Image(systemName: "checkmark.circle.fill")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundStyle(bbPerHr ? .green : .secondary)
+                    }
                 }
             }
             
@@ -132,10 +156,18 @@ struct DashboardConfig: View {
                     let impact = UIImpactFeedbackGenerator(style: .soft)
                     impact.impactOccurred()
                 } label: {
-                    Image(systemName: "checkmark.circle.fill")
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                        .foregroundStyle(hourlyRate ? .green : .secondary)
+                    if #available(iOS 17.0, *) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundStyle(hourlyRate ? .green : .secondary)
+                            .symbolEffect(.bounce, value: hourlyRate)
+                    } else {
+                        Image(systemName: "checkmark.circle.fill")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundStyle(hourlyRate ? .green : .secondary)
+                    }
                 }
             }
             
@@ -149,10 +181,18 @@ struct DashboardConfig: View {
                     let impact = UIImpactFeedbackGenerator(style: .soft)
                     impact.impactOccurred()
                 } label: {
-                    Image(systemName: "checkmark.circle.fill")
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                        .foregroundStyle(profitPerSession ? .green : .secondary)
+                    if #available(iOS 17.0, *) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundStyle(profitPerSession ? .green : .secondary)
+                            .symbolEffect(.bounce, value: profitPerSession)
+                    } else {
+                        Image(systemName: "checkmark.circle.fill")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundStyle(profitPerSession ? .green : .secondary)
+                    }
                 }
             }
             
@@ -166,10 +206,18 @@ struct DashboardConfig: View {
                     let impact = UIImpactFeedbackGenerator(style: .soft)
                     impact.impactOccurred()
                 } label: {
-                    Image(systemName: "checkmark.circle.fill")
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                        .foregroundStyle(winRatio ? .green : .secondary)
+                    if #available(iOS 17.0, *) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundStyle(winRatio ? .green : .secondary)
+                            .symbolEffect(.bounce, value: winRatio)
+                    } else {
+                        Image(systemName: "checkmark.circle.fill")
+                            .resizable()
+                            .frame(width: 25, height: 25)
+                            .foregroundStyle(winRatio ? .green : .secondary)
+                    }
                 }
             }
         }

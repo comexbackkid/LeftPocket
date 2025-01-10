@@ -473,7 +473,6 @@ struct PollView: View {
 
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
-//        PollView(showDismissButton: false)
         OnboardingView(shouldShowOnboarding: .constant(true))
             .environmentObject(SubscriptionManager())
             .environmentObject(HealthKitManager())
