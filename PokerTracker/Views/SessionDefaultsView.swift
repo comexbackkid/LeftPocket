@@ -80,11 +80,10 @@ struct SessionDefaultsView: View {
             .background(Color.brandBackground)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { resetDefaultsButton }
-            .sheet(isPresented: $showAlertModal, content: {
+            .sheet(isPresented: $showAlertModal, onDismiss: { if isPresentedAsSheet == true { dismiss() } }, content: {
                 AlertModal(message: resultMessage)
                     .presentationDetents([.height(210)])
                     .presentationBackground(.ultraThinMaterial)
-                
             })
             .overlay {
                 if isPresentedAsSheet == true {
@@ -447,12 +446,10 @@ struct SessionDefaultsView: View {
     var saveDefaultsButton: some View {
         
         Button {
-            
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
             saveToUserDefaults()
             vm.writeToWidget()
-            
         } label: {
             PrimaryButton(title: "Save")
         }
