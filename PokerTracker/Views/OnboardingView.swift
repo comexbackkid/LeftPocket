@@ -46,7 +46,7 @@ struct OnboardingView: View {
                      shouldShowOnboarding: $shouldShowOnboarding).tag(3)
             
             PageView(title: "Advanced Data Reports",
-                     subtitle: Text("Gather valuable information on any number of things – which location you perform the best at, visualize your month-to-month progress, and evaluate your performance by stakes."),
+                     subtitle: Text("One place for all your important player data. Reports & analytics on location performance, stakes, month-by-month returns, & much more."),
                      imageName: "paintbrush",
                      videoURL: "advanced-reporting",
                      showDismissButton: false,
