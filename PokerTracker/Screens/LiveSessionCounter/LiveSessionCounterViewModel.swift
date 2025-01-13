@@ -13,10 +13,7 @@ import Combine
 class TimerViewModel: ObservableObject {
     
     private var timer: Timer?
-//    private let motionMonitor = MotionMonitor()
-//    private var cancellable: AnyCancellable?
-        
-//    @Published var alertTriggered = false
+
     @Published var liveSessionStartTime: Date?
     @Published var liveSessionTimer: String = "00:00"
     @Published var reBuyAmount: String = ""
@@ -36,11 +33,6 @@ class TimerViewModel: ObservableObject {
     }
     
     init() {
-//        cancellable = motionMonitor.$pickupCount
-//            .sink { [weak self] count in
-//                self?.checkForExcessivePickups(count: count)
-//            }
-        
         NotificationCenter.default.addObserver(self, selector: #selector(fileAccessAvailable), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appDidResume), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
@@ -89,7 +81,6 @@ class TimerViewModel: ObservableObject {
     }
     
     func startSession() {
-//        motionMonitor.startMonitoring()
         let now = Date()
         liveSessionStartTime = now
         UserDefaults.standard.set(now, forKey: "liveSessionStartTime")
@@ -118,7 +109,6 @@ class TimerViewModel: ObservableObject {
     }
     
     func stopTimer() {
-//        motionMonitor.stopMonitoring()
         timer?.invalidate()
         UserDefaults.standard.removeObject(forKey: "liveSessionStartTime")
         UserDefaults.standard.removeObject(forKey: "initialBuyInAmount")
@@ -127,7 +117,6 @@ class TimerViewModel: ObservableObject {
     }
     
     func resetTimer() {
-//        motionMonitor.stopMonitoring()
         timer?.invalidate()
         liveSessionStartTime = nil
         liveSessionTimer = "00:00"
@@ -174,30 +163,7 @@ class TimerViewModel: ObservableObject {
         }
     }
     
-//    private func checkForExcessivePickups(count: Int) {
-//        
-//        if count >= 2 && !alertTriggered {
-//            alertTriggered = true
-//            triggerExcessiveUsageAlert()
-//        }
-//    }
-    
-//    private func triggerExcessiveUsageAlert() {
-//        
-//        let content = UNMutableNotificationContent()
-//        content.title = "Pay Attention"
-//        content.body = "You’ve picked up your phone 5 times. Try to stay focused on your current game."
-//        content.sound = UNNotificationSound.default
-//        
-//        let request = UNNotificationRequest(identifier: "excessiveUsageAlert",
-//                                            content: content,
-//                                            trigger: nil)
-//
-//        UNUserNotificationCenter.current().add(request)
-//    }
-    
     deinit {
-//        cancellable?.cancel()
         timer?.invalidate()
         NotificationCenter.default.removeObserver(self)
         cancelUserNotifications()
