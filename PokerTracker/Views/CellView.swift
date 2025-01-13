@@ -47,9 +47,27 @@ struct CellView: View {
                         
                         if pokerSession.isTournament == true {
                             
-                            Text("\(currency.symbol)" + "\(pokerSession.expenses!) Buy In ")
+                            Text("\(currency.symbol)" + "\(pokerSession.buyIn ?? 0) Buy In")
                                 .captionStyle()
                                 .foregroundColor(.secondary)
+                            
+                            if let rebuyCount = pokerSession.rebuyCount, rebuyCount > 0 {
+                                
+                                HStack (spacing: 0) {
+                                    Text(" • ")
+                                        .captionStyle()
+                                        .foregroundStyle(.secondary)
+                                    
+                                    Image("bullet-pointed-icon")
+                                        .resizable()
+                                        .foregroundStyle(.secondary)
+                                        .frame(width: 10, height: 10)
+                                    
+                                    Text(" \(rebuyCount)x ")
+                                        .captionStyle()
+                                        .foregroundColor(.secondary)
+                                }
+                            }
                             
                         } else {
                             
@@ -82,7 +100,7 @@ struct CellView: View {
 
 struct CellView_Previews: PreviewProvider {
     static var previews: some View {
-        CellView(pokerSession: MockData.sampleSession, currency: .USD, viewStyle: .constant(.standard))
+        CellView(pokerSession: MockData.sampleTournament, currency: .USD, viewStyle: .constant(.standard))
             .previewLayout(.sizeThatFits)
             .preferredColorScheme(.dark)
     }

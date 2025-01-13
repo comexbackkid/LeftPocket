@@ -139,7 +139,7 @@ struct MockData {
                                                highHandBonus: nil,
                                                buyIn: 200,
                                                cashOut: 375,
-                                               rebuyCount: 1,
+                                               rebuyCount: 3,
                                                tournamentSize: "MTT",
                                                tournamentSpeed: "Standard",
                                                tags: nil)
