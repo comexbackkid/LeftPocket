@@ -56,7 +56,8 @@ struct AddNewSessionView: View {
             // Loading optional data if the user activated a live session
             if let liveSessionStartTime = timerViewModel.liveSessionStartTime {
                 newSession.startTime = liveSessionStartTime
-                newSession.buyIn = timerViewModel.totalBuyInForLiveSession == 0 ? "" : String(timerViewModel.totalBuyInForLiveSession)
+                newSession.buyIn = timerViewModel.totalBuyInForLiveSession == 0 ? "" : String(timerViewModel.totalBuyInForLiveSession - timerViewModel.rebuyTotalForSession)
+                newSession.cashRebuys = String(timerViewModel.rebuyTotalForSession)
             }
         }
         .sheet(isPresented: $showPaywall) {
@@ -548,7 +549,7 @@ struct AddNewSessionView: View {
             }
             
             // MARK: CASH GAME REBUYS
-            if timerViewModel.totalBuyInForLiveSession == 0 && newSession.sessionType != .tournament {
+            if newSession.sessionType != .tournament {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
