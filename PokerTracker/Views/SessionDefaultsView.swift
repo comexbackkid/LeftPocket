@@ -22,6 +22,8 @@ struct SessionDefaultsView: View {
     @State private var location = LocationModel(name: "", localImage: "", imageURL: "")
     @State private var stakes = ""
     @State private var game = ""
+    @State private var speed = ""
+    @State private var size = ""
     @State private var currency: CurrencyType = .USD
     @State private var resultMessage: String = ""
     @State private var errorMessage: String?
@@ -257,59 +259,61 @@ struct SessionDefaultsView: View {
                 NewLocationView(addLocationIsShowing: $addLocationIsShowing)
             })
             
-            HStack {
-                Image(systemName: "dollarsign.circle")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
-                
-                Text("Stakes")
-                    .bodyStyle()
-                    .padding(.leading, 4)
-                
-                Spacer()
-                
-                Menu {
+            if sessionType != .tournament {
+                HStack {
+                    Image(systemName: "dollarsign.circle")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(Color(.systemGray3))
+                        .frame(width: 30)
                     
-                    Button {
-                        addStakesIsShowing = true
+                    Text("Stakes")
+                        .bodyStyle()
+                        .padding(.leading, 4)
+                    
+                    Spacer()
+                    
+                    Menu {
+                        
+                        Button {
+                            addStakesIsShowing = true
+                        } label: {
+                            HStack {
+                                Text("Add Stakes")
+                                Image(systemName: "dollarsign.circle")
+                            }
+                        }
+                        
+                        Picker("Picker", selection: $stakes) {
+                            ForEach(vm.userStakes, id: \.self) {
+                                Text($0).tag($0)
+                            }
+                            .onChange(of: stakes, perform: { value in
+                                errorMessage = nil
+                                resultMessage = ""
+                            })
+                        }
+                        
                     } label: {
-                        HStack {
-                            Text("Add Stakes")
-                            Image(systemName: "dollarsign.circle")
+                        if stakes.isEmpty {
+                            Text("Please select ›")
+                                .bodyStyle()
+                        } else {
+                            Text(stakes)
+                                .bodyStyle()
+                                .fixedSize()
                         }
                     }
-                    
-                    Picker("Picker", selection: $stakes) {
-                        ForEach(vm.userStakes, id: \.self) {
-                            Text($0).tag($0)
-                        }
-                        .onChange(of: stakes, perform: { value in
-                            errorMessage = nil
-                            resultMessage = ""
-                        })
-                    }
-                    
-                } label: {
-                    if stakes.isEmpty {
-                        Text("Please select ›")
-                            .bodyStyle()
-                    } else {
-                        Text(stakes)
-                            .bodyStyle()
-                            .fixedSize()
+                    .foregroundColor(stakes.isEmpty ? .brandPrimary : .brandWhite)
+                    .buttonStyle(PlainButtonStyle())
+                    .transaction { transaction in
+                        transaction.animation = .none
                     }
                 }
-                .foregroundColor(stakes.isEmpty ? .brandPrimary : .brandWhite)
-                .buttonStyle(PlainButtonStyle())
-                .transaction { transaction in
-                    transaction.animation = .none
-                }
+                .padding(.bottom, 10)
+                .sheet(isPresented: $addStakesIsShowing, content: {
+                    NewStakesView(addStakesIsShowing: $addStakesIsShowing)
+                })
             }
-            .padding(.bottom, 10)
-            .sheet(isPresented: $addStakesIsShowing, content: {
-                NewStakesView(addStakesIsShowing: $addStakesIsShowing)
-            })
             
             HStack {
                 
@@ -358,6 +362,105 @@ struct SessionDefaultsView: View {
                 }
             }
             .padding(.bottom, 10)
+            
+            if sessionType == .tournament {
+                HStack {
+                    
+                    Image(systemName: "stopwatch")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(Color(.systemGray3))
+                        .frame(width: 30)
+                    
+                    Text("Speed")
+                        .bodyStyle()
+                        .padding(.leading, 4)
+                    
+                    Spacer()
+                    
+                    Menu {
+                        withAnimation {
+                            Picker("Speed", selection: $speed) {
+                                Text("Standard").tag("Standard")
+                                Text("Turbo").tag("Turbo")
+                                Text("Super Turbo").tag("Super Turbo")
+                            }
+                            .onChange(of: speed, perform: { value in
+                                errorMessage = nil
+                                resultMessage = ""
+                            })
+                        }
+                        
+                    } label: {
+                        
+                        if speed.isEmpty {
+                            Text("Please select ›")
+                                .bodyStyle()
+                                .fixedSize()
+                            
+                        } else {
+                            Text(speed)
+                                .bodyStyle()
+                                .fixedSize()
+                                .lineLimit(1)
+                                .animation(nil, value: speed)
+                        }
+                    }
+                    .transaction { transaction in
+                        transaction.animation = nil
+                    }
+                    .foregroundColor(speed.isEmpty ? .brandPrimary : .brandWhite)
+                    .buttonStyle(.plain)
+                }
+                .padding(.bottom, 10)
+                
+                HStack {
+                    
+                    Image(systemName: "person.2.fill")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(Color(.systemGray3))
+                        .frame(width: 30)
+                    
+                    Text("Size")
+                        .bodyStyle()
+                        .padding(.leading, 4)
+                    
+                    Spacer()
+                    
+                    Menu {
+                        withAnimation {
+                            Picker("Size", selection: $size) {
+                                Text("MTT").tag("MTT")
+                                Text("Sit & Go").tag("Sit & Go")
+                            }
+                            .onChange(of: size, perform: { value in
+                                errorMessage = nil
+                                resultMessage = ""
+                            })
+                        }
+                        
+                    } label: {
+                        
+                        if size.isEmpty {
+                            Text("Please select ›")
+                                .bodyStyle()
+                                .fixedSize()
+                            
+                        } else {
+                            Text(size)
+                                .bodyStyle()
+                                .fixedSize()
+                                .lineLimit(1)
+                                .animation(nil, value: size)
+                        }
+                    }
+                    .transaction { transaction in
+                        transaction.animation = nil
+                    }
+                    .foregroundColor(size.isEmpty ? .brandPrimary : .brandWhite)
+                    .buttonStyle(.plain)
+                }
+                .padding(.bottom, 10)
+            }
             
             HStack {
                 
@@ -477,6 +580,8 @@ struct SessionDefaultsView: View {
         location = LocationModel(name: "", localImage: "", imageURL: "")
         stakes = ""
         game = ""
+        size = ""
+        speed = ""
         currency = .USD
         askLiveSessionEachTime = false
         
@@ -488,6 +593,8 @@ struct SessionDefaultsView: View {
             defaults.removeObject(forKey: "stakesDefault")
             defaults.removeObject(forKey: "gameDefault")
             defaults.removeObject(forKey: "currencyDefault")
+            defaults.removeObject(forKey: "tournamentSizeDefault")
+            defaults.removeObject(forKey: "tournamentSpeedDefault")
             defaults.removeObject(forKey: "askLiveSessionEachTime")
         }
         
@@ -518,6 +625,8 @@ struct SessionDefaultsView: View {
             
             defaults.set(stakes, forKey: "stakesDefault")
             defaults.set(game, forKey: "gameDefault")
+            defaults.set(size, forKey: "tournamentSizeDefault")
+            defaults.set(speed, forKey: "tournamentSpeedDefault")
             defaults.set(askLiveSessionEachTime, forKey: "askLiveSessionEachTime")
             vm.loadCurrency()
         }
@@ -560,9 +669,11 @@ struct SessionDefaultsView: View {
             location = LocationModel(name: "", localImage: "", imageURL: "")
         }
         
-        // Load Stakes and Game
+        // Load Stakes, Game, & Tournament Defaults
         stakes = defaults.string(forKey: "stakesDefault") ?? ""
         game = defaults.string(forKey: "gameDefault") ?? ""
+        size = defaults.string(forKey: "tournamentSizeDefault") ?? ""
+        speed = defaults.string(forKey: "tournamentSpeedDefault") ?? ""
         askLiveSessionEachTime = defaults.bool(forKey: "askLiveSessionEachTime")
     }
 }

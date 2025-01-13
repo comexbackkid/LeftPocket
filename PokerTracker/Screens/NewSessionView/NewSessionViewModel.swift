@@ -150,12 +150,17 @@ final class NewSessionViewModel: ObservableObject {
         
         guard
             let decodedStakes = defaults.string(forKey: "stakesDefault"),
-            let decodedGame = defaults.string(forKey: "gameDefault")
+            let decodedGame = defaults.string(forKey: "gameDefault"),
+            let decodedSize = defaults.string(forKey: "tournamentSizeDefault"),
+            let decodedSpeed = defaults.string(forKey: "tournamentSpeedDefault")
                 
         else { return }
         
         stakes = decodedStakes
         game = decodedGame
+        size = decodedSize
+        speed = decodedSpeed
+        
     }
     
     func savedButtonPressed(viewModel: SessionsListViewModel) {
