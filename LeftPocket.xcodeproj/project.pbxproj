@@ -127,7 +127,6 @@
 		7CA7F8182B6FFAA700F976EE /* CSVImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7F8172B6FFAA700F976EE /* CSVImport.swift */; };
 		7CA940F92BECF8E3009B54BA /* SleepAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA940F82BECF8E3009B54BA /* SleepAnalytics.swift */; };
 		7CA940FB2BECF925009B54BA /* HealthMetricModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA940FA2BECF925009B54BA /* HealthMetricModel.swift */; };
-		7CA940FD2BECF9EE009B54BA /* HealthKitPrimingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA940FC2BECF9EE009B54BA /* HealthKitPrimingView.swift */; };
 		7CA9900E2CC2E5D400446D66 /* MindfulnessAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA9900D2CC2E5D400446D66 /* MindfulnessAnalytics.swift */; };
 		7CAFDFF32B2C884100B7338D /* CustomToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF22B2C884100B7338D /* CustomToggle.swift */; };
 		7CAFE0062B2CA9E300B7338D /* AsapCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */; };
@@ -388,7 +387,6 @@
 		7CA7F8172B6FFAA700F976EE /* CSVImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVImport.swift; sourceTree = "<group>"; };
 		7CA940F82BECF8E3009B54BA /* SleepAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepAnalytics.swift; sourceTree = "<group>"; };
 		7CA940FA2BECF925009B54BA /* HealthMetricModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthMetricModel.swift; sourceTree = "<group>"; };
-		7CA940FC2BECF9EE009B54BA /* HealthKitPrimingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitPrimingView.swift; sourceTree = "<group>"; };
 		7CA9900D2CC2E5D400446D66 /* MindfulnessAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindfulnessAnalytics.swift; sourceTree = "<group>"; };
 		7CAFDFF22B2C884100B7338D /* CustomToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToggle.swift; sourceTree = "<group>"; };
 		7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-Light.ttf"; sourceTree = "<group>"; };
@@ -957,7 +955,6 @@
 			children = (
 				7CA940FA2BECF925009B54BA /* HealthMetricModel.swift */,
 				7CA940F82BECF8E3009B54BA /* SleepAnalytics.swift */,
-				7CA940FC2BECF9EE009B54BA /* HealthKitPrimingView.swift */,
 				7CA9900D2CC2E5D400446D66 /* MindfulnessAnalytics.swift */,
 				7C947AB32CCBE04E009CF5BB /* MindfulnessCompleted.swift */,
 			);
@@ -1310,7 +1307,6 @@
 				7C71AB122D0B3C7700487AB5 /* SystemSounds.swift in Sources */,
 				7C4C7BA728A4684700DBC886 /* Text+Ext.swift in Sources */,
 				7C3FFA862BC894C500EABD49 /* BarChartByStakes.swift in Sources */,
-				7CA940FD2BECF9EE009B54BA /* HealthKitPrimingView.swift in Sources */,
 				7C4CE70227729E4D0070B16E /* UIWindow+Ext.swift in Sources */,
 				7C6E7D8F2C2CC67300D178E2 /* DateFilter.swift in Sources */,
 				7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */,

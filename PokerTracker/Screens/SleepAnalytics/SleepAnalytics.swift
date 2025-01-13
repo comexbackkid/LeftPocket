@@ -122,14 +122,6 @@ struct SleepAnalytics: View {
                         .navigationTitle("")
                         .padding(.bottom, 50)
                         .padding(.top)
-//                        .onAppear {
-//                            isShowingPermissionPrimingSheet = !hasSeenPermissionPriming
-//                        }
-//                        .sheet(isPresented: $isShowingPermissionPrimingSheet, onDismiss: {
-//                            Task { await handleAuthorizationChecksAndDataFetch() }
-//                        }, content: {
-//                            HealthKitPrimingView(hasSeen: $hasSeenPermissionPriming)
-//                        })
                         .padding(.bottom, activeSheet == .healthAnalytics ? 0 : 40)
                     }
                 }
