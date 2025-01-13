@@ -170,12 +170,13 @@ final class NewSessionViewModel: ObservableObject {
                              game: self.game,
                              stakes: self.stakes,
                              date: self.startTime,
-                             profit: computedProfit - (Int(self.expenses) ?? 0), // Removing -tournamentRebuys
+                             profit: sessionType == .cash ? computedProfit - (Int(self.expenses) ?? 0) : (Int(self.cashOut) ?? 0) - (Int(self.buyIn) ?? 0) - self.tournamentRebuys,
+//                             profit: computedProfit - (Int(self.expenses) ?? 0), // Removing -tournamentRebuys
                              notes: self.notes,
                              startTime: self.startTime,
                              endTime: self.endTime,
                              // Tournament metrics in the app look to 'expenses' for Buy In data.
-                             expenses: sessionType == .cash ? Int(self.expenses) ?? 0 : (Int(buyIn) ?? 0) + tournamentRebuys,
+                             expenses: sessionType == .cash ? Int(self.expenses) ?? 0 : (Int(buyIn) ?? 0) + self.tournamentRebuys,
                              isTournament: sessionType == .tournament,
                              entrants: Int(self.entrants) ?? 0,
                              finish: Int(self.finish) ?? 0,

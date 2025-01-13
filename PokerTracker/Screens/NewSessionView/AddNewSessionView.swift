@@ -57,7 +57,7 @@ struct AddNewSessionView: View {
             if let liveSessionStartTime = timerViewModel.liveSessionStartTime {
                 newSession.startTime = liveSessionStartTime
                 newSession.buyIn = timerViewModel.totalBuyInForLiveSession == 0 ? "" : String(timerViewModel.totalBuyInForLiveSession - timerViewModel.rebuyTotalForSession)
-                newSession.cashRebuys = String(timerViewModel.rebuyTotalForSession)
+                newSession.cashRebuys = newSession.sessionType == .cash ? String(timerViewModel.rebuyTotalForSession) : ""
                 newSession.rebuyCount = String(timerViewModel.totalRebuys.count - 1)
             }
         }
