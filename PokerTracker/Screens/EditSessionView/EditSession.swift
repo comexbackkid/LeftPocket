@@ -889,7 +889,7 @@ struct EditSession: View {
                                  game: game,
                                  stakes: stakes,
                                  date: startTime,
-                                 profit: computedProfit - (Int(expenses) ?? 0),
+                                 profit: computedProfit - (Int(self.expenses) ?? 0) - tournamentRebuys,
                                  notes: notes,
                                  startTime: startTime,
                                  endTime: endTime,

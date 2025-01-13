@@ -41,6 +41,7 @@ struct LiveSessionRebuyModal: View {
                     
                     Text("$\(timerViewModel.rebuyTotalForSession + (Int(timerViewModel.initialBuyInAmount) ?? 0))")
                         .bodyStyle()
+                        .fontWeight(.black)
                         .foregroundStyle(.red)
                     
                 }
