@@ -55,7 +55,26 @@ struct MetricsView: View {
                                 
                                 ToolTipView(image: "stopwatch",
                                             message: "You tend to play better when your Session lasts \(viewModel.bestSessionLength()).",
-                                            color: .brandPrimary)
+                                            color: .brandPrimary,
+                                            premium: subManager.isSubscribed ? false : true)
+                                .overlay {
+                                    if !subManager.isSubscribed {
+                                        HStack {
+                                            Image(systemName: "lock.fill")
+                                            Text("Upgrade to Pro")
+                                                .calloutStyle()
+                                                .fontWeight(.black)
+                                                
+                                            
+                                        }
+                                        .padding(35)
+                                        .background(colorScheme == .dark ? Color.black.blur(radius: 25) : Color.white.blur(radius: 25))
+                                        .onTapGesture {
+                                            showPaywall = true
+                                        }
+                                    }
+                                }
+                                .clipped()
 
                                 if #available(iOS 17.0, *) {
                                     
@@ -186,7 +205,7 @@ struct MetricsView: View {
                 PerformanceLineChart()
                     .cardStyle(colorScheme: colorScheme, height: 380)
                     .cardShadow(colorScheme: colorScheme)
-                    .blur(radius: 2)
+                    .blur(radius: 3)
                     .allowsHitTesting(false)
                     .overlay {
                         Button {
