@@ -171,7 +171,6 @@ final class NewSessionViewModel: ObservableObject {
                              stakes: self.stakes,
                              date: self.startTime,
                              profit: sessionType == .cash ? computedProfit - (Int(self.expenses) ?? 0) : (Int(self.cashOut) ?? 0) - (Int(self.buyIn) ?? 0) - self.tournamentRebuys,
-//                             profit: computedProfit - (Int(self.expenses) ?? 0), // Removing -tournamentRebuys
                              notes: self.notes,
                              startTime: self.startTime,
                              endTime: self.endTime,
