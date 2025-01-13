@@ -474,6 +474,7 @@ struct SessionDetailView: View {
                 Spacer()
                 
                 if pokerSession.isTournament == true {
+                    
                     Text(pokerSession.buyIn ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                         .bodyStyle()
                 } else {
@@ -681,7 +682,7 @@ struct GraphicHeaderView: View {
 
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
+        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleTournament)
             .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
     }
