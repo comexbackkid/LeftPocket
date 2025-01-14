@@ -160,6 +160,7 @@ struct AdvancedTournamentReport: View {
                 
                 Text(bankrollTotalByYear, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: bankrollTotalByYear)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             HStack {
@@ -173,6 +174,7 @@ struct AdvancedTournamentReport: View {
                 
                 Text(totalBuyInsByYear, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                     .foregroundStyle(totalBuyInsByYear != 0 ? .red : .secondary)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             HStack {
@@ -186,6 +188,7 @@ struct AdvancedTournamentReport: View {
                 
                 Text(netProfit, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: netProfit)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             HStack {
@@ -198,6 +201,7 @@ struct AdvancedTournamentReport: View {
                 Spacer()
                 
                 Text(roi)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             HStack {
@@ -210,6 +214,7 @@ struct AdvancedTournamentReport: View {
                 Spacer()
                 
                 Text("\(hoursPlayed)h")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             HStack {
@@ -222,6 +227,7 @@ struct AdvancedTournamentReport: View {
                 Spacer()
                 
                 Text("\(tournamentCount)")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))

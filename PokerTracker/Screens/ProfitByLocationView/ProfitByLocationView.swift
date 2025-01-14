@@ -128,57 +128,6 @@ struct ProfitByLocationView: View {
                 }
             }
         }
-        
-//        VStack (spacing: 7) {
-//            
-//            HStack {
-//                Text("Select Year")
-//                    
-//                
-//                Spacer()
-//                
-//                let allYears = viewModel.sessions.map({ $0.date.getYear() }).uniqued()
-//                
-//                Menu {
-//                    Picker("", selection: $yearFilter) {
-//                        ForEach(allYears, id: \.self) {
-//                            Text($0)
-//                        }
-//                    }
-//                } label: {
-//                    Text(yearFilter + " ›")
-//                        
-//                }
-//                .accentColor(Color.brandPrimary)
-//                .transaction { transaction in
-//                    transaction.animation = nil
-//                }
-//            }
-//            .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
-//            
-//            HStack {
-//                Text("Select Metric")
-//                    
-//                
-//                Spacer()
-//                
-//                Menu {
-//                    Picker("", selection: $metricFilter) {
-//                        Text("Total").tag("Total")
-//                        Text("Hourly").tag("Hourly")
-//                    }
-//                } label: {
-//                    Text(metricFilter + " ›")
-//                        
-//                }
-//                .accentColor(Color.brandPrimary)
-//                .transaction { transaction in
-//                    transaction.animation = nil
-//                }
-//            }
-//            .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
-//        }
-//        .padding(.bottom, 10)
     }
     
     var locationTotals: some View {
@@ -263,6 +212,7 @@ struct ProfitByLocationView: View {
                 
                 Text(bankrollTotalByYear, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: bankrollTotalByYear)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             HStack {
@@ -275,6 +225,7 @@ struct ProfitByLocationView: View {
                 Spacer()
                 
                 Text("\(viewModel.sessions.filter({ $0.date.getYear() == yearFilter }).count)")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))

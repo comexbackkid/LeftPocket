@@ -291,6 +291,7 @@ struct ProfitByStakesView: View {
                 
                 Text(bankrollTotalByFilter, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: bankrollTotalByFilter)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             HStack {
@@ -303,6 +304,7 @@ struct ProfitByStakesView: View {
                 Spacer()
                 
                 Text("\(filteredSessions.count)")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))

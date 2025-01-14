@@ -151,6 +151,7 @@ struct ProfitByMonth: View {
                 
                 Text(bankrollTotalByYear, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                     .profitColor(total: bankrollTotalByYear)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             HStack {
@@ -163,6 +164,7 @@ struct ProfitByMonth: View {
                 Spacer()
                 
                 Text("\(totalHoursPlayed)h")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             HStack {
@@ -175,6 +177,7 @@ struct ProfitByMonth: View {
                 Spacer()
                 
                 Text("\(vm.sessions.filter({ $0.date.getYear() == yearFilter }).count)")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
