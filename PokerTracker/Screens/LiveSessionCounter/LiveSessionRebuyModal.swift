@@ -14,6 +14,7 @@ struct LiveSessionRebuyModal: View {
     @ObservedObject var timerViewModel: TimerViewModel
     
     @State private var alertItem: AlertItem?
+    @State private var sessionType: SessionType?
     @Binding var rebuyConfirmationSound: Bool
     
     var body: some View {
@@ -22,7 +23,7 @@ struct LiveSessionRebuyModal: View {
             
             title
             
-            VStack (spacing: 10) {
+            VStack (spacing: 4) {
                 
                 instructions
                 
@@ -58,6 +59,7 @@ struct LiveSessionRebuyModal: View {
         }
         .onAppear(perform: {
             rebuyConfirmationSound = false
+            loadUserDefaults()
         })
         .dynamicTypeSize(.medium)
         .ignoresSafeArea()
@@ -115,23 +117,61 @@ struct LiveSessionRebuyModal: View {
         .background(.gray.opacity(0.2))
         .cornerRadius(15)
         .padding(.horizontal)
-        .padding(.bottom)
     }
     
     var saveButton: some View {
         
-        Button {
-            let impact = UIImpactFeedbackGenerator(style: .heavy)
-            impact.impactOccurred()
-            saveButtonPressed()
-            rebuyConfirmationSound = true
+        VStack {
+            Button {
+                let impact = UIImpactFeedbackGenerator(style: .heavy)
+                impact.impactOccurred()
+                saveButtonPressed()
+                rebuyConfirmationSound = true
+                
+            } label: { PrimaryButton(title: "Add Rebuy") }
             
-        } label: { PrimaryButton(title: "Add Rebuy") }
+            Button(role: .cancel) {
+                let impact = UIImpactFeedbackGenerator(style: .soft)
+                impact.impactOccurred()
+                dismiss()
+                
+            } label: {
+                Text("Cancel")
+                    .buttonTextStyle()
+            }
+            .tint(.red)
+        }
+    }
+    
+    var isValidForm: Bool {
+        
+        if sessionType == .tournament {
+            guard timerViewModel.reBuyAmount == timerViewModel.initialBuyInAmount else {
+                alertItem = AlertContext.invalidRebuy
+                return false
+            }
+        }
+        
+        return true
     }
     
     private func saveButtonPressed() {
+        guard self.isValidForm else { return }
         timerViewModel.addRebuy()
         dismiss()
+    }
+    
+    private func loadUserDefaults() {
+        
+        let defaults = UserDefaults.standard
+  
+        // Load Session Type
+        if let encodedSessionType = defaults.object(forKey: "sessionTypeDefault") as? Data,
+           let decodedSessionType = try? JSONDecoder().decode(SessionType.self, from: encodedSessionType) {
+            sessionType = decodedSessionType
+        } else {
+            sessionType = nil
+        }
     }
 }
 

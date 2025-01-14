@@ -658,7 +658,7 @@ struct SessionDefaultsView: View {
            let decodedSessionType = try? JSONDecoder().decode(SessionType.self, from: encodedSessionType) {
             sessionType = decodedSessionType
         } else {
-            sessionType = nil // Handle missing session type
+            sessionType = nil
         }
         
         // Load Location

@@ -79,4 +79,8 @@ struct AlertContext {
     static let invalidAmount = AlertItem(title: Text("Invalid Form"),
                                          message: Text("Please enter a Transaction amount."),
                                          dismissButton: .default(Text("OK")))
+    
+    static let invalidRebuy = AlertItem(title: Text("Invalid Rebuy"),
+                                         message: Text("When playing a Tournament, your Rebuy must be equal to your initial Buy In."),
+                                         dismissButton: .default(Text("OK")))
 }

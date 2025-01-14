@@ -18,11 +18,12 @@ struct LiveSessionCounter: View {
     @State private var rebuyConfirmationSound = false
     @State private var audioPlayer: AVAudioPlayer?
     @State private var location: LocationModel?
+    @State private var sessionType: SessionType?
     @State private var sessionDefaultCounter = 0
     
     var body: some View {
         
-        HStack (spacing: 12) {
+        HStack (spacing: 10) {
             
             locationImage
             
@@ -32,7 +33,6 @@ struct LiveSessionCounter: View {
             
             Text(timerViewModel.liveSessionTimer)
                 .font(.custom("Asap-Regular", size: 26))
-                .offset(x: 4)
             
             Image(systemName: "dollarsign.arrow.circlepath")
                 .foregroundColor(.brandPrimary)
@@ -46,7 +46,6 @@ struct LiveSessionCounter: View {
         }
         .dynamicTypeSize(.medium)
         .padding(12)
-        .padding(.horizontal, 2)
         .background(.ultraThinMaterial)
         .cornerRadius(16)
         .contextMenu {
@@ -74,7 +73,7 @@ struct LiveSessionCounter: View {
             }
         }, content: {
             LiveSessionRebuyModal(timerViewModel: timerViewModel, rebuyConfirmationSound: $rebuyConfirmationSound)
-                .presentationDetents([.height(350), .large])
+                .presentationDetents([.height(360), .large])
                 .presentationBackground(.ultraThinMaterial)
         })
         .padding(.horizontal)
@@ -132,9 +131,20 @@ struct LiveSessionCounter: View {
         
         VStack (alignment: .leading) {
             
-            Text("Live Session at")
-                .font(.custom("Asap-Regular", size: 19, relativeTo: .callout))
-                .bold()
+            switch sessionType {
+            case .cash:
+                Text("Live Cash Session at")
+                    .font(.custom("Asap-Regular", size: 19))
+                    .bold()
+            case .tournament:
+                Text("Live Tournament at")
+                    .font(.custom("Asap-Regular", size: 19))
+                    .bold()
+            case nil:
+                Text("Live Session at")
+                    .font(.custom("Asap-Regular", size: 19))
+                    .bold()
+            }
             
             if let location {
                 Text(location.name.isEmpty ? "Location Not Selected" : location.name)
@@ -160,6 +170,14 @@ struct LiveSessionCounter: View {
         } else {
             location = LocationModel(name: "", localImage: "", imageURL: "")
             print("No default location found.")
+        }
+        
+        // Load Session Type
+        if let encodedSessionType = defaults.object(forKey: "sessionTypeDefault") as? Data,
+           let decodedSessionType = try? JSONDecoder().decode(SessionType.self, from: encodedSessionType) {
+            sessionType = decodedSessionType
+        } else {
+            sessionType = nil
         }
         
         // Load AskLiveSessionEachTime

@@ -127,40 +127,29 @@ final class NewSessionViewModel: ObservableObject {
         return true
     }
     
-    // If user has saved Session Defaults load them first
     func loadUserDefaults() {
         
         let defaults = UserDefaults.standard
         
-        guard
-            let encodedSessionType = defaults.object(forKey: "sessionTypeDefault") as? Data,
-            let decodedSessionType = try? JSONDecoder().decode(SessionType.self, from: encodedSessionType)
-                
-        else { return }
+        // Load Session Type
+        if let encodedSessionType = defaults.object(forKey: "sessionTypeDefault") as? Data, let decodedSessionType = try? JSONDecoder().decode(SessionType.self, from: encodedSessionType) {
+            sessionType = decodedSessionType
+        } else {
+            sessionType = nil
+        }
         
-        sessionType = decodedSessionType
+        // Load Location
+        if let encodedLocation = defaults.object(forKey: "locationDefault") as? Data, let decodedLocation = try? JSONDecoder().decode(LocationModel.self, from: encodedLocation) {
+            location = decodedLocation
+        } else {
+            location = LocationModel(name: "", localImage: "", imageURL: "")
+        }
         
-        guard
-            let encodedLocation = defaults.object(forKey: "locationDefault") as? Data,
-            let decodedLocation = try? JSONDecoder().decode(LocationModel.self, from: encodedLocation)
-                
-        else { return }
-        
-        location = decodedLocation
-        
-        guard
-            let decodedStakes = defaults.string(forKey: "stakesDefault"),
-            let decodedGame = defaults.string(forKey: "gameDefault"),
-            let decodedSize = defaults.string(forKey: "tournamentSizeDefault"),
-            let decodedSpeed = defaults.string(forKey: "tournamentSpeedDefault")
-                
-        else { return }
-        
-        stakes = decodedStakes
-        game = decodedGame
-        size = decodedSize
-        speed = decodedSpeed
-        
+        // Load Stakes, Game, & Tournament Defaults
+        stakes = defaults.string(forKey: "stakesDefault") ?? ""
+        game = defaults.string(forKey: "gameDefault") ?? ""
+        size = defaults.string(forKey: "tournamentSizeDefault") ?? ""
+        speed = defaults.string(forKey: "tournamentSpeedDefault") ?? ""
     }
     
     func savedButtonPressed(viewModel: SessionsListViewModel) {
