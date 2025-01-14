@@ -136,14 +136,20 @@ struct LiveSessionCounter: View {
                 Text("Live Cash Session at")
                     .font(.custom("Asap-Regular", size: 19))
                     .bold()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.9)
             case .tournament:
                 Text("Live Tournament at")
                     .font(.custom("Asap-Regular", size: 19))
                     .bold()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.9)
             case nil:
                 Text("Live Session at")
                     .font(.custom("Asap-Regular", size: 19))
                     .bold()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.9)
             }
             
             if let location {
@@ -157,6 +163,7 @@ struct LiveSessionCounter: View {
                     .lineLimit(1)
             }
         }
+//        .dynamicTypeSize(.medium)
     }
     
     private func loadUserDefaults() {
