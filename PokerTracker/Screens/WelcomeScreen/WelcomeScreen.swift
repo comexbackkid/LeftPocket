@@ -23,39 +23,51 @@ struct WelcomeScreen: View {
                 
                 Spacer()
                 
-                logo
-                
-                Spacer()
-                
                 bodyText
-                
-                Spacer()
-                
-                disclaimerText
                 
                 getStartedButton
                 
+                disclaimerText
             }
         }
-    }
-    
-    var logo: some View {
-        
-        Image("leftpocket-logo-simple")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(height: 200)
+        .background(
+            GeometryReader { geometry in
+                Image("welcome-screen-bg-2")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .overlay {
+                        Image("welcome-screen-bg-2")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .blur(radius: 20, opaque: true)
+                            .mask(
+                                LinearGradient(gradient: Gradient(stops: [
+                                    Gradient.Stop(color: Color(white: 0, opacity: 0), location: 0.5),
+                                    Gradient.Stop(color: Color(white: 0, opacity: 1), location: 0.7),
+                                ]), startPoint: .top, endPoint: .bottom)
+                            )
+                    }
+                    .overlay(
+                        LinearGradient(gradient: Gradient(stops: [
+                            Gradient.Stop(color: Color(white: 0, opacity: 0.0), location: 0.45),
+                            Gradient.Stop(color: Color(white: 0, opacity: 0.8), location: 0.7),
+                        ]), startPoint: .top, endPoint: .bottom)
+                    )
+                    .frame(width: geometry.size.width, height: UIScreen.main.bounds.height)
+                    .clipped()
+                    .ignoresSafeArea()
+            }
+        )
     }
     
     var bodyText: some View {
         
-        VStack {
+        VStack (spacing: 10) {
             
             Text("WELCOME TO LEFT POCKET")
                 .foregroundColor(.white)
                 .font(.caption)
                 .fontWeight(.light)
-                .padding(.bottom, 1)
             
             Text("Where you keep your important money.")
                 .signInTitleStyle()
@@ -85,11 +97,8 @@ struct WelcomeScreen: View {
                 .background(.white)
                 .cornerRadius(30)
                 .padding(.horizontal, 20)
-                .padding(.bottom, 65)
-            
         }
         .buttonStyle(PlainButtonStyle())
-        
     }
     
     var disclaimerText: some View {
@@ -101,6 +110,7 @@ struct WelcomeScreen: View {
             .padding()
             .multilineTextAlignment(.center)
             .padding(.horizontal)
+            .padding(.bottom, 30)
     }
 }
 

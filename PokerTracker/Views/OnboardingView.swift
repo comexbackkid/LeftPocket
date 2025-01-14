@@ -69,10 +69,10 @@ struct OnboardingView: View {
                      nextAction: { hkManager.requestAuthorization() },
                      shouldShowOnboarding: $shouldShowOnboarding).tag(6)
         }
+        .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)
         .onBoardingBackgroundStyle(colorScheme: .light)
-        .tabViewStyle(PageTabViewStyle())
-        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .preferredColorScheme(.dark)
         .onChange(of: hkManager.authorizationStatus, perform: { state in
             if state != .notDetermined {
@@ -200,7 +200,7 @@ struct PageView: View {
                 .background(.white)
                 .cornerRadius(30)
                 .padding(.horizontal, 20)
-                .padding(.bottom, 65)
+                .padding(.bottom, 50)
             
         }
         .buttonStyle(PlainButtonStyle())
@@ -228,15 +228,7 @@ struct PollView: View {
     let showDismissButton: Bool
     var nextAction: () -> Void
     
-    @State private var bankrollManagement = false
-    @State private var jumpStakes = false
-    @State private var focus = false
-    @State private var mentalGame = false
-    @State private var notGoingBust = false
-    @State private var trackingExpenses = false
-    @State private var handHistory = false
-    @State private var whenToEndSession = false
-    
+    @State private var selectedButtons: Set<String> = []
     @Binding var shouldShowOnboarding: Bool
     
     var body: some View {
@@ -244,207 +236,52 @@ struct PollView: View {
         VStack {
             
             VStack (alignment: .leading) {
+                
                 Text("Where do you need the most help in your poker career?")
                     .signInTitleStyle()
                     .foregroundColor(.brandWhite)
                     .fontWeight(.black)
-                    .padding(.vertical, 30)
+                    .padding(.top, 30)
+                    .padding(.bottom, 10)
 
-                Text("Choose all that apply:")
-                    .headlineStyle()
-                    .padding(.bottom)
+                Text("Choose any & all that may apply.")
+                    .calloutStyle()
+                    .opacity(0.7)
+                    .padding(.bottom, 30)
                 
-                VStack (spacing: 20) {
-                    HStack {
-                        Text("Bankroll Management")
-                            .calloutStyle()
-                        Spacer()
+                let columns = [GridItem(.flexible(minimum: 160, maximum: 200)), GridItem(.flexible(minimum: 160, maximum: 200))]
+                let buttonText = ["Bankroll Management", "Moving up Stakes", "Focus", "Mental Game", "Not Going Bust", "Tracking Expenses", "Hand History", "When To End Session"]
+                
+                LazyVGrid(columns: columns) {
+                    ForEach(buttonText, id: \.self) { text in
                         Button {
                             let impact = UIImpactFeedbackGenerator(style: .soft)
                             impact.impactOccurred()
-                            bankrollManagement.toggle()
-                        } label: {
-                            if #available(iOS 17.0, *) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(bankrollManagement == true ? .green : .gray)
-                                    .symbolEffect(.bounce, value: bankrollManagement)
+                            if selectedButtons.contains(text) {
+                                selectedButtons.remove(text)
                             } else {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(bankrollManagement == true ? .green : .gray)
+                                selectedButtons.insert(text)
                             }
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    
-                    HStack {
-                        Text("Moving up Stakes")
-                            .calloutStyle()
-                        Spacer()
-                        Button {
-                            let impact = UIImpactFeedbackGenerator(style: .soft)
-                            impact.impactOccurred()
-                            jumpStakes.toggle()
                         } label: {
-                            if #available(iOS 17.0, *) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(jumpStakes == true ? .green : .gray)
-                                    .symbolEffect(.bounce, value: jumpStakes)
-                            } else {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(jumpStakes == true ? .green : .gray)
-                            }
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    
-                    HStack {
-                        Text("Focus While Playing")
-                            .calloutStyle()
-                        Spacer()
-                        Button {
-                            let impact = UIImpactFeedbackGenerator(style: .soft)
-                            impact.impactOccurred()
-                            focus.toggle()
-                        } label: {
-                            if #available(iOS 17.0, *) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(focus == true ? .green : .gray)
-                                    .symbolEffect(.bounce, value: focus)
-                            } else {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(focus == true ? .green : .gray)
-                            }
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    
-                    HStack {
-                        Text("Mental Wellbeing")
-                            .calloutStyle()
-                        Spacer()
-                        Button {
-                            let impact = UIImpactFeedbackGenerator(style: .soft)
-                            impact.impactOccurred()
-                            mentalGame.toggle()
-                        } label: {
-                            if #available(iOS 17.0, *) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(mentalGame == true ? .green : .gray)
-                                    .symbolEffect(.bounce, value: mentalGame)
-                            } else {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(mentalGame == true ? .green : .gray)
-                            }
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    
-                    HStack {
-                        Text("Tracking Expenses")
-                            .calloutStyle()
-                        Spacer()
-                        Button {
-                            let impact = UIImpactFeedbackGenerator(style: .soft)
-                            impact.impactOccurred()
-                            trackingExpenses.toggle()
-                        } label: {
-                            if #available(iOS 17.0, *) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(trackingExpenses == true ? .green : .gray)
-                                    .symbolEffect(.bounce, value: trackingExpenses)
-                            } else {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(trackingExpenses == true ? .green : .gray)
-                            }
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    
-                    HStack {
-                        Text("Reviewing Hand History")
-                            .calloutStyle()
-                        Spacer()
-                        Button {
-                            let impact = UIImpactFeedbackGenerator(style: .soft)
-                            impact.impactOccurred()
-                            handHistory.toggle()
-                        } label: {
-                            if #available(iOS 17.0, *) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(handHistory == true ? .green : .gray)
-                                    .symbolEffect(.bounce, value: handHistory)
-                            } else {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(handHistory == true ? .green : .gray)
-                            }
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    
-                    HStack {
-                        Text("When to End a Session")
-                            .calloutStyle()
-                        Spacer()
-                        Button {
-                            let impact = UIImpactFeedbackGenerator(style: .soft)
-                            impact.impactOccurred()
-                            whenToEndSession.toggle()
-                        } label: {
-                            if #available(iOS 17.0, *) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(whenToEndSession == true ? .green : .gray)
-                                    .symbolEffect(.bounce, value: whenToEndSession)
-                            } else {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(whenToEndSession == true ? .green : .gray)
-                            }
-                        }
-                        .buttonStyle(.plain)
-                    }
-                    
-                    HStack {
-                        Text("Not Going Bust")
-                            .calloutStyle()
-                        Spacer()
-                        Button {
-                            let impact = UIImpactFeedbackGenerator(style: .soft)
-                            impact.impactOccurred()
-                            notGoingBust.toggle()
-                        } label: {
-                            if #available(iOS 17.0, *) {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(notGoingBust == true ? .green : .gray)
-                                    .symbolEffect(.bounce, value: notGoingBust)
-                            } else {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                                    .foregroundStyle(notGoingBust == true ? .green : .gray)
-                            }
+                            Text(text)
+                                .multilineTextAlignment(.center)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 75)
+                                .padding(12)
+                                .background(.thinMaterial)
+                                .cornerRadius(12)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(selectedButtons.contains(text) ? Color.lightGreen : Color.clear, lineWidth: 2)
+                                )
                         }
                         .buttonStyle(.plain)
                     }
                 }
-                .padding(25)
-                .background(.thinMaterial)
-                .cornerRadius(12)
-                .padding(.horizontal, 15)
+                .font(.custom("Asap-Regular", size: 16))
+                .fontWeight(.heavy)
             }
-            .padding(.horizontal, 25)
+            .padding(.horizontal, 20)
             
             Spacer()
             
@@ -454,7 +291,6 @@ struct PollView: View {
                 nextAction()
                 
             } label: {
-                
                 Text(showDismissButton ? "Let's Do It" : "Continue")
                     .buttonTextStyle()
                     .foregroundColor(.black)
@@ -463,8 +299,7 @@ struct PollView: View {
                     .background(.white)
                     .cornerRadius(30)
                     .padding(.horizontal, 20)
-                    .padding(.bottom, 65)
-                
+                    .padding(.bottom, 50)
             }
             .buttonStyle(PlainButtonStyle())
         }
