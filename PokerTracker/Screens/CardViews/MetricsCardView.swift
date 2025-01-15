@@ -33,7 +33,7 @@ struct MetricsCardView: View {
                         Text("Bankroll & Metrics")
                             .headlineStyle()
                         
-                        Text("Tap to view your bankroll progress, player metrics, analytics, & reports.")
+                        Text("All your important player metrics. Scroll to the bottom for all your reports.")
                             .calloutStyle()
                             .opacity(0.7)
                             .foregroundColor(.secondary)

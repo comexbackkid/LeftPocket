@@ -58,7 +58,7 @@ struct RecentSessionCardView: View {
                             .lineLimit(1)
                             .foregroundStyle(.white)
                         
-                        Text("Tap here to quickly review your last session, hand notes, & key stats.")
+                        Text("Tap here to quickly review your last Session, hand notes, key stats & more.")
                             .calloutStyle()
                             .opacity(0.7)
                             .foregroundStyle(.white)
