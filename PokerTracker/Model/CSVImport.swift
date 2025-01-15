@@ -168,18 +168,17 @@ class CSVImporter {
             let row = rows[rowIndex]
             let columns = row.components(separatedBy: ",")
             
-            // Can we use a guard statement that just ignores columns that don't match 44?
             if columns.count == 44 {
                 
                 // Extract only relevant data and create a PokerSession object
-                let game = columns[5].trimmingCharacters(in: .init(charactersIn: "\""))
+                let limit = columns[6].trimmingCharacters(in: .init(charactersIn: "\""))
+                let game = limit + " " + columns[5].trimmingCharacters(in: .init(charactersIn: "\""))
                 let location = LocationModel(name: columns[7].trimmingCharacters(in: .init(charactersIn: "\"")), localImage: "", imageURL: "")
                 let stakesPart1 = columns[20]
                 let stakesPart2 = columns[21]
                 let stakes = "\(stakesPart1)/\(stakesPart2)"
                 let date = convertToDate(columns[0].trimmingCharacters(in: .init(charactersIn: "\"")))
                 let profit = columns[11]
-//                let notes = columns[39].trimmingCharacters(in: .init(charactersIn: "\""))
                 let startTime = convertToDate(columns[0].trimmingCharacters(in: .init(charactersIn: "\"")))
                 let endTime = convertToDate(columns[1].trimmingCharacters(in: .init(charactersIn: "\"")))
                 let expenses = Int(columns[27])
@@ -188,6 +187,7 @@ class CSVImporter {
                 
                 // Tournament Data
                 let sessionType = columns[4].trimmingCharacters(in: .init(charactersIn: "\""))
+                let finish = Int(columns[30])
                 let entrants = Int(columns[31]) ?? 0
                 let tournamentBuyIn = Int(columns[9]) ?? 0
                 
@@ -203,7 +203,7 @@ class CSVImporter {
                                            expenses: sessionType == "Tournament" ? tournamentBuyIn : expenses,
                                            isTournament: sessionType == "Tournament" ? true : false,
                                            entrants: entrants,
-                                           finish: nil,
+                                           finish: finish,
                                            highHandBonus: nil,
                                            buyIn: buyIn,
                                            cashOut: cashOut,
@@ -215,10 +215,8 @@ class CSVImporter {
                 importedSessions.append(session)
                 
             } else {
-                
                 print("Column count: \(columns.count)")
                 throw ImportError.parsingFailed
-                
             }
         }
         
@@ -306,7 +304,6 @@ class CSVImporter {
         for rowIndex in 1..<rows.count {
             
             let row = rows[rowIndex].trimmingCharacters(in: .whitespacesAndNewlines)
-            // Skip empty rows
             if row.isEmpty { continue }
             var columns = row.components(separatedBy: ",")
             
@@ -314,26 +311,32 @@ class CSVImporter {
                 columns.append("")
             }
            
-            if columns.count == 14 {
+            if columns.count == 19 {
                 
                 // Extract only relevant data and create a PokerSession object
                 let game = columns[1].trimmingCharacters(in: .init(charactersIn: "\""))
                 let location = LocationModel(name: columns[0].trimmingCharacters(in: .init(charactersIn: "\"")), localImage: "", imageURL: "")
                 let stakes = columns[2].trimmingCharacters(in: .init(charactersIn: "\""))
                 let date = convertToDateFromLeftPocket(columns[3].trimmingCharacters(in: .init(charactersIn: "\"")))
-                let profit = columns[6]
-                let notes = columns[13].trimmingCharacters(in: .init(charactersIn: "\""))
-                let startTime = convertToDateFromLeftPocket(columns[8].trimmingCharacters(in: .init(charactersIn: "\"")))
-                let endTime = convertToDateFromLeftPocket(columns[9].trimmingCharacters(in: .init(charactersIn: "\"")))
-                let expenses = Int(columns[7].trimmingCharacters(in: .init(charactersIn: "\"")))
-                let highHandBonus = columns[12]
+                let profit = columns[7]
+                let notes = columns[18].trimmingCharacters(in: .init(charactersIn: "\""))
+                let startTime = convertToDateFromLeftPocket(columns[9].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let endTime = convertToDateFromLeftPocket(columns[10].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let expenses = Int(columns[8].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let highHandBonus = columns[16]
                 let buyIn = columns[4]
                 let cashOut = columns[5]
+                let tags = columns[17].trimmingCharacters(in: .init(charactersIn: "\""))
                 
                 // Tournament Data
-                let isTournament = columns[10].trimmingCharacters(in: .init(charactersIn: "\""))
-                let entrants = Int(columns[11].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
-                let tournamentBuyIn = Int(columns[7].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
+                let isTournament = columns[11].trimmingCharacters(in: .init(charactersIn: "\""))
+                let entrants = Int(columns[14].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
+                let tournamentBuyIn = Int(columns[4].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
+                let tournamentRebuys = Int(columns[6]) ?? 0
+                let tournamentRebuyCount = Int(safeDivide(numerator: Double(columns[6]), denominator: Double(columns[4])))
+                let tournamentFinish = Int(columns[15].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let tournamentSize = columns[12].trimmingCharacters(in: .init(charactersIn: "\""))
+                let tournamentSpeed = columns[13].trimmingCharacters(in: .init(charactersIn: "\""))
                 
                 // Need to figure out how to handle the buyIn being the same as expenses
                 let session = PokerSession(location: location,
@@ -344,25 +347,23 @@ class CSVImporter {
                                            notes: notes,
                                            startTime: startTime ?? Date().modifyTime(minutes: -360),
                                            endTime: endTime ?? Date(),
-                                           expenses: isTournament == "true" ? tournamentBuyIn : expenses,
+                                           expenses: isTournament == "true" ? tournamentBuyIn + tournamentRebuys : expenses,
                                            isTournament: isTournament == "true" ? true : false,
                                            entrants: entrants,
-                                           finish: nil,
+                                           finish: tournamentFinish,
                                            highHandBonus: Int(highHandBonus) ?? 0,
                                            buyIn: Int(buyIn),
                                            cashOut: Int(cashOut),
-                                           rebuyCount: nil,
-                                           tournamentSize: nil,
-                                           tournamentSpeed: nil,
-                                           tags: nil)
+                                           rebuyCount: tournamentRebuyCount,
+                                           tournamentSize: tournamentSize,
+                                           tournamentSpeed: tournamentSpeed,
+                                           tags: tags.isEmpty ? nil : [tags])
                 
                 importedSessions.append(session)
                 
             } else {
-                
                 print("Column count: \(columns.count)")
                 throw ImportError.parsingFailed
-                
             }
         }
         
@@ -443,6 +444,8 @@ class CSVImporter {
         return importedSessions
     }
     
+    // MARK: DATE CONVERSIONS
+    
     // Poker Income date conversion
     func convertToDateFromPokerIncome(_ rawDate: String) -> Date? {
         
@@ -518,6 +521,15 @@ class CSVImporter {
             print("Error: Unable to convert string to Date.")
             return nil
         }
+    }
+    
+    // MARK: HELPER FUNCTIONS
+    
+    func safeDivide(numerator: Double?, denominator: Double?) -> Double {
+        guard let numerator = numerator, let denominator = denominator, denominator != 0 else {
+            return 0
+        }
+        return numerator / denominator
     }
     
     enum ImportError: Error {

@@ -592,7 +592,7 @@ struct ProfitByYear: View {
             }
             
         } label: {
-            PrimaryButton(title: "Export as CSV")
+            PrimaryButton(title: "Export Results")
         }
         .padding(.top)
         .alert(isPresented: $showError) {
