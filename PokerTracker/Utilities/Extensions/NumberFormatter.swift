@@ -90,14 +90,18 @@ extension Int {
         let number = Double(self)
         let sign = (self < 0) ? "-" : ""
         let thousand = abs(number) / 1000
-        let million = abs(number) / 1000000
-        
+        let million = abs(number) / 1_000_000
+
         if million >= 1.0 {
             return "\(sign)\(symbol.symbol)\(String(format: "%.0f", million))M"
         } else if thousand >= 1.0 {
-            return "\(sign)\(symbol.symbol)\(String(format: "%.0f", thousand))K"
+            if abs(number) < 10_000 {
+                return "\(sign)\(symbol.symbol)\(String(format: "%.1f", thousand))K"
+            } else {
+                return "\(sign)\(symbol.symbol)\(String(format: "%.0f", thousand))K"
+            }
         } else {
-            return "\(sign)\(symbol.symbol)\(abs(self))"
+            return "\(sign)\(symbol.symbol)\(Int(abs(number)))"
         }
     }
 }
