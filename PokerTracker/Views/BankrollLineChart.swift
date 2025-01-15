@@ -19,7 +19,7 @@ struct BankrollLineChart: View {
     @AppStorage("sessionFilter") private var chartSessionFilter: SessionFilter = .all
     
     // Optional year selector, only used in Annual Report View. Overrides dateRange if used
-    var yearSelection: [PokerSession]?
+    var customDateRange: [PokerSession]?
     var dateRange: [PokerSession] {
         switch chartRange {
         case .all: return viewModel.sessions
@@ -38,7 +38,7 @@ struct BankrollLineChart: View {
         
         // Start with zero as our initial data point so chart doesn't look goofy
         var originalDataPoint = [0]
-        let newDataPoints = viewModel.calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange, sessionFilter: chartSessionFilter)
+        let newDataPoints = viewModel.calculateCumulativeProfit(sessions: customDateRange != nil ? customDateRange! : dateRange, sessionFilter: chartSessionFilter)
         originalDataPoint += newDataPoints
         return originalDataPoint
     }
@@ -48,6 +48,7 @@ struct BankrollLineChart: View {
     let showRangeSelector: Bool
     let showPatternBackground: Bool
     let overlayAnnotation: Bool
+    let showToggleAndFilter: Bool
 
     var body: some View {
         
@@ -94,9 +95,12 @@ struct BankrollLineChart: View {
                     
                     Spacer()
                     
-                    fullScreenToggleButton
-                    
-                    filterButton
+                    if showToggleAndFilter {
+                        
+                        fullScreenToggleButton
+                        
+                        filterButton
+                    }
                 }
                 .padding(.bottom)
                 
@@ -120,7 +124,7 @@ struct BankrollLineChart: View {
         
         VStack {
             
-            let cumulativeProfitArray = viewModel.calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange,
+            let cumulativeProfitArray = viewModel.calculateCumulativeProfit(sessions: customDateRange != nil ? customDateRange! : dateRange,
                                                                             sessionFilter: chartSessionFilter)
             let lineGradient = LinearGradient(colors: [chartSessionFilter != .tournaments ? .chartAccent : .donutChartOrange,
                                                    chartSessionFilter != .tournaments ? .chartBase : .orange],
@@ -212,7 +216,7 @@ struct BankrollLineChart: View {
         
         VStack {
             
-            let cumulativeProfitArray = viewModel.calculateCumulativeProfit(sessions: yearSelection != nil ? yearSelection! : dateRange, sessionFilter: chartSessionFilter)
+            let cumulativeProfitArray = viewModel.calculateCumulativeProfit(sessions: customDateRange != nil ? customDateRange! : dateRange, sessionFilter: chartSessionFilter)
             
             Chart {
                 
@@ -383,9 +387,9 @@ struct BankrollLineChart: View {
 struct SwiftChartsPractice_Previews: PreviewProvider {
     
     static var previews: some View {
-        BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, showPatternBackground: false, overlayAnnotation: true)
+        BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, showPatternBackground: false, overlayAnnotation: true, showToggleAndFilter: true)
             .environmentObject(SessionsListViewModel())
-//            .preferredColorScheme(.dark)
+            .preferredColorScheme(.dark)
             .frame(height: 400)
             .padding()
     }

@@ -31,6 +31,9 @@ struct TagReport: View {
             return Image("defaultlocation-header")
         }
     }
+    var taggedSessions: [PokerSession]? {
+        return viewModel.sessions.filter({ $0.tags?.first == tagsFilter })
+    }
     
     var body: some View {
         
@@ -62,7 +65,15 @@ struct TagReport: View {
             .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
-            .padding(.bottom, 80)
+            .padding(.bottom, 14)
+            
+            BankrollLineChart(customDateRange: taggedSessions, showTitle: true, showYAxis: true, showRangeSelector: false, showPatternBackground: false, overlayAnnotation: false, showToggleAndFilter: false)
+                .padding(20)
+                .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)
+                .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                .cornerRadius(12)
+                .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+                .padding(.bottom, 80)
         }
         .background(Color.brandBackground)
         .accentColor(.brandPrimary)

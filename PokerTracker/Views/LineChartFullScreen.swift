@@ -24,7 +24,8 @@ struct LineChartFullScreen: View {
                               showYAxis: true,
                               showRangeSelector: true,
                               showPatternBackground: false,
-                              overlayAnnotation: true)
+                              overlayAnnotation: true,
+                              showToggleAndFilter: false)
         }
         .padding(20)
         .padding(.leading, verticalSizeClass == .regular ? 0 : 50)
