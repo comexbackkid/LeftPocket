@@ -15,21 +15,21 @@ class CSVConversion: ObservableObject {
 
     static func exportCSV(from sessions: [PokerSession]) throws -> URL {
         
-            guard !sessions.isEmpty else {
-                throw CSVError.invalidData
-            }
-
-            let csvText = convertToCSV(data: sessions)
-
-            do {
-                let fileURL = try getDocumentsDirectoryNew().appendingPathComponent("Left_Pocket_Sessions.csv")
-                try csvText.write(to: fileURL, atomically: true, encoding: .utf8)
-                return fileURL
-                
-            } catch {
-                throw CSVError.exportFailed
-            }
+        guard !sessions.isEmpty else {
+            throw CSVError.invalidData
         }
+        
+        let csvText = convertToCSV(data: sessions)
+        
+        do {
+            let fileURL = try getDocumentsDirectoryNew().appendingPathComponent("Left_Pocket_Sessions.csv")
+            try csvText.write(to: fileURL, atomically: true, encoding: .utf8)
+            return fileURL
+            
+        } catch {
+            throw CSVError.exportFailed
+        }
+    }
 
     static private func convertToCSV(data: [PokerSession]) -> String {
         
@@ -78,11 +78,11 @@ class CSVConversion: ObservableObject {
     }
     
     private static func getDocumentsDirectoryNew() throws -> URL {
-            guard let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-                throw CSVError.exportFailed
-            }
-            return directoryURL
+        guard let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            throw CSVError.exportFailed
         }
+        return directoryURL
+    }
 }
 
 extension CSVConversion {

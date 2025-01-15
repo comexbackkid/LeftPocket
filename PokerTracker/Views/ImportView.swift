@@ -1018,11 +1018,11 @@ struct LeftPocketImportView: View {
                 // Handle specific CSV import errors from our class
                 switch error {
                 case .invalidData:
-                    errorMessage = "Error: Invalid Data"
+                    errorMessage = "Error: Invalid Data. Contact Support for assistance."
                 case .parsingFailed:
-                    errorMessage = "Error: Parsing Failed. Ensure correct number of columns & formatting in each cell"
+                    errorMessage = "Error: Parsing Failed. Ensure correct number of columns & formatting in each cell. Contact Support for assistance."
                 case .saveFailed:
-                    errorMessage = "Error: Failed to Save Data"
+                    errorMessage = "Error: Failed to Save Data. Contact Support for assistance."
                 }
                 
                 print("CSV Import Error: \(error)")
