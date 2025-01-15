@@ -168,7 +168,6 @@ class CSVImporter {
             let row = rows[rowIndex]
             let columns = row.components(separatedBy: ",")
             
-            // Can we use a guard statement that just ignores columns that don't match 44?
             if columns.count == 44 {
                 
                 // Extract only relevant data and create a PokerSession object
@@ -216,10 +215,8 @@ class CSVImporter {
                 importedSessions.append(session)
                 
             } else {
-                
                 print("Column count: \(columns.count)")
                 throw ImportError.parsingFailed
-                
             }
         }
         
@@ -307,7 +304,6 @@ class CSVImporter {
         for rowIndex in 1..<rows.count {
             
             let row = rows[rowIndex].trimmingCharacters(in: .whitespacesAndNewlines)
-            // Skip empty rows
             if row.isEmpty { continue }
             var columns = row.components(separatedBy: ",")
             
@@ -366,10 +362,8 @@ class CSVImporter {
                 importedSessions.append(session)
                 
             } else {
-                
                 print("Column count: \(columns.count)")
                 throw ImportError.parsingFailed
-                
             }
         }
         

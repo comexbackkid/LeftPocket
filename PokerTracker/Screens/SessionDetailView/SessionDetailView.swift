@@ -194,7 +194,7 @@ struct SessionDetailView: View {
                 
                 Spacer()
                 
-                Text(pokerSession.profit.axisShortHand(vm.userCurrency))
+                Text(pokerSession.profit.currencyShortHand(vm.userCurrency))
                     .profitColor(total: pokerSession.profit)
                     .fontWeight(.semibold)
                 
@@ -268,7 +268,7 @@ struct SessionDetailView: View {
                 
                 Spacer()
                 
-                Text(pokerSession.profit.axisShortHand(vm.userCurrency))
+                Text(pokerSession.profit.currencyShortHand(vm.userCurrency))
                     .profitColor(total: pokerSession.profit)
                     .fontWeight(.semibold)
             }
