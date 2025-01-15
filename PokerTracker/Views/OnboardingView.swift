@@ -250,7 +250,7 @@ struct PollView: View {
                     .padding(.bottom, 30)
                 
                 let columns = [GridItem(.flexible(minimum: 160, maximum: 200)), GridItem(.flexible(minimum: 160, maximum: 200))]
-                let buttonText = ["Bankroll Management", "Moving up Stakes", "Focus", "Mental Game", "Not Going Bust", "Tracking Expenses", "Hand History", "When To End Session"]
+                let buttonText = ["Bankroll Management", "Moving up Stakes", "Focus", "Mental Game", "Keeping Hand History", "Tracking Expenses", "Not Going Bust", "When To End a Session"]
                 
                 LazyVGrid(columns: columns) {
                     ForEach(buttonText, id: \.self) { text in
