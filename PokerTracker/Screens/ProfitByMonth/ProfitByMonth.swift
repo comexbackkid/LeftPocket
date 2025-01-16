@@ -39,7 +39,15 @@ struct ProfitByMonth: View {
                 Spacer()
             }
         }
-        .toolbar { headerInfo }
+        .toolbar {
+            ToolbarItem {
+                headerInfo
+            }
+            ToolbarItem(placement: .principal) {
+                Text("Monthly Snapshot")
+                    .font(.custom("Asap-Bold", size: 18))
+            }
+        }
         .background(Color.brandBackground)
         .dynamicTypeSize(.xSmall...DynamicTypeSize.large)
         .navigationBarTitleDisplayMode(.inline)

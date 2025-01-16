@@ -134,7 +134,15 @@ struct ProfitByStakesView: View {
                     }
             }
             .padding(.bottom, 60)
-            .toolbar { headerInfo }
+            .toolbar {
+                ToolbarItem {
+                    headerInfo
+                }
+                ToolbarItem(placement: .principal) {
+                    Text("Game Stakes")
+                        .font(.custom("Asap-Bold", size: 18))
+                }
+            }
             .task {
                 for await customerInfo in Purchases.shared.customerInfoStream {
                     showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty

@@ -97,7 +97,15 @@ struct ProfitByLocationView: View {
             }
             .padding(.bottom, 60)
         }
-        .toolbar { headerInfo }
+        .toolbar {
+            ToolbarItem {
+                headerInfo
+            }
+            ToolbarItem(placement: .principal) {
+                Text("Location Statistics")
+                    .font(.custom("Asap-Bold", size: 18))
+            }
+        }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarTitle(Text("Location Statistics"))
         .background(Color.brandBackground)
