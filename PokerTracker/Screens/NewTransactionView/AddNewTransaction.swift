@@ -223,7 +223,7 @@ struct AddNewTransaction: View {
                     HStack {
                         VStack {
                             VStack {
-                                Text(notes.isEmpty ? "Notes (Optional)" : "")
+                                Text(notes.isEmpty ? "Entry Title" : "")
                                     .font(.custom("Asap-Regular", size: 17))
                                     .font(.callout)
                                     .foregroundColor(.secondary.opacity(0.5))
