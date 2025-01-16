@@ -106,7 +106,6 @@ struct SessionsListView: View {
                     case .sessions:
                         
                         if !filteredSessions.isEmpty {
-                            
                             List {
                                 screenTitle
                                 
@@ -124,6 +123,7 @@ struct SessionsListView: View {
                                 }
                             }
                             .listStyle(.plain)
+                            .padding(.bottom, 50)
                             .sheet(item: $selectedSession) { session in
                                 EditSession(pokerSession: session)
                             }
@@ -151,6 +151,7 @@ struct SessionsListView: View {
                                 })
                             }
                             .listStyle(.plain)
+                            .padding(.bottom, 50)
                             
                         } else {
                             emptyTransactionsView
