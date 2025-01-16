@@ -37,15 +37,7 @@ struct MetricsView: View {
                                 
                                 title
                                 
-                                if viewModel.sessions.count > 1 && viewModel.winStreak() > 1 {
-                                    ToolTipView(image: "flame.fill",
-                                                message: "You're on a win streak! That's \(viewModel.winStreak()) in a row, stay on track.",
-                                                color: .yellow)
-                                } else {
-                                    ToolTipView(image: "lightbulb",
-                                                message: "Track your performance from here. Tap & hold charts for more info.",
-                                                color: .yellow)
-                                }
+                                winStreakToolTip
                                                                 
                                 bankrollChart
                                 
@@ -151,6 +143,27 @@ struct MetricsView: View {
                 .padding(.horizontal)
             
             Spacer()
+        }
+    }
+    
+    var winStreakToolTip: some View {
+        
+        Group {
+            if viewModel.sessions.count > 1 && viewModel.winStreak() > 2 {
+                ToolTipView(image: "flame.fill",
+                            message: "You're on a win streak! That's \(viewModel.winStreak()) in a row, well done.",
+                            color: .yellow)
+                
+            } else if viewModel.sessions.count > 1 && viewModel.winStreak() < -2 {
+                ToolTipView(image: "snowflake",
+                            message: "You're on a slight downswing. Take a breather, & re-focus.",
+                            color: .lightBlue)
+                
+            } else {
+                ToolTipView(image: "lightbulb",
+                            message: "Track your performance from here. Tap & hold charts for more info.",
+                            color: .yellow)
+            }
         }
     }
     

@@ -274,18 +274,30 @@ class SessionsListViewModel: ObservableObject {
     }
     
     func winStreak() -> Int {
-        var currentStreak = 0
-
+        var streak = 0
+        
         // Iterate through sessions in reverse order (from most recent to oldest)
         for session in sessions {
             if session.profit > 0 {
-                currentStreak += 1
+                // If on a win streak or neutral, increment the streak
+                if streak >= 0 {
+                    streak += 1
+                } else {
+                    break // Break if switching from a losing streak
+                }
+            } else if session.profit < 0 {
+                // If on a losing streak or neutral, decrement the streak
+                if streak <= 0 {
+                    streak -= 1
+                } else {
+                    break // Break if switching from a win streak
+                }
             } else {
-                break
+                break // Streak ends on a neutral session (profit == 0)
             }
         }
-
-        return currentStreak
+        
+        return streak
     }
     
     // MARK: CHARTING FUNCTIONS
