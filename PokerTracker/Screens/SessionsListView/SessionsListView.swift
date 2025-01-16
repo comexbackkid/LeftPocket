@@ -358,6 +358,14 @@ struct SessionsListView: View {
                         .padding(.bottom)
                 }
             }
+            let today = Calendar.current.startOfDay(for: Date.now)
+            let normalizedEndDate = Calendar.current.startOfDay(for: endDate)
+            if startDate != firstSessionDate || normalizedEndDate != today {
+                FilterTag(type: "Dates", filterName: "Custom")
+                    .truncationMode(.tail)
+                    .lineLimit(1)
+                    .padding(.bottom)
+            }
         }
         .padding(.horizontal)
         .minimumScaleFactor(0.9)
