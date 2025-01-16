@@ -37,9 +37,15 @@ struct MetricsView: View {
                                 
                                 title
                                 
-                                ToolTipView(image: "lightbulb",
-                                            message: "Track your performance from here. Tap & hold charts for more info.",
-                                            color: .yellow)
+                                if viewModel.sessions.count > 1 && viewModel.winStreak() > 1 {
+                                    ToolTipView(image: "flame.fill",
+                                                message: "You're on a win streak! That's \(viewModel.winStreak()) in a row, stay on track.",
+                                                color: .yellow)
+                                } else {
+                                    ToolTipView(image: "lightbulb",
+                                                message: "Track your performance from here. Tap & hold charts for more info.",
+                                                color: .yellow)
+                                }
                                                                 
                                 bankrollChart
                                 

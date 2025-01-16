@@ -273,21 +273,19 @@ class SessionsListViewModel: ObservableObject {
         return bankroll
     }
     
-    // User's longest win streak. Not being used yet
     func winStreak() -> Int {
-        var consecutiveCount = 0
-        var maxConsecutiveCount = 0
+        var currentStreak = 0
 
+        // Iterate through sessions in reverse order (from most recent to oldest)
         for session in sessions {
             if session.profit > 0 {
-                consecutiveCount += 1
-                maxConsecutiveCount = max(maxConsecutiveCount, consecutiveCount)
+                currentStreak += 1
             } else {
-                consecutiveCount = 0
+                break
             }
         }
 
-        return maxConsecutiveCount
+        return currentStreak
     }
     
     // MARK: CHARTING FUNCTIONS
