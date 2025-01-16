@@ -196,6 +196,11 @@ struct SessionsListView: View {
                     datesInitialized = true
                 }
             }
+            .onChange(of: vm.sessions) { _ in
+                if datesInitialized {
+                    startDate = firstSessionDate
+                }
+            }
         }
         .accentColor(.brandPrimary)
     }
