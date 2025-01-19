@@ -78,13 +78,16 @@ struct PerformanceLineChart: View {
                     if let selectedMonth {
                         
                         RuleMark(x: .value("Selected Month", selectedMonth, unit: .month))
-                            .lineStyle(StrokeStyle(lineWidth: 10, lineCap: .round))
-                            .foregroundStyle(.gray.opacity(0.2))
+                            .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, dash: [6]))
+                            .foregroundStyle(.gray.opacity(0.33))
                             .zIndex(-1)
                         
                         PointMark(x: .value("Month", selectedMonth, unit: .month), y: .value("Value", valueAnnotation ?? 0))
-                            .foregroundStyle(.white)
-                            .symbolSize(120)
+                            .foregroundStyle(colorScheme == .dark ? Color.brandWhite : Color.black)
+                            .symbolSize(100)
+                        PointMark(x: .value("Month", selectedMonth, unit: .month), y: .value("Value", valueAnnotation ?? 0))
+                            .foregroundStyle(colorScheme == .dark ? Color.black : .white)
+                            .symbolSize(40)
                     }
                 }
                 .chartXSelection(value: $selectedMonth.animation(.easeInOut))

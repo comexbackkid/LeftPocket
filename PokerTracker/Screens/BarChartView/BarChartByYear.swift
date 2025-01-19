@@ -97,7 +97,8 @@ struct BarChartByYear: View {
                 if let selectedMonth {
                     
                     RuleMark(x: .value("Selected Date", selectedMonth, unit: .month))
-                        .foregroundStyle(.gray.opacity(0.3))
+                        .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, dash: [6]))
+                        .foregroundStyle(.gray.opacity(0.33))
                         .zIndex(-1)
                 }
             }

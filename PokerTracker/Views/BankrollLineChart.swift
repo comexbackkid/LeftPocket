@@ -11,6 +11,7 @@ import Charts
 struct BankrollLineChart: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
+    @Environment(\.colorScheme) var colorScheme
     
     @State private var selectedIndex: Int?
     @State private var animationProgress: CGFloat = 0.0
@@ -109,7 +110,7 @@ struct BankrollLineChart: View {
                         .interfaceOrientations(.allButUpsideDown)
                 })
             }
-            
+      
             if #available(iOS 17.0, *) {
                 lineChart
                 
@@ -129,7 +130,7 @@ struct BankrollLineChart: View {
             let lineGradient = LinearGradient(colors: [chartSessionFilter != .tournaments ? .chartAccent : .donutChartOrange,
                                                    chartSessionFilter != .tournaments ? .chartBase : .orange],
                                           startPoint: .topTrailing, endPoint: .bottomLeading)
-            let areaGradient = LinearGradient(colors: [chartSessionFilter != .tournaments ? Color("lightBlue").opacity(0.85) : .donutChartOrange, .clear], startPoint: .top, endPoint: .bottom)
+            let areaGradient = LinearGradient(colors: [chartSessionFilter != .tournaments ? Color("lightBlue").opacity(0.85) : .donutChartOrange, chartSessionFilter != .tournaments ? Color("lightBlue").opacity(0.25) : .donutChartOrange.opacity(0.25), .clear, .clear], startPoint: .top, endPoint: .bottom)
             
             Chart {
                 
@@ -141,13 +142,17 @@ struct BankrollLineChart: View {
                     
                     AreaMark(x: .value("Time", index), y: .value("Profit", total))
                         .foregroundStyle(areaGradient)
-                        .opacity(showChart ? 0.15 : 0.0)
+                        .opacity(showChart ? 0.25 : 0.0)
                     
                     
                     if let selectedIndex {
                         
                         PointMark(x: .value("Point", selectedIndex), y: .value("Profit", profitAnnotation ?? 0))
-                            .foregroundStyle(Color.brandWhite)
+                            .foregroundStyle(colorScheme == .dark ? Color.brandWhite : Color.black)
+                            .symbolSize(100)
+                        PointMark(x: .value("Point", selectedIndex), y: .value("Profit", profitAnnotation ?? 0))
+                            .foregroundStyle(colorScheme == .dark ? Color.black : .white)
+                            .symbolSize(40)
                     }
                 }
                 .interpolationMethod(.catmullRom)
@@ -156,8 +161,8 @@ struct BankrollLineChart: View {
                 if let selectedIndex {
                     
                     RuleMark(x: .value("Selected Date", selectedIndex))
-                        .lineStyle(StrokeStyle(lineWidth: 10, lineCap: .round))
-                        .foregroundStyle(.gray.opacity(0.2))
+                        .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, dash: [6]))
+                        .foregroundStyle(.gray.opacity(0.33))
                 }
             }
             .onAppear {
@@ -217,6 +222,7 @@ struct BankrollLineChart: View {
         VStack {
             
             let cumulativeProfitArray = viewModel.calculateCumulativeProfit(sessions: customDateRange != nil ? customDateRange! : dateRange, sessionFilter: chartSessionFilter)
+            let areaGradient = LinearGradient(colors: [chartSessionFilter != .tournaments ? Color("lightBlue").opacity(0.85) : .donutChartOrange, chartSessionFilter != .tournaments ? Color("lightBlue").opacity(0.25) : .donutChartOrange.opacity(0.25), .clear, .clear], startPoint: .top, endPoint: .bottom)
             
             Chart {
                 
@@ -226,8 +232,8 @@ struct BankrollLineChart: View {
                         .opacity(showChart ? 1.0 : 0.0)
                     
                     AreaMark(x: .value("Time", index), y: .value("Profit", total))
-                        .foregroundStyle(LinearGradient(colors: [chartSessionFilter != .tournaments ? Color("lightBlue").opacity(0.85) : .donutChartGreen, .clear], startPoint: .top, endPoint: .bottom))
-                        .opacity(showChart ? 0.15 : 0.0)
+                        .foregroundStyle(areaGradient)
+                        .opacity(showChart ? 0.25 : 0.0)
                 }
                 .foregroundStyle(LinearGradient(colors: [chartSessionFilter != .tournaments ? .chartAccent : .donutChartGreen,
                                                          chartSessionFilter != .tournaments ? .chartBase : .donutChartDarkBlue],
@@ -242,7 +248,7 @@ struct BankrollLineChart: View {
             }
             .overlay(
                 PatternView()
-                    .opacity(showChart ? 0.33 : 0.0)
+                    .opacity(showChart && showPatternBackground ? 0.33 : 0.0)
                     .allowsHitTesting(false)
                     .mask(
                         Chart {
