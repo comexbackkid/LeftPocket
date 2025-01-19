@@ -21,9 +21,17 @@ struct TransactionCellView: View {
             
             VStack (alignment: .leading, spacing: 2) {
                 
-                Text(transaction.type.description)
-                    .bodyStyle()
-                    .lineLimit(1)
+                HStack {
+                    Text(transaction.type.description)
+                        .bodyStyle()
+                        .lineLimit(1)
+                    
+                    if transaction.tags != nil {
+                        Image(systemName: "tag.fill")
+                            .resizable()
+                            .frame(width: 14, height: 14)
+                    }
+                }
                 
                 HStack (alignment: .firstTextBaseline, spacing: 0) {
                     Text(transaction.date.formatted(date: .abbreviated, time: .omitted))

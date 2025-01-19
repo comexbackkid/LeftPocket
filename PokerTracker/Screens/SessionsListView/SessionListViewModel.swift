@@ -405,14 +405,14 @@ class SessionsListViewModel: ObservableObject {
         sessions.sort(by: {$0.date > $1.date})
     }
     
-    func addTransaction(date: Date, type: TransactionType, amount: Int, notes: String) {
+    func addTransaction(date: Date, type: TransactionType, amount: Int, notes: String, tags: [String]?) {
         
         if type == .withdrawal || type == .expense {
             let newAmount = -(amount)
-            let newTransaction = BankrollTransaction(date: date, type: type, amount: newAmount, notes: notes)
+            let newTransaction = BankrollTransaction(date: date, type: type, amount: newAmount, notes: notes, tags: tags)
             transactions.append(newTransaction)
         } else {
-            let newTransaction = BankrollTransaction(date: date, type: type, amount: amount, notes: notes)
+            let newTransaction = BankrollTransaction(date: date, type: type, amount: amount, notes: notes, tags: tags)
             transactions.append(newTransaction)
         }
         

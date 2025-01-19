@@ -19,6 +19,7 @@ struct AddNewTransaction: View {
     @State private var amount: String = ""
     @State private var date: Date = .now
     @State private var notes: String = ""
+    @State private var tags: String = ""
     @State private var transactionPopup = false
     @State private var alertItem: AlertItem?
     
@@ -215,7 +216,7 @@ struct AddNewTransaction: View {
             TextEditor(text: $notes)
                 .font(.custom("Asap-Regular", size: 17))
                 .padding(12)
-                .frame(height: 130, alignment: .top)
+                .frame(height: 100, alignment: .top)
                 .scrollContentBackground(.hidden)
                 .background(.gray.opacity(0.2))
                 .cornerRadius(15)
@@ -235,6 +236,40 @@ struct AddNewTransaction: View {
                         }
                         Spacer()
                     })
+                .padding(.bottom, 10)
+            
+            HStack {
+                Image(systemName: "tag.fill")
+                    .font(.caption2)
+                    .frame(width: 13)
+                    .foregroundColor(tags.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                
+                TextField("Tags (Optional)", text: $tags)
+                    .font(.custom("Asap-Regular", size: 17))
+            }
+//            .allowsHitTesting(subManager.isSubscribed ? true : false)
+            .padding(18)
+            .background(.gray.opacity(0.2))
+            .cornerRadius(15)
+            .padding(.bottom, 10)
+//            .overlay {
+//                if !subManager.isSubscribed {
+//                    HStack {
+//                        Spacer()
+//                        Button {
+//                            showPaywall = true
+//                        } label: {
+//                            Image(systemName: "lock.fill")
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(height: 20)
+//                                .padding(.bottom, 10)
+//                                .padding(.trailing, 40)
+//                        }
+//                        .buttonStyle(.plain)
+//                    }
+//                }
+//            }
         }
     }
     
@@ -282,7 +317,7 @@ struct AddNewTransaction: View {
     
     private func saveButtonPressed() {
         guard isValidForm else { return }
-        vm.addTransaction(date: date, type: type!, amount: Int(amount) ?? 0, notes: notes)
+        vm.addTransaction(date: date, type: type!, amount: Int(amount) ?? 0, notes: notes, tags: [tags])
         showNewTransaction = false
     }
 }
