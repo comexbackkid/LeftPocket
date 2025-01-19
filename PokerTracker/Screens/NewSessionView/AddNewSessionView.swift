@@ -620,7 +620,7 @@ struct AddNewSessionView: View {
                 
                 HStack {
                     
-                    Text("#")
+                    Image(systemName: "person.fill")
                         .font(.callout)
                         .frame(width: 13)
                         .foregroundColor(newSession.entrants.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
