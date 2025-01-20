@@ -12,6 +12,8 @@ struct TagReport: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     @Environment(\.colorScheme) var colorScheme
     @State private var tagsFilter: String = ""
+    @State private var expensesPopover = false
+    @State private var grossIncomePopover = false
     
     var imageGenerator: Image {
         
@@ -166,33 +168,59 @@ struct TagReport: View {
             let expenses = tagExpenses(tag: tagsFilter)
             let netProfit = grossIncome - expenses
             
-            VStack (spacing: 5) {
-                
+            HStack {
                 HStack {
                     Text("Gross Income")
                     
-                    Spacer()
-                    Text(grossIncome, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                        .profitColor(total: grossIncome)
+                    Button {
+                        grossIncomePopover = true
+                    } label: {
+                        Image(systemName: "info.circle")
+                            .font(.subheadline)
+                            .foregroundStyle(Color.brandPrimary)
+                    }
                 }
+                .popover(isPresented: $grossIncomePopover, arrowEdge: .bottom, content: {
+                    PopoverView(bodyText: "Gross Income includes total income won from Sessions in this Tag Report, including high hand bonuses.")
+                        .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                        .frame(height: 145)
+                        .dynamicTypeSize(.medium...DynamicTypeSize.medium)
+                        .presentationCompactAdaptation(.popover)
+                        .preferredColorScheme(colorScheme == .dark ? .dark : .light)
+                        .shadow(radius: 10)
+                })
                 
-                HStack {
-                    Text("(Includes High Hands)")
-                        .captionStyle()
-                        .foregroundColor(.secondary)
-                    
-                    Spacer()
-                    
-                }
+                Spacer()
+                Text(grossIncome, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: grossIncome)
             }
-            
+
             HStack {
-                Text("Expenses")
+                HStack {
+                    Text("Expenses")
+                    
+                    Button {
+                        expensesPopover = true
+                    } label: {
+                        Image(systemName: "info.circle")
+                            .font(.subheadline)
+                            .foregroundStyle(Color.brandPrimary)
+                    }
+                }
                 
                 Spacer()
                 Text(expenses, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .foregroundColor(expenses > 0 ? .red : Color(.systemGray))
             }
+            .popover(isPresented: $expensesPopover, arrowEdge: .bottom, content: {
+                PopoverView(bodyText: "Expenses include both on & off-the-table expenses, and those logged using Transactions. This is in addition to Tournament buy ins.")
+                    .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                    .frame(height: 145)
+                    .dynamicTypeSize(.medium...DynamicTypeSize.medium)
+                    .presentationCompactAdaptation(.popover)
+                    .preferredColorScheme(colorScheme == .dark ? .dark : .light)
+                    .shadow(radius: 10)
+            })
             
             HStack {
                 Text("Net Profit")
