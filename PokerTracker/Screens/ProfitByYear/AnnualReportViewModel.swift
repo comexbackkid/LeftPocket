@@ -204,34 +204,29 @@ class AnnualReportViewModel: ObservableObject {
             case .lastYear:
                 guard !vm.sessions.filter({ $0.date.getYear() == lastYear }).isEmpty else { return 0 }
                 let expenses = vm.sessions.filter({ $0.date.getYear() == lastYear }).map { $0.expenses ?? 0 }.reduce(0,+)
-                let offTableExpenses = vm.transactions.filter({ $0.type == .expense && $0.date.getYear() == lastYear }).map { $0.amount }.reduce(0,+)
-                return expenses + abs(offTableExpenses)
+                return expenses
             }
         case .cash:
             switch timeline {
             case .ytd:
                 guard !vm.allCashSessions().filter({ $0.date.getYear() == ytd }).isEmpty else { return 0 }
                 let expenses = vm.allCashSessions().filter({ $0.date.getYear() == ytd }).map { $0.expenses ?? 0 }.reduce(0,+)
-                let offTableExpenses = vm.transactions.filter({ $0.type == .expense && $0.date.getYear() == ytd }).map { $0.amount }.reduce(0,+)
-                return expenses + abs(offTableExpenses)
+                return expenses
             case .lastYear:
                 guard !vm.allCashSessions().filter({ $0.date.getYear() == lastYear }).isEmpty else { return 0 }
                 let expenses = vm.allCashSessions().filter({ $0.date.getYear() == lastYear }).map { $0.expenses ?? 0 }.reduce(0,+)
-                let offTableExpenses = vm.transactions.filter({ $0.type == .expense && $0.date.getYear() == lastYear }).map { $0.amount }.reduce(0,+)
-                return expenses + abs(offTableExpenses)
+                return expenses
             }
         case .tournaments:
             switch timeline {
             case .ytd:
                 guard !vm.allTournamentSessions().filter({ $0.date.getYear() == ytd }).isEmpty else { return 0 }
                 let expenses = vm.allTournamentSessions().filter({ $0.date.getYear() == ytd }).map { $0.expenses ?? 0 }.reduce(0,+)
-                let offTableExpenses = vm.transactions.filter({ $0.type == .expense && $0.date.getYear() == ytd }).map { $0.amount }.reduce(0,+)
-                return expenses + abs(offTableExpenses)
+                return expenses
             case .lastYear:
                 guard !vm.allTournamentSessions().filter({ $0.date.getYear() == lastYear }).isEmpty else { return 0 }
                 let expenses = vm.allTournamentSessions().filter({ $0.date.getYear() == lastYear }).map { $0.expenses ?? 0 }.reduce(0,+)
-                let offTableExpenses = vm.transactions.filter({ $0.type == .expense && $0.date.getYear() == lastYear }).map { $0.amount }.reduce(0,+)
-                return expenses + abs(offTableExpenses)
+                return expenses
             }
         }
     }
