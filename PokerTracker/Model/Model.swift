@@ -79,6 +79,7 @@ struct BankrollTransaction: Hashable, Identifiable, Codable {
     let type: TransactionType
     let amount: Int
     let notes: String
+    let tags: [String]?
 }
 
 enum TransactionType: String, Codable, CaseIterable {
@@ -215,7 +216,7 @@ struct MockData {
     ]
     
     static let sampleTransactions = [
-        BankrollTransaction(date: Date().modifyDays(days: -7), type: .deposit, amount: 1000, notes: "Starting bankroll"),
-        BankrollTransaction(date: Date(), type: .withdrawal, amount: 350, notes: "Life expenses")
+        BankrollTransaction(date: Date().modifyDays(days: -7), type: .deposit, amount: 1000, notes: "Starting bankroll", tags: ["My First Tag"]),
+        BankrollTransaction(date: Date(), type: .withdrawal, amount: 350, notes: "Life expenses", tags: nil)
     ]
 }

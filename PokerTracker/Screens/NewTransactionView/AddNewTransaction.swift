@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import RevenueCat
+import RevenueCatUI
 
 struct AddNewTransaction: View {
     
     @EnvironmentObject var vm: SessionsListViewModel
+    @EnvironmentObject var subManager: SubscriptionManager
     @Environment(\.colorScheme) var colorScheme
     
     @Binding var showNewTransaction: Bool
@@ -19,8 +22,10 @@ struct AddNewTransaction: View {
     @State private var amount: String = ""
     @State private var date: Date = .now
     @State private var notes: String = ""
+    @State private var tags: String = ""
     @State private var transactionPopup = false
     @State private var alertItem: AlertItem?
+    @State private var showPaywall = false
     
     var body: some View {
         
@@ -76,7 +81,7 @@ struct AddNewTransaction: View {
         VStack (alignment: .leading, spacing: 20) {
             
             HStack {
-                Text("Enter transaction details below. Transactions do NOT factor into your player metrics or stats. Use this screen for logging \"off-the-felt\" expenses such as meals, travel, and memberships, or for managing withdrawals & deposits to your bankroll.")
+                Text("Use this screen for logging \"off-the-felt\" expenses such as meals, travel, & memberships, or for tracking withdrawals & deposits to your bankroll. Transactions do NOT affect your player stats. ")
                     .bodyStyle()
                 
                 Spacer()
@@ -100,7 +105,7 @@ struct AddNewTransaction: View {
                 .foregroundStyle(Color.brandPrimary)
             }
             .popover(isPresented: $transactionPopup, arrowEdge: .bottom, content: {
-                PopoverView(bodyText: "Transactions are optional. They're for players who want a precise ledger of their current, actual bankroll figure. Transactions do not factor into your player stats.")
+                PopoverView(bodyText: "Transactions are optional. They're for players who want a precise ledger of their current, actual bankroll figure. Transactions do not factor into your player stats, & are tallied together in Tag Reports & your Annual Report.")
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                     .frame(height: 180)
                     .dynamicTypeSize(.medium...DynamicTypeSize.medium)
@@ -215,7 +220,7 @@ struct AddNewTransaction: View {
             TextEditor(text: $notes)
                 .font(.custom("Asap-Regular", size: 17))
                 .padding(12)
-                .frame(height: 130, alignment: .top)
+                .frame(height: 100, alignment: .top)
                 .scrollContentBackground(.hidden)
                 .background(.gray.opacity(0.2))
                 .cornerRadius(15)
@@ -235,6 +240,64 @@ struct AddNewTransaction: View {
                         }
                         Spacer()
                     })
+                .padding(.bottom, 10)
+            
+            HStack {
+                Image(systemName: "tag.fill")
+                    .font(.caption2)
+                    .frame(width: 13)
+                    .foregroundColor(tags.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                
+                TextField("Tags (Optional)", text: $tags)
+                    .font(.custom("Asap-Regular", size: 17))
+            }
+            .allowsHitTesting(subManager.isSubscribed ? true : false)
+            .padding(18)
+            .background(.gray.opacity(0.2))
+            .cornerRadius(15)
+            .padding(.bottom, 10)
+            .overlay {
+                if !subManager.isSubscribed {
+                    HStack {
+                        Spacer()
+                        Button {
+                            showPaywall = true
+                        } label: {
+                            Image(systemName: "lock.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 20)
+                                .padding(.bottom, 10)
+                                .padding(.trailing, 40)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+            .sheet(isPresented: $showPaywall) {
+                PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                    .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                    .overlay {
+                        HStack {
+                            Spacer()
+                            VStack {
+                                DismissButton()
+                                    .padding()
+                                    .onTapGesture {
+                                        showPaywall = false
+                                }
+                                Spacer()
+                            }
+                        }
+                    }
+            }
+            .task {
+                for await customerInfo in Purchases.shared.customerInfoStream {
+                    
+                    showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                    await subManager.checkSubscriptionStatus()
+                }
+            }
         }
     }
     
@@ -282,7 +345,7 @@ struct AddNewTransaction: View {
     
     private func saveButtonPressed() {
         guard isValidForm else { return }
-        vm.addTransaction(date: date, type: type!, amount: Int(amount) ?? 0, notes: notes)
+        vm.addTransaction(date: date, type: type!, amount: Int(amount) ?? 0, notes: notes, tags: [tags])
         showNewTransaction = false
     }
 }
@@ -290,5 +353,6 @@ struct AddNewTransaction: View {
 #Preview {
     AddNewTransaction(showNewTransaction: .constant(true), audioConfirmation: .constant(false))
         .environmentObject(SessionsListViewModel())
+        .environmentObject(SubscriptionManager())
         .preferredColorScheme(.dark)
 }

@@ -48,6 +48,18 @@ struct SessionsListView: View {
         case .tournaments: "Tournaments"
         }
     }
+    var filteredTransactions: [BankrollTransaction] {
+        
+        var result = vm.transactions
+        
+        if let tagsFilter = tagsFilter {
+            result = result.filter { transaction in
+                transaction.tags?.contains(tagsFilter) ?? false
+            }
+        }
+        
+        return result
+    }
     var filteredSessions: [PokerSession] {
         
         var result = vm.sessions
@@ -137,11 +149,11 @@ struct SessionsListView: View {
                         
                     case .transactions:
                         
-                        if !vm.transactions.isEmpty {
+                        if !filteredTransactions.isEmpty {
                             List {
                                 screenTitle
                                 
-                                ForEach(vm.transactions, id: \.self) { transaction in
+                                ForEach(filteredTransactions, id: \.self) { transaction in
                                     TransactionCellView(transaction: transaction, currency: vm.userCurrency)
                                         .listRowBackground(Color.brandBackground)
                                         .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 18))

@@ -194,7 +194,6 @@ struct PerformanceLineChart: View {
         let currentYear = Calendar.current.component(.year, from: Date())
         
         let filteredSessions = cashOnly ? sessions.filter { $0.isTournament != true } : sessions
-        print("Filtered Sessions: \(filteredSessions)")
         
         for session in filteredSessions {
             let yearOfSession = Calendar.current.component(.year, from: session.date)
