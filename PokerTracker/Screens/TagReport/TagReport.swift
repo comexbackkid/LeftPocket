@@ -191,7 +191,7 @@ struct TagReport: View {
                 
                 Spacer()
                 Text(expenses, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(expenses < 0 ? .red : Color(.systemGray))
+                    .foregroundColor(expenses > 0 ? .red : Color(.systemGray))
             }
             
             HStack {
@@ -403,10 +403,10 @@ struct TagReport: View {
         let matchedTransactions = taggedTransactions.filter({ $0.tags?.first == tag && $0.type == .expense })
         guard !matchedSessions.isEmpty else { return 0 }
         
-        let totalExpenses = -(matchedSessions.map({ $0.expenses ?? 0 }).reduce(0, +))
+        let totalExpenses = matchedSessions.map({ $0.expenses ?? 0 }).reduce(0, +)
         let totalTransactionExpenses = matchedTransactions.map({ $0.amount }).reduce(0, +)
 
-        return totalExpenses + totalTransactionExpenses
+        return totalExpenses + abs(totalTransactionExpenses)
     }
     
     private func tagTournamentROI(tag: String) -> String {
