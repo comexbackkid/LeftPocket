@@ -19,8 +19,10 @@ struct MetricsView: View {
     
     @State private var showPaywall = false
     @State private var progressIndicator: Float = 0.0
-    @State private var sessionFilter: SessionFilter = .cash
-    @State private var statsRange: RangeSelection = .all
+//    @State private var sessionFilter: SessionFilter = .cash
+//    @State private var statsRange: RangeSelection = .all
+    @AppStorage("dateRangeSelection") private var statsRange: RangeSelection = .all
+    @AppStorage("sessionFilter") private var sessionFilter: SessionFilter = .all
     @Binding var activeSheet: Sheet?
     
     var body: some View {
