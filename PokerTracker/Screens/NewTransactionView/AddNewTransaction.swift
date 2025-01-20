@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import RevenueCat
+import RevenueCatUI
 
 struct AddNewTransaction: View {
     
     @EnvironmentObject var vm: SessionsListViewModel
+    @EnvironmentObject var subManager: SubscriptionManager
     @Environment(\.colorScheme) var colorScheme
     
     @Binding var showNewTransaction: Bool
@@ -22,6 +25,7 @@ struct AddNewTransaction: View {
     @State private var tags: String = ""
     @State private var transactionPopup = false
     @State private var alertItem: AlertItem?
+    @State private var showPaywall = false
     
     var body: some View {
         
@@ -77,7 +81,7 @@ struct AddNewTransaction: View {
         VStack (alignment: .leading, spacing: 20) {
             
             HStack {
-                Text("Enter transaction details below. Transactions do NOT factor into your player metrics or stats. Use this screen for logging \"off-the-felt\" expenses such as meals, travel, and memberships, or for managing withdrawals & deposits to your bankroll.")
+                Text("Use this screen for logging \"off-the-felt\" expenses such as meals, travel, & memberships, or for tracking withdrawals & deposits to your bankroll. Transactions do NOT factor into your player stats. ")
                     .bodyStyle()
                 
                 Spacer()
@@ -247,29 +251,53 @@ struct AddNewTransaction: View {
                 TextField("Tags (Optional)", text: $tags)
                     .font(.custom("Asap-Regular", size: 17))
             }
-//            .allowsHitTesting(subManager.isSubscribed ? true : false)
+            .allowsHitTesting(subManager.isSubscribed ? true : false)
             .padding(18)
             .background(.gray.opacity(0.2))
             .cornerRadius(15)
             .padding(.bottom, 10)
-//            .overlay {
-//                if !subManager.isSubscribed {
-//                    HStack {
-//                        Spacer()
-//                        Button {
-//                            showPaywall = true
-//                        } label: {
-//                            Image(systemName: "lock.fill")
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .frame(height: 20)
-//                                .padding(.bottom, 10)
-//                                .padding(.trailing, 40)
-//                        }
-//                        .buttonStyle(.plain)
-//                    }
-//                }
-//            }
+            .overlay {
+                if !subManager.isSubscribed {
+                    HStack {
+                        Spacer()
+                        Button {
+                            showPaywall = true
+                        } label: {
+                            Image(systemName: "lock.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 20)
+                                .padding(.bottom, 10)
+                                .padding(.trailing, 40)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+            .sheet(isPresented: $showPaywall) {
+                PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                    .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                    .overlay {
+                        HStack {
+                            Spacer()
+                            VStack {
+                                DismissButton()
+                                    .padding()
+                                    .onTapGesture {
+                                        showPaywall = false
+                                }
+                                Spacer()
+                            }
+                        }
+                    }
+            }
+            .task {
+                for await customerInfo in Purchases.shared.customerInfoStream {
+                    
+                    showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                    await subManager.checkSubscriptionStatus()
+                }
+            }
         }
     }
     
@@ -325,5 +353,6 @@ struct AddNewTransaction: View {
 #Preview {
     AddNewTransaction(showNewTransaction: .constant(true), audioConfirmation: .constant(false))
         .environmentObject(SessionsListViewModel())
+        .environmentObject(SubscriptionManager())
         .preferredColorScheme(.dark)
 }
