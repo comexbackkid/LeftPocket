@@ -16,8 +16,8 @@ struct BankrollLineChart: View {
     @State private var selectedIndex: Int?
     @State private var animationProgress: CGFloat = 0.0
     @State private var showChart: Bool = false
-    @State private var chartRange: RangeSelection = .all
     @AppStorage("sessionFilter") private var chartSessionFilter: SessionFilter = .all
+    @AppStorage("lineChartDateRange") private var chartRange: RangeSelection = .all
     
     // Optional year selector, only used in Annual Report View. Overrides dateRange if used
     var customDateRange: [PokerSession]?

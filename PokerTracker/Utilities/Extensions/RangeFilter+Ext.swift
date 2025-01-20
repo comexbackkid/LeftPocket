@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-enum RangeSelection: CaseIterable {
+enum RangeSelection: String, CaseIterable {
     case all, oneMonth, threeMonth, sixMonth, oneYear, ytd
     
     var displayName: String {
