@@ -164,7 +164,7 @@ struct TagReport: View {
             let highHands = tagHighHands(tag: tagsFilter)
             let grossIncome = tagGrossIncome(tag: tagsFilter) + highHands
             let expenses = tagExpenses(tag: tagsFilter)
-            let netProfit = grossIncome + expenses
+            let netProfit = grossIncome - expenses
             
             VStack (spacing: 5) {
                 
