@@ -903,7 +903,8 @@ struct EditSession: View {
                                  rebuyCount: Int(rebuyCount) ?? 0,
                                  tournamentSize: size,
                                  tournamentSpeed: speed,
-                                 tags: tags.isEmpty ? nil : [tags])
+                                 tags: tags.isEmpty ? nil : [tags],
+                                 tournamentDays: 1)
             
             viewModel.sessions.removeAll { session in
                 session.id == pokerSession.id

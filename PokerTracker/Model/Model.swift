@@ -29,6 +29,7 @@ struct PokerSession: Hashable, Codable, Identifiable {
     let tournamentSize: String?
     let tournamentSpeed: String?
     let tags: [String]?
+    var tournamentDays: Int?
     
     // Individual session playing time formatted for Session Detail View
     var playingTIme: String {

@@ -24,9 +24,6 @@ struct AddNewSessionView: View {
     @State var addStakesIsShowing = false
     @State var showPaywall = false
     @State var showCashRebuyField = false
-    @State var multiDayToggle = false
-    @State var addDay = false
-    @State var noMoreDays = false
     
     var body: some View {
         
@@ -426,11 +423,11 @@ struct AddNewSessionView: View {
                 
                 Spacer()
                 
-                Toggle(isOn: $multiDayToggle) {
+                Toggle(isOn: $newSession.multiDayToggle) {
                     // No Label Needed
                 }
                 .tint(.brandPrimary)
-                .allowsHitTesting(addDay ? false : true)
+                .allowsHitTesting(newSession.addDay ? false : true)
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
@@ -491,7 +488,7 @@ struct AddNewSessionView: View {
             
             // DAY ONE
             
-            if multiDayToggle {
+            if newSession.multiDayToggle {
                 HStack {
                     Rectangle().frame(height: 0.75)
                         .opacity(0.1)
@@ -519,11 +516,11 @@ struct AddNewSessionView: View {
                 .padding(.leading, 4)
                 .font(.custom("Asap-Regular", size: 18))
                 .datePickerStyle(.compact)
-                .opacity(addDay ? 0.4 : 1)
+                .opacity(newSession.addDay ? 0.4 : 1)
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
-            .disabled(addDay ? true : false)
+            .disabled(newSession.addDay ? true : false)
             
             HStack {
                 
@@ -537,13 +534,13 @@ struct AddNewSessionView: View {
                 .padding(.leading, 4)
                 .font(.custom("Asap-Regular", size: 18))
                 .datePickerStyle(.compact)
-                .opacity(addDay ? 0.4 : 1)
+                .opacity(newSession.addDay ? 0.4 : 1)
             }
             .padding(.horizontal)
             .padding(.bottom, 16)
-            .disabled(addDay ? true : false)
+            .disabled(newSession.addDay ? true : false)
             
-            if addDay {
+            if newSession.addDay {
                 HStack {
                     Rectangle().frame(height: 0.75)
                         .opacity(0.1)
@@ -560,7 +557,7 @@ struct AddNewSessionView: View {
             
             // DAY TWO
             
-            if addDay {
+            if newSession.addDay {
 
                 Group {
                     HStack {
@@ -575,11 +572,11 @@ struct AddNewSessionView: View {
                         .padding(.leading, 4)
                         .font(.custom("Asap-Regular", size: 18))
                         .datePickerStyle(.compact)
-                        .opacity(noMoreDays ? 0.4 : 1)
+                        .opacity(newSession.noMoreDays ? 0.4 : 1)
                     }
                     .padding(.horizontal)
                     .padding(.bottom, 10)
-                    .disabled(noMoreDays ? true : false)
+                    .disabled(newSession.noMoreDays ? true : false)
                     
                     
                     HStack {
@@ -594,11 +591,11 @@ struct AddNewSessionView: View {
                         .padding(.leading, 4)
                         .font(.custom("Asap-Regular", size: 18))
                         .datePickerStyle(.compact)
-                        .opacity(noMoreDays ? 0.4 : 1)
+                        .opacity(newSession.noMoreDays ? 0.4 : 1)
                     }
                     .padding(.horizontal)
                     .padding(.bottom, 16)
-                    .disabled(noMoreDays ? true : false)
+                    .disabled(newSession.noMoreDays ? true : false)
                     
                 }
                 .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom).combined(with: .move(edge: .top))).combined(with: .scale(scale: 0.6, anchor: .top)))
@@ -606,7 +603,7 @@ struct AddNewSessionView: View {
             
             // ADD, COMPLETE, CANCEL BUTTONS
             
-            if multiDayToggle {
+            if newSession.multiDayToggle {
                 HStack {
                     Rectangle().frame(height: 0.75)
                         .opacity(0.1)
@@ -615,45 +612,45 @@ struct AddNewSessionView: View {
                         .resizable()
                         .frame(width: 24, height: 24)
                         .fontWeight(.black)
-                        .foregroundStyle(noMoreDays ? .gray : Color.red)
-                        .opacity(noMoreDays ? 0.5 : 1)
+                        .foregroundStyle(newSession.noMoreDays ? .gray : Color.red)
+                        .opacity(newSession.noMoreDays ? 0.5 : 1)
                         .padding(.trailing)
-                        .padding(.leading, addDay ? 16 : -30)
+                        .padding(.leading, newSession.addDay ? 16 : -30)
                         .onTapGesture {
                             withAnimation {
-                                addDay = false
+                                newSession.addDay = false
                             }
                         }
-                        .opacity(addDay ? 1 : 0)
-                        .animation(.snappy, value: addDay)
-                        .allowsHitTesting(noMoreDays ? false : true)
+                        .opacity(newSession.addDay ? 1 : 0)
+                        .animation(.snappy, value: newSession.addDay)
+                        .allowsHitTesting(newSession.noMoreDays ? false : true)
                     
                     Image(systemName: "plus.circle.fill")
                         .resizable()
                         .frame(width: 24, height: 24)
                         .fontWeight(.black)
-                        .foregroundStyle(noMoreDays || addDay ? .gray : Color.brandPrimary)
-                        .opacity(noMoreDays || addDay ? 0.5 : 1)
+                        .foregroundStyle(newSession.noMoreDays || newSession.addDay ? .gray : Color.brandPrimary)
+                        .opacity(newSession.noMoreDays || newSession.addDay ? 0.5 : 1)
                         .padding(.horizontal)
                         .onTapGesture {
                             withAnimation {
-                                addDay = true
+                                newSession.addDay = true
                             }
                         }
-                        .allowsHitTesting(noMoreDays ? false : true)
+                        .allowsHitTesting(newSession.noMoreDays ? false : true)
                     
-                    Image(systemName: noMoreDays ? "pencil.circle.fill" : "checkmark.circle.fill")
+                    Image(systemName: newSession.noMoreDays ? "pencil.circle.fill" : "checkmark.circle.fill")
                         .resizable()
                         .frame(width: 24, height: 24)
                         .fontWeight(.black)
-                        .foregroundStyle(noMoreDays ? Color.yellow : Color.green)
+                        .foregroundStyle(newSession.noMoreDays ? Color.yellow : Color.green)
                         .padding(.leading)
-                        .padding(.trailing, addDay ? 16 : -30)
+                        .padding(.trailing, newSession.addDay ? 16 : -30)
                         .onTapGesture {
-                            noMoreDays.toggle()
+                            newSession.noMoreDays.toggle()
                         }
-                        .opacity(addDay ? 1 : 0)
-                        .animation(.snappy, value: addDay)
+                        .opacity(newSession.addDay ? 1 : 0)
+                        .animation(.snappy, value: newSession.addDay)
                         .transition(.scale)
                     
                     Rectangle().frame(height: 0.75)
@@ -661,7 +658,7 @@ struct AddNewSessionView: View {
                 }
                 .padding(.horizontal)
                 .padding(.bottom)
-                .animation(.snappy, value: addDay)
+                .animation(.snappy, value: newSession.addDay)
             }
         }
     }

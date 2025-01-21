@@ -36,10 +36,42 @@ final class NewSessionViewModel: ObservableObject {
     @Published var size: String = ""
     @Published var speed: String = ""
     @Published var tags: String = ""
+    @Published var multiDayToggle: Bool = false
+    @Published var addDay: Bool = false
+    @Published var noMoreDays: Bool = false
     
     // Just using this value for Cash games
     var computedProfit: Int {
         (Int(cashOut) ?? 0) - Int(buyIn)! - (Int(cashRebuys) ?? 0)
+    }
+    
+    var computedNumberOfTournamentDays: Int {
+        if multiDayToggle == true {
+            return 2
+        } else {
+            return 1
+        }
+    }
+    
+    var computedMultiDayEndTime: Date {
+        
+        // Calculate the duration for day one
+        let dayOneDuration = Calendar.current.dateComponents([.hour, .minute], from: self.startTime, to: self.endTime)
+        let dayOneHours = dayOneDuration.hour ?? 0
+        let dayOneMinutes = dayOneDuration.minute ?? 0
+        
+        // Calculate the duration for day two
+        let dayTwoDuration = Calendar.current.dateComponents([.hour, .minute], from: self.startTimeDayTwo, to: self.endTimeDayTwo)
+        let dayTwoHours = dayTwoDuration.hour ?? 0
+        let dayTwoMinutes = dayTwoDuration.minute ?? 0
+        
+        // Compute the total time (hours and minutes) from both days
+        let totalMinutes = (dayOneMinutes + dayTwoMinutes)
+        let totalHours = dayOneHours + dayTwoHours + (totalMinutes / 60)
+        let remainingMinutes = totalMinutes % 60
+        
+        // Use the original day one's start time and add the total duration to compute the new end time
+        return Calendar.current.date(byAdding: DateComponents(hour: totalHours, minute: remainingMinutes), to: self.startTime)!
     }
     
     // Adds up the total dollar amount of Tournament rebuys
@@ -164,7 +196,7 @@ final class NewSessionViewModel: ObservableObject {
                              profit: sessionType == .cash ? computedProfit - (Int(self.expenses) ?? 0) : (Int(self.cashOut) ?? 0) - (Int(self.buyIn) ?? 0) - self.tournamentRebuys,
                              notes: self.notes,
                              startTime: self.startTime,
-                             endTime: self.endTime,
+                             endTime: computedNumberOfTournamentDays > 1 ? self.computedMultiDayEndTime : self.endTime,
                              // Tournament metrics in the app look to 'expenses' for Buy In data.
                              expenses: sessionType == .cash ? Int(self.expenses) ?? 0 : (Int(buyIn) ?? 0) + self.tournamentRebuys,
                              isTournament: sessionType == .tournament,
@@ -176,7 +208,8 @@ final class NewSessionViewModel: ObservableObject {
                              rebuyCount: Int(self.rebuyCount) ?? 0,
                              tournamentSize: self.size,
                              tournamentSpeed: self.speed,
-                             tags: self.tags.isEmpty ? nil : [self.tags])
+                             tags: self.tags.isEmpty ? nil : [self.tags],
+                             tournamentDays: computedNumberOfTournamentDays)
         
         Task {
             
