@@ -593,6 +593,20 @@ struct AddNewSessionView: View {
                 HStack {
                     Rectangle().frame(height: 0.75)
                         .opacity(0.1)
+                    
+                    Image(systemName: "x.square.fill")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .fontWeight(.black)
+                        .foregroundStyle(addDay ? Color.red : .gray)
+                        .padding(.horizontal)
+                        .animation(.bouncy, value: addDay)
+                        .onTapGesture {
+                            withAnimation {
+                                addDay = false
+                            }
+                        }
+                    
                     Image(systemName: "plus.circle.fill")
                         .resizable()
                         .frame(width: 24, height: 24)
@@ -601,9 +615,10 @@ struct AddNewSessionView: View {
                         .padding(.horizontal)
                         .onTapGesture {
                             withAnimation {
-                                addDay.toggle()
+                                addDay = true
                             }
                         }
+                    
                     Image(systemName: noMoreDays ? "pencil.circle.fill" : "checkmark.circle.fill")
                         .resizable()
                         .frame(width: 24, height: 24)
