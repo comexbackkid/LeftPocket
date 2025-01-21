@@ -147,6 +147,16 @@ final class NewSessionViewModel: ObservableObject {
                     alertItem = AlertContext.invalidTournamentDates
                     return false
                 }
+                
+                guard endTimeDayTwo > startTimeDayTwo else {
+                    alertItem = AlertContext.invalidEndTime
+                    return false
+                }
+                
+                guard startTimeDayTwo > endTime else {
+                    alertItem = AlertContext.invalidDayTwoStartTime
+                    return false
+                }
             }
         }
         

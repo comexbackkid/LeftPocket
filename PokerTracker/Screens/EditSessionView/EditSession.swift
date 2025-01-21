@@ -213,7 +213,7 @@ struct EditSession: View {
                 
             }
             
-            gameTiming
+            if pokerSession.tournamentDays ?? 0 < 2 { gameTiming }
             
         }
         .padding(.horizontal, 8)
@@ -904,7 +904,7 @@ struct EditSession: View {
                                  tournamentSize: size,
                                  tournamentSpeed: speed,
                                  tags: tags.isEmpty ? nil : [tags],
-                                 tournamentDays: 1)
+                                 tournamentDays: pokerSession.tournamentDays ?? 1)
             
             viewModel.sessions.removeAll { session in
                 session.id == pokerSession.id
