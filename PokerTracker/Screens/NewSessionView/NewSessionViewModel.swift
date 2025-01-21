@@ -141,6 +141,13 @@ final class NewSessionViewModel: ObservableObject {
                 alertItem = AlertContext.invalidBuyIn
                 return false
             }
+            
+            if multiDayToggle {
+                guard addDay == true && noMoreDays == true else {
+                    alertItem = AlertContext.invalidTournamentDates
+                    return false
+                }
+            }
         }
         
         guard !game.isEmpty else {

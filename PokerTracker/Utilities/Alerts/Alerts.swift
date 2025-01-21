@@ -68,6 +68,10 @@ struct AlertContext {
                                           message: Text("Your Session duration must exceed one minute."),
                                           dismissButton: .default(Text("OK")))
     
+    static let invalidTournamentDates = AlertItem(title: Text("Invalid Form"),
+                                          message: Text("When logging Multi-Day Tournaments, you need to enter at least two start & end times. Tap the green checkmark when complete."),
+                                          dismissButton: .default(Text("OK")))
+    
     static let inValidLocationName = AlertItem(title: Text("Invalid Form"),
                                            message: Text("Please enter a Location name."),
                                            dismissButton: .default(Text("OK")))

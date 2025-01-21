@@ -151,13 +151,12 @@ struct AddNewSessionView: View {
                 
                 Button("Tournament") {
                     
-//                    if subManager.isSubscribed {
-//                        withAnimation {
-//                            newSession.sessionType = .tournament
-//                        }
-//                        
-//                    } else { showPaywall = true }
-                    newSession.sessionType = .tournament
+                    if subManager.isSubscribed {
+                        withAnimation {
+                            newSession.sessionType = .tournament
+                        }
+                        
+                    } else { showPaywall = true }
                 }
    
             } label: {
@@ -195,6 +194,9 @@ struct AddNewSessionView: View {
             .foregroundColor(newSession.sessionType == nil ? .brandPrimary : .brandWhite)
             .buttonStyle(PlainButtonStyle())
             .animation(.none, value: newSession.sessionType)
+            .onChange(of: newSession.sessionType) { _ in
+                newSession.multiDayToggle = false
+            }
         }
         .padding(.horizontal)
         .padding(.bottom, 10)
@@ -431,6 +433,7 @@ struct AddNewSessionView: View {
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
+            .animation(.bouncy, value: newSession.sessionType)
         }
     }
     
