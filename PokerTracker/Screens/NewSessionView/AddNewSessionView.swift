@@ -430,6 +430,7 @@ struct AddNewSessionView: View {
                     // No Label Needed
                 }
                 .tint(.brandPrimary)
+                .allowsHitTesting(addDay ? false : true)
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
@@ -490,6 +491,22 @@ struct AddNewSessionView: View {
             
             // DAY ONE
             
+            if multiDayToggle {
+                HStack {
+                    Rectangle().frame(height: 0.75)
+                        .opacity(0.1)
+                    Text("Day One")
+                        .captionStyle()
+                        .opacity(0.33)
+                        .padding(.horizontal)
+                    Rectangle().frame(height: 0.75)
+                        .opacity(0.1)
+                }
+                .padding(.horizontal)
+                .padding(.bottom)
+                .transition(.scale)
+            }
+            
             HStack {
                 
                 Image(systemName: "clock")
@@ -530,7 +547,7 @@ struct AddNewSessionView: View {
                 HStack {
                     Rectangle().frame(height: 0.75)
                         .opacity(0.1)
-                    Text("Day One")
+                    Text("Day Two")
                         .captionStyle()
                         .opacity(0.33)
                         .padding(.horizontal)
@@ -584,10 +601,10 @@ struct AddNewSessionView: View {
                     .disabled(noMoreDays ? true : false)
                     
                 }
-                .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom).combined(with: .move(edge: .top))))
+                .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom).combined(with: .move(edge: .top))).combined(with: .scale(scale: 0.6, anchor: .top)))
             }
             
-            // ADD AND COMPLETE BUTTONS
+            // ADD, COMPLETE, CANCEL BUTTONS
             
             if multiDayToggle {
                 HStack {
@@ -598,57 +615,54 @@ struct AddNewSessionView: View {
                         .resizable()
                         .frame(width: 24, height: 24)
                         .fontWeight(.black)
-                        .foregroundStyle(addDay ? Color.red : .gray)
-                        .padding(.horizontal)
-                        .animation(.bouncy, value: addDay)
+                        .foregroundStyle(noMoreDays ? .gray : Color.red)
+                        .opacity(noMoreDays ? 0.5 : 1)
+                        .padding(.trailing)
+                        .padding(.leading, addDay ? 16 : -30)
                         .onTapGesture {
                             withAnimation {
                                 addDay = false
                             }
                         }
+                        .opacity(addDay ? 1 : 0)
+                        .animation(.snappy, value: addDay)
+                        .allowsHitTesting(noMoreDays ? false : true)
                     
                     Image(systemName: "plus.circle.fill")
                         .resizable()
                         .frame(width: 24, height: 24)
                         .fontWeight(.black)
-                        .foregroundStyle(Color.brandPrimary)
+                        .foregroundStyle(noMoreDays || addDay ? .gray : Color.brandPrimary)
+                        .opacity(noMoreDays || addDay ? 0.5 : 1)
                         .padding(.horizontal)
                         .onTapGesture {
                             withAnimation {
                                 addDay = true
                             }
                         }
+                        .allowsHitTesting(noMoreDays ? false : true)
                     
                     Image(systemName: noMoreDays ? "pencil.circle.fill" : "checkmark.circle.fill")
                         .resizable()
                         .frame(width: 24, height: 24)
                         .fontWeight(.black)
                         .foregroundStyle(noMoreDays ? Color.yellow : Color.green)
-                        .padding(.horizontal)
+                        .padding(.leading)
+                        .padding(.trailing, addDay ? 16 : -30)
                         .onTapGesture {
                             noMoreDays.toggle()
                         }
-                        
+                        .opacity(addDay ? 1 : 0)
+                        .animation(.snappy, value: addDay)
+                        .transition(.scale)
+                    
                     Rectangle().frame(height: 0.75)
                         .opacity(0.1)
                 }
                 .padding(.horizontal)
                 .padding(.bottom)
-                .animation(.bouncy, value: addDay)
+                .animation(.snappy, value: addDay)
             }
-            
-//            HStack {
-//                Rectangle().frame(height: 0.75)
-//                    .opacity(0.1)
-//                Text("Day One")
-//                    .captionStyle()
-//                    .opacity(0.33)
-//                    .padding(.horizontal)
-//                Rectangle().frame(height: 0.75)
-//                    .opacity(0.1)
-//            }
-//            .padding(.horizontal)
-//            .padding(.bottom)
         }
     }
     
