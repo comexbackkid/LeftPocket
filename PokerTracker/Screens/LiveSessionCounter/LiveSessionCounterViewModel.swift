@@ -39,6 +39,11 @@ class TimerViewModel: ObservableObject {
         loadTimerData()
     }
     
+    func loadTournamentBag() {
+        // Attempt to load Tournament Day one
+        // Prompt user if they want to continue, or end it. How do we handle winnings? Just tell them they are cashing zero.
+    }
+    
     func loadTimerData() {
         // Attempt to recover liveSessionStartTime from UserDefaults
         guard let startTime = UserDefaults.standard.object(forKey: "liveSessionStartTime") as? Date else {

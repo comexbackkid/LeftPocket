@@ -24,6 +24,9 @@ struct AddNewSessionView: View {
     @State var addStakesIsShowing = false
     @State var showPaywall = false
     @State var showCashRebuyField = false
+    @State var multiDayToggle = false
+    @State var addDay = false
+    @State var noMoreDays = false
     
     var body: some View {
         
@@ -151,12 +154,13 @@ struct AddNewSessionView: View {
                 
                 Button("Tournament") {
                     
-                    if subManager.isSubscribed {
-                        withAnimation {
-                            newSession.sessionType = .tournament
-                        }
-                        
-                    } else { showPaywall = true }
+//                    if subManager.isSubscribed {
+//                        withAnimation {
+//                            newSession.sessionType = .tournament
+//                        }
+//                        
+//                    } else { showPaywall = true }
+                    newSession.sessionType = .tournament
                 }
    
             } label: {
@@ -409,6 +413,26 @@ struct AddNewSessionView: View {
             .padding(.horizontal)
             .padding(.bottom, 10)
             
+            HStack {
+                
+                Image(systemName: "calendar.badge.plus")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30)
+                
+                Text("Multi-Day")
+                    .bodyStyle()
+                    .padding(.leading, 4)
+                
+                Spacer()
+                
+                Toggle(isOn: $multiDayToggle) {
+                    // No Label Needed
+                }
+                .tint(.brandPrimary)
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 10)
         }
     }
     
@@ -464,6 +488,8 @@ struct AddNewSessionView: View {
         
         VStack {
             
+            // DAY ONE
+            
             HStack {
                 
                 Image(systemName: "clock")
@@ -471,16 +497,16 @@ struct AddNewSessionView: View {
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30)
                 
-                DatePicker("Start", selection: $newSession.startTime, in: ...Date.now,
-                           displayedComponents: [.date, .hourAndMinute])
+                DatePicker("Start", selection: $newSession.startTime, in: ...Date.now, displayedComponents: [.date, .hourAndMinute])
                 .accentColor(.brandPrimary)
                 .padding(.leading, 4)
                 .font(.custom("Asap-Regular", size: 18))
                 .datePickerStyle(.compact)
-                
+                .opacity(addDay ? 0.4 : 1)
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
+            .disabled(addDay ? true : false)
             
             HStack {
                 
@@ -489,15 +515,125 @@ struct AddNewSessionView: View {
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30)
                 
-                DatePicker("End", selection: $newSession.endTime, in: newSession.startTime...Date.now,
-                           displayedComponents: [.date, .hourAndMinute])
+                DatePicker("End", selection: $newSession.endTime, in: newSession.startTime...Date.now, displayedComponents: [.date, .hourAndMinute])
                 .accentColor(.brandPrimary)
                 .padding(.leading, 4)
                 .font(.custom("Asap-Regular", size: 18))
                 .datePickerStyle(.compact)
+                .opacity(addDay ? 0.4 : 1)
             }
             .padding(.horizontal)
             .padding(.bottom, 16)
+            .disabled(addDay ? true : false)
+            
+            if addDay {
+                HStack {
+                    Rectangle().frame(height: 0.75)
+                        .opacity(0.1)
+                    Text("Day One")
+                        .captionStyle()
+                        .opacity(0.33)
+                        .padding(.horizontal)
+                    Rectangle().frame(height: 0.75)
+                        .opacity(0.1)
+                }
+                .padding(.horizontal)
+                .padding(.bottom)
+            }
+            
+            // DAY TWO
+            
+            if addDay {
+
+                Group {
+                    HStack {
+                        
+                        Image(systemName: "clock")
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundColor(Color(.systemGray3))
+                            .frame(width: 30)
+                        
+                        DatePicker("Start", selection: $newSession.startTimeDayTwo, in: ...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        .accentColor(.brandPrimary)
+                        .padding(.leading, 4)
+                        .font(.custom("Asap-Regular", size: 18))
+                        .datePickerStyle(.compact)
+                        .opacity(noMoreDays ? 0.4 : 1)
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom, 10)
+                    .disabled(noMoreDays ? true : false)
+                    
+                    
+                    HStack {
+                        
+                        Image(systemName: "hourglass.tophalf.filled")
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundColor(Color(.systemGray3))
+                            .frame(width: 30)
+                        
+                        DatePicker("End", selection: $newSession.endTimeDayTwo, in: newSession.startTimeDayTwo...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        .accentColor(.brandPrimary)
+                        .padding(.leading, 4)
+                        .font(.custom("Asap-Regular", size: 18))
+                        .datePickerStyle(.compact)
+                        .opacity(noMoreDays ? 0.4 : 1)
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom, 16)
+                    .disabled(noMoreDays ? true : false)
+                    
+                }
+                .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom).combined(with: .move(edge: .top))))
+            }
+            
+            // ADD AND COMPLETE BUTTONS
+            
+            if multiDayToggle {
+                HStack {
+                    Rectangle().frame(height: 0.75)
+                        .opacity(0.1)
+                    Image(systemName: "plus.circle.fill")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .fontWeight(.black)
+                        .foregroundStyle(Color.brandPrimary)
+                        .padding(.horizontal)
+                        .onTapGesture {
+                            withAnimation {
+                                addDay.toggle()
+                            }
+                        }
+                    Image(systemName: noMoreDays ? "pencil.circle.fill" : "checkmark.circle.fill")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .fontWeight(.black)
+                        .foregroundStyle(noMoreDays ? Color.yellow : Color.green)
+                        .padding(.horizontal)
+                        .onTapGesture {
+                            noMoreDays.toggle()
+                        }
+                        
+                    Rectangle().frame(height: 0.75)
+                        .opacity(0.1)
+                }
+                .padding(.horizontal)
+                .padding(.bottom)
+                .animation(.bouncy, value: addDay)
+            }
+            
+//            HStack {
+//                Rectangle().frame(height: 0.75)
+//                    .opacity(0.1)
+//                Text("Day One")
+//                    .captionStyle()
+//                    .opacity(0.33)
+//                    .padding(.horizontal)
+//                Rectangle().frame(height: 0.75)
+//                    .opacity(0.1)
+//            }
+//            .padding(.horizontal)
+//            .padding(.bottom)
         }
     }
     

@@ -20,6 +20,8 @@ final class NewSessionViewModel: ObservableObject {
     @Published var notes: String = ""
     @Published var startTime: Date = Date().modifyTime(minutes: -300)
     @Published var endTime: Date = Date()
+    @Published var startTimeDayTwo: Date = Date()
+    @Published var endTimeDayTwo: Date = Date()
     @Published var expenses: String = ""
     @Published var presentation: Bool?
     @Published var sessionType: SessionType?
