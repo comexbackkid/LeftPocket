@@ -620,6 +620,8 @@ struct AddNewSessionView: View {
                         .padding(.trailing)
                         .padding(.leading, newSession.addDay ? 16 : -30)
                         .onTapGesture {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
                             withAnimation {
                                 newSession.addDay = false
                             }
@@ -636,6 +638,8 @@ struct AddNewSessionView: View {
                         .opacity(newSession.noMoreDays || newSession.addDay ? 0.5 : 1)
                         .padding(.horizontal)
                         .onTapGesture {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
                             withAnimation {
                                 newSession.addDay = true
                             }
@@ -650,6 +654,8 @@ struct AddNewSessionView: View {
                         .padding(.leading)
                         .padding(.trailing, newSession.addDay ? 16 : -30)
                         .onTapGesture {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
                             newSession.noMoreDays.toggle()
                         }
                         .opacity(newSession.addDay ? 1 : 0)

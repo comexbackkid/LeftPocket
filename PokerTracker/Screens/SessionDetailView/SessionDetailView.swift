@@ -180,7 +180,7 @@ struct SessionDetailView: View {
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
             .padding(.vertical, 20)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             
@@ -201,7 +201,7 @@ struct SessionDetailView: View {
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
             .padding(.vertical, 20)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             
@@ -224,7 +224,7 @@ struct SessionDetailView: View {
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
             .padding(.vertical, 20)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         }
@@ -254,7 +254,7 @@ struct SessionDetailView: View {
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
             .padding(.vertical, 20)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             
@@ -274,7 +274,7 @@ struct SessionDetailView: View {
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
             .padding(.vertical, 20)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             
@@ -299,7 +299,7 @@ struct SessionDetailView: View {
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
             .padding(.vertical, 20)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             
@@ -697,7 +697,7 @@ struct GraphicHeaderView: View {
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
         SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleTournament)
-            .preferredColorScheme(.dark)
+//            .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
     }
 }
