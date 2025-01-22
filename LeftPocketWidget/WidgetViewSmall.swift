@@ -98,12 +98,12 @@ struct WidgetViewSmall : View {
                     Image(systemName: "arrow.up.right")
                         .resizable()
                         .frame(width: 11, height: 11)
-                        .foregroundColor(entry.recentSessionAmount > 0 ? Color.lightGreen : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
+                        .modifier(BasicProfitColor(value: entry.recentSessionAmount))
                         .rotationEffect(entry.recentSessionAmount >= 0 ? .degrees(0) : .degrees(90))
                 }
                 
                 Text(entry.recentSessionAmount, format: .currency(code: entry.currency).precision(.fractionLength(0)))
-                    .foregroundColor(entry.recentSessionAmount > 0 ? Color.lightGreen : entry.recentSessionAmount < 0 ? .red : Color(.systemGray))
+                    .modifier(BasicProfitColor(value: entry.recentSessionAmount))
                     .font(.custom("Asap-Medium", size: 16))
 
                 
@@ -125,6 +125,26 @@ extension Int {
         numFormatter.locale = .current
         numFormatter.currencySymbol = "$"
         return numFormatter.string(from: NSNumber(value: self)) ?? "0"
+    }
+}
+
+struct BasicProfitColor: ViewModifier {
+    @Environment(\.colorScheme) var colorScheme
+    var value: Int
+    
+    func body(content: Content) -> some View {
+        content
+            .foregroundColor(colorForValue(value))
+    }
+    
+    private func colorForValue(_ value: Int) -> Color {
+        if value > 0 {
+            return colorScheme == .dark ? Color.lightGreen : .green
+        } else if value < 0 {
+            return .red
+        } else {
+            return Color(.systemGray)
+        }
     }
 }
 
