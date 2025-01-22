@@ -13,7 +13,7 @@ struct SessionDetailView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @Binding var activeSheet: Sheet?
-    @State private var isPressed = false
+    @State private var shareButtonisPressed = false
     @State private var showError = false
     
     let pokerSession: PokerSession
@@ -64,9 +64,9 @@ struct SessionDetailView: View {
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .toolbar {
             Button {
-                isPressed = true
+                shareButtonisPressed = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-                    isPressed = false
+                    shareButtonisPressed = false
                 }
                 guard let image = ImageRenderer(content: shareSummary).uiImage else {
                     showError = true
@@ -78,9 +78,9 @@ struct SessionDetailView: View {
                 
             } label: {
                 Image(systemName: "arrow.down.to.line")
-                    .opacity(isPressed ? 0 : 1)
+                    .opacity(shareButtonisPressed ? 0 : 1)
                     .overlay {
-                        if isPressed {
+                        if shareButtonisPressed {
                             ProgressView()
                                 .tint(.brandPrimary)
                         }
@@ -561,7 +561,10 @@ struct SessionDetailView: View {
     }
     
     var shareSummary: some View {
-        SocialShareView(vm: vm, colorScheme: .dark, pokerSession: pokerSession, background: Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "defaultlocation-header"))
+        SocialShareView(vm: vm,
+                        colorScheme: .dark,
+                        pokerSession: pokerSession,
+                        background: Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "defaultlocation-header"))
     }
     
     var shareButton: some View {
@@ -569,9 +572,10 @@ struct SessionDetailView: View {
         HStack {
             Spacer()
             Button {
-                isPressed = true
+                shareButtonisPressed = true
+                print("Profit for this Session: \(pokerSession.profit)")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-                    isPressed = false
+                    shareButtonisPressed = false
                 }
                 guard let image = ImageRenderer(content: shareSummary).uiImage else {
                     showError = true
@@ -583,9 +587,9 @@ struct SessionDetailView: View {
                 
             } label: {
                 ShareButton()
-                    .opacity(isPressed ? 0 : 1)
+                    .opacity(shareButtonisPressed ? 0 : 1)
                     .overlay {
-                        if isPressed {
+                        if shareButtonisPressed {
                             ProgressView()
                                 .tint(.brandPrimary)
                                 .background(
@@ -697,7 +701,7 @@ struct GraphicHeaderView: View {
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
         SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleTournament)
-//            .preferredColorScheme(.dark)
+            .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
     }
 }

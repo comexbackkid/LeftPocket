@@ -46,7 +46,7 @@ struct SocialShareView: View {
                 .foregroundStyle(.secondary)
             
             Text(pokerSession.location.name)
-                .font(.custom("Asap-Bold", size: 30, relativeTo: .title2))
+                .font(.custom("Asap-Bold", size: 34, relativeTo: .title2))
         }
         .padding(.top)
     }
@@ -59,7 +59,7 @@ struct SocialShareView: View {
             
             Text("\(pokerSession.profit.asCurrency())")
                 .font(.custom("Asap-Black", size: 85))
-                .profitColor(total: pokerSession.profit)
+                .foregroundStyle(pokerSession.profit > 0 ? Color.green.gradient : Color.red.gradient)
             
             if pokerSession.isTournament != true {
                 if let buyIn = pokerSession.buyIn, let cashOut = pokerSession.cashOut {
