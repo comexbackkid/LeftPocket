@@ -375,16 +375,17 @@ struct SessionDetailView: View {
                 
                 Spacer()
                 
-                if let days = pokerSession.tournamentDays {
+                if let days = pokerSession.tournamentDays, days > 1 {
                     
-                    let tournamentEndDay = Calendar.current.date(byAdding: .day, value: days-1, to: pokerSession.startTime)!
                     Text(pokerSession.startTime, format: .dateTime.month().day())
                         .bodyStyle()
                     
                     Text(" / ")
                     
-                    Text(tournamentEndDay, format: .dateTime.month().day())
-                        .bodyStyle()
+                    if let endTimeDayTwo = pokerSession.endTimeDayTwo {
+                        Text(endTimeDayTwo, format: .dateTime.month().day())
+                            .bodyStyle()
+                    }
                     
                 } else {
                     Text(pokerSession.startTime, style: .time)

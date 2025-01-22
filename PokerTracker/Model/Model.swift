@@ -30,6 +30,8 @@ struct PokerSession: Hashable, Codable, Identifiable {
     let tournamentSpeed: String?
     let tags: [String]?
     var tournamentDays: Int?
+    var startTimeDayTwo: Date?
+    var endTimeDayTwo: Date?
     
     // Individual session playing time formatted for Session Detail View
     var playingTIme: String {
@@ -38,8 +40,28 @@ struct PokerSession: Hashable, Codable, Identifiable {
     
     // Individual session duration
     var sessionDuration: DateComponents {
-        let diffComponents = Calendar.current.dateComponents([.hour, .minute], from: self.startTime, to: self.endTime)
-        return diffComponents
+
+        let dayOneDuration = Calendar.current.dateComponents([.hour, .minute], from: self.startTime, to: self.endTime)
+        
+        // Check if it's a Multi-Day Tournament
+        if let tournamentDays = self.tournamentDays, tournamentDays > 1 {
+            if let startTimeDayTwo = self.startTimeDayTwo, let endTimeDayTwo = self.endTimeDayTwo {
+
+                let dayTwoDuration = Calendar.current.dateComponents([.hour, .minute], from: startTimeDayTwo, to: endTimeDayTwo)
+                
+                // Sum the durations from day one and day two
+                let totalMinutes = (dayOneDuration.minute ?? 0) + (dayTwoDuration.minute ?? 0)
+                let totalHours = (dayOneDuration.hour ?? 0) + (dayTwoDuration.hour ?? 0) + (totalMinutes / 60)
+                let remainingMinutes = totalMinutes % 60
+                
+                return DateComponents(hour: totalHours, minute: remainingMinutes)
+                
+            } else {
+                return dayOneDuration
+            }
+        } else {
+            return dayOneDuration
+        }
     }
     
     // Individual session hourly rate
@@ -144,7 +166,10 @@ struct MockData {
                                                rebuyCount: 3,
                                                tournamentSize: "MTT",
                                                tournamentSpeed: "Standard",
-                                               tags: nil)
+                                               tags: nil,
+                                               tournamentDays: 2,
+                                               startTimeDayTwo: Date().modifyDays(days: -1),
+                                               endTimeDayTwo: Date())
     
     static let allLocations = [
         LocationModel(name: "MGM Springfield", localImage: "mgmspringfield-header", imageURL: ""),
