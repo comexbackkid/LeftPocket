@@ -64,100 +64,6 @@ final class NewSessionViewModel: ObservableObject {
         return buyIn * numberOfRebuys
     }
     
-    // Checking for form validity
-//    var isValidForm: Bool {
-//        
-//        guard sessionType != nil else {
-//            alertItem = AlertContext.invalidSession
-//            return false
-//        }
-//        
-//        guard !location.name.isEmpty else {
-//            alertItem = AlertContext.inValidLocation
-//            return false
-//        }
-//        
-//        // Run this check if it's a Cash game
-//        if sessionType == .cash {
-//            guard !stakes.isEmpty else {
-//                alertItem = AlertContext.inValidStakes
-//                return false
-//            }
-//            
-//            guard !buyIn.isEmpty else {
-//                alertItem = AlertContext.invalidBuyIn
-//                return false
-//            }
-//            
-//        } else {
-//            
-//            // Run this check for Tournaments
-//            guard !speed.isEmpty else {
-//                alertItem = AlertContext.invalidSpeed
-//                return false
-//            }
-//            
-//            guard !size.isEmpty else {
-//                alertItem = AlertContext.invalidSize
-//                return false
-//            }
-//            
-//            guard !entrants.isEmpty else {
-//                alertItem = AlertContext.invalidEntrants
-//                return false
-//            }
-//            
-//            guard !finish.isEmpty else {
-//                alertItem = AlertContext.invalidFinish
-//                return false
-//            }
-//            
-//            guard Int(finish)! < Int(entrants)! else {
-//                alertItem = AlertContext.invalidFinishPlace
-//                return false
-//            }
-//            
-//            guard !buyIn.isEmpty else {
-//                alertItem = AlertContext.invalidBuyIn
-//                return false
-//            }
-//            
-//            if multiDayToggle {
-//                guard addDay == true && noMoreDays == true else {
-//                    alertItem = AlertContext.invalidTournamentDates
-//                    return false
-//                }
-//                
-//                guard endTimeDayTwo > startTimeDayTwo else {
-//                    alertItem = AlertContext.invalidEndTime
-//                    return false
-//                }
-//                
-//                guard startTimeDayTwo > endTime else {
-//                    alertItem = AlertContext.invalidDayTwoStartTime
-//                    return false
-//                }
-//            }
-//        }
-//        
-//        guard !game.isEmpty else {
-//            alertItem = AlertContext.inValidGame
-//            return false
-//        }
-//        
-//        guard endTime > startTime else {
-//            alertItem = AlertContext.invalidEndTime
-//            return false
-//        }
-//        
-//        guard endTime.timeIntervalSince(startTime) > 60 else {
-//            alertItem = AlertContext.invalidDuration
-//            return false
-//        }
-// 
-//        return true
-//    }
-    
     // Testing new form validation method
     func validateForm() -> Bool {
         var error: AlertItem? = nil
@@ -237,7 +143,6 @@ final class NewSessionViewModel: ObservableObject {
     
     func savedButtonPressed(viewModel: SessionsListViewModel) {
         
-//        guard self.isValidForm else { return }
         guard self.validateForm() else { return }
         viewModel.addSession(location: self.location,
                              game: self.game,

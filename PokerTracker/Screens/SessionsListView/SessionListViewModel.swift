@@ -28,8 +28,7 @@ class SessionsListViewModel: ObservableObject {
     }
     @Published var sessions: [PokerSession] = [] {
         didSet {
-//            saveSessions()
-            saveSessionsInBackground()
+            saveSessions()
             setUniqueStakes()
             writeToWidget()
             updateStakesProgress()
@@ -90,22 +89,6 @@ class SessionsListViewModel: ObservableObject {
             }
         } catch {
             print("Failed to write out Sessions \(error)")
-        }
-    }
-    
-    private var saveTask: DispatchWorkItem?
-
-    // Is this a more efficient way of saving sessions?
-    func saveSessionsInBackground() {
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            guard let self = self else { return }
-            do {
-                let encodedData = try JSONEncoder().encode(sessions)
-                try? FileManager.default.removeItem(at: sessionsPath)
-                try encodedData.write(to: sessionsPath)
-            } catch {
-                print("Failed to save Sessions. Error: \(error)")
-            }
         }
     }
     
