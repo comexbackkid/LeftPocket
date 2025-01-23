@@ -66,6 +66,7 @@ class SessionsListViewModel: ObservableObject {
     var sessionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("sessions.json") }
     var newSessionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("sessions_v2.json") }
     var locationsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("locations.json") }
+    var newLocationsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("locations_v2.json") }
     var stakesPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("stakes.json") }
     var transactionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("transactions.json") }
     
@@ -175,6 +176,19 @@ class SessionsListViewModel: ObservableObject {
             print("Failed to save locations, \(error)")
         }
     }
+    
+    // MARK: MIGRATION CODE
+    
+//    func saveNewLocations() {
+//        do {
+//            if let encodedData = try? JSONEncoder().encode(locations) {
+//                try? FileManager.default.removeItem(at: newLocationsPath)
+//                try encodedData.write(to: newLocationsPath)
+//            }
+//        } catch {
+//            print("Failed to save locations, \(error)")
+//        }
+//    }
     
     // Loads the locations the user has created upon app launch
     func getLocations() {
