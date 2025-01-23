@@ -202,5 +202,6 @@ struct DefaultData {
 // 2. Write function that loads old sessions.json file and conforms it to this new data structure, and save it x
 // 4. How long do we give users to migrate?
 // 5. Change to a major version number? x
+// 6. How to handle the edge case for a user that's opening app for the first time? The migration check will fail because technically they haven't. Will that be Ok? Assuming nothing would happen
 // 7. In the event it doesn't work, what's the easiest way to refresh or bring back old data to try again so we can simulate what a current user would experience?
 // 8. Comb through code & make sure functions, charts, views, etc. are utilizing the new PokerSession model, esp. Tournaments & expenses, how we tracked buy in's in the past

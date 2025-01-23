@@ -12,7 +12,7 @@ class MigrationHandler {
     static func migratePokerSessionModel() -> [PokerSession_v2]? {
 
         let fileManager = FileManager.default
-        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let oldSessionsURL = documentsURL.appendingPathComponent("sessions.json")
         let newSessionsURL = documentsURL.appendingPathComponent("sessions_v2.json")
         
@@ -65,8 +65,9 @@ class MigrationHandler {
     }
     
     static func migrateLocationModel() -> [LocationModel_v2]? {
+        
         let fileManager = FileManager.default
-        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let oldLocationsURL = documentsURL.appendingPathComponent("locations.json")
         let newLocationsURL = documentsURL.appendingPathComponent("locations_v2.json")
         let imagesDirectory = documentsURL.appendingPathComponent("LocationImages")
