@@ -114,12 +114,12 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     let expenses: Int
     let notes: String
     let tags: [String]
-    let rebuyCount: Int
     let highHandBonus: Int
     
     // Tournament Handling
     // If the user plays cash games, properties like entrants and finish are irrelevant, should we keep them optional in that case?
     let isTournament: Bool
+    let rebuyCount: Int
     let tournamentSize: String?
     let tournamentSpeed: String?
     let entrants: Int?
@@ -195,7 +195,7 @@ struct DefaultData {
     static let defaultLocation = LocationModel(name: "TBD", localImage: "empty-location", imageURL: "")
 }
 
-// MARK: TASKS
+// TODO: TASKS
 
 // 1. Make sure new data is saved using this new PokerSession_v2 struct
 // 2. Write function that loads old sessions.json file and conforms it to this new data structure, and save it
@@ -204,3 +204,4 @@ struct DefaultData {
 // 5. Change to a major version number? x
 // 6. What kind of UI do we present them on App launch so they know what's going on? Some kind of pop up with a progress indiciator?
 // 7. In the event it doesn't work, what's the easiest way to refresh or bring back in original data to try again so we can simulate what a current user would experience?
+// 8. Comb through code & make sure functions, charts, views, etc. are utilizing the new PokerSession model, esp. Tournaments and expenses, how we tracked buy in's in the past

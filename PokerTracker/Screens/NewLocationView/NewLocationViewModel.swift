@@ -36,9 +36,9 @@ final class NewLocationViewModel: ObservableObject {
         self.presentation = false
     }
     
-    // MARK: MIGRATION UPDATE CODE
+    // MARK: MIGRATION CODE
     
-    func saveLocationNEW(viewModel: SessionsListViewModel) {
+    func saveUserLocation(viewModel: SessionsListViewModel) {
         guard !locationName.isEmpty else {
             alertItem = AlertItem(title: Text("Error"), message: Text("Please enter a Location name."), dismissButton: .default(Text("OK")))
             return
@@ -63,6 +63,7 @@ final class NewLocationViewModel: ObservableObject {
 }
 
 extension FileManager {
+    // Saves the image to FileManager instead, and capture the path for reference later
     static func saveImage(_ imageData: Data, withName name: String) throws -> String {
         let fileManager = FileManager.default
         let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -70,5 +71,14 @@ extension FileManager {
         
         try imageData.write(to: imageURL, options: .atomic)
         return imageURL.path
+    }
+    
+    // Run when deleting a Location
+    static func deleteImage(atPath path: String) {
+        do {
+            try FileManager.default.removeItem(atPath: path)
+        } catch {
+            print("Error deleting image: \(error)")
+        }
     }
 }

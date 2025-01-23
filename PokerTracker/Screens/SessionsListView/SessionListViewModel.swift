@@ -10,6 +10,7 @@ import WidgetKit
 
 class SessionsListViewModel: ObservableObject {
     
+    // I'm not sure I'm even using this alert... should probably use it for migration function in case of error
     @Published var alertMessage: String?
     @Published var bankrollProgressRing: Float = 0.0
     @Published var userStakes: [String] = ["1/2", "1/3", "2/5", "5/10"] {
@@ -63,13 +64,11 @@ class SessionsListViewModel: ObservableObject {
     }
     
     var sessionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("sessions.json") }
-    
     var locationsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("locations.json") }
-    
     var stakesPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("stakes.json") }
-    
     var transactionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("transactions.json") }
     
+    // TODO: Refactor saveSessions() such that it saves our new PokerSession model
     // Saves the list of sessions with FileManager
     func saveSessions() {
         do {
@@ -93,6 +92,8 @@ class SessionsListViewModel: ObservableObject {
             print("Failed to write Transactions. Error: \(error)")
         }
     }
+    
+    // TODO: Refactor getSession() such that it loads our new PokerSession model, and not the old version
     
     // Loads all Sessions from FileManager upon app launch
     func getSessions() {

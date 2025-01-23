@@ -47,4 +47,15 @@ struct LeftPocketApp: App {
         try? Tips.configure([.datastoreLocation(TipKitConfig.storeLocation),
                              .displayFrequency(TipKitConfig.displayFrequency)])
     }
+    
+    // MARK: MIGRATION CODE
+    func migrateDataIfNeeded() {
+        let migrationKey = "hasMigratedToPokerSession_v2"
+        let defaults = UserDefaults.standard
+
+        if !defaults.bool(forKey: migrationKey) {
+            MigrationHandler.migratePokerSessionModel()
+            defaults.set(true, forKey: migrationKey)
+        }
+    }
 }
