@@ -65,96 +65,148 @@ final class NewSessionViewModel: ObservableObject {
     }
     
     // Checking for form validity
-    var isValidForm: Bool {
-        
-        guard sessionType != nil else {
-            alertItem = AlertContext.invalidSession
-            return false
-        }
-        
-        guard !location.name.isEmpty else {
-            alertItem = AlertContext.inValidLocation
-            return false
-        }
-        
-        // Run this check if it's a Cash game
-        if sessionType == .cash {
-            guard !stakes.isEmpty else {
-                alertItem = AlertContext.inValidStakes
-                return false
+//    var isValidForm: Bool {
+//        
+//        guard sessionType != nil else {
+//            alertItem = AlertContext.invalidSession
+//            return false
+//        }
+//        
+//        guard !location.name.isEmpty else {
+//            alertItem = AlertContext.inValidLocation
+//            return false
+//        }
+//        
+//        // Run this check if it's a Cash game
+//        if sessionType == .cash {
+//            guard !stakes.isEmpty else {
+//                alertItem = AlertContext.inValidStakes
+//                return false
+//            }
+//            
+//            guard !buyIn.isEmpty else {
+//                alertItem = AlertContext.invalidBuyIn
+//                return false
+//            }
+//            
+//        } else {
+//            
+//            // Run this check for Tournaments
+//            guard !speed.isEmpty else {
+//                alertItem = AlertContext.invalidSpeed
+//                return false
+//            }
+//            
+//            guard !size.isEmpty else {
+//                alertItem = AlertContext.invalidSize
+//                return false
+//            }
+//            
+//            guard !entrants.isEmpty else {
+//                alertItem = AlertContext.invalidEntrants
+//                return false
+//            }
+//            
+//            guard !finish.isEmpty else {
+//                alertItem = AlertContext.invalidFinish
+//                return false
+//            }
+//            
+//            guard Int(finish)! < Int(entrants)! else {
+//                alertItem = AlertContext.invalidFinishPlace
+//                return false
+//            }
+//            
+//            guard !buyIn.isEmpty else {
+//                alertItem = AlertContext.invalidBuyIn
+//                return false
+//            }
+//            
+//            if multiDayToggle {
+//                guard addDay == true && noMoreDays == true else {
+//                    alertItem = AlertContext.invalidTournamentDates
+//                    return false
+//                }
+//                
+//                guard endTimeDayTwo > startTimeDayTwo else {
+//                    alertItem = AlertContext.invalidEndTime
+//                    return false
+//                }
+//                
+//                guard startTimeDayTwo > endTime else {
+//                    alertItem = AlertContext.invalidDayTwoStartTime
+//                    return false
+//                }
+//            }
+//        }
+//        
+//        guard !game.isEmpty else {
+//            alertItem = AlertContext.inValidGame
+//            return false
+//        }
+//        
+//        guard endTime > startTime else {
+//            alertItem = AlertContext.invalidEndTime
+//            return false
+//        }
+//        
+//        guard endTime.timeIntervalSince(startTime) > 60 else {
+//            alertItem = AlertContext.invalidDuration
+//            return false
+//        }
+// 
+//        return true
+//    }
+    
+    // Testing new form validation method
+    func validateForm() -> Bool {
+        var error: AlertItem? = nil
+
+        if sessionType == nil {
+            error = AlertContext.invalidSession
+        } else if location.name.isEmpty {
+            error = AlertContext.inValidLocation
+        } else if sessionType == .cash {
+            if stakes.isEmpty {
+                error = AlertContext.inValidStakes
+            } else if buyIn.isEmpty {
+                error = AlertContext.invalidBuyIn
             }
-            
-            guard !buyIn.isEmpty else {
-                alertItem = AlertContext.invalidBuyIn
-                return false
-            }
-            
         } else {
-            
-            // Run this check for Tournaments
-            guard !speed.isEmpty else {
-                alertItem = AlertContext.invalidSpeed
-                return false
-            }
-            
-            guard !size.isEmpty else {
-                alertItem = AlertContext.invalidSize
-                return false
-            }
-            
-            guard !entrants.isEmpty else {
-                alertItem = AlertContext.invalidEntrants
-                return false
-            }
-            
-            guard !finish.isEmpty else {
-                alertItem = AlertContext.invalidFinish
-                return false
-            }
-            
-            guard Int(finish)! < Int(entrants)! else {
-                alertItem = AlertContext.invalidFinishPlace
-                return false
-            }
-            
-            guard !buyIn.isEmpty else {
-                alertItem = AlertContext.invalidBuyIn
-                return false
-            }
-            
-            if multiDayToggle {
-                guard addDay == true && noMoreDays == true else {
-                    alertItem = AlertContext.invalidTournamentDates
-                    return false
-                }
-                
-                guard endTimeDayTwo > startTimeDayTwo else {
-                    alertItem = AlertContext.invalidEndTime
-                    return false
-                }
-                
-                guard startTimeDayTwo > endTime else {
-                    alertItem = AlertContext.invalidDayTwoStartTime
-                    return false
-                }
+            if speed.isEmpty {
+                error = AlertContext.invalidSpeed
+            } else if size.isEmpty {
+                error = AlertContext.invalidSize
+            } else if entrants.isEmpty {
+                error = AlertContext.invalidEntrants
+            } else if finish.isEmpty {
+                error = AlertContext.invalidFinish
+            } else if Int(finish)! >= Int(entrants)! {
+                error = AlertContext.invalidFinishPlace
+            } else if buyIn.isEmpty {
+                error = AlertContext.invalidBuyIn
+            } else if multiDayToggle && (!addDay || !noMoreDays) {
+                error = AlertContext.invalidTournamentDates
+            } else if endTimeDayTwo <= startTimeDayTwo {
+                error = AlertContext.invalidEndTime
+            } else if startTimeDayTwo <= endTime {
+                error = AlertContext.invalidDayTwoStartTime
             }
         }
-        
-        guard !game.isEmpty else {
-            alertItem = AlertContext.inValidGame
+
+        if game.isEmpty {
+            error = AlertContext.inValidGame
+        } else if endTime <= startTime {
+            error = AlertContext.invalidEndTime
+        } else if endTime.timeIntervalSince(startTime) <= 60 {
+            error = AlertContext.invalidDuration
+        }
+
+        if let error = error {
+            alertItem = error
             return false
         }
-        
-        guard endTime > startTime else {
-            alertItem = AlertContext.invalidEndTime
-            return false
-        }
-        
-        guard endTime.timeIntervalSince(startTime) > 60 else {
-            alertItem = AlertContext.invalidDuration
-            return false
-        }
- 
+
         return true
     }
     
@@ -185,7 +237,8 @@ final class NewSessionViewModel: ObservableObject {
     
     func savedButtonPressed(viewModel: SessionsListViewModel) {
         
-        guard self.isValidForm else { return }
+//        guard self.isValidForm else { return }
+        guard self.validateForm() else { return }
         viewModel.addSession(location: self.location,
                              game: self.game,
                              stakes: self.stakes,
