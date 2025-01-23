@@ -201,6 +201,6 @@ struct DefaultData {
 // 2. Write function that loads old sessions.json file and conforms it to this new data structure, and save it
 // 3. During phase out period, user's that edit an OLD session, have it save to the new data structure format
 // 4. How long do we give users to migrate?
-// 5. Change to a major version number?
+// 5. Change to a major version number? x
 // 6. What kind of UI do we present them on App launch so they know what's going on? Some kind of pop up with a progress indiciator?
-// 7. Get rid of support for pre-iOS 17 
+// 7. In the event it doesn't work, what's the easiest way to refresh or bring back in original data to try again so we can simulate what a current user would experience?

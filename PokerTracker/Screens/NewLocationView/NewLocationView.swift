@@ -41,7 +41,7 @@ struct NewLocationView: View {
                         .padding(.horizontal)
                         .padding(.bottom, 40)
                     
-                    // MARK: LOCATION NAME
+                    // Location Name
                     
                     VStack {
                         
@@ -60,7 +60,7 @@ struct NewLocationView: View {
                         
                         Divider()
                         
-                        // MARK: PHOTO SELECTOR
+                        // Photo Selection
                         
                         HStack {
                             Image(systemName: newLocationViewModel.importedImage != nil ? "checkmark.circle.fill" : "photo")
@@ -123,7 +123,6 @@ struct NewLocationView: View {
         .accentColor(.brandPrimary)
         .errorAlert(error: $photoError)
         .task(id: photoPickerItem) {
-            
             do {
                 guard let photoPickerItem else { return }
                 newLocationViewModel.importedImage = try await photoPickerItem.loadTransferable(type: Data.self)
