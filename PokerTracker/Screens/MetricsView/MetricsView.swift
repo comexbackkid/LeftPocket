@@ -74,18 +74,14 @@ struct MetricsView: View {
                                 }
                                 .clipped()
 
-                                if #available(iOS 17.0, *) {
-                                    
-                                    HStack {
-                                        
-                                        dayOfWeekChart
-                                        Spacer()
-                                        donutChart
-                                    }
-                                    .frame(width: UIScreen.main.bounds.width * 0.9)
-                                    
-                                    performanceChart
+                                HStack {
+                                    dayOfWeekChart
+                                    Spacer()
+                                    donutChart
                                 }
+                                .frame(width: UIScreen.main.bounds.width * 0.9)
+                                
+                                performanceChart
                                 
                                 AdditionalMetricsView()
                                     .padding(.bottom, activeSheet == .metricsAsSheet ? 0 : 50)
@@ -243,7 +239,6 @@ struct MetricsView: View {
         }
     }
     
-    @available(iOS 17.0, *)
     var dayOfWeekChart: some View {
         
         HStack {
@@ -256,7 +251,6 @@ struct MetricsView: View {
         }
     }
     
-    @available(iOS 17.0, *)
     var donutChart: some View {
         
         HStack {
@@ -909,173 +903,88 @@ struct AdditionalMetricsView: View {
                 
                 Spacer()
             }
-            
-            // Adding version check for scroll behavior effect
-            if #available(iOS 17, *) {
-                
-                ScrollView(.horizontal, showsIndicators: false, content: {
-                    HStack (spacing: 12) {
-                        
-                        NavigationLink(
-                            destination: ProfitByYear(),
-                            label: {
-                                AdditionalMetricsCardView(title: "Annual Report",
-                                                          description: "Review & export your results from the previous year.",
-                                                          image: "list.clipboard",
-                                                          color: .donutChartDarkBlue)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: SleepAnalytics(activeSheet: .constant(.none)),
-                            label: {
-                                AdditionalMetricsCardView(title: "Health Analytics",
-                                                          description: "See how sleep & mindfulness affects your poker results.",
-                                                          image: "stethoscope",
-                                                          color: .lightGreen)
-                                
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: ProfitByMonth(vm: viewModel),
-                            label: {
-                                AdditionalMetricsCardView(title: "Monthly Snapshot",
-                                                          description: "View your results on a month by month basis.",
-                                                          image: "calendar",
-                                                          color: .donutChartGreen)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: AdvancedTournamentReport(vm: viewModel),
-                            label: {
-                                AdditionalMetricsCardView(title: "Tournament Report",
-                                                          description: "Advanced tournament stats, filtered by year.",
-                                                          image: "person.2",
-                                                          color: .brandPrimary)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: ProfitByLocationView(viewModel: viewModel),
-                            label: {
-                                AdditionalMetricsCardView(title: "Location Statistics",
-                                                          description: "View your profit or loss for every location you've played at.",
-                                                          image: "mappin.and.ellipse",
-                                                          color: .donutChartRed)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: ProfitByStakesView(viewModel: viewModel),
-                            label: {
-                                AdditionalMetricsCardView(title: "Game Stakes", 
-                                                          description: "Break down your game by different table stakes.",
-                                                          image: "dollarsign.circle",
-                                                          color: .donutChartPurple)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: TagReport(),
-                            label: {
-                                AdditionalMetricsCardView(title: "Tag Report",
-                                                          description: "Generate a report sorted via tags applied to your Sessions.",
-                                                          image: "tag.fill",
-                                                          color: .brandWhite)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                    }
-                    .padding(.leading)
-                    .padding(.trailing)
-                    .frame(height: 150)
-                })
-                .scrollTargetLayout()
-                .scrollTargetBehavior(.viewAligned)
-                .scrollBounceBehavior(.automatic)
-                
-            } else {
-                
-                ScrollView(.horizontal, showsIndicators: false, content: {
-                    HStack (spacing: 12) {
-                        
-                        NavigationLink(
-                            destination: ProfitByYear(),
-                            label: {
-                                AdditionalMetricsCardView(title: "Annual Report",
-                                                          description: "Review & export your results from the previous year.",
-                                                          image: "list.clipboard",
-                                                          color: .donutChartDarkBlue)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: SleepAnalytics(activeSheet: .constant(.none)),
-                            label: {
-                                AdditionalMetricsCardView(title: "Health Analytics",
-                                                          description: "See how sleep & mindfulness affects your poker results.",
-                                                          image: "stethoscope",
-                                                          color: .lightGreen)
-                                
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: ProfitByMonth(vm: viewModel),
-                            label: {
-                                AdditionalMetricsCardView(title: "Monthly Snapshot",
-                                                          description: "View your results on a month by month basis.",
-                                                          image: "calendar",
-                                                          color: .donutChartGreen)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: AdvancedTournamentReport(vm: viewModel),
-                            label: {
-                                AdditionalMetricsCardView(title: "Tournament Report",
-                                                          description: "Advanced tournament stats, filtered by year.",
-                                                          image: "person.2",
-                                                          color: .brandPrimary)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: ProfitByLocationView(viewModel: viewModel),
-                            label: {
-                                AdditionalMetricsCardView(title: "Location Statistics",
-                                                          description: "View your profit or loss for every location you've played at.",
-                                                          image: "mappin.and.ellipse",
-                                                          color: .donutChartRed)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: ProfitByStakesView(viewModel: viewModel),
-                            label: {
-                                AdditionalMetricsCardView(title: "Game Stakes",
-                                                          description: "Break down your game by different table stakes.",
-                                                          image: "dollarsign.circle",
-                                                          color: .donutChartPurple)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: TagReport(),
-                            label: {
-                                AdditionalMetricsCardView(title: "Tag Report",
-                                                          description: "Generate a report sorted via tags applied to your Sessions.",
-                                                          image: "tag.fill",
-                                                          color: .brandWhite)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                    }
-                    .padding(.leading)
-                    .padding(.trailing)
-                    .frame(height: 150)
-                })
-            }
+
+            ScrollView(.horizontal, showsIndicators: false, content: {
+                HStack (spacing: 12) {
+                    
+                    NavigationLink(
+                        destination: ProfitByYear(),
+                        label: {
+                            AdditionalMetricsCardView(title: "Annual Report",
+                                                      description: "Review & export your results from the previous year.",
+                                                      image: "list.clipboard",
+                                                      color: .donutChartDarkBlue)
+                        })
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    NavigationLink(
+                        destination: SleepAnalytics(activeSheet: .constant(.none)),
+                        label: {
+                            AdditionalMetricsCardView(title: "Health Analytics",
+                                                      description: "See how sleep & mindfulness affects your poker results.",
+                                                      image: "stethoscope",
+                                                      color: .lightGreen)
+                            
+                        })
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    NavigationLink(
+                        destination: ProfitByMonth(vm: viewModel),
+                        label: {
+                            AdditionalMetricsCardView(title: "Monthly Snapshot",
+                                                      description: "View your results on a month by month basis.",
+                                                      image: "calendar",
+                                                      color: .donutChartGreen)
+                        })
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    NavigationLink(
+                        destination: AdvancedTournamentReport(vm: viewModel),
+                        label: {
+                            AdditionalMetricsCardView(title: "Tournament Report",
+                                                      description: "Advanced tournament stats, filtered by year.",
+                                                      image: "person.2",
+                                                      color: .brandPrimary)
+                        })
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    NavigationLink(
+                        destination: ProfitByLocationView(viewModel: viewModel),
+                        label: {
+                            AdditionalMetricsCardView(title: "Location Statistics",
+                                                      description: "View your profit or loss for every location you've played at.",
+                                                      image: "mappin.and.ellipse",
+                                                      color: .donutChartRed)
+                        })
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    NavigationLink(
+                        destination: ProfitByStakesView(viewModel: viewModel),
+                        label: {
+                            AdditionalMetricsCardView(title: "Game Stakes",
+                                                      description: "Break down your game by different table stakes.",
+                                                      image: "dollarsign.circle",
+                                                      color: .donutChartPurple)
+                        })
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    NavigationLink(
+                        destination: TagReport(),
+                        label: {
+                            AdditionalMetricsCardView(title: "Tag Report",
+                                                      description: "Generate a report sorted via tags applied to your Sessions.",
+                                                      image: "tag.fill",
+                                                      color: .brandWhite)
+                        })
+                    .buttonStyle(PlainButtonStyle())
+                }
+                .padding(.leading)
+                .padding(.trailing)
+                .frame(height: 150)
+            })
+            .scrollTargetLayout()
+            .scrollTargetBehavior(.viewAligned)
+            .scrollBounceBehavior(.automatic)
         }
     }
 }

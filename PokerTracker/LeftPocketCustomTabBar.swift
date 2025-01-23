@@ -72,28 +72,23 @@ struct LeftPocketCustomTabBar: View {
             VStack {
                 
                 Spacer()
+                                
+                let addSessionTip = AddSessionTip()
                 
-                if #available(iOS 17.0, *) {
-                    let addSessionTip = AddSessionTip()
+                TipView(addSessionTip, arrowEdge: .bottom)
+                    .tipViewStyle(CustomTipViewStyle())
+                    .padding(.horizontal, 20)
+                
+                if viewModel.sessions.count == 2 {
                     
-                    TipView(addSessionTip, arrowEdge: .bottom)
+                    let settingsTip = SettingsTip()
+                    
+                    TipView(settingsTip)
                         .tipViewStyle(CustomTipViewStyle())
                         .padding(.horizontal, 20)
                 }
                 
-                if viewModel.sessions.count == 2 {
-                    if #available(iOS 17.0, *) {
-                        let settingsTip = SettingsTip()
-                        
-                        TipView(settingsTip)
-                            .tipViewStyle(CustomTipViewStyle())
-                            .padding(.horizontal, 20)
-                    }
-                }
-                
-                if isCounting {
-                    LiveSessionCounter(timerViewModel: timerViewModel)
-                }
+                if isCounting { LiveSessionCounter(timerViewModel: timerViewModel) }
                 
                 tabBar
             }
@@ -107,10 +102,9 @@ struct LeftPocketCustomTabBar: View {
                 .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
             
             // If user has been using the app, we tell the Tips they are not a new user
-            if #available(iOS 17.0, *) {
-                AddSessionTip.newUser = viewModel.sessions.count > 0 ? false : true
-            }
-            
+
+            AddSessionTip.newUser = viewModel.sessions.count > 0 ? false : true
+
             UNUserNotificationCenter.current().getNotificationSettings { settings in
                 if settings.authorizationStatus != .authorized {
                     notificationsAllowed = false
@@ -332,9 +326,7 @@ struct LeftPocketCustomTabBar: View {
         impact.impactOccurred()
         
         Task {
-            if #available(iOS 17.0, *) {
-                await AddSessionTip.sessionCount.donate()
-            }
+            await AddSessionTip.sessionCount.donate()
         }
         
         // If user is NOT subscribed, AND they're over the monthly allowance, the Plus button will display Paywall
@@ -366,9 +358,7 @@ struct LeftPocketCustomTabBar: View {
         impact.impactOccurred()
         
         Task {
-            if #available(iOS 17.0, *) {
-                await AddSessionTip.sessionCount.donate()
-            }
+            await AddSessionTip.sessionCount.donate()
         }
         
         // If user is NOT subscribed, AND they're over the monthly allowance, the Plus button will display Paywall

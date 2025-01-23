@@ -108,7 +108,7 @@ struct AddNewSessionView: View {
         
         VStack (alignment: .leading) {
             
-            if #available(iOS 17.0, *) { newSessionTip }
+            newSessionTip
             
             sessionSelection
             
@@ -646,40 +646,22 @@ struct AddNewSessionView: View {
                         }
                         .allowsHitTesting(newSession.noMoreDays ? false : true)
                     
-                    if #available(iOS 17.0, *) {
-                        Image(systemName: newSession.noMoreDays ? "pencil.circle.fill" : "checkmark.circle.fill")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .fontWeight(.black)
-                            .foregroundStyle(newSession.noMoreDays ? Color.yellow : Color.green)
-                            .padding(.leading)
-                            .padding(.trailing, newSession.addDay ? 16 : -30)
-                            .onTapGesture {
-                                let impact = UIImpactFeedbackGenerator(style: .soft)
-                                impact.impactOccurred()
-                                newSession.noMoreDays.toggle()
-                            }
-                            .opacity(newSession.addDay ? 1 : 0)
-                            .animation(.snappy, value: newSession.addDay)
-                            .transition(.scale)
-                            .symbolEffect(.bounce, value: newSession.noMoreDays)
-                    } else {
-                        Image(systemName: newSession.noMoreDays ? "pencil.circle.fill" : "checkmark.circle.fill")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .fontWeight(.black)
-                            .foregroundStyle(newSession.noMoreDays ? Color.yellow : Color.green)
-                            .padding(.leading)
-                            .padding(.trailing, newSession.addDay ? 16 : -30)
-                            .onTapGesture {
-                                let impact = UIImpactFeedbackGenerator(style: .soft)
-                                impact.impactOccurred()
-                                newSession.noMoreDays.toggle()
-                            }
-                            .opacity(newSession.addDay ? 1 : 0)
-                            .animation(.snappy, value: newSession.addDay)
-                            .transition(.scale)
-                    }
+                    Image(systemName: newSession.noMoreDays ? "pencil.circle.fill" : "checkmark.circle.fill")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .fontWeight(.black)
+                        .foregroundStyle(newSession.noMoreDays ? Color.yellow : Color.green)
+                        .padding(.leading)
+                        .padding(.trailing, newSession.addDay ? 16 : -30)
+                        .onTapGesture {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                            newSession.noMoreDays.toggle()
+                        }
+                        .opacity(newSession.addDay ? 1 : 0)
+                        .animation(.snappy, value: newSession.addDay)
+                        .transition(.scale)
+                        .symbolEffect(.bounce, value: newSession.noMoreDays)
                     
                     Rectangle().frame(height: 0.75)
                         .opacity(0.1)
@@ -962,7 +944,6 @@ struct AddNewSessionView: View {
         .padding(.bottom, 10)
     }
     
-    @available(iOS 17.0, *)
     var newSessionTip: some View {
         
         VStack {

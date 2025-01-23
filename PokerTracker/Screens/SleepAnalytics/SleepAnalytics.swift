@@ -68,10 +68,7 @@ struct SleepAnalytics: View {
                             
                             if !subManager.isSubscribed { upgradeButton }
 
-                            if #available(iOS 17.0, *) {
-                                sleepChart
-                                
-                            } else { oldSleepChart }
+                            sleepChart
                                                         
                             ToolTipView(image: "bed.double.fill",
                                         message: "In the last month, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 || countLowSleepSessions() < 1  ? "s" : "") under-rested.",
@@ -404,7 +401,6 @@ struct SleepAnalytics: View {
         }
     }
     
-    @available(iOS 17.0, *)
     var sleepChart: some View {
         
         VStack {
@@ -482,80 +478,6 @@ struct SleepAnalytics: View {
         .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
-        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
-    }
-    
-    var oldSleepChart: some View {
-        
-        VStack {
-            VStack (alignment: .leading, spacing: 3) {
-                HStack {
-                    Text("Daily Sleep Totals")
-                        .cardTitleStyle()
-                    
-                    Spacer()
-                }
-                
-                Text("Avg " + avgSleep() + " hrs")
-                    .subHeadlineStyle()
-                    .foregroundStyle(.secondary)
-            }
-            .padding(.bottom, 40)
-            
-            Chart {
-                if let selectedSleepMetric {
-                    RuleMark(x: .value("Selected Metric", selectedSleepMetric.date))
-                        .foregroundStyle(.gray.opacity(0.3))
-                        
-                }
-                
-                ForEach(hkManager.sleepData) { sleep in
-                    BarMark(x: .value("Date", sleep.date), y: .value("Hours", sleep.value))
-                        .foregroundStyle(calculateBarColor(healthMetric: sleep, viewModel: viewModel).gradient)
-                        .opacity(rawSelectedDate == nil || sleep.date == selectedSleepMetric?.date ? 1.0 : 0.1)
-                }
-            }
-            
-            .chartXAxis {
-                AxisMarks(preset: .aligned) {
-                    AxisValueLabel(format: .dateTime.month(.defaultDigits).day(), verticalSpacing: 10)
-                        .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
-                }
-            }
-            .chartYAxis {
-                AxisMarks { value in
-                    AxisGridLine()
-                        .foregroundStyle(Color.secondary.opacity(0.33))
-                    
-                    AxisValueLabel {
-                        if let value = value.as(Double.self), value != 0 {
-                            Text("\(value, specifier: "%.0f")h")
-                                .captionStyle()
-                                .padding(.leading, 18)
-                        }
-                    }
-                }
-            }
-            .padding(.leading, 6)
-        }
-        .overlay {
-            if hkManager.sleepData.isEmpty {
-                VStack {
-                    ProgressView()
-                        .padding(.bottom, 5)
-                    Text("No sleep data to display.")
-                        .calloutStyle()
-                        .foregroundStyle(.secondary)
-                    Text("Grant permissions in iOS Settings.")
-                        .calloutStyle()
-                        .foregroundStyle(.secondary)
-                }
-            }
-        }
-        .padding()
-        .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
-        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
-        .cornerRadius(20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     

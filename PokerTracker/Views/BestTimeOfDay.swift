@@ -8,7 +8,6 @@
 import SwiftUI
 import Charts
 
-@available(iOS 17.0, *)
 struct BestTimeOfDay: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
@@ -191,7 +190,6 @@ enum TimeBucket: String, CaseIterable, Plottable {
     }
 }
 
-@available(iOS 17.0, *)
 #Preview {
     VStack {
         BestTimeOfDay()

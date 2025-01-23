@@ -22,7 +22,7 @@ struct LocationGridView: View {
             
             title
             
-            if #available(iOS 17.0, *) { locationTip }
+            locationTip
             
             if !vm.locations.isEmpty {
                 
@@ -101,7 +101,6 @@ struct LocationGridView: View {
         }
     }
     
-    @available(iOS 17.0, *)
     var locationTip: some View {
         
         VStack {

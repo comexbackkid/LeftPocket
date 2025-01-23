@@ -171,9 +171,7 @@ final class NewSessionViewModel: ObservableObject {
         
         Task {
             // Counting how many times the user adds a Session. Will display Tip after they enter two
-            if #available(iOS 17.0, *) {
-                await FilterSessionsTip.sessionCount.donate()
-            }
+            await FilterSessionsTip.sessionCount.donate()
         }
         
         // Only after the form checks out will the presentation be set to false and the sheet will dismiss

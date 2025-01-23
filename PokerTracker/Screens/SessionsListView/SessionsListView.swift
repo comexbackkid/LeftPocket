@@ -140,7 +140,7 @@ struct SessionsListView: View {
                                 EditSession(pokerSession: session)
                             }
                             
-                            if #available(iOS 17.0, *) { filterTip }
+                            filterTip
                             
                         } else {
                             
@@ -387,7 +387,6 @@ struct SessionsListView: View {
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
     
-    @available(iOS 17.0, *)
     var filterTip: some View {
         
         VStack {

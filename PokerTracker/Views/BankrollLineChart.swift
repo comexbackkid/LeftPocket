@@ -111,16 +111,12 @@ struct BankrollLineChart: View {
                 })
             }
       
-            if #available(iOS 17.0, *) {
-                lineChart
-                
-            } else { lineChartOldVersion }
-            
+            lineChart
+
             if showRangeSelector { rangeSelector }
         }
     }
     
-    @available(iOS 17.0, *)
     var lineChart: some View {
         
         VStack {
@@ -214,78 +210,6 @@ struct BankrollLineChart: View {
                 }
             }
             .allowsHitTesting(cumulativeProfitArray.isEmpty ? false : true)
-        }
-    }
-    
-    var lineChartOldVersion: some View {
-        
-        VStack {
-            
-            let cumulativeProfitArray = viewModel.calculateCumulativeProfit(sessions: customDateRange != nil ? customDateRange! : dateRange, sessionFilter: chartSessionFilter)
-            let areaGradient = LinearGradient(colors: [chartSessionFilter != .tournaments ? Color("lightBlue").opacity(0.85) : .donutChartOrange, chartSessionFilter != .tournaments ? Color("lightBlue").opacity(0.25) : .donutChartOrange.opacity(0.25), .clear, .clear], startPoint: .top, endPoint: .bottom)
-            
-            Chart {
-                
-                ForEach(Array(convertedData.enumerated()), id: \.offset) { index, total in
-                    
-                    LineMark(x: .value("Time", index), y: .value("Profit", total))
-                        .opacity(showChart ? 1.0 : 0.0)
-                    
-                    AreaMark(x: .value("Time", index), y: .value("Profit", total))
-                        .foregroundStyle(areaGradient)
-                        .opacity(showChart ? 0.25 : 0.0)
-                }
-                .foregroundStyle(LinearGradient(colors: [chartSessionFilter != .tournaments ? .chartAccent : .donutChartGreen,
-                                                         chartSessionFilter != .tournaments ? .chartBase : .donutChartDarkBlue],
-                                                startPoint: .topTrailing, endPoint: .bottomLeading))
-                .interpolationMethod(.catmullRom)
-                .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
-            }
-            .onAppear {
-                withAnimation {
-                    showChart = true
-                }
-            }
-            .overlay(
-                PatternView()
-                    .opacity(showChart && showPatternBackground ? 0.33 : 0.0)
-                    .allowsHitTesting(false)
-                    .mask(
-                        Chart {
-                            ForEach(Array(convertedData.enumerated()), id: \.offset) { index, total in
-                                AreaMark(x: .value("Time", index), y: .value("Profit", total))
-                            }
-                            .interpolationMethod(.catmullRom)
-                        }
-                    )
-            )
-            .animation(.easeIn(duration: 1.2), value: showChart)
-            .chartXAxis(.hidden)
-            .chartYScale(domain: [convertedData.min()!, convertedData.max()!])
-            .chartYAxis {
-                AxisMarks(position: .trailing, values: .automatic(desiredCount: 4)) { value in
-                    AxisGridLine().foregroundStyle(.gray.opacity(0.33))
-                    AxisValueLabel() {
-                        if showYAxis {
-                            if let intValue = value.as(Int.self) {
-                                Text(intValue.axisShortHand(viewModel.userCurrency))
-                                    .captionStyle()
-                                    .padding(.leading, 12)
-                            }
-                        }
-                    }
-                }
-            }
-            .overlay {
-                if cumulativeProfitArray.isEmpty {
-                    VStack {
-                        Text("No chart data to display.")
-                            .calloutStyle()
-                            .foregroundStyle(.secondary)
-                    }
-                    .offset(y: -20)
-                }
-            }
         }
     }
     

@@ -20,14 +20,11 @@ struct ProfitByMonth: View {
             
             VStack { }.frame(height: 40)
             
-            if #available(iOS 17.0, *) {
-                
-                let monthlyReportTip = MonthlyReportTip()
-                TipView(monthlyReportTip)
-                    .tipViewStyle(CustomTipViewStyle())
-                    .padding(.horizontal, 20)
-                    .padding(.bottom)
-            }
+            let monthlyReportTip = MonthlyReportTip()
+            TipView(monthlyReportTip)
+                .tipViewStyle(CustomTipViewStyle())
+                .padding(.horizontal, 20)
+                .padding(.bottom)
             
             monthlyTotals
                 
