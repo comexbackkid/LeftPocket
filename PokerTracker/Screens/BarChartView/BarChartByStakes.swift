@@ -19,7 +19,8 @@ struct BarChartByStakes: View {
         
         VStack {
             
-            let stakesCount = viewModel.uniqueStakes.count
+            let stakesList = Set(viewModel.allCashSessions().map { $0.stakes })
+            let stakesCount = stakesList.count
             let baseHeight: CGFloat = 50
             let minHeight: CGFloat = 150
             

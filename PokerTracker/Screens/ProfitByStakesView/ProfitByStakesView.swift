@@ -249,7 +249,8 @@ struct ProfitByStakesView: View {
             
             Divider().padding(.bottom, 10)
             
-            ForEach(viewModel.uniqueStakes, id: \.self) { stakes in
+            let uniqueStakes = Array(Set(viewModel.allCashSessions().map { $0.stakes }))
+            ForEach(uniqueStakes, id: \.self) { stakes in
                 
                 HStack {
                     Text(stakes)

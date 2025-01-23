@@ -205,6 +205,7 @@
 		7CB3EB9F26C310F5009E8DF3 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EB9E26C310F5009E8DF3 /* SessionDetailView.swift */; };
 		7CB3EBA126C345A1009E8DF3 /* MetricsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA026C345A1009E8DF3 /* MetricsCardView.swift */; };
 		7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA426C352C6009E8DF3 /* Model.swift */; };
+		7CB587322D426AF500BCE642 /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB587312D426AF500BCE642 /* TransactionModel.swift */; };
 		7CBB2D0E28A2EB4200A0CC99 /* Colors+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBEF44527596DEE00744F4A /* Colors+Ext.swift */; };
 		7CBB6B6E2C41A55200DAD20D /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 7CBB6B6D2C41A55200DAD20D /* Glur */; };
 		7CBBA3B72BF40CA700733D53 /* SleepCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBBA3B62BF40CA700733D53 /* SleepCardView.swift */; };
@@ -430,6 +431,7 @@
 		7CB3EB9E26C310F5009E8DF3 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
 		7CB3EBA026C345A1009E8DF3 /* MetricsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsCardView.swift; sourceTree = "<group>"; };
 		7CB3EBA426C352C6009E8DF3 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		7CB587312D426AF500BCE642 /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
 		7CBBA3B62BF40CA700733D53 /* SleepCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepCardView.swift; sourceTree = "<group>"; };
 		7CBEB52D2C2A1EF00099C7CF /* DeepLlinking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLlinking.swift; sourceTree = "<group>"; };
 		7CBEF44527596DEE00744F4A /* Colors+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Ext.swift"; sourceTree = "<group>"; };
@@ -691,6 +693,7 @@
 				7C90CA0A2CD2B789002881FD /* MotionManager.swift */,
 				7C63FC3E2B3640FF00FE731C /* SubscriptionManager.swift */,
 				7C8549312C47ED830038ADB4 /* SceneDelegate.swift */,
+				7CB587312D426AF500BCE642 /* TransactionModel.swift */,
 				7C8549332C47EDD40038ADB4 /* QuickActionTypes.swift */,
 			);
 			path = Model;
@@ -1286,6 +1289,7 @@
 				7C5D5D332BE2B6A8003DC94D /* HealthKitManager.swift in Sources */,
 				7C6E75BB2BAA16BE006173A4 /* LiveSessionCounter.swift in Sources */,
 				7C6394A726C14F5600939F40 /* MetricsView.swift in Sources */,
+				7CB587322D426AF500BCE642 /* TransactionModel.swift in Sources */,
 				7C6E75BE2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift in Sources */,
 				7C9A0D9E2CBDEAA70070EBA3 /* FilterTag.swift in Sources */,
 				7C9FEC7E2C1F68B70062208B /* ImageSaver.swift in Sources */,

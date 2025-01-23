@@ -628,7 +628,7 @@ struct SessionDefaultsView: View {
             defaults.set(size, forKey: "tournamentSizeDefault")
             defaults.set(speed, forKey: "tournamentSpeedDefault")
             defaults.set(askLiveSessionEachTime, forKey: "askLiveSessionEachTime")
-            vm.loadCurrency()
+            vm.getUserCurrency()
         }
         
         switch saveResult {

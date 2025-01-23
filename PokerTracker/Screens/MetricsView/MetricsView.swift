@@ -178,10 +178,10 @@ struct MetricsView: View {
         
         BankrollProgressView(progressIndicator: $progressIndicator, isSubscribed: subManager.isSubscribed)
             .onAppear(perform: {
-                self.progressIndicator = viewModel.stakesProgress
+                self.progressIndicator = viewModel.bankrollProgressRing
             })
             .onReceive(viewModel.$sessions, perform: { _ in
-                self.progressIndicator = viewModel.stakesProgress
+                self.progressIndicator = viewModel.bankrollProgressRing
             })
             .cardShadow(colorScheme: colorScheme)
             .overlay {

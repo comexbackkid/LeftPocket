@@ -33,12 +33,12 @@ struct PokerSession: Hashable, Codable, Identifiable {
     var startTimeDayTwo: Date?
     var endTimeDayTwo: Date?
     
-    // Individual session playing time formatted for Session Detail View
+    // Individual Session playing time formatted for Session Detail View
     var playingTIme: String {
         return sessionDuration.abbreviated(duration: self.sessionDuration)
     }
     
-    // Individual session duration
+    // Individual Session duration
     var sessionDuration: DateComponents {
 
         let dayOneDuration = Calendar.current.dateComponents([.hour, .minute], from: self.startTime, to: self.endTime)
@@ -64,13 +64,13 @@ struct PokerSession: Hashable, Codable, Identifiable {
         }
     }
     
-    // Individual session hourly rate
+    // Individual Session hourly rate
     var hourlyRate: Int {
         let totalHours = sessionDuration.durationInHours == 0 ? 1 : sessionDuration.durationInHours
         return Int(round(Float(self.profit) / totalHours))
     }
     
-    // Individual big blinds won
+    // Individual Session number of big blinds won
     var bigBlindsWon: Double {
         guard let lastSlashIndex = stakes.lastIndex(of: "/"),
               let bigBlind = Int(stakes[lastSlashIndex...].trimmingCharacters(in: .punctuationCharacters)) else {
@@ -82,7 +82,7 @@ struct PokerSession: Hashable, Codable, Identifiable {
         return Double(bigBlindWin)
     }
     
-    // Individual big blind per hour rate 
+    // Individual Session big blind per hour rate
     var bigBlindPerHour: Double {
         guard let lastSlashIndex = stakes.lastIndex(of: "/"),
               let bigBlind = Int(stakes[lastSlashIndex...].trimmingCharacters(in: .punctuationCharacters)) else {
@@ -93,30 +93,6 @@ struct PokerSession: Hashable, Codable, Identifiable {
         let totalHours = sessionDuration.durationInHours == 0 ? 1 : sessionDuration.durationInHours
         let bigBlindWin = Float(self.profit) / Float(bigBlind)
         return Double(bigBlindWin) / Double(totalHours)
-    }
-}
-
-struct BankrollTransaction: Hashable, Identifiable, Codable {
-    var id = UUID()
-    let date: Date
-    let type: TransactionType
-    let amount: Int
-    let notes: String
-    let tags: [String]?
-}
-
-enum TransactionType: String, Codable, CaseIterable {
-    case deposit, withdrawal, expense
-    
-    var description: String {
-        switch self {
-        case .deposit:
-            "Deposit"
-        case .withdrawal:
-            "Withdrawal"
-        case .expense:
-            "Expense"
-        }
     }
 }
 

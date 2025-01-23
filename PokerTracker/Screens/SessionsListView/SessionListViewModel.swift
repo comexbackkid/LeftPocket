@@ -11,8 +11,7 @@ import WidgetKit
 class SessionsListViewModel: ObservableObject {
     
     @Published var alertMessage: String?
-    @Published var uniqueStakes: [String] = []
-    @Published var stakesProgress: Float = 0.0
+    @Published var bankrollProgressRing: Float = 0.0
     @Published var userStakes: [String] = ["1/2", "1/3", "2/5", "5/10"] {
         didSet {
             saveUserStakes()
@@ -29,9 +28,8 @@ class SessionsListViewModel: ObservableObject {
     @Published var sessions: [PokerSession] = [] {
         didSet {
             saveSessions()
-            setUniqueStakes()
             writeToWidget()
-            updateStakesProgress()
+            updateBankrollProgressRing()
             objectWillChange.send()
         }
     }
@@ -47,14 +45,14 @@ class SessionsListViewModel: ObservableObject {
         getTransactions()
         getLocations()
         getUserStakes()
-        loadCurrency()
+        getUserCurrency()
         writeToWidget()
     }
     
     // MARK: SAVING & LOADING APP DATA: SESSIONS, LOCATIONS, STAKES
     
-    // We're running this in the event the app gets launched in the background prior to having permissions to read/write data to the file system.
-    // What we do is simply check for an error message, and then attempt to load the data again once triggered by the NotificationCenter.
+    /// We're running this in the event the app gets launched in the background prior to having permissions to read/write data to the file system.
+    /// What we do is simply check for an error message, and then attempt to load the data again once triggered by the NotificationCenter.
     @objc func fileAccessAvailable() {
         if alertMessage != nil {
             getSessions()
@@ -64,21 +62,13 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
-    var sessionsPath: URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("sessions.json")
-    }
+    var sessionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("sessions.json") }
     
-    var locationsPath: URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("locations.json")
-    }
+    var locationsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("locations.json") }
     
-    var stakesPath: URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("stakes.json")
-    }
+    var stakesPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("stakes.json") }
     
-    var transactionsPath: URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("transactions.json")
-    }
+    var transactionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("transactions.json") }
     
     // Saves the list of sessions with FileManager
     func saveSessions() {
@@ -92,6 +82,7 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
+    // Saves user's Transactions to FileManager whenever a new one is created
     func saveTransactions() {
         do {
             if let encodedData = try? JSONEncoder().encode(transactions) {
@@ -103,7 +94,7 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
-    // Loads all sessions from FileManager upon app launch
+    // Loads all Sessions from FileManager upon app launch
     func getSessions() {
         do {
             let data = try Data(contentsOf: sessionsPath)
@@ -117,6 +108,7 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
+    // Loads all user's Transactions on app launch
     func getTransactions() {
         do {
             let data = try Data(contentsOf: transactionsPath)
@@ -154,7 +146,7 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
-    // Function to delete from user's list of Locations from the Settings screen
+    // Delete from user's list of Locations from the Locations screen
     func delete(_ location: LocationModel) {
         if let index = locations.firstIndex(where: { $0.id == location.id })
         {
@@ -217,14 +209,8 @@ class SessionsListViewModel: ObservableObject {
         userStakes.append(stakes)
     }
     
-    func setUniqueStakes() {
-        let sortedSessions = allCashSessions().sorted(by: { $0.date > $1.date })
-        uniqueStakes = Array(Set(sortedSessions.map({ $0.stakes })))
-    }
-    
-    // MARK: LOADING USER'S PREFERRED CURRENCY
-    
-    func loadCurrency() {
+    // Loads user's saved currency set from SessionDefaults view
+    func getUserCurrency() {
         let defaults = UserDefaults.standard
         
         guard
@@ -252,7 +238,7 @@ class SessionsListViewModel: ObservableObject {
         return winPercentage.asPercent()
     }
     
-    // MARK: ADDITIONAL CALCULATIONS
+    // MARK: ADDITIONAL MISC. CALCULATIONS
     
     func bankrollByYear(year: String, sessionFilter: SessionFilter) -> Int {
         let formatter = NumberFormatter()
@@ -273,34 +259,9 @@ class SessionsListViewModel: ObservableObject {
         return bankroll
     }
     
-    func winStreak() -> Int {
-        var streak = 0
-        
-        // Iterate through sessions in reverse order (from most recent to oldest)
-        for session in sessions {
-            if session.profit > 0 {
-                // If on a win streak or neutral, increment the streak
-                if streak >= 0 {
-                    streak += 1
-                } else {
-                    break // Break if switching from a losing streak
-                }
-            } else if session.profit < 0 {
-                // If on a losing streak or neutral, decrement the streak
-                if streak <= 0 {
-                    streak -= 1
-                } else {
-                    break // Break if switching from a win streak
-                }
-            } else {
-                break // Streak ends on a neutral session (profit == 0)
-            }
-        }
-        
-        return streak
-    }
-    
     // MARK: CHARTING FUNCTIONS
+    
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     
     func convertToLineChartData() {
         var convertedData: [Int] {
@@ -318,8 +279,8 @@ class SessionsListViewModel: ObservableObject {
     // Chart function used to sum up a cumulative array of Integers for Swift Charts X-Axis
     func calculateCumulativeProfit(sessions: [PokerSession], sessionFilter: SessionFilter) -> [Int] {
         
-        // We run this so tha twe can just use the Index as our X Axis value. Keeps spacing uniform and neat looking.
-        // Then, in chart configuration we just plot along the Index value, and Int is our cumulative profit amount.
+        /// We run this so that we can just use the Index as our X Axis value. Keeps spacing uniform and neat looking on the chart
+        /// Then, in chart configuration, we just plot along the Index value, and Int is our cumulative profit amount
         var cumulativeProfit = 0
         
         // Take the cash / tournament filter and assign to this variable
@@ -362,7 +323,7 @@ class SessionsListViewModel: ObservableObject {
         return sessions.filter({ $0.stakes == stakes }).reduce(0) { $0 + $1.profit }
     }
     
-    // Function that adds a new session to variable sessions, above, from NewSessionView
+    // Adds a new Session to var sessions, only used in AddNewSessionView and EditSession
     func addSession(location: LocationModel,
                     game: String,
                     stakes: String,
@@ -471,23 +432,6 @@ class SessionsListViewModel: ObservableObject {
         let loggedThisMonth = sessionsLoggedThisMonth(sessions: self.sessions)
         return loggedThisMonth < 5
     }
-    
-    // MARK: MOCK DATA FOR PREVIEW & TESTING
-    
-    // Loading fake data for Preview Provider
-//    func getMockSessions() {
-//        let fakeSessions = MockData.allSessions.sorted(by: {$0.date > $1.date})
-//        self.sessions = fakeSessions
-//    }
-    
-    // Loading fake locations so our filtered views can work correctly
-    func getMockLocations() {
-            let fakeLocations = MockData.allLocations
-            self.locations = fakeLocations
-    }
-    
-    let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 }
 
 extension SessionsListViewModel {
