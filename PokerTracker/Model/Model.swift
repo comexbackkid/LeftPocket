@@ -117,9 +117,10 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     let highHandBonus: Int
     
     // Tournament Handling
-    // If the user plays cash games, properties like entrants and finish are irrelevant, should we keep them optional in that case?
+    // If user plays cash games, properties like entrants & finish are irrelevant, should we keep them optional?
+    
     let isTournament: Bool
-    let rebuyCount: Int
+    let rebuyCount: Int?
     let tournamentSize: String?
     let tournamentSpeed: String?
     let entrants: Int?
@@ -197,11 +198,9 @@ struct DefaultData {
 
 // TODO: TASKS
 
-// 1. Make sure new data is saved using this new PokerSession_v2 struct
-// 2. Write function that loads old sessions.json file and conforms it to this new data structure, and save it
-// 3. During phase out period, user's that edit an OLD session, have it save to the new data structure format
+// 1. Make sure new data is saved using this new PokerSession_v2 struct x
+// 2. Write function that loads old sessions.json file and conforms it to this new data structure, and save it x
 // 4. How long do we give users to migrate?
 // 5. Change to a major version number? x
-// 6. What kind of UI do we present them on App launch so they know what's going on? Some kind of pop up with a progress indiciator?
-// 7. In the event it doesn't work, what's the easiest way to refresh or bring back in original data to try again so we can simulate what a current user would experience?
-// 8. Comb through code & make sure functions, charts, views, etc. are utilizing the new PokerSession model, esp. Tournaments and expenses, how we tracked buy in's in the past
+// 7. In the event it doesn't work, what's the easiest way to refresh or bring back old data to try again so we can simulate what a current user would experience?
+// 8. Comb through code & make sure functions, charts, views, etc. are utilizing the new PokerSession model, esp. Tournaments & expenses, how we tracked buy in's in the past

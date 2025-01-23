@@ -40,6 +40,7 @@ struct LeftPocketApp: App {
         
     init() {
         configureTips()
+//        migrateDataIfNeeded()
     }
     
     func configureTips() {
@@ -49,13 +50,22 @@ struct LeftPocketApp: App {
     }
     
     // MARK: MIGRATION CODE
-    func migrateDataIfNeeded() {
-        let migrationKey = "hasMigratedToPokerSession_v2"
-        let defaults = UserDefaults.standard
-
-        if !defaults.bool(forKey: migrationKey) {
-            MigrationHandler.migratePokerSessionModel()
-            defaults.set(true, forKey: migrationKey)
-        }
-    }
+//    func migrateDataIfNeeded() {
+//        let migrationKey = "hasMigratedToPokerSession_v2"
+//        let defaults = UserDefaults.standard
+//
+//        if !defaults.bool(forKey: migrationKey) {
+//            let migratedLocations = MigrationHandler.migrateLocationModel()
+//            let migratedSessions = MigrationHandler.migratePokerSessionModel()
+//                    
+//            if let locations = migratedLocations {
+//                vm.locations = locations
+//            }
+//            if let sessions = migratedSessions {
+//                vm.sessions = sessions
+//            }
+//                    
+//            defaults.set(true, forKey: migrationKey)
+//        }
+//    }
 }

@@ -64,11 +64,11 @@ class SessionsListViewModel: ObservableObject {
     }
     
     var sessionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("sessions.json") }
+    var newSessionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("sessions_v2.json") }
     var locationsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("locations.json") }
     var stakesPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("stakes.json") }
     var transactionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("transactions.json") }
     
-    // TODO: Refactor saveSessions() such that it saves our new PokerSession model
     // Saves the list of sessions with FileManager
     func saveSessions() {
         do {
@@ -81,19 +81,18 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
-    // Saves user's Transactions to FileManager whenever a new one is created
-    func saveTransactions() {
-        do {
-            if let encodedData = try? JSONEncoder().encode(transactions) {
-                try? FileManager.default.removeItem(at: transactionsPath)
-                try encodedData.write(to: transactionsPath)
-            }
-        } catch {
-            print("Failed to write Transactions. Error: \(error)")
-        }
-    }
+    // MARK: MIGRATION CODE
     
-    // TODO: Refactor getSession() such that it loads our new PokerSession model, and not the old version
+//    func saveNewSessions() {
+//        do {
+//            if let encodedData = try? JSONEncoder().encode(newSessionsPath) {
+//                try? FileManager.default.removeItem(at: newSessionsPath)
+//                try encodedData.write(to: sessionsPath)
+//            }
+//        } catch {
+//            print("Failed to write out Sessions \(error)")
+//        }
+//    }
     
     // Loads all Sessions from FileManager upon app launch
     func getSessions() {
@@ -106,6 +105,33 @@ class SessionsListViewModel: ObservableObject {
             print("Failed to load session with error \(error)")
             alertMessage = error.localizedDescription
             return
+        }
+    }
+    
+    // MARK: MIGRATION CODE
+    
+//    func getNewSessions() {
+//        do {
+//            let data = try Data(contentsOf: newSessionsPath)
+//            let savedSessions = try JSONDecoder().decode([PokerSession_v2].self, from: data)
+//            self.sessions = savedSessions
+//            print("Successfully loaded \(self.sessions.count) sessions.")
+//            
+//        } catch {
+//            print("Failed to load sessions: \(error.localizedDescription)")
+//            alertMessage = "Could not load your session data."
+//        }
+//    }
+    
+    // Saves user's Transactions to FileManager whenever a new one is created
+    func saveTransactions() {
+        do {
+            if let encodedData = try? JSONEncoder().encode(transactions) {
+                try? FileManager.default.removeItem(at: transactionsPath)
+                try encodedData.write(to: transactionsPath)
+            }
+        } catch {
+            print("Failed to write Transactions. Error: \(error)")
         }
     }
     
@@ -123,6 +149,21 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
+    // Adds a new Location to the app
+    func addLocation(name: String, localImage: String, imageURL: String, importedImage: Data?) {
+        let newLocation = LocationModel(name: name, localImage: localImage, imageURL: imageURL, importedImage: importedImage)
+        
+        locations.append(newLocation)
+    }
+    
+    // MARK: MIGRATION CODE
+    
+//    func addNewLocation(name: String, importedImage: String?) {
+//        let newLocation = LocationModel_v2(name: name, importedImage: importedImage)
+//
+//        locations.append(newLocation)
+//    }
+    
     // Saves the list of locations the user has created with FileManager
     func saveLocations() {
         do {
@@ -132,27 +173,6 @@ class SessionsListViewModel: ObservableObject {
             }
         } catch {
             print("Failed to save locations, \(error)")
-        }
-    }
-    
-    // Saves the list of stakes the user has created, in addition to the 3x defaults
-    func saveUserStakes() {
-        do {
-            if let encodedData = try? JSONEncoder().encode(userStakes) {
-                try? FileManager.default.removeItem(at: stakesPath)
-                try encodedData.write(to: stakesPath)
-            }
-        } catch {
-            print("Failed to save user's stakes, \(error)")
-        }
-    }
-    
-    // Delete from user's list of Locations from the Locations screen
-    func delete(_ location: LocationModel) {
-        if let index = locations.firstIndex(where: { $0.id == location.id })
-        {
-            locations.remove(at: index)
-            saveLocations()
         }
     }
     
@@ -169,16 +189,12 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
-    // Loads the stakes the user has saved
-    func getUserStakes() {
-        do {
-            let data = try Data(contentsOf: stakesPath)
-            let importedStakes = try JSONDecoder().decode([String].self, from: data)
-            self.userStakes = importedStakes
-            
-        } catch {
-            print("Failed to load Stakes with error: \(error)")
-            alertMessage = error.localizedDescription
+    // Delete from user's list of Locations from the Locations screen
+    func delete(_ location: LocationModel) {
+        if let index = locations.firstIndex(where: { $0.id == location.id })
+        {
+            locations.remove(at: index)
+            saveLocations()
         }
     }
     
@@ -195,13 +211,31 @@ class SessionsListViewModel: ObservableObject {
         self.locations = modifiedLocations
     }
     
-    // Adds a new Location to the app
-    func addLocation(name: String, localImage: String, imageURL: String, importedImage: Data?) {
-        let newLocation = LocationModel(name: name, localImage: localImage, imageURL: imageURL, importedImage: importedImage)
-        
-        locations.append(newLocation)
+    // Saves the list of stakes the user has created, in addition to the 3x defaults
+    func saveUserStakes() {
+        do {
+            if let encodedData = try? JSONEncoder().encode(userStakes) {
+                try? FileManager.default.removeItem(at: stakesPath)
+                try encodedData.write(to: stakesPath)
+            }
+        } catch {
+            print("Failed to save user's stakes, \(error)")
+        }
     }
     
+    // Loads the stakes the user has saved
+    func getUserStakes() {
+        do {
+            let data = try Data(contentsOf: stakesPath)
+            let importedStakes = try JSONDecoder().decode([String].self, from: data)
+            self.userStakes = importedStakes
+            
+        } catch {
+            print("Failed to load Stakes with error: \(error)")
+            alertMessage = error.localizedDescription
+        }
+    }
+
     func addStakes(_ stakes: String) {
         guard !userStakes.contains(stakes) else {
             return
