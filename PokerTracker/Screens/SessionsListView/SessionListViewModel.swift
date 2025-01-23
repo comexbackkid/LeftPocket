@@ -24,11 +24,13 @@ class SessionsListViewModel: ObservableObject {
     @Published var locations: [LocationModel] = DefaultLocations.allLocations {
         didSet {
             saveLocations()
+//            saveNewLocations()
         }
     }
     @Published var sessions: [PokerSession] = [] {
         didSet {
             saveSessions()
+//            saveNewSessions()
             writeToWidget()
             updateBankrollProgressRing()
             objectWillChange.send()
@@ -43,8 +45,10 @@ class SessionsListViewModel: ObservableObject {
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector(fileAccessAvailable), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
         getSessions()
-        getTransactions()
+//        getNewSessions()
         getLocations()
+//        getNewLocations()
+        getTransactions()
         getUserStakes()
         getUserCurrency()
         writeToWidget()
@@ -57,7 +61,9 @@ class SessionsListViewModel: ObservableObject {
     @objc func fileAccessAvailable() {
         if alertMessage != nil {
             getSessions()
+//            getNewSessions()
             getLocations()
+//            getNewLocations()
             getUserStakes()
             alertMessage = nil
         }
@@ -202,6 +208,20 @@ class SessionsListViewModel: ObservableObject {
             alertMessage = error.localizedDescription
         }
     }
+    
+    // MARK: MIGRATION CODE
+    
+//    func getNewLocations() {
+//        do {
+//            let data = try Data(contentsOf: newLocationsPath)
+//            let importedLocations = try JSONDecoder().decode([LocationModel_v2].self, from: data)
+//            self.locations = importedLocations
+//            
+//        } catch {
+//            print("Failed to load saved Locations with error: \(error)")
+//            alertMessage = error.localizedDescription
+//        }
+//    }
     
     // Delete from user's list of Locations from the Locations screen
     func delete(_ location: LocationModel) {
