@@ -20,6 +20,8 @@ final class NewSessionViewModel: ObservableObject {
     @Published var notes: String = ""
     @Published var startTime: Date = Date().modifyTime(minutes: -300)
     @Published var endTime: Date = Date()
+    @Published var startTimeDayTwo: Date = Date()
+    @Published var endTimeDayTwo: Date = Date()
     @Published var expenses: String = ""
     @Published var presentation: Bool?
     @Published var sessionType: SessionType?
@@ -34,10 +36,22 @@ final class NewSessionViewModel: ObservableObject {
     @Published var size: String = ""
     @Published var speed: String = ""
     @Published var tags: String = ""
+    @Published var multiDayToggle: Bool = false
+    @Published var addDay: Bool = false
+    @Published var noMoreDays: Bool = false
     
     // Just using this value for Cash games
     var computedProfit: Int {
         (Int(cashOut) ?? 0) - Int(buyIn)! - (Int(cashRebuys) ?? 0)
+    }
+    
+    // How many days was the Tournamnet
+    var computedNumberOfTournamentDays: Int {
+        if multiDayToggle == true {
+            return 2
+        } else {
+            return 1
+        }
     }
     
     // Adds up the total dollar amount of Tournament rebuys
@@ -50,80 +64,55 @@ final class NewSessionViewModel: ObservableObject {
         return buyIn * numberOfRebuys
     }
     
-    // Checking for form validity
-    var isValidForm: Bool {
-        
-        guard sessionType != nil else {
-            alertItem = AlertContext.invalidSession
-            return false
-        }
-        
-        guard !location.name.isEmpty else {
-            alertItem = AlertContext.inValidLocation
-            return false
-        }
-        
-        // Run this check if it's a Cash game
-        if sessionType == .cash {
-            guard !stakes.isEmpty else {
-                alertItem = AlertContext.inValidStakes
-                return false
+    // Testing new form validation method
+    func validateForm() -> Bool {
+        var error: AlertItem? = nil
+
+        if sessionType == nil {
+            error = AlertContext.invalidSession
+        } else if location.name.isEmpty {
+            error = AlertContext.inValidLocation
+        } else if sessionType == .cash {
+            if stakes.isEmpty {
+                error = AlertContext.inValidStakes
+            } else if buyIn.isEmpty {
+                error = AlertContext.invalidBuyIn
             }
-            
-            guard !buyIn.isEmpty else {
-                alertItem = AlertContext.invalidBuyIn
-                return false
-            }
-            
         } else {
-            
-            // Run this check for Tournaments
-            guard !speed.isEmpty else {
-                alertItem = AlertContext.invalidSpeed
-                return false
-            }
-            
-            guard !size.isEmpty else {
-                alertItem = AlertContext.invalidSize
-                return false
-            }
-            
-            guard !entrants.isEmpty else {
-                alertItem = AlertContext.invalidEntrants
-                return false
-            }
-            
-            guard !finish.isEmpty else {
-                alertItem = AlertContext.invalidFinish
-                return false
-            }
-            
-            guard Int(finish)! < Int(entrants)! else {
-                alertItem = AlertContext.invalidFinishPlace
-                return false
-            }
-            
-            guard !buyIn.isEmpty else {
-                alertItem = AlertContext.invalidBuyIn
-                return false
+            if speed.isEmpty {
+                error = AlertContext.invalidSpeed
+            } else if size.isEmpty {
+                error = AlertContext.invalidSize
+            } else if entrants.isEmpty {
+                error = AlertContext.invalidEntrants
+            } else if finish.isEmpty {
+                error = AlertContext.invalidFinish
+            } else if Int(finish)! >= Int(entrants)! {
+                error = AlertContext.invalidFinishPlace
+            } else if buyIn.isEmpty {
+                error = AlertContext.invalidBuyIn
+            } else if multiDayToggle && (!addDay || !noMoreDays) {
+                error = AlertContext.invalidTournamentDates
+            } else if endTimeDayTwo <= startTimeDayTwo {
+                error = AlertContext.invalidEndTime
+            } else if startTimeDayTwo <= endTime {
+                error = AlertContext.invalidDayTwoStartTime
             }
         }
-        
-        guard !game.isEmpty else {
-            alertItem = AlertContext.inValidGame
+
+        if game.isEmpty {
+            error = AlertContext.inValidGame
+        } else if endTime <= startTime {
+            error = AlertContext.invalidEndTime
+        } else if endTime.timeIntervalSince(startTime) <= 60 {
+            error = AlertContext.invalidDuration
+        }
+
+        if let error = error {
+            alertItem = error
             return false
         }
-        
-        guard endTime > startTime else {
-            alertItem = AlertContext.invalidEndTime
-            return false
-        }
-        
-        guard endTime.timeIntervalSince(startTime) > 60 else {
-            alertItem = AlertContext.invalidDuration
-            return false
-        }
- 
+
         return true
     }
     
@@ -154,7 +143,7 @@ final class NewSessionViewModel: ObservableObject {
     
     func savedButtonPressed(viewModel: SessionsListViewModel) {
         
-        guard self.isValidForm else { return }
+        guard self.validateForm() else { return }
         viewModel.addSession(location: self.location,
                              game: self.game,
                              stakes: self.stakes,
@@ -174,10 +163,13 @@ final class NewSessionViewModel: ObservableObject {
                              rebuyCount: Int(self.rebuyCount) ?? 0,
                              tournamentSize: self.size,
                              tournamentSpeed: self.speed,
-                             tags: self.tags.isEmpty ? nil : [self.tags])
+                             tags: self.tags.isEmpty ? nil : [self.tags],
+                             // Calculate if this is a Multi-Day Tournament. If so, provide the properties with values, otherwise just record nil
+                             tournamentDays: computedNumberOfTournamentDays,
+                             startTimeDayTwo: computedNumberOfTournamentDays > 1 ? self.startTimeDayTwo : nil,
+                             endTimeDayTwo: computedNumberOfTournamentDays > 1 ? self.endTimeDayTwo : nil)
         
         Task {
-            
             // Counting how many times the user adds a Session. Will display Tip after they enter two
             if #available(iOS 17.0, *) {
                 await FilterSessionsTip.sessionCount.donate()

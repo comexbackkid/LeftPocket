@@ -13,7 +13,7 @@ struct SessionDetailView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @Binding var activeSheet: Sheet?
-    @State private var isPressed = false
+    @State private var shareButtonisPressed = false
     @State private var showError = false
     
     let pokerSession: PokerSession
@@ -64,9 +64,9 @@ struct SessionDetailView: View {
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .toolbar {
             Button {
-                isPressed = true
+                shareButtonisPressed = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-                    isPressed = false
+                    shareButtonisPressed = false
                 }
                 guard let image = ImageRenderer(content: shareSummary).uiImage else {
                     showError = true
@@ -78,9 +78,9 @@ struct SessionDetailView: View {
                 
             } label: {
                 Image(systemName: "arrow.down.to.line")
-                    .opacity(isPressed ? 0 : 1)
+                    .opacity(shareButtonisPressed ? 0 : 1)
                     .overlay {
-                        if isPressed {
+                        if shareButtonisPressed {
                             ProgressView()
                                 .tint(.brandPrimary)
                         }
@@ -180,7 +180,7 @@ struct SessionDetailView: View {
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
             .padding(.vertical, 20)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             
@@ -201,7 +201,7 @@ struct SessionDetailView: View {
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
             .padding(.vertical, 20)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             
@@ -224,7 +224,7 @@ struct SessionDetailView: View {
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
             .padding(.vertical, 20)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         }
@@ -254,7 +254,7 @@ struct SessionDetailView: View {
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
             .padding(.vertical, 20)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             
@@ -274,7 +274,7 @@ struct SessionDetailView: View {
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
             .padding(.vertical, 20)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             
@@ -299,7 +299,7 @@ struct SessionDetailView: View {
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
             .padding(.vertical, 20)
-            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+            .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             
@@ -375,13 +375,27 @@ struct SessionDetailView: View {
                 
                 Spacer()
                 
-                Text(pokerSession.startTime, style: .time)
-                    .bodyStyle()
-                
-                Text(" / ")
-                
-                Text(pokerSession.endTime, style: .time)
-                    .bodyStyle()
+                if let days = pokerSession.tournamentDays, days > 1 {
+                    
+                    Text(pokerSession.startTime, format: .dateTime.month().day())
+                        .bodyStyle()
+                    
+                    Text(" / ")
+                    
+                    if let endTimeDayTwo = pokerSession.endTimeDayTwo {
+                        Text(endTimeDayTwo, format: .dateTime.month().day())
+                            .bodyStyle()
+                    }
+                    
+                } else {
+                    Text(pokerSession.startTime, style: .time)
+                        .bodyStyle()
+                    
+                    Text(" / ")
+                    
+                    Text(pokerSession.endTime, style: .time)
+                        .bodyStyle()
+                }
             }
             
             Divider()
@@ -547,7 +561,10 @@ struct SessionDetailView: View {
     }
     
     var shareSummary: some View {
-        SocialShareView(vm: vm, colorScheme: .dark, pokerSession: pokerSession, background: Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "defaultlocation-header"))
+        SocialShareView(vm: vm,
+                        colorScheme: .dark,
+                        pokerSession: pokerSession,
+                        background: Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "defaultlocation-header"))
     }
     
     var shareButton: some View {
@@ -555,9 +572,10 @@ struct SessionDetailView: View {
         HStack {
             Spacer()
             Button {
-                isPressed = true
+                shareButtonisPressed = true
+                print("Profit for this Session: \(pokerSession.profit)")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-                    isPressed = false
+                    shareButtonisPressed = false
                 }
                 guard let image = ImageRenderer(content: shareSummary).uiImage else {
                     showError = true
@@ -569,9 +587,9 @@ struct SessionDetailView: View {
                 
             } label: {
                 ShareButton()
-                    .opacity(isPressed ? 0 : 1)
+                    .opacity(shareButtonisPressed ? 0 : 1)
                     .overlay {
-                        if isPressed {
+                        if shareButtonisPressed {
                             ProgressView()
                                 .tint(.brandPrimary)
                                 .background(

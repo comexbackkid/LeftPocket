@@ -194,6 +194,9 @@ struct AddNewSessionView: View {
             .foregroundColor(newSession.sessionType == nil ? .brandPrimary : .brandWhite)
             .buttonStyle(PlainButtonStyle())
             .animation(.none, value: newSession.sessionType)
+            .onChange(of: newSession.sessionType) { _ in
+                newSession.multiDayToggle = false
+            }
         }
         .padding(.horizontal)
         .padding(.bottom, 10)
@@ -409,6 +412,28 @@ struct AddNewSessionView: View {
             .padding(.horizontal)
             .padding(.bottom, 10)
             
+            HStack {
+                
+                Image(systemName: "calendar.badge.plus")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30)
+                
+                Text("Multi-Day")
+                    .bodyStyle()
+                    .padding(.leading, 4)
+                
+                Spacer()
+                
+                Toggle(isOn: $newSession.multiDayToggle) {
+                    // No Label Needed
+                }
+                .tint(.brandPrimary)
+                .allowsHitTesting(newSession.addDay ? false : true)
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 10)
+            .animation(.bouncy, value: newSession.sessionType)
         }
     }
     
@@ -464,6 +489,24 @@ struct AddNewSessionView: View {
         
         VStack {
             
+            // DAY ONE
+            
+            if newSession.multiDayToggle {
+                HStack {
+                    Rectangle().frame(height: 0.75)
+                        .opacity(0.1)
+                    Text("Day One")
+                        .captionStyle()
+                        .opacity(0.33)
+                        .padding(.horizontal)
+                    Rectangle().frame(height: 0.75)
+                        .opacity(0.1)
+                }
+                .padding(.horizontal)
+                .padding(.bottom)
+                .transition(.scale)
+            }
+            
             HStack {
                 
                 Image(systemName: "clock")
@@ -471,16 +514,16 @@ struct AddNewSessionView: View {
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30)
                 
-                DatePicker("Start", selection: $newSession.startTime, in: ...Date.now,
-                           displayedComponents: [.date, .hourAndMinute])
+                DatePicker("Start", selection: $newSession.startTime, in: ...Date.now, displayedComponents: [.date, .hourAndMinute])
                 .accentColor(.brandPrimary)
                 .padding(.leading, 4)
                 .font(.custom("Asap-Regular", size: 18))
                 .datePickerStyle(.compact)
-                
+                .opacity(newSession.addDay ? 0.4 : 1)
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
+            .disabled(newSession.addDay ? true : false)
             
             HStack {
                 
@@ -489,15 +532,162 @@ struct AddNewSessionView: View {
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30)
                 
-                DatePicker("End", selection: $newSession.endTime, in: newSession.startTime...Date.now,
-                           displayedComponents: [.date, .hourAndMinute])
+                DatePicker("End", selection: $newSession.endTime, in: newSession.startTime...Date.now, displayedComponents: [.date, .hourAndMinute])
                 .accentColor(.brandPrimary)
                 .padding(.leading, 4)
                 .font(.custom("Asap-Regular", size: 18))
                 .datePickerStyle(.compact)
+                .opacity(newSession.addDay ? 0.4 : 1)
             }
             .padding(.horizontal)
             .padding(.bottom, 16)
+            .disabled(newSession.addDay ? true : false)
+            
+            if newSession.addDay {
+                HStack {
+                    Rectangle().frame(height: 0.75)
+                        .opacity(0.1)
+                    Text("Day Two")
+                        .captionStyle()
+                        .opacity(0.33)
+                        .padding(.horizontal)
+                    Rectangle().frame(height: 0.75)
+                        .opacity(0.1)
+                }
+                .padding(.horizontal)
+                .padding(.bottom)
+            }
+            
+            // DAY TWO
+            
+            if newSession.addDay {
+
+                Group {
+                    HStack {
+                        
+                        Image(systemName: "clock")
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundColor(Color(.systemGray3))
+                            .frame(width: 30)
+                        
+                        DatePicker("Start", selection: $newSession.startTimeDayTwo, in: ...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        .accentColor(.brandPrimary)
+                        .padding(.leading, 4)
+                        .font(.custom("Asap-Regular", size: 18))
+                        .datePickerStyle(.compact)
+                        .opacity(newSession.noMoreDays ? 0.4 : 1)
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom, 10)
+                    .disabled(newSession.noMoreDays ? true : false)
+                    
+                    
+                    HStack {
+                        
+                        Image(systemName: "hourglass.tophalf.filled")
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundColor(Color(.systemGray3))
+                            .frame(width: 30)
+                        
+                        DatePicker("End", selection: $newSession.endTimeDayTwo, in: newSession.startTimeDayTwo...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        .accentColor(.brandPrimary)
+                        .padding(.leading, 4)
+                        .font(.custom("Asap-Regular", size: 18))
+                        .datePickerStyle(.compact)
+                        .opacity(newSession.noMoreDays ? 0.4 : 1)
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom, 16)
+                    .disabled(newSession.noMoreDays ? true : false)
+                    
+                }
+                .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom).combined(with: .move(edge: .top))).combined(with: .scale(scale: 0.5, anchor: .top)))
+            }
+            
+            // ADD, COMPLETE, CANCEL BUTTONS
+            
+            if newSession.multiDayToggle {
+                HStack {
+                    Rectangle().frame(height: 0.75)
+                        .opacity(0.1)
+                    
+                    Image(systemName: "x.square.fill")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .fontWeight(.black)
+                        .foregroundStyle(newSession.noMoreDays ? .gray : Color.red)
+                        .opacity(newSession.noMoreDays ? 0.5 : 1)
+                        .padding(.trailing)
+                        .padding(.leading, newSession.addDay ? 16 : -30)
+                        .onTapGesture {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                            withAnimation {
+                                newSession.addDay = false
+                            }
+                        }
+                        .opacity(newSession.addDay ? 1 : 0)
+                        .animation(.snappy, value: newSession.addDay)
+                        .allowsHitTesting(newSession.noMoreDays ? false : true)
+                    
+                    Image(systemName: "plus.circle.fill")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .fontWeight(.black)
+                        .foregroundStyle(newSession.noMoreDays || newSession.addDay ? .gray : Color.brandPrimary)
+                        .opacity(newSession.noMoreDays || newSession.addDay ? 0.5 : 1)
+                        .padding(.horizontal)
+                        .onTapGesture {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                            withAnimation {
+                                newSession.addDay = true
+                            }
+                        }
+                        .allowsHitTesting(newSession.noMoreDays ? false : true)
+                    
+                    if #available(iOS 17.0, *) {
+                        Image(systemName: newSession.noMoreDays ? "pencil.circle.fill" : "checkmark.circle.fill")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .fontWeight(.black)
+                            .foregroundStyle(newSession.noMoreDays ? Color.yellow : Color.green)
+                            .padding(.leading)
+                            .padding(.trailing, newSession.addDay ? 16 : -30)
+                            .onTapGesture {
+                                let impact = UIImpactFeedbackGenerator(style: .soft)
+                                impact.impactOccurred()
+                                newSession.noMoreDays.toggle()
+                            }
+                            .opacity(newSession.addDay ? 1 : 0)
+                            .animation(.snappy, value: newSession.addDay)
+                            .transition(.scale)
+                            .symbolEffect(.bounce, value: newSession.noMoreDays)
+                    } else {
+                        Image(systemName: newSession.noMoreDays ? "pencil.circle.fill" : "checkmark.circle.fill")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .fontWeight(.black)
+                            .foregroundStyle(newSession.noMoreDays ? Color.yellow : Color.green)
+                            .padding(.leading)
+                            .padding(.trailing, newSession.addDay ? 16 : -30)
+                            .onTapGesture {
+                                let impact = UIImpactFeedbackGenerator(style: .soft)
+                                impact.impactOccurred()
+                                newSession.noMoreDays.toggle()
+                            }
+                            .opacity(newSession.addDay ? 1 : 0)
+                            .animation(.snappy, value: newSession.addDay)
+                            .transition(.scale)
+                    }
+                    
+                    Rectangle().frame(height: 0.75)
+                        .opacity(0.1)
+                }
+                .padding(.horizontal)
+                .padding(.bottom)
+                .animation(.snappy, value: newSession.addDay)
+            }
         }
     }
     

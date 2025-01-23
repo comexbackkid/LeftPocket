@@ -64,8 +64,16 @@ struct AlertContext {
                                           message: Text("Your End Time cannot precede the Start Time."),
                                           dismissButton: .default(Text("OK")))
     
+    static let invalidDayTwoStartTime = AlertItem(title: Text("Invalid Form"),
+                                          message: Text("The Start Time for Day 2 of a Multi-Day Tournament can't precede the End Time of Day 1."),
+                                          dismissButton: .default(Text("OK")))
+    
     static let invalidDuration = AlertItem(title: Text("Invalid Form"),
                                           message: Text("Your Session duration must exceed one minute."),
+                                          dismissButton: .default(Text("OK")))
+    
+    static let invalidTournamentDates = AlertItem(title: Text("Invalid Form"),
+                                          message: Text("When logging Multi-Day Tournaments, you need to enter at least two start & end times. Tap the green checkmark when complete."),
                                           dismissButton: .default(Text("OK")))
     
     static let inValidLocationName = AlertItem(title: Text("Invalid Form"),
