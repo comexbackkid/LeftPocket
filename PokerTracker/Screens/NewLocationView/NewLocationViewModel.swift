@@ -52,7 +52,6 @@ final class NewLocationViewModel: ObservableObject {
 //        }
 //        
 //        viewModel.addNewLocation(name: locationName, importedImage: imagePath)
-//        // TODO: Add function to to save the Location to our "var Locations" in SessionsListViewModel
 //        
 //        self.presentation = false
 //    }

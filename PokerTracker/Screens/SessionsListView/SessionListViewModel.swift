@@ -229,8 +229,11 @@ class SessionsListViewModel: ObservableObject {
         {
             locations.remove(at: index)
             saveLocations()
+//            saveNewLocations()
         }
     }
+    
+    // TODO: DefaultLocations.allLocations should be switched to .defaultLocations after the merge
     
     // Will merge Default Locations in to the current saved Locations and also keep the same order
     func mergeLocations() {
