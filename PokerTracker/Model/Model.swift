@@ -37,7 +37,7 @@ struct PokerSession: Hashable, Codable, Identifiable {
     
     // Individual Session playing time formatted for Session Detail View
     var playingTIme: String {
-        return sessionDuration.abbreviated(duration: self.sessionDuration)
+        return sessionDuration.durationShortHand()
     }
     
     // Individual Session duration
@@ -129,11 +129,6 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     let startTimeDayTwo: Date?
     let endTimeDayTwo: Date?
     
-    // Individual Session playing time formatted for Session Detail View
-    var playingTIme: String {
-        return sessionDuration.abbreviated(duration: self.sessionDuration)
-    }
-    
     // Individual Session duration
     var sessionDuration: DateComponents {
 
@@ -158,6 +153,11 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
         } else {
             return dayOneDuration
         }
+    }
+    
+    // Individual Session playing time formatted for Session Detail View
+    var playingTIme: String {
+        return sessionDuration.durationShortHand()
     }
     
     // Individual Session hourly rate

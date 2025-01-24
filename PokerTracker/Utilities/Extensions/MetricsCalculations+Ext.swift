@@ -318,7 +318,7 @@ extension SessionsListViewModel {
         let totalHours = sessionsArray.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
         let totalMins = sessionsArray.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
         let dateComponents = DateComponents(hour: totalHours, minute: totalMins)
-        return dateComponents.abbreviated(duration: dateComponents)
+        return dateComponents.durationShortHand()
     }
     
     func handsPlayed(range: RangeSelection = .all, bankroll: SessionFilter) -> Int {
@@ -451,7 +451,7 @@ extension SessionsListViewModel {
         let totalHours = hoursArray.reduce(0, +) / sessionsArray.count
         let totalMinutes = minutesArray.reduce(0, +) / sessionsArray.count
         let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
-        return dateComponents.abbreviated(duration: dateComponents)
+        return dateComponents.durationShortHand()
     }
     
     func avgProfit(yearExcluded: String? = nil, range: RangeSelection = .all, bankroll: SessionFilter) -> Int {

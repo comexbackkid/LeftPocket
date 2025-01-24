@@ -343,7 +343,7 @@ struct TagReport: View {
         let totalMinutes = minutesArray.reduce(0, +)
         let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
         
-        return dateComponents.abbreviated(duration: dateComponents)
+        return dateComponents.durationShortHand()
     }
     
     private func tagWinRatio(tag: String) -> String {

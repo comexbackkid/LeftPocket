@@ -108,10 +108,10 @@ extension DateComponents {
         }
     }
     
-    func abbreviated(duration: DateComponents) -> String {
+    func durationShortHand() -> String {
         let dateFormatter = DateComponentsFormatter()
         dateFormatter.unitsStyle = .abbreviated
-        let totalHours = dateFormatter.string(from: duration)!
+        let totalHours = dateFormatter.string(from: self)!
         return totalHours
     }
 }

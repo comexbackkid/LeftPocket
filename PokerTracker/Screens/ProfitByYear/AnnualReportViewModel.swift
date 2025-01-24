@@ -242,7 +242,7 @@ class AnnualReportViewModel: ObservableObject {
                 let totalHours = hoursArray.reduce(0, +)
                 let totalMinutes = minutesArray.reduce(0, +)
                 let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
-                return dateComponents.abbreviated(duration: dateComponents)
+                return dateComponents.durationShortHand()
             case .lastYear:
                 guard !vm.sessions.filter({ $0.date.getYear() == lastYear }).isEmpty else { return "0" }
                 let hoursArray: [Int] = vm.sessions.filter({ $0.date.getYear() == lastYear }).map { $0.sessionDuration.hour ?? 0 }
@@ -250,7 +250,7 @@ class AnnualReportViewModel: ObservableObject {
                 let totalHours = hoursArray.reduce(0, +)
                 let totalMinutes = minutesArray.reduce(0, +)
                 let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
-                return dateComponents.abbreviated(duration: dateComponents)
+                return dateComponents.durationShortHand()
             }
         case .cash:
             switch timeline {
@@ -261,7 +261,7 @@ class AnnualReportViewModel: ObservableObject {
                 let totalHours = hoursArray.reduce(0, +)
                 let totalMinutes = minutesArray.reduce(0, +)
                 let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
-                return dateComponents.abbreviated(duration: dateComponents)
+                return dateComponents.durationShortHand()
             case .lastYear:
                 guard !vm.allCashSessions().filter({ $0.date.getYear() == lastYear }).isEmpty else { return "0" }
                 let hoursArray: [Int] = vm.allCashSessions().filter({ $0.date.getYear() == lastYear }).map { $0.sessionDuration.hour ?? 0 }
@@ -269,7 +269,7 @@ class AnnualReportViewModel: ObservableObject {
                 let totalHours = hoursArray.reduce(0, +)
                 let totalMinutes = minutesArray.reduce(0, +)
                 let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
-                return dateComponents.abbreviated(duration: dateComponents)
+                return dateComponents.durationShortHand()
             }
         case .tournaments:
             switch timeline {
@@ -280,7 +280,7 @@ class AnnualReportViewModel: ObservableObject {
                 let totalHours = hoursArray.reduce(0, +)
                 let totalMinutes = minutesArray.reduce(0, +)
                 let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
-                return dateComponents.abbreviated(duration: dateComponents)
+                return dateComponents.durationShortHand()
             case .lastYear:
                 guard !vm.sessions.filter({ $0.date.getYear() == lastYear }).isEmpty else { return "0" }
                 let hoursArray: [Int] = vm.allTournamentSessions().filter({ $0.date.getYear() == lastYear }).map { $0.sessionDuration.hour ?? 0 }
@@ -288,7 +288,7 @@ class AnnualReportViewModel: ObservableObject {
                 let totalHours = hoursArray.reduce(0, +)
                 let totalMinutes = minutesArray.reduce(0, +)
                 let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
-                return dateComponents.abbreviated(duration: dateComponents)
+                return dateComponents.durationShortHand()
             }
         }
     }
