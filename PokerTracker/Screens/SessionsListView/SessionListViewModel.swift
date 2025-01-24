@@ -10,7 +10,7 @@ import WidgetKit
 
 class SessionsListViewModel: ObservableObject {
     
-    // I'm not sure I'm even using this alert... should probably use it for migration function in case of error
+    // I'm not sure I'm even using this alert... SHOULD probably use it for migration function in case of error
     @Published var alertMessage: String?
     @Published var bankrollProgressRing: Float = 0.0
     @Published var userStakes: [String] = ["1/2", "1/3", "2/5", "5/10"] {

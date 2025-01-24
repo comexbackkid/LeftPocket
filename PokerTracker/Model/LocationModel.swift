@@ -34,9 +34,9 @@ struct LocationModel_v2: Decodable, Encodable, Hashable, Identifiable {
     var importedImage: String?
     
     init(id: String = UUID().uuidString, name: String, localImage: String? = nil, importedImage: String? = nil) {
-           self.id = id
-           self.name = name
-           self.localImage = localImage
-           self.importedImage = importedImage
-       }
+        self.id = id
+        self.name = name
+        self.localImage = localImage
+        self.importedImage = importedImage
+    }
 }
