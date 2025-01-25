@@ -148,13 +148,13 @@ struct BarChartByYear: View {
     }
     
     // Formats data so we have the profit totals of every month, i.e. only 12 total items in the array. Checks current year only
-    func sessionsByMonth(sessions: [PokerSession], cashOnly: Bool) -> [(month: Date, profit: Int)] {
+    func sessionsByMonth(sessions: [PokerSession_v2], cashOnly: Bool) -> [(month: Date, profit: Int)] {
         
         var monthlyProfits: [Date: Int] = [:]
         let currentYear = Calendar.current.component(.year, from: Date())
         
         if cashOnly == true {
-            let cashSessions = sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
+            let cashSessions = sessions.filter({ $0.isTournament == false })
             
             for session in cashSessions {
                 
@@ -190,7 +190,7 @@ struct BarChartByYear: View {
     }
     
     // Calculates annoations value
-    func profitByMonth(month: Date, data: [PokerSession]) -> Int {
+    func profitByMonth(month: Date, data: [PokerSession_v2]) -> Int {
         
         let currentYear = Calendar.current.component(.year, from: Date())
         let filteredSessions = data.filter({ $0.date.getMonth() == month.getMonth() && Int($0.date.getYear()) == currentYear })

@@ -19,7 +19,7 @@ struct SessionDefaultsView: View {
     
     @State private var askEachTimePopover = false
     @State private var sessionType: SessionType?
-    @State private var location = LocationModel(name: "", localImage: "", imageURL: "")
+    @State private var location = LocationModel_v2(name: "")
     @State private var stakes = ""
     @State private var game = ""
     @State private var speed = ""
@@ -577,7 +577,7 @@ struct SessionDefaultsView: View {
     private func resetUserDefaults() {
         
         sessionType = nil
-        location = LocationModel(name: "", localImage: "", imageURL: "")
+        location = LocationModel_v2(name: "")
         stakes = ""
         game = ""
         size = ""
@@ -663,10 +663,10 @@ struct SessionDefaultsView: View {
         
         // Load Location
         if let encodedLocation = defaults.object(forKey: "locationDefault") as? Data,
-           let decodedLocation = try? JSONDecoder().decode(LocationModel.self, from: encodedLocation) {
+           let decodedLocation = try? JSONDecoder().decode(LocationModel_v2.self, from: encodedLocation) {
             location = decodedLocation
         } else {
-            location = LocationModel(name: "", localImage: "", imageURL: "")
+            location = LocationModel_v2(name: "")
         }
         
         // Load Stakes, Game, & Tournament Defaults

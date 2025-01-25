@@ -17,7 +17,7 @@ struct LiveSessionCounter: View {
     @State private var showSessionDefaultsView = false
     @State private var rebuyConfirmationSound = false
     @State private var audioPlayer: AVAudioPlayer?
-    @State private var location: LocationModel?
+    @State private var location: LocationModel_v2?
     @State private var sessionType: SessionType?
     @State private var sessionDefaultCounter = 0
     
@@ -91,33 +91,38 @@ struct LiveSessionCounter: View {
         VStack {
             
             if let location {
-                if location.localImage != "" {
-                    
-                    Image(location.localImage)
+                if let localImage = location.localImage {
+                    Image(localImage)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 40, height: 40)
                         .clipShape(.rect(cornerRadius: 7))
                     
-                } else if location.importedImage != nil {
+                } else if let importedImagePath = location.importedImage {
+                    if let uiImage = ImageLoader.loadImage(from: importedImagePath) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 40, height: 40)
+                            .clipShape(.rect(cornerRadius: 7))
+                        
+                    } else {
+                        Image("defaultlocation-header")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 40, height: 40)
+                            .clipShape(.rect(cornerRadius: 7))
+                    }
                     
-                        if let photoData = location.importedImage, let uiImage = UIImage(data: photoData) {
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 40, height: 40)
-                                .clipShape(.rect(cornerRadius: 7))
-                        }
                 } else {
                     Image("defaultlocation-header")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 40, height: 40)
                         .clipShape(.rect(cornerRadius: 7))
-                    
                 }
+
             } else {
-                
                 Image("defaultlocation-header")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -163,7 +168,6 @@ struct LiveSessionCounter: View {
                     .lineLimit(1)
             }
         }
-//        .dynamicTypeSize(.medium)
     }
     
     private func loadUserDefaults() {
@@ -172,10 +176,10 @@ struct LiveSessionCounter: View {
         
         // Load Location
         if let encodedLocation = defaults.object(forKey: "locationDefault") as? Data,
-           let decodedLocation = try? JSONDecoder().decode(LocationModel.self, from: encodedLocation) {
+           let decodedLocation = try? JSONDecoder().decode(LocationModel_v2.self, from: encodedLocation) {
             location = decodedLocation
         } else {
-            location = LocationModel(name: "", localImage: "", imageURL: "")
+            location = LocationModel_v2(name: "")
             print("No default location found.")
         }
         

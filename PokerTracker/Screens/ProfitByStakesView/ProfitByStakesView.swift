@@ -23,7 +23,7 @@ struct ProfitByStakesView: View {
     @State private var endDate: Date = .now
     @State private var showYearFilterTag: Bool = false
     
-    var filteredSessions: [PokerSession] {
+    var filteredSessions: [PokerSession_v2] {
         
         var result = viewModel.sessions.filter({ $0.isTournament != true })
         
@@ -339,7 +339,7 @@ struct ProfitByStakesView: View {
         }
     }
     
-    private func hourlyByStakes(stakes: String, sessions: [PokerSession]) -> Int {
+    private func hourlyByStakes(stakes: String, sessions: [PokerSession_v2]) -> Int {
         guard !sessions.isEmpty else { return 0 }
         let totalHours = Float(sessions.filter{ $0.stakes == stakes }.map { $0.sessionDuration.hour ?? 0 }.reduce(0,+))
         let totalMinutes = Float(sessions.filter{ $0.stakes == stakes }.map { $0.sessionDuration.minute ?? 0 }.reduce(0,+))
@@ -356,7 +356,7 @@ struct ProfitByStakesView: View {
         }
     }
     
-    private func bbPerHourByStakes(stakes: String, sessions: [PokerSession]) -> Double {
+    private func bbPerHourByStakes(stakes: String, sessions: [PokerSession_v2]) -> Double {
         
         guard !sessions.isEmpty else { return 0 }
         guard !sessions.filter({ $0.stakes == stakes }).isEmpty else { return 0 }
@@ -374,7 +374,7 @@ struct ProfitByStakesView: View {
         return Double(bigBlindsWon / hoursPlayed)
     }
     
-    private func ueserBestStakes(sessions: [PokerSession]) -> String {
+    private func ueserBestStakes(sessions: [PokerSession_v2]) -> String {
         
         // Group sessions by stakes
         let stakesGrouped = Dictionary(grouping: sessions, by: { $0.stakes })
@@ -406,7 +406,7 @@ struct ProfitByStakesView: View {
         endDate = Date.now
     }
     
-    private func bankrollByStakesFilters(sessions: [PokerSession]) -> Int {
+    private func bankrollByStakesFilters(sessions: [PokerSession_v2]) -> Int {
         
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
@@ -425,7 +425,7 @@ struct ProfitByStakesView: View {
 
 extension SessionsListViewModel {
     
-    func hoursAbbreviated(_ sessions: [PokerSession]) -> String {
+    func hoursAbbreviated(_ sessions: [PokerSession_v2]) -> String {
         
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal

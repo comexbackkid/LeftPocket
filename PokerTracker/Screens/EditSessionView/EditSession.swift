@@ -14,32 +14,9 @@ struct EditSession: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
+    @StateObject var editSession = EditSessionViewModel()
     
-    @State private var location: LocationModel = LocationModel(name: "", localImage: "", imageURL: "")
-    @State private var date: Date = Date()
-    @State private var stakes: String = ""
-    @State private var game: String = ""
-    @State private var startTime: Date = Date().modifyTime(minutes: -360)
-    @State private var endTime: Date = Date()
-    @State private var buyIn: String = ""
-    @State private var cashOut: String = ""
-    @State private var expenses: String = ""
-    @State private var notes: String = ""
-    @State private var highHandBonus: String = ""
-    @State private var entrants: String = ""
-    @State private var finish: String = ""
-    @State private var speed: String = ""
-    @State private var size: String = ""
-    @State private var rebuyCount: String = ""
-    @State private var tags: String = ""
-    @State private var addLocationIsShowing = false
-    @State private var addStakesIsShowing = false
-    @State private var alertItem: AlertItem?
-    @State private var sessionType: SessionType?
-    @State private var startTimeDayTwo: Date = Date()
-    @State private var endTimeDayTwo: Date = Date()
-    
-    let pokerSession: PokerSession
+    let pokerSession: PokerSession_v2
     
     var body: some View {
         
@@ -53,35 +30,16 @@ struct EditSession: View {
                     
                     Spacer()
                     
-                    switch sessionType {
+                    switch editSession.sessionType {
                     case .cash:
-                        
-                        if canEditCashSession() {
-                            
-                            cashGameDetails
-                            cashInputFields
-                            saveButton
-                            
-                        } else {
-                            
-                            errorScreen
-                        }
+                        cashGameDetails
+                        cashInputFields
+                        saveButton
                         
                     case .tournament:
-                        
-                        if canEditTournamentSession() {
-                            
-                            tournamentGameDetails
-                            tournamentInputFields
-                            saveButton
-                            
-                        } else {
-                            
-                            errorScreen
-                        }
-                        
-                    case nil:
-                        errorScreen
+                        tournamentGameDetails
+                        tournamentInputFields
+                        saveButton
                     }
                 }
             }
@@ -90,10 +48,29 @@ struct EditSession: View {
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .frame(maxHeight: .infinity)
         .background(Color.brandBackground)
-        .alert(item: $alertItem) { alertItem in
+        .alert(item: $editSession.alertItem) { alertItem in
             Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
         }
-        .onAppear { determineSessionType() }
+        .onAppear {
+            determineSessionType()
+            editSession.date = pokerSession.date
+            editSession.startTime = pokerSession.startTime
+            editSession.endTime = pokerSession.endTime
+            if let startTimeDayTwo = pokerSession.startTimeDayTwo {
+                editSession.startTimeDayTwo = startTimeDayTwo
+            }
+            if let endTimeDayTwo = pokerSession.endTimeDayTwo {
+                editSession.endTimeDayTwo = endTimeDayTwo
+            }
+        }
+    }
+    
+    // Check if the Session we're trying to edit is a cash game or tournament, and display relevant fields
+    private func determineSessionType() {
+        switch pokerSession.isTournament {
+        case true: editSession.sessionType = .tournament
+        case false: editSession.sessionType = .cash
+        }
     }
     
     var title: some View {
@@ -107,7 +84,6 @@ struct EditSession: View {
             
             Spacer()
         }
-        
     }
     
     var cashGameDetails: some View {
@@ -151,7 +127,7 @@ struct EditSession: View {
                     
                     Menu {
                         withAnimation {
-                            Picker("Speed", selection: $speed) {
+                            Picker("Speed", selection: $editSession.speed) {
                                 Text("Standard").tag("Standard")
                                 Text("Turbo").tag("Turbo")
                                 Text("Super Turbo").tag("Super Turbo")
@@ -160,11 +136,11 @@ struct EditSession: View {
                         
                     } label: {
                         
-                        Text(speed)
+                        Text(editSession.speed)
                             .bodyStyle()
                             .fixedSize()
                             .lineLimit(1)
-                            .animation(nil, value: speed)
+                            .animation(nil, value: editSession.speed)
                     }
                     .transaction { transaction in
                         transaction.animation = nil
@@ -190,7 +166,7 @@ struct EditSession: View {
                     
                     Menu {
                         withAnimation {
-                            Picker("Size", selection: $size) {
+                            Picker("Size", selection: $editSession.size) {
                                 Text("MTT").tag("MTT")
                                 Text("Sit & Go").tag("Sit & Go")
                             }
@@ -198,11 +174,11 @@ struct EditSession: View {
                         
                     } label: {
                         
-                        Text(size)
+                        Text(editSession.size)
                             .bodyStyle()
                             .fixedSize()
                             .lineLimit(1)
-                            .animation(nil, value: size)
+                            .animation(nil, value: editSession.size)
                     }
                     .transaction { transaction in
                         transaction.animation = nil
@@ -220,16 +196,8 @@ struct EditSession: View {
         }
         .padding(.horizontal, 8)
         .onAppear {
-            self.speed = pokerSession.tournamentSpeed.map { String($0) } ?? "Standard"
-            self.size = pokerSession.tournamentSize.map { String($0) } ?? "MTT"
-            self.startTime = pokerSession.startTime
-            self.endTime = pokerSession.endTime
-            if let startTimeDayTwo = pokerSession.startTimeDayTwo {
-                self.startTimeDayTwo = startTimeDayTwo
-            }
-            if let endTimeDayTwo = pokerSession.endTimeDayTwo {
-                self.endTimeDayTwo = endTimeDayTwo
-            }
+            editSession.speed = pokerSession.tournamentSpeed.map { String($0) } ?? "Standard"
+            editSession.size = pokerSession.tournamentSize.map { String($0) } ?? "MTT"
         }
     }
     
@@ -250,7 +218,7 @@ struct EditSession: View {
             Menu {
                 
                 Button {
-                    addLocationIsShowing = true
+                    editSession.addLocationIsShowing = true
                 } label: {
                     HStack {
                         Text("Add New Location")
@@ -258,7 +226,7 @@ struct EditSession: View {
                     }
                 }
                                     
-                Picker("Picker", selection: $location) {
+                Picker("Picker", selection: $editSession.location) {
                     ForEach(viewModel.locations) { location in
                         Text(location.name).tag(location)
                     }
@@ -266,12 +234,12 @@ struct EditSession: View {
                 
             } label: {
                 
-                Text(location.name)
+                Text(editSession.location.name)
                     .bodyStyle()
                     .lineLimit(1)
                     .fixedSize()
             }
-            .animation(nil, value: location)
+            .animation(nil, value: editSession.location)
             .foregroundColor(.brandWhite)
             .buttonStyle(PlainButtonStyle())
             .transaction { transaction in
@@ -280,12 +248,12 @@ struct EditSession: View {
             
         }
         .onAppear {
-            location = pokerSession.location
+            editSession.location = pokerSession.location
         }
         .padding(.horizontal)
         .padding(.bottom, 10)
-        .sheet(isPresented: $addLocationIsShowing, content: {
-            NewLocationView(addLocationIsShowing: $addLocationIsShowing)
+        .sheet(isPresented: $editSession.addLocationIsShowing, content: {
+            NewLocationView(addLocationIsShowing: $editSession.addLocationIsShowing)
         })
         
     }
@@ -307,7 +275,7 @@ struct EditSession: View {
             Menu {
                 
                 Button {
-                    addStakesIsShowing = true
+                    editSession.addStakesIsShowing = true
                 } label: {
                     HStack {
                         Text("Add Stakes")
@@ -315,14 +283,14 @@ struct EditSession: View {
                     }
                 }
                 
-                Picker("Picker", selection: $stakes) {
+                Picker("Picker", selection: $editSession.stakes) {
                     ForEach(viewModel.userStakes, id: \.self) {
                         Text($0).tag($0)
                     }
                 }
                 
             } label: {
-                Text(stakes)
+                Text(editSession.stakes)
                     .bodyStyle()
                     .fixedSize()
             }
@@ -333,13 +301,13 @@ struct EditSession: View {
             }
         }
         .onAppear {
-            stakes = pokerSession.stakes
+            editSession.stakes = pokerSession.stakes
         }
         .padding(.horizontal)
         .padding(.bottom, 10)
         .transition(.opacity.combined(with: .scale(scale: 1, anchor: .top)))
-        .sheet(isPresented: $addStakesIsShowing, content: {
-            NewStakesView(addStakesIsShowing: $addStakesIsShowing)
+        .sheet(isPresented: $editSession.addStakesIsShowing, content: {
+            NewStakesView(addStakesIsShowing: $editSession.addStakesIsShowing)
         })
         
     }
@@ -362,7 +330,7 @@ struct EditSession: View {
             Menu {
                 
                 withAnimation {
-                    Picker("Game", selection: $game) {
+                    Picker("Game", selection: $editSession.game) {
                         Text("NL Texas Hold Em").tag("NL Texas Hold Em")
                         Text("Pot Limit Omaha").tag("Pot Limit Omaha")
                         Text("Seven Card Stud").tag("Seven Card Stud")
@@ -372,17 +340,17 @@ struct EditSession: View {
                 
             } label: {
                 
-                Text(game)
+                Text(editSession.game)
                     .bodyStyle()
                     .fixedSize()
                     .lineLimit(1)
-                    .animation(nil, value: game)
+                    .animation(nil, value: editSession.game)
             }
             .foregroundColor(.brandWhite)
             .buttonStyle(PlainButtonStyle())
         }
         .onAppear {
-            game = pokerSession.game
+            editSession.game = pokerSession.game
         }
         .padding(.horizontal)
         .padding(.bottom, 10)
@@ -414,7 +382,7 @@ struct EditSession: View {
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30)
                 
-                DatePicker("Start", selection: $startTime, in: ...Date.now,
+                DatePicker("Start", selection: $editSession.startTime, in: ...Date.now,
                            displayedComponents: [.date, .hourAndMinute])
                 .accentColor(.brandPrimary)
                 .padding(.leading, 4)
@@ -434,7 +402,7 @@ struct EditSession: View {
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30)
                 
-                DatePicker("End", selection: $endTime, in: startTime...Date.now,
+                DatePicker("End", selection: $editSession.endTime, in: editSession.startTime...Date.now,
                            displayedComponents: [.date, .hourAndMinute])
                 .accentColor(.brandPrimary)
                 .padding(.leading, 4)
@@ -468,7 +436,7 @@ struct EditSession: View {
                         .foregroundColor(Color(.systemGray3))
                         .frame(width: 30)
                     
-                    DatePicker("Start", selection: $startTimeDayTwo, in: ...Date.now,
+                    DatePicker("Start", selection: $editSession.startTimeDayTwo, in: ...Date.now,
                                displayedComponents: [.date, .hourAndMinute])
                     .accentColor(.brandPrimary)
                     .padding(.leading, 4)
@@ -488,7 +456,7 @@ struct EditSession: View {
                         .foregroundColor(Color(.systemGray3))
                         .frame(width: 30)
                     
-                    DatePicker("End", selection: $endTimeDayTwo, in: startTimeDayTwo...Date.now,
+                    DatePicker("End", selection: $editSession.endTimeDayTwo, in: editSession.startTimeDayTwo...Date.now,
                                displayedComponents: [.date, .hourAndMinute])
                     .accentColor(.brandPrimary)
                     .padding(.leading, 4)
@@ -513,9 +481,9 @@ struct EditSession: View {
                 HStack {
                     Text(viewModel.userCurrency.symbol)
                         .font(.callout)
-                        .foregroundColor(buyIn.isEmpty ? .secondary.opacity(0.5) : Color.brandWhite)
+                        .foregroundColor(editSession.buyIn.isEmpty ? .secondary.opacity(0.5) : Color.brandWhite)
                     
-                    TextField("Buy In", text: $buyIn)
+                    TextField("Buy In", text: $editSession.buyIn)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
                 }
@@ -532,9 +500,9 @@ struct EditSession: View {
                 HStack {
                     Text(viewModel.userCurrency.symbol)
                         .font(.callout)
-                        .foregroundColor(cashOut.isEmpty ? .secondary.opacity(0.5) : Color.brandWhite)
+                        .foregroundColor(editSession.cashOut.isEmpty ? .secondary.opacity(0.5) : Color.brandWhite)
                     
-                    TextField("Cash Out", text: $cashOut)
+                    TextField("Cash Out", text: $editSession.cashOut)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
                 }
@@ -551,9 +519,9 @@ struct EditSession: View {
                 HStack {
                     Text(viewModel.userCurrency.symbol)
                         .font(.callout)
-                        .foregroundStyle(expenses.isEmpty ? .secondary.opacity(0.5) : Color.brandWhite)
+                        .foregroundStyle(editSession.expenses.isEmpty ? .secondary.opacity(0.5) : Color.brandWhite)
                     
-                    TextField("Expenses (Meals, tips, etc.)", text: $expenses)
+                    TextField("Expenses (Meals, tips, etc.)", text: $editSession.expenses)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
                 }
@@ -565,7 +533,7 @@ struct EditSession: View {
                 .padding(.bottom, 10)
             }
             
-            TextEditor(text: $notes)
+            TextEditor(text: $editSession.notes)
                 .font(.custom("Asap-Regular", size: 17))
                 .padding(12)
                 .frame(height: 130, alignment: .top)
@@ -576,7 +544,7 @@ struct EditSession: View {
                     HStack {
                         VStack {
                             VStack {
-                                Text(notes.isEmpty ? "Notes (Optional)" : "")
+                                Text(editSession.notes.isEmpty ? "Notes (Optional)" : "")
                                     .font(.custom("Asap-Regular", size: 17))
                                     .font(.callout)
                                     .foregroundColor(.secondary.opacity(0.5))
@@ -594,9 +562,9 @@ struct EditSession: View {
                 HStack {
                     Text(viewModel.userCurrency.symbol)
                         .font(.callout)
-                        .foregroundStyle(highHandBonus.isEmpty ? .secondary.opacity(0.5) : Color.brandWhite)
+                        .foregroundStyle(editSession.highHandBonus.isEmpty ? .secondary.opacity(0.5) : Color.brandWhite)
                     
-                    TextField("High Hand Bonus (Optional)", text: $highHandBonus)
+                    TextField("High Hand Bonus (Optional)", text: $editSession.highHandBonus)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
                 }
@@ -612,9 +580,9 @@ struct EditSession: View {
                 Image(systemName: "tag.fill")
                     .font(.caption2)
                     .frame(width: 13)
-                    .foregroundColor(tags.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                    .foregroundColor(editSession.tags.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                 
-                TextField("Tags (Optional)", text: $tags)
+                TextField("Tags (Optional)", text: $editSession.tags)
                     .font(.custom("Asap-Regular", size: 17))
             }
             .allowsHitTesting(subManager.isSubscribed ? true : false)
@@ -639,12 +607,12 @@ struct EditSession: View {
         }
         .padding(.horizontal, 8)
         .onAppear {
-            self.buyIn = pokerSession.buyIn.map { String($0) } ?? ""
-            self.cashOut = pokerSession.cashOut.map { String($0) } ?? ""
-            self.expenses = pokerSession.expenses.map { String($0) } ?? ""
-            self.highHandBonus = pokerSession.highHandBonus.map { String($0) } ?? ""
-            self.notes = pokerSession.notes
-            self.tags = pokerSession.tags?.joined(separator: ", ") ?? ""
+            editSession.buyIn = String(pokerSession.buyIn)
+            editSession.cashOut = String(pokerSession.cashOut)
+            editSession.expenses = String(pokerSession.expenses)
+            editSession.highHandBonus = String(pokerSession.highHandBonus)
+            editSession.notes = pokerSession.notes
+            editSession.tags = pokerSession.tags.joined(separator: ", ")
         }
     }
     
@@ -655,9 +623,9 @@ struct EditSession: View {
             HStack {
                 Text(viewModel.userCurrency.symbol)
                     .font(.callout)
-                    .foregroundColor(cashOut.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                    .foregroundColor(editSession.cashOut.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                 
-                TextField("Total Winnings", text: $cashOut)
+                TextField("Total Winnings", text: $editSession.cashOut)
                     .font(.custom("Asap-Regular", size: 17))
                     .keyboardType(.numberPad)
             }
@@ -673,9 +641,9 @@ struct EditSession: View {
                 HStack {
                     Text(viewModel.userCurrency.symbol)
                         .font(.callout)
-                        .foregroundColor(buyIn.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                        .foregroundColor(editSession.buyIn.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
-                    TextField("Buy In", text: $buyIn)
+                    TextField("Buy In", text: $editSession.buyIn)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
                                         
@@ -691,9 +659,9 @@ struct EditSession: View {
                 HStack {
                     Text("#")
                         .font(.callout)
-                        .foregroundColor(rebuyCount.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                        .foregroundColor(editSession.rebuyCount.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
-                    TextField("Rebuy Ct.", text: $rebuyCount)
+                    TextField("Rebuy Ct.", text: $editSession.rebuyCount)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
                 }
@@ -712,9 +680,9 @@ struct EditSession: View {
                 
                 Text("#")
                     .font(.callout)
-                    .foregroundColor(entrants.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                    .foregroundColor(editSession.entrants.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                 
-                TextField("No. of Entrants", text: $entrants)
+                TextField("No. of Entrants", text: $editSession.entrants)
                     .font(.custom("Asap-Regular", size: 17))
                     .keyboardType(.numberPad)
             }
@@ -729,9 +697,9 @@ struct EditSession: View {
                 
                 Text("#")
                     .font(.callout)
-                    .foregroundColor(finish.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                    .foregroundColor(editSession.finish.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                 
-                TextField("Your Finish", text: $finish)
+                TextField("Your Finish", text: $editSession.finish)
                     .font(.custom("Asap-Regular", size: 17))
                     .keyboardType(.numberPad)
             }
@@ -742,7 +710,7 @@ struct EditSession: View {
             .padding(.bottom, 10)
             .transition(.opacity.combined(with: .scale))
   
-            TextEditor(text: $notes)
+            TextEditor(text: $editSession.notes)
                 .font(.custom("Asap-Regular", size: 17))
                 .padding(12)
                 .frame(height: 130, alignment: .top)
@@ -753,7 +721,7 @@ struct EditSession: View {
                     HStack {
                         VStack {
                             VStack {
-                                Text(notes.isEmpty ? "Notes (Optional)" : "")
+                                Text(editSession.notes.isEmpty ? "Notes (Optional)" : "")
                                     .font(.custom("Asap-Regular", size: 17))
                                     .font(.callout)
                                     .foregroundColor(.secondary.opacity(0.5))
@@ -772,9 +740,9 @@ struct EditSession: View {
                 Image(systemName: "tag.fill")
                     .font(.caption2)
                     .frame(width: 13)
-                    .foregroundColor(tags.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                    .foregroundColor(editSession.tags.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                 
-                TextField("Tags (Optional)", text: $tags)
+                TextField("Tags (Optional)", text: $editSession.tags)
                     .font(.custom("Asap-Regular", size: 17))
             }
             .allowsHitTesting(subManager.isSubscribed ? true : false)
@@ -799,46 +767,15 @@ struct EditSession: View {
         }
         .padding(.horizontal, 8)
         .onAppear {
-            self.buyIn = pokerSession.buyIn.map { String($0) } ?? ""
-            self.cashOut = pokerSession.cashOut.map { String($0) } ?? ""
-            self.rebuyCount = pokerSession.rebuyCount.map { String($0) } ?? "0"
-            self.entrants = pokerSession.entrants.map { String($0) } ?? ""
-            self.finish = pokerSession.finish.map { String($0) } ?? ""
-            self.notes = pokerSession.notes
-            self.tags = pokerSession.tags?.joined(separator: ", ") ?? ""
+            editSession.buyIn = String(pokerSession.buyIn)
+            editSession.cashOut = String(pokerSession.cashOut)
+            editSession.rebuyCount = pokerSession.rebuyCount.map { String($0) } ?? "0"
+            editSession.entrants = pokerSession.entrants.map { String($0) } ?? ""
+            editSession.finish = pokerSession.finish.map { String($0) } ?? ""
+            editSession.notes = pokerSession.notes
+            editSession.tags = pokerSession.tags.joined(separator: ", ")
+            editSession.tournamentDays = pokerSession.tournamentDays.map { String($0) } ?? "1"
         }
-    }
-    
-    var errorScreen: some View {
-        
-        VStack (spacing: 20) {
-            
-            Spacer()
-            
-            Image(systemName: "exclamationmark.triangle")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 60, height: 60)
-                .fontWeight(.semibold)
-                .foregroundStyle(Color.donutChartOrange)
-            
-            Text("This Session cannot be edited because it was created prior to Left Pocket v4.0. If you wish to make changes to this Session, you must log it again with the correct information, & then simply delete the old Session.")
-                .bodyStyle()
-            
-            Spacer()
-            
-            Button(role: .cancel) {
-                let impact = UIImpactFeedbackGenerator(style: .soft)
-                impact.impactOccurred()
-                dismiss()
-                
-            } label: {
-                Text("Cancel")
-                    .buttonTextStyle()
-            }
-            .tint(.red)
-        }
-        .padding()
     }
     
     var saveButton: some View {
@@ -847,7 +784,13 @@ struct EditSession: View {
             Button {
                 let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
-                saveEditedSession()
+                if editSession.isValidForm {
+                    editSession.saveEditedSession(viewModel: viewModel, editedSession: pokerSession)
+                    viewModel.sessions.removeAll { session in
+                        session.id == pokerSession.id
+                    }
+                    dismiss()
+                }
                 
             } label: {
                 PrimaryButton(title: "Save Changes")
@@ -865,133 +808,6 @@ struct EditSession: View {
             .tint(.red)
         }
         .padding(.bottom, 10)
-    }
-    
-    // Check if the Session we're trying to edit is a cash game or tournament, and display relevant fields
-    private func determineSessionType() {
-        if let sessionType = pokerSession.isTournament {
-            if sessionType == true {
-                self.sessionType = .tournament
-            } else {
-                self.sessionType = .cash
-            }
-        } else {
-            self.sessionType = .cash
-        }
-    }
-    
-    // We're just verifying that the pokerSession being edited as values that can be edited
-    // Not able to edit OLD Left Pocket Sessions because we only calculated profit, didn't know the buy in or cash out amounts
-    private func canEditCashSession() -> Bool {
-        
-        guard pokerSession.isTournament != true else {
-            return false
-        }
-        
-        guard pokerSession.buyIn != nil else {
-            return false
-        }
-        
-        guard pokerSession.cashOut != nil else {
-            return false
-        }
-        
-        return true
-    }
-    
-    private func canEditTournamentSession() -> Bool {
-        
-        guard pokerSession.isTournament == true else {
-            return false
-        }
-        
-        guard pokerSession.buyIn != nil else {
-            return false
-        }
-        
-        guard pokerSession.cashOut != nil else {
-            return false
-        }
-        
-        return true
-    }
-    
-    private var isValidForm: Bool {
-        
-        guard endTime > startTime else {
-            alertItem = AlertContext.invalidEndTime
-            return false
-        }
-        
-        guard endTime.timeIntervalSince(startTime) > 60 else {
-            alertItem = AlertContext.invalidDuration
-            return false
-        }
-        
-        if sessionType != .cash {
-            
-            guard !entrants.isEmpty else {
-                alertItem = AlertContext.invalidEntrants
-                return false
-            }
-            
-            guard !finish.isEmpty else {
-                alertItem = AlertContext.invalidFinish
-                return false
-            }
-            
-        }
-        
-        return true
-    }
-    
-    private var tournamentRebuys: Int {
-        
-        guard !rebuyCount.isEmpty else { return 0 }
-        
-        let buyIn = Int(self.buyIn) ?? 0
-        let numberOfRebuys = Int(rebuyCount) ?? 0
-        
-        return buyIn * numberOfRebuys
-    }
-    
-    // Saves a duplicate of the pokerSession, then deletes the old one
-    private func saveEditedSession() {
-        
-        var computedProfit: Int {
-            (Int(cashOut) ?? 0) - Int(buyIn)!
-        }
-        
-        if isValidForm {
-            viewModel.addSession(location: location,
-                                 game: game,
-                                 stakes: stakes,
-                                 date: startTime,
-                                 profit: sessionType == .cash ? computedProfit - (Int(expenses) ?? 0) : (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - tournamentRebuys,
-                                 notes: notes,
-                                 startTime: startTime,
-                                 endTime: endTime,
-                                 expenses: sessionType == .cash ? Int(self.expenses) ?? 0 : (Int(buyIn) ?? 0) + tournamentRebuys,
-                                 isTournament: sessionType == .tournament,
-                                 entrants: Int(entrants) ?? 0,
-                                 finish: Int(finish) ?? 0,
-                                 highHandBonus: Int(highHandBonus) ?? 0,
-                                 buyIn: Int(buyIn) ?? 0,
-                                 cashOut: Int(cashOut) ?? 0,
-                                 rebuyCount: Int(rebuyCount) ?? 0,
-                                 tournamentSize: size,
-                                 tournamentSpeed: speed,
-                                 tags: tags.isEmpty ? nil : [tags],
-                                 tournamentDays: pokerSession.tournamentDays ?? 1,
-                                 startTimeDayTwo: pokerSession.startTimeDayTwo,
-                                 endTimeDayTwo: pokerSession.endTimeDayTwo)
-            
-            viewModel.sessions.removeAll { session in
-                session.id == pokerSession.id
-            }
-            
-            dismiss()
-        }
     }
 }
 

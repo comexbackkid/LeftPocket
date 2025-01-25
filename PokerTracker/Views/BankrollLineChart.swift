@@ -20,8 +20,8 @@ struct BankrollLineChart: View {
     @AppStorage("dateRangeSelection") private var chartRange: RangeSelection = .all
     
     // Optional year selector, only used in Annual Report View. Overrides dateRange if used
-    var customDateRange: [PokerSession]?
-    var dateRange: [PokerSession] {
+    var customDateRange: [PokerSession_v2]?
+    var dateRange: [PokerSession_v2] {
         switch chartRange {
         case .all: return viewModel.sessions
         case .oneMonth: return viewModel.filterSessionsLastMonth()
@@ -59,7 +59,7 @@ struct BankrollLineChart: View {
                 
                 HStack (alignment: .top) {
                     
-                    VStack (alignment: .leading, spacing: 0) {
+                    VStack (alignment: .leading, spacing: 3) {
                         Text("Player Profit")
                             .cardTitleStyle()
                         
@@ -78,14 +78,13 @@ struct BankrollLineChart: View {
                                     
                                     if selectedIndex != 0 && !dateRange.isEmpty {
                                         Image(systemName: "arrow.up.right")
-                                            .font(.title2)
                                             .chartIntProfitColor(amountText: amountText, defaultProfit: defaultProfit)
                                             .rotationEffect(.degrees(amountText > 0 ? 0 : amountText < 0 ? 90 : defaultProfit > 0 ? 0 : 90))
                                             .animation(.default.speed(2), value: amountText)
                                     }
                                     
                                     Text(amountText == 0 ? "\(abs(defaultProfit).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))" : "\(abs(amountText).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))")
-                                        .font(.custom("Asap-Bold", size: 34))
+                                        .font(.custom("Asap-Medium", size: 17))
                                         .chartIntProfitColor(amountText: amountText, defaultProfit: defaultProfit)
                                     
                                 }
@@ -103,8 +102,7 @@ struct BankrollLineChart: View {
                         filterButton
                     }
                 }
-                .padding(.bottom)
-                
+                .padding(.bottom, 6)
                 .fullScreenCover(isPresented: $viewModel.lineChartFullScreen, content: {
                     LineChartFullScreen(lineChartFullScreen: $viewModel.lineChartFullScreen)
                         .interfaceOrientations(.allButUpsideDown)

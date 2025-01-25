@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CellView: View {
     
-    let pokerSession: PokerSession
+    let pokerSession: PokerSession_v2
     let currency: CurrencyType
     
     @Binding var viewStyle: ViewStyle
@@ -20,7 +20,7 @@ struct CellView: View {
             
             if viewStyle == .standard {
                 Image(systemName: pokerSession.isTournament == true ? "person.2.fill" : "suit.club.fill")
-                    .imageRowStyle(isTournament: pokerSession.isTournament ?? false)
+                    .imageRowStyle(isTournament: pokerSession.isTournament)
             }
             
             VStack (alignment: .leading, spacing: 2) {
@@ -30,7 +30,7 @@ struct CellView: View {
                         .bodyStyle()
                         .lineLimit(1)
                     
-                    if pokerSession.tags != nil {
+                    if !pokerSession.tags.isEmpty {
                         Image(systemName: "tag.fill")
                             .resizable()
                             .frame(width: 14, height: 14)
@@ -47,7 +47,7 @@ struct CellView: View {
                         
                         if pokerSession.isTournament == true {
                             
-                            Text("\(currency.symbol)" + "\(pokerSession.buyIn ?? 0) Buy In")
+                            Text("\(currency.symbol)" + "\(pokerSession.buyIn) Buy In")
                                 .captionStyle()
                                 .foregroundColor(.secondary)
                             

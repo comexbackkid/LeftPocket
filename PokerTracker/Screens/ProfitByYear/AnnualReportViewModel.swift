@@ -22,11 +22,11 @@ class AnnualReportViewModel: ObservableObject {
         var localizedName: LocalizedStringKey { LocalizedStringKey(rawValue) }
     }
     
-    // Each of these functions handle logic in the Annual Report View
-    // Recently simplified by removing from the primary SessionsListViewModel
-    // Long code, but felt it was better to navigate having one long function versus multiple smaller ones
+    /// Each of these functions handle logic in the Annual Report View
+    /// Recently simplified by removing from the primary SessionsListViewModel
+    /// Long code, but felt it was better to navigate having one long function versus multiple smaller ones
     
-    func chartRange(timeline: PickerTimeline, sessionFilter: SessionFilter) -> [PokerSession] {
+    func chartRange(timeline: PickerTimeline, sessionFilter: SessionFilter) -> [PokerSession_v2] {
         switch sessionFilter {
         case .all:
             switch timeline {
@@ -59,14 +59,20 @@ class AnnualReportViewModel: ObservableObject {
             case .ytd:
                 guard !vm.sessions.filter({ $0.date.getYear() == ytd }).isEmpty else { return 0 }
                 let netProfit = vm.sessions.filter({ $0.date.getYear() == ytd }).map { Int($0.profit) }.reduce(0, +)
-                let totalExpenses = vm.sessions.filter({ $0.date.getYear() == ytd }).map { Int($0.expenses ?? 0) }.reduce(0, +)
-                let grossIncome = netProfit + totalExpenses
+                let totalExpenses = vm.sessions.filter({ $0.date.getYear() == ytd }).map { Int($0.expenses) }.reduce(0, +)
+                let tournamentBuyIns = vm.allTournamentSessions().filter({ $0.date.getYear() == ytd }).reduce(0) { total, session in
+                    total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
+                }
+                let grossIncome = netProfit + totalExpenses + tournamentBuyIns
                 return grossIncome
             case .lastYear:
                 guard !vm.sessions.filter({ $0.date.getYear() == lastYear }).isEmpty else { return 0 }
                 let netProfit = vm.sessions.filter({ $0.date.getYear() == lastYear }).map { Int($0.profit) }.reduce(0, +)
-                let totalExpenses = vm.sessions.filter({ $0.date.getYear() == lastYear }).map { Int($0.expenses ?? 0) }.reduce(0, +)
-                let grossIncome = netProfit + totalExpenses
+                let totalExpenses = vm.sessions.filter({ $0.date.getYear() == lastYear }).map { Int($0.expenses) }.reduce(0, +)
+                let tournamentBuyIns = vm.allTournamentSessions().filter({ $0.date.getYear() == lastYear }).reduce(0) { total, session in
+                    total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
+                }
+                let grossIncome = netProfit + totalExpenses + tournamentBuyIns
                 return grossIncome
             }
         case .cash:
@@ -74,13 +80,13 @@ class AnnualReportViewModel: ObservableObject {
             case .ytd:
                 guard !vm.allCashSessions().filter({ $0.date.getYear() == ytd }).isEmpty else { return 0 }
                 let netProfit = vm.allCashSessions().filter({ $0.date.getYear() == ytd }).map { Int($0.profit) }.reduce(0, +)
-                let totalExpenses = vm.allCashSessions().filter({ $0.date.getYear() == ytd }).map { Int($0.expenses ?? 0) }.reduce(0, +)
+                let totalExpenses = vm.allCashSessions().filter({ $0.date.getYear() == ytd }).map { Int($0.expenses) }.reduce(0, +)
                 let grossIncome = netProfit + totalExpenses
                 return grossIncome
             case .lastYear:
                 guard !vm.allCashSessions().filter({ $0.date.getYear() == lastYear }).isEmpty else { return 0 }
                 let netProfit = vm.allCashSessions().filter({ $0.date.getYear() == lastYear }).map { Int($0.profit) }.reduce(0, +)
-                let totalExpenses = vm.allCashSessions().filter({ $0.date.getYear() == lastYear }).map { Int($0.expenses ?? 0) }.reduce(0, +)
+                let totalExpenses = vm.allCashSessions().filter({ $0.date.getYear() == lastYear }).map { Int($0.expenses) }.reduce(0, +)
                 let grossIncome = netProfit + totalExpenses
                 return grossIncome
             }
@@ -89,14 +95,18 @@ class AnnualReportViewModel: ObservableObject {
             case .ytd:
                 guard !vm.allTournamentSessions().filter({ $0.date.getYear() == ytd }).isEmpty else { return 0 }
                 let netProfit = vm.allTournamentSessions().filter({ $0.date.getYear() == ytd }).map { Int($0.profit) }.reduce(0, +)
-                let totalExpenses = vm.allTournamentSessions().filter({ $0.date.getYear() == ytd }).map { Int($0.expenses ?? 0) }.reduce(0, +)
-                let grossIncome = netProfit + totalExpenses
+                let buyIns = vm.allTournamentSessions().filter({ $0.date.getYear() == ytd }).reduce(0) { total, session in
+                    total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
+                }
+                let grossIncome = netProfit + buyIns
                 return grossIncome
             case .lastYear:
                 guard !vm.allTournamentSessions().filter({ $0.date.getYear() == lastYear }).isEmpty else { return 0 }
                 let netProfit = vm.allTournamentSessions().filter({ $0.date.getYear() == lastYear }).map { Int($0.profit) }.reduce(0, +)
-                let totalExpenses = vm.allTournamentSessions().filter({ $0.date.getYear() == lastYear }).map { Int($0.expenses ?? 0) }.reduce(0, +)
-                let grossIncome = netProfit + totalExpenses
+                let buyIns = vm.allTournamentSessions().filter({ $0.date.getYear() == lastYear}).reduce(0) { total, session in
+                    total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
+                }
+                let grossIncome = netProfit + buyIns
                 return grossIncome
             }
         }
@@ -198,35 +208,46 @@ class AnnualReportViewModel: ObservableObject {
             switch timeline {
             case .ytd:
                 guard !vm.sessions.filter({ $0.date.getYear() == ytd }).isEmpty else { return 0 }
-                let expenses = vm.sessions.filter({ $0.date.getYear() == ytd }).map { $0.expenses ?? 0 }.reduce(0,+)
+                let cashGameExpenses = vm.sessions.filter({ $0.date.getYear() == ytd }).map { $0.expenses }.reduce(0,+)
                 let offTableExpenses = vm.transactions.filter({ $0.type == .expense && $0.date.getYear() == ytd }).map { $0.amount }.reduce(0,+)
-                return expenses + abs(offTableExpenses)
+                let totalTournamentBuyIns = vm.sessions.filter({ $0.isTournament == true }).reduce(0) { total, session in
+                    total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
+                }
+                return cashGameExpenses + abs(offTableExpenses) + totalTournamentBuyIns
             case .lastYear:
                 guard !vm.sessions.filter({ $0.date.getYear() == lastYear }).isEmpty else { return 0 }
-                let expenses = vm.sessions.filter({ $0.date.getYear() == lastYear }).map { $0.expenses ?? 0 }.reduce(0,+)
-                return expenses
+                let cashGameExpenses = vm.sessions.filter({ $0.date.getYear() == lastYear }).map { $0.expenses }.reduce(0,+)
+                let offTableExpenses = vm.transactions.filter({ $0.type == .expense && $0.date.getYear() == lastYear }).map { $0.amount }.reduce(0,+)
+                let totalTournamentBuyIns = vm.sessions.filter({ $0.isTournament == true }).reduce(0) { total, session in
+                    total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
+                }
+                return cashGameExpenses + abs(offTableExpenses) + totalTournamentBuyIns
             }
         case .cash:
             switch timeline {
             case .ytd:
                 guard !vm.allCashSessions().filter({ $0.date.getYear() == ytd }).isEmpty else { return 0 }
-                let expenses = vm.allCashSessions().filter({ $0.date.getYear() == ytd }).map { $0.expenses ?? 0 }.reduce(0,+)
+                let expenses = vm.allCashSessions().filter({ $0.date.getYear() == ytd }).map { $0.expenses }.reduce(0,+)
                 return expenses
             case .lastYear:
                 guard !vm.allCashSessions().filter({ $0.date.getYear() == lastYear }).isEmpty else { return 0 }
-                let expenses = vm.allCashSessions().filter({ $0.date.getYear() == lastYear }).map { $0.expenses ?? 0 }.reduce(0,+)
+                let expenses = vm.allCashSessions().filter({ $0.date.getYear() == lastYear }).map { $0.expenses }.reduce(0,+)
                 return expenses
             }
         case .tournaments:
             switch timeline {
             case .ytd:
                 guard !vm.allTournamentSessions().filter({ $0.date.getYear() == ytd }).isEmpty else { return 0 }
-                let expenses = vm.allTournamentSessions().filter({ $0.date.getYear() == ytd }).map { $0.expenses ?? 0 }.reduce(0,+)
-                return expenses
+                let buyIns = vm.allTournamentSessions().filter({ $0.date.getYear() == ytd }).reduce(0) { total, session in
+                    total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
+                }
+                return buyIns
             case .lastYear:
                 guard !vm.allTournamentSessions().filter({ $0.date.getYear() == lastYear }).isEmpty else { return 0 }
-                let expenses = vm.allTournamentSessions().filter({ $0.date.getYear() == lastYear }).map { $0.expenses ?? 0 }.reduce(0,+)
-                return expenses
+                let buyIns = vm.allTournamentSessions().filter({ $0.date.getYear() == lastYear }).reduce(0) { total, session in
+                    total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
+                }
+                return buyIns
             }
         }
     }
@@ -347,7 +368,7 @@ class AnnualReportViewModel: ObservableObject {
         }
     }
     
-    func bestLocation(timeline: PickerTimeline, sessionFilter: SessionFilter) -> LocationModel? {
+    func bestLocation(timeline: PickerTimeline, sessionFilter: SessionFilter) -> LocationModel_v2? {
         switch sessionFilter {
         case .all:
             switch timeline {
@@ -406,19 +427,19 @@ class AnnualReportViewModel: ObservableObject {
             switch timeline {
             case .ytd:
                 guard !vm.sessions.filter({ $0.date.getYear() == ytd }).isEmpty else { return 0 }
-                return vm.sessions.filter({ $0.date.getYear() == ytd && $0.highHandBonus != nil }).map { $0.highHandBonus ?? 0 }.reduce(0,+)
+                return vm.sessions.filter({ $0.date.getYear() == ytd }).map { $0.highHandBonus }.reduce(0,+)
             case .lastYear:
                 guard !vm.sessions.filter({ $0.date.getYear() == lastYear }).isEmpty else { return 0 }
-                return vm.sessions.filter({ $0.date.getYear() == lastYear && $0.highHandBonus != nil }).map { $0.highHandBonus ?? 0 }.reduce(0,+)
+                return vm.sessions.filter({ $0.date.getYear() == lastYear }).map { $0.highHandBonus }.reduce(0,+)
             }
         case .cash:
             switch timeline {
             case .ytd:
                 guard !vm.allCashSessions().filter({ $0.date.getYear() == ytd }).isEmpty else { return 0 }
-                return vm.allCashSessions().filter({ $0.date.getYear() == ytd && $0.highHandBonus != nil }).map { $0.highHandBonus ?? 0 }.reduce(0,+)
+                return vm.allCashSessions().filter({ $0.date.getYear() == ytd }).map { $0.highHandBonus }.reduce(0,+)
             case .lastYear:
                 guard !vm.allCashSessions().filter({ $0.date.getYear() == lastYear }).isEmpty else { return 0 }
-                return vm.allCashSessions().filter({ $0.date.getYear() == lastYear && $0.highHandBonus != nil }).map { $0.highHandBonus ?? 0 }.reduce(0,+)
+                return vm.allCashSessions().filter({ $0.date.getYear() == lastYear }).map { $0.highHandBonus }.reduce(0,+)
             }
         case .tournaments:
             return 0
@@ -435,14 +456,29 @@ extension SessionsListViewModel {
     }
     
     func tournamentROIbyYear(year: String) -> String {
-        guard !allTournamentSessions().isEmpty else { return "0%" }
-        let totalBuyIns = allTournamentSessions().filter({ $0.date.getYear() == year }).map({ $0.expenses! }).reduce(0,+)
-        let totalWinnings = allTournamentSessions().filter({ $0.date.getYear() == year }).map({ $0.profit + $0.expenses! }).reduce(0,+)
-        let returnOnInvestment = (Double(totalWinnings) - Double(totalBuyIns)) / Double(totalBuyIns)
-        return returnOnInvestment.asPercent()
+            let filteredSessions = allTournamentSessions().filter { session in
+                session.isTournament && session.date.getYear() == year
+            }
+            
+            guard !filteredSessions.isEmpty else { return "0%" }
+            
+            // Calculate total buy-ins (including rebuys)
+            let totalBuyIns = filteredSessions.reduce(0) { total, session in
+                total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
+            }
+            
+            // Calculate total winnings (gross)
+            let totalWinnings = filteredSessions.reduce(0) { total, session in
+                total + session.cashOut
+            }
+            
+            // Calculate ROI
+            guard totalBuyIns > 0 else { return "0%" }
+            let returnOnInvestment = (Double(totalWinnings) - Double(totalBuyIns)) / Double(totalBuyIns)
+            return returnOnInvestment.asPercent()
     }
     
-    func allSessionDataByYear(year: String) -> [PokerSession] {
+    func allSessionDataByYear(year: String) -> [PokerSession_v2] {
         guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return [] }
         return sessions.filter({ $0.date.getYear() == year })
     }
@@ -450,14 +486,14 @@ extension SessionsListViewModel {
     func grossIncome() -> Int {
         guard !sessions.isEmpty else { return 0 }
         let netProfit = sessions.map { Int($0.profit) }.reduce(0, +)
-        let totalExpenses = sessions.map { Int($0.expenses ?? 0) }.reduce(0, +)
+        let totalExpenses = sessions.map { Int($0.expenses) }.reduce(0, +)
         let grossIncome = netProfit + totalExpenses
         return grossIncome
     }
     
     func totalExpenses() -> Int {
         guard !sessions.isEmpty else { return 0 }
-        let expenses = sessions.map { $0.expenses ?? 0 }.reduce(0,+)
+        let expenses = sessions.map { $0.expenses }.reduce(0,+)
         return expenses
     }
 }

@@ -88,7 +88,7 @@ struct NewLocationView: View {
                         Button {
                             let impact = UIImpactFeedbackGenerator(style: .heavy)
                             impact.impactOccurred()
-                            newLocationViewModel.saveLocation(viewModel: vm)
+                            newLocationViewModel.saveUserLocation(viewModel: vm)
                             addLocationIsShowing = newLocationViewModel.presentation ?? true
                         } label: {
                             PrimaryButton(title: "Save Location")

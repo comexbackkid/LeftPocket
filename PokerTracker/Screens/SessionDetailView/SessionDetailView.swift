@@ -16,7 +16,7 @@ struct SessionDetailView: View {
     @State private var shareButtonisPressed = false
     @State private var showError = false
     
-    let pokerSession: PokerSession
+    let pokerSession: PokerSession_v2
     
     var body: some View {
         
@@ -314,7 +314,7 @@ struct SessionDetailView: View {
         
         VStack(alignment: .leading) {
             
-            Text(pokerSession.isTournament ?? false ? "Tournament Notes" : "Session Notes")
+            Text(pokerSession.isTournament ? "Tournament Notes" : "Session Notes")
                 .subtitleStyle()
                 .padding(.bottom, 5)
             
@@ -342,16 +342,16 @@ struct SessionDetailView: View {
                 .subtitleStyle()
                 .padding(.bottom, 5)
             
-            if let tag = pokerSession.tags?.first {
-                Text(tag)
+            if !pokerSession.tags.isEmpty {
+                Text(pokerSession.tags.first!)
                     .bodyStyle()
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, 20)
                     .padding(.vertical, 10)
                     .background(Color.secondary)
                     .clipShape(.capsule)
-            } else {
                 
+            } else {
                 Text("None")
                     .bodyStyle()
                     .foregroundStyle(.secondary)
@@ -447,7 +447,8 @@ struct SessionDetailView: View {
                         .bodyStyle()
                 }
                 
-                if let buyIn = pokerSession.buyIn, let cashOut = pokerSession.cashOut {
+                let buyIn = pokerSession.buyIn
+                let cashOut = pokerSession.cashOut
                     
                     Divider()
                     
@@ -474,7 +475,7 @@ struct SessionDetailView: View {
                         Text(cashOut, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                             .bodyStyle()
                     }
-                }
+                
                 
                 Divider()
             }
@@ -489,10 +490,10 @@ struct SessionDetailView: View {
                 
                 if pokerSession.isTournament == true {
                     
-                    Text(pokerSession.buyIn ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                    Text(pokerSession.buyIn, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                         .bodyStyle()
                 } else {
-                    Text(pokerSession.expenses ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                    Text(pokerSession.expenses, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                         .bodyStyle()
                 }
             }
@@ -523,7 +524,8 @@ struct SessionDetailView: View {
                     
                     Spacer()
                     
-                    Text("\(pokerSession.expenses ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))")
+                    let totalBuyIn = pokerSession.buyIn + ((pokerSession.rebuyCount ?? 0) * pokerSession.buyIn)
+                    Text("\(totalBuyIn, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))")
                         .bodyStyle()
                 }
             }
@@ -552,7 +554,7 @@ struct SessionDetailView: View {
                     
                     Spacer()
                     
-                    Text(pokerSession.highHandBonus ?? 0, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                    Text(pokerSession.highHandBonus, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                         .bodyStyle()
                 }
             }
@@ -564,7 +566,7 @@ struct SessionDetailView: View {
         SocialShareView(vm: vm,
                         colorScheme: .dark,
                         pokerSession: pokerSession,
-                        background: Image(pokerSession.location.localImage != "" ? pokerSession.location.localImage : "defaultlocation-header"))
+                        background: Image("defaultlocation-header"))
     }
     
     var shareButton: some View {
@@ -625,68 +627,55 @@ struct SessionDetailView: View {
     
     func locationBackground() -> some View {
         
-        guard !pokerSession.location.localImage.isEmpty else {
-            return importedBackgroundImage().resizable().aspectRatio(contentMode: .fill)
+        if let localImage = pokerSession.location.localImage {
+            return Image(localImage).resizable().aspectRatio(contentMode: .fill)
                     
-        }
-        
-        return Image(pokerSession.location.localImage).resizable().aspectRatio(contentMode: .fill)
-            
-    }
-    
-    func importedBackgroundImage() -> Image {
-        
-        if pokerSession.location.imageURL != "" {
-            
-            return Image("encore-header2")
-            
-        } else {
-            
-            guard
-                let imageData = pokerSession.location.importedImage,
-                let uiImage = UIImage(data: imageData)
-                    
-            else {
-                
-                return Image("encore-header2")
+        } else if let importedImagePath = pokerSession.location.importedImage {
+            if let uiImage = ImageLoader.loadImage(from: importedImagePath) {
+                return Image(uiImage: uiImage).resizable().aspectRatio(contentMode: .fill)
+            } else {
+                return Image("defaultlocation-header").resizable().aspectRatio(contentMode: .fill)
             }
             
-            return Image(uiImage: uiImage)
-                
+        } else {
+            return Image("defaultlocation-header").resizable().aspectRatio(contentMode: .fill)
         }
     }
 }
 
 struct GraphicHeaderView: View {
     
-    let location: LocationModel
+    let location: LocationModel_v2
     
     var body: some View {
         
         VStack {
             
-            if location.importedImage != nil {
+            if let localImage = location.localImage {
+                Image(localImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 430)
+                    .clipped()
                 
-                if let photoData = location.importedImage, let uiImage = UIImage(data: photoData) {
-                    
+            } else if let importedImagePath = location.importedImage {
+                if let uiImage = ImageLoader.loadImage(from: importedImagePath) {
                     Image(uiImage: uiImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 430)
+                        .clipped()
+                    
+                } else {
+                    Image("defaultlocation-header")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(height: 430)
                         .clipped()
                 }
                 
-            } else if location.imageURL != "" {
-                
-                Image("defaultlocation-header")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(height: 430)
-                    .clipped()
-                
             } else {
-                
-                Image(location.localImage != "" ? location.localImage : "defaultlocation-header")
+                Image("defaultlocation-header")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(height: 430)
@@ -694,13 +683,12 @@ struct GraphicHeaderView: View {
             }
         }
         .frame(maxWidth: UIScreen.main.bounds.width)
-        
     }
 }
 
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleTournament)
+        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSessionTwo)
             .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
     }

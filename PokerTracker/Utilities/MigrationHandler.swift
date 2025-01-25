@@ -24,7 +24,7 @@ class MigrationHandler {
             // Step 2: Migrate each old session to the new structure
             let newSessions = oldSessions.map { oldSession -> PokerSession_v2 in
                 PokerSession_v2(id: oldSession.id,
-                                location: oldSession.location,
+                                location: convertToLocationModelV2(oldSession.location),
                                 date: oldSession.date,
                                 startTime: oldSession.startTime,
                                 endTime: oldSession.endTime,
@@ -94,6 +94,7 @@ class MigrationHandler {
                 if let imageData = oldLocation.importedImage {
                     let imageFileName = "\(UUID().uuidString).jpg"
                     let imageFileURL = imagesDirectory.appendingPathComponent(imageFileName)
+                    
                     do {
                         try imageData.write(to: imageFileURL)
                         imagePath = imageFileName
@@ -121,5 +122,38 @@ class MigrationHandler {
             print("Failed to migrate locations. Error: \(error)")
             return nil
         }
+    }
+    
+    private static func convertToLocationModelV2(_ oldLocation: LocationModel) -> LocationModel_v2 {
+        var imagePath: String? = nil
+        
+        if let imageData = oldLocation.importedImage {
+            let fileManager = FileManager.default
+            let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let imagesDirectory = documentsURL.appendingPathComponent("LocationImages")
+            
+            if !fileManager.fileExists(atPath: imagesDirectory.path) {
+                try? fileManager.createDirectory(at: imagesDirectory, withIntermediateDirectories: true, attributes: nil)
+            }
+            
+            // Save image
+            let imageFileName = "\(UUID().uuidString).jpg"
+            let imageFileURL = imagesDirectory.appendingPathComponent(imageFileName)
+            
+            do {
+                try imageData.write(to: imageFileURL)
+                imagePath = imageFileName
+                
+            } catch {
+                print("Failed to save image for location \(oldLocation.name): \(error)")
+            }
+        }
+        
+        return LocationModel_v2(
+            id: oldLocation.id,
+            name: oldLocation.name,
+            localImage: oldLocation.localImage.isEmpty ? nil : oldLocation.localImage,
+            importedImage: imagePath
+        )
     }
 }

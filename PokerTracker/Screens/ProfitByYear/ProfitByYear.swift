@@ -37,11 +37,11 @@ struct ProfitByYear: View {
                 
                 incomeReport
                 
-                bestPlays
-                
                 barChart
                 
-                exportButton
+                bestPlays
+                
+//                exportButton
                 
                 Spacer()
                 
@@ -137,14 +137,10 @@ struct ProfitByYear: View {
             Divider().padding(.vertical)
             
             switch sessionFilter {
-            case .all:
-                allGamesReport
-            case .cash:
-                cashReport
-            case .tournaments:
-                tournamentReport
+            case .all: allGamesReport
+            case .cash: cashReport
+            case .tournaments: tournamentReport
             }
-            
         }
         .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
         .lineSpacing(2.5)
@@ -154,7 +150,6 @@ struct ProfitByYear: View {
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
-        
     }
     
     var allGamesReport: some View {
@@ -446,8 +441,8 @@ struct ProfitByYear: View {
         VStack (spacing: 12) {
             
             let grossIncome = vm.grossIncome(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
-            let totalExpenses = vm.expensesByYear(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
-            let netProfitTotal = grossIncome - totalExpenses
+            let totalBuyins = vm.expensesByYear(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+            let netProfitTotal = grossIncome - totalBuyins
             let hourlyRate = vm.hourlyCalc(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
             let winRatio = vm.winRatio(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
             let totalHours = vm.totalHours(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
@@ -467,8 +462,8 @@ struct ProfitByYear: View {
                 Text("Total Buy Ins")
                 
                 Spacer()
-                Text(totalExpenses, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .foregroundColor(totalExpenses > 0 ? .red : Color(.systemGray))
+                Text(totalBuyins, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .foregroundColor(totalBuyins > 0 ? .red : Color(.systemGray))
             }
             
             HStack {
@@ -534,7 +529,7 @@ struct ProfitByYear: View {
             let dateRange = vm.chartRange(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
             
             BarChartWeeklySessionCount(showTitle: true, dateRange: dateRange)
-                .padding(30)
+                .padding(20)
                 .frame(width: UIScreen.main.bounds.width * 0.9, height: 220)
                 .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                 .cornerRadius(12)
@@ -551,7 +546,6 @@ struct ProfitByYear: View {
                     }
                 }
         }
-        
     }
     
     var bestPlays: some View {
@@ -559,69 +553,67 @@ struct ProfitByYear: View {
         VStack (spacing: 30) {
             
             let bestLocation = vm.bestLocation(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
-            
             BestLocationView(location: bestLocation ?? DefaultData.defaultLocation)
-
         }
         .animation(nil, value: vm.pickerSelection)
         .padding(.top, 20)
     }
     
-    var exportButton: some View {
-        
-        Button {
-            
-            let impact = UIImpactFeedbackGenerator(style: .medium)
-            impact.impactOccurred()
-            
-            if subManager.isSubscribed {
-                do {
-                    let year = vm.chartRange(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
-                    let fileURL = try CSVConversion.exportCSV(from: year)
-                    shareFile(fileURL)
-                    
-                } catch {
-                    
-                    exportUtility.errorMsg = "\(error.localizedDescription)"
-                    showError.toggle()
-                }
-            } else {
-                
-                showPaywall = true
-                
-            }
-            
-        } label: {
-            PrimaryButton(title: "Export Results")
-        }
-        .padding(.top)
-        .alert(isPresented: $showError) {
-            Alert(title: Text("Uh oh!"), message: Text(exportUtility.errorMsg ?? ""), dismissButton: .default(Text("OK")))
-        }
-        .sheet(isPresented: $showPaywall) {
-            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                .dynamicTypeSize(.medium...DynamicTypeSize.large)
-                .overlay {
-                    HStack {
-                        Spacer()
-                        VStack {
-                            DismissButton()
-                                .padding()
-                                .onTapGesture {
-                                    showPaywall = false
-                            }
-                            Spacer()
-                        }
-                    }
-                }
-        }
-        .task {
-            for await customerInfo in Purchases.shared.customerInfoStream {
-                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
-                await subManager.checkSubscriptionStatus()
-            }
-        }
-    }
+//    var exportButton: some View {
+//        
+//        Button {
+//            
+//            let impact = UIImpactFeedbackGenerator(style: .medium)
+//            impact.impactOccurred()
+//            
+//            if subManager.isSubscribed {
+//                do {
+//                    let year = vm.chartRange(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+//                    let fileURL = try CSVConversion.exportCSV(from: year)
+//                    shareFile(fileURL)
+//                    
+//                } catch {
+//                    
+//                    exportUtility.errorMsg = "\(error.localizedDescription)"
+//                    showError.toggle()
+//                }
+//            } else {
+//                
+//                showPaywall = true
+//                
+//            }
+//            
+//        } label: {
+//            PrimaryButton(title: "Export Results")
+//        }
+//        .padding(.top)
+//        .alert(isPresented: $showError) {
+//            Alert(title: Text("Uh oh!"), message: Text(exportUtility.errorMsg ?? ""), dismissButton: .default(Text("OK")))
+//        }
+//        .sheet(isPresented: $showPaywall) {
+//            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+//                .dynamicTypeSize(.medium...DynamicTypeSize.large)
+//                .overlay {
+//                    HStack {
+//                        Spacer()
+//                        VStack {
+//                            DismissButton()
+//                                .padding()
+//                                .onTapGesture {
+//                                    showPaywall = false
+//                            }
+//                            Spacer()
+//                        }
+//                    }
+//                }
+//        }
+//        .task {
+//            for await customerInfo in Purchases.shared.customerInfoStream {
+//                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+//                await subManager.checkSubscriptionStatus()
+//            }
+//        }
+//    }
 
     func shareFile(_ fileURL: URL) {
         let activityViewController = UIActivityViewController(

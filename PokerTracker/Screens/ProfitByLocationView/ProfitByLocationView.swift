@@ -258,7 +258,7 @@ struct ProfitByLocationView: View {
         
     }
     
-    private func hourlyByLocation(location: String, sessions: [PokerSession]) -> Int {
+    private func hourlyByLocation(location: String, sessions: [PokerSession_v2]) -> Int {
         guard !sessions.isEmpty else { return 0 }
         let totalHours = Float(sessions.filter{ $0.location.name == location }.map { $0.sessionDuration.hour ?? 0 }.reduce(0,+))
         let totalMinutes = Float(sessions.filter{ $0.location.name == location }.map { $0.sessionDuration.minute ?? 0 }.reduce(0,+))

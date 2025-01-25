@@ -215,7 +215,6 @@ struct MetricsView: View {
                     .cardShadow(colorScheme: colorScheme)
                 
             } else {
-                
                 PerformanceLineChart()
                     .cardStyle(colorScheme: colorScheme, height: 380)
                     .cardShadow(colorScheme: colorScheme)

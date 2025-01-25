@@ -22,7 +22,7 @@ struct MindfulnessAnalytics: View {
     @State private var showError = false
     @State private var showPaywall = false
     @State private var selectedMeditation: Meditation?
-    @State private var selectedSession: PokerSession?
+    @State private var selectedSession: PokerSession_v2?
     
     var body: some View {
         
@@ -64,7 +64,7 @@ struct MindfulnessAnalytics: View {
                     
                     meditationClasses
                                         
-                    recentMeditations
+//                    recentMeditations
                 }
             }
         }
@@ -206,112 +206,112 @@ struct MindfulnessAnalytics: View {
         }
     }
     
-    var recentMeditations: some View {
-        
-        VStack (alignment: .leading) {
-            
-            HStack {
-                Text("Mindful Poker Sessions")
-                    .font(.custom("Asap-Black", size: 24))
-                    .bold()
-                    .padding(.horizontal)
-                    .padding(.top)
-                
-                Spacer()
-            }
-            
-            let matchedSessions = viewModel.sessions.prefix(10).filter { session in
-                hkManager.totalMindfulMinutesPerDay.keys.contains { isSameDay($0, session.date) }
-            }
-            
-            if matchedSessions.isEmpty {
-                Text("No matched Sessions found!")
-                    .bodyStyle()
-                    .padding(.leading)
-                    .padding(.top, 1)
-                    .foregroundStyle(.secondary)
-            }
-            
-            ScrollView(.horizontal) {
-                HStack {
-                    ForEach(matchedSessions, id: \.id) { session in
-                        ZStack {
-                            VStack {
-                                Text(session.location.name)
-                                    .cardTitleStyle()
-                                    .foregroundStyle(Color.white)
-                                Text("\(session.date.dateStyle())")
-                                    .captionStyle()
-                                    .foregroundStyle(Color.white)
-                            }
-                            
-                            VStack {
-                                Spacer()
-                                HStack {
-                                    if let minutes = hkManager.totalMindfulMinutesPerDay.first(where: { isSameDay($0.key, session.date) })?.value {
-                                        Image(systemName: "figure.mind.and.body")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 19, height: 19)
-                                            .foregroundStyle(Color.white)
-                                        
-                                        Text("\(minutes, specifier: "%.0f") min")
-                                            .headlineStyle()
-                                            .foregroundStyle(Color.white)
-                                    }
-                                    Spacer()
-                                    
-                                    Image(systemName: "trophy.fill")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 15, height: 15)
-                                        .foregroundStyle(Color.white)
-                                    
-                                    Text(session.profit.axisShortHand(viewModel.userCurrency))
-                                        .headlineStyle()
-                                        .foregroundStyle(Color.white)
-                                }
-                                .opacity(0.8)
-                            }
-                            .padding(10)
-                        }
-                        .frame(width: 300, height: 200)
-                        .background(
-                            backgroundImage(session)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .overlay {
-                                    backgroundImage(session)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .blur(radius: 5, opaque: true)
-                                        .mask(
-                                            LinearGradient(gradient: Gradient(stops: [
-                                                Gradient.Stop(color: Color(white: 0, opacity: 0), location: 0.25),
-                                                Gradient.Stop(color: Color(white: 0, opacity: 1), location: 0.65),
-                                            ]), startPoint: .top, endPoint: .bottom)
-                                        )
-                                }
-                                .overlay(
-                                    LinearGradient(gradient: Gradient(stops: [
-                                        Gradient.Stop(color: Color(white: 0, opacity: 0), location: 0.4),
-                                        Gradient.Stop(color: Color(white: 0, opacity: 0.8), location: 1),
-                                    ]), startPoint: .top, endPoint: .bottom)
-                                )
-                        )
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .padding(.horizontal, 5)
-                        .onTapGesture {
-                            let impact = UIImpactFeedbackGenerator(style: .soft)
-                            impact.impactOccurred()
-                            selectedSession = session
-                        }
-                    }
-                }
-            }
-            .padding(.bottom, 60)
-        }
-    }
+//    var recentMeditations: some View {
+//        
+//        VStack (alignment: .leading) {
+//            
+//            HStack {
+//                Text("Mindful Poker Sessions")
+//                    .font(.custom("Asap-Black", size: 24))
+//                    .bold()
+//                    .padding(.horizontal)
+//                    .padding(.top)
+//                
+//                Spacer()
+//            }
+//            
+//            let matchedSessions = viewModel.sessions.prefix(10).filter { session in
+//                hkManager.totalMindfulMinutesPerDay.keys.contains { isSameDay($0, session.date) }
+//            }
+//            
+//            if matchedSessions.isEmpty {
+//                Text("No matched Sessions found!")
+//                    .bodyStyle()
+//                    .padding(.leading)
+//                    .padding(.top, 1)
+//                    .foregroundStyle(.secondary)
+//            }
+//            
+//            ScrollView(.horizontal) {
+//                HStack {
+//                    ForEach(matchedSessions, id: \.id) { session in
+//                        ZStack {
+//                            VStack {
+//                                Text(session.location.name)
+//                                    .cardTitleStyle()
+//                                    .foregroundStyle(Color.white)
+//                                Text("\(session.date.dateStyle())")
+//                                    .captionStyle()
+//                                    .foregroundStyle(Color.white)
+//                            }
+//                            
+//                            VStack {
+//                                Spacer()
+//                                HStack {
+//                                    if let minutes = hkManager.totalMindfulMinutesPerDay.first(where: { isSameDay($0.key, session.date) })?.value {
+//                                        Image(systemName: "figure.mind.and.body")
+//                                            .resizable()
+//                                            .aspectRatio(contentMode: .fill)
+//                                            .frame(width: 19, height: 19)
+//                                            .foregroundStyle(Color.white)
+//                                        
+//                                        Text("\(minutes, specifier: "%.0f") min")
+//                                            .headlineStyle()
+//                                            .foregroundStyle(Color.white)
+//                                    }
+//                                    Spacer()
+//                                    
+//                                    Image(systemName: "trophy.fill")
+//                                        .resizable()
+//                                        .aspectRatio(contentMode: .fill)
+//                                        .frame(width: 15, height: 15)
+//                                        .foregroundStyle(Color.white)
+//                                    
+//                                    Text(session.profit.axisShortHand(viewModel.userCurrency))
+//                                        .headlineStyle()
+//                                        .foregroundStyle(Color.white)
+//                                }
+//                                .opacity(0.8)
+//                            }
+//                            .padding(10)
+//                        }
+//                        .frame(width: 300, height: 200)
+//                        .background(
+//                            backgroundImage(session)
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fill)
+//                                .overlay {
+//                                    backgroundImage(session)
+//                                        .resizable()
+//                                        .aspectRatio(contentMode: .fill)
+//                                        .blur(radius: 5, opaque: true)
+//                                        .mask(
+//                                            LinearGradient(gradient: Gradient(stops: [
+//                                                Gradient.Stop(color: Color(white: 0, opacity: 0), location: 0.25),
+//                                                Gradient.Stop(color: Color(white: 0, opacity: 1), location: 0.65),
+//                                            ]), startPoint: .top, endPoint: .bottom)
+//                                        )
+//                                }
+//                                .overlay(
+//                                    LinearGradient(gradient: Gradient(stops: [
+//                                        Gradient.Stop(color: Color(white: 0, opacity: 0), location: 0.4),
+//                                        Gradient.Stop(color: Color(white: 0, opacity: 0.8), location: 1),
+//                                    ]), startPoint: .top, endPoint: .bottom)
+//                                )
+//                        )
+//                        .clipShape(RoundedRectangle(cornerRadius: 20))
+//                        .padding(.horizontal, 5)
+//                        .onTapGesture {
+//                            let impact = UIImpactFeedbackGenerator(style: .soft)
+//                            impact.impactOccurred()
+//                            selectedSession = session
+//                        }
+//                    }
+//                }
+//            }
+//            .padding(.bottom, 60)
+//        }
+//    }
     
     var meditationChart: some View {
         
@@ -393,18 +393,18 @@ struct MindfulnessAnalytics: View {
         }
     }
     
-    private func backgroundImage(_ session: PokerSession) -> Image {
-        
-        if let importedImageData = session.location.importedImage, let uiImage = UIImage(data: importedImageData) {
-            return Image(uiImage: uiImage)
-            
-        } else if !session.location.localImage.isEmpty {
-            return Image(session.location.localImage)
-            
-        } else {
-            return Image("defaultlocation-header")
-        }
-    }
+//    private func backgroundImage(_ session: PokerSession_v2) -> Image {
+//        
+//        if let importedImageData = session.location.importedImage, let uiImage = UIImage(data: importedImageData) {
+//            return Image(uiImage: uiImage)
+//            
+//        } else if !session.location.localImage.isEmpty {
+//            return Image(session.location.localImage)
+//            
+//        } else {
+//            return Image("defaultlocation-header")
+//        }
+//    }
     
     private func totalMindfulMinutes() -> Int {
         Int(round(hkManager.totalMindfulMinutesPerDay.values.reduce(0, +)))

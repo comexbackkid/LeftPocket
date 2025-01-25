@@ -12,7 +12,7 @@ extension SessionsListViewModel {
     
     // MARK: FUNCTIONS FOR STAKES PROGRESS INDICATOR
     
-    func calculateTargetBankrollSize(from pokerSessions: [PokerSession]) -> Int? {
+    func calculateTargetBankrollSize(from pokerSessions: [PokerSession_v2]) -> Int? {
         guard let lastStake = pokerSessions.filter({ $0.isTournament != true }).sorted(by: { $0.date > $1.date }).map({ $0.stakes }).first,
               let lastSlashIndex = lastStake.lastIndex(of: "/"),
               let bigBlind = Int(lastStake[lastSlashIndex...].trimmingCharacters(in: .punctuationCharacters)) else {
@@ -89,7 +89,7 @@ extension SessionsListViewModel {
     
     // MARK: USER'S MOST PROFITABLE MONTH
     
-    func mostProfitableMonth(in sessions: [PokerSession]) -> String {
+    func mostProfitableMonth(in sessions: [PokerSession_v2]) -> String {
         
         // Create a dictionary to store total profit for each month
         var monthlyProfits: [Int: Int] = [:]

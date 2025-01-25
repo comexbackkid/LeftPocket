@@ -220,9 +220,9 @@ struct UserSettings: View {
             
             dashboardConfig
             
-            importData
+//            importData
             
-            exportData
+//            exportData
             
             howToGuide
             
@@ -427,131 +427,131 @@ struct UserSettings: View {
         }
     }
     
-    var exportData: some View {
-        
-        HStack {
-            
-            VStack (alignment: .leading) {
-                
-                if subManager.isSubscribed || exportCounter != 0 {
-                    
-                    Button {
-                        
-                        let impact = UIImpactFeedbackGenerator(style: .soft)
-                        impact.impactOccurred()
-                        
-                        do {
-                            let fileURL = try CSVConversion.exportCSV(from: vm.sessions)
-                            shareFile(fileURL) {
-                                exportCounter = 0
-                            }
-                        } catch {
-                            exportUtility.errorMsg = "\(error.localizedDescription)"
-                            showError.toggle()
-                        }
-                        
-                    } label: {
-                        
-                        HStack {
-                            VStack (alignment: .leading) {
-                                HStack {
-                                    
-                                    Text("Export My Data")
-                                        .subtitleStyle()
-                                        .bold()
-                                    
-                                    Spacer()
-                                    
-                                    Text("›")
-                                        .font(.title2)
-                                }
-                                
-                                // This text will display below "Export My Data" if the user is not subscribed
-                                if !subManager.isSubscribed {
-                                    
-                                    Text("Upgrade to Left Pocket Pro for unlimited exports. You have \(exportCounter) " + "export\(exportCounter > 0 ? "" : "s") remaining.")
-                                        .calloutStyle()
-                                        .opacity(0.8)
-                                        .padding(.top, 1)
-                                }
-                            }
-                        }
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    .alert(isPresented: $showError) {
-                        Alert(title: Text("Uh oh!"), message: Text(exportUtility.errorMsg ?? ""), dismissButton: .default(Text("OK")))
-                    }
-            
-                } else {
-                    
-                    Button {
-                        let impact = UIImpactFeedbackGenerator(style: .soft)
-                        impact.impactOccurred()
-                        showPaywall = true
-                            
-                    } label: {
-                        
-                        HStack {
-                            VStack (alignment: .leading) {
-                                HStack {
-                                    
-                                    Text("Export My Data")
-                                        .subtitleStyle()
-                                        .bold()
-                                    
-                                    Spacer()
-                                    
-                                    Text("›")
-                                        .font(.title2)
-                                }
-                                
-                                Text("Upgrade to Left Pocket Pro for unlimited exports. You have \(exportCounter) " + "export\(exportCounter > 0 ? "" : "s") remaining.")
-                                    .calloutStyle()
-                                    .opacity(0.8)
-                                    .padding(.top, 1)
-                            }
-                        }
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                }
-            }
-            
-            Spacer()
-        }
-        .sheet(isPresented: $showAlertModal, content: {
-            AlertModal(message: "Your data was exported successfully.")
-                .presentationDetents([.height(210)])
-                .presentationBackground(.ultraThinMaterial)
-            
-        })
-    }
+//    var exportData: some View {
+//        
+//        HStack {
+//            
+//            VStack (alignment: .leading) {
+//                
+//                if subManager.isSubscribed || exportCounter != 0 {
+//                    
+//                    Button {
+//                        
+//                        let impact = UIImpactFeedbackGenerator(style: .soft)
+//                        impact.impactOccurred()
+//                        
+//                        do {
+//                            let fileURL = try CSVConversion.exportCSV(from: vm.sessions)
+//                            shareFile(fileURL) {
+//                                exportCounter = 0
+//                            }
+//                        } catch {
+//                            exportUtility.errorMsg = "\(error.localizedDescription)"
+//                            showError.toggle()
+//                        }
+//                        
+//                    } label: {
+//                        
+//                        HStack {
+//                            VStack (alignment: .leading) {
+//                                HStack {
+//                                    
+//                                    Text("Export My Data")
+//                                        .subtitleStyle()
+//                                        .bold()
+//                                    
+//                                    Spacer()
+//                                    
+//                                    Text("›")
+//                                        .font(.title2)
+//                                }
+//                                
+//                                // This text will display below "Export My Data" if the user is not subscribed
+//                                if !subManager.isSubscribed {
+//                                    
+//                                    Text("Upgrade to Left Pocket Pro for unlimited exports. You have \(exportCounter) " + "export\(exportCounter > 0 ? "" : "s") remaining.")
+//                                        .calloutStyle()
+//                                        .opacity(0.8)
+//                                        .padding(.top, 1)
+//                                }
+//                            }
+//                        }
+//                    }
+//                    .buttonStyle(PlainButtonStyle())
+//                    .alert(isPresented: $showError) {
+//                        Alert(title: Text("Uh oh!"), message: Text(exportUtility.errorMsg ?? ""), dismissButton: .default(Text("OK")))
+//                    }
+//            
+//                } else {
+//                    
+//                    Button {
+//                        let impact = UIImpactFeedbackGenerator(style: .soft)
+//                        impact.impactOccurred()
+//                        showPaywall = true
+//                            
+//                    } label: {
+//                        
+//                        HStack {
+//                            VStack (alignment: .leading) {
+//                                HStack {
+//                                    
+//                                    Text("Export My Data")
+//                                        .subtitleStyle()
+//                                        .bold()
+//                                    
+//                                    Spacer()
+//                                    
+//                                    Text("›")
+//                                        .font(.title2)
+//                                }
+//                                
+//                                Text("Upgrade to Left Pocket Pro for unlimited exports. You have \(exportCounter) " + "export\(exportCounter > 0 ? "" : "s") remaining.")
+//                                    .calloutStyle()
+//                                    .opacity(0.8)
+//                                    .padding(.top, 1)
+//                            }
+//                        }
+//                    }
+//                    .buttonStyle(PlainButtonStyle())
+//                }
+//            }
+//            
+//            Spacer()
+//        }
+//        .sheet(isPresented: $showAlertModal, content: {
+//            AlertModal(message: "Your data was exported successfully.")
+//                .presentationDetents([.height(210)])
+//                .presentationBackground(.ultraThinMaterial)
+//            
+//        })
+//    }
     
-    var importData: some View {
-        
-        HStack {
-            NavigationLink(
-                destination: ImportView()) {
-                    HStack {
-                        VStack (alignment: .leading) {
-                            HStack {
-                                
-                                Text("Import Data")
-                                    .subtitleStyle()
-                                    .bold()
-                                
-                                Spacer()
-                                
-                                Text("›")
-                                    .font(.title2)
-                            }
-                        }
-                        
-                        Spacer()
-                    }
-                }
-                .buttonStyle(PlainButtonStyle())
-        }
-    }
+//    var importData: some View {
+//        
+//        HStack {
+//            NavigationLink(
+//                destination: ImportView()) {
+//                    HStack {
+//                        VStack (alignment: .leading) {
+//                            HStack {
+//                                
+//                                Text("Import Data")
+//                                    .subtitleStyle()
+//                                    .bold()
+//                                
+//                                Spacer()
+//                                
+//                                Text("›")
+//                                    .font(.title2)
+//                            }
+//                        }
+//                        
+//                        Spacer()
+//                    }
+//                }
+//                .buttonStyle(PlainButtonStyle())
+//        }
+//    }
     
     var howToGuide: some View {
         

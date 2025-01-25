@@ -16,8 +16,8 @@ public extension Array where Element: Hashable {
 }
 
 // Helping with a bug for Locations that were deleted, & subsequently added back later creating duplicate search filters results.
-extension Sequence where Element == LocationModel {
-    func uniquedByName() -> [LocationModel] {
+extension Sequence where Element == LocationModel_v2 {
+    func uniquedByName() -> [LocationModel_v2] {
         var set = Set<String>()
         return filter { set.insert($0.name).inserted }
     }

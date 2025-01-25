@@ -186,7 +186,7 @@ struct PerformanceLineChart: View {
         sessionsBbWon(sessions: viewModel.sessions, cashOnly: true)
     }
 
-    func sessionsAverageHourlyRateByMonth(sessions: [PokerSession], cashOnly: Bool) -> [(month: Date, averageHourlyRate: Int)] {
+    func sessionsAverageHourlyRateByMonth(sessions: [PokerSession_v2], cashOnly: Bool) -> [(month: Date, averageHourlyRate: Int)] {
         
         var monthlyHourlyRates: [Date: [Int]] = [:]
         let currentYear = Calendar.current.component(.year, from: Date())
@@ -214,7 +214,7 @@ struct PerformanceLineChart: View {
         .sorted { $0.0 < $1.0 }
     }
     
-    func sessionsWinRateByMonth(sessions: [PokerSession], cashOnly: Bool) -> [(month: Date, winRate: Double)] {
+    func sessionsWinRateByMonth(sessions: [PokerSession_v2], cashOnly: Bool) -> [(month: Date, winRate: Double)] {
         
         var monthlyWinRates: [Date: (wins: Int, total: Int)] = [:]
         let currentYear = Calendar.current.component(.year, from: Date())
@@ -244,7 +244,7 @@ struct PerformanceLineChart: View {
         .sorted { $0.0 < $1.0 }
     }
     
-    func sessionsBbWon(sessions: [PokerSession], cashOnly: Bool) -> [(month: Date, bbWon: Double)] {
+    func sessionsBbWon(sessions: [PokerSession_v2], cashOnly: Bool) -> [(month: Date, bbWon: Double)] {
         
         var monthlyBbWon: [Date: [Double]] = [:]
         let currentYear = Calendar.current.component(.year, from: Date())
@@ -270,7 +270,7 @@ struct PerformanceLineChart: View {
         .sorted { $0.0 < $1.0 }
     }
     
-    func valueByMonth(month: Date, data: [PokerSession]) -> Double {
+    func valueByMonth(month: Date, data: [PokerSession_v2]) -> Double {
         
         let currentYear = Calendar.current.component(.year, from: Date())
         let filteredSessions = data.filter({ $0.date.getMonth() == month.getMonth() && Int($0.date.getYear()) == currentYear })

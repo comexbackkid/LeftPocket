@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-// MARK: OLD POKERSESSION STRUCT
+// MARK: OLD POKERSESSION MODEL
 
 struct PokerSession: Hashable, Codable, Identifiable {
     var id = UUID()
@@ -98,11 +98,11 @@ struct PokerSession: Hashable, Codable, Identifiable {
     }
 }
 
-// MARK: NEW POKERSESSION STRUCT
+// MARK: NEW POKERSESSION MODEL
 
 struct PokerSession_v2: Hashable, Codable, Identifiable {
     var id = UUID()
-    let location: LocationModel
+    let location: LocationModel_v2
     let date: Date
     let startTime: Date
     let endTime: Date
@@ -192,16 +192,10 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     }
 }
 
-struct DefaultData {
-    static let defaultLocation = LocationModel(name: "TBD", localImage: "empty-location", imageURL: "")
-}
-
 // TODO: TASKS
 
-// 1. Make sure new data is saved using this new PokerSession_v2 struct x
-// 2. Write function that loads old sessions.json file and conforms it to this new data structure, and save it x
 // 4. How long do we give users to migrate?
-// 5. Change to a major version number? x
 // 6. How to handle the edge case for a user that's opening app for the first time? The migration check will fail because technically they haven't. Will that be Ok? Assuming nothing would happen
 // 7. In the event it doesn't work, what's the easiest way to refresh or bring back old data to try again so we can simulate what a current user would experience?
 // 8. Comb through code & make sure functions, charts, views, etc. are utilizing the new PokerSession model, esp. Tournaments & expenses, how we tracked buy in's in the past
+// 9. Make sure migrated Sessions' Tags are behaving correctly. Just want an empty array if tags = nil

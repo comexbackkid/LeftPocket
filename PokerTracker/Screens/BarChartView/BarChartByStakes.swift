@@ -13,7 +13,7 @@ struct BarChartByStakes: View {
     @ObservedObject var viewModel: SessionsListViewModel
     
     let showTitle: Bool
-    let filteredSessions: [PokerSession]
+    let filteredSessions: [PokerSession_v2]
     
     var body: some View {
         

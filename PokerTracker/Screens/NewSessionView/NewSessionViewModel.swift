@@ -12,7 +12,7 @@ import TipKit
 
 final class NewSessionViewModel: ObservableObject {
     
-    @Published var location: LocationModel = LocationModel(name: "", localImage: "", imageURL: "")
+    @Published var location: LocationModel_v2 = LocationModel_v2(name: "")
     @Published var game: String = ""
     @Published var stakes: String = ""
     @Published var profit: String = ""
@@ -42,7 +42,11 @@ final class NewSessionViewModel: ObservableObject {
     
     // Just using this value for Cash games
     var computedProfit: Int {
-        (Int(cashOut) ?? 0) - Int(buyIn)! - (Int(cashRebuys) ?? 0)
+        if sessionType == .cash {
+            return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - (Int(cashRebuys) ?? 0) - (Int(expenses) ?? 0)
+        } else {
+            return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - tournamentRebuys
+        }
     }
     
     // How many days was the Tournamnet
@@ -128,10 +132,10 @@ final class NewSessionViewModel: ObservableObject {
         }
         
         // Load Location
-        if let encodedLocation = defaults.object(forKey: "locationDefault") as? Data, let decodedLocation = try? JSONDecoder().decode(LocationModel.self, from: encodedLocation) {
+        if let encodedLocation = defaults.object(forKey: "locationDefault") as? Data, let decodedLocation = try? JSONDecoder().decode(LocationModel_v2.self, from: encodedLocation) {
             location = decodedLocation
         } else {
-            location = LocationModel(name: "", localImage: "", imageURL: "")
+            location = LocationModel_v2(name: "")
         }
         
         // Load Stakes, Game, & Tournament Defaults
@@ -144,30 +148,55 @@ final class NewSessionViewModel: ObservableObject {
     func savedButtonPressed(viewModel: SessionsListViewModel) {
         
         guard self.validateForm() else { return }
-        viewModel.addSession(location: self.location,
-                             game: self.game,
-                             stakes: self.stakes,
-                             date: self.startTime,
-                             profit: sessionType == .cash ? computedProfit - (Int(self.expenses) ?? 0) : (Int(self.cashOut) ?? 0) - (Int(self.buyIn) ?? 0) - self.tournamentRebuys,
-                             notes: self.notes,
-                             startTime: self.startTime,
-                             endTime: self.endTime,
-                             // Tournament metrics in the app look to 'expenses' for Buy In data.
-                             expenses: sessionType == .cash ? Int(self.expenses) ?? 0 : (Int(buyIn) ?? 0) + self.tournamentRebuys,
-                             isTournament: sessionType == .tournament,
-                             entrants: Int(self.entrants) ?? 0,
-                             finish: Int(self.finish) ?? 0,
-                             highHandBonus: Int(self.highHandBonus) ?? 0,
-                             buyIn: (Int(self.buyIn) ?? 0) + (sessionType == .cash ? (Int(self.cashRebuys) ?? 0) : 0),
-                             cashOut: Int(self.cashOut) ?? 0,
-                             rebuyCount: Int(self.rebuyCount) ?? 0,
-                             tournamentSize: self.size,
-                             tournamentSpeed: self.speed,
-                             tags: self.tags.isEmpty ? nil : [self.tags],
-                             // Calculate if this is a Multi-Day Tournament. If so, provide the properties with values, otherwise just record nil
-                             tournamentDays: computedNumberOfTournamentDays,
-                             startTimeDayTwo: computedNumberOfTournamentDays > 1 ? self.startTimeDayTwo : nil,
-                             endTimeDayTwo: computedNumberOfTournamentDays > 1 ? self.endTimeDayTwo : nil)
+        viewModel.addNewSession(location: location,
+                                date: startTime,
+                                startTime: startTime,
+                                endTime: endTime,
+                                game: game,
+                                stakes: stakes,
+                                buyIn: (Int(buyIn) ?? 0) + (sessionType == .cash ? (Int(self.cashRebuys) ?? 0) : 0),
+                                cashOut: Int(cashOut) ?? 0,
+                                profit: computedProfit,
+                                expenses: Int(expenses) ?? 0,
+                                notes: notes,
+                                tags: tags.isEmpty ? [] : [tags],
+                                highHandBonus: Int(highHandBonus) ?? 0,
+                                isTournament: sessionType == .tournament ? true : false,
+                                rebuyCount: Int(rebuyCount) ?? 0,
+                                tournamentSize: !size.isEmpty ? size : nil,
+                                tournamentSpeed: !speed.isEmpty ? speed : nil,
+                                entrants: Int(entrants),
+                                finish: Int(finish),
+                                tournamentDays: computedNumberOfTournamentDays,
+                                startTimeDayTwo: computedNumberOfTournamentDays > 1 ? startTimeDayTwo : nil,
+                                endTimeDayTwo: computedNumberOfTournamentDays > 1 ? endTimeDayTwo : nil)
+        
+        
+        
+//        viewModel.addSession(location: self.location,
+//                             game: self.game,
+//                             stakes: self.stakes,
+//                             date: self.startTime,
+//                             profit: sessionType == .cash ? computedProfit - (Int(self.expenses) ?? 0) : (Int(self.cashOut) ?? 0) - (Int(self.buyIn) ?? 0) - self.tournamentRebuys,
+//                             notes: self.notes,
+//                             startTime: self.startTime,
+//                             endTime: self.endTime,
+//                             // Tournament metrics in the app look to 'expenses' for Buy In data.
+//                             expenses: sessionType == .cash ? Int(self.expenses) ?? 0 : (Int(buyIn) ?? 0) + self.tournamentRebuys,
+//                             isTournament: sessionType == .tournament,
+//                             entrants: Int(self.entrants) ?? 0,
+//                             finish: Int(self.finish) ?? 0,
+//                             highHandBonus: Int(self.highHandBonus) ?? 0,
+//                             buyIn: (Int(self.buyIn) ?? 0) + (sessionType == .cash ? (Int(self.cashRebuys) ?? 0) : 0),
+//                             cashOut: Int(self.cashOut) ?? 0,
+//                             rebuyCount: Int(self.rebuyCount) ?? 0,
+//                             tournamentSize: self.size,
+//                             tournamentSpeed: self.speed,
+//                             tags: self.tags.isEmpty ? nil : [self.tags],
+//                             // Calculate if this is a Multi-Day Tournament. If so, provide the properties with values, otherwise just record nil
+//                             tournamentDays: computedNumberOfTournamentDays,
+//                             startTimeDayTwo: computedNumberOfTournamentDays > 1 ? self.startTimeDayTwo : nil,
+//                             endTimeDayTwo: computedNumberOfTournamentDays > 1 ? self.endTimeDayTwo : nil)
         
         Task {
             // Counting how many times the user adds a Session. Will display Tip after they enter two

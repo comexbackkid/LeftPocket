@@ -22,7 +22,7 @@ struct SessionsListView: View {
     @State var showTip = false
     @State var showDateFilter = false
     @State var sessionFilter: SessionFilter = .all
-    @State var locationFilter: LocationModel?
+    @State var locationFilter: LocationModel_v2?
     @State var gameTypeFilter: String?
     @State var tagsFilter: String?
     @State var stakesFilter: String?
@@ -30,7 +30,7 @@ struct SessionsListView: View {
     @State var endDate: Date = .now
     @State var datesInitialized = false
     @State var listFilter: ListFilter = .sessions
-    @State var selectedSession: PokerSession?
+    @State var selectedSession: PokerSession_v2?
     
     var firstSessionDate: Date {
         vm.sessions.last?.date ?? Date().modifyDays(days: 15000)
@@ -60,7 +60,7 @@ struct SessionsListView: View {
         
         return result
     }
-    var filteredSessions: [PokerSession] {
+    var filteredSessions: [PokerSession_v2] {
         
         var result = vm.sessions
         
@@ -95,7 +95,7 @@ struct SessionsListView: View {
         // Apply Tags filter
         if let tagsFilter = tagsFilter {
             result = result.filter { session in
-                session.tags?.contains(tagsFilter) ?? false
+                session.tags.contains(tagsFilter)
             }
         }
         
@@ -240,9 +240,9 @@ struct SessionsListView: View {
             
             Menu {
                 Picker("Select Location", selection: $locationFilter) {
-                    Text("All").tag(nil as LocationModel?)
+                    Text("All").tag(nil as LocationModel_v2?)
                     ForEach(vm.sessions.map({ $0.location }).uniquedByName(), id: \.self) { location in
-                        Text(location.name).tag(location as LocationModel?)
+                        Text(location.name).tag(location as LocationModel_v2?)
                     }
                 }
             } label: {
@@ -400,7 +400,7 @@ struct SessionsListView: View {
         }
     }
     
-    private func swipeActions(_ session: PokerSession) -> some View {
+    private func swipeActions(_ session: PokerSession_v2) -> some View {
         Group {
             Button(role: .destructive) {
                 deleteSession(session)
@@ -428,7 +428,7 @@ struct SessionsListView: View {
         endDate = Date.now
     }
     
-    private func deleteSession(_ session: PokerSession) {
+    private func deleteSession(_ session: PokerSession_v2) {
         if let index = vm.sessions.firstIndex(where: { $0.id == session.id }) {
             vm.sessions.remove(at: index)
         }
@@ -438,7 +438,7 @@ struct SessionsListView: View {
         vm.transactions.remove(atOffsets: offsets)
     }
     
-    private func binding(for session: PokerSession) -> Binding<PokerSession> {
+    private func binding(for session: PokerSession_v2) -> Binding<PokerSession_v2> {
         guard let sessionIndex = vm.sessions.firstIndex(where: { $0.id == session.id }) else {
             fatalError("Can't find session in array")
         }

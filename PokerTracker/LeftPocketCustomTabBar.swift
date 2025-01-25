@@ -74,7 +74,6 @@ struct LeftPocketCustomTabBar: View {
                 Spacer()
                                 
                 let addSessionTip = AddSessionTip()
-                
                 TipView(addSessionTip, arrowEdge: .bottom)
                     .tipViewStyle(CustomTipViewStyle())
                     .padding(.horizontal, 20)
@@ -82,7 +81,6 @@ struct LeftPocketCustomTabBar: View {
                 if viewModel.sessions.count == 2 {
                     
                     let settingsTip = SettingsTip()
-                    
                     TipView(settingsTip)
                         .tipViewStyle(CustomTipViewStyle())
                         .padding(.horizontal, 20)
@@ -102,7 +100,6 @@ struct LeftPocketCustomTabBar: View {
                 .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
             
             // If user has been using the app, we tell the Tips they are not a new user
-
             AddSessionTip.newUser = viewModel.sessions.count > 0 ? false : true
 
             UNUserNotificationCenter.current().getNotificationSettings { settings in

@@ -38,7 +38,7 @@ struct SleepAnalytics: View {
             Calendar.current.isDate(rawSelectedDate, inSameDayAs: $0.date)
         }
     }
-    var pokerSessionMatch: PokerSession? {
+    var pokerSessionMatch: PokerSession_v2? {
         guard let rawSelectedDate else { return nil }
         let last30Days = Calendar.current.date(byAdding: .day, value: -30, to: Date())!
         let sessions = viewModel.sessions.filter({ $0.date >= last30Days })

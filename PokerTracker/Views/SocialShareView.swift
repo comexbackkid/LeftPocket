@@ -11,7 +11,7 @@ struct SocialShareView: View {
     
     let vm: SessionsListViewModel
     let colorScheme: ColorScheme
-    let pokerSession: PokerSession
+    let pokerSession: PokerSession_v2
     let background: Image
     
     var body: some View {
@@ -62,32 +62,16 @@ struct SocialShareView: View {
                 .foregroundStyle(pokerSession.profit > 0 ? Color.green.gradient : Color.red.gradient)
             
             if pokerSession.isTournament != true {
-                if let buyIn = pokerSession.buyIn, let cashOut = pokerSession.cashOut {
-                    Text("In the game for \(buyIn.asCurrency()), out for \(cashOut.asCurrency())")
-                        .calloutStyle()
-                        .foregroundStyle(.secondary)
-                    
-                } else {
-                    Text("Played for a total of \(pokerSession.playingTIme)")
-                        .calloutStyle()
-                        .foregroundStyle(.secondary)
-                    
-                }
+                Text("In the game for \(pokerSession.buyIn.asCurrency()), out for \(pokerSession.cashOut.asCurrency())")
+                    .calloutStyle()
+                    .foregroundStyle(.secondary)
+                
             } else {
                 
-                if let tournamentBuyIn = pokerSession.expenses {
-                    Text("In the Tournament for \(tournamentBuyIn.asCurrency()) total")
-                        .calloutStyle()
-                        .foregroundStyle(.secondary)
-                    
-                } else {
-                    Text("Played for a total of \(pokerSession.playingTIme)")
-                        .calloutStyle()
-                        .foregroundStyle(.secondary)
-                    
-                }
+                Text("In the Tournament for \(pokerSession.buyIn.asCurrency()) total")
+                    .calloutStyle()
+                    .foregroundStyle(.secondary)
             }
-            
         }
         .padding(23)
         .frame(width: UIScreen.main.bounds.width * 0.8)
@@ -124,5 +108,5 @@ struct SocialShareView: View {
     SocialShareView(vm: SessionsListViewModel(),
                     colorScheme: .dark,
                     pokerSession: MockData.sampleTournament,
-                    background: Image(MockData.sampleSession.location.localImage))
+                    background: Image(MockData.sampleSession.location.localImage ?? "default-header"))
 }

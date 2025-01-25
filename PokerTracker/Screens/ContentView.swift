@@ -66,7 +66,7 @@ struct ContentView: View {
     
     var bankroll: Int {
         
-        let highHandTotals = viewModel.sessions.map({ $0.highHandBonus ?? 0 }).reduce(0, +)
+        let highHandTotals = viewModel.sessions.map({ $0.highHandBonus}).reduce(0, +)
         let transactions = viewModel.transactions.map({ $0.amount }).reduce(0, +)
         let playerProfits = viewModel.tallyBankroll(bankroll: .all)
         

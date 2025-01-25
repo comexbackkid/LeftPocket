@@ -25,36 +25,35 @@ final class NewLocationViewModel: ObservableObject {
         return true
     }
     
-    func saveLocation(viewModel: SessionsListViewModel) {
-        guard self.isValidForm else { return }
-        viewModel.addLocation(name: locationName, localImage: "", imageURL: imageURL, importedImage: importedImage)
-        
-        self.presentation = false
-    }
-    
-    // MARK: MIGRATION CODE
-    
-//    func saveUserLocation(viewModel: SessionsListViewModel) {
-//        guard !locationName.isEmpty else {
-//            alertItem = AlertContext.inValidLocationName
-//            return
-//        }
-//        
-//        var imagePath: String?
-//        
-//        if let importedImage {
-//            do {
-//                imagePath = try FileManager.saveImage(importedImage, withName: UUID().uuidString)
-//            } catch {
-//                alertItem = AlertItem(title: Text("Error"), message: Text("Failed to save image."), dismissButton: .default(Text("OK")))
-//                return
-//            }
-//        }
-//        
-//        viewModel.addNewLocation(name: locationName, importedImage: imagePath)
+//    func saveLocation(viewModel: SessionsListViewModel) {
+//        guard self.isValidForm else { return }
+//        viewModel.addLocation(name: locationName, localImage: "", imageURL: imageURL, importedImage: importedImage)
 //        
 //        self.presentation = false
 //    }
+    
+    // MARK: MIGRATION CODE
+    
+    func saveUserLocation(viewModel: SessionsListViewModel) {
+        guard !locationName.isEmpty else {
+            alertItem = AlertContext.inValidLocationName
+            return
+        }
+        
+        var imagePath: String?
+        
+        if let importedImage {
+            do {
+                imagePath = try FileManager.saveImage(importedImage, withName: UUID().uuidString)
+            } catch {
+                alertItem = AlertItem(title: Text("Error"), message: Text("Failed to save image."), dismissButton: .default(Text("OK")))
+                return
+            }
+        }
+        
+        viewModel.addNewLocation(name: locationName, importedImage: imagePath)
+        self.presentation = false
+    }
 }
 
 extension FileManager {
@@ -63,10 +62,17 @@ extension FileManager {
     static func saveImage(_ imageData: Data, withName name: String) throws -> String {
         let fileManager = FileManager.default
         let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let imageURL = documentsURL.appendingPathComponent("\(name).jpg")
+        let imagesDirectory = documentsURL.appendingPathComponent("LocationImages")
         
+        // Ensure the directory exists
+        if !fileManager.fileExists(atPath: imagesDirectory.path) {
+            try fileManager.createDirectory(at: imagesDirectory, withIntermediateDirectories: true, attributes: nil)
+        }
+        
+        let imageURL = imagesDirectory.appendingPathComponent("\(name).jpg")
         try imageData.write(to: imageURL, options: .atomic)
-        return imageURL.path
+            
+        return "\(name).jpg"
     }
     
     // Run when deleting a Location
