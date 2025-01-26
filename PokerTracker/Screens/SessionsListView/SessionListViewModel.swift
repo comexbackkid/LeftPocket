@@ -21,7 +21,7 @@ class SessionsListViewModel: ObservableObject {
     @Published var userCurrency: CurrencyType = .USD
     @Published var lineChartFullScreen = false
     @Published var convertedLineChartData: [Int]?
-    @Published var locations: [LocationModel_v2] = DefaultData.defaultLocations {
+    @Published var locations: [LocationModel_v2] = [] {
         didSet {
 //            saveLocations()
             saveNewLocations()

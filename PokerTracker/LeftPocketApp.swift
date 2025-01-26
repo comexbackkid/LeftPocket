@@ -50,22 +50,33 @@ struct LeftPocketApp: App {
     }
     
     // MARK: MIGRATION CODE
+    
+    
+    // TODO: Use a check to see if the new sessions_v2.json exists, instead of a Bool
     func migrateDataIfNeeded() {
-        let migrationKey = "hasMigratedToPokerSession_v2"
-        let defaults = UserDefaults.standard
-
-        if !defaults.bool(forKey: migrationKey) {
-            let migratedLocations = MigrationHandler.migrateLocationModel()
-            let migratedSessions = MigrationHandler.migratePokerSessionModel()
-                    
-            if let locations = migratedLocations {
-                vm.locations = locations
-            }
-            if let sessions = migratedSessions {
-                vm.sessions = sessions
-            }
-                    
-            defaults.set(true, forKey: migrationKey)
+        let fileManager = FileManager.default
+        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let newSessionsFile = documentsURL.appendingPathComponent("sessions_v2.json")
+        
+        // Check if the new sessions file already exists
+        if fileManager.fileExists(atPath: newSessionsFile.path) {
+            print("Migration not needed. sessions_v2.json already exists.")
+            return
         }
+        
+        // Perform migration if sessions_v2.json does not exist
+        print("Migration needed. Starting migration process...")
+        let migratedLocations = MigrationHandler.migrateLocationModel()
+        let migratedSessions = MigrationHandler.migratePokerSessionModel()
+        
+        // Update view with migrated data
+        if let locations = migratedLocations {
+            vm.locations = locations
+        }
+        if let sessions = migratedSessions {
+            vm.sessions = sessions
+        }
+        
+        print("Migration completed successfully.")
     }
 }

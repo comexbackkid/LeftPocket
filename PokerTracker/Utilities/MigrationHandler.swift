@@ -92,18 +92,19 @@ class MigrationHandler {
                 
                 // Save the image data to the file system if it exists
                 if let imageData = oldLocation.importedImage {
-                    let imageFileName = "\(UUID().uuidString).jpg"
-                    let imageFileURL = imagesDirectory.appendingPathComponent(imageFileName)
+                    let fileName = "\(oldLocation.id).jpg"
+                    let imageFileURL = imagesDirectory.appendingPathComponent(fileName)
                     
                     do {
                         try imageData.write(to: imageFileURL)
-                        imagePath = imageFileName
+                        imagePath = fileName
                         
                     } catch {
                         print("Failed to save image for location \(oldLocation.name): \(error)")
                     }
                 }
                 
+                // TODO: What happens with the two sets of default Locations, is it overwritten but just with the same ID and image?
                 return LocationModel_v2(id: oldLocation.id,
                                         name: oldLocation.name,
                                         localImage: oldLocation.localImage.isEmpty ? nil : oldLocation.localImage,

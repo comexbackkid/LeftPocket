@@ -185,6 +185,7 @@ struct LocationGridItem: View {
 
 extension SessionsListViewModel {
     
+    // TODO: PERHAPS USE $0.LOCATION.NAME INSTEAD INCASE MIGRATION HAS AN ISSUE
     // This is only working when you filter by .name versus the .id not sure why? Does it matter? What if the name is changed by the user?
     func uniqueLocationCount(location: LocationModel_v2) -> Int {
         let array = self.sessions.filter({ $0.location.id == location.id })
