@@ -20,6 +20,6 @@ struct MockData {
     
     static let sampleTransactions = [
         BankrollTransaction(date: Date().modifyDays(days: -7), type: .deposit, amount: 1000, notes: "Starting bankroll", tags: ["My First Tag"]),
-        BankrollTransaction(date: Date(), type: .withdrawal, amount: 350, notes: "Life expenses", tags: nil)
+        BankrollTransaction(date: Date(), type: .expense, amount: 77, notes: "Dinner", tags: nil)
     ]
 }

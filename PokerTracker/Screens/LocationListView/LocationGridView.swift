@@ -25,7 +25,6 @@ struct LocationGridView: View {
             locationTip
             
             if !vm.locations.isEmpty {
-                
                 LazyVGrid(columns: columns) {
                     ForEach(vm.locations) { location in
                         LocationGridItem(location: location)
@@ -33,17 +32,20 @@ struct LocationGridView: View {
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 50)
-                
-            } else {
-                EmptyState(title: "No Locations", image: .locations)
-                    .padding(.top, 150)
             }
         }
+        .overlay {
+            VStack {
+                if vm.locations.isEmpty {
+                    emptyState
+                }
+            }
+        }
+        .scrollDisabled(vm.locations.isEmpty ? true : false)
         .background(Color.brandBackground)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             addLocationButton
-            resetLocationsButton
         }
     }
     
@@ -57,6 +59,31 @@ struct LocationGridView: View {
             
             Spacer()
         }
+    }
+    
+    var emptyState: some View {
+        
+        VStack (spacing: 5) {
+            
+            Image("locationvectorart-transparent")
+                .resizable()
+                .frame(width: 125, height: 125)
+            
+            Text("No Locations")
+                .cardTitleStyle()
+                .bold()
+                .multilineTextAlignment(.center)
+                .padding(.top)
+            
+            Text("Tap the \(Image(systemName: "plus")) button above to get started\nwith adding your own locations.")
+                .foregroundColor(.secondary)
+                .subHeadlineStyle()
+                .multilineTextAlignment(.center)
+                .lineSpacing(3)
+            
+            
+        }
+        
     }
     
     var addLocationButton: some View {
@@ -73,29 +100,6 @@ struct LocationGridView: View {
         .sheet(isPresented: $addLocationIsShowing, content: {
             NewLocationView(addLocationIsShowing: $addLocationIsShowing)
         })
-    }
-    
-    var resetLocationsButton: some View {
-        
-        Button {
-            let impact = UIImpactFeedbackGenerator(style: .heavy)
-            impact.impactOccurred()
-            showAlert = true
-            
-        } label: {
-            Image(systemName: "gobackward")
-        }
-        .foregroundColor(.brandPrimary)
-        .alert(Text("Warning"), isPresented: $showAlert) {
-            Button("OK", role: .destructive) {
-                vm.mergeLocations()
-            }
-            Button("Cancel", role: .cancel) {
-                print("User Canceled")
-            }
-        } message: {
-            Text("This will restore the original Locations. Your custom Locations will NOT be affected.")
-        }
     }
     
     var locationTip: some View {

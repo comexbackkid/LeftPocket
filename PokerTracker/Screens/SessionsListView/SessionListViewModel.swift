@@ -233,19 +233,6 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
-    // Will merge Default Locations in to the current saved Locations and also keep the same order
-    func mergeLocations() {
-        var modifiedLocations = self.locations
-        
-        for newLocation in DefaultData.defaultLocations {
-            if !modifiedLocations.contains(newLocation) {
-                modifiedLocations.append(newLocation)
-            }
-        }
-        
-        self.locations = modifiedLocations
-    }
-    
     // Saves the list of stakes the user has created, in addition to the 3x defaults
     func saveUserStakes() {
         do {
