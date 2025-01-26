@@ -35,7 +35,6 @@ struct LocationGridView: View {
                 .padding(.bottom, 50)
                 
             } else {
-                
                 EmptyState(title: "No Locations", image: .locations)
                     .padding(.top, 150)
             }

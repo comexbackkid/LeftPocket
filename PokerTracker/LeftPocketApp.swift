@@ -40,7 +40,7 @@ struct LeftPocketApp: App {
         
     init() {
         configureTips()
-        migrateDataIfNeeded()
+        migrateDataIfNeeded(viewModel: vm)
     }
     
     func configureTips() {
@@ -53,7 +53,7 @@ struct LeftPocketApp: App {
     
     
     // TODO: Use a check to see if the new sessions_v2.json exists, instead of a Bool
-    func migrateDataIfNeeded() {
+    func migrateDataIfNeeded(viewModel: SessionsListViewModel) {
         let fileManager = FileManager.default
         let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
         let newSessionsFile = documentsURL.appendingPathComponent("sessions_v2.json")
@@ -69,14 +69,14 @@ struct LeftPocketApp: App {
         let migratedLocations = MigrationHandler.migrateLocationModel()
         let migratedSessions = MigrationHandler.migratePokerSessionModel()
         
-        // Update view with migrated data
+        // Update SessionsListViewModel
         if let locations = migratedLocations {
-            vm.locations = locations
+            viewModel.locations = locations
         }
         if let sessions = migratedSessions {
-            vm.sessions = sessions
+            viewModel.sessions = sessions
         }
         
-        print("Migration completed successfully.")
+        print("Migration of Locations & Sessions completed successfully.")
     }
 }
