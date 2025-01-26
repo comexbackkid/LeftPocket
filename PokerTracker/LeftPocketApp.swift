@@ -35,12 +35,14 @@ struct LeftPocketApp: App {
                     handleDeepLinkURL(url: url)
                     Branch.getInstance().handleDeepLink(url)
                 })
+                .onAppear {
+                    migrateDataIfNeeded(viewModel: vm)
+                }
         }
     }
         
     init() {
         configureTips()
-        migrateDataIfNeeded(viewModel: vm)
     }
     
     func configureTips() {
