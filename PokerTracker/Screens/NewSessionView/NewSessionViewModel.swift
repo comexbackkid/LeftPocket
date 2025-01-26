@@ -93,9 +93,9 @@ final class NewSessionViewModel: ObservableObject {
                 error = AlertContext.invalidBuyIn
             } else if multiDayToggle && (!addDay || !noMoreDays) {
                 error = AlertContext.invalidTournamentDates
-            } else if endTimeDayTwo <= startTimeDayTwo {
+            } else if multiDayToggle && (endTimeDayTwo <= startTimeDayTwo) {
                 error = AlertContext.invalidEndTime
-            } else if startTimeDayTwo <= endTime {
+            } else if multiDayToggle && (startTimeDayTwo <= endTime) {
                 error = AlertContext.invalidDayTwoStartTime
             }
         }
