@@ -196,7 +196,7 @@ struct TagReport: View {
                     }
                 }
                 .popover(isPresented: $grossIncomePopover, arrowEdge: .bottom, content: {
-                    PopoverView(bodyText: "Gross Income includes total income won from Sessions in this Tag Report, including high hand bonuses.")
+                    PopoverView(bodyText: "Gross Income includes total income from Sessions in this Tag Report, including high hand bonuses.")
                         .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                         .frame(height: 145)
                         .dynamicTypeSize(.medium...DynamicTypeSize.medium)
@@ -228,7 +228,7 @@ struct TagReport: View {
                     .foregroundColor(expenses > 0 ? .red : Color(.systemGray))
             }
             .popover(isPresented: $expensesPopover, arrowEdge: .bottom, content: {
-                PopoverView(bodyText: "Expenses include both on & off-the-table expenses, and those logged using Transactions. This is in addition to Tournament buy ins.")
+                PopoverView(bodyText: "Expenses include both on & off-the-table expenses, i.e. expenses from Transactions. Expenses also include your Tournament buy ins & rebuys.")
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                     .frame(height: 145)
                     .dynamicTypeSize(.medium...DynamicTypeSize.medium)

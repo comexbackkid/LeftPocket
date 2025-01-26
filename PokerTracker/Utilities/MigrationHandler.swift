@@ -55,11 +55,11 @@ class MigrationHandler {
             let newData = try JSONEncoder().encode(newSessions)
             try newData.write(to: newSessionsURL)
             
-            print("Migration successful! New data saved to \(newSessionsURL)")
+            print("Migration successful! New Session_v2 data saved to \(newSessionsURL)")
             return newSessions
             
         } catch {
-            print("Failed to migrate sessions. Error: \(error)")
+            print("Failed to migrate Sessions. Error: \(error)")
             return nil
         }
     }
@@ -77,7 +77,7 @@ class MigrationHandler {
             try fileManager.createDirectory(at: imagesDirectory, withIntermediateDirectories: true, attributes: nil)
             
         } catch {
-            print("Failed to create images directory: \(error)")
+            print("Failed to create LocationImages directory: \(error)")
             return nil
         }
         
@@ -100,7 +100,7 @@ class MigrationHandler {
                         imagePath = fileName
                         
                     } catch {
-                        print("Failed to save image for location \(oldLocation.name): \(error)")
+                        print("Failed to save image for Location: \(oldLocation.name): \(error)")
                     }
                 }
                 
@@ -116,11 +116,11 @@ class MigrationHandler {
             let newData = try JSONEncoder().encode(newLocations)
             try newData.write(to: newLocationsURL)
             
-            print("Location migration successful! New data saved to \(newLocationsURL)")
+            print("Location migration successful! New data saved to: \(newLocationsURL)")
             return newLocations
             
         } catch {
-            print("Failed to migrate locations. Error: \(error)")
+            print("Failed to migrate Locations. Error: \(error)")
             return nil
         }
     }
@@ -146,7 +146,7 @@ class MigrationHandler {
                 imagePath = imageFileName
                 
             } catch {
-                print("Failed to save image for location \(oldLocation.name): \(error)")
+                print("Failed to save image for Location: \(oldLocation.name): \(error)")
             }
         }
         

@@ -49,7 +49,6 @@ final class EditSessionViewModel: ObservableObject {
         }
         
         if sessionType == .tournament {
-            
             guard !entrants.isEmpty else {
                 alertItem = AlertContext.invalidEntrants
                 return false
@@ -59,7 +58,6 @@ final class EditSessionViewModel: ObservableObject {
                 alertItem = AlertContext.invalidFinish
                 return false
             }
-            
         }
         
         return true
@@ -87,7 +85,7 @@ final class EditSessionViewModel: ObservableObject {
         }
 
         viewModel.addNewSession(location: location,
-                                date: date,
+                                date: startTime,
                                 startTime: startTime,
                                 endTime: endTime,
                                 game: game,

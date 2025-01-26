@@ -117,7 +117,6 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     let highHandBonus: Int
     
     // Tournament Handling
-    // If user plays cash games, properties like entrants & finish are irrelevant, should we keep them optional?
     
     let isTournament: Bool
     let rebuyCount: Int?
@@ -196,6 +195,3 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
 
 // 4. How long do we give users to migrate?
 // 6. How to handle the edge case for a user that's opening app for the first time? The migration check will fail because technically they haven't. Will that be Ok? Assuming nothing would happen
-// 7. In the event it doesn't work, what's the easiest way to refresh or bring back old data to try again so we can simulate what a current user would experience?
-// 8. Comb through code & make sure functions, charts, views, etc. are utilizing the new PokerSession model, esp. Tournaments & expenses, how we tracked buy in's in the past
-// 9. Make sure migrated Sessions' Tags are behaving correctly. Just want an empty array if tags = nil

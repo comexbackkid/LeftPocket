@@ -53,7 +53,7 @@ struct EditSession: View {
         }
         .onAppear {
             determineSessionType()
-            editSession.date = pokerSession.date
+            editSession.date = pokerSession.startTime
             editSession.startTime = pokerSession.startTime
             editSession.endTime = pokerSession.endTime
             if let startTimeDayTwo = pokerSession.startTimeDayTwo {
