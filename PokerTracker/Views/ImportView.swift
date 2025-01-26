@@ -1,219 +1,219 @@
-////
-////  ImportView.swift
-////  LeftPocket
-////
-////  Created by Christian Nachtrieb on 2/5/24.
-////
 //
-//import Foundation
-//import SwiftUI
-//import UniformTypeIdentifiers
+//  ImportView.swift
+//  LeftPocket
 //
-//struct ImportView: View {
-//    
-//    @Environment(\.colorScheme) var colorScheme
-//    
-//    var body: some View {
-//        
-//        ScrollView (.vertical) {
-//            
-//            VStack {
-//                
-//                title
-//                
-//                bodyText
-//                
-//                navigationLinks
-//            }
-//        }
-//        .navigationBarTitleDisplayMode(.inline)
-//        .background(Color.brandBackground)
-//    }
-//    
-//    var title: some View {
-//        
-//        HStack {
-//            
-//            Text("Import Data")
-//                .titleStyle()
-//                .padding(.horizontal)
-//            
-//            Spacer()
-//        }
-//        
-//    }
-//    
-//    var bodyText: some View {
-//        
-//        VStack (alignment: .leading) {
-//            
-//            Text("Left Pocket supports data in CSV format from Poker Income, Poker Bankroll Tracker, Poker Analytics, & Pokerbase. These apps all format their data differently, & you may need to lightly modify the contents of the file.")
-//                .bodyStyle()
-//        }
-//        .padding(.horizontal)
-//    }
-//    
-//    var navigationLinks: some View {
-//        
-//        VStack (spacing: 15) {
-//            
-//            NavigationLink {
+//  Created by Christian Nachtrieb on 2/5/24.
+//
+
+import Foundation
+import SwiftUI
+import UniformTypeIdentifiers
+
+struct ImportView: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    
+    var body: some View {
+        
+        ScrollView (.vertical) {
+            
+            VStack {
+                
+                title
+                
+                bodyText
+                
+                navigationLinks
+            }
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .background(Color.brandBackground)
+    }
+    
+    var title: some View {
+        
+        HStack {
+            
+            Text("Import Data")
+                .titleStyle()
+                .padding(.horizontal)
+            
+            Spacer()
+        }
+        
+    }
+    
+    var bodyText: some View {
+        
+        VStack (alignment: .leading) {
+            
+            Text("Left Pocket supports data in CSV format from Poker Income, Poker Bankroll Tracker, Poker Analytics, & Pokerbase. These apps all format their data differently, & you may need to lightly modify the contents of the file.")
+                .bodyStyle()
+        }
+        .padding(.horizontal)
+    }
+    
+    var navigationLinks: some View {
+        
+        VStack (spacing: 15) {
+            
+            NavigationLink {
 //                PokerIncomeImportView()
-//            } label: {
-//                HStack {
-//                    VStack (alignment: .leading) {
-//                        HStack {
-//                            
-//                            Image(systemName: "tray.and.arrow.down.fill")
-//                                .frame(width: 20)
-//                                .fontWeight(.black)
-//                                .padding(.trailing, 5)
-//                                .foregroundColor(.secondary)
-//                            
-//                            Text("Poker Income")
-//                                .bodyStyle()
-//                                .bold()
-//                            
-//                            Spacer()
-//                            
-//                            Text("›")
-//                                .font(.title2)
-//                        }
-//                    }
-//                    Spacer()
-//                }
-//            }
-//            .buttonStyle(PlainButtonStyle())
-//            
-//            Divider()
-//            
-//            NavigationLink {
-//                PokerBankrollTrackerImportView()
-//            } label: {
-//                HStack {
-//                    VStack (alignment: .leading) {
-//                        HStack {
-//                            
-//                            Image(systemName: "tray.and.arrow.down.fill")
-//                                .frame(width: 20)
-//                                .fontWeight(.black)
-//                                .padding(.trailing, 5)
-//                                .foregroundColor(.secondary)
-//                            
-//                            Text("Poker Bankroll Tracker")
-//                                .bodyStyle()
-//                                .bold()
-//                            
-//                            Spacer()
-//                            
-//                            Text("›")
-//                                .font(.title2)
-//                        }
-//                    }
-//                    Spacer()
-//                }
-//            }
-//            .buttonStyle(PlainButtonStyle())
-//            
-//            Divider()
-//            
-//            NavigationLink {
-//                PokerAnalyticsImportView()
-//            } label: {
-//                HStack {
-//                    VStack (alignment: .leading) {
-//                        HStack {
-//                            
-//                            Image(systemName: "tray.and.arrow.down.fill")
-//                                .frame(width: 20)
-//                                .fontWeight(.black)
-//                                .padding(.trailing, 5)
-//                                .foregroundColor(.secondary)
-//                            
-//                            Text("Poker Analytics")
-//                                .bodyStyle()
-//                                .bold()
-//                            
-//                            Spacer()
-//                            
-//                            Text("›")
-//                                .font(.title2)
-//                        }
-//                    }
-//                    Spacer()
-//                }
-//            }
-//            .buttonStyle(PlainButtonStyle())
-//            
-//            Divider()
-//            
-//            NavigationLink {
+            } label: {
+                HStack {
+                    VStack (alignment: .leading) {
+                        HStack {
+                            
+                            Image(systemName: "tray.and.arrow.down.fill")
+                                .frame(width: 20)
+                                .fontWeight(.black)
+                                .padding(.trailing, 5)
+                                .foregroundColor(.secondary)
+                            
+                            Text("Poker Income")
+                                .bodyStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Divider()
+            
+            NavigationLink {
+                PokerBankrollTrackerImportView()
+            } label: {
+                HStack {
+                    VStack (alignment: .leading) {
+                        HStack {
+                            
+                            Image(systemName: "tray.and.arrow.down.fill")
+                                .frame(width: 20)
+                                .fontWeight(.black)
+                                .padding(.trailing, 5)
+                                .foregroundColor(.secondary)
+                            
+                            Text("Poker Bankroll Tracker")
+                                .bodyStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Divider()
+            
+            NavigationLink {
+                PokerAnalyticsImportView()
+            } label: {
+                HStack {
+                    VStack (alignment: .leading) {
+                        HStack {
+                            
+                            Image(systemName: "tray.and.arrow.down.fill")
+                                .frame(width: 20)
+                                .fontWeight(.black)
+                                .padding(.trailing, 5)
+                                .foregroundColor(.secondary)
+                            
+                            Text("Poker Analytics")
+                                .bodyStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Divider()
+            
+            NavigationLink {
 //                PokerbaseImportView()
-//            } label: {
-//                HStack {
-//                    VStack (alignment: .leading) {
-//                        HStack {
-//                            
-//                            Image(systemName: "tray.and.arrow.down.fill")
-//                                .frame(width: 20)
-//                                .fontWeight(.black)
-//                                .padding(.trailing, 5)
-//                                .foregroundColor(.secondary)
-//                            
-//                            Text("Pokerbase")
-//                                .bodyStyle()
-//                                .bold()
-//                            
-//                            Spacer()
-//                            
-//                            Text("›")
-//                                .font(.title2)
-//                        }
-//                    }
-//                    Spacer()
-//                }
-//            }
-//            .buttonStyle(PlainButtonStyle())
-//            
-//            Divider()
-//            
-//            NavigationLink {
+            } label: {
+                HStack {
+                    VStack (alignment: .leading) {
+                        HStack {
+                            
+                            Image(systemName: "tray.and.arrow.down.fill")
+                                .frame(width: 20)
+                                .fontWeight(.black)
+                                .padding(.trailing, 5)
+                                .foregroundColor(.secondary)
+                            
+                            Text("Pokerbase")
+                                .bodyStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Divider()
+            
+            NavigationLink {
 //                LeftPocketImportView()
-//            } label: {
-//                HStack {
-//                    VStack (alignment: .leading) {
-//                        HStack {
-//                            
-//                            Image(systemName: "tray.and.arrow.down.fill")
-//                                .frame(width: 20)
-//                                .fontWeight(.black)
-//                                .padding(.trailing, 5)
-//                                .foregroundColor(.secondary)
-//                            
-//                            Text("Left Pocket")
-//                                .bodyStyle()
-//                                .bold()
-//                            
-//                            Spacer()
-//                            
-//                            Text("›")
-//                                .font(.title2)
-//                        }
-//                    }
-//                    Spacer()
-//                }
-//            }
-//            .buttonStyle(PlainButtonStyle())
-//        }
-//        .padding(25)
-//        .frame(width: UIScreen.main.bounds.width * 0.9)
-//        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
-//        .cornerRadius(20)
-//        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
-//        .padding(.top, 40)
-//    }
-//}
-//
+            } label: {
+                HStack {
+                    VStack (alignment: .leading) {
+                        HStack {
+                            
+                            Image(systemName: "tray.and.arrow.down.fill")
+                                .frame(width: 20)
+                                .fontWeight(.black)
+                                .padding(.trailing, 5)
+                                .foregroundColor(.secondary)
+                            
+                            Text("Left Pocket")
+                                .bodyStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+        .padding(25)
+        .frame(width: UIScreen.main.bounds.width * 0.9)
+        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 1.0))
+        .cornerRadius(20)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+        .padding(.top, 40)
+    }
+}
+
 //struct PokerIncomeImportView: View {
 //    
 //    @EnvironmentObject var vm: SessionsListViewModel
@@ -456,186 +456,178 @@
 //        .offset(y: -20)
 //    }
 //}
-//
-//struct PokerBankrollTrackerImportView: View {
-//    
-//    @EnvironmentObject var vm: SessionsListViewModel
-//    
-//    @State private var showFileImporter = false
-//    @State private var errorMessage: String?
-//    @State private var showSuccessMessage: String?
-//    
-//    var body: some View {
-//        
-//        ScrollView (.vertical) {
-//            
-//            VStack (alignment: .leading) {
-//                
-//                Text("Poker Bankroll Tracker Import")
-//                    .subtitleStyle()
-//                    .bold()
-//                    .padding(.top, 10)
-//                
-//                Text("Please be sure to follow each step and read carefully. Poker Bankroll Tracker allows for exporting of session notes, and you'll need to remove them from the CSV file prior to import.")
-//                    .bodyStyle()
-//                    .padding(.top, 1)
-//                
-//                VStack (alignment: .leading, spacing: 20) {
-//                    
-//                    HStack {
-//                        
-//                        Image(systemName: "1.circle.fill")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 25, height: 25, alignment: .top)
-//                            .foregroundColor(Color.brandPrimary)
-//                        
-//                        Text("Export CSV from Poker Bankroll Tracker.")
-//                            .bodyStyle()
-//                            .padding(.leading, 6)
-//                    }
-//                    
-//                    HStack {
-//                        
-//                        Image(systemName: "2.circle.fill")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 25, height: 25, alignment: .top)
-//                            .foregroundColor(Color.brandPrimary)
-//                        
-//                        Text("Open the CSV on your computer. In the notes column, __delete each cell__ containing any text of any kind.")
-//                            .bodyStyle()
-//                            .padding(.leading, 6)
-//                    }
-//                    
-//                    HStack {
-//                        
-//                        Image(systemName: "3.circle.fill")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 25, height: 25, alignment: .top)
-//                            .foregroundColor(Color.brandPrimary)
-//                        
-//                        Text("Export this new file, & save it to your iCloud Drive, using UTF-8 encoding.")
-//                            .bodyStyle()
-//                            .padding(.leading, 6)
-//                    }
-//                    
-//                    HStack {
-//                        
-//                        Image(systemName: "4.circle.fill")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 25, height: 25, alignment: .top)
-//                            .foregroundColor(Color.brandPrimary)
-//                        
-//                        Text("Tap the Import CSV Data button below.")
-//                            .bodyStyle()
-//                            .padding(.leading, 6)
-//                    }
-//                }
-//                .lineSpacing(5)
-//                .padding(.vertical, 20)
-//            }
-//            .padding(.horizontal)
-//            
-//            importButton
-//            
-//            if let errorMessage {
-//                
-//                VStack {
-//                    Text("Uh oh! There was a problem.")
-//                    Text(errorMessage)
-//                    Image(systemName: "x.circle")
-//                        .resizable()
-//                        .frame(width: 50, height: 50)
-//                        .padding(.top, 1)
-//                        .foregroundColor(.red)
-//                }
-//                
-//            } else if let showSuccessMessage {
-//                
-//                VStack {
-//                    Text("Success!")
-//                    Text(showSuccessMessage)
-//                    Image(systemName: "checkmark.circle")
-//                        .resizable()
-//                        .frame(width: 50, height: 50)
-//                        .padding(.top, 1)
-//                        .foregroundColor(.green)
-//                }
-//            }
-//            
-//            HStack {
-//                Spacer()
-//            }
-//        }
-//        .background(Color.brandBackground)
-//    }
-//    
-//    var importButton: some View {
-//        
-//        Button {
-//            
-//            let impact = UIImpactFeedbackGenerator(style: .medium)
-//            impact.impactOccurred()
-//            showFileImporter = true
-//            
-//        } label: {
-//            
-//            PrimaryButton(title: "Import CSV Data")
-//            
-//        }
-//        .padding(.bottom, 20)
-//        .fileImporter(isPresented: $showFileImporter,
-//                      allowedContentTypes: [.plainText, .commaSeparatedText],
-//                      onCompletion: { result in
-//                        
-//            do {
-//                let selectedURL = try result.get()
-//                
-//                if selectedURL.startAccessingSecurityScopedResource() {
-//                    let csvData = try Data(contentsOf: selectedURL)
-//                    let csvImporter = CSVImporter()
-//                    let importedSessions = try csvImporter.importCSVFromPokerBankrollTracker(data: csvData)
-//                    
-//                    // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
-//                    vm.sessions += importedSessions
-//                    vm.sessions.sort(by: {$0.date > $1.date})
-//                    showSuccessMessage = "All sessions imported successfully."
-//                }
-//                
-//                selectedURL.stopAccessingSecurityScopedResource()
-//                
-//            } catch let error as URLError {
-//                
-//                // Handle URLError from the fileImporter
-//                errorMessage = "URL Error: \(error.localizedDescription)"
-//                print("URL Error: \(error)")
-//                
-//            } catch let error as CSVImporter.ImportError {
-//                
-//                // Handle specific CSV import errors from our class
-//                switch error {
-//                case .invalidData:
-//                    errorMessage = "Error: Invalid Data"
-//                case .parsingFailed:
-//                    errorMessage = "Error: Parsing Failed"
-//                case .saveFailed:
-//                    errorMessage = "Error: Failed to Save Data"
-//                }
-//                print("CSV Import Error: \(error)")
-//                
-//            } catch {
-//                
-//                // Handle other errors
-//                errorMessage = error.localizedDescription
-//                print("Error importing file: \(error)")
-//            }
-//        })
-//    }
-//}
-//
+
+struct PokerBankrollTrackerImportView: View {
+    
+    @EnvironmentObject var vm: SessionsListViewModel
+    
+    @State private var showFileImporter = false
+    @State private var errorMessage: String?
+    @State private var showSuccessMessage: String?
+    
+    var body: some View {
+        
+        ScrollView (.vertical) {
+            
+            VStack (alignment: .leading) {
+                
+                Text("Poker Bankroll Tracker Import")
+                    .subtitleStyle()
+                    .bold()
+                    .padding(.top, 10)
+                
+                Text("Please be sure to follow each step and read carefully. Poker Bankroll Tracker allows for exporting of session notes, and you'll need to remove them from the CSV file prior to import.")
+                    .bodyStyle()
+                    .padding(.top, 1)
+                
+                VStack (alignment: .leading, spacing: 20) {
+                    
+                    HStack {
+                        
+                        Image(systemName: "1.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Export CSV from Poker Bankroll Tracker.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                    
+                    HStack {
+                        
+                        Image(systemName: "2.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Open the CSV on your computer. In the notes column, __delete each cell__ containing any text of any kind.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                    
+                    HStack {
+                        
+                        Image(systemName: "3.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Export this new file, & save it to your iCloud Drive, using UTF-8 encoding.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                    
+                    HStack {
+                        
+                        Image(systemName: "4.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Tap the Import CSV Data button below.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                }
+                .lineSpacing(5)
+                .padding(.vertical, 20)
+            }
+            .padding(.horizontal)
+            
+            importButton
+            
+            if let errorMessage {
+                
+                VStack {
+                    Text("Uh oh! There was a problem.")
+                    Text(errorMessage)
+                    Image(systemName: "x.circle")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .padding(.top, 1)
+                        .foregroundColor(.red)
+                }
+                
+            } else if let showSuccessMessage {
+                
+                VStack {
+                    Text("Success!")
+                    Text(showSuccessMessage)
+                    Image(systemName: "checkmark.circle")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .padding(.top, 1)
+                        .foregroundColor(.green)
+                }
+            }
+            
+            HStack {
+                Spacer()
+            }
+        }
+        .background(Color.brandBackground)
+    }
+    
+    var importButton: some View {
+        
+        Button {
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            showFileImporter = true
+            
+        } label: {
+            PrimaryButton(title: "Import CSV Data")
+            
+        }
+        .padding(.bottom, 20)
+        .fileImporter(isPresented: $showFileImporter,
+                      allowedContentTypes: [.plainText, .commaSeparatedText],
+                      onCompletion: { result in
+                        
+            do {
+                let selectedURL = try result.get()
+                
+                if selectedURL.startAccessingSecurityScopedResource() {
+                    let csvData = try Data(contentsOf: selectedURL)
+                    let csvImporter = CSVImporter()
+                    let importedSessions = try csvImporter.importCSVFromPokerBankrollTracker(data: csvData)
+                    
+                    // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
+                    vm.sessions += importedSessions
+                    vm.sessions.sort(by: {$0.date > $1.date})
+                    showSuccessMessage = "All sessions imported successfully."
+                }
+                
+                selectedURL.stopAccessingSecurityScopedResource()
+                
+            } catch let error as URLError {
+                // Handle URLError from the fileImporter
+                errorMessage = "URL Error: \(error.localizedDescription)"
+                print("URL Error: \(error)")
+                
+            } catch let error as CSVImporter.ImportError {
+                // Handle specific CSV import errors from our class
+                switch error {
+                case .invalidData: errorMessage = "Error: Invalid Data"
+                case .parsingFailed: errorMessage = "Error: Parsing Failed"
+                case .saveFailed: errorMessage = "Error: Failed to Save Data"
+                }
+                print("CSV Import Error: \(error)")
+                
+            } catch {
+                // Handle other errors
+                errorMessage = error.localizedDescription
+                print("Error importing file: \(error)")
+            }
+        })
+    }
+}
+
 //struct PokerbaseImportView: View {
 //    
 //    @EnvironmentObject var vm: SessionsListViewModel
@@ -866,7 +858,7 @@
 //        })
 //    }
 //}
-//
+
 //struct LeftPocketImportView: View {
 //    
 //    @EnvironmentObject var vm: SessionsListViewModel
@@ -1036,190 +1028,178 @@
 //        })
 //    }
 //}
-//
-//struct PokerAnalyticsImportView: View {
-//    
-//    @EnvironmentObject var vm: SessionsListViewModel
-//    
-//    @State private var showFileImporter = false
-//    @State private var errorMessage: String?
-//    @State private var showSuccessMessage: String?
-//    
-//    var body: some View {
-//        
-//        ScrollView (.vertical) {
-//            
-//            VStack (alignment: .leading) {
-//                
-//                Text("Poker Analytics Import")
-//                    .subtitleStyle()
-//                    .bold()
-//                    .padding(.top, 10)
-//                
-//                Text("Please be sure to follow each step and read carefully. Poker Analytics allows for exporting of session comments and you will need to account for how the text is formatted.")
-//                    .bodyStyle()
-//                    .padding(.top, 1)
-//                
-//                VStack (alignment: .leading, spacing: 20) {
-//                    
-//                    HStack {
-//                        
-//                        Image(systemName: "1.circle.fill")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 25, height: 25, alignment: .top)
-//                            .foregroundColor(Color.brandPrimary)
-//                        
-//                        Text("In Poker Analytics, from Settings navigate to Export Data. Choose Sessions (CSV).")
-//                            .bodyStyle()
-//                            .padding(.leading, 6)
-//                    }
-//                    
-//                    HStack {
-//                        
-//                        Image(systemName: "2.circle.fill")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 25, height: 25, alignment: .top)
-//                            .foregroundColor(Color.brandPrimary)
-//                        
-//                        Text("Open the CSV on your computer. In the Comment column, __delete each cell__ containing any text of any kind.")
-//                            .bodyStyle()
-//                            .padding(.leading, 6)
-//                    }
-//                    
-//                    HStack {
-//                        
-//                        Image(systemName: "3.circle.fill")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 25, height: 25, alignment: .top)
-//                            .foregroundColor(Color.brandPrimary)
-//                        
-//                        Text("Export this new file to a folder in your iCloud Drive, using UTF-8 encoding.")
-//                            .bodyStyle()
-//                            .padding(.leading, 6)
-//                    }
-//                    
-//                    HStack {
-//                        
-//                        Image(systemName: "4.circle.fill")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .frame(width: 25, height: 25, alignment: .top)
-//                            .foregroundColor(Color.brandPrimary)
-//                        
-//                        Text("Tap the Import CSV Data button below.")
-//                            .bodyStyle()
-//                            .padding(.leading, 6)
-//                    }
-//                }
-//                .lineSpacing(5)
-//                .padding(.vertical, 20)
-//            }
-//            .padding(.horizontal)
-//            
-//            importButton
-//            
-//            if let errorMessage {
-//                
-//                VStack {
-//                    Text("Uh oh! There was a problem.")
-//                    Text(errorMessage)
-//                    Image(systemName: "x.circle")
-//                        .resizable()
-//                        .frame(width: 50, height: 50)
-//                        .padding(.top, 1)
-//                        .foregroundColor(.red)
-//                }
-//                
-//            } else if let showSuccessMessage {
-//                
-//                VStack {
-//                    Text("Success!")
-//                    Text(showSuccessMessage)
-//                    Image(systemName: "checkmark.circle")
-//                        .resizable()
-//                        .frame(width: 50, height: 50)
-//                        .padding(.top, 1)
-//                        .foregroundColor(.green)
-//                }
-//            }
-//            
-//            HStack {
-//                Spacer()
-//            }
-//        }
-//        .background(Color.brandBackground)
-//    }
-//    
-//    var importButton: some View {
-//        
-//        Button {
-//            
-//            let impact = UIImpactFeedbackGenerator(style: .medium)
-//            impact.impactOccurred()
-//            showFileImporter = true
-//            
-//        } label: {
-//            
-//            PrimaryButton(title: "Import CSV Data")
-//            
-//        }
-//        .padding(.bottom, 20)
-//        .fileImporter(isPresented: $showFileImporter,
-//                      allowedContentTypes: [.plainText, .commaSeparatedText],
-//                      onCompletion: { result in
-//                        
-//            do {
-//                let selectedURL = try result.get()
-//                
-//                if selectedURL.startAccessingSecurityScopedResource() {
-//                    let csvData = try Data(contentsOf: selectedURL)
-//                    let csvImporter = CSVImporter()
-//                    let importedSessions = try csvImporter.importCSVFromPokerAnalytics(data: csvData)
-//                    
-//                    // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
-//                    vm.sessions += importedSessions
-//                    vm.sessions.sort(by: {$0.date > $1.date})
-//                    showSuccessMessage = "All sessions imported successfully."
-//                    
-//                }
-//                
-//                selectedURL.stopAccessingSecurityScopedResource()
-//                
-//            } catch let error as URLError {
-//                
-//                // Handle URLError from the fileImporter
-//                errorMessage = "URL Error: \(error.localizedDescription)"
-//                print("URL Error: \(error)")
-//                
-//            } catch let error as CSVImporter.ImportError {
-//                
-//                // Handle specific CSV import errors from our class
-//                switch error {
-//                case .invalidData:
-//                    errorMessage = "Error: Invalid Data"
-//                case .parsingFailed:
-//                    errorMessage = "Error: Parsing Failed"
-//                case .saveFailed:
-//                    errorMessage = "Error: Failed to Save Data"
-//                }
-//                print("CSV Import Error: \(error)")
-//                
-//            } catch {
-//                
-//                // Handle other errors
-//                errorMessage = error.localizedDescription
-//                print("Error importing file: \(error)")
-//            }
-//        })
-//    }
-//}
-//
-//struct ImportView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PokerAnalyticsImportView()
-//            .preferredColorScheme(.dark)
-//    }
-//}
+
+struct PokerAnalyticsImportView: View {
+    
+    @EnvironmentObject var vm: SessionsListViewModel
+    
+    @State private var showFileImporter = false
+    @State private var errorMessage: String?
+    @State private var showSuccessMessage: String?
+    
+    var body: some View {
+        
+        ScrollView (.vertical) {
+            
+            VStack (alignment: .leading) {
+                
+                Text("Poker Analytics Import")
+                    .subtitleStyle()
+                    .bold()
+                    .padding(.top, 10)
+                
+                Text("Please be sure to follow each step and read carefully. Poker Analytics allows for exporting of session comments and you will need to account for how the text is formatted.")
+                    .bodyStyle()
+                    .padding(.top, 1)
+                
+                VStack (alignment: .leading, spacing: 20) {
+                    
+                    HStack {
+                        
+                        Image(systemName: "1.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("In Poker Analytics, from Settings navigate to Export Data. Choose Sessions (CSV).")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                    
+                    HStack {
+                        
+                        Image(systemName: "2.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Open the CSV on your computer. In the Comment column, __delete each cell__ containing any text of any kind.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                    
+                    HStack {
+                        
+                        Image(systemName: "3.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Export this new file to a folder in your iCloud Drive, using UTF-8 encoding.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                    
+                    HStack {
+                        
+                        Image(systemName: "4.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25, alignment: .top)
+                            .foregroundColor(Color.brandPrimary)
+                        
+                        Text("Tap the Import CSV Data button below.")
+                            .bodyStyle()
+                            .padding(.leading, 6)
+                    }
+                }
+                .lineSpacing(5)
+                .padding(.vertical, 20)
+            }
+            .padding(.horizontal)
+            
+            importButton
+            
+            if let errorMessage {
+                VStack {
+                    Text("Uh oh! There was a problem.")
+                    Text(errorMessage)
+                    Image(systemName: "x.circle")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .padding(.top, 1)
+                        .foregroundColor(.red)
+                }
+                
+            } else if let showSuccessMessage {
+                VStack {
+                    Text("Success!")
+                    Text(showSuccessMessage)
+                    Image(systemName: "checkmark.circle")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .padding(.top, 1)
+                        .foregroundColor(.green)
+                }
+            }
+            
+            HStack {
+                Spacer()
+            }
+        }
+        .background(Color.brandBackground)
+    }
+    
+    var importButton: some View {
+        
+        Button {
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            showFileImporter = true
+            
+        } label: {
+            PrimaryButton(title: "Import CSV Data")
+        }
+        .padding(.bottom, 20)
+        .fileImporter(isPresented: $showFileImporter,
+                      allowedContentTypes: [.plainText, .commaSeparatedText],
+                      onCompletion: { result in
+                        
+            do {
+                let selectedURL = try result.get()
+                
+                if selectedURL.startAccessingSecurityScopedResource() {
+                    let csvData = try Data(contentsOf: selectedURL)
+                    let csvImporter = CSVImporter()
+                    let importedSessions = try csvImporter.importCSVFromPokerAnalytics(data: csvData)
+                    
+                    // Overwrite any current Sessions, if there are any, and set our array of Sessions to the imported data
+                    vm.sessions += importedSessions
+                    vm.sessions.sort(by: {$0.date > $1.date})
+                    showSuccessMessage = "All sessions imported successfully."
+                }
+                
+                selectedURL.stopAccessingSecurityScopedResource()
+                
+            } catch let error as URLError {
+                // Handle URLError from the fileImporter
+                errorMessage = "URL Error: \(error.localizedDescription)"
+                print("URL Error: \(error)")
+                
+            } catch let error as CSVImporter.ImportError {
+                // Handle specific CSV import errors from our class
+                switch error {
+                case .invalidData: errorMessage = "Error: Invalid Data"
+                case .parsingFailed: errorMessage = "Error: Parsing Failed"
+                case .saveFailed: errorMessage = "Error: Failed to Save Data"
+                }
+                print("CSV Import Error: \(error)")
+                
+            } catch {
+                // Handle other errors
+                errorMessage = error.localizedDescription
+                print("Error importing file: \(error)")
+            }
+        })
+    }
+}
+
+struct ImportView_Previews: PreviewProvider {
+    static var previews: some View {
+        PokerBankrollTrackerImportView()
+            .preferredColorScheme(.dark)
+    }
+}

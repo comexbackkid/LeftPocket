@@ -220,7 +220,7 @@ struct UserSettings: View {
             
             dashboardConfig
             
-//            importData
+            importData
             
 //            exportData
             
@@ -526,32 +526,32 @@ struct UserSettings: View {
 //        })
 //    }
     
-//    var importData: some View {
-//        
-//        HStack {
-//            NavigationLink(
-//                destination: ImportView()) {
-//                    HStack {
-//                        VStack (alignment: .leading) {
-//                            HStack {
-//                                
-//                                Text("Import Data")
-//                                    .subtitleStyle()
-//                                    .bold()
-//                                
-//                                Spacer()
-//                                
-//                                Text("›")
-//                                    .font(.title2)
-//                            }
-//                        }
-//                        
-//                        Spacer()
-//                    }
-//                }
-//                .buttonStyle(PlainButtonStyle())
-//        }
-//    }
+    var importData: some View {
+        
+        HStack {
+            NavigationLink(
+                destination: ImportView()) {
+                    HStack {
+                        VStack (alignment: .leading) {
+                            HStack {
+                                
+                                Text("Import Data")
+                                    .subtitleStyle()
+                                    .bold()
+                                
+                                Spacer()
+                                
+                                Text("›")
+                                    .font(.title2)
+                            }
+                        }
+                        
+                        Spacer()
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
+        }
+    }
     
     var howToGuide: some View {
         
