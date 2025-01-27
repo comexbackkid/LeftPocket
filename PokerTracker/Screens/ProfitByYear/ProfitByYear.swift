@@ -41,7 +41,7 @@ struct ProfitByYear: View {
                 
                 bestPlays
                 
-//                exportButton
+                exportButton
                 
                 Spacer()
                 
@@ -559,61 +559,58 @@ struct ProfitByYear: View {
         .padding(.top, 20)
     }
     
-//    var exportButton: some View {
-//        
-//        Button {
-//            
-//            let impact = UIImpactFeedbackGenerator(style: .medium)
-//            impact.impactOccurred()
-//            
-//            if subManager.isSubscribed {
-//                do {
-//                    let year = vm.chartRange(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
-//                    let fileURL = try CSVConversion.exportCSV(from: year)
-//                    shareFile(fileURL)
-//                    
-//                } catch {
-//                    
-//                    exportUtility.errorMsg = "\(error.localizedDescription)"
-//                    showError.toggle()
-//                }
-//            } else {
-//                
-//                showPaywall = true
-//                
-//            }
-//            
-//        } label: {
-//            PrimaryButton(title: "Export Results")
-//        }
-//        .padding(.top)
-//        .alert(isPresented: $showError) {
-//            Alert(title: Text("Uh oh!"), message: Text(exportUtility.errorMsg ?? ""), dismissButton: .default(Text("OK")))
-//        }
-//        .sheet(isPresented: $showPaywall) {
-//            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-//                .dynamicTypeSize(.medium...DynamicTypeSize.large)
-//                .overlay {
-//                    HStack {
-//                        Spacer()
-//                        VStack {
-//                            DismissButton()
-//                                .padding()
-//                                .onTapGesture {
-//                                    showPaywall = false
-//                            }
-//                            Spacer()
-//                        }
-//                    }
-//                }
-//        }
-//        .task {
-//            for await customerInfo in Purchases.shared.customerInfoStream {
-//                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
-//                await subManager.checkSubscriptionStatus()
-//            }
-//        }
-//    }
+    var exportButton: some View {
+        
+        Button {
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            
+            if subManager.isSubscribed {
+                do {
+                    let sessionsToExport = vm.chartRange(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
+                    let fileURL = try CSVConversion.exportCSV(from: sessionsToExport)
+                    shareFile(fileURL)
+                    
+                } catch {
+                    exportUtility.errorMsg = "\(error.localizedDescription)"
+                    showError.toggle()
+                }
+                
+            } else {
+                showPaywall = true
+            }
+            
+        } label: {
+            PrimaryButton(title: "Export Results")
+        }
+        .padding(.top, 12)
+        .alert(isPresented: $showError) {
+            Alert(title: Text("Uh oh!"), message: Text(exportUtility.errorMsg ?? ""), dismissButton: .default(Text("OK")))
+        }
+        .sheet(isPresented: $showPaywall) {
+            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                .overlay {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            DismissButton()
+                                .padding()
+                                .onTapGesture {
+                                    showPaywall = false
+                            }
+                            Spacer()
+                        }
+                    }
+                }
+        }
+        .task {
+            for await customerInfo in Purchases.shared.customerInfoStream {
+                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                await subManager.checkSubscriptionStatus()
+            }
+        }
+    }
 
     func shareFile(_ fileURL: URL) {
         let activityViewController = UIActivityViewController(
