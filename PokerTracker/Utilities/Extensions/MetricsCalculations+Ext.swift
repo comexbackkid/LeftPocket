@@ -765,7 +765,7 @@ extension SessionsListViewModel {
         }
         
         guard !sessionsArray.isEmpty else { return 0 }
-        let highHandTotals = sessionsArray.map({ $0.highHandBonus ?? 0 }).reduce(0,+)
+        let highHandTotals = sessionsArray.map({ $0.highHandBonus }).reduce(0,+)
         return highHandTotals
     }
 }

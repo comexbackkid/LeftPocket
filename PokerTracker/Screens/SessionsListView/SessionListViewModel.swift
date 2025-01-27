@@ -23,13 +23,11 @@ class SessionsListViewModel: ObservableObject {
     @Published var convertedLineChartData: [Int]?
     @Published var locations: [LocationModel_v2] = [] {
         didSet {
-//            saveLocations()
             saveNewLocations()
         }
     }
     @Published var sessions: [PokerSession_v2] = [] {
         didSet {
-//            saveSessions()
             saveNewSessions()
             writeToWidget()
             updateBankrollProgressRing()
@@ -44,9 +42,8 @@ class SessionsListViewModel: ObservableObject {
     
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector(fileAccessAvailable), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
-//        getSessions()
+
         getNewSessions()
-//        getLocations()
         getNewLocations()
         getTransactions()
         getUserStakes()
@@ -60,9 +57,7 @@ class SessionsListViewModel: ObservableObject {
     /// What we do is simply check for an error message, and then attempt to load the data again once triggered by the NotificationCenter.
     @objc func fileAccessAvailable() {
         if alertMessage != nil {
-//            getSessions()
             getNewSessions()
-//            getLocations()
             getNewLocations()
             getUserStakes()
             alertMessage = nil
@@ -76,20 +71,6 @@ class SessionsListViewModel: ObservableObject {
     var stakesPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("stakes.json") }
     var transactionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("transactions.json") }
     
-    // Saves the list of sessions with FileManager
-//    func saveSessions() {
-//        do {
-//            if let encodedData = try? JSONEncoder().encode(sessions) {
-//                try? FileManager.default.removeItem(at: sessionsPath)
-//                try encodedData.write(to: sessionsPath)
-//            }
-//        } catch {
-//            print("Failed to write out Sessions \(error)")
-//        }
-//    }
-    
-    // MARK: MIGRATION CODE
-    
     func saveNewSessions() {
         do {
             if let encodedData = try? JSONEncoder().encode(sessions) {
@@ -100,22 +81,6 @@ class SessionsListViewModel: ObservableObject {
             print("Failed to write out Sessions \(error)")
         }
     }
-    
-    // Loads all Sessions from FileManager upon app launch
-//    func getSessions() {
-//        do {
-//            let data = try Data(contentsOf: sessionsPath)
-//            let savedSessions = try JSONDecoder().decode([PokerSession].self, from: data)
-//            self.sessions = savedSessions
-//
-//        } catch {
-//            print("Failed to load session with error \(error)")
-//            alertMessage = error.localizedDescription
-//            return
-//        }
-//    }
-    
-    // MARK: MIGRATION CODE
     
     func getNewSessions() {
         do {
@@ -130,7 +95,6 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
-    // Saves user's Transactions to FileManager whenever a new one is created
     func saveTransactions() {
         do {
             if let encodedData = try? JSONEncoder().encode(transactions) {
@@ -142,7 +106,6 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
-    // Loads all user's Transactions on app launch
     func getTransactions() {
         do {
             let data = try Data(contentsOf: transactionsPath)
@@ -156,34 +119,11 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
-    // Adds a new Location to the app
-//    func addLocation(name: String, localImage: String, imageURL: String, importedImage: Data?) {
-//        let newLocation = LocationModel(name: name, localImage: localImage, imageURL: imageURL, importedImage: importedImage)
-//        
-//        locations.append(newLocation)
-//    }
-    
-    // MARK: MIGRATION CODE
-    
     func addNewLocation(name: String, importedImage: String?) {
         let newLocation = LocationModel_v2(name: name, importedImage: importedImage)
 
         locations.append(newLocation)
     }
-    
-    // Saves the list of locations the user has created with FileManager
-//    func saveLocations() {
-//        do {
-//            if let encodedData = try? JSONEncoder().encode(locations) {
-//                try? FileManager.default.removeItem(at: locationsPath)
-//                try encodedData.write(to: locationsPath)
-//            }
-//        } catch {
-//            print("Failed to save locations, \(error)")
-//        }
-//    }
-    
-    // MARK: MIGRATION CODE
     
     func saveNewLocations() {
         do {
@@ -195,21 +135,6 @@ class SessionsListViewModel: ObservableObject {
             print("Failed to save locations, \(error)")
         }
     }
-    
-    // Loads the locations the user has created upon app launch
-//    func getLocations() {
-//        do {
-//            let data = try Data(contentsOf: locationsPath)
-//            let importedLocations = try JSONDecoder().decode([LocationModel].self, from: data)
-//            self.locations = importedLocations
-//            
-//        } catch {
-//            print("Failed to load saved Locations with error: \(error)")
-//            alertMessage = error.localizedDescription
-//        }
-//    }
-    
-    // MARK: MIGRATION CODE
     
     func getNewLocations() {
         do {
@@ -223,17 +148,14 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
-    // Delete from user's list of Locations from the Locations screen
     func delete(_ location: LocationModel_v2) {
         if let index = locations.firstIndex(where: { $0.id == location.id })
         {
             locations.remove(at: index)
-//            saveLocations()
             saveNewLocations()
         }
     }
     
-    // Saves the list of stakes the user has created, in addition to the 3x defaults
     func saveUserStakes() {
         do {
             if let encodedData = try? JSONEncoder().encode(userStakes) {
@@ -245,7 +167,6 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
-    // Loads the stakes the user has saved
     func getUserStakes() {
         do {
             let data = try Data(contentsOf: stakesPath)
@@ -266,7 +187,6 @@ class SessionsListViewModel: ObservableObject {
         userStakes.append(stakes)
     }
     
-    // Loads user's saved currency set from SessionDefaults view
     func getUserCurrency() {
         let defaults = UserDefaults.standard
         
@@ -304,12 +224,9 @@ class SessionsListViewModel: ObservableObject {
         
         var bankroll: Int {
             switch sessionFilter {
-            case .all:
-                sessions.filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
-            case .cash:
-                allCashSessions().filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
-            case .tournaments:
-                allTournamentSessions().filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
+            case .all: sessions.filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
+            case .cash: allCashSessions().filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
+            case .tournaments: allTournamentSessions().filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
             }
         }
 
@@ -343,12 +260,9 @@ class SessionsListViewModel: ObservableObject {
         // Take the cash / tournament filter and assign to this variable
         var filteredSessions: [PokerSession_v2] {
             switch sessionFilter {
-            case .all:
-                return sessions
-            case .cash:
-                return sessions.filter({ $0.isTournament == false })
-            case .tournaments:
-                return sessions.filter({ $0.isTournament == true })
+            case .all: return sessions
+            case .cash: return sessions.filter({ $0.isTournament == false })
+            case .tournaments: return sessions.filter({ $0.isTournament == true })
             }
         }
 
@@ -381,54 +295,6 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // Adds a new Session to var sessions, only used in AddNewSessionView and EditSession
-//    func addSession(location: LocationModel,
-//                    game: String,
-//                    stakes: String,
-//                    date: Date,
-//                    profit: Int,
-//                    notes: String,
-//                    startTime: Date, endTime: Date,
-//                    expenses: Int,
-//                    isTournament: Bool,
-//                    entrants: Int,
-//                    finish: Int,
-//                    highHandBonus: Int,
-//                    buyIn: Int,
-//                    cashOut: Int,
-//                    rebuyCount: Int,
-//                    tournamentSize: String,
-//                    tournamentSpeed: String,
-//                    tags: [String]?,
-//                    tournamentDays: Int,
-//                    startTimeDayTwo: Date?,
-//                    endTimeDayTwo: Date?) {
-//        
-//        let newSession = PokerSession(location: location,
-//                                      game: game,
-//                                      stakes: stakes,
-//                                      date: date,
-//                                      profit: profit,
-//                                      notes: notes,
-//                                      startTime: startTime, endTime: endTime,
-//                                      expenses: expenses,
-//                                      isTournament: isTournament,
-//                                      entrants: entrants,
-//                                      finish: finish,
-//                                      highHandBonus: highHandBonus,
-//                                      buyIn: buyIn,
-//                                      cashOut: cashOut,
-//                                      rebuyCount: rebuyCount,
-//                                      tournamentSize: tournamentSize,
-//                                      tournamentSpeed: tournamentSpeed,
-//                                      tags: tags,
-//                                      tournamentDays: tournamentDays,
-//                                      startTimeDayTwo: startTimeDayTwo,
-//                                      endTimeDayTwo: endTimeDayTwo
-//        )
-//        sessions.append(newSession)
-//        sessions.sort(by: {$0.date > $1.date})
-//    }
-    
     func addNewSession(location: LocationModel_v2,
                        date: Date,
                        startTime: Date,
@@ -458,14 +324,13 @@ class SessionsListViewModel: ObservableObject {
         sessions.sort(by: { $0.date > $1.date })
     }
     
-
-    
     func addTransaction(date: Date, type: TransactionType, amount: Int, notes: String, tags: [String]?) {
         
         if type == .withdrawal || type == .expense {
             let newAmount = -(amount)
             let newTransaction = BankrollTransaction(date: date, type: type, amount: newAmount, notes: notes, tags: tags)
             transactions.append(newTransaction)
+            
         } else {
             let newTransaction = BankrollTransaction(date: date, type: type, amount: amount, notes: notes, tags: tags)
             transactions.append(newTransaction)

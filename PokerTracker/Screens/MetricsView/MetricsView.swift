@@ -904,6 +904,8 @@ struct AdditionalMetricsView: View {
                 
                 HStack (spacing: 0) {
                     Button {
+                        let impact = UIImpactFeedbackGenerator(style: .soft)
+                        impact.impactOccurred()
                         showReportsAsList.toggle()
                     } label: {
                         Image(systemName: showReportsAsList ? "rectangle" : "list.bullet")
