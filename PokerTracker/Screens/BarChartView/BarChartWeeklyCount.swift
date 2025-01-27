@@ -53,8 +53,6 @@ struct BarChartWeeklySessionCount: View {
             }
             
             barChart
-            
-            
         }
     }
     
@@ -62,9 +60,7 @@ struct BarChartWeeklySessionCount: View {
         
         VStack {
             Chart {
-                
                 ForEach(hoursByWeek, id: \.weekOfYear) { weekData in
-                    
                     BarMark(x: .value("Week", weekData.weekOfYear), y: .value("Hours", weekData.totalHours), width: 4)
                         .cornerRadius(30)
                         .foregroundStyle(.cyan.gradient)
@@ -97,7 +93,7 @@ struct BarChartWeeklySessionCount: View {
                     .captionStyle()
                     .foregroundStyle(.secondary)
             }
-            .padding(.leading, 28)
+            .padding(.leading, 26)
             .padding(.top, 2)
         }
     }

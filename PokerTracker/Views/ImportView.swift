@@ -57,35 +57,35 @@ struct ImportView: View {
         
         VStack (spacing: 15) {
             
-            NavigationLink {
+//            NavigationLink {
 //                PokerIncomeImportView()
-            } label: {
-                HStack {
-                    VStack (alignment: .leading) {
-                        HStack {
-                            
-                            Image(systemName: "tray.and.arrow.down.fill")
-                                .frame(width: 20)
-                                .fontWeight(.black)
-                                .padding(.trailing, 5)
-                                .foregroundColor(.secondary)
-                            
-                            Text("Poker Income")
-                                .bodyStyle()
-                                .bold()
-                            
-                            Spacer()
-                            
-                            Text("›")
-                                .font(.title2)
-                        }
-                    }
-                    Spacer()
-                }
-            }
-            .buttonStyle(PlainButtonStyle())
-            
-            Divider()
+//            } label: {
+//                HStack {
+//                    VStack (alignment: .leading) {
+//                        HStack {
+//                            
+//                            Image(systemName: "tray.and.arrow.down.fill")
+//                                .frame(width: 20)
+//                                .fontWeight(.black)
+//                                .padding(.trailing, 5)
+//                                .foregroundColor(.secondary)
+//                            
+//                            Text("Poker Income")
+//                                .bodyStyle()
+//                                .bold()
+//                            
+//                            Spacer()
+//                            
+//                            Text("›")
+//                                .font(.title2)
+//                        }
+//                    }
+//                    Spacer()
+//                }
+//            }
+//            .buttonStyle(PlainButtonStyle())
+//            
+//            Divider()
             
             NavigationLink {
                 PokerBankrollTrackerImportView()
@@ -1178,7 +1178,7 @@ struct PokerAnalyticsImportView: View {
 
 struct ImportView_Previews: PreviewProvider {
     static var previews: some View {
-        PokerBankrollTrackerImportView()
+        ImportView()
             .preferredColorScheme(.dark)
     }
 }

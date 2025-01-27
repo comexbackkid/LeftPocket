@@ -117,7 +117,6 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     let highHandBonus: Int
     
     // Tournament Handling
-    
     let isTournament: Bool
     let rebuyCount: Int?
     let tournamentSize: String?
@@ -190,8 +189,3 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
         return Double(bigBlindWin) / Double(totalHours)
     }
 }
-
-// TODO: TASKS
-
-// 4. How long do we give users to migrate?
-// 6. How to handle the edge case for a user that's opening app for the first time? The migration check will fail because technically they haven't. Will that be Ok? Assuming nothing would happen
