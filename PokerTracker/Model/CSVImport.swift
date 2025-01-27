@@ -293,7 +293,6 @@ class CSVImporter {
     }
     
     // MARK: Left Pocket Import
-    // TODO: Add an alternate check for it to be able to bring in an old CSV export and then convert it to the new data models
     
     func importCSVFromLeftPocket(data: Data) throws -> [PokerSession_v2] {
         
@@ -316,10 +315,9 @@ class CSVImporter {
             if columns.count == 11 {
                 columns.append("")
             }
-           
+            
             if columns.count == 19 {
-                
-                // Extract only relevant data and create a PokerSession object
+                // TBD code importing old session data type
                 let game = columns[1].trimmingCharacters(in: .init(charactersIn: "\""))
                 let location = LocationModel_v2(name: columns[0].trimmingCharacters(in: .init(charactersIn: "\"")))
                 let stakes = columns[2].trimmingCharacters(in: .init(charactersIn: "\""))
@@ -336,39 +334,94 @@ class CSVImporter {
                 // Tournament Data
                 let isTournament = columns[11].trimmingCharacters(in: .init(charactersIn: "\""))
                 let entrants = Int(columns[14].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
-                let tournamentRebuys = Int(columns[6]) ?? 0
-                let tournamentRebuyCount = Int(safeDivide(numerator: Double(columns[6]), denominator: Double(columns[4])))
-                let tournamentFinish = Int(columns[15].trimmingCharacters(in: .init(charactersIn: "\"")))
-                let tournamentSize = columns[12].trimmingCharacters(in: .init(charactersIn: "\""))
-                let tournamentSpeed = columns[13].trimmingCharacters(in: .init(charactersIn: "\""))
+                let tournamentRebuyDollarValue = Int(columns[16].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
+                let rebuyCount = Int(safeDivide(numerator: Double(tournamentRebuyDollarValue), denominator: Double(buyIn)))
+                let finish = Int(columns[15].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let size = columns[12].trimmingCharacters(in: .init(charactersIn: "\""))
+                let speed = columns[13].trimmingCharacters(in: .init(charactersIn: "\""))
+                let isMultiDay = "false"
+                let days = 1
+
+                let oldSession = PokerSession_v2(location: location,
+                                                 date: date,
+                                                 startTime: startTime,
+                                                 endTime: endTime,
+                                                 game: game,
+                                                 stakes: stakes,
+                                                 buyIn: buyIn,
+                                                 cashOut: cashOut,
+                                                 profit: profit,
+                                                 expenses: expenses,
+                                                 notes: "",
+                                                 tags: tags.isEmpty ? [] : [tags],
+                                                 highHandBonus: highHandBonus,
+                                                 isTournament: isTournament == "TRUE" || isTournament == "true" ? true : false,
+                                                 rebuyCount: isTournament == "TRUE" || isTournament == "true" ? rebuyCount : nil,
+                                                 tournamentSize: isTournament == "TRUE" || isTournament == "true" ? size : nil,
+                                                 tournamentSpeed: isTournament == "TRUE" || isTournament == "true" ? speed : nil,
+                                                 entrants: isTournament == "TRUE" || isTournament == "true" ? entrants : nil,
+                                                 finish: isTournament == "TRUE" || isTournament == "true" ? finish : nil,
+                                                 tournamentDays: isTournament == "TRUE" || isTournament == "true" ? days : nil,
+                                                 startTimeDayTwo: nil,
+                                                 endTimeDayTwo: nil)
                 
-                // Need to figure out how to handle the buyIn being the same as expenses
-                let oldSessionModel = PokerSession_v2(location: location,
-                                                      date: date,
-                                                      startTime: startTime,
-                                                      endTime: endTime,
-                                                      game: game,
-                                                      stakes: stakes,
-                                                      buyIn: buyIn,
-                                                      cashOut: cashOut,
-                                                      profit: profit,
-                                                      expenses: expenses,
-                                                      notes: "",
-                                                      tags: tags.isEmpty ? [] : [tags],
-                                                      highHandBonus: highHandBonus,
-                                                      isTournament: isTournament == "TRUE" || isTournament == "true" ? true : false,
-                                                      rebuyCount: isTournament == "TRUE" || isTournament == "true" ? tournamentRebuyCount : nil,
-                                                      tournamentSize: isTournament == "TRUE" || isTournament == "true" ? tournamentSize : nil,
-                                                      tournamentSpeed: isTournament == "TRUE" || isTournament == "true" ? tournamentSpeed : nil,
-                                                      entrants: isTournament == "TRUE" || isTournament == "true" ? entrants : nil,
-                                                      finish: isTournament == "TRUE" || isTournament == "true" ? tournamentFinish : nil,
-                                                      tournamentDays: isTournament == "TRUE" || isTournament == "true" ? 1 : nil,
-                                                      startTimeDayTwo: nil,
-                                                      endTimeDayTwo: nil)
+                importedSessions.append(oldSession)
                 
-                importedSessions.append(oldSessionModel)
                 
-            } else {
+            } else if columns.count == 23 {
+                // Extract only relevant data and create a PokerSession object
+                let game = columns[4].trimmingCharacters(in: .init(charactersIn: "\""))
+                let location = LocationModel_v2(name: columns[3].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let stakes = columns[5].trimmingCharacters(in: .init(charactersIn: "\""))
+                let date = convertToDateFromLeftPocket(columns[0].trimmingCharacters(in: .init(charactersIn: "\""))) ?? Date()
+                let profit = Int(columns[8]) ?? 0
+                let startTime = convertToDateFromLeftPocket(columns[1].trimmingCharacters(in: .init(charactersIn: "\""))) ?? Date().modifyTime(minutes: -180)
+                let endTime = convertToDateFromLeftPocket(columns[2].trimmingCharacters(in: .init(charactersIn: "\""))) ?? Date()
+                let expenses = Int(columns[9].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
+                let highHandBonus = Int(columns[10]) ?? 0
+                let buyIn = Int(columns[6]) ?? 0
+                let cashOut = Int(columns[7]) ?? 0
+                let tags = columns[21].trimmingCharacters(in: .init(charactersIn: "\""))
+                
+                // Tournament Data
+                let isTournament = columns[11].trimmingCharacters(in: .init(charactersIn: "\""))
+                let entrants = Int(columns[19].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
+                let rebuyCount = Int(columns[16].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
+                let finish = Int(columns[20].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let size = columns[17].trimmingCharacters(in: .init(charactersIn: "\""))
+                let speed = columns[18].trimmingCharacters(in: .init(charactersIn: "\""))
+                let isMultiDay = columns[12].trimmingCharacters(in: .init(charactersIn: "\""))
+                let days = Int(columns[13].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let startTimeDayTwo = convertToDateFromLeftPocket(columns[14].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let endTimeDayTwo = convertToDateFromLeftPocket(columns[15].trimmingCharacters(in: .init(charactersIn: "\"")))
+                
+                let session = PokerSession_v2(location: location,
+                                              date: date,
+                                              startTime: startTime,
+                                              endTime: endTime,
+                                              game: game,
+                                              stakes: stakes,
+                                              buyIn: buyIn,
+                                              cashOut: cashOut,
+                                              profit: profit,
+                                              expenses: expenses,
+                                              notes: "",
+                                              tags: tags.isEmpty ? [] : [tags],
+                                              highHandBonus: highHandBonus,
+                                              isTournament: isTournament == "TRUE" || isTournament == "true" ? true : false,
+                                              rebuyCount: isTournament == "TRUE" || isTournament == "true" ? rebuyCount : nil,
+                                              tournamentSize: isTournament == "TRUE" || isTournament == "true" ? size : nil,
+                                              tournamentSpeed: isTournament == "TRUE" || isTournament == "true" ? speed : nil,
+                                              entrants: isTournament == "TRUE" || isTournament == "true" ? entrants : nil,
+                                              finish: isTournament == "TRUE" || isTournament == "true" ? finish : nil,
+                                              tournamentDays: isTournament == "TRUE" || isTournament == "true" ? days : nil,
+                                              startTimeDayTwo: isMultiDay == "TRUE" || isMultiDay == "true" ? startTimeDayTwo : nil,
+                                              endTimeDayTwo: isMultiDay == "TRUE" || isMultiDay == "true" ? endTimeDayTwo : nil)
+                
+                importedSessions.append(session)
+            }
+            
+            else {
                 print("Column count: \(columns.count)")
                 throw ImportError.parsingFailed
             }

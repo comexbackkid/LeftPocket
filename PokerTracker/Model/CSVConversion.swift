@@ -32,7 +32,7 @@ class CSVConversion: ObservableObject {
     }
     
     static private func convertToCSV(data: [PokerSession_v2]) -> String {
-        var csvText = "Date,Start Time,End Time,Location,Game,Stakes,Buy In,Cash Out,Profit,Expenses,High Hands,Tournament,Multi-Day,Days,Rebuy Count,Size,Speed,Entrants,Finish,Tags,Notes\n"
+        var csvText = "Date,Start Time,End Time,Location,Game,Stakes,Buy In,Cash Out,Profit,Expenses,High Hands,Tournament,Multi-Day,Days,Day Two Start,Day Two End,Rebuy Count,Size,Speed,Entrants,Finish,Tags,Notes\n"
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
@@ -54,8 +54,9 @@ class CSVConversion: ObservableObject {
             let highHandBonus = "\(session.highHandBonus)"
             let isTournament = "\"\(session.isTournament)\""
             let isMultiDayTournament = session.tournamentDays ?? 1 > 1 ? "true" : "false"
-            // Need help on days
             let days = session.tournamentDays != nil ? "\(session.tournamentDays!)" : ""
+            let startTimeDayTwo = session.isTournament ? session.tournamentDays ?? 1 > 1 ? "\"\(dateFormatter.string(from: session.startTimeDayTwo!))\"" : "" : ""
+            let endTimeDayTwo = session.isTournament ? session.tournamentDays ?? 1 > 1 ? "\"\(dateFormatter.string(from: session.endTimeDayTwo!))\"" : "" : ""
             let rebuyCount = session.rebuyCount != nil ? "\(session.rebuyCount!)" : ""
             let size = session.tournamentSize != nil ? "\"\(session.tournamentSize!)\"" : ""
             let speed = session.tournamentSpeed != nil ? "\"\(session.tournamentSpeed!)\"" : ""
@@ -64,7 +65,7 @@ class CSVConversion: ObservableObject {
             let tags = session.tags.first ?? ""
             let notes = ""
             
-            let rowText = "\(date),\(startTime),\(endTime),\(location),\(game),\(stakes),\(buyIn),\(cashOut),\(profit),\(expenses),\(highHandBonus),\(isTournament),\(isMultiDayTournament),\(days),\(rebuyCount),\(size),\(speed),\(entrants),\(finish),\(tags),\(notes)\n"
+            let rowText = "\(date),\(startTime),\(endTime),\(location),\(game),\(stakes),\(buyIn),\(cashOut),\(profit),\(expenses),\(highHandBonus),\(isTournament),\(isMultiDayTournament),\(days),\(startTimeDayTwo),\(endTimeDayTwo),\(rebuyCount),\(size),\(speed),\(entrants),\(finish),\(tags),\(notes)\n"
             
             csvText.append(rowText)
         }

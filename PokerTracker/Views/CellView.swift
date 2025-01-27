@@ -63,7 +63,7 @@ struct CellView: View {
                                         .foregroundStyle(.secondary)
                                         .frame(width: 10, height: 10)
                                     
-                                    Text(" \(rebuyCount)x ")
+                                    Text(" \(rebuyCount + 1)x ")
                                         .captionStyle()
                                         .foregroundColor(.secondary)
                                 }

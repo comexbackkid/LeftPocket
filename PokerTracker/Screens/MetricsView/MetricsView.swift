@@ -423,18 +423,6 @@ struct AllStats: View {
             
             Divider()
             
-            HStack {
-                Text("Avg. ROI")
-                    .foregroundColor(.secondary)
-                
-                Spacer()
-                
-                Text(avgROI)
-                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
-            }
-            
-            Divider()
-            
             HStack (alignment: .lastTextBaseline, spacing: 4) {
                 Text("High Hand Bonuses")
                     .foregroundColor(.secondary)
@@ -460,7 +448,18 @@ struct AllStats: View {
                 Text(highHandBonus, format: .currency(code: currencyType).precision(.fractionLength(0)))
                     .metricsProfitColor(for: highHandBonus)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
-                                    
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Avg. ROI")
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Text(avgROI)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
