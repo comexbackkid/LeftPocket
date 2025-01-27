@@ -49,7 +49,7 @@ struct TagReport: View {
 //        }
     }
     var taggedSessions: [PokerSession_v2]? {
-        return viewModel.sessions.filter({ $0.tags.first == tagsFilter && !$0.tags.isEmpty })
+        return viewModel.sessions.filter({ $0.tags.first == tagsFilter })
     }
     
     var body: some View {
@@ -86,6 +86,7 @@ struct TagReport: View {
             
             BankrollLineChart(customDateRange: taggedSessions, showTitle: true, showYAxis: true, showRangeSelector: false, showPatternBackground: false, overlayAnnotation: false, showToggleAndFilter: false)
                 .padding(20)
+                .padding(.bottom)
                 .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)
                 .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                 .cornerRadius(12)
