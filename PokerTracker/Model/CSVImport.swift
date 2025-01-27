@@ -334,12 +334,11 @@ class CSVImporter {
                 // Tournament Data
                 let isTournament = columns[11].trimmingCharacters(in: .init(charactersIn: "\""))
                 let entrants = Int(columns[14].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
-                let tournamentRebuyDollarValue = Int(columns[16].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
+                let tournamentRebuyDollarValue = Int(columns[6].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
                 let rebuyCount = Int(safeDivide(numerator: Double(tournamentRebuyDollarValue), denominator: Double(buyIn)))
                 let finish = Int(columns[15].trimmingCharacters(in: .init(charactersIn: "\"")))
                 let size = columns[12].trimmingCharacters(in: .init(charactersIn: "\""))
                 let speed = columns[13].trimmingCharacters(in: .init(charactersIn: "\""))
-                let isMultiDay = "false"
                 let days = 1
 
                 let oldSession = PokerSession_v2(location: location,
