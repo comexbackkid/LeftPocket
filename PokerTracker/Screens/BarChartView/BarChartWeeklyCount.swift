@@ -48,41 +48,57 @@ struct BarChartWeeklySessionCount: View {
                         .cardTitleStyle()
                     
                     Spacer()
-                    
                 }
                 .padding(.bottom, 40)
             }
             
             barChart
-
+            
+            
         }
     }
     
     var barChart: some View {
         
-        Chart {
-            
-            ForEach(hoursByWeek, id: \.weekOfYear) { weekData in
+        VStack {
+            Chart {
                 
-                BarMark(x: .value("Week", weekData.weekOfYear), y: .value("Hours", weekData.totalHours), width: 4)
-                    .cornerRadius(30)
-                    .foregroundStyle(.cyan.gradient)
+                ForEach(hoursByWeek, id: \.weekOfYear) { weekData in
+                    
+                    BarMark(x: .value("Week", weekData.weekOfYear), y: .value("Hours", weekData.totalHours), width: 4)
+                        .cornerRadius(30)
+                        .foregroundStyle(.cyan.gradient)
+                }
             }
-        }
-        .chartXScale(domain: [1, 52])
-        .chartXAxis(.hidden)
-        .chartYAxis {
-            AxisMarks(position: .leading) { value in
-                AxisGridLine()
-                    .foregroundStyle(.gray.opacity(0.33))
-                AxisValueLabel() {
-                    if let intValue = value.as(Int.self) {
-                        Text("\(intValue)")
-                            .captionStyle()
-                            .padding(.trailing, 10)
+            .chartXScale(domain: [1, 52])
+            .chartXAxis(.hidden)
+            .chartYAxis {
+                AxisMarks(position: .leading) { value in
+                    AxisGridLine()
+                        .foregroundStyle(.gray.opacity(0.33))
+                    AxisValueLabel() {
+                        if let intValue = value.as(Int.self) {
+                            Text("\(intValue)h")
+                                .captionStyle()
+                                .padding(.trailing, 10)
+                        }
                     }
                 }
             }
+            
+            HStack {
+                Text("Jan")
+                    .captionStyle()
+                    .foregroundStyle(.secondary)
+                
+                Spacer()
+                
+                Text("Dec")
+                    .captionStyle()
+                    .foregroundStyle(.secondary)
+            }
+            .padding(.leading, 28)
+            .padding(.top, 2)
         }
     }
 }

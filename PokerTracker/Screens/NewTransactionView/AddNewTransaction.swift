@@ -345,7 +345,7 @@ struct AddNewTransaction: View {
     
     private func saveButtonPressed() {
         guard isValidForm else { return }
-        vm.addTransaction(date: date, type: type!, amount: Int(amount) ?? 0, notes: notes, tags: [tags])
+        vm.addTransaction(date: date, type: type!, amount: Int(amount) ?? 0, notes: notes, tags: tags.isEmpty ? nil : [tags])
         showNewTransaction = false
     }
 }
