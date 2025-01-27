@@ -307,12 +307,9 @@ struct MetricsView: View {
                 .padding(.bottom)
                 
                 switch sessionFilter {
-                case .all:
-                    AllStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
-                case .cash:
-                    CashStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
-                case .tournaments:
-                    TournamentStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
+                case .all: AllStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
+                case .cash: CashStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
+                case .tournaments: TournamentStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
                 }
                 
                 rangeSelector
@@ -324,13 +321,14 @@ struct MetricsView: View {
     
     var rangeSelector: some View {
         
-        HStack (spacing: 13) {
+        HStack (spacing: 10) {
             
             ForEach(RangeSelection.allCases, id: \.self) { range in
                 Button {
                     let impact = UIImpactFeedbackGenerator(style: .soft)
                     impact.impactOccurred()
                     statsRange = range
+                    
                 } label: {
                     Text("\(range.displayName)")
                         .bodyStyle()
@@ -936,7 +934,13 @@ struct AdditionalMetricsView: View {
                             Text("__Annual Report__ \(Image(systemName: "arrow.turn.up.right"))")
                                 .bodyStyle()
                         }
+                        
+                        Spacer()
                     }
+                    .padding(12)
+                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                    .cornerRadius(12)
 
                     HStack(spacing: 0) {
                         Text("View your ")
@@ -948,7 +952,13 @@ struct AdditionalMetricsView: View {
                             Text("__Health Analytics__ \(Image(systemName: "arrow.turn.up.right"))")
                                 .bodyStyle()
                         }
+                        
+                        Spacer()
                     }
+                    .padding(12)
+                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                    .cornerRadius(12)
 
                     HStack(spacing: 0) {
                         Text("View your ")
@@ -960,7 +970,13 @@ struct AdditionalMetricsView: View {
                             Text("__Monthly Snapshot__ \(Image(systemName: "arrow.turn.up.right"))")
                                 .bodyStyle()
                         }
+                        
+                        Spacer()
                     }
+                    .padding(12)
+                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                    .cornerRadius(12)
 
                     HStack(spacing: 0) {
                         Text("View your ")
@@ -972,7 +988,13 @@ struct AdditionalMetricsView: View {
                             Text("__Tournament Report__ \(Image(systemName: "arrow.turn.up.right"))")
                                 .bodyStyle()
                         }
+                        
+                        Spacer()
                     }
+                    .padding(12)
+                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                    .cornerRadius(12)
 
                     HStack(spacing: 0) {
                         Text("View your ")
@@ -984,7 +1006,13 @@ struct AdditionalMetricsView: View {
                             Text("__Location Statistics__ \(Image(systemName: "arrow.turn.up.right"))")
                                 .bodyStyle()
                         }
+                        
+                        Spacer()
                     }
+                    .padding(12)
+                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                    .cornerRadius(12)
 
                     HStack(spacing: 0) {
                         Text("View your ")
@@ -996,7 +1024,13 @@ struct AdditionalMetricsView: View {
                             Text("__Game Stakes__ \(Image(systemName: "arrow.turn.up.right"))")
                                 .bodyStyle()
                         }
+                        
+                        Spacer()
                     }
+                    .padding(12)
+                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                    .cornerRadius(12)
 
                     HStack(spacing: 0) {
                         Text("View your ")
@@ -1008,7 +1042,13 @@ struct AdditionalMetricsView: View {
                             Text("__Tags Report__ \(Image(systemName: "arrow.turn.up.right"))")
                                 .bodyStyle()
                         }
+                        
+                        Spacer()
                     }
+                    .padding(12)
+                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                    .cornerRadius(12)
                 }
                 .padding(.horizontal)
                 .padding(.top)

@@ -67,6 +67,7 @@ struct BankrollLineChart: View {
                         var defaultProfit: Int {
                             if selectedIndex == 0 {
                                 return convertedData.first!
+                                
                             } else {
                                 return convertedData.last!
                             }
@@ -96,9 +97,7 @@ struct BankrollLineChart: View {
                     Spacer()
                     
                     if showToggleAndFilter {
-                        
                         fullScreenToggleButton
-                        
                         filterButton
                     }
                 }
@@ -246,7 +245,7 @@ struct BankrollLineChart: View {
     
     var rangeSelector: some View {
         
-        HStack (spacing: 13) {
+        HStack (spacing: 10) {
             
             ForEach(RangeSelection.allCases, id: \.self) { range in
                 Button {
