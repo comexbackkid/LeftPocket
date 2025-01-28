@@ -29,8 +29,8 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).tag(1)
             
-            PageView(title: "Log Poker Sessions Fast",
-                     subtitle: Text("Add a completed Session, or activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar from any screen. To enter rebuys, press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Use Transactions to log deposits, withdrawals, & expenses to your bankroll."),
+            PageView(title: "Easy Live Session Tracking",
+                     subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Monitoring from your lock screen too!"),
                      imageName: "doc.text",
                      videoURL: "logging-sessions-new",
                      showDismissButton: false,
@@ -45,29 +45,37 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).tag(3)
             
-            PageView(title: "Advanced Data Reports",
+            PageView(title: "Session Tagging, Reports",
+                     subtitle: Text("Sessions & Transactions with a Tag \(Image(systemName: "tag.fill")) you created can be filtered & grouped together in a custom report for things like a trip, or bankroll challenge."),
+                     imageName: "chart.line.uptrend.xyaxis",
+                     videoURL: "tag-reporting",
+                     showDismissButton: false,
+                     nextAction: nextPage,
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(4)
+            
+            PageView(title: "Advanced Data Metrics",
                      subtitle: Text("One place for all your important player data. Reports & analytics on location performance, stakes, month-by-month returns, & much more."),
                      imageName: "paintbrush",
                      videoURL: "advanced-reporting",
                      showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(4)
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(5)
             
             PageView(title: "Home Screen Widgets",
-                     subtitle: Text("Add a stunning bankroll widget to your home screen! Touch & hold an empty area of your home screen until the apps jiggle. Then press the \"Edit\" button, followed by \"Add Widget\", & search for Left Pocket."),
+                     subtitle: Text("Touch & hold an empty area of your home screen until the apps jiggle. Then press the \"Edit\" button, followed by \"Add Widget\", & search for Left Pocket."),
                      imageName: "paintbrush",
                      videoURL: "homescreen-widget",
                      showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(5)
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(6)
             
             PageView(title: "Health & Mental State",
-                     subtitle: Text("For an optimal experience, Left Pocket needs access to your Health information. This allows us to display your sleep hours & mindful minutes within our Health Analytics section, & integrate numbers measured by other devices, like an Apple Watch."),
+                     subtitle: Text("For an optimal experience, Left Pocket will request access to your Health info. This allows us to display your sleep hours & mindful minutes within our Health Analytics section, & integrate these numbers measured by other devices, like an Apple Watch."),
                      imageName: "paintbrush",
                      videoURL: "health-metrics",
                      showDismissButton: true,
                      nextAction: { hkManager.requestAuthorization() },
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(6)
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(7)
         }
         .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)

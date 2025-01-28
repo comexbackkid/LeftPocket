@@ -898,8 +898,6 @@ struct AdditionalMetricsView: View {
                     .padding(.horizontal)
                     .padding(.top)
                 
-                Spacer()
-                
                 HStack (spacing: 0) {
                     Button {
                         let impact = UIImpactFeedbackGenerator(style: .soft)
@@ -919,7 +917,8 @@ struct AdditionalMetricsView: View {
                         .bodyStyle()
                         .foregroundStyle(Color.brandPrimary)
                 }
-                .padding(.trailing, 20)
+                
+                Spacer()
             }
             
             if showReportsAsList {
