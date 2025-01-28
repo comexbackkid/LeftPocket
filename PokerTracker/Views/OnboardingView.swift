@@ -45,18 +45,18 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).tag(3)
             
-            PageView(title: "Session Tagging, Reports",
-                     subtitle: Text("Sessions & Transactions with a Tag \(Image(systemName: "tag.fill")) you created can be filtered & grouped together in a custom report for things like a trip, or bankroll challenge."),
+            PageView(title: "Know When to Move Up",
+                     subtitle: Text("Insightful charts, progress rings, & player metrics help you keep a thumb on your poker performance so you know exactly when to climb stakes."),
                      imageName: "chart.line.uptrend.xyaxis",
-                     videoURL: "tag-reporting",
+                     videoURL: "metrics-screen",
                      showDismissButton: false,
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).tag(4)
             
-            PageView(title: "Advanced Data Metrics",
-                     subtitle: Text("One place for all your important player data. Reports & analytics on location performance, stakes, month-by-month returns, & much more."),
-                     imageName: "paintbrush",
-                     videoURL: "advanced-reporting",
+            PageView(title: "Session Tagging, Reports",
+                     subtitle: Text("Sessions & Transactions with a Tag \(Image(systemName: "tag.fill")) you created can be filtered & grouped together in a custom report for things like a trip, or bankroll challenge."),
+                     imageName: "chart.line.uptrend.xyaxis",
+                     videoURL: "tag-reporting",
                      showDismissButton: false,
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).tag(5)
@@ -69,13 +69,21 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).tag(6)
             
+            PageView(title: "Advanced Data Metrics",
+                     subtitle: Text("One place for all your important player data. Reports & analytics on location performance, stakes, month-by-month returns, & much more."),
+                     imageName: "paintbrush",
+                     videoURL: "advanced-reporting",
+                     showDismissButton: false,
+                     nextAction: nextPage,
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(7)
+            
             PageView(title: "Health & Mental State",
                      subtitle: Text("For an optimal experience, Left Pocket will request access to your Health info. This allows us to display your sleep hours & mindful minutes within our Health Analytics section, & integrate these numbers measured by other devices, like an Apple Watch."),
                      imageName: "paintbrush",
                      videoURL: "health-metrics",
                      showDismissButton: true,
                      nextAction: { hkManager.requestAuthorization() },
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(7)
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(8)
         }
         .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)
