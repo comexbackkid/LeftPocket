@@ -37,8 +37,8 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).tag(2)
             
-            PageView(title: "Add Locations & Photos",
-                     subtitle: Text("Enter your own custom locations and header photos. Just navigate to the Settings \(Image(systemName: "gearshape.fill")) screen, tap on Locations, and then press the \(Image(systemName: "plus")) button."),
+            PageView(title: "Custom Location Images",
+                     subtitle: Text("Add your own custom locations and header photos. Just navigate to the Settings \(Image(systemName: "gearshape.fill")) screen, tap on Locations, and then press the \(Image(systemName: "plus")) button."),
                      imageName: "chart.line.uptrend.xyaxis",
                      videoURL: "custom-locations",
                      showDismissButton: false,
@@ -62,7 +62,7 @@ struct OnboardingView: View {
                      shouldShowOnboarding: $shouldShowOnboarding).tag(5)
             
             PageView(title: "Home Screen Widgets",
-                     subtitle: Text("Touch & hold an empty area of your home screen until the apps jiggle. Then press the \"Edit\" button, followed by \"Add Widget\", & search for Left Pocket."),
+                     subtitle: Text("Touch & hold an empty area of your home screen until the apps jiggle. Then press the \"Edit\" button, followed by \"Add Widget,\" & search for Left Pocket."),
                      imageName: "paintbrush",
                      videoURL: "homescreen-widget",
                      showDismissButton: false,
@@ -70,7 +70,7 @@ struct OnboardingView: View {
                      shouldShowOnboarding: $shouldShowOnboarding).tag(6)
             
             PageView(title: "Advanced Data Metrics",
-                     subtitle: Text("One place for all your important player data. Reports & analytics on location performance, stakes, month-by-month returns, & much more."),
+                     subtitle: Text("One place for all your important player data. Reports & analytics on location performance, stakes, monthly returns, & so much more."),
                      imageName: "paintbrush",
                      videoURL: "advanced-reporting",
                      showDismissButton: false,
@@ -78,7 +78,7 @@ struct OnboardingView: View {
                      shouldShowOnboarding: $shouldShowOnboarding).tag(7)
             
             PageView(title: "Health & Mental State",
-                     subtitle: Text("For an optimal experience, Left Pocket will request access to your Health info. This allows us to display your sleep hours & mindful minutes within our Health Analytics section, & integrate these numbers measured by other devices, like an Apple Watch."),
+                     subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours & mindful minutes in our Health Analytics page, & integrate these numbers measured by other devices, like an Apple Watch."),
                      imageName: "paintbrush",
                      videoURL: "health-metrics",
                      showDismissButton: true,
