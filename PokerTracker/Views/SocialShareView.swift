@@ -67,8 +67,8 @@ struct SocialShareView: View {
                     .foregroundStyle(.secondary)
                 
             } else {
-                
-                Text("In the Tournament for \(pokerSession.buyIn.asCurrency()) total")
+                let totalBuyIn = pokerSession.buyIn + ((pokerSession.rebuyCount ?? 0) * pokerSession.buyIn)
+                Text("In the Tournament for \(totalBuyIn.asCurrency()) total")
                     .calloutStyle()
                     .foregroundStyle(.secondary)
             }
