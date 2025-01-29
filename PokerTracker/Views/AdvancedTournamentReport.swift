@@ -29,8 +29,6 @@ struct AdvancedTournamentReport: View {
     var body: some View {
         
         ScrollView {
-            
-            VStack { }.frame(height: 40)
                 
             monthlyTotals
             
@@ -145,6 +143,7 @@ struct AdvancedTournamentReport: View {
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+        .padding(.top)
     }
     
     var yearTotals: some View {

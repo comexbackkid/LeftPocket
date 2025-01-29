@@ -24,6 +24,7 @@ struct SessionDefaultsView: View {
     @State private var game = ""
     @State private var speed = ""
     @State private var size = ""
+    @State private var handsPerHour = ""
     @State private var currency: CurrencyType = .USD
     @State private var resultMessage: String = ""
     @State private var errorMessage: String?
@@ -540,6 +541,32 @@ struct SessionDefaultsView: View {
                 }
                 .tint(.brandPrimary)
             }
+            .padding(.bottom, 10)
+            
+//            HStack {
+//                
+//                Image(systemName: "banknote.fill")
+//                    .font(.system(size: 24, weight: .bold))
+//                    .foregroundColor(Color(.systemGray3))
+//                    .frame(width: 30)
+//                
+//                Text("Hands Per Hour")
+//                    .bodyStyle()
+//                    .padding(.leading, 4)
+//                
+//                Spacer()
+//                
+//                TextField("25", text: $handsPerHour)
+//                .transaction { transaction in
+//                    transaction.animation = nil
+//                }
+//                .padding(10)
+//                .padding(.leading, 2)
+//                .background(.gray.opacity(0.2))
+//                .cornerRadius(15)
+//                .frame(width: 75)
+//            }
+//            .padding(.bottom, 10)
             
         }
         .padding(.horizontal, 25)
@@ -556,7 +583,7 @@ struct SessionDefaultsView: View {
         } label: {
             PrimaryButton(title: "Save")
         }
-        .padding(.top)
+        .padding(.top, 4)
         
     }
     

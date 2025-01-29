@@ -66,7 +66,7 @@ struct ProfitByStakesView: View {
                         FilterTag(type: "Filter", filterName: "\(yearFilter)")
                     }
                 }
-                .padding(.top, showCustomDatesTag == true || yearFilter != nil ? 30 : 50)
+                .padding(.top, showCustomDatesTag == true || yearFilter != nil ? 30 : 10)
                 .padding(.trailing, 20)
                 
                 VStack (spacing: 10) {

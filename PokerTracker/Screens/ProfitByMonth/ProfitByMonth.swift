@@ -17,14 +17,12 @@ struct ProfitByMonth: View {
     var body: some View {
         
         ScrollView {
-            
-            VStack { }.frame(height: 40)
-            
+                        
             let monthlyReportTip = MonthlyReportTip()
             TipView(monthlyReportTip)
                 .tipViewStyle(CustomTipViewStyle())
                 .padding(.horizontal, 20)
-                .padding(.bottom)
+                .padding(.top)
             
             monthlyTotals
                 
@@ -136,14 +134,17 @@ struct ProfitByMonth: View {
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+        .padding(.top)
     }
     
     var yearTotal: some View {
         
         VStack (spacing: 7) {
             
+            let filteredSessions = vm.sessions.filter({ $0.date.getYear() == yearFilter })
             let bankrollTotalByYear = vm.bankrollByYear(year: yearFilter, sessionFilter: .all)
-            let totalHoursPlayed = vm.sessions.filter({ $0.date.getYear() == yearFilter }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+            let totalHoursPlayed = filteredSessions.map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+            let bestMonth = vm.mostProfitableMonth(in: filteredSessions)
             
             HStack {
                 Image(systemName: "dollarsign")
@@ -182,6 +183,19 @@ struct ProfitByMonth: View {
                 Spacer()
                 
                 Text("\(vm.sessions.filter({ $0.date.getYear() == yearFilter }).count)")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
+            }
+            
+            HStack {
+                Image(systemName: "calendar")
+                    .frame(width: 20)
+                    .foregroundColor(Color(.systemGray))
+                
+                Text("Best Month")
+                
+                Spacer()
+                
+                Text(bestMonth)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
         }
