@@ -30,7 +30,7 @@ struct OnboardingView: View {
                      shouldShowOnboarding: $shouldShowOnboarding).tag(1)
             
             PageView(title: "Easy Live Session Tracking",
-                     subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Monitoring from your lock screen too!"),
+                     subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Monitor from your lock screen too!"),
                      imageName: "doc.text",
                      videoURL: "logging-sessions-new",
                      showDismissButton: false,
@@ -53,7 +53,7 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).tag(4)
             
-            PageView(title: "Session Tagging, Reports",
+            PageView(title: "Session Tags & Reports",
                      subtitle: Text("Sessions & Transactions with a Tag \(Image(systemName: "tag.fill")) you created can be filtered & grouped together in a custom report for things like a trip, or bankroll challenge."),
                      imageName: "chart.line.uptrend.xyaxis",
                      videoURL: "tag-reporting",
