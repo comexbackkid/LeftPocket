@@ -78,30 +78,26 @@ struct UserSettings: View {
                     }
                     
                     if !subManager.isSubscribed {
-                        
                         Button {
-                            
                             let impact = UIImpactFeedbackGenerator(style: .soft)
                             impact.impactOccurred()
                             showPaywall = true
                             
                         } label: {
-                            
                             HStack {
                                 Spacer()
-                                VStack {
-                                    Text("✨ Try Left Pocket Pro FREE ✨")
+                                VStack (spacing: 3) {
+                                    Text("⚡️ Try Left Pocket Pro FREE ⚡️")
                                         .subtitleStyle()
-                                        .foregroundStyle(.white)
                                     
                                     Text("Unlock access to all premium features")
                                         .captionStyle()
-                                        .foregroundStyle(.white)
+                                        .opacity(0.75)
                                 }
                                 Spacer()
                             }
                             .frame(height: 75)
-                            .background(Color.brandPrimary.gradient)
+                            .background(.ultraThinMaterial)
                             .clipShape(.rect(cornerRadius: 15))
                             .padding(.bottom, 25)
                         }
@@ -647,6 +643,5 @@ struct UserSettings_Previews: PreviewProvider {
         UserSettings(isDarkMode: .constant(false), systemThemeEnabled: .constant(true))
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
-            .preferredColorScheme(.dark)
     }
 }

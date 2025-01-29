@@ -159,6 +159,7 @@ struct AdvancedTournamentReport: View {
             let tournamentCount = tournamentListByYear.count
             let roi = yearlyTournamentROI(tournaments: tournamentListByYear)
             let hoursPlayed = tournamentListByYear.map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+            let bullets = (tournamentListByYear.map { $0.rebuyCount ?? 0 }.reduce(0, +)) + tournamentCount
             
             HStack {
                 Image(systemName: "trophy.fill")
@@ -238,6 +239,19 @@ struct AdvancedTournamentReport: View {
                 Spacer()
                 
                 Text("\(tournamentCount)")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
+            }
+            
+            HStack {
+                Image("bullet-pointed-icon")
+                    .frame(width: 20)
+                    .foregroundColor(Color(.systemGray))
+                
+                Text("Bullets Fired")
+                
+                Spacer()
+                
+                Text("\(bullets)")
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
         }

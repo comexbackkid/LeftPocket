@@ -17,11 +17,11 @@ class MigrationHandler {
         let newSessionsURL = documentsURL.appendingPathComponent("sessions_v2.json")
         
         do {
-            // Step 1: Load old sessions
+            // Step 1: Load old Sessions
             let oldData = try Data(contentsOf: oldSessionsURL)
             let oldSessions = try JSONDecoder().decode([PokerSession].self, from: oldData)
             
-            // Step 2: Migrate each old session to the new structure
+            // Step 2: Migrate each old Session to the new model
             let newSessions = oldSessions.map { oldSession -> PokerSession_v2 in
                 PokerSession_v2(id: oldSession.id,
                                 location: convertToLocationModelV2(oldSession.location),
@@ -39,7 +39,6 @@ class MigrationHandler {
                                 highHandBonus: oldSession.highHandBonus ?? 0,
                                 
                                 // Tournament Specific Data
-                                
                                 isTournament: oldSession.isTournament ?? false,
                                 rebuyCount: oldSession.rebuyCount,
                                 tournamentSize: oldSession.tournamentSize,
