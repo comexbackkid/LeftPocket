@@ -14,7 +14,6 @@ struct OnboardingView: View {
     
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var hkManager: HealthKitManager
-
     @Binding var shouldShowOnboarding: Bool
     @State private var selectedPage: Int = 0
     @State private var showPaywall = false
@@ -23,11 +22,15 @@ struct OnboardingView: View {
         
         TabView(selection: $selectedPage) {
             
-            WelcomeScreen(selectedPage: $selectedPage).tag(0)
+            WelcomeScreen(selectedPage: $selectedPage).tag(0).gesture(DragGesture())
             
             PollView(showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(1)
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(1).gesture(DragGesture())
+            
+            StartingBankroll(showDismissButton: false,
+                             nextAction: nextPage,
+                             shouldShowOnboarding: $shouldShowOnboarding).tag(2).gesture(DragGesture())
             
             PageView(title: "Easy Live Session Tracking",
                      subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Monitor from your lock screen too!"),
@@ -35,7 +38,7 @@ struct OnboardingView: View {
                      videoURL: "logging-sessions-new",
                      showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(2)
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(3).gesture(DragGesture())
             
             PageView(title: "Custom Location Images",
                      subtitle: Text("Add your own custom locations and header photos. Just navigate to the Settings \(Image(systemName: "gearshape.fill")) screen, tap on Locations, and then press the \(Image(systemName: "plus")) button."),
@@ -43,7 +46,7 @@ struct OnboardingView: View {
                      videoURL: "custom-locations",
                      showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(3)
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(4).gesture(DragGesture())
             
             PageView(title: "Know When to Move Up",
                      subtitle: Text("Insightful charts, progress rings, & player metrics help you keep a thumb on your poker performance so you know exactly when to climb stakes."),
@@ -51,7 +54,7 @@ struct OnboardingView: View {
                      videoURL: "metrics-screen",
                      showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(4)
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(5).gesture(DragGesture())
             
             PageView(title: "Session Tags & Reports",
                      subtitle: Text("Sessions & Transactions with a Tag \(Image(systemName: "tag.fill")) you created can be filtered & grouped together in a custom report for things like a trip, or bankroll challenge."),
@@ -59,7 +62,7 @@ struct OnboardingView: View {
                      videoURL: "tag-reporting",
                      showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(5)
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(6).gesture(DragGesture())
             
             PageView(title: "Home Screen Widgets",
                      subtitle: Text("Touch & hold an empty area of your home screen until the apps jiggle. Then press the \"Edit\" button, followed by \"Add Widget,\" & search for Left Pocket."),
@@ -67,7 +70,7 @@ struct OnboardingView: View {
                      videoURL: "homescreen-widget",
                      showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(6)
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(7).gesture(DragGesture())
             
             PageView(title: "Advanced Data Metrics",
                      subtitle: Text("One place for all your important player data. Reports & analytics on location performance, stakes, monthly returns, & so much more."),
@@ -75,7 +78,7 @@ struct OnboardingView: View {
                      videoURL: "advanced-reporting",
                      showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(7)
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(8).gesture(DragGesture())
             
             PageView(title: "Health & Mental State",
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours & mindful minutes in our Health Analytics page, & integrate these numbers measured by other devices, like an Apple Watch."),
@@ -83,13 +86,12 @@ struct OnboardingView: View {
                      videoURL: "health-metrics",
                      showDismissButton: true,
                      nextAction: { hkManager.requestAuthorization() },
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(8)
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(9).gesture(DragGesture())
         }
         .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)
         .onBoardingBackgroundStyle(colorScheme: .light)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-        .preferredColorScheme(.dark)
         .onChange(of: hkManager.authorizationStatus, perform: { state in
             if state != .notDetermined {
                 showPaywall = true
@@ -120,7 +122,6 @@ struct OnboardingView: View {
         }
         .task {
             for await customerInfo in Purchases.shared.customerInfoStream {
-                
                 showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
                 await subManager.checkSubscriptionStatus()
             }
@@ -196,7 +197,6 @@ struct PageView: View {
                 Text("Error. Video file not found.")
             }
         }
-        
     }
     
     var nextButton: some View {
@@ -207,7 +207,6 @@ struct PageView: View {
             nextAction()
             
         } label: {
-            
             Text(showDismissButton ? "Let's Do It" : "Continue")
                 .buttonTextStyle()
                 .foregroundColor(.black)
@@ -217,7 +216,6 @@ struct PageView: View {
                 .cornerRadius(30)
                 .padding(.horizontal, 20)
                 .padding(.bottom, 50)
-            
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -236,7 +234,6 @@ struct PageView: View {
             self.player?.play()
         }
     }
-    
 }
 
 struct PollView: View {
@@ -304,6 +301,106 @@ struct PollView: View {
             Button {
                 let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
+                nextAction()
+                
+            } label: {
+                Text(showDismissButton ? "Let's Do It" : "Continue")
+                    .buttonTextStyle()
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background(.white)
+                    .cornerRadius(30)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 50)
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+    }
+}
+
+struct StartingBankroll: View {
+    
+    let showDismissButton: Bool
+    var nextAction: () -> Void
+    
+    @AppStorage("savedStartingBankroll") private var savedStartingBankroll: String = ""
+    @State private var startingBankrollTextField: String = ""
+    @Binding var shouldShowOnboarding: Bool
+    @FocusState var isFocused: Bool
+    
+    var body: some View {
+        
+        VStack {
+            
+            VStack (alignment: .leading) {
+                
+                Spacer()
+                
+                Text("Are you starting off with a bankroll today? Enter it below.")
+                    .signInTitleStyle()
+                    .foregroundColor(.brandWhite)
+                    .fontWeight(.black)
+                    .padding(.bottom, 5)
+                
+                Text("(You can skip this step, and if you wish, later import data from a different bankroll tracker)")
+                    .calloutStyle()
+                    .opacity(0.7)
+                    .padding(.bottom, 20)
+                
+                HStack {
+                    
+                    Text("$")
+                        .font(.system(size: 25))
+                        .frame(width: 17)
+                        .foregroundColor(startingBankrollTextField.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+            
+                    TextField("", text: $startingBankrollTextField)
+                        .focused($isFocused, equals: true)
+                        .font(.custom("Asap-Bold", size: 25))
+                        .keyboardType(.numberPad)
+                        .onSubmit {
+                            isFocused = false
+                        }
+                        .toolbar {
+                            ToolbarItem(placement: .keyboard) {
+                                Button("Done") { isFocused = false }
+                            }
+                        }
+                }
+                .padding(.horizontal, 18)
+                .padding(.vertical, 14)
+                .background(.gray.opacity(0.2))
+                .cornerRadius(15)
+                .overlay {
+                    if !startingBankrollTextField.isEmpty {
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(Color.lightGreen, lineWidth: 1.5)
+                    }
+                }
+                
+                Spacer()
+        
+            }
+            .padding(.horizontal, 20)
+            
+            Spacer()
+            
+            Button {
+                nextAction()
+            } label: {
+                Text("Skip this step, I'll do it later")
+                    .subHeadlineStyle()
+                    .buttonStyle(.plain)
+            }
+            .buttonStyle(.plain)
+            .padding(.bottom, 12)
+            
+            Button {
+                let impact = UIImpactFeedbackGenerator(style: .heavy)
+                impact.impactOccurred()
+                isFocused = false
+                savedStartingBankroll = startingBankrollTextField
                 nextAction()
                 
             } label: {

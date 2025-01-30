@@ -108,66 +108,58 @@ struct SessionsListView: View {
             
             ZStack {
                 
-                if vm.sessions.isEmpty {
-                    
-                    startingScreen
-                    
-                } else {
-                    
-                    switch listFilter {
-                    case .sessions:
+                switch listFilter {
+                case .sessions:
+                    if vm.sessions.isEmpty {
+                        VStack {
+                            screenTitle
+                            Spacer()
+                        }
                         
-                        if !filteredSessions.isEmpty {
-                            List {
-                                screenTitle
-                                
-                                ForEach(filteredSessions) { session in
-                                    NavigationLink(
-                                        destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session),
-                                        label: {
-                                            CellView(pokerSession: session, currency: vm.userCurrency, viewStyle: $viewStyle)
-                                        })
+                    } else {
+                        List {
+                            screenTitle
+                            
+                            ForEach(filteredSessions) { session in
+                                NavigationLink(destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session)) {
+                                    CellView(pokerSession: session, currency: vm.userCurrency, viewStyle: $viewStyle)
+                                }
+                                .listRowBackground(Color.brandBackground)
+                                .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 18))
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                    swipeActions(session)
+                                }
+                            }
+                        }
+                        .listStyle(.plain)
+                        .padding(.bottom, 50)
+                        .sheet(item: $selectedSession) { session in
+                            EditSession(pokerSession: session)
+                        }
+                    }
+                    
+                case .transactions:
+                    if vm.transactions.isEmpty {
+                        VStack {
+                            screenTitle
+                            Spacer()
+                        }
+                        
+                    } else {
+                        List {
+                            screenTitle
+                            
+                            ForEach(filteredTransactions, id: \.self) { transaction in
+                                TransactionCellView(transaction: transaction, currency: vm.userCurrency)
                                     .listRowBackground(Color.brandBackground)
                                     .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 18))
-                                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                        swipeActions(session)
-                                    }
-                                }
                             }
-                            .listStyle(.plain)
-                            .padding(.bottom, 50)
-                            .sheet(item: $selectedSession) { session in
-                                EditSession(pokerSession: session)
-                            }
-                            
-                            filterTip
-                            
-                        } else {
-                            
-                            emptySessionsView
+                            .onDelete(perform: { indexSet in
+                                deleteTransaction(at: indexSet)
+                            })
                         }
-                        
-                    case .transactions:
-                        
-                        if !filteredTransactions.isEmpty {
-                            List {
-                                screenTitle
-                                
-                                ForEach(filteredTransactions, id: \.self) { transaction in
-                                    TransactionCellView(transaction: transaction, currency: vm.userCurrency)
-                                        .listRowBackground(Color.brandBackground)
-                                        .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 18))
-                                }
-                                .onDelete(perform: { indexSet in
-                                    deleteTransaction(at: indexSet)
-                                })
-                            }
-                            .listStyle(.plain)
-                            .padding(.bottom, 50)
-                            
-                        } else {
-                            emptyTransactionsView
-                        }
+                        .listStyle(.plain)
+                        .padding(.bottom, 50)
                     }
                 }
             }
@@ -175,35 +167,31 @@ struct SessionsListView: View {
             .accentColor(.brandPrimary)
             .background(Color.brandBackground)
             .toolbar {
-                if !vm.sessions.isEmpty {
-                    
-                    VStack {
-                        switch listFilter {
-                        case .sessions:
-                            
-                            Button {
-                                listFilter = .transactions
-                            } label: {
-                                Image(systemName: "creditcard.fill")
-                            }
-                            
-                        case .transactions:
-                            
-                            Button {
-                                listFilter = .sessions
-                            } label: {
-                                Image(systemName: "suit.club.fill")
-                            }
+                VStack {
+                    switch listFilter {
+                    case .sessions:
+                        
+                        Button {
+                            listFilter = .transactions
+                        } label: {
+                            Image(systemName: "creditcard.fill")
+                        }
+                        
+                    case .transactions:
+                        
+                        Button {
+                            listFilter = .sessions
+                        } label: {
+                            Image(systemName: "suit.club.fill")
                         }
                     }
-                    .frame(width: 25)
-                    
-                    toolbarFilter
                 }
+                .frame(width: 25)
+                
+                toolbarFilter
             }
             .onAppear {
                 if !datesInitialized {
-                    
                     startDate = firstSessionDate
                     datesInitialized = true
                 }
@@ -215,6 +203,12 @@ struct SessionsListView: View {
             }
         }
         .accentColor(.brandPrimary)
+        .overlay {
+            switch listFilter {
+            case .sessions: if vm.sessions.isEmpty { startingScreen }
+            case .transactions: if vm.transactions.isEmpty { startingScreen }
+            }
+        }
     }
     
     var toolbarFilter: some View {
@@ -323,35 +317,20 @@ struct SessionsListView: View {
     var startingScreen: some View {
         
         VStack {
+            var title: String {
+                switch listFilter {
+                case .sessions: "No Sessions"
+                case .transactions: "No Transactions"
+                }
+            }
+            
             Spacer()
-            EmptyState(title: "No Sessions", image: .sessions)
+            
+            EmptyState(title: title, image: .sessions)
+            
             Spacer()
         }
         .padding(.bottom, 50)
-    }
-    
-    var emptySessionsView: some View {
-        
-        VStack (alignment: .leading) {
-            
-            screenTitle
-            
-            Spacer()
-            EmptyState(title: "No Sessions", image: .sessions)
-            Spacer()
-        }
-    }
-    
-    var emptyTransactionsView: some View {
-        
-        VStack (alignment: .leading) {
-            
-            screenTitle
-            
-            Spacer()
-            EmptyState(title: "No Transactions", image: .sessions)
-            Spacer()
-        }
     }
     
     var screenTitle: some View {
@@ -372,11 +351,13 @@ struct SessionsListView: View {
             }
             let today = Calendar.current.startOfDay(for: Date.now)
             let normalizedEndDate = Calendar.current.startOfDay(for: endDate)
-            if startDate != firstSessionDate || normalizedEndDate != today {
-                FilterTag(type: "Dates", filterName: "Custom")
-                    .truncationMode(.tail)
-                    .lineLimit(1)
-                    .padding(.bottom)
+            if !vm.sessions.isEmpty {
+                if startDate != firstSessionDate || normalizedEndDate != today {
+                    FilterTag(type: "Dates", filterName: "Custom")
+                        .truncationMode(.tail)
+                        .lineLimit(1)
+                        .padding(.bottom)
+                }
             }
         }
         .padding(.horizontal)

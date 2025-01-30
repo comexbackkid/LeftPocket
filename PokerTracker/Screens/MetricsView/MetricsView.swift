@@ -62,8 +62,6 @@ struct MetricsView: View {
                                             Text("Upgrade to Pro")
                                                 .calloutStyle()
                                                 .fontWeight(.black)
-                                                
-                                            
                                         }
                                         .padding(35)
                                         .background(colorScheme == .dark ? Color.black.blur(radius: 25) : Color.white.blur(radius: 25))

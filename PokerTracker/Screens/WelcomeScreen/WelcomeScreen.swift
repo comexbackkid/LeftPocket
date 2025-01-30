@@ -84,11 +84,10 @@ struct WelcomeScreen: View {
             let impact = UIImpactFeedbackGenerator(style: .heavy)
             impact.impactOccurred()
             withAnimation {
-                selectedPage = 1
+                selectedPage += 1
             }
             
         } label: {
-            
             Text("Let's Begin")
                 .buttonTextStyle()
                 .foregroundColor(.black)

@@ -17,6 +17,7 @@ struct LeftPocketApp: App {
     @StateObject var vm = SessionsListViewModel()
     @StateObject var subManager = SubscriptionManager()
     @AppStorage("shouldShowOnboarding") var showWelcomeScreen: Bool = true
+    @AppStorage("savedStartingBankroll") var savedStartingBankroll: String = ""
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     
     private let qaService = QAService.shared
@@ -24,7 +25,11 @@ struct LeftPocketApp: App {
     var body: some Scene {
         WindowGroup {
             LeftPocketCustomTabBar()
-                .fullScreenCover(isPresented: $showWelcomeScreen, content: {
+                .fullScreenCover(isPresented: $showWelcomeScreen, onDismiss: {
+                    if !savedStartingBankroll.isEmpty {
+                        vm.addTransaction(date: Date(), type: .deposit, amount: Int(savedStartingBankroll) ?? 0, notes: "Starting Bankroll", tags: nil)
+                    }
+                }, content: {
                     OnboardingView(shouldShowOnboarding: $showWelcomeScreen)
                 })
                 .environmentObject(vm)
@@ -50,9 +55,6 @@ struct LeftPocketApp: App {
         try? Tips.configure([.datastoreLocation(TipKitConfig.storeLocation),
                              .displayFrequency(TipKitConfig.displayFrequency)])
     }
-    
-    // MARK: MIGRATION CODE
-    
     
     // TODO: Use a check to see if the new sessions_v2.json exists, instead of a Bool
     func migrateDataIfNeeded(viewModel: SessionsListViewModel) {

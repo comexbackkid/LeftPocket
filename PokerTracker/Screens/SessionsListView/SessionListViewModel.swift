@@ -42,7 +42,6 @@ class SessionsListViewModel: ObservableObject {
     
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector(fileAccessAvailable), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
-
         getNewSessions()
         getNewLocations()
         getTransactions()

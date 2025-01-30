@@ -246,10 +246,8 @@ struct ContentView: View {
                 Text(bankroll, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .font(.custom("Asap-Bold", size: 60, relativeTo: .title2))
                     .opacity(0.85)
-                    .blur(radius: hideBankroll ? 20 : 0)
                 
                 if !viewModel.sessions.isEmpty {
-                    
                     HStack {
                         
                         Image(systemName: "arrow.up.right")
@@ -263,7 +261,6 @@ struct ContentView: View {
                             .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
                             .fontWeight(.bold)
                             .metricsProfitColor(for: lastSession)
-                        
                     }
                     .offset(y: -32)
                 }
