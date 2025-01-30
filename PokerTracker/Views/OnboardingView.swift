@@ -343,7 +343,7 @@ struct StartingBankroll: View {
                     .fontWeight(.black)
                     .padding(.bottom, 5)
                 
-                Text("(You can skip this step, and if you wish, later import data from a different bankroll tracker)")
+                Text("(You can skip this step, and if you wish, import data from a different bankroll tracker later)")
                     .calloutStyle()
                     .opacity(0.7)
                     .padding(.bottom, 20)
@@ -387,9 +387,11 @@ struct StartingBankroll: View {
             Spacer()
             
             Button {
+                let impact = UIImpactFeedbackGenerator(style: .soft)
+                impact.impactOccurred()
                 nextAction()
             } label: {
-                Text("Skip this step, I'll do it later")
+                Text("Skip this step, I'll decide later")
                     .subHeadlineStyle()
                     .buttonStyle(.plain)
             }

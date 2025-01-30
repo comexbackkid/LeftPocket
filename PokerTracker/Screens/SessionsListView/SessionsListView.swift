@@ -205,8 +205,8 @@ struct SessionsListView: View {
         .accentColor(.brandPrimary)
         .overlay {
             switch listFilter {
-            case .sessions: if vm.sessions.isEmpty { startingScreen }
-            case .transactions: if vm.transactions.isEmpty { startingScreen }
+            case .sessions: if filteredSessions.isEmpty { startingScreen }
+            case .transactions: if filteredTransactions.isEmpty { startingScreen }
             }
         }
     }

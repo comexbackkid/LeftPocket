@@ -25,15 +25,6 @@ final class NewLocationViewModel: ObservableObject {
         return true
     }
     
-//    func saveLocation(viewModel: SessionsListViewModel) {
-//        guard self.isValidForm else { return }
-//        viewModel.addLocation(name: locationName, localImage: "", imageURL: imageURL, importedImage: importedImage)
-//        
-//        self.presentation = false
-//    }
-    
-    // MARK: MIGRATION CODE
-    
     func saveUserLocation(viewModel: SessionsListViewModel) {
         guard !locationName.isEmpty else {
             alertItem = AlertContext.inValidLocationName
