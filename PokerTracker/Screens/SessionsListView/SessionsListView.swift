@@ -31,6 +31,7 @@ struct SessionsListView: View {
     @State var datesInitialized = false
     @State var listFilter: ListFilter = .sessions
     @State var selectedSession: PokerSession_v2?
+    @State var tappedSession: PokerSession_v2?
     
     var firstSessionDate: Date {
         vm.sessions.last?.date ?? Date().modifyDays(days: 15000)
@@ -121,7 +122,9 @@ struct SessionsListView: View {
                             screenTitle
                             
                             ForEach(filteredSessions) { session in
-                                NavigationLink(destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session)) {
+                                NavigationLink(destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session).onAppear(perform: {
+                                    tappedSession = session
+                                })) {
                                     CellView(pokerSession: session, currency: vm.userCurrency, viewStyle: $viewStyle)
                                 }
                                 .listRowBackground(Color.brandBackground)
@@ -131,6 +134,7 @@ struct SessionsListView: View {
                                 }
                             }
                         }
+                        .sensoryFeedback(.impact, trigger: tappedSession)
                         .listStyle(.plain)
                         .padding(.bottom, 50)
                         .sheet(item: $selectedSession) { session in
@@ -170,16 +174,18 @@ struct SessionsListView: View {
                 VStack {
                     switch listFilter {
                     case .sessions:
-                        
                         Button {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
                             listFilter = .transactions
                         } label: {
                             Image(systemName: "creditcard.fill")
                         }
                         
                     case .transactions:
-                        
                         Button {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
                             listFilter = .sessions
                         } label: {
                             Image(systemName: "suit.club.fill")
@@ -214,7 +220,6 @@ struct SessionsListView: View {
     var toolbarFilter: some View {
         
         Menu {
-            
             Picker("Select View Style", selection: $viewStyle) {
                 ForEach(ViewStyle.allCases, id: \.self) {
                     Text($0.rawValue.capitalized).tag($0)

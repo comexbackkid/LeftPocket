@@ -384,6 +384,84 @@ class SessionsListViewModel: ObservableObject {
         let loggedThisMonth = sessionsLoggedThisMonth(sessions: self.sessions)
         return loggedThisMonth < 5
     }
+    
+    // Can't get this to work
+    func generateDummyPokerSessions(
+        count: Int,
+        startDate: Date,
+        endDate: Date,
+        locations: [LocationModel_v2],
+        maxCashOut: Int
+    ) {
+        
+        var dummySessions: [PokerSession_v2] = []
+        let calendar = Calendar.current
+        
+        // Possible values
+        let gameTypes = ["NL Texas Hold Em"]
+        let stakesOptions = ["1/3"]
+        
+        for _ in 0..<count {
+            // Random Date in Range
+            let randomTimeInterval = TimeInterval.random(in: startDate.timeIntervalSince1970...endDate.timeIntervalSince1970)
+            let randomDate = Date(timeIntervalSince1970: randomTimeInterval)
+            
+            // Random Start Time (between 12 PM - 10 PM)
+            let startTime = calendar.date(bySettingHour: Int.random(in: 12...22), minute: Int.random(in: 0...59), second: 0, of: randomDate) ?? randomDate
+            
+            // Random session duration (2 to 8 hours)
+            let sessionDuration = TimeInterval(Int.random(in: 7200...28800)) // 2 - 8 hours
+            let endTime = startTime.addingTimeInterval(sessionDuration)
+            
+            // Random Location
+            let location = locations.randomElement() ?? MockData.mockLocation
+            
+            // Random Game & Stakes
+            let game = gameTypes.randomElement() ?? "No Limit Hold'em"
+            let stakes = stakesOptions.randomElement() ?? "1/3"
+            
+            // Random Profit & Buy-In
+            
+            let buyIn = 500 // Buy-in range
+            let cashOut = Int.random(in: 0...maxCashOut) // Cash-out calculation
+            let profit = cashOut - buyIn
+            
+            // Random Expenses
+            let expenses = Int.random(in: 0...250)
+
+            // Create the Session
+            let session = PokerSession_v2(
+                id: UUID(),
+                location: location,
+                date: randomDate,
+                startTime: startTime,
+                endTime: endTime,
+                game: game,
+                stakes: stakes,
+                buyIn: buyIn,
+                cashOut: cashOut,
+                profit: profit,
+                expenses: expenses,
+                notes: "",
+                tags: [],
+                highHandBonus: 0,
+                isTournament: false,
+                rebuyCount: nil,
+                tournamentSize: nil,
+                tournamentSpeed: nil,
+                entrants: nil,
+                finish: nil,
+                tournamentDays: nil,
+                startTimeDayTwo: nil,
+                endTimeDayTwo: nil
+            )
+            
+            dummySessions.append(session)
+        }
+        
+        let fakeSessions = dummySessions.sorted(by: { $0.date < $1.date })
+        self.sessions += fakeSessions
+    }
 }
 
 extension SessionsListViewModel {

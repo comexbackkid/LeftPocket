@@ -437,7 +437,7 @@ struct SleepAnalytics: View {
 //            .chartScrollPosition(initialX: Date().modifyDays(days: -28))
 //            .chartScrollTargetBehavior(.paging)
             .sensoryFeedback(.selection, trigger: selectedSleepMetric?.value)
-            .chartXSelection(value: $rawSelectedDate.animation(.easeInOut))
+            .chartXSelection(value: $rawSelectedDate)
             .chartXAxis {
                 AxisMarks(preset: .aligned) {
                     AxisValueLabel(format: .dateTime.month(.defaultDigits).day(), verticalSpacing: 10)

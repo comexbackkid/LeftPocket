@@ -22,15 +22,15 @@ struct OnboardingView: View {
         
         TabView(selection: $selectedPage) {
             
-            WelcomeScreen(selectedPage: $selectedPage).tag(0).gesture(DragGesture())
+            WelcomeScreen(selectedPage: $selectedPage).tag(0)
             
             PollView(showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(1).gesture(DragGesture())
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(1)
             
             StartingBankroll(showDismissButton: false,
                              nextAction: nextPage,
-                             shouldShowOnboarding: $shouldShowOnboarding).tag(2).gesture(DragGesture())
+                             shouldShowOnboarding: $shouldShowOnboarding).tag(2)
             
             PageView(title: "Easy Live Session Tracking",
                      subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Monitor from your lock screen too!"),
@@ -38,7 +38,7 @@ struct OnboardingView: View {
                      videoURL: "logging-sessions-new",
                      showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(3).gesture(DragGesture())
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(3)
             
             PageView(title: "Custom Location Images",
                      subtitle: Text("Add your own custom locations and header photos. Just navigate to the Settings \(Image(systemName: "gearshape.fill")) screen, tap on Locations, and then press the \(Image(systemName: "plus")) button."),
@@ -46,7 +46,7 @@ struct OnboardingView: View {
                      videoURL: "custom-locations",
                      showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(4).gesture(DragGesture())
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(4)
             
             PageView(title: "Know When to Move Up",
                      subtitle: Text("Insightful charts, progress rings, & player metrics help you keep a thumb on your poker performance so you know exactly when to climb stakes."),
@@ -54,7 +54,7 @@ struct OnboardingView: View {
                      videoURL: "metrics-screen",
                      showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(5).gesture(DragGesture())
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(5)
             
             PageView(title: "Session Tags & Reports",
                      subtitle: Text("Sessions & Transactions with a Tag \(Image(systemName: "tag.fill")) you created can be filtered & grouped together in a custom report for things like a trip, or bankroll challenge."),
@@ -62,7 +62,7 @@ struct OnboardingView: View {
                      videoURL: "tag-reporting",
                      showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(6).gesture(DragGesture())
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(6)
             
             PageView(title: "Home Screen Widgets",
                      subtitle: Text("Touch & hold an empty area of your home screen until the apps jiggle. Then press the \"Edit\" button, followed by \"Add Widget,\" & search for Left Pocket."),
@@ -70,7 +70,7 @@ struct OnboardingView: View {
                      videoURL: "homescreen-widget",
                      showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(7).gesture(DragGesture())
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(7)
             
             PageView(title: "Advanced Data Metrics",
                      subtitle: Text("One place for all your important player data. Reports & analytics on location performance, stakes, monthly returns, & so much more."),
@@ -78,7 +78,7 @@ struct OnboardingView: View {
                      videoURL: "advanced-reporting",
                      showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(8).gesture(DragGesture())
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(8)
             
             PageView(title: "Health & Mental State",
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours & mindful minutes in our Health Analytics page, & integrate these numbers measured by other devices, like an Apple Watch."),
@@ -86,7 +86,7 @@ struct OnboardingView: View {
                      videoURL: "health-metrics",
                      showDismissButton: true,
                      nextAction: { hkManager.requestAuthorization() },
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(9).gesture(DragGesture())
+                     shouldShowOnboarding: $shouldShowOnboarding).tag(9)
         }
         .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)
