@@ -456,8 +456,9 @@ class SessionsListViewModel: ObservableObject {
             dummySessions.append(session)
         }
         
-        let fakeSessions = dummySessions.sorted(by: { $0.date < $1.date })
-        self.sessions += fakeSessions
+        let fakeSessions = dummySessions
+        sessions += fakeSessions
+        sessions.sort(by: { $0.date > $1.date })
     }
 }
 

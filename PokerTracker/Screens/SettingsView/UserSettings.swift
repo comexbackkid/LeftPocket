@@ -55,7 +55,7 @@ struct UserSettings: View {
 //                                                      startDate: Date().modifyDays(days: -720),
 //                                                      endDate: Date().modifyDays(days: -60),
 //                                                      locations: MockData.mockLocations,
-//                                                      maxCashOut: 900)
+//                                                      maxCashOut: 1000)
 //                    }
 //                    
 //                    Button("Generate Positive Regression Data") {
@@ -63,7 +63,7 @@ struct UserSettings: View {
 //                                                      startDate: Date().modifyDays(days: -60),
 //                                                      endDate: Date(),
 //                                                      locations: MockData.mockLocations,
-//                                                      maxCashOut: 1500)
+//                                                      maxCashOut: 1400)
 //                    }
                     
                     Spacer()
