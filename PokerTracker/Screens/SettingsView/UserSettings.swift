@@ -50,22 +50,6 @@ struct UserSettings: View {
                     
                     appVersion
                     
-//                    Button("Generate Fake Data") {
-//                        vm.generateDummyPokerSessions(count: 150,
-//                                                      startDate: Date().modifyDays(days: -720),
-//                                                      endDate: Date().modifyDays(days: -60),
-//                                                      locations: MockData.mockLocations,
-//                                                      maxCashOut: 1000)
-//                    }
-//                    
-//                    Button("Generate Positive Regression Data") {
-//                        vm.generateDummyPokerSessions(count: 30,
-//                                                      startDate: Date().modifyDays(days: -60),
-//                                                      endDate: Date(),
-//                                                      locations: MockData.mockLocations,
-//                                                      maxCashOut: 1400)
-//                    }
-                    
                     Spacer()
                 }
                 .padding(.horizontal)

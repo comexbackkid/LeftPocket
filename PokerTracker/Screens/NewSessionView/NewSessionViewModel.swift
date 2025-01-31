@@ -40,10 +40,10 @@ final class NewSessionViewModel: ObservableObject {
     @Published var addDay: Bool = false
     @Published var noMoreDays: Bool = false
     
-    // Making sure to include rebuys & expenses in profit calculation
+    // Making sure to include rebuys in profit calculation
     var computedProfit: Int {
         if sessionType == .cash {
-            return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - (Int(cashRebuys) ?? 0) - (Int(expenses) ?? 0)
+            return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - (Int(cashRebuys) ?? 0)
         } else {
             return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - tournamentRebuys
         }
