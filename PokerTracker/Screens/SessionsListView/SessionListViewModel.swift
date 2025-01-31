@@ -385,14 +385,11 @@ class SessionsListViewModel: ObservableObject {
         return loggedThisMonth < 5
     }
     
-    // Can't get this to work
-    func generateDummyPokerSessions(
-        count: Int,
-        startDate: Date,
-        endDate: Date,
-        locations: [LocationModel_v2],
-        maxCashOut: Int
-    ) {
+    func generateDummyPokerSessions(count: Int,
+                                    startDate: Date,
+                                    endDate: Date,
+                                    locations: [LocationModel_v2],
+                                    maxCashOut: Int) {
         
         var dummySessions: [PokerSession_v2] = []
         let calendar = Calendar.current
@@ -428,7 +425,7 @@ class SessionsListViewModel: ObservableObject {
             
             // Random Expenses
             let expenses = Int.random(in: 0...250)
-
+            
             // Create the Session
             let session = PokerSession_v2(
                 id: UUID(),
