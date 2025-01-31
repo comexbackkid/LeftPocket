@@ -365,7 +365,7 @@ class SessionsListViewModel: ObservableObject {
     
     // MARK: COUNT USER ACTIVITY FOR PAYWALL LOGIC
     
-    func sessionsLoggedThisMonth(sessions: [PokerSession_v2]) -> Int {
+    func sessionsLoggedThisMonth(_ sessions: [PokerSession_v2]) -> Int {
         let calendar = Calendar.current
         let currentDate = Date()
         let currentMonth = calendar.component(.month, from: currentDate)
@@ -381,8 +381,8 @@ class SessionsListViewModel: ObservableObject {
     
     // Returns false if the user tries to add a 6th session for the month
     func canLogNewSession() -> Bool {
-        let loggedThisMonth = sessionsLoggedThisMonth(sessions: self.sessions)
-        return loggedThisMonth < 5
+        let loggedThisMonth = sessionsLoggedThisMonth(sessions)
+        return loggedThisMonth < 4
     }
     
     func generateDummyPokerSessions(count: Int,

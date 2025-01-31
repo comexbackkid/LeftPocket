@@ -161,9 +161,7 @@ struct SessionDefaultsView: View {
                         Text("Cash Game").tag(Optional(SessionType.cash))
                         
                         // Right now we're just choosing to hide the Tournament option unless user is subscribed
-                        if subManager.isSubscribed {
-                            Text("Tournament").tag(Optional(SessionType.tournament))
-                        }
+                        Text("Tournament").tag(Optional(SessionType.tournament))
                     }
                     .onChange(of: sessionType, perform: { value in
                         errorMessage = nil

@@ -150,17 +150,12 @@ struct AddNewSessionView: View {
                 }
                 
                 Button("Tournament") {
-                    
-                    if subManager.isSubscribed {
-                        withAnimation {
-                            newSession.sessionType = .tournament
-                        }
-                        
-                    } else { showPaywall = true }
+                    withAnimation {
+                        newSession.sessionType = .tournament
+                    }
                 }
    
             } label: {
-                
                 switch newSession.sessionType {
                 case .cash:
                     Text("Cash Game")
@@ -172,7 +167,6 @@ struct AddNewSessionView: View {
                         }
                     
                 case .tournament:
-                    
                     Text("Tournament")
                         .bodyStyle()
                         .fixedSize()
