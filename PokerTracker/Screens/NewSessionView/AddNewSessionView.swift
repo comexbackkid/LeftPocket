@@ -250,11 +250,11 @@ struct AddNewSessionView: View {
                         .lineLimit(1)
 
                 } else {
-                    
                     Text(newSession.location.name)
                         .bodyStyle()
                         .lineLimit(1)
-                        .fixedSize()
+                        .truncationMode(.tail)
+//                        .fixedSize()
                         .animation(nil, value: newSession.location)
                 }
             }
