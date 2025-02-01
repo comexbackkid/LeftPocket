@@ -170,7 +170,7 @@ class SessionsListViewModel: ObservableObject {
         do {
             let data = try Data(contentsOf: stakesPath)
             let importedStakes = try JSONDecoder().decode([String].self, from: data)
-            self.userStakes = importedStakes
+            self.userStakes = importedStakes.sorted()
             
         } catch {
             print("Failed to load Stakes with error: \(error)")
@@ -184,6 +184,7 @@ class SessionsListViewModel: ObservableObject {
         }
         
         userStakes.append(stakes)
+        userStakes.sort()
     }
     
     func getUserCurrency() {

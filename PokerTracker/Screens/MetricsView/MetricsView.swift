@@ -430,7 +430,7 @@ struct AllStats: View {
                         .foregroundStyle(Color.brandPrimary)
                 }
                 .popover(isPresented: $highHandPopover, arrowEdge: .bottom, content: {
-                    PopoverView(bodyText: "High hand bonuses are not counted towards your profit numbers or player metrics. They are tallied in your Annual Report.")
+                    PopoverView(bodyText: "High hand bonuses are not factored in to your profit or player metrics. You can find them tallied in with your Annual Report.")
                         .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                         .frame(height: 130)
                         .dynamicTypeSize(.medium...DynamicTypeSize.medium)
@@ -612,7 +612,7 @@ struct CashStats: View {
                         .foregroundStyle(Color.brandPrimary)
                 }
                 .popover(isPresented: $highHandPopover, arrowEdge: .bottom, content: {
-                    PopoverView(bodyText: "High hand bonuses are not counted towards your profit numbers or player metrics. They are tallied in your Annual Report.")
+                    PopoverView(bodyText: "High hand bonuses are not factored in to your profit or player metrics. You can find them tallied in with your Annual Report.")
                         .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                         .frame(height: 130)
                         .dynamicTypeSize(.medium...DynamicTypeSize.medium)

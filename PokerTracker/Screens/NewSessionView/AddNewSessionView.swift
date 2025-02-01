@@ -10,6 +10,18 @@ import RevenueCatUI
 import RevenueCat
 import TipKit
 
+enum Field {
+    case buyIn
+    case cashOut
+    case rebuys
+    case rebuyCount
+    case entrants
+    case finish
+    case expenses
+    case notes
+    case highHands
+}
+
 struct AddNewSessionView: View {
 
     @EnvironmentObject var vm: SessionsListViewModel
@@ -24,6 +36,8 @@ struct AddNewSessionView: View {
     @State var addStakesIsShowing = false
     @State var showPaywall = false
     @State var showCashRebuyField = false
+    
+    @FocusState private var focusedField: Field?
     
     var body: some View {
         
@@ -685,6 +699,7 @@ struct AddNewSessionView: View {
                         TextField("Buy In", text: $newSession.buyIn)
                             .font(.custom("Asap-Regular", size: 17))
                             .keyboardType(.numberPad)
+                            .focused($focusedField, equals: .buyIn)
                     }
                     .padding(18)
                     .background(.gray.opacity(0.2))
@@ -696,7 +711,7 @@ struct AddNewSessionView: View {
                                                                                            removal: .scale(scale: 0, anchor: .bottomLeading))))
                 }
                 
-                // MARK: CASH GAME CASH OUT
+                // MARK: CASH OUT / WINNINGS
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
@@ -706,6 +721,7 @@ struct AddNewSessionView: View {
                     TextField(newSession.sessionType == .tournament ? "Total Winnings" : "Cash Out", text: $newSession.cashOut)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
+                        .focused($focusedField, equals: .cashOut)
                 }
                 .padding(18)
                 .background(.gray.opacity(0.2))
@@ -726,6 +742,7 @@ struct AddNewSessionView: View {
                     TextField("Rebuys / Top Offs", text: $newSession.cashRebuys)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
+                        .focused($focusedField, equals: .rebuys)
                     
                 }
                 .padding(18)
@@ -749,8 +766,10 @@ struct AddNewSessionView: View {
                     TextField(newSession.sessionType == .tournament ? "Buy In" : "Expenses (Tips, rake, etc.)", text: newSession.sessionType == .tournament ? $newSession.buyIn : $newSession.expenses)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
+                        .focused($focusedField, equals: .expenses)
                         .onChange(of: newSession.sessionType, perform: { value in
                             newSession.expenses = ""
+                            newSession.buyIn = ""
                         })
                 }
                 .padding(18)
@@ -770,6 +789,7 @@ struct AddNewSessionView: View {
                         TextField("Rebuy Ct.", text: $newSession.rebuyCount)
                             .font(.custom("Asap-Regular", size: 17))
                             .keyboardType(.numberPad)
+                            .focused($focusedField, equals: .rebuyCount)
                     }
                     .padding(18)
                     .background(.gray.opacity(0.2))
@@ -781,6 +801,8 @@ struct AddNewSessionView: View {
                                                                                            removal: .scale(scale: 0, anchor: .topTrailing))))
                 }
             }
+            
+            // MARK: TOURNAMENT-ONLY SPECIFIC DETAILS
             
             if newSession.sessionType == .tournament {
                 
@@ -794,6 +816,7 @@ struct AddNewSessionView: View {
                     TextField("No. of Entrants", text: $newSession.entrants)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
+                        .focused($focusedField, equals: .entrants)
                 }
                 .padding(18)
                 .background(.gray.opacity(0.2))
@@ -812,6 +835,7 @@ struct AddNewSessionView: View {
                     TextField("Your Finish", text: $newSession.finish)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
+                        .focused($focusedField, equals: .finish)
                 }
                 .padding(18)
                 .background(.gray.opacity(0.2))
@@ -824,6 +848,7 @@ struct AddNewSessionView: View {
             // MARK: NOTES
             
             TextEditor(text: $newSession.notes)
+                .focused($focusedField, equals: .notes)
                 .font(.custom("Asap-Regular", size: 17))
                 .padding(12)
                 .frame(height: 130, alignment: .top)
@@ -859,6 +884,7 @@ struct AddNewSessionView: View {
                     TextField("High Hand Bonus (Optional)", text: $newSession.highHandBonus)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
+                        .focused($focusedField, equals: .highHands)
                 }
                 .padding(18)
                 .background(.gray.opacity(0.2))
@@ -906,6 +932,54 @@ struct AddNewSessionView: View {
             }
         }
         .padding(.horizontal, 8)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                if focusedField == .buyIn {
+                    Button("Next") {
+                        focusedField = .cashOut
+                    }
+                } else if focusedField == .cashOut {
+                    Button("Next") {
+                        focusedField = newSession.sessionType == .cash ? .rebuys : .expenses
+                    }
+                } else if focusedField == .rebuys {
+                    Button("Next") {
+                        focusedField = .expenses
+                    }
+                } else if focusedField == .expenses {
+                    Button("Next") {
+                        focusedField = newSession.sessionType == .cash ? .notes : .rebuyCount
+                    }
+                } else if focusedField == .rebuyCount {
+                    Button("Next") {
+                        focusedField = .entrants
+                    }
+                } else if focusedField == .entrants {
+                    Button("Next") {
+                        focusedField = .finish
+                    }
+                } else if focusedField == .finish {
+                    Button("Next") {
+                        focusedField = .notes
+                    }
+                } else if focusedField == .notes {
+                    if newSession.sessionType == .cash {
+                        Button("Next") {
+                            focusedField = .highHands
+                        }
+                    } else {
+                        Button("Done") {
+                            focusedField = nil
+                        }
+                    }
+                } else if focusedField == .highHands {
+                    Button("Done") {
+                        focusedField = nil
+                    }
+                }
+            }
+        }
     }
     
     var saveButton: some View {
@@ -927,6 +1001,7 @@ struct AddNewSessionView: View {
             Button(role: .cancel) {
                 let impact = UIImpactFeedbackGenerator(style: .soft)
                 impact.impactOccurred()
+                audioConfirmation = false
                 isPresented = false
                 
             } label: {

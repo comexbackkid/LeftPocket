@@ -315,6 +315,36 @@ struct ProfitByStakesView: View {
                 Text("\(filteredSessions.count)")
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
+            
+            let averageBuyIn = averageBuyIn(sessions: filteredSessions)
+            
+            HStack {
+                Image(systemName: "cart.fill")
+                    .frame(width: 20)
+                    .foregroundColor(Color(.systemGray))
+                
+                Text("Avg. Buy In")
+                
+                Spacer()
+                
+                Text(averageBuyIn, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
+            }
+            
+            let punts = calculatePunts(sessions: filteredSessions)
+            
+            HStack {
+                Image(systemName: "football.fill")
+                    .frame(width: 20)
+                    .foregroundColor(Color(.systemGray))
+                
+                Text("Punts")
+                
+                Spacer()
+                
+                Text("\(punts)")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
+            }
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
         .padding(20)
@@ -337,6 +367,19 @@ struct ProfitByStakesView: View {
                 .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
                 .padding(.top, 15)
         }
+    }
+    
+    private func averageBuyIn(sessions: [PokerSession_v2]) -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        let totalBuyIns = Float(sessions.map({ $0.buyIn }).reduce(0, +))
+        let sessionCount = Float(sessions.count)
+        let avgBuyIn = totalBuyIns / sessionCount
+        return Int(avgBuyIn)
+    }
+    
+    private func calculatePunts(sessions: [PokerSession_v2]) -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        return sessions.filter { $0.cashOut == 0 }.count
     }
     
     private func hourlyByStakes(stakes: String, sessions: [PokerSession_v2]) -> Int {
