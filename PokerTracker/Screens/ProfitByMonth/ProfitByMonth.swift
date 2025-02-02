@@ -144,7 +144,6 @@ struct ProfitByMonth: View {
             let filteredSessions = vm.sessions.filter({ $0.date.getYear() == yearFilter })
             let bankrollTotalByYear = vm.bankrollByYear(year: yearFilter, sessionFilter: .all)
             let totalHoursPlayed = filteredSessions.map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
-            let bestMonth = vm.mostProfitableMonth(in: filteredSessions)
             
             HStack {
                 Image(systemName: "dollarsign")
@@ -183,19 +182,6 @@ struct ProfitByMonth: View {
                 Spacer()
                 
                 Text("\(vm.sessions.filter({ $0.date.getYear() == yearFilter }).count)")
-                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
-            }
-            
-            HStack {
-                Image(systemName: "calendar")
-                    .frame(width: 20)
-                    .foregroundColor(Color(.systemGray))
-                
-                Text("Best Month")
-                
-                Spacer()
-                
-                Text(bestMonth)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
         }
