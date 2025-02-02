@@ -129,12 +129,15 @@ class TimerViewModel: ObservableObject {
         UserDefaults.standard.removeObject(forKey: "totalRebuys")
     }
     
-    func addRebuy() {
-        
-        // Add rebuy amount to variable, then write that amount to UserDefaults
-        // That way, if the app is quit or terminates we can recover the rebuy and initial buy in entries
-        totalRebuys.append(Int(reBuyAmount) ?? 0)
+    func addInitialBuyIn(_ amount: String) {
+        initialBuyInAmount = amount
         UserDefaults.standard.setValue(initialBuyInAmount, forKey: "initialBuyInAmount")
+    }
+    
+    func addRebuy() {
+        /// Add rebuy amount to variable, then write that amount to UserDefaults
+        /// That way, if the app is quit or terminates we can recover the rebuy and initial buy in entries
+        totalRebuys.append(Int(reBuyAmount) ?? 0)
         UserDefaults.standard.setValue(totalRebuys, forKey: "totalRebuys")
         reBuyAmount = ""
     }

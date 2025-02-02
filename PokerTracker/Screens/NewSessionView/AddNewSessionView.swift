@@ -70,9 +70,9 @@ struct AddNewSessionView: View {
             // Loading optional data if the user activated a live session
             if let liveSessionStartTime = timerViewModel.liveSessionStartTime {
                 newSession.startTime = liveSessionStartTime
-                newSession.buyIn = timerViewModel.totalBuyInForLiveSession == 0 ? "" : String(timerViewModel.totalBuyInForLiveSession - timerViewModel.rebuyTotalForSession)
-                newSession.cashRebuys = newSession.sessionType == .cash ? String(timerViewModel.rebuyTotalForSession) : ""
-                newSession.rebuyCount = String(timerViewModel.totalRebuys.count - 1)
+                newSession.buyIn = String(timerViewModel.totalBuyInForLiveSession - timerViewModel.rebuyTotalForSession)
+                newSession.cashRebuys = timerViewModel.rebuyTotalForSession == 0 ? "" : String(timerViewModel.rebuyTotalForSession)
+                newSession.rebuyCount = String(timerViewModel.totalRebuys.count)
             }
         }
         .sheet(isPresented: $showPaywall) {
@@ -712,6 +712,7 @@ struct AddNewSessionView: View {
                 }
                 
                 // MARK: CASH OUT / WINNINGS
+                
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
@@ -732,6 +733,7 @@ struct AddNewSessionView: View {
             }
             
             // MARK: CASH GAME REBUYS
+            
             if newSession.sessionType != .tournament {
                 HStack {
                     Text(vm.userCurrency.symbol)
@@ -753,8 +755,8 @@ struct AddNewSessionView: View {
                 .padding(.bottom, 10)
             }
             
-            
             // MARK: TOURNAMENTS & GASH, EXPENSES / BUY IN HANDLING
+            
             HStack {
                 
                 HStack {
@@ -769,7 +771,6 @@ struct AddNewSessionView: View {
                         .focused($focusedField, equals: .expenses)
                         .onChange(of: newSession.sessionType, perform: { value in
                             newSession.expenses = ""
-                            newSession.buyIn = ""
                         })
                 }
                 .padding(18)
@@ -805,7 +806,6 @@ struct AddNewSessionView: View {
             // MARK: TOURNAMENT-ONLY SPECIFIC DETAILS
             
             if newSession.sessionType == .tournament {
-                
                 HStack {
                     
                     Image(systemName: "person.fill")
