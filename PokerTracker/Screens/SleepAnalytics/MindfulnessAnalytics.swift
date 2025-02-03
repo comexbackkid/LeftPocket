@@ -22,7 +22,7 @@ struct MindfulnessAnalytics: View {
     @State private var showError = false
     @State private var showPaywall = false
     @State private var selectedMeditation: Meditation?
-    @State private var selectedSession: PokerSession?
+    @State private var selectedSession: PokerSession_v2?
     
     var body: some View {
         
@@ -393,13 +393,18 @@ struct MindfulnessAnalytics: View {
         }
     }
     
-    private func backgroundImage(_ session: PokerSession) -> Image {
+    private func backgroundImage(_ session: PokerSession_v2) -> Image {
         
-        if let importedImageData = session.location.importedImage, let uiImage = UIImage(data: importedImageData) {
-            return Image(uiImage: uiImage)
-            
-        } else if !session.location.localImage.isEmpty {
-            return Image(session.location.localImage)
+        if let localImage = session.location.localImage {
+            return Image(localImage)
+                
+        } else if let importedImagePath = session.location.importedImage {
+            if let uiImage = ImageLoader.loadImage(from: importedImagePath) {
+                return Image(uiImage: uiImage)
+                    
+            } else {
+                return Image("defaultlocation-header")
+            }
             
         } else {
             return Image("defaultlocation-header")

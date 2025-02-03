@@ -19,11 +19,12 @@ struct SessionDefaultsView: View {
     
     @State private var askEachTimePopover = false
     @State private var sessionType: SessionType?
-    @State private var location = LocationModel(name: "", localImage: "", imageURL: "")
+    @State private var location = LocationModel_v2(name: "")
     @State private var stakes = ""
     @State private var game = ""
     @State private var speed = ""
     @State private var size = ""
+    @State private var handsPerHour = ""
     @State private var currency: CurrencyType = .USD
     @State private var resultMessage: String = ""
     @State private var errorMessage: String?
@@ -160,9 +161,7 @@ struct SessionDefaultsView: View {
                         Text("Cash Game").tag(Optional(SessionType.cash))
                         
                         // Right now we're just choosing to hide the Tournament option unless user is subscribed
-                        if subManager.isSubscribed {
-                            Text("Tournament").tag(Optional(SessionType.tournament))
-                        }
+                        Text("Tournament").tag(Optional(SessionType.tournament))
                     }
                     .onChange(of: sessionType, perform: { value in
                         errorMessage = nil
@@ -540,6 +539,32 @@ struct SessionDefaultsView: View {
                 }
                 .tint(.brandPrimary)
             }
+            .padding(.bottom, 10)
+            
+//            HStack {
+//                
+//                Image(systemName: "banknote.fill")
+//                    .font(.system(size: 24, weight: .bold))
+//                    .foregroundColor(Color(.systemGray3))
+//                    .frame(width: 30)
+//                
+//                Text("Hands Per Hour")
+//                    .bodyStyle()
+//                    .padding(.leading, 4)
+//                
+//                Spacer()
+//                
+//                TextField("25", text: $handsPerHour)
+//                .transaction { transaction in
+//                    transaction.animation = nil
+//                }
+//                .padding(10)
+//                .padding(.leading, 2)
+//                .background(.gray.opacity(0.2))
+//                .cornerRadius(15)
+//                .frame(width: 75)
+//            }
+//            .padding(.bottom, 10)
             
         }
         .padding(.horizontal, 25)
@@ -556,7 +581,7 @@ struct SessionDefaultsView: View {
         } label: {
             PrimaryButton(title: "Save")
         }
-        .padding(.top)
+        .padding(.top, 4)
         
     }
     
@@ -577,7 +602,7 @@ struct SessionDefaultsView: View {
     private func resetUserDefaults() {
         
         sessionType = nil
-        location = LocationModel(name: "", localImage: "", imageURL: "")
+        location = LocationModel_v2(name: "")
         stakes = ""
         game = ""
         size = ""
@@ -628,7 +653,7 @@ struct SessionDefaultsView: View {
             defaults.set(size, forKey: "tournamentSizeDefault")
             defaults.set(speed, forKey: "tournamentSpeedDefault")
             defaults.set(askLiveSessionEachTime, forKey: "askLiveSessionEachTime")
-            vm.loadCurrency()
+            vm.getUserCurrency()
         }
         
         switch saveResult {
@@ -663,10 +688,10 @@ struct SessionDefaultsView: View {
         
         // Load Location
         if let encodedLocation = defaults.object(forKey: "locationDefault") as? Data,
-           let decodedLocation = try? JSONDecoder().decode(LocationModel.self, from: encodedLocation) {
+           let decodedLocation = try? JSONDecoder().decode(LocationModel_v2.self, from: encodedLocation) {
             location = decodedLocation
         } else {
-            location = LocationModel(name: "", localImage: "", imageURL: "")
+            location = LocationModel_v2(name: "")
         }
         
         // Load Stakes, Game, & Tournament Defaults

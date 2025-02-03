@@ -10,7 +10,7 @@ import Charts
 
 struct DayOfWeekChart: View {
     
-    let sessions: [PokerSession]
+    let sessions: [PokerSession_v2]
         
     var body: some View {
         
@@ -80,7 +80,7 @@ struct DayOfWeekChart: View {
     }
 }
 
-func calculateProportions(sessions: [PokerSession]) -> [DayOfWeekProfit] {
+func calculateProportions(sessions: [PokerSession_v2]) -> [DayOfWeekProfit] {
     let calendar = Calendar.current
     
     // Define custom abbreviations for each weekday

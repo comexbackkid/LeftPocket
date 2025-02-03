@@ -13,10 +13,9 @@ struct BarChartWeeklySessionCount: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     let showTitle: Bool
-    var dateRange: [PokerSession]
-
-    // Prepare sessions by week for the chart
-    var sessionsByWeek: [(weekOfYear: Int, sessionCount: Int)] {
+    var dateRange: [PokerSession_v2]
+    
+    var hoursByWeek: [(weekOfYear: Int, totalHours: Double)] {
         let calendar = Calendar.current
         
         // Group sessions by week of the year
@@ -24,13 +23,19 @@ struct BarChartWeeklySessionCount: View {
             return calendar.component(.weekOfYear, from: session.date)
         }
         
-        // Count sessions in each group
-        let sessionsCountByWeek = grouped.map { weekOfYear, sessionsInWeek -> (Int, Int) in
-            (weekOfYear, sessionsInWeek.count)
+        // Sum hours played in each group
+        let hoursByWeek = grouped.map { weekOfYear, sessionsInWeek -> (Int, Double) in
+            let totalHours = sessionsInWeek.reduce(0.0) { total, session in
+                // Calculate the session duration in hours
+                let duration = Calendar.current.dateComponents([.hour, .minute], from: session.startTime, to: session.endTime)
+                let hours = Double(duration.hour ?? 0) + Double(duration.minute ?? 0) / 60.0
+                return total + hours
+            }
+            return (weekOfYear, totalHours)
         }
-        .sorted { $0.0 < $1.0 }
+            .sorted { $0.0 < $1.0 }
         
-        return sessionsCountByWeek
+        return hoursByWeek
     }
     
     var body: some View {
@@ -39,45 +44,57 @@ struct BarChartWeeklySessionCount: View {
             
             if showTitle {
                 HStack {
-                    Text("Weekly Session Count")
+                    Text("Hours Played by Week")
                         .cardTitleStyle()
                     
                     Spacer()
-                    
                 }
                 .padding(.bottom, 40)
             }
             
             barChart
-
         }
     }
     
     var barChart: some View {
         
-        Chart {
-            
-            ForEach(sessionsByWeek, id: \.weekOfYear) { weekData in
-                
-                BarMark(x: .value("Week", weekData.weekOfYear), y: .value("Count", weekData.sessionCount), width: 3)
-                    .cornerRadius(30)
-                    .foregroundStyle(.cyan.gradient)
+        VStack {
+            Chart {
+                ForEach(hoursByWeek, id: \.weekOfYear) { weekData in
+                    BarMark(x: .value("Week", weekData.weekOfYear), y: .value("Hours", weekData.totalHours), width: 4)
+                        .cornerRadius(30)
+                        .foregroundStyle(.cyan.gradient)
+                }
             }
-        }
-        .chartXScale(domain: [1, 52])
-        .chartXAxis(.hidden)
-        .chartYAxis {
-            AxisMarks(position: .leading) { value in
-                AxisGridLine()
-                    .foregroundStyle(.gray.opacity(0.33))
-                AxisValueLabel() {
-                    if let intValue = value.as(Int.self) {
-                        Text("\(intValue)")
-                            .captionStyle()
-                            .padding(.trailing, 10)
+            .chartXScale(domain: [1, 52])
+            .chartXAxis(.hidden)
+            .chartYAxis {
+                AxisMarks(position: .leading) { value in
+                    AxisGridLine()
+                        .foregroundStyle(.gray.opacity(0.33))
+                    AxisValueLabel() {
+                        if let intValue = value.as(Int.self) {
+                            Text("\(intValue)h")
+                                .captionStyle()
+                                .padding(.trailing, 10)
+                        }
                     }
                 }
             }
+            
+            HStack {
+                Text("Jan")
+                    .captionStyle()
+                    .foregroundStyle(.secondary)
+                
+                Spacer()
+                
+                Text("Dec")
+                    .captionStyle()
+                    .foregroundStyle(.secondary)
+            }
+            .padding(.leading, 26)
+            .padding(.top, 2)
         }
     }
 }
@@ -86,6 +103,6 @@ struct BarChartWeeklySessionCount: View {
     BarChartWeeklySessionCount(showTitle: true, dateRange: SessionsListViewModel().sessions)
         .frame(height: 200)
         .padding()
-        .padding(30)
+        .padding(20)
         .environmentObject(SessionsListViewModel())
 }

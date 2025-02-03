@@ -128,6 +128,8 @@
 		7CA940F92BECF8E3009B54BA /* SleepAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA940F82BECF8E3009B54BA /* SleepAnalytics.swift */; };
 		7CA940FB2BECF925009B54BA /* HealthMetricModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA940FA2BECF925009B54BA /* HealthMetricModel.swift */; };
 		7CA9900E2CC2E5D400446D66 /* MindfulnessAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA9900D2CC2E5D400446D66 /* MindfulnessAnalytics.swift */; };
+		7CAB7EF72D4416B4008A84F9 /* ImageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAB7EF62D4416B4008A84F9 /* ImageHandler.swift */; };
+		7CAB7EF92D452654008A84F9 /* EditSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAB7EF82D452654008A84F9 /* EditSessionViewModel.swift */; };
 		7CAFDFF32B2C884100B7338D /* CustomToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF22B2C884100B7338D /* CustomToggle.swift */; };
 		7CAFE0062B2CA9E300B7338D /* AsapCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */; };
 		7CAFE0072B2CA9E300B7338D /* AsapCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */; };
@@ -205,6 +207,9 @@
 		7CB3EB9F26C310F5009E8DF3 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EB9E26C310F5009E8DF3 /* SessionDetailView.swift */; };
 		7CB3EBA126C345A1009E8DF3 /* MetricsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA026C345A1009E8DF3 /* MetricsCardView.swift */; };
 		7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA426C352C6009E8DF3 /* Model.swift */; };
+		7CB587322D426AF500BCE642 /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB587312D426AF500BCE642 /* TransactionModel.swift */; };
+		7CB587342D4275C200BCE642 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB587332D4275C200BCE642 /* MockData.swift */; };
+		7CB587362D4287C600BCE642 /* MigrationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB587352D4287C600BCE642 /* MigrationHandler.swift */; };
 		7CBB2D0E28A2EB4200A0CC99 /* Colors+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBEF44527596DEE00744F4A /* Colors+Ext.swift */; };
 		7CBB6B6E2C41A55200DAD20D /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 7CBB6B6D2C41A55200DAD20D /* Glur */; };
 		7CBBA3B72BF40CA700733D53 /* SleepCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBBA3B62BF40CA700733D53 /* SleepCardView.swift */; };
@@ -238,6 +243,8 @@
 		7CED6EA827517D7F00E18053 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED6EA727517D7F00E18053 /* Array+Ext.swift */; };
 		7CF39C922BE6DBB4003B4C00 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF39C912BE6DBB4003B4C00 /* NotificationsView.swift */; };
 		7CFB683A2B7CFC92005AB81F /* BarChartByYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */; };
+		7CFBCB6C2D491A37006C3175 /* tag-reporting.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CFBCB6B2D491A37006C3175 /* tag-reporting.mp4 */; };
+		7CFBCB6E2D491FC1006C3175 /* metrics-screen.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CFBCB6D2D491FC1006C3175 /* metrics-screen.mp4 */; };
 		7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */; };
 		7CFD78A92B34DF2D00C1A9F6 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 7CFD78A82B34DF2D00C1A9F6 /* RevenueCat */; };
 		7CFD78AB2B34DF2D00C1A9F6 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7CFD78AA2B34DF2D00C1A9F6 /* RevenueCatUI */; };
@@ -388,6 +395,8 @@
 		7CA940F82BECF8E3009B54BA /* SleepAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepAnalytics.swift; sourceTree = "<group>"; };
 		7CA940FA2BECF925009B54BA /* HealthMetricModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthMetricModel.swift; sourceTree = "<group>"; };
 		7CA9900D2CC2E5D400446D66 /* MindfulnessAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindfulnessAnalytics.swift; sourceTree = "<group>"; };
+		7CAB7EF62D4416B4008A84F9 /* ImageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHandler.swift; sourceTree = "<group>"; };
+		7CAB7EF82D452654008A84F9 /* EditSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSessionViewModel.swift; sourceTree = "<group>"; };
 		7CAFDFF22B2C884100B7338D /* CustomToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToggle.swift; sourceTree = "<group>"; };
 		7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-Light.ttf"; sourceTree = "<group>"; };
 		7CAFDFF62B2CA9E300B7338D /* AsapCondensed-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-LightItalic.ttf"; sourceTree = "<group>"; };
@@ -430,6 +439,9 @@
 		7CB3EB9E26C310F5009E8DF3 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
 		7CB3EBA026C345A1009E8DF3 /* MetricsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsCardView.swift; sourceTree = "<group>"; };
 		7CB3EBA426C352C6009E8DF3 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		7CB587312D426AF500BCE642 /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
+		7CB587332D4275C200BCE642 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		7CB587352D4287C600BCE642 /* MigrationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationHandler.swift; sourceTree = "<group>"; };
 		7CBBA3B62BF40CA700733D53 /* SleepCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepCardView.swift; sourceTree = "<group>"; };
 		7CBEB52D2C2A1EF00099C7CF /* DeepLlinking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLlinking.swift; sourceTree = "<group>"; };
 		7CBEF44527596DEE00744F4A /* Colors+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Ext.swift"; sourceTree = "<group>"; };
@@ -459,6 +471,8 @@
 		7CED6EA727517D7F00E18053 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
 		7CF39C912BE6DBB4003B4C00 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartByYear.swift; sourceTree = "<group>"; };
+		7CFBCB6B2D491A37006C3175 /* tag-reporting.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "tag-reporting.mp4"; sourceTree = "<group>"; };
+		7CFBCB6D2D491FC1006C3175 /* metrics-screen.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "metrics-screen.mp4"; sourceTree = "<group>"; };
 		7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
 		7CFD78AC2B34E46100C1A9F6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		7CFDD83B2C0CF656002C9775 /* custom-locations.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "custom-locations.mp4"; sourceTree = "<group>"; };
@@ -556,6 +570,8 @@
 				7C23A4C228A3DEE100FB5604 /* AppGroup.swift */,
 				7CBEB52D2C2A1EF00099C7CF /* DeepLlinking.swift */,
 				7C9FEC7D2C1F68B70062208B /* ImageSaver.swift */,
+				7CAB7EF62D4416B4008A84F9 /* ImageHandler.swift */,
+				7CB587352D4287C600BCE642 /* MigrationHandler.swift */,
 				7C7B78E12C3DD11900855723 /* SystemThemeManager.swift */,
 				7CA7F8142B6FF5FB00F976EE /* Tips.swift */,
 			);
@@ -687,10 +703,12 @@
 				7CC1D0452C2703E500791847 /* LiveActivityManager.swift */,
 				7C3F43AB2728512700A9C842 /* LocationModel.swift */,
 				7C0B3FF92CC6989A00F446EA /* MeditationModel.swift */,
+				7CB587332D4275C200BCE642 /* MockData.swift */,
 				7CB3EBA426C352C6009E8DF3 /* Model.swift */,
 				7C90CA0A2CD2B789002881FD /* MotionManager.swift */,
 				7C63FC3E2B3640FF00FE731C /* SubscriptionManager.swift */,
 				7C8549312C47ED830038ADB4 /* SceneDelegate.swift */,
+				7CB587312D426AF500BCE642 /* TransactionModel.swift */,
 				7C8549332C47EDD40038ADB4 /* QuickActionTypes.swift */,
 			);
 			path = Model;
@@ -726,6 +744,7 @@
 			isa = PBXGroup;
 			children = (
 				7C3EF3E42C64E5D700835467 /* EditSession.swift */,
+				7CAB7EF82D452654008A84F9 /* EditSessionViewModel.swift */,
 			);
 			path = EditSessionView;
 			sourceTree = "<group>";
@@ -829,6 +848,8 @@
 				7CFDD83B2C0CF656002C9775 /* custom-locations.mp4 */,
 				7CDBB5E02D0DE6D9003D2B0B /* health-metrics.mp4 */,
 				7CD500312D30A2B000FB4E01 /* advanced-reporting.mp4 */,
+				7CFBCB6B2D491A37006C3175 /* tag-reporting.mp4 */,
+				7CFBCB6D2D491FC1006C3175 /* metrics-screen.mp4 */,
 			);
 			path = Video;
 			sourceTree = "<group>";
@@ -1161,9 +1182,11 @@
 				7CAFE01C2B2CA9E300B7338D /* AsapCondensed-Italic.ttf in Resources */,
 				7CAFE0262B2CA9E300B7338D /* AsapCondensed-Black.ttf in Resources */,
 				7CAFE0062B2CA9E300B7338D /* AsapCondensed-Light.ttf in Resources */,
+				7CFBCB6E2D491FC1006C3175 /* metrics-screen.mp4 in Resources */,
 				7C9F23672C933939001AA6A6 /* logging-sessions-new.mp4 in Resources */,
 				7CD500322D30A2B000FB4E01 /* advanced-reporting.mp4 in Resources */,
 				7CAFE00E2B2CA9E300B7338D /* AsapCondensed-ExtraBold.ttf in Resources */,
+				7CFBCB6C2D491A37006C3175 /* tag-reporting.mp4 in Resources */,
 				7CAFE00A2B2CA9E300B7338D /* AsapCondensed-ExtraLightItalic.ttf in Resources */,
 				7CFDD83C2C0CF656002C9775 /* custom-locations.mp4 in Resources */,
 				7CAFE0512B2CAC1B00B7338D /* Asap-SemiBoldItalic.ttf in Resources */,
@@ -1244,11 +1267,13 @@
 				7CC26E6C2CDEA7C500095D4C /* PerformanceLineChart.swift in Sources */,
 				7CE37EC92C3055D0002ACA81 /* QuickMetricBox.swift in Sources */,
 				7C72E0A62BC05B6100C411F2 /* UsingLeftPocket.swift in Sources */,
+				7CB587362D4287C600BCE642 /* MigrationHandler.swift in Sources */,
 				7C13FDF02BF4D07600497DF5 /* AlertModal.swift in Sources */,
 				7CD2B1582C1BB5B300A90C79 /* PopoverView.swift in Sources */,
 				7CB3EB9D26C3093D009E8DF3 /* CellView.swift in Sources */,
 				7C3EF3E52C64E5D700835467 /* EditSession.swift in Sources */,
 				7C5C79962B2780210088A841 /* UserSettings.swift in Sources */,
+				7CAB7EF92D452654008A84F9 /* EditSessionViewModel.swift in Sources */,
 				7C6394A926C14F6400939F40 /* SessionsListView.swift in Sources */,
 				7CA9900E2CC2E5D400446D66 /* MindfulnessAnalytics.swift in Sources */,
 				7CD7468C28A6CFA200D5A2D0 /* FailureView.swift in Sources */,
@@ -1265,6 +1290,7 @@
 				7CE37EC72C304965002ACA81 /* ToolTipCalculations+Ext.swift in Sources */,
 				7C944D562BBDA26E009E6EC5 /* ProductUpdates.swift in Sources */,
 				7C63949826C14E8300939F40 /* ContentView.swift in Sources */,
+				7CB587342D4275C200BCE642 /* MockData.swift in Sources */,
 				7C2E54CB2B28CCEC00831ABA /* LeftPocketCustomTabBar.swift in Sources */,
 				7C5B0C882BBF201E00A5014B /* LineChartFullScreen.swift in Sources */,
 				7CB3EBA126C345A1009E8DF3 /* MetricsCardView.swift in Sources */,
@@ -1286,6 +1312,7 @@
 				7C5D5D332BE2B6A8003DC94D /* HealthKitManager.swift in Sources */,
 				7C6E75BB2BAA16BE006173A4 /* LiveSessionCounter.swift in Sources */,
 				7C6394A726C14F5600939F40 /* MetricsView.swift in Sources */,
+				7CB587322D426AF500BCE642 /* TransactionModel.swift in Sources */,
 				7C6E75BE2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift in Sources */,
 				7C9A0D9E2CBDEAA70070EBA3 /* FilterTag.swift in Sources */,
 				7C9FEC7E2C1F68B70062208B /* ImageSaver.swift in Sources */,
@@ -1293,6 +1320,7 @@
 				7C947AB42CCBE04E009CF5BB /* MindfulnessCompleted.swift in Sources */,
 				7C8134C02729F1BE004E1CE1 /* ProfitByMonth.swift in Sources */,
 				7CDE9FC72B78F6CC00B4AA33 /* SessionDefaultsView.swift in Sources */,
+				7CAB7EF72D4416B4008A84F9 /* ImageHandler.swift in Sources */,
 				7CB1EBDA2950DF4800FA306B /* BestSessionView.swift in Sources */,
 				7C028F982C3587FC0098CA8C /* RedeemOfferCode.swift in Sources */,
 				7C63949626C14E8300939F40 /* LeftPocketApp.swift in Sources */,
@@ -1372,20 +1400,20 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LeftPocketWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Left Pocket Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.9.3;
+				MARKETING_VERSION = 5.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1403,20 +1431,20 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LeftPocketWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Left Pocket Widget";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 4.9.3;
+				MARKETING_VERSION = 5.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1479,7 +1507,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1536,7 +1564,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1555,18 +1583,18 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = PokerTracker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.9.3;
+				MARKETING_VERSION = 5.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1583,18 +1611,18 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = PokerTracker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.9.3;
+				MARKETING_VERSION = 5.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

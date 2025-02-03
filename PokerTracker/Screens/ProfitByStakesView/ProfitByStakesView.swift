@@ -23,7 +23,7 @@ struct ProfitByStakesView: View {
     @State private var endDate: Date = .now
     @State private var showYearFilterTag: Bool = false
     
-    var filteredSessions: [PokerSession] {
+    var filteredSessions: [PokerSession_v2] {
         
         var result = viewModel.sessions.filter({ $0.isTournament != true })
         
@@ -66,7 +66,7 @@ struct ProfitByStakesView: View {
                         FilterTag(type: "Filter", filterName: "\(yearFilter)")
                     }
                 }
-                .padding(.top, showCustomDatesTag == true || yearFilter != nil ? 30 : 50)
+                .padding(.top, showCustomDatesTag == true || yearFilter != nil ? 30 : 10)
                 .padding(.trailing, 20)
                 
                 VStack (spacing: 10) {
@@ -249,7 +249,8 @@ struct ProfitByStakesView: View {
             
             Divider().padding(.bottom, 10)
             
-            ForEach(viewModel.uniqueStakes, id: \.self) { stakes in
+            let uniqueStakes = Array(Set(viewModel.allCashSessions().map { $0.stakes }))
+            ForEach(uniqueStakes, id: \.self) { stakes in
                 
                 HStack {
                     Text(stakes)
@@ -314,6 +315,36 @@ struct ProfitByStakesView: View {
                 Text("\(filteredSessions.count)")
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
+            
+            let averageBuyIn = averageBuyIn(sessions: filteredSessions)
+            
+            HStack {
+                Image(systemName: "cart.fill")
+                    .frame(width: 20)
+                    .foregroundColor(Color(.systemGray))
+                
+                Text("Avg. Buy In")
+                
+                Spacer()
+                
+                Text(averageBuyIn, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
+            }
+            
+            let punts = calculatePunts(sessions: filteredSessions)
+            
+            HStack {
+                Image(systemName: "football.fill")
+                    .frame(width: 20)
+                    .foregroundColor(Color(.systemGray))
+                
+                Text("Punts")
+                
+                Spacer()
+                
+                Text("\(punts)")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
+            }
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
         .padding(20)
@@ -338,7 +369,20 @@ struct ProfitByStakesView: View {
         }
     }
     
-    private func hourlyByStakes(stakes: String, sessions: [PokerSession]) -> Int {
+    private func averageBuyIn(sessions: [PokerSession_v2]) -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        let totalBuyIns = Float(sessions.map({ $0.buyIn }).reduce(0, +))
+        let sessionCount = Float(sessions.count)
+        let avgBuyIn = totalBuyIns / sessionCount
+        return Int(avgBuyIn)
+    }
+    
+    private func calculatePunts(sessions: [PokerSession_v2]) -> Int {
+        guard !sessions.isEmpty else { return 0 }
+        return sessions.filter { $0.cashOut == 0 }.count
+    }
+    
+    private func hourlyByStakes(stakes: String, sessions: [PokerSession_v2]) -> Int {
         guard !sessions.isEmpty else { return 0 }
         let totalHours = Float(sessions.filter{ $0.stakes == stakes }.map { $0.sessionDuration.hour ?? 0 }.reduce(0,+))
         let totalMinutes = Float(sessions.filter{ $0.stakes == stakes }.map { $0.sessionDuration.minute ?? 0 }.reduce(0,+))
@@ -355,7 +399,7 @@ struct ProfitByStakesView: View {
         }
     }
     
-    private func bbPerHourByStakes(stakes: String, sessions: [PokerSession]) -> Double {
+    private func bbPerHourByStakes(stakes: String, sessions: [PokerSession_v2]) -> Double {
         
         guard !sessions.isEmpty else { return 0 }
         guard !sessions.filter({ $0.stakes == stakes }).isEmpty else { return 0 }
@@ -373,7 +417,7 @@ struct ProfitByStakesView: View {
         return Double(bigBlindsWon / hoursPlayed)
     }
     
-    private func ueserBestStakes(sessions: [PokerSession]) -> String {
+    private func ueserBestStakes(sessions: [PokerSession_v2]) -> String {
         
         // Group sessions by stakes
         let stakesGrouped = Dictionary(grouping: sessions, by: { $0.stakes })
@@ -405,7 +449,7 @@ struct ProfitByStakesView: View {
         endDate = Date.now
     }
     
-    private func bankrollByStakesFilters(sessions: [PokerSession]) -> Int {
+    private func bankrollByStakesFilters(sessions: [PokerSession_v2]) -> Int {
         
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
@@ -424,7 +468,7 @@ struct ProfitByStakesView: View {
 
 extension SessionsListViewModel {
     
-    func hoursAbbreviated(_ sessions: [PokerSession]) -> String {
+    func hoursAbbreviated(_ sessions: [PokerSession_v2]) -> String {
         
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal

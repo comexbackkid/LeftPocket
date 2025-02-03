@@ -60,88 +60,86 @@ struct PerformanceLineChart: View {
             }
             .animation(nil, value: selectedMonth)
             
-            if #available(iOS 17.0, *) {
-                
-                Chart {
-                    ForEach(chartData, id: \.0) { (month, value) in
-                        LineMark(x: .value("Month", month, unit: .month), y: .value("Value", value))
-                            .foregroundStyle(lineGradient)
-                            .lineStyle(.init(lineWidth: 2, lineCap: .round, lineJoin: .round))
-                            .interpolationMethod(.catmullRom)
-                            
-                        AreaMark(x: .value("Month", month, unit: .month), y: .value("Value", value))
-                            .foregroundStyle(areaGradient)
-                            .interpolationMethod(.catmullRom)
-                            .opacity(0.2)
-                    }
+            Chart {
+                ForEach(chartData, id: \.0) { (month, value) in
+                    LineMark(x: .value("Month", month, unit: .month), y: .value("Value", value))
+                        .foregroundStyle(lineGradient)
+                        .lineStyle(.init(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                        .interpolationMethod(.catmullRom)
                     
-                    if let selectedMonth {
-                        
-                        RuleMark(x: .value("Selected Month", selectedMonth, unit: .month))
-                            .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, dash: [6]))
-                            .foregroundStyle(.gray.opacity(0.33))
-                            .zIndex(-1)
-                        
-                        PointMark(x: .value("Month", selectedMonth, unit: .month), y: .value("Value", valueAnnotation ?? 0))
-                            .foregroundStyle(colorScheme == .dark ? Color.brandWhite : Color.black)
-                            .symbolSize(100)
-                        PointMark(x: .value("Month", selectedMonth, unit: .month), y: .value("Value", valueAnnotation ?? 0))
-                            .foregroundStyle(colorScheme == .dark ? Color.black : .white)
-                            .symbolSize(40)
-                    }
+                    AreaMark(x: .value("Month", month, unit: .month), y: .value("Value", value))
+                        .foregroundStyle(areaGradient)
+                        .interpolationMethod(.catmullRom)
+                        .opacity(0.2)
                 }
-                .chartXSelection(value: $selectedMonth.animation(.easeInOut))
-                .sensoryFeedback(.selection, trigger: valueAnnotation)
-                .chartXScale(domain: [firstDay, lastDay])
-                .chartYAxis {
-                    AxisMarks(position: .leading, values: .automatic(desiredCount: 4)) { value in
-                        AxisGridLine()
-                            .foregroundStyle(.gray.opacity(0.33))
-                        AxisValueLabel() {
-                            switch metricFilter {
-                            case .hourly:
-                                if let intValue = value.as(Int.self) {
-                                    Text(intValue.axisShortHand(viewModel.userCurrency))
-                                        .captionStyle()
-                                        .padding(.trailing, 15)
-                                }
-                            case .winRate:
-                                if let doubleValue = value.as(Double.self) {
-                                    Text(doubleValue.asPercent())
-                                        .captionStyle()
-                                        .padding(.trailing, 15)
-                                }
-                            case .bbRate:
-                                if let doubleValue = value.as(Double.self) {
-                                    Text("\(doubleValue, specifier: "%.0f")")
-                                        .captionStyle()
-                                        .padding(.trailing, 15)
-                                }
+                
+                if let selectedMonth {
+                    
+                    RuleMark(x: .value("Selected Month", selectedMonth, unit: .month))
+                        .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, dash: [6]))
+                        .foregroundStyle(.gray.opacity(0.33))
+                        .zIndex(-1)
+                    
+                    PointMark(x: .value("Month", selectedMonth, unit: .month), y: .value("Value", valueAnnotation ?? 0))
+                        .foregroundStyle(colorScheme == .dark ? Color.brandWhite : Color.black)
+                        .symbolSize(100)
+                    PointMark(x: .value("Month", selectedMonth, unit: .month), y: .value("Value", valueAnnotation ?? 0))
+                        .foregroundStyle(colorScheme == .dark ? Color.black : .white)
+                        .symbolSize(40)
+                }
+            }
+            .chartXSelection(value: $selectedMonth.animation(.easeInOut))
+            .sensoryFeedback(.selection, trigger: valueAnnotation)
+            .chartXScale(domain: [firstDay, lastDay])
+            .chartYAxis {
+                AxisMarks(position: .leading, values: .automatic(desiredCount: 4)) { value in
+                    AxisGridLine()
+                        .foregroundStyle(.gray.opacity(0.33))
+                    AxisValueLabel() {
+                        switch metricFilter {
+                        case .hourly:
+                            if let intValue = value.as(Int.self) {
+                                Text(intValue.axisShortHand(viewModel.userCurrency))
+                                    .captionStyle()
+                                    .padding(.trailing, 15)
+                            }
+                        case .winRate:
+                            if let doubleValue = value.as(Double.self) {
+                                Text(doubleValue.asPercent())
+                                    .captionStyle()
+                                    .padding(.trailing, 15)
+                            }
+                        case .bbRate:
+                            if let doubleValue = value.as(Double.self) {
+                                Text("\(doubleValue, specifier: "%.0f")")
+                                    .captionStyle()
+                                    .padding(.trailing, 15)
                             }
                         }
                     }
                 }
-                .chartXAxis {
-                    AxisMarks {
-                        AxisGridLine(stroke: StrokeStyle(lineWidth: 1, dash: [2, 8]))
-                            .foregroundStyle(.gray.opacity(0.33))
-                        AxisValueLabel(format: .dateTime.month(.abbreviated),
-                                       horizontalSpacing: 0,
-                                       verticalSpacing: 15).font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
-                    }
-                }
-                .overlay {
-                    if chartData.isEmpty {
-                        VStack {
-                            Text("No chart data to display.")
-                                .calloutStyle()
-                                .foregroundStyle(.secondary)
-                        }
-                        .offset(y: -20)
-                    }
-                }
-                .padding(.top, 30)
             }
+            .chartXAxis {
+                AxisMarks {
+                    AxisGridLine(stroke: StrokeStyle(lineWidth: 1, dash: [2, 8]))
+                        .foregroundStyle(.gray.opacity(0.33))
+                    AxisValueLabel(format: .dateTime.month(.abbreviated),
+                                   horizontalSpacing: 0,
+                                   verticalSpacing: 15).font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
+                }
+            }
+            .overlay {
+                if chartData.isEmpty {
+                    VStack {
+                        Text("No chart data to display.")
+                            .calloutStyle()
+                            .foregroundStyle(.secondary)
+                    }
+                    .offset(y: -20)
+                }
+            }
+            .padding(.top, 30)
+            
         }
     }
     
@@ -188,7 +186,7 @@ struct PerformanceLineChart: View {
         sessionsBbWon(sessions: viewModel.sessions, cashOnly: true)
     }
 
-    func sessionsAverageHourlyRateByMonth(sessions: [PokerSession], cashOnly: Bool) -> [(month: Date, averageHourlyRate: Int)] {
+    func sessionsAverageHourlyRateByMonth(sessions: [PokerSession_v2], cashOnly: Bool) -> [(month: Date, averageHourlyRate: Int)] {
         
         var monthlyHourlyRates: [Date: [Int]] = [:]
         let currentYear = Calendar.current.component(.year, from: Date())
@@ -216,7 +214,7 @@ struct PerformanceLineChart: View {
         .sorted { $0.0 < $1.0 }
     }
     
-    func sessionsWinRateByMonth(sessions: [PokerSession], cashOnly: Bool) -> [(month: Date, winRate: Double)] {
+    func sessionsWinRateByMonth(sessions: [PokerSession_v2], cashOnly: Bool) -> [(month: Date, winRate: Double)] {
         
         var monthlyWinRates: [Date: (wins: Int, total: Int)] = [:]
         let currentYear = Calendar.current.component(.year, from: Date())
@@ -246,7 +244,7 @@ struct PerformanceLineChart: View {
         .sorted { $0.0 < $1.0 }
     }
     
-    func sessionsBbWon(sessions: [PokerSession], cashOnly: Bool) -> [(month: Date, bbWon: Double)] {
+    func sessionsBbWon(sessions: [PokerSession_v2], cashOnly: Bool) -> [(month: Date, bbWon: Double)] {
         
         var monthlyBbWon: [Date: [Double]] = [:]
         let currentYear = Calendar.current.component(.year, from: Date())
@@ -272,7 +270,7 @@ struct PerformanceLineChart: View {
         .sorted { $0.0 < $1.0 }
     }
     
-    func valueByMonth(month: Date, data: [PokerSession]) -> Double {
+    func valueByMonth(month: Date, data: [PokerSession_v2]) -> Double {
         
         let currentYear = Calendar.current.component(.year, from: Date())
         let filteredSessions = data.filter({ $0.date.getMonth() == month.getMonth() && Int($0.date.getYear()) == currentYear })

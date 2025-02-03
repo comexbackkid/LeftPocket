@@ -1,9 +1,9 @@
-//
-//  BestLocationView.swift
-//  LeftPocket
-//
-//  Created by Christian Nachtrieb on 12/16/22.
-//
+////
+////  BestLocationView.swift
+////  LeftPocket
+////
+////  Created by Christian Nachtrieb on 12/16/22.
+////
 
 import SwiftUI
 
@@ -11,11 +11,12 @@ struct BestLocationView: View {
     
     @Environment(\.colorScheme) var colorScheme
     
-    let location: LocationModel
+    let location: LocationModel_v2
     
     var body: some View {
         
         VStack (spacing: 12) {
+            
             HStack {
                 
                 VStack(alignment: .leading, spacing: 5) {
@@ -31,63 +32,37 @@ struct BestLocationView: View {
                 
                 Spacer()
                 
-                if location.imageURL != "" {
+                if let localImage = location.localImage {
+                    Image(localImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 80, height: 80)
+                        .clipped()
+                        .cornerRadius(12)
+                        .padding(.leading)
                     
-                    AsyncImage(url: URL(string: location.imageURL), scale: 1, transaction: Transaction(animation: .easeIn)) { imagePhase in
-                        
-                        switch imagePhase {
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 80, height: 80)
-                                .clipped()
-                                .cornerRadius(20)
-                                .padding(.leading)
-                            
-                        case .failure:
-                            FailureView()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 80, height: 80)
-                                .clipped()
-                                .cornerRadius(20)
-                                .padding(.leading)
-                            
-                        case .empty:
-                            PlaceholderView()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 80, height: 80)
-                                .clipped()
-                                .cornerRadius(20)
-                                .padding(.leading)
-                            
-                        @unknown default:
-                            PlaceholderView()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 80, height: 80)
-                                .clipped()
-                                .cornerRadius(20)
-                                .padding(.leading)
-                        }
-                    }
-                    
-                } else if location.importedImage != nil {
-                    
-                    if let photoData = location.importedImage,
-                       let uiImage = UIImage(data: photoData) {
-                        
+                } else if let importedImagePath = location.importedImage {
+                    if let uiImage = ImageLoader.loadImage(from: importedImagePath) {
                         Image(uiImage: uiImage)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 80, height: 80)
                             .clipped()
-                            .cornerRadius(20)
+                            .cornerRadius(12)
+                            .padding(.leading)
+                        
+                    } else {
+                        Image("defaultlocation-header")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 80, height: 80)
+                            .clipped()
+                            .cornerRadius(12)
                             .padding(.leading)
                     }
                     
                 } else {
-                    
-                    Image(location.localImage != "" ? location.localImage : "defaultlocation-header")
+                    Image("defaultlocation-header")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 80, height: 80)

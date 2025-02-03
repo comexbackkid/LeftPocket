@@ -17,17 +17,12 @@ struct ProfitByMonth: View {
     var body: some View {
         
         ScrollView {
-            
-            VStack { }.frame(height: 40)
-            
-            if #available(iOS 17.0, *) {
-                
-                let monthlyReportTip = MonthlyReportTip()
-                TipView(monthlyReportTip)
-                    .tipViewStyle(CustomTipViewStyle())
-                    .padding(.horizontal, 20)
-                    .padding(.bottom)
-            }
+                        
+            let monthlyReportTip = MonthlyReportTip()
+            TipView(monthlyReportTip)
+                .tipViewStyle(CustomTipViewStyle())
+                .padding(.horizontal, 20)
+                .padding(.top)
             
             monthlyTotals
                 
@@ -139,14 +134,16 @@ struct ProfitByMonth: View {
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+        .padding(.top)
     }
     
     var yearTotal: some View {
         
         VStack (spacing: 7) {
             
+            let filteredSessions = vm.sessions.filter({ $0.date.getYear() == yearFilter })
             let bankrollTotalByYear = vm.bankrollByYear(year: yearFilter, sessionFilter: .all)
-            let totalHoursPlayed = vm.sessions.filter({ $0.date.getYear() == yearFilter }).map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+            let totalHoursPlayed = filteredSessions.map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
             
             HStack {
                 Image(systemName: "dollarsign")
@@ -211,7 +208,7 @@ struct ProfitByMonth: View {
         
     }
     
-    private func hourlyByMonth(month: String, sessions: [PokerSession]) -> Int {
+    private func hourlyByMonth(month: String, sessions: [PokerSession_v2]) -> Int {
         guard !sessions.isEmpty else { return 0 }
         let totalHours = Float(sessions.filter{ $0.date.getMonth() == month }.map { $0.sessionDuration.hour ?? 0 }.reduce(0,+))
         let totalMinutes = Float(sessions.filter{ $0.date.getMonth() == month }.map { $0.sessionDuration.minute ?? 0 }.reduce(0,+))

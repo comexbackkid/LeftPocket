@@ -8,7 +8,6 @@
 import SwiftUI
 import TipKit
 
-@available(iOS 17.0, *)
 struct DeleteLocationTip: Tip {
     
     var title: Text {
@@ -24,7 +23,6 @@ struct DeleteLocationTip: Tip {
     }
 }
 
-@available(iOS 17.0, *)
 struct MonthlyReportTip: Tip {
     
     var title: Text {
@@ -40,7 +38,6 @@ struct MonthlyReportTip: Tip {
     }
 }
 
-@available(iOS 17.0, *)
 struct NewSessionViewTip: Tip {
     
     var title: Text {
@@ -56,7 +53,6 @@ struct NewSessionViewTip: Tip {
     }
 }
 
-@available(iOS 17.0, *)
 struct MeditationTip: Tip {
     
     var title: Text {
@@ -72,7 +68,6 @@ struct MeditationTip: Tip {
     }
 }
 
-@available(iOS 17.0, *)
 struct AddSessionTip: Tip {
     
     static let sessionCount = Event(id: "clickedAddSessionButton")
@@ -106,7 +101,6 @@ struct AddSessionTip: Tip {
     }
 }
 
-@available(iOS 17.0, *)
 struct FilterSessionsTip: Tip {
     
     static let sessionCount = Event(id: "addedSession")
@@ -133,7 +127,6 @@ struct FilterSessionsTip: Tip {
     }
 }
 
-@available(iOS 17.0, *)
 struct SettingsTip: Tip {
     
     var title: Text {
@@ -149,7 +142,6 @@ struct SettingsTip: Tip {
     }
 }
 
-@available(iOS 17.0, *)
 public struct TipKitConfig {
         
     public static var storeLocation: Tips.ConfigurationOption.DatastoreLocation {
@@ -164,7 +156,6 @@ public struct TipKitConfig {
     }
 }
 
-@available(iOS 17.0, *)
 struct CustomTipViewStyle: TipViewStyle {
     func makeBody(configuration: TipViewStyle.Configuration) -> some View {
         HStack (alignment: .top, spacing: 10) {

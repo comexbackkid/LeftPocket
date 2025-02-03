@@ -13,9 +13,9 @@ struct AdvancedTournamentReport: View {
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var vm: SessionsListViewModel
     @State private var yearFilter: String = Date().getYear()
-    @State private var chartYearSelection: [PokerSession]?
+    @State private var chartYearSelection: [PokerSession_v2]?
     
-    var chartYearFilter: [PokerSession] {
+    var chartYearFilter: [PokerSession_v2] {
         return vm.allTournamentSessions().filter({ $0.date.getYear() == yearFilter })
     }
     var convertedData: [Int] {
@@ -29,8 +29,6 @@ struct AdvancedTournamentReport: View {
     var body: some View {
         
         ScrollView {
-            
-            VStack { }.frame(height: 40)
                 
             monthlyTotals
             
@@ -117,17 +115,19 @@ struct AdvancedTournamentReport: View {
                     Spacer()
                     
                     let filteredMonths = vm.sessions.filter({ $0.date.getYear() == yearFilter && $0.isTournament == true })
-                    let buyIns = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.expenses ?? 0 }.reduce(0,+)
-                    let grossProfit = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.profit }.reduce(0,+) + buyIns
-                    let netProfit = grossProfit - buyIns
+                    let totalBuyIns = filteredMonths.filter({ $0.date.getMonth() == month }).reduce(0) { total, session in
+                        total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
+                    }
+                    let grossProfit = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.profit }.reduce(0, +) + totalBuyIns
+                    let netProfit = grossProfit - totalBuyIns
                     
                     Text(grossProfit.currencyShortHand(vm.userCurrency))
                         .profitColor(total: grossProfit)
                         .frame(width: 62, alignment: .trailing)
                     
                     // Necessary because the stystem doesn't know this value is technically a "negative"
-                    Text(buyIns != 0 ? "-\(buyIns.currencyShortHand(vm.userCurrency))" : "$0")
-                        .foregroundStyle(buyIns != 0 ? .red : .secondary)
+                    Text(totalBuyIns != 0 ? "-\(totalBuyIns.currencyShortHand(vm.userCurrency))" : "$0")
+                        .foregroundStyle(totalBuyIns != 0 ? .red : .secondary)
                         .frame(width: 62, alignment: .trailing)
                     
                     Text(netProfit.currencyShortHand(vm.userCurrency))
@@ -143,6 +143,7 @@ struct AdvancedTournamentReport: View {
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+        .padding(.top)
     }
     
     var yearTotals: some View {
@@ -150,12 +151,15 @@ struct AdvancedTournamentReport: View {
         VStack (spacing: 10) {
             
             let tournamentListByYear = vm.sessions.filter({ $0.isTournament == true && $0.date.getYear() == yearFilter })
-            let totalBuyInsByYear = tournamentListByYear.map({ $0.expenses ?? 0 }).reduce(0,+)
+            let totalBuyInsByYear = tournamentListByYear.reduce(0) { total, session in
+                total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
+            }
             let bankrollTotalByYear = vm.bankrollByYear(year: yearFilter, sessionFilter: .tournaments) + totalBuyInsByYear
             let netProfit = bankrollTotalByYear - totalBuyInsByYear
             let tournamentCount = tournamentListByYear.count
             let roi = yearlyTournamentROI(tournaments: tournamentListByYear)
             let hoursPlayed = tournamentListByYear.map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+)
+            let bullets = (tournamentListByYear.map { $0.rebuyCount ?? 0 }.reduce(0, +)) + tournamentCount
             
             HStack {
                 Image(systemName: "trophy.fill")
@@ -237,6 +241,19 @@ struct AdvancedTournamentReport: View {
                 Text("\(tournamentCount)")
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
+            
+            HStack {
+                Image("bullet-pointed-icon")
+                    .frame(width: 20)
+                    .foregroundColor(Color(.systemGray))
+                
+                Text("Bullets Fired")
+                
+                Spacer()
+                
+                Text("\(bullets)")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
+            }
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
         .padding(.horizontal, 20)
@@ -308,10 +325,16 @@ struct AdvancedTournamentReport: View {
         .padding(.bottom, 60)
     }
     
-    private func yearlyTournamentROI(tournaments: [PokerSession]) -> String {
+    private func yearlyTournamentROI(tournaments: [PokerSession_v2]) -> String {
         guard !tournaments.isEmpty else { return "0%" }
-        let totalBuyIns = tournaments.map({ $0.expenses ?? 0}).reduce(0,+)
+        
+        let totalBuyIns = tournaments.reduce(0) { total, session in
+            total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
+        }
         let totalWinnings = tournaments.map({ $0.profit }).reduce(0,+) + totalBuyIns
+        
+        guard totalBuyIns > 0 else { return "0%" }
+        
         let returnOnInvestment = (Double(totalWinnings) - Double(totalBuyIns)) / Double(totalBuyIns)
         return returnOnInvestment.asPercent()
     }

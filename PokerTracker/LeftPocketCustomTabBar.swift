@@ -49,51 +49,22 @@ struct LeftPocketCustomTabBar: View {
             VStack {
                 
                 switch selectedTab {
-                case 0:
-                    ContentView()
-                    
-                case 1:
-                    SessionsListView()
-                    
-                case 2:
-                    Text("")
-                    
-                case 3:
-                    MetricsView(activeSheet: .constant(nil))
-                    
-                case 4:
-                    UserSettings(isDarkMode: $isDarkMode, systemThemeEnabled: $systemThemeEnabled)
-                
-                default:
-                    Text("")
+                case 0: ContentView()
+                case 1: SessionsListView()
+                case 2: Text("")
+                case 3: MetricsView(activeSheet: .constant(nil))
+                case 4: UserSettings(isDarkMode: $isDarkMode, systemThemeEnabled: $systemThemeEnabled)
+                default: Text("")
                 }
             }
             
             VStack {
                 
                 Spacer()
+                                
+                tips
                 
-                if #available(iOS 17.0, *) {
-                    let addSessionTip = AddSessionTip()
-                    
-                    TipView(addSessionTip, arrowEdge: .bottom)
-                        .tipViewStyle(CustomTipViewStyle())
-                        .padding(.horizontal, 20)
-                }
-                
-                if viewModel.sessions.count == 2 {
-                    if #available(iOS 17.0, *) {
-                        let settingsTip = SettingsTip()
-                        
-                        TipView(settingsTip)
-                            .tipViewStyle(CustomTipViewStyle())
-                            .padding(.horizontal, 20)
-                    }
-                }
-                
-                if isCounting {
-                    LiveSessionCounter(timerViewModel: timerViewModel)
-                }
+                if isCounting { LiveSessionCounter(timerViewModel: timerViewModel) }
                 
                 tabBar
             }
@@ -107,10 +78,8 @@ struct LeftPocketCustomTabBar: View {
                 .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
             
             // If user has been using the app, we tell the Tips they are not a new user
-            if #available(iOS 17.0, *) {
-                AddSessionTip.newUser = viewModel.sessions.count > 0 ? false : true
-            }
-            
+            AddSessionTip.newUser = viewModel.sessions.count > 0 ? false : true
+
             UNUserNotificationCenter.current().getNotificationSettings { settings in
                 if settings.authorizationStatus != .authorized {
                     notificationsAllowed = false
@@ -154,12 +123,10 @@ struct LeftPocketCustomTabBar: View {
                     }
                     
                 } else if !isCounting {
-                    
-                    // This is why this is structured using a Menu, and how it works.
-                    // The Menu functionality provides the clean, one-click look that doesn't distort the button like a Context Menu
-                    // Now, if there's no live session going on (isCounting), Tab bar displays the standard Plus button that brings up the options
-                    // Below, the rendered Tab Bar view will show a stop button IF it detects that there's a live session in progress
-                    
+                    /// This is why this is structured using a Menu, and how it works.
+                    /// The Menu functionality provides the clean, one-click look that doesn't distort the button like a Context Menu
+                    /// Now, if there's no live session going on (isCounting), Tab bar displays the standard Plus button that brings up the options
+                    /// Below, the rendered Tab Bar view will show a stop button IF it detects that there's a live session in progress
                     Menu {
 
                         if !isCounting {
@@ -198,7 +165,6 @@ struct LeftPocketCustomTabBar: View {
                         }
 
                     } label: {
-                        
                         Spacer()
                         Image(systemName: isCounting ? "stop.fill" : "cross.fill")
                             .font(.system(size: 28, weight: .medium))
@@ -243,14 +209,12 @@ struct LeftPocketCustomTabBar: View {
                     }
                     
                 } else {
-                    
                     Button {
                         let impact = UIImpactFeedbackGenerator(style: .heavy)
                         impact.impactOccurred()
                         showAlert = true
                         
                     } label: {
-                        
                         Spacer()
                         Image(systemName: "stop.fill")
                             .font(.system(size: 30, weight: .black))
@@ -304,6 +268,24 @@ struct LeftPocketCustomTabBar: View {
         }
     }
     
+    var tips: some View {
+        
+        VStack {
+            let addSessionTip = AddSessionTip()
+            TipView(addSessionTip, arrowEdge: .bottom)
+                .tipViewStyle(CustomTipViewStyle())
+                .padding(.horizontal, 20)
+            
+            if viewModel.sessions.count == 2 {
+                
+                let settingsTip = SettingsTip()
+                TipView(settingsTip)
+                    .tipViewStyle(CustomTipViewStyle())
+                    .padding(.horizontal, 20)
+            }
+        }
+    }
+    
     func playSound() {
             
         guard let url = Bundle.main.url(forResource: "cash-sfx", withExtension: ".wav") else { return }
@@ -332,9 +314,7 @@ struct LeftPocketCustomTabBar: View {
         impact.impactOccurred()
         
         Task {
-            if #available(iOS 17.0, *) {
-                await AddSessionTip.sessionCount.donate()
-            }
+            await AddSessionTip.sessionCount.donate()
         }
         
         // If user is NOT subscribed, AND they're over the monthly allowance, the Plus button will display Paywall
@@ -366,9 +346,7 @@ struct LeftPocketCustomTabBar: View {
         impact.impactOccurred()
         
         Task {
-            if #available(iOS 17.0, *) {
-                await AddSessionTip.sessionCount.donate()
-            }
+            await AddSessionTip.sessionCount.donate()
         }
         
         // If user is NOT subscribed, AND they're over the monthly allowance, the Plus button will display Paywall
@@ -377,7 +355,6 @@ struct LeftPocketCustomTabBar: View {
             showPaywall = true
             
         } else {
-            
             isPresented = true
         }
         

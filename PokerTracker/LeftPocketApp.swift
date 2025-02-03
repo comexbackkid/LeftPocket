@@ -17,6 +17,7 @@ struct LeftPocketApp: App {
     @StateObject var vm = SessionsListViewModel()
     @StateObject var subManager = SubscriptionManager()
     @AppStorage("shouldShowOnboarding") var showWelcomeScreen: Bool = true
+    @AppStorage("savedStartingBankroll") var savedStartingBankroll: String = ""
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     
     private let qaService = QAService.shared
@@ -24,7 +25,11 @@ struct LeftPocketApp: App {
     var body: some Scene {
         WindowGroup {
             LeftPocketCustomTabBar()
-                .fullScreenCover(isPresented: $showWelcomeScreen, content: {
+                .fullScreenCover(isPresented: $showWelcomeScreen, onDismiss: {
+                    if !savedStartingBankroll.isEmpty {
+                        vm.addTransaction(date: Date(), type: .deposit, amount: Int(savedStartingBankroll) ?? 0, notes: "Starting Bankroll", tags: nil)
+                    }
+                }, content: {
                     OnboardingView(shouldShowOnboarding: $showWelcomeScreen)
                 })
                 .environmentObject(vm)
@@ -35,6 +40,9 @@ struct LeftPocketApp: App {
                     handleDeepLinkURL(url: url)
                     Branch.getInstance().handleDeepLink(url)
                 })
+                .onAppear {
+                    migrateDataIfNeeded(viewModel: vm)
+                }
         }
     }
         
@@ -43,10 +51,36 @@ struct LeftPocketApp: App {
     }
     
     func configureTips() {
-        if #available(iOS 17.0, *) {
-//            try? Tips.resetDatastore()
-            try? Tips.configure([.datastoreLocation(TipKitConfig.storeLocation),
-                                 .displayFrequency(TipKitConfig.displayFrequency)])
+//        try? Tips.resetDatastore()
+        try? Tips.configure([.datastoreLocation(TipKitConfig.storeLocation),
+                             .displayFrequency(TipKitConfig.displayFrequency)])
+    }
+    
+    // TODO: Use a check to see if the new sessions_v2.json exists, instead of a Bool
+    func migrateDataIfNeeded(viewModel: SessionsListViewModel) {
+        let fileManager = FileManager.default
+        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let newSessionsFile = documentsURL.appendingPathComponent("sessions_v2.json")
+        
+        // Check if the new sessions file already exists
+        if fileManager.fileExists(atPath: newSessionsFile.path) {
+            print("Migration not needed. sessions_v2.json already exists.")
+            return
         }
+        
+        // Perform migration if sessions_v2.json does not exist
+        print("Migration needed. Starting migration process...")
+        let migratedLocations = MigrationHandler.migrateLocationModel()
+        let migratedSessions = MigrationHandler.migratePokerSessionModel()
+        
+        // Update SessionsListViewModel
+        if let locations = migratedLocations {
+            viewModel.locations = locations
+        }
+        if let sessions = migratedSessions {
+            viewModel.sessions = sessions
+        }
+        
+        print("Migration of Locations & Sessions completed successfully.")
     }
 }

@@ -17,24 +17,39 @@ struct TagReport: View {
     
     var imageGenerator: Image {
         
-        let sessions = viewModel.sessions.filter({ $0.tags?.first == tagsFilter })
+        let sessions = viewModel.sessions.filter({ $0.tags.first == tagsFilter })
         let firstLocation = sessions.last?.location
         
-        if let photoData = firstLocation?.importedImage, let uiImage = UIImage(data: photoData) {
-            
-            return Image(uiImage: uiImage)
-                
-        } else if let localImage = firstLocation?.localImage{
-            
+        if let localImage = firstLocation?.localImage {
             return Image(localImage)
             
-        } else {
+        } else if let importedImagePath = firstLocation?.importedImage {
+            if let uiImage = ImageLoader.loadImage(from: importedImagePath) {
+                return Image(uiImage: uiImage)
+                
+            } else {
+                return Image("defaultlocation-header")
+            }
             
+        } else {
             return Image("defaultlocation-header")
         }
+        
+//        if let photoData = firstLocation?.importedImage, let uiImage = UIImage(data: photoData) {
+//            
+//            return Image(uiImage: uiImage)
+//                
+//        } else if let localImage = firstLocation?.localImage{
+//            
+//            return Image(localImage)
+//            
+//        } else {
+//            
+//            return Image("defaultlocation-header")
+//        }
     }
-    var taggedSessions: [PokerSession]? {
-        return viewModel.sessions.filter({ $0.tags?.first == tagsFilter })
+    var taggedSessions: [PokerSession_v2]? {
+        return viewModel.sessions.filter({ $0.tags.first == tagsFilter })
     }
     
     var body: some View {
@@ -71,6 +86,7 @@ struct TagReport: View {
             
             BankrollLineChart(customDateRange: taggedSessions, showTitle: true, showYAxis: true, showRangeSelector: false, showPatternBackground: false, overlayAnnotation: false, showToggleAndFilter: false)
                 .padding(20)
+                .padding(.bottom)
                 .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)
                 .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                 .cornerRadius(12)
@@ -122,7 +138,7 @@ struct TagReport: View {
         
         HStack {
             
-            let taggedSessions = viewModel.sessions.compactMap { $0.tags?.first }.filter { !$0.isEmpty }.uniqued()
+            let taggedSessions = viewModel.sessions.compactMap { $0.tags.first }.filter { !$0.isEmpty }.uniqued()
             
             Text("Tag Name")
                 .bodyStyle()
@@ -181,7 +197,7 @@ struct TagReport: View {
                     }
                 }
                 .popover(isPresented: $grossIncomePopover, arrowEdge: .bottom, content: {
-                    PopoverView(bodyText: "Gross Income includes total income won from Sessions in this Tag Report, including high hand bonuses.")
+                    PopoverView(bodyText: "Gross Income includes total income from Sessions in this Tag Report, including high hand bonuses.")
                         .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                         .frame(height: 145)
                         .dynamicTypeSize(.medium...DynamicTypeSize.medium)
@@ -213,7 +229,7 @@ struct TagReport: View {
                     .foregroundColor(expenses > 0 ? .red : Color(.systemGray))
             }
             .popover(isPresented: $expensesPopover, arrowEdge: .bottom, content: {
-                PopoverView(bodyText: "Expenses include both on & off-the-table expenses, and those logged using Transactions. This is in addition to Tournament buy ins.")
+                PopoverView(bodyText: "Expenses include both on & off-the-table expenses, i.e. expenses from Transactions. Expenses also include your Tournament buy ins & rebuys.")
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                     .frame(height: 145)
                     .dynamicTypeSize(.medium...DynamicTypeSize.medium)
@@ -324,8 +340,8 @@ struct TagReport: View {
     
     private func tagSessionCount(tag: String) -> Int {
         
-        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
-        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        let taggedSessions = viewModel.sessions.filter({ !$0.tags.isEmpty })
+        let matchedSessions = taggedSessions.filter({ $0.tags.first == tag })
         guard !matchedSessions.isEmpty else { return 0 }
         
         return matchedSessions.count
@@ -333,8 +349,8 @@ struct TagReport: View {
     
     private func tagTotalHours(tag: String) -> String {
         
-        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
-        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        let taggedSessions = viewModel.sessions.filter({ !$0.tags.isEmpty })
+        let matchedSessions = taggedSessions.filter({ $0.tags.first == tag })
         guard !matchedSessions.isEmpty else { return "0" }
         
         let hoursArray: [Int] = matchedSessions.map { $0.sessionDuration.hour ?? 0 }
@@ -343,13 +359,13 @@ struct TagReport: View {
         let totalMinutes = minutesArray.reduce(0, +)
         let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
         
-        return dateComponents.abbreviated(duration: dateComponents)
+        return dateComponents.durationShortHand()
     }
     
     private func tagWinRatio(tag: String) -> String {
         
-        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
-        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        let taggedSessions = viewModel.sessions.filter({ !$0.tags.isEmpty })
+        let matchedSessions = taggedSessions.filter({ $0.tags.first == tag })
         guard !matchedSessions.isEmpty else { return "0%" }
         
         let wins = Double(matchedSessions.filter({ $0.profit > 0 }).count)
@@ -360,18 +376,18 @@ struct TagReport: View {
     
     private func tagHighHands(tag: String) -> Int {
         
-        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
-        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        let taggedSessions = viewModel.sessions.filter({ !$0.tags.isEmpty })
+        let matchedSessions = taggedSessions.filter({ $0.tags.first == tag })
         guard !matchedSessions.isEmpty else { return 0 }
         
-        let highHandsTotal = matchedSessions.map({ $0.highHandBonus ?? 0 }).reduce(0, +)
+        let highHandsTotal = matchedSessions.map({ $0.highHandBonus }).reduce(0, +)
         return highHandsTotal
     }
     
     private func tagBestSession(tag: String) -> Int {
         
-        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
-        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        let taggedSessions = viewModel.sessions.filter({ !$0.tags.isEmpty })
+        let matchedSessions = taggedSessions.filter({ $0.tags.first == tag })
         guard !matchedSessions.isEmpty else { return 0 }
         
         guard let bestSession = matchedSessions.map({ $0.profit }).max(by: { $0 < $1 }) else {
@@ -383,8 +399,8 @@ struct TagReport: View {
     
     private func tagProfitPerSession(tag: String) -> Int {
         
-        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
-        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        let taggedSessions = viewModel.sessions.filter({ !$0.tags.isEmpty })
+        let matchedSessions = taggedSessions.filter({ $0.tags.first == tag })
         guard !matchedSessions.isEmpty else { return 0 }
         
         let profit = matchedSessions.map({ $0.profit }).reduce(0, +)
@@ -394,8 +410,8 @@ struct TagReport: View {
     
     private func tagHourlyRate(tag: String) -> Int {
         
-        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
-        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        let taggedSessions = viewModel.sessions.filter({ !$0.tags.isEmpty })
+        let matchedSessions = taggedSessions.filter({ $0.tags.first == tag })
         guard !matchedSessions.isEmpty else { return 0 }
         
         let totalHours = Float(matchedSessions.map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+))
@@ -412,47 +428,65 @@ struct TagReport: View {
     
     private func tagGrossIncome(tag: String) -> Int {
         
-        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
-        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        let taggedSessions = viewModel.sessions.filter({ !$0.tags.isEmpty })
+        let matchedSessions = taggedSessions.filter({ $0.tags.first == tag })
         guard !matchedSessions.isEmpty else { return 0 }
         
         let netProfit = matchedSessions.map { Int($0.profit) }.reduce(0, +)
-        let totalExpenses = matchedSessions.map { Int($0.expenses ?? 0) }.reduce(0, +)
-        let grossIncome = netProfit + totalExpenses
+        let totalExpenses = matchedSessions.map { Int($0.expenses) }.reduce(0, +)
+        let tournamentBuyIns = matchedSessions.filter({ $0.isTournament == true }).reduce(0) { total, session in
+            total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
+        }
+        let grossIncome = netProfit + totalExpenses + tournamentBuyIns
         return grossIncome
     }
     
     private func tagExpenses(tag: String) -> Int {
         
-        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
+        let taggedSessions = viewModel.sessions.filter({ !$0.tags.isEmpty })
         let taggedTransactions = viewModel.transactions.filter({ $0.tags != nil })
         
-        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        let matchedSessions = taggedSessions.filter({ $0.tags.first == tag })
         let matchedTransactions = taggedTransactions.filter({ $0.tags?.first == tag && $0.type == .expense })
         guard !matchedSessions.isEmpty else { return 0 }
         
-        let totalExpenses = matchedSessions.map({ $0.expenses ?? 0 }).reduce(0, +)
+        let totalExpenses = matchedSessions.map({ $0.expenses}).reduce(0, +)
+        let tournamentBuyIns = matchedSessions.filter({ $0.isTournament == true }).reduce(0) { total, session in
+            total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
+        }
         let totalTransactionExpenses = matchedTransactions.map({ $0.amount }).reduce(0, +)
 
-        return totalExpenses + abs(totalTransactionExpenses)
+        return totalExpenses + abs(totalTransactionExpenses) + tournamentBuyIns
     }
     
     private func tagTournamentROI(tag: String) -> String {
+        // Filter sessions with the given tag and ensure they're tournaments
+        let matchedSessions = viewModel.sessions.filter { session in
+            session.tags.contains(tag) && session.isTournament
+        }
         
-        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
-        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag && $0.isTournament == true })
         guard !matchedSessions.isEmpty else { return "0%" }
         
-        let totalBuyIns = matchedSessions.map({ $0.expenses! }).reduce(0,+)
-        let totalWinnings = matchedSessions.map({ $0.profit + $0.expenses! }).reduce(0,+)
+        // Calculate total buy-ins (including rebuys)
+        let totalBuyIns = matchedSessions.reduce(0) { total, session in
+            total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
+        }
+        
+        // Calculate total winnings (gross)
+        let totalWinnings = matchedSessions.reduce(0) { total, session in
+            total + session.cashOut
+        }
+        
+        // Calculate ROI
+        guard totalBuyIns > 0 else { return "0%" }
         let returnOnInvestment = (Double(totalWinnings) - Double(totalBuyIns)) / Double(totalBuyIns)
         return returnOnInvestment.asPercent()
     }
     
     private func tagDateRange(tag: String) -> (Date, Date)? {
         
-        let taggedSessions = viewModel.sessions.filter({ $0.tags != nil })
-        let matchedSessions = taggedSessions.filter({ $0.tags?.first == tag })
+        let taggedSessions = viewModel.sessions.filter({ !$0.tags.isEmpty })
+        let matchedSessions = taggedSessions.filter({ $0.tags.first == tag })
         guard !matchedSessions.isEmpty else { return nil }
         
         let firstDay = matchedSessions.last!.date

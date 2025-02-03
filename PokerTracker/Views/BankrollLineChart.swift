@@ -20,8 +20,8 @@ struct BankrollLineChart: View {
     @AppStorage("dateRangeSelection") private var chartRange: RangeSelection = .all
     
     // Optional year selector, only used in Annual Report View. Overrides dateRange if used
-    var customDateRange: [PokerSession]?
-    var dateRange: [PokerSession] {
+    var customDateRange: [PokerSession_v2]?
+    var dateRange: [PokerSession_v2] {
         switch chartRange {
         case .all: return viewModel.sessions
         case .oneMonth: return viewModel.filterSessionsLastMonth()
@@ -59,7 +59,7 @@ struct BankrollLineChart: View {
                 
                 HStack (alignment: .top) {
                     
-                    VStack (alignment: .leading, spacing: 0) {
+                    VStack (alignment: .leading, spacing: 3) {
                         Text("Player Profit")
                             .cardTitleStyle()
                         
@@ -67,6 +67,7 @@ struct BankrollLineChart: View {
                         var defaultProfit: Int {
                             if selectedIndex == 0 {
                                 return convertedData.first!
+                                
                             } else {
                                 return convertedData.last!
                             }
@@ -78,14 +79,13 @@ struct BankrollLineChart: View {
                                     
                                     if selectedIndex != 0 && !dateRange.isEmpty {
                                         Image(systemName: "arrow.up.right")
-                                            .font(.title2)
                                             .chartIntProfitColor(amountText: amountText, defaultProfit: defaultProfit)
                                             .rotationEffect(.degrees(amountText > 0 ? 0 : amountText < 0 ? 90 : defaultProfit > 0 ? 0 : 90))
                                             .animation(.default.speed(2), value: amountText)
                                     }
                                     
                                     Text(amountText == 0 ? "\(abs(defaultProfit).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))" : "\(abs(amountText).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))")
-                                        .font(.custom("Asap-Bold", size: 34))
+                                        .font(.custom("Asap-Medium", size: 17))
                                         .chartIntProfitColor(amountText: amountText, defaultProfit: defaultProfit)
                                     
                                 }
@@ -97,30 +97,23 @@ struct BankrollLineChart: View {
                     Spacer()
                     
                     if showToggleAndFilter {
-                        
                         fullScreenToggleButton
-                        
                         filterButton
                     }
                 }
-                .padding(.bottom)
-                
+                .padding(.bottom, 6)
                 .fullScreenCover(isPresented: $viewModel.lineChartFullScreen, content: {
                     LineChartFullScreen(lineChartFullScreen: $viewModel.lineChartFullScreen)
                         .interfaceOrientations(.allButUpsideDown)
                 })
             }
       
-            if #available(iOS 17.0, *) {
-                lineChart
-                
-            } else { lineChartOldVersion }
-            
+            lineChart
+
             if showRangeSelector { rangeSelector }
         }
     }
     
-    @available(iOS 17.0, *)
     var lineChart: some View {
         
         VStack {
@@ -217,78 +210,6 @@ struct BankrollLineChart: View {
         }
     }
     
-    var lineChartOldVersion: some View {
-        
-        VStack {
-            
-            let cumulativeProfitArray = viewModel.calculateCumulativeProfit(sessions: customDateRange != nil ? customDateRange! : dateRange, sessionFilter: chartSessionFilter)
-            let areaGradient = LinearGradient(colors: [chartSessionFilter != .tournaments ? Color("lightBlue").opacity(0.85) : .donutChartOrange, chartSessionFilter != .tournaments ? Color("lightBlue").opacity(0.25) : .donutChartOrange.opacity(0.25), .clear, .clear], startPoint: .top, endPoint: .bottom)
-            
-            Chart {
-                
-                ForEach(Array(convertedData.enumerated()), id: \.offset) { index, total in
-                    
-                    LineMark(x: .value("Time", index), y: .value("Profit", total))
-                        .opacity(showChart ? 1.0 : 0.0)
-                    
-                    AreaMark(x: .value("Time", index), y: .value("Profit", total))
-                        .foregroundStyle(areaGradient)
-                        .opacity(showChart ? 0.25 : 0.0)
-                }
-                .foregroundStyle(LinearGradient(colors: [chartSessionFilter != .tournaments ? .chartAccent : .donutChartGreen,
-                                                         chartSessionFilter != .tournaments ? .chartBase : .donutChartDarkBlue],
-                                                startPoint: .topTrailing, endPoint: .bottomLeading))
-                .interpolationMethod(.catmullRom)
-                .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
-            }
-            .onAppear {
-                withAnimation {
-                    showChart = true
-                }
-            }
-            .overlay(
-                PatternView()
-                    .opacity(showChart && showPatternBackground ? 0.33 : 0.0)
-                    .allowsHitTesting(false)
-                    .mask(
-                        Chart {
-                            ForEach(Array(convertedData.enumerated()), id: \.offset) { index, total in
-                                AreaMark(x: .value("Time", index), y: .value("Profit", total))
-                            }
-                            .interpolationMethod(.catmullRom)
-                        }
-                    )
-            )
-            .animation(.easeIn(duration: 1.2), value: showChart)
-            .chartXAxis(.hidden)
-            .chartYScale(domain: [convertedData.min()!, convertedData.max()!])
-            .chartYAxis {
-                AxisMarks(position: .trailing, values: .automatic(desiredCount: 4)) { value in
-                    AxisGridLine().foregroundStyle(.gray.opacity(0.33))
-                    AxisValueLabel() {
-                        if showYAxis {
-                            if let intValue = value.as(Int.self) {
-                                Text(intValue.axisShortHand(viewModel.userCurrency))
-                                    .captionStyle()
-                                    .padding(.leading, 12)
-                            }
-                        }
-                    }
-                }
-            }
-            .overlay {
-                if cumulativeProfitArray.isEmpty {
-                    VStack {
-                        Text("No chart data to display.")
-                            .calloutStyle()
-                            .foregroundStyle(.secondary)
-                    }
-                    .offset(y: -20)
-                }
-            }
-        }
-    }
-    
     var fullScreenToggleButton: some View {
         
         Button {
@@ -324,7 +245,7 @@ struct BankrollLineChart: View {
     
     var rangeSelector: some View {
         
-        HStack (spacing: 13) {
+        HStack (spacing: 10) {
             
             ForEach(RangeSelection.allCases, id: \.self) { range in
                 Button {

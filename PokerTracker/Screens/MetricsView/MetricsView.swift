@@ -62,8 +62,6 @@ struct MetricsView: View {
                                             Text("Upgrade to Pro")
                                                 .calloutStyle()
                                                 .fontWeight(.black)
-                                                
-                                            
                                         }
                                         .padding(35)
                                         .background(colorScheme == .dark ? Color.black.blur(radius: 25) : Color.white.blur(radius: 25))
@@ -74,18 +72,14 @@ struct MetricsView: View {
                                 }
                                 .clipped()
 
-                                if #available(iOS 17.0, *) {
-                                    
-                                    HStack {
-                                        
-                                        dayOfWeekChart
-                                        Spacer()
-                                        donutChart
-                                    }
-                                    .frame(width: UIScreen.main.bounds.width * 0.9)
-                                    
-                                    performanceChart
+                                HStack {
+                                    dayOfWeekChart
+                                    Spacer()
+                                    donutChart
                                 }
+                                .frame(width: UIScreen.main.bounds.width * 0.9)
+                                
+                                performanceChart
                                 
                                 AdditionalMetricsView()
                                     .padding(.bottom, activeSheet == .metricsAsSheet ? 0 : 50)
@@ -178,10 +172,10 @@ struct MetricsView: View {
         
         BankrollProgressView(progressIndicator: $progressIndicator, isSubscribed: subManager.isSubscribed)
             .onAppear(perform: {
-                self.progressIndicator = viewModel.stakesProgress
+                self.progressIndicator = viewModel.bankrollProgressRing
             })
             .onReceive(viewModel.$sessions, perform: { _ in
-                self.progressIndicator = viewModel.stakesProgress
+                self.progressIndicator = viewModel.bankrollProgressRing
             })
             .cardShadow(colorScheme: colorScheme)
             .overlay {
@@ -219,7 +213,6 @@ struct MetricsView: View {
                     .cardShadow(colorScheme: colorScheme)
                 
             } else {
-                
                 PerformanceLineChart()
                     .cardStyle(colorScheme: colorScheme, height: 380)
                     .cardShadow(colorScheme: colorScheme)
@@ -243,7 +236,6 @@ struct MetricsView: View {
         }
     }
     
-    @available(iOS 17.0, *)
     var dayOfWeekChart: some View {
         
         HStack {
@@ -256,7 +248,6 @@ struct MetricsView: View {
         }
     }
     
-    @available(iOS 17.0, *)
     var donutChart: some View {
         
         HStack {
@@ -314,12 +305,9 @@ struct MetricsView: View {
                 .padding(.bottom)
                 
                 switch sessionFilter {
-                case .all:
-                    AllStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
-                case .cash:
-                    CashStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
-                case .tournaments:
-                    TournamentStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
+                case .all: AllStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
+                case .cash: CashStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
+                case .tournaments: TournamentStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
                 }
                 
                 rangeSelector
@@ -331,13 +319,14 @@ struct MetricsView: View {
     
     var rangeSelector: some View {
         
-        HStack (spacing: 13) {
+        HStack (spacing: 10) {
             
             ForEach(RangeSelection.allCases, id: \.self) { range in
                 Button {
                     let impact = UIImpactFeedbackGenerator(style: .soft)
                     impact.impactOccurred()
                     statsRange = range
+                    
                 } label: {
                     Text("\(range.displayName)")
                         .bodyStyle()
@@ -430,18 +419,6 @@ struct AllStats: View {
             
             Divider()
             
-            HStack {
-                Text("Avg. ROI")
-                    .foregroundColor(.secondary)
-                
-                Spacer()
-                
-                Text(avgROI)
-                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
-            }
-            
-            Divider()
-            
             HStack (alignment: .lastTextBaseline, spacing: 4) {
                 Text("High Hand Bonuses")
                     .foregroundColor(.secondary)
@@ -453,7 +430,7 @@ struct AllStats: View {
                         .foregroundStyle(Color.brandPrimary)
                 }
                 .popover(isPresented: $highHandPopover, arrowEdge: .bottom, content: {
-                    PopoverView(bodyText: "High hand bonuses are not counted towards your profit numbers or player metrics. They are tallied in your Annual Report.")
+                    PopoverView(bodyText: "High hand bonuses are not factored in to your profit or player metrics. You can find them tallied in with your Annual Report.")
                         .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                         .frame(height: 130)
                         .dynamicTypeSize(.medium...DynamicTypeSize.medium)
@@ -467,7 +444,18 @@ struct AllStats: View {
                 Text(highHandBonus, format: .currency(code: currencyType).precision(.fractionLength(0)))
                     .metricsProfitColor(for: highHandBonus)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
-                                    
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Avg. ROI")
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Text(avgROI)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
             Divider()
@@ -624,7 +612,7 @@ struct CashStats: View {
                         .foregroundStyle(Color.brandPrimary)
                 }
                 .popover(isPresented: $highHandPopover, arrowEdge: .bottom, content: {
-                    PopoverView(bodyText: "High hand bonuses are not counted towards your profit numbers or player metrics. They are tallied in your Annual Report.")
+                    PopoverView(bodyText: "High hand bonuses are not factored in to your profit or player metrics. You can find them tallied in with your Annual Report.")
                         .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                         .frame(height: 130)
                         .dynamicTypeSize(.medium...DynamicTypeSize.medium)
@@ -895,108 +883,175 @@ struct AdditionalMetricsView: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
     @State private var showPaywall = false
+    @AppStorage("showReportsAsList") private var showReportsAsList = false
     
     var body: some View {
         
         VStack (alignment: .leading) {
             
-            HStack {
+            HStack (alignment: .lastTextBaseline) {
                 Text("My Reports")
                     .font(.custom("Asap-Black", size: 34))
                     .bold()
                     .padding(.horizontal)
                     .padding(.top)
                 
+                HStack (spacing: 0) {
+                    Button {
+                        let impact = UIImpactFeedbackGenerator(style: .soft)
+                        impact.impactOccurred()
+                        showReportsAsList.toggle()
+                    } label: {
+                        Image(systemName: showReportsAsList ? "rectangle" : "list.bullet")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .fontWeight(.bold)
+                            .frame(height: 18)
+                            
+                    }
+                    .tint(.brandPrimary)
+                    
+                    Text(" ›")
+                        .bodyStyle()
+                        .foregroundStyle(Color.brandPrimary)
+                }
+                
                 Spacer()
             }
             
-            // Adding version check for scroll behavior effect
-            if #available(iOS 17, *) {
-                
-                ScrollView(.horizontal, showsIndicators: false, content: {
-                    HStack (spacing: 12) {
+            if showReportsAsList {
+                VStack (alignment: .leading, spacing: 8) {
+                    HStack (spacing: 0) {
+                        Text("View your ")
+                            .bodyStyle()
                         
-                        NavigationLink(
-                            destination: ProfitByYear(),
-                            label: {
-                                AdditionalMetricsCardView(title: "Annual Report",
-                                                          description: "Review & export your results from the previous year.",
-                                                          image: "list.clipboard",
-                                                          color: .donutChartDarkBlue)
-                            })
-                        .buttonStyle(PlainButtonStyle())
+                        NavigationLink {
+                            ProfitByYear()
+                        } label: {
+                            Text("__Annual Report__ \(Image(systemName: "arrow.turn.up.right"))")
+                                .bodyStyle()
+                        }
                         
-                        NavigationLink(
-                            destination: SleepAnalytics(activeSheet: .constant(.none)),
-                            label: {
-                                AdditionalMetricsCardView(title: "Health Analytics",
-                                                          description: "See how sleep & mindfulness affects your poker results.",
-                                                          image: "stethoscope",
-                                                          color: .lightGreen)
-                                
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: ProfitByMonth(vm: viewModel),
-                            label: {
-                                AdditionalMetricsCardView(title: "Monthly Snapshot",
-                                                          description: "View your results on a month by month basis.",
-                                                          image: "calendar",
-                                                          color: .donutChartGreen)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: AdvancedTournamentReport(vm: viewModel),
-                            label: {
-                                AdditionalMetricsCardView(title: "Tournament Report",
-                                                          description: "Advanced tournament stats, filtered by year.",
-                                                          image: "person.2",
-                                                          color: .brandPrimary)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: ProfitByLocationView(viewModel: viewModel),
-                            label: {
-                                AdditionalMetricsCardView(title: "Location Statistics",
-                                                          description: "View your profit or loss for every location you've played at.",
-                                                          image: "mappin.and.ellipse",
-                                                          color: .donutChartRed)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: ProfitByStakesView(viewModel: viewModel),
-                            label: {
-                                AdditionalMetricsCardView(title: "Game Stakes", 
-                                                          description: "Break down your game by different table stakes.",
-                                                          image: "dollarsign.circle",
-                                                          color: .donutChartPurple)
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        
-                        NavigationLink(
-                            destination: TagReport(),
-                            label: {
-                                AdditionalMetricsCardView(title: "Tag Report",
-                                                          description: "Generate a report sorted via tags applied to your Sessions.",
-                                                          image: "tag.fill",
-                                                          color: .brandWhite)
-                            })
-                        .buttonStyle(PlainButtonStyle())
+                        Spacer()
                     }
-                    .padding(.leading)
-                    .padding(.trailing)
-                    .frame(height: 150)
-                })
-                .scrollTargetLayout()
-                .scrollTargetBehavior(.viewAligned)
-                .scrollBounceBehavior(.automatic)
+                    .padding(12)
+                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                    .cornerRadius(12)
+
+                    HStack(spacing: 0) {
+                        Text("View your ")
+                            .bodyStyle()
+                        
+                        NavigationLink {
+                            SleepAnalytics(activeSheet: .constant(.none))
+                        } label: {
+                            Text("__Health Analytics__ \(Image(systemName: "arrow.turn.up.right"))")
+                                .bodyStyle()
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding(12)
+                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                    .cornerRadius(12)
+
+                    HStack(spacing: 0) {
+                        Text("View your ")
+                            .bodyStyle()
+                        
+                        NavigationLink {
+                            ProfitByMonth(vm: viewModel)
+                        } label: {
+                            Text("__Monthly Snapshot__ \(Image(systemName: "arrow.turn.up.right"))")
+                                .bodyStyle()
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding(12)
+                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                    .cornerRadius(12)
+
+                    HStack(spacing: 0) {
+                        Text("View your ")
+                            .bodyStyle()
+                        
+                        NavigationLink {
+                            AdvancedTournamentReport(vm: viewModel)
+                        } label: {
+                            Text("__Tournament Report__ \(Image(systemName: "arrow.turn.up.right"))")
+                                .bodyStyle()
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding(12)
+                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                    .cornerRadius(12)
+
+                    HStack(spacing: 0) {
+                        Text("View your ")
+                            .bodyStyle()
+                        
+                        NavigationLink {
+                            ProfitByLocationView(viewModel: viewModel)
+                        } label: {
+                            Text("__Location Statistics__ \(Image(systemName: "arrow.turn.up.right"))")
+                                .bodyStyle()
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding(12)
+                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                    .cornerRadius(12)
+
+                    HStack(spacing: 0) {
+                        Text("View your ")
+                            .bodyStyle()
+                        
+                        NavigationLink {
+                            ProfitByStakesView(viewModel: viewModel)
+                        } label: {
+                            Text("__Game Stakes__ \(Image(systemName: "arrow.turn.up.right"))")
+                                .bodyStyle()
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding(12)
+                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                    .cornerRadius(12)
+
+                    HStack(spacing: 0) {
+                        Text("View your ")
+                            .bodyStyle()
+                        
+                        NavigationLink {
+                            TagReport()
+                        } label: {
+                            Text("__Tags Report__ \(Image(systemName: "arrow.turn.up.right"))")
+                                .bodyStyle()
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding(12)
+                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                    .cornerRadius(12)
+                }
+                .padding(.horizontal)
+                .padding(.top)
+                .padding(.bottom, 20)
                 
             } else {
-                
                 ScrollView(.horizontal, showsIndicators: false, content: {
                     HStack (spacing: 12) {
                         
@@ -1075,6 +1130,9 @@ struct AdditionalMetricsView: View {
                     .padding(.trailing)
                     .frame(height: 150)
                 })
+                .scrollTargetLayout()
+                .scrollTargetBehavior(.viewAligned)
+                .scrollBounceBehavior(.automatic)
             }
         }
     }

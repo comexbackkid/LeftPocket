@@ -13,7 +13,7 @@ class CSVConversion: ObservableObject {
     @Published var errorMsg: String?
     @Published var successfulMsg: String?
 
-    static func exportCSV(from sessions: [PokerSession]) throws -> URL {
+    static func exportCSV(from sessions: [PokerSession_v2]) throws -> URL {
         
         guard !sessions.isEmpty else {
             throw CSVError.invalidData
@@ -30,39 +30,43 @@ class CSVConversion: ObservableObject {
             throw CSVError.exportFailed
         }
     }
-
-    static private func convertToCSV(data: [PokerSession]) -> String {
-        
-        var csvText = "Location,Game,Stakes,Date,Buy In,Cash Out,Tournament Rebuys,Profit,Expenses,Start Time,End Time,Tournament,Size,Speed,Entrants,Finish,High Hand Bonus,Tags,Notes\n"
+    
+    static private func convertToCSV(data: [PokerSession_v2]) -> String {
+        var csvText = "Date,Start Time,End Time,Location,Game,Stakes,Buy In,Cash Out,Profit,Expenses,High Hands,Tournament,Multi-Day,Days,Day Two Start,Day Two End,Rebuy Count,Size,Speed,Entrants,Finish,Tags,Notes\n"
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
         
-        /// Each string field in the CSV is enclosed in double quotes to ensure that commas within the text do not interfere with the CSV structure.
-        /// Expenses are only populated if it's a cash game because Tournaments don't track expenses like tips, etc.
-        /// No Cash Rebuys right now because we aren't saving them in the model, so only tournamentRebuys
+        /// Each string field in the CSV is enclosed in double quotes to ensure that commas within the text do not interfere with the CSV structure
+        /// No Cash Rebuys right now because we aren't saving them in the model, so only Tournament rebuys
+        
         for session in data {
+            let date = "\"\(dateFormatter.string(from: session.date))\""
+            let startTime = "\"\(dateFormatter.string(from: session.startTime))\""
+            let endTime = "\"\(dateFormatter.string(from: session.endTime))\""
             let location = "\"\(session.location.name)\""
             let game = "\"\(escapeQuotes(session.game))\""
             let stakes = "\"\(escapeQuotes(session.stakes))\""
-            let date = "\"\(dateFormatter.string(from: session.date))\""
+            let buyIn = "\(session.buyIn)"
+            let cashOut = "\(session.cashOut)"
             let profit = "\(session.profit)"
-            let expenses = session.isTournament != true ? "\"\(session.expenses ?? 0)\"" : ""
-            let startTime = "\"\(dateFormatter.string(from: session.startTime))\""
-            let endTime = "\"\(dateFormatter.string(from: session.endTime))\""
-            let isTournament = "\"\(session.isTournament ?? false)\""
-            let entrants = "\"\(session.entrants ?? 0)\""
-            let highHandBonus = "\(session.highHandBonus ?? 0)"
+            let expenses = "\"\(session.expenses)\""
+            let highHandBonus = "\(session.highHandBonus)"
+            let isTournament = "\"\(session.isTournament)\""
+            let isMultiDayTournament = session.tournamentDays ?? 1 > 1 ? "true" : "false"
+            let days = session.tournamentDays != nil ? "\(session.tournamentDays!)" : ""
+            let startTimeDayTwo = session.isTournament ? session.tournamentDays ?? 1 > 1 ? "\"\(dateFormatter.string(from: session.startTimeDayTwo!))\"" : "" : ""
+            let endTimeDayTwo = session.isTournament ? session.tournamentDays ?? 1 > 1 ? "\"\(dateFormatter.string(from: session.endTimeDayTwo!))\"" : "" : ""
+            let rebuyCount = session.rebuyCount != nil ? "\(session.rebuyCount!)" : ""
+            let size = session.tournamentSize != nil ? "\"\(session.tournamentSize!)\"" : ""
+            let speed = session.tournamentSpeed != nil ? "\"\(session.tournamentSpeed!)\"" : ""
+            let entrants = session.entrants != nil ? "\"\(session.entrants!)\"" : ""
+            let finish = session.finish != nil ? "\(session.finish!)" : ""
+            let tags = session.tags.first ?? ""
             let notes = ""
-            let buyIn = session.buyIn != nil ? "\(session.buyIn!)" : ""
-            let cashOut = session.cashOut != nil ? "\(session.cashOut!)" : ""
-            let tags = session.tags?.first ?? ""
-            let tournamentRebuys = session.isTournament == true ? "\((session.rebuyCount ?? 0) * (Int(buyIn) ?? 0))" : ""
-            let tournamentFinish = session.finish != nil ? "\(session.finish!)" : ""
-            let tournamentSize = session.isTournament == true ? "\(session.tournamentSize ?? "")" : ""
-            let tournamentSpeed = session.isTournament == true ? "\(session.tournamentSpeed ?? "")" : ""
             
-            let rowText = "\(location),\(game),\(stakes),\(date),\(buyIn),\(cashOut),\(tournamentRebuys),\(profit),\(expenses),\(startTime),\(endTime),\(isTournament),\(tournamentSize),\(tournamentSpeed),\(entrants),\(tournamentFinish),\(highHandBonus),\(tags),\(notes)\n"
+            let rowText = "\(date),\(startTime),\(endTime),\(location),\(game),\(stakes),\(buyIn),\(cashOut),\(profit),\(expenses),\(highHandBonus),\(isTournament),\(isMultiDayTournament),\(days),\(startTimeDayTwo),\(endTimeDayTwo),\(rebuyCount),\(size),\(speed),\(entrants),\(finish),\(tags),\(notes)\n"
+            
             csvText.append(rowText)
         }
         
@@ -96,7 +100,7 @@ extension CSVConversion {
             
             switch self {
             case .invalidData:
-                return "There are no sessions to export."
+                return "There are no Sessions to export."
             case .exportFailed:
                 return "There was an error exporting your data."
             }

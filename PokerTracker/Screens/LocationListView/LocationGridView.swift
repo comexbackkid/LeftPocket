@@ -22,10 +22,9 @@ struct LocationGridView: View {
             
             title
             
-            if #available(iOS 17.0, *) { locationTip }
+            locationTip
             
             if !vm.locations.isEmpty {
-                
                 LazyVGrid(columns: columns) {
                     ForEach(vm.locations) { location in
                         LocationGridItem(location: location)
@@ -33,20 +32,20 @@ struct LocationGridView: View {
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 50)
-                
-            } else {
-                
-                EmptyState(title: "No Locations", image: .locations)
-                    .padding(.top, 150)
             }
         }
+        .overlay {
+            VStack {
+                if vm.locations.isEmpty {
+                    emptyState
+                }
+            }
+        }
+        .scrollDisabled(vm.locations.isEmpty ? true : false)
         .background(Color.brandBackground)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            
             addLocationButton
-                
-            resetLocationsButton
         }
     }
     
@@ -60,6 +59,31 @@ struct LocationGridView: View {
             
             Spacer()
         }
+    }
+    
+    var emptyState: some View {
+        
+        VStack (spacing: 5) {
+            
+            Image("locationvectorart-transparent")
+                .resizable()
+                .frame(width: 125, height: 125)
+            
+            Text("No Locations")
+                .cardTitleStyle()
+                .bold()
+                .multilineTextAlignment(.center)
+                .padding(.top)
+            
+            Text("Tap the \(Image(systemName: "plus")) button above to get started\nwith adding your own locations.")
+                .foregroundColor(.secondary)
+                .subHeadlineStyle()
+                .multilineTextAlignment(.center)
+                .lineSpacing(3)
+            
+            
+        }
+        
     }
     
     var addLocationButton: some View {
@@ -78,30 +102,6 @@ struct LocationGridView: View {
         })
     }
     
-    var resetLocationsButton: some View {
-        
-        Button {
-            let impact = UIImpactFeedbackGenerator(style: .heavy)
-            impact.impactOccurred()
-            showAlert = true
-            
-        } label: {
-            Image(systemName: "gobackward")
-        }
-        .foregroundColor(.brandPrimary)
-        .alert(Text("Warning"), isPresented: $showAlert) {
-            Button("OK", role: .destructive) {
-                vm.mergeLocations()
-            }
-            Button("Cancel", role: .cancel) {
-                print("User Canceled")
-            }
-        } message: {
-            Text("This will restore the original Locations. Your custom Locations will NOT be affected.")
-        }
-    }
-    
-    @available(iOS 17.0, *)
     var locationTip: some View {
         
         VStack {
@@ -119,36 +119,33 @@ struct LocationGridItem: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var vm: SessionsListViewModel
 
-    let location: LocationModel
+    let location: LocationModel_v2
     
     var body: some View {
         
         VStack(alignment: .leading, spacing: 2) {
             
-            if location.localImage != "" {
-                
-                // If the Location has a local image associated with it, just display tha image
-                Image(location.localImage)
+            if let localImage = location.localImage {
+                Image(localImage)
                     .locationGridThumbnail(colorScheme: colorScheme)
                     .contextMenu {
                         Button(role: .destructive) {
                             delete()
-                        } label: {
-                            Label("Delete Location", systemImage: "trash")
-                        }
+                        } label: { Label("Delete Location", systemImage: "trash") }
                     }
                 
-            } else if location.imageURL != "" {
-                
-                // If the provided link is not empty, go ahead and fetch the image from the URL provided by user
-                fetchLocationImage(location: location)
-                
-            } else if location.importedImage != nil {
-                
-                // If user imported their own image, call it up here by converting data to UIImage
-                if let photoData = location.importedImage,
-                   let uiImage = UIImage(data: photoData) {
+            } else if let importedImagePath = location.importedImage {
+                if let uiImage = ImageLoader.loadImage(from: importedImagePath) {
                     Image(uiImage: uiImage)
+                        .locationGridThumbnail(colorScheme: colorScheme)
+                        .contextMenu {
+                            Button(role: .destructive) {
+                                delete()
+                            } label: { Label("Delete Location", systemImage: "trash") }
+                        }
+                    
+                } else {
+                    Image("defaultlocation-header")
                         .locationGridThumbnail(colorScheme: colorScheme)
                         .contextMenu {
                             Button(role: .destructive) {
@@ -158,8 +155,6 @@ struct LocationGridItem: View {
                 }
                 
             } else {
-                
-                // Otherwise, if the Location has no local image, no provided URL, show the default header
                 Image("defaultlocation-header")
                     .locationGridThumbnail(colorScheme: colorScheme)
                     .contextMenu {
@@ -184,57 +179,6 @@ struct LocationGridItem: View {
         
     }
     
-    func fetchLocationImage(location: LocationModel) -> some View {
-        
-        AsyncImage(url: URL(string: location.imageURL), scale: 1, transaction: Transaction(animation: .easeIn)) { phase in
-            
-            if let image = phase.image {
-                
-                image
-                    .locationGridThumbnail(colorScheme: colorScheme)
-                    .contextMenu {
-                        Button(role: .destructive) {
-                            delete()
-                        } label: {
-                            Label("Delete Location", systemImage: "trash")
-                        }
-                    }
-                
-            } else if phase.error != nil {
-                
-                FailureView()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 165, height: 120)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .overlay(RoundedRectangle(cornerRadius: 20).stroke(.white, lineWidth: 4))
-                    .shadow(color: .gray.opacity(colorScheme == .light ? 0.5 : 0.0), radius: 7)
-                    .contextMenu {
-                        Button(role: .destructive) {
-                            delete()
-                        } label: {
-                            Label("Delete Location", systemImage: "trash")
-                        }
-                    }
-                
-            } else {
-                
-                PlaceholderView()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 165, height: 120)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .overlay(RoundedRectangle(cornerRadius: 20).stroke(.white, lineWidth: 4))
-                    .shadow(color: .gray.opacity(colorScheme == .light ? 0.5 : 0.0), radius: 7)
-                    .contextMenu {
-                        Button(role: .destructive) {
-                            delete()
-                        } label: {
-                            Label("Delete Location", systemImage: "trash")
-                        }
-                    }
-            }
-        }
-    }
-    
     func delete() {
         withAnimation {
             vm.delete(location)
@@ -244,8 +188,9 @@ struct LocationGridItem: View {
 
 extension SessionsListViewModel {
     
+    // TODO: PERHAPS USE $0.LOCATION.NAME INSTEAD INCASE MIGRATION HAS AN ISSUE
     // This is only working when you filter by .name versus the .id not sure why? Does it matter? What if the name is changed by the user?
-    func uniqueLocationCount(location: LocationModel) -> Int {
+    func uniqueLocationCount(location: LocationModel_v2) -> Int {
         let array = self.sessions.filter({ $0.location.id == location.id })
         return array.count
     }

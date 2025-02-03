@@ -12,7 +12,7 @@ extension SessionsListViewModel {
     
     // MARK: FUNCTIONS FOR STAKES PROGRESS INDICATOR
     
-    func calculateTargetBankrollSize(from pokerSessions: [PokerSession]) -> Int? {
+    func calculateTargetBankrollSize(from pokerSessions: [PokerSession_v2]) -> Int? {
         guard let lastStake = pokerSessions.filter({ $0.isTournament != true }).sorted(by: { $0.date > $1.date }).map({ $0.stakes }).first,
               let lastSlashIndex = lastStake.lastIndex(of: "/"),
               let bigBlind = Int(lastStake[lastSlashIndex...].trimmingCharacters(in: .punctuationCharacters)) else {
@@ -25,13 +25,13 @@ extension SessionsListViewModel {
     }
     
     // Called when Sessions is updated, will update the progress status for the stakes progress indicator
-    func updateStakesProgress() {
+    func updateBankrollProgressRing() {
         
         guard let targetBankroll = calculateTargetBankrollSize(from: sessions) else {
             return
         }
         
-        self.stakesProgress = Float(tallyBankroll(bankroll: .all)) / Float(targetBankroll)
+        self.bankrollProgressRing = Float(tallyBankroll(bankroll: .all)) / Float(targetBankroll)
     }
     
     // MARK: BEST MONTH
@@ -89,7 +89,7 @@ extension SessionsListViewModel {
     
     // MARK: USER'S MOST PROFITABLE MONTH
     
-    func mostProfitableMonth(in sessions: [PokerSession]) -> String {
+    func mostProfitableMonth(in sessions: [PokerSession_v2]) -> String {
         
         // Create a dictionary to store total profit for each month
         var monthlyProfits: [Int: Int] = [:]
@@ -119,5 +119,34 @@ extension SessionsListViewModel {
         } else {
             return "Undetermined"
         }
+    }
+    
+    // MARK: CALCULATE USER'S WIN STREAK OR COLD STREAK
+    
+    func winStreak() -> Int {
+        var streak = 0
+        
+        // Iterate through sessions in reverse order (from most recent to oldest)
+        for session in sessions {
+            if session.profit > 0 {
+                // If on a win streak or neutral, increment the streak
+                if streak >= 0 {
+                    streak += 1
+                } else {
+                    break // Break if switching from a losing streak
+                }
+            } else if session.profit < 0 {
+                // If on a losing streak or neutral, decrement the streak
+                if streak <= 0 {
+                    streak -= 1
+                } else {
+                    break // Break if switching from a win streak
+                }
+            } else {
+                break // Streak ends on a neutral session (profit == 0)
+            }
+        }
+        
+        return streak
     }
 }

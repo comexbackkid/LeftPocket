@@ -13,6 +13,7 @@ struct LiveSessionInitialBuyIn: View {
     @EnvironmentObject var vm: SessionsListViewModel
     @ObservedObject var timerViewModel: TimerViewModel
     @State private var alertItem: AlertItem?
+    @State private var initialBuyInField: String = ""
     @Binding var buyInConfirmationSound: Bool
     
     var body: some View {
@@ -62,7 +63,7 @@ struct LiveSessionInitialBuyIn: View {
         VStack (alignment: .leading) {
             
             HStack {
-                Text("Enter your initial Buy In amount. Add rebuys later by tapping & holding on the Live Session indicator bar. Tournament rebuys must equal your initial buy in amount.")
+                Text("Add rebuys later by tapping & holding on the Live Session indicator bar. Tournament rebuys must equal your initial buy in amount.")
                     .bodyStyle()
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.leading)
@@ -79,9 +80,9 @@ struct LiveSessionInitialBuyIn: View {
         HStack {
             Text(vm.userCurrency.symbol)
                 .font(.callout)
-                .foregroundColor(timerViewModel.initialBuyInAmount.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                .foregroundColor(initialBuyInField.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
             
-            TextField("Initial Buy In", text: $timerViewModel.initialBuyInAmount)
+            TextField("Initial Buy In", text: $initialBuyInField)
                 .font(.custom("Asap-Regular", size: 17))
                 .keyboardType(.numberPad)
         }
@@ -103,7 +104,7 @@ struct LiveSessionInitialBuyIn: View {
     }
     
     private var isValidForm: Bool {
-        guard !timerViewModel.initialBuyInAmount.isEmpty else {
+        guard !initialBuyInField.isEmpty else {
             alertItem = AlertContext.invalidBuyIn
             return false
         }
@@ -113,7 +114,7 @@ struct LiveSessionInitialBuyIn: View {
     
     private func saveButtonPressed() {
         guard isValidForm else { return }
-        timerViewModel.addRebuy()
+        timerViewModel.addInitialBuyIn(initialBuyInField)
         dismiss()
     }
 }

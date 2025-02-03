@@ -22,7 +22,7 @@ struct SessionsListView: View {
     @State var showTip = false
     @State var showDateFilter = false
     @State var sessionFilter: SessionFilter = .all
-    @State var locationFilter: LocationModel?
+    @State var locationFilter: LocationModel_v2?
     @State var gameTypeFilter: String?
     @State var tagsFilter: String?
     @State var stakesFilter: String?
@@ -30,7 +30,8 @@ struct SessionsListView: View {
     @State var endDate: Date = .now
     @State var datesInitialized = false
     @State var listFilter: ListFilter = .sessions
-    @State var selectedSession: PokerSession?
+    @State var selectedSession: PokerSession_v2?
+    @State var tappedSession: PokerSession_v2?
     
     var firstSessionDate: Date {
         vm.sessions.last?.date ?? Date().modifyDays(days: 15000)
@@ -60,7 +61,7 @@ struct SessionsListView: View {
         
         return result
     }
-    var filteredSessions: [PokerSession] {
+    var filteredSessions: [PokerSession_v2] {
         
         var result = vm.sessions
         
@@ -95,7 +96,7 @@ struct SessionsListView: View {
         // Apply Tags filter
         if let tagsFilter = tagsFilter {
             result = result.filter { session in
-                session.tags?.contains(tagsFilter) ?? false
+                session.tags.contains(tagsFilter)
             }
         }
         
@@ -108,66 +109,61 @@ struct SessionsListView: View {
             
             ZStack {
                 
-                if vm.sessions.isEmpty {
-                    
-                    startingScreen
-                    
-                } else {
-                    
-                    switch listFilter {
-                    case .sessions:
+                switch listFilter {
+                case .sessions:
+                    if vm.sessions.isEmpty {
+                        VStack {
+                            screenTitle
+                            Spacer()
+                        }
                         
-                        if !filteredSessions.isEmpty {
-                            List {
-                                screenTitle
-                                
-                                ForEach(filteredSessions) { session in
-                                    NavigationLink(
-                                        destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session),
-                                        label: {
-                                            CellView(pokerSession: session, currency: vm.userCurrency, viewStyle: $viewStyle)
-                                        })
+                    } else {
+                        List {
+                            screenTitle
+                            
+                            ForEach(filteredSessions) { session in
+                                NavigationLink(destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session).onAppear(perform: {
+                                    tappedSession = session
+                                })) {
+                                    CellView(pokerSession: session, currency: vm.userCurrency, viewStyle: $viewStyle)
+                                }
+                                .listRowBackground(Color.brandBackground)
+                                .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 18))
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                    swipeActions(session)
+                                }
+                            }
+                        }
+                        .sensoryFeedback(.impact, trigger: tappedSession)
+                        .listStyle(.plain)
+                        .padding(.bottom, 50)
+                        .sheet(item: $selectedSession) { session in
+                            EditSession(pokerSession: session)
+                        }
+                    }
+                    
+                case .transactions:
+                    if vm.transactions.isEmpty {
+                        VStack {
+                            screenTitle
+                            Spacer()
+                        }
+                        
+                    } else {
+                        List {
+                            screenTitle
+                            
+                            ForEach(filteredTransactions, id: \.self) { transaction in
+                                TransactionCellView(transaction: transaction, currency: vm.userCurrency)
                                     .listRowBackground(Color.brandBackground)
                                     .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 18))
-                                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                        swipeActions(session)
-                                    }
-                                }
                             }
-                            .listStyle(.plain)
-                            .padding(.bottom, 50)
-                            .sheet(item: $selectedSession) { session in
-                                EditSession(pokerSession: session)
-                            }
-                            
-                            if #available(iOS 17.0, *) { filterTip }
-                            
-                        } else {
-                            
-                            emptySessionsView
+                            .onDelete(perform: { indexSet in
+                                deleteTransaction(at: indexSet)
+                            })
                         }
-                        
-                    case .transactions:
-                        
-                        if !filteredTransactions.isEmpty {
-                            List {
-                                screenTitle
-                                
-                                ForEach(filteredTransactions, id: \.self) { transaction in
-                                    TransactionCellView(transaction: transaction, currency: vm.userCurrency)
-                                        .listRowBackground(Color.brandBackground)
-                                        .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 18))
-                                }
-                                .onDelete(perform: { indexSet in
-                                    deleteTransaction(at: indexSet)
-                                })
-                            }
-                            .listStyle(.plain)
-                            .padding(.bottom, 50)
-                            
-                        } else {
-                            emptyTransactionsView
-                        }
+                        .listStyle(.plain)
+                        .padding(.bottom, 50)
                     }
                 }
             }
@@ -175,35 +171,33 @@ struct SessionsListView: View {
             .accentColor(.brandPrimary)
             .background(Color.brandBackground)
             .toolbar {
-                if !vm.sessions.isEmpty {
-                    
-                    VStack {
-                        switch listFilter {
-                        case .sessions:
-                            
-                            Button {
-                                listFilter = .transactions
-                            } label: {
-                                Image(systemName: "creditcard.fill")
-                            }
-                            
-                        case .transactions:
-                            
-                            Button {
-                                listFilter = .sessions
-                            } label: {
-                                Image(systemName: "suit.club.fill")
-                            }
+                VStack {
+                    switch listFilter {
+                    case .sessions:
+                        Button {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                            listFilter = .transactions
+                        } label: {
+                            Image(systemName: "creditcard.fill")
+                        }
+                        
+                    case .transactions:
+                        Button {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                            listFilter = .sessions
+                        } label: {
+                            Image(systemName: "suit.club.fill")
                         }
                     }
-                    .frame(width: 25)
-                    
-                    toolbarFilter
                 }
+                .frame(width: 25)
+                
+                toolbarFilter
             }
             .onAppear {
                 if !datesInitialized {
-                    
                     startDate = firstSessionDate
                     datesInitialized = true
                 }
@@ -215,12 +209,17 @@ struct SessionsListView: View {
             }
         }
         .accentColor(.brandPrimary)
+        .overlay {
+            switch listFilter {
+            case .sessions: if filteredSessions.isEmpty { startingScreen }
+            case .transactions: if filteredTransactions.isEmpty { startingScreen }
+            }
+        }
     }
     
     var toolbarFilter: some View {
         
         Menu {
-            
             Picker("Select View Style", selection: $viewStyle) {
                 ForEach(ViewStyle.allCases, id: \.self) {
                     Text($0.rawValue.capitalized).tag($0)
@@ -240,9 +239,9 @@ struct SessionsListView: View {
             
             Menu {
                 Picker("Select Location", selection: $locationFilter) {
-                    Text("All").tag(nil as LocationModel?)
+                    Text("All").tag(nil as LocationModel_v2?)
                     ForEach(vm.sessions.map({ $0.location }).uniquedByName(), id: \.self) { location in
-                        Text(location.name).tag(location as LocationModel?)
+                        Text(location.name).tag(location as LocationModel_v2?)
                     }
                 }
             } label: {
@@ -323,35 +322,20 @@ struct SessionsListView: View {
     var startingScreen: some View {
         
         VStack {
+            var title: String {
+                switch listFilter {
+                case .sessions: "No Sessions"
+                case .transactions: "No Transactions"
+                }
+            }
+            
             Spacer()
-            EmptyState(title: "No Sessions", image: .sessions)
+            
+            EmptyState(title: title, image: .sessions)
+            
             Spacer()
         }
         .padding(.bottom, 50)
-    }
-    
-    var emptySessionsView: some View {
-        
-        VStack (alignment: .leading) {
-            
-            screenTitle
-            
-            Spacer()
-            EmptyState(title: "No Sessions", image: .sessions)
-            Spacer()
-        }
-    }
-    
-    var emptyTransactionsView: some View {
-        
-        VStack (alignment: .leading) {
-            
-            screenTitle
-            
-            Spacer()
-            EmptyState(title: "No Transactions", image: .sessions)
-            Spacer()
-        }
     }
     
     var screenTitle: some View {
@@ -372,11 +356,13 @@ struct SessionsListView: View {
             }
             let today = Calendar.current.startOfDay(for: Date.now)
             let normalizedEndDate = Calendar.current.startOfDay(for: endDate)
-            if startDate != firstSessionDate || normalizedEndDate != today {
-                FilterTag(type: "Dates", filterName: "Custom")
-                    .truncationMode(.tail)
-                    .lineLimit(1)
-                    .padding(.bottom)
+            if !vm.sessions.isEmpty {
+                if startDate != firstSessionDate || normalizedEndDate != today {
+                    FilterTag(type: "Dates", filterName: "Custom")
+                        .truncationMode(.tail)
+                        .lineLimit(1)
+                        .padding(.bottom)
+                }
             }
         }
         .padding(.horizontal)
@@ -387,7 +373,6 @@ struct SessionsListView: View {
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
     
-    @available(iOS 17.0, *)
     var filterTip: some View {
         
         VStack {
@@ -401,7 +386,7 @@ struct SessionsListView: View {
         }
     }
     
-    private func swipeActions(_ session: PokerSession) -> some View {
+    private func swipeActions(_ session: PokerSession_v2) -> some View {
         Group {
             Button(role: .destructive) {
                 deleteSession(session)
@@ -429,7 +414,7 @@ struct SessionsListView: View {
         endDate = Date.now
     }
     
-    private func deleteSession(_ session: PokerSession) {
+    private func deleteSession(_ session: PokerSession_v2) {
         if let index = vm.sessions.firstIndex(where: { $0.id == session.id }) {
             vm.sessions.remove(at: index)
         }
@@ -439,7 +424,7 @@ struct SessionsListView: View {
         vm.transactions.remove(atOffsets: offsets)
     }
     
-    private func binding(for session: PokerSession) -> Binding<PokerSession> {
+    private func binding(for session: PokerSession_v2) -> Binding<PokerSession_v2> {
         guard let sessionIndex = vm.sessions.firstIndex(where: { $0.id == session.id }) else {
             fatalError("Can't find session in array")
         }

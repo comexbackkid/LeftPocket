@@ -81,7 +81,7 @@ struct AddNewTransaction: View {
         VStack (alignment: .leading, spacing: 20) {
             
             HStack {
-                Text("Use this screen for logging \"off-the-felt\" expenses such as meals, travel, & memberships, or for tracking withdrawals & deposits to your bankroll. Transactions do NOT affect your player stats. ")
+                Text("Enter any \"off-the-felt\" expenses like meals, travel, & memberships, or, manage your withdrawals / deposits to your bankroll. Transactions do NOT affect your stats. ")
                     .bodyStyle()
                 
                 Spacer()
@@ -105,7 +105,7 @@ struct AddNewTransaction: View {
                 .foregroundStyle(Color.brandPrimary)
             }
             .popover(isPresented: $transactionPopup, arrowEdge: .bottom, content: {
-                PopoverView(bodyText: "Transactions are optional. They're for players who want a precise ledger of their current, actual bankroll figure. Transactions do not factor into your player stats, & are tallied together in Tag Reports & your Annual Report.")
+                PopoverView(bodyText: "Transactions are for players who want a precise ledger of their current, actual bankroll figure. They do not factor into your player stats, & are tallied together in Tag Reports & your Annual Report.")
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                     .frame(height: 180)
                     .dynamicTypeSize(.medium...DynamicTypeSize.medium)
@@ -345,7 +345,7 @@ struct AddNewTransaction: View {
     
     private func saveButtonPressed() {
         guard isValidForm else { return }
-        vm.addTransaction(date: date, type: type!, amount: Int(amount) ?? 0, notes: notes, tags: [tags])
+        vm.addTransaction(date: date, type: type!, amount: Int(amount) ?? 0, notes: notes, tags: tags.isEmpty ? nil : [tags])
         showNewTransaction = false
     }
 }

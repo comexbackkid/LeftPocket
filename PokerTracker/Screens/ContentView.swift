@@ -66,7 +66,7 @@ struct ContentView: View {
     
     var bankroll: Int {
         
-        let highHandTotals = viewModel.sessions.map({ $0.highHandBonus ?? 0 }).reduce(0, +)
+        let highHandTotals = viewModel.sessions.map({ $0.highHandBonus}).reduce(0, +)
         let transactions = viewModel.transactions.map({ $0.amount }).reduce(0, +)
         let playerProfits = viewModel.tallyBankroll(bankroll: .all)
         
@@ -164,7 +164,7 @@ struct ContentView: View {
                         .headlineStyle()
                     
                     Text("Tap to view your bankroll progress, player metrics, analytics, & reports.")
-                        .calloutStyle()
+                        .font(.custom("Asap-Regular", size: 14))
                         .opacity(0.7)
                         .foregroundColor(.secondary)
                         .multilineTextAlignment(.leading)
@@ -246,10 +246,8 @@ struct ContentView: View {
                 Text(bankroll, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .font(.custom("Asap-Bold", size: 60, relativeTo: .title2))
                     .opacity(0.85)
-                    .blur(radius: hideBankroll ? 20 : 0)
                 
                 if !viewModel.sessions.isEmpty {
-                    
                     HStack {
                         
                         Image(systemName: "arrow.up.right")
@@ -263,7 +261,6 @@ struct ContentView: View {
                             .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
                             .fontWeight(.bold)
                             .metricsProfitColor(for: lastSession)
-                        
                     }
                     .offset(y: -32)
                 }
@@ -396,8 +393,14 @@ struct QuickMetricsBoxGrid: View {
         }
     }
     
+//    private func percentChange(_ newValue: Double, _ oldValue: Double) -> Double {
+//        (newValue - oldValue) / oldValue
+//    }
+    
     private func percentChange(_ newValue: Double, _ oldValue: Double) -> Double {
-        (newValue - oldValue) / oldValue
+        guard oldValue != 0 else { return newValue.isZero ? 0 : .infinity }
+        let percentage = ((newValue - oldValue) / abs(oldValue))
+        return percentage
     }
     
 }

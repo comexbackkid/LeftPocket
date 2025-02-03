@@ -78,19 +78,16 @@ struct MeditationView: View {
                 value = player.currentTime
             }
             .overlay {
-                if #available(iOS 17.0, *) {
+                let meditationTip = MeditationTip()
+                
+                VStack {
                     
-                    let meditationTip = MeditationTip()
+                    TipView(meditationTip)
+                        .tipViewStyle(CustomTipViewStyle())
+                        .padding(.horizontal, 20)
+                        .padding(.top, 20)
                     
-                    VStack {
-                        
-                        TipView(meditationTip)
-                            .tipViewStyle(CustomTipViewStyle())
-                            .padding(.horizontal, 20)
-                            .padding(.top, 20)
-                        
-                        Spacer()
-                    }
+                    Spacer()
                 }
             }
         }

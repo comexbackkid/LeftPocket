@@ -32,11 +32,11 @@ struct WelcomeScreen: View {
         }
         .background(
             GeometryReader { geometry in
-                Image("welcome-screen-bg-2")
+                Image("welcome-screen-bg-3")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .overlay {
-                        Image("welcome-screen-bg-2")
+                        Image("welcome-screen-bg-3")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .blur(radius: 20, opaque: true)
@@ -49,8 +49,8 @@ struct WelcomeScreen: View {
                     }
                     .overlay(
                         LinearGradient(gradient: Gradient(stops: [
-                            Gradient.Stop(color: Color(white: 0, opacity: 0.0), location: 0.45),
-                            Gradient.Stop(color: Color(white: 0, opacity: 0.8), location: 0.7),
+                            Gradient.Stop(color: Color(white: 0, opacity: 0.0), location: 0.4),
+                            Gradient.Stop(color: Color(white: 0, opacity: 0.6), location: 0.9),
                         ]), startPoint: .top, endPoint: .bottom)
                     )
                     .frame(width: geometry.size.width, height: UIScreen.main.bounds.height)
@@ -84,11 +84,10 @@ struct WelcomeScreen: View {
             let impact = UIImpactFeedbackGenerator(style: .heavy)
             impact.impactOccurred()
             withAnimation {
-                selectedPage = 1
+                selectedPage += 1
             }
             
         } label: {
-            
             Text("Let's Begin")
                 .buttonTextStyle()
                 .foregroundColor(.black)

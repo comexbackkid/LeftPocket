@@ -31,7 +31,7 @@ enum RangeSelection: String, CaseIterable {
 
 extension SessionsListViewModel {
     
-    func filterSessionsYTD() -> [PokerSession] {
+    func filterSessionsYTD() -> [PokerSession_v2] {
         let calendar = Calendar.current
         let now = Date()
         
@@ -44,7 +44,7 @@ extension SessionsListViewModel {
         }
     }
     
-    func filterSessionsLastTwelveMonths() -> [PokerSession] {
+    func filterSessionsLastTwelveMonths() -> [PokerSession_v2] {
         let calendar = Calendar.current
         let twelveMonthsAgo = calendar.date(byAdding: .month, value: -12, to: Date())
 
@@ -54,7 +54,7 @@ extension SessionsListViewModel {
         }
     }
     
-    func filterSessionsLastSixMonths() -> [PokerSession] {
+    func filterSessionsLastSixMonths() -> [PokerSession_v2] {
         let calendar = Calendar.current
         let sixMonthsAgo = calendar.date(byAdding: .month, value: -6, to: Date())
 
@@ -64,7 +64,7 @@ extension SessionsListViewModel {
         }
     }
     
-    func filterSessionsLastThreeMonths() -> [PokerSession] {
+    func filterSessionsLastThreeMonths() -> [PokerSession_v2] {
         let calendar = Calendar.current
         let threeMonthsAgo = calendar.date(byAdding: .month, value: -3, to: Date())
         
@@ -74,7 +74,7 @@ extension SessionsListViewModel {
         }
     }
     
-    func filterSessionsLastMonth() -> [PokerSession] {
+    func filterSessionsLastMonth() -> [PokerSession_v2] {
         let calendar = Calendar.current
         let oneMonthAgo = calendar.date(byAdding: .month, value: -1, to: Date())
 

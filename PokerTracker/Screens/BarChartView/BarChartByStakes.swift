@@ -13,13 +13,14 @@ struct BarChartByStakes: View {
     @ObservedObject var viewModel: SessionsListViewModel
     
     let showTitle: Bool
-    let filteredSessions: [PokerSession]
+    let filteredSessions: [PokerSession_v2]
     
     var body: some View {
         
         VStack {
             
-            let stakesCount = viewModel.uniqueStakes.count
+            let stakesList = Set(viewModel.allCashSessions().map { $0.stakes })
+            let stakesCount = stakesList.count
             let baseHeight: CGFloat = 50
             let minHeight: CGFloat = 150
             

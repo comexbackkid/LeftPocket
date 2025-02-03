@@ -8,7 +8,6 @@
 import SwiftUI
 import Charts
 
-@available(iOS 17.0, *)
 struct BestTimeOfDay: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
@@ -104,13 +103,13 @@ struct BestTimeOfDay: View {
     }
     
     // Use the midpoint of the session duration to fit it into a given TimeBucket
-    private func categorizeSession(_ session: PokerSession) -> TimeBucket {
+    private func categorizeSession(_ session: PokerSession_v2) -> TimeBucket {
         let midPoint = Date(timeIntervalSince1970: (session.startTime.timeIntervalSince1970 + session.endTime.timeIntervalSince1970) / 2)
         return TimeBucket.bucket(for: midPoint)
     }
     
     // Places sessions into their respective TimeBuckets and then figures their average hourly rate in each TimeBucket
-    private func prepareChartData(sessions: [PokerSession]) -> [(bucket: TimeBucket, averageHourlyRate: Double)] {
+    private func prepareChartData(sessions: [PokerSession_v2]) -> [(bucket: TimeBucket, averageHourlyRate: Double)] {
         var bucketTotals = [TimeBucket: (totalHourlyRate: Int, count: Int)]()
 
         for session in sessions {
@@ -129,14 +128,14 @@ struct BestTimeOfDay: View {
     }
     
     // Returns tuple with the TimeBucket that has the highest average hourly rate along with what that rate is
-    func highestRateData(sessions: [PokerSession]) -> (bucket: TimeBucket, hourlyRate: Int)? {
+    func highestRateData(sessions: [PokerSession_v2]) -> (bucket: TimeBucket, hourlyRate: Int)? {
         let data = prepareChartData(sessions: sessions)
         guard let highest = data.max(by: { $0.averageHourlyRate < $1.averageHourlyRate }) else { return nil }
         return (highest.bucket, Int(highest.averageHourlyRate))
     }
 
     // Simply finds the TimeBucket with the highest average hourly rate
-    func highestRateBucket(sessions: [PokerSession]) -> TimeBucket? {
+    func highestRateBucket(sessions: [PokerSession_v2]) -> TimeBucket? {
         let data = prepareChartData(sessions: sessions)
         let highest = data.max { $0.averageHourlyRate < $1.averageHourlyRate }
         return highest?.bucket
@@ -191,7 +190,6 @@ enum TimeBucket: String, CaseIterable, Plottable {
     }
 }
 
-@available(iOS 17.0, *)
 #Preview {
     VStack {
         BestTimeOfDay()

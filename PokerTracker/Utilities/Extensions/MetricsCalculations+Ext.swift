@@ -122,7 +122,7 @@ extension SessionsListViewModel {
     
     func hourlyRate(yearExcluded: String? = nil, range: RangeSelection = .all, bankroll: SessionFilter) -> Int {
         
-        var sessionsArray: [PokerSession] {
+        var sessionsArray: [PokerSession_v2] {
             
             if let yearExcluded = yearExcluded {
                 return sessions.filter({ $0.date.getYear() != yearExcluded })
@@ -196,7 +196,7 @@ extension SessionsListViewModel {
     }
     
     func bbPerHour(yearExcluded: String? = nil, range: RangeSelection = .all) -> Double {
-        var sessionsArray: [PokerSession]
+        var sessionsArray: [PokerSession_v2]
         
         if let yearExcluded = yearExcluded {
             sessionsArray = sessions.filter({ $0.date.getYear() != yearExcluded })
@@ -231,7 +231,7 @@ extension SessionsListViewModel {
     
     func avgROI(range: RangeSelection = .all) -> String {
         
-        var sessionsArray: [PokerSession] {
+        var sessionsArray: [PokerSession_v2] {
             switch range {
             case .all:
                 return sessions
@@ -249,20 +249,47 @@ extension SessionsListViewModel {
         }
         
         guard !sessionsArray.isEmpty else { return "0" }
-        let tournamentBuyIns = sessionsArray.filter({ $0.isTournament == true }).map({ $0.expenses ?? 0 }).reduce(0, +)
-        let cashGameBuyIns = sessionsArray.filter({ $0.isTournament != true }).map({ $0.buyIn ?? 0 }).reduce(0, +)
         
-        let tournamentWinnings = sessionsArray.filter({ $0.isTournament == true }).map({ $0.profit }).reduce(0,+)
-        let cashGameWinnings = sessionsArray.filter({ $0.isTournament != true }).map({ $0.profit }).reduce(0, +)
+        // Calculate total invested and winnings for tournaments
+        let totalTournamentInvested = sessionsArray
+            .filter { $0.isTournament }
+            .reduce(0) { total, session in
+                total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
+            }
         
-        let avgROI = Float(tournamentWinnings + cashGameWinnings) / Float(tournamentBuyIns + cashGameBuyIns)
+        let totalTournamentWinnings = sessionsArray
+            .filter { $0.isTournament }
+            .reduce(0) { total, session in
+                total + session.cashOut
+            }
+        
+        // Calculate total invested and winnings for cash games
+        let totalCashGameInvested = sessionsArray
+            .filter { !$0.isTournament }
+            .reduce(0) { total, session in
+                total + session.buyIn
+            }
+        
+        let totalCashGameWinnings = sessionsArray
+            .filter { !$0.isTournament }
+            .reduce(0) { total, session in
+                total + session.cashOut
+            }
+        
+        // Combine totals
+        let totalInvested = totalTournamentInvested + totalCashGameInvested
+        let totalWinnings = totalTournamentWinnings + totalCashGameWinnings
+        
+        // Calculate average ROI
+        guard totalInvested > 0 else { return "0%" }
+        let avgROI = (Double(totalWinnings) - Double(totalInvested)) / Double(totalInvested)
+        
         return avgROI.asPercent()
-
     }
     
     func totalHoursPlayed(range: RangeSelection = .all, bankroll: SessionFilter) -> String {
         
-        var sessionsArray: [PokerSession] {
+        var sessionsArray: [PokerSession_v2] {
             switch bankroll {
             case .all:
                 switch range {
@@ -318,12 +345,12 @@ extension SessionsListViewModel {
         let totalHours = sessionsArray.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
         let totalMins = sessionsArray.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
         let dateComponents = DateComponents(hour: totalHours, minute: totalMins)
-        return dateComponents.abbreviated(duration: dateComponents)
+        return dateComponents.durationShortHand()
     }
     
     func handsPlayed(range: RangeSelection = .all, bankroll: SessionFilter) -> Int {
         
-        var sessionsArray: [PokerSession] {
+        var sessionsArray: [PokerSession_v2] {
             switch bankroll {
             case .all:
                 switch range {
@@ -392,7 +419,7 @@ extension SessionsListViewModel {
     
     func avgDuration(range: RangeSelection = .all, bankroll: SessionFilter) -> String {
         
-        var sessionsArray: [PokerSession] {
+        var sessionsArray: [PokerSession_v2] {
             switch bankroll {
             case .all:
                 switch range {
@@ -451,7 +478,7 @@ extension SessionsListViewModel {
         let totalHours = hoursArray.reduce(0, +) / sessionsArray.count
         let totalMinutes = minutesArray.reduce(0, +) / sessionsArray.count
         let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
-        return dateComponents.abbreviated(duration: dateComponents)
+        return dateComponents.durationShortHand()
     }
     
     func avgProfit(yearExcluded: String? = nil, range: RangeSelection = .all, bankroll: SessionFilter) -> Int {
@@ -515,7 +542,7 @@ extension SessionsListViewModel {
     }
     
     func totalWinRate(yearExcluded: String? = nil, range: RangeSelection = .all, bankroll: SessionFilter) -> Double {
-        var sessionsArray: [PokerSession] {
+        var sessionsArray: [PokerSession_v2] {
             
             if let yearExcluded = yearExcluded {
                 return sessions.filter({ $0.date.getYear() != yearExcluded })
@@ -584,7 +611,7 @@ extension SessionsListViewModel {
             return 0
         }
         
-        var tournamentArray: [PokerSession] {
+        var tournamentArray: [PokerSession_v2] {
             switch range {
             case .all:
                 return allTournamentSessions()
@@ -601,7 +628,7 @@ extension SessionsListViewModel {
             }
         }
         
-        let tournamentBuyIns = tournamentArray.map { $0.expenses ?? 0 }.reduce(0, +)
+        let tournamentBuyIns = tournamentArray.map { $0.buyIn }.reduce(0, +)
         let count = tournamentArray.count
         
         return tournamentBuyIns / count
@@ -613,7 +640,7 @@ extension SessionsListViewModel {
             return 0
         }
         
-        var tournamentArray: [PokerSession] {
+        var tournamentArray: [PokerSession_v2] {
             switch range {
             case .all:
                 return allTournamentSessions()
@@ -636,7 +663,7 @@ extension SessionsListViewModel {
     func inTheMoneyRatio(range: RangeSelection) -> String {
         guard !allTournamentSessions().isEmpty else { return "0%" }
         
-        var tournamentArray: [PokerSession] {
+        var tournamentArray: [PokerSession_v2] {
             switch range {
             case .all:
                 return allTournamentSessions()
@@ -662,7 +689,7 @@ extension SessionsListViewModel {
     func tournamentReturnOnInvestment(range: RangeSelection) -> String {
         guard !allTournamentSessions().isEmpty else { return "0%" }
         
-        var tournamentArray: [PokerSession] {
+        var tournamentArray: [PokerSession_v2] {
             switch range {
             case .all:
                 return allTournamentSessions()
@@ -679,13 +706,18 @@ extension SessionsListViewModel {
             }
         }
         
-        // It's Ok to force unwrap expenses because all tournaments MUST have an expense entered
-        let totalBuyIns = tournamentArray.map({ $0.expenses! }).reduce(0,+)
+        // Calculate total invested (buy-ins + rebuys)
+        let totalBuyIns = tournamentArray.reduce(0) { total, session in
+            total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
+        }
         
-        // Need total tournament winnings. Adding expenses back here because we need gross winnings, not net winnings
-        let totalWinnings = tournamentArray.map({ $0.profit + $0.expenses! }).reduce(0,+)
+        // Calculate total winnings (gross)
+        let totalWinnings = tournamentArray.reduce(0) { total, session in
+            total + session.cashOut
+        }
         
-        // ROI = Total Winnings - Total Buy Ins / Total Buy Ins
+        // Calculate ROI
+        guard totalBuyIns > 0 else { return "0%" }
         let returnOnInvestment = (Double(totalWinnings) - Double(totalBuyIns)) / Double(totalBuyIns)
         
         return returnOnInvestment.asPercent()
@@ -693,7 +725,7 @@ extension SessionsListViewModel {
     
     func numOfCashes(range: RangeSelection = .all) -> Int {
         
-        var sessionsArray: [PokerSession] {
+        var sessionsArray: [PokerSession_v2] {
             switch range {
             case .all:
                 return allCashSessions()
@@ -715,7 +747,7 @@ extension SessionsListViewModel {
     }
     
     func totalHighHands(range: RangeSelection = .all) -> Int {
-        var sessionsArray: [PokerSession] {
+        var sessionsArray: [PokerSession_v2] {
             switch range {
             case .all:
                 return allCashSessions()
@@ -733,7 +765,7 @@ extension SessionsListViewModel {
         }
         
         guard !sessionsArray.isEmpty else { return 0 }
-        let highHandTotals = sessionsArray.map({ $0.highHandBonus ?? 0 }).reduce(0,+)
+        let highHandTotals = sessionsArray.map({ $0.highHandBonus }).reduce(0,+)
         return highHandTotals
     }
 }

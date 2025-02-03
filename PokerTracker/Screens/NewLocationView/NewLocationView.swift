@@ -36,13 +36,12 @@ struct NewLocationView: View {
                         Spacer()
                     }
                     
-                    Text("Enter the name of the location, and import a photo (optional) from your photo library. If you don't choose an image, a default graphic will be provided.")
+                    Text("Enter the name of the location, and import a photo from your photo library. If you don't choose an image, a default graphic will be provided. ")
                         .bodyStyle()
                         .padding(.horizontal)
                         .padding(.bottom, 40)
                     
-                    // MARK: LOCATION NAME
-                    
+                    // Location Name
                     VStack {
                         
                         HStack {
@@ -60,8 +59,7 @@ struct NewLocationView: View {
                         
                         Divider()
                         
-                        // MARK: PHOTO SELECTOR
-                        
+                        // Photo Selection
                         HStack {
                             Image(systemName: newLocationViewModel.importedImage != nil ? "checkmark.circle.fill" : "photo")
                                 .font(.headline).frame(width: 25)
@@ -85,11 +83,13 @@ struct NewLocationView: View {
                     .padding(.bottom, 40)
                     
                     VStack {
+                        
                         Button {
                             let impact = UIImpactFeedbackGenerator(style: .heavy)
                             impact.impactOccurred()
-                            newLocationViewModel.saveLocation(viewModel: vm)
+                            newLocationViewModel.saveUserLocation(viewModel: vm)
                             addLocationIsShowing = newLocationViewModel.presentation ?? true
+                            
                         } label: {
                             PrimaryButton(title: "Save Location")
                         }
@@ -99,6 +99,7 @@ struct NewLocationView: View {
                             let impact = UIImpactFeedbackGenerator(style: .soft)
                             impact.impactOccurred()
                             addLocationIsShowing.toggle()
+                            
                         } label: {
                             Text("Cancel")
                                 .buttonTextStyle()
@@ -123,7 +124,6 @@ struct NewLocationView: View {
         .accentColor(.brandPrimary)
         .errorAlert(error: $photoError)
         .task(id: photoPickerItem) {
-            
             do {
                 guard let photoPickerItem else { return }
                 newLocationViewModel.importedImage = try await photoPickerItem.loadTransferable(type: Data.self)

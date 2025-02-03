@@ -24,18 +24,10 @@ struct BarChartByYear: View {
         
         VStack {
             
-            if #available(iOS 17.0, *) {
-                
-                barChart
-                
-            } else {
-                
-                barChartOldVersion
-            }
+            barChart
         }
     }
     
-    @available(iOS 17, *)
     var barChart: some View {
         
         VStack {
@@ -140,44 +132,6 @@ struct BarChartByYear: View {
         }
     }
     
-    var barChartOldVersion: some View {
-        
-        Chart {
-            
-            // The reason for the ForEach statement is because it's the only way to use the 'if let' statement getting
-            // values from RuleMark and using it as an overlay
-            ForEach(sessionProfitByMonth, id: \.month) { monthlyTotal in
-                
-                BarMark(x: .value("Month", monthlyTotal.month, unit: .month), y: .value("Profit", monthlyTotal.profit))
-                    .cornerRadius(3)
-                    .foregroundStyle(monthlyTotal.profit > 0 ? Color.lightGreen.gradient : Color.pink.gradient)
-                    .opacity(selectedMonth == nil || selectedMonth?.getMonth() == monthlyTotal.month.getMonth() ? 1 : 0.4)
-            }
-        }
-        .chartXScale(domain: [firstDay, lastDay])
-        .chartYAxis {
-            AxisMarks(position: .leading, values: .automatic(desiredCount: moreAxisMarks ? 4 : 3)) { value in
-                AxisGridLine()
-                    .foregroundStyle(.gray.opacity(0.33))
-                AxisValueLabel() {
-                    if let intValue = value.as(Int.self) {
-                        Text(intValue.axisShortHand(viewModel.userCurrency))
-                            .captionStyle()
-                            .padding(.trailing, 15)
-                    }
-                }
-            }
-        }
-        .chartXAxis {
-            AxisMarks {
-                AxisValueLabel(format: .dateTime.month(.abbreviated),
-                               horizontalSpacing: sessionProfitByMonth.isEmpty ? 25 : 0,
-                               verticalSpacing: 15).font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
-            }
-        }
-        
-    }
-    
     var profitAnnotation: Int? {
         
         guard let selectedMonth = selectedMonth else {
@@ -194,13 +148,13 @@ struct BarChartByYear: View {
     }
     
     // Formats data so we have the profit totals of every month, i.e. only 12 total items in the array. Checks current year only
-    func sessionsByMonth(sessions: [PokerSession], cashOnly: Bool) -> [(month: Date, profit: Int)] {
+    func sessionsByMonth(sessions: [PokerSession_v2], cashOnly: Bool) -> [(month: Date, profit: Int)] {
         
         var monthlyProfits: [Date: Int] = [:]
         let currentYear = Calendar.current.component(.year, from: Date())
         
         if cashOnly == true {
-            let cashSessions = sessions.filter({ $0.isTournament == false || $0.isTournament == nil })
+            let cashSessions = sessions.filter({ $0.isTournament == false })
             
             for session in cashSessions {
                 
@@ -236,7 +190,7 @@ struct BarChartByYear: View {
     }
     
     // Calculates annoations value
-    func profitByMonth(month: Date, data: [PokerSession]) -> Int {
+    func profitByMonth(month: Date, data: [PokerSession_v2]) -> Int {
         
         let currentYear = Calendar.current.component(.year, from: Date())
         let filteredSessions = data.filter({ $0.date.getMonth() == month.getMonth() && Int($0.date.getYear()) == currentYear })

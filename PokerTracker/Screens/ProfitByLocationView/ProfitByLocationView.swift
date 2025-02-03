@@ -24,17 +24,15 @@ struct ProfitByLocationView: View {
     var body: some View {
         
         ScrollView {
+            
             ZStack {
+                
                 VStack {
                     
                     if viewModel.sessions.isEmpty {
-                        
                         EmptyState(title: "No Sessions", image: .locations)
                         
                     } else {
-                        
-                        VStack { }.frame(height: 40)
-
                         VStack (spacing: 10) {
                             
                             locationTotals
@@ -43,7 +41,6 @@ struct ProfitByLocationView: View {
                         }
                                                 
                         if subManager.isSubscribed {
-                            
                             locationWinRatesChart
                             
                         } else {
@@ -201,6 +198,7 @@ struct ProfitByLocationView: View {
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+        .padding(.top)
     }
     
     var yearTotal: some View {
@@ -258,7 +256,7 @@ struct ProfitByLocationView: View {
         
     }
     
-    private func hourlyByLocation(location: String, sessions: [PokerSession]) -> Int {
+    private func hourlyByLocation(location: String, sessions: [PokerSession_v2]) -> Int {
         guard !sessions.isEmpty else { return 0 }
         let totalHours = Float(sessions.filter{ $0.location.name == location }.map { $0.sessionDuration.hour ?? 0 }.reduce(0,+))
         let totalMinutes = Float(sessions.filter{ $0.location.name == location }.map { $0.sessionDuration.minute ?? 0 }.reduce(0,+))

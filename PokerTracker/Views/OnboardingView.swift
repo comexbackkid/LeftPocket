@@ -14,66 +14,87 @@ struct OnboardingView: View {
     
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var hkManager: HealthKitManager
-
     @Binding var shouldShowOnboarding: Bool
     @State private var selectedPage: Int = 0
     @State private var showPaywall = false
+    
+    private let players: [String: AVPlayer] = [
+            "logging-sessions-new": AVPlayer(url: Bundle.main.url(forResource: "logging-sessions-new", withExtension: "mp4")!),
+            "custom-locations": AVPlayer(url: Bundle.main.url(forResource: "custom-locations", withExtension: "mp4")!),
+            "metrics-screen": AVPlayer(url: Bundle.main.url(forResource: "metrics-screen", withExtension: "mp4")!),
+            "tag-reporting": AVPlayer(url: Bundle.main.url(forResource: "tag-reporting", withExtension: "mp4")!),
+            "homescreen-widget": AVPlayer(url: Bundle.main.url(forResource: "homescreen-widget", withExtension: "mp4")!),
+            "advanced-reporting": AVPlayer(url: Bundle.main.url(forResource: "advanced-reporting", withExtension: "mp4")!),
+            "health-metrics": AVPlayer(url: Bundle.main.url(forResource: "health-metrics", withExtension: "mp4")!)
+        ]
     
     var body: some View {
         
         TabView(selection: $selectedPage) {
             
-            WelcomeScreen(selectedPage: $selectedPage).tag(0)
+            WelcomeScreen(selectedPage: $selectedPage).gesture(DragGesture()).tag(0)
             
             PollView(showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(1)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(1)
             
-            PageView(title: "Log Poker Sessions Fast",
-                     subtitle: Text("Add a completed Session, or activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar from any screen. To enter rebuys, press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Use Transactions to log deposits, withdrawals, & expenses to your bankroll."),
-                     imageName: "doc.text",
+            StartingBankroll(showDismissButton: false,
+                             nextAction: nextPage,
+                             shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(2)
+            
+            PageView(title: "Easy Live Session Tracking",
+                     subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Monitor from your lock screen too!"),
                      videoURL: "logging-sessions-new",
-                     showDismissButton: false,
+                     showDismissButton: false, player: players["logging-sessions-new"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(2)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(3)
             
-            PageView(title: "Add Locations & Photos",
-                     subtitle: Text("Enter your own custom locations and header photos. Just navigate to the Settings \(Image(systemName: "gearshape.fill")) screen, tap on Locations, and then press the \(Image(systemName: "plus")) button."),
-                     imageName: "chart.line.uptrend.xyaxis",
+            PageView(title: "Custom Location Images",
+                     subtitle: Text("Add your own custom locations and header photos. Just navigate to the Settings \(Image(systemName: "gearshape.fill")) screen, tap on Locations, and then press the \(Image(systemName: "plus")) button."),
                      videoURL: "custom-locations",
-                     showDismissButton: false,
+                     showDismissButton: false, player: players["custom-locations"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(3)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(4)
             
-            PageView(title: "Advanced Data Reports",
-                     subtitle: Text("One place for all your important player data. Reports & analytics on location performance, stakes, month-by-month returns, & much more."),
-                     imageName: "paintbrush",
-                     videoURL: "advanced-reporting",
-                     showDismissButton: false,
+            PageView(title: "Know When to Move Up",
+                     subtitle: Text("Insightful charts, progress rings, & player metrics help you keep a thumb on your poker performance so you know exactly when to climb stakes."),
+                     videoURL: "metrics-screen",
+                     showDismissButton: false, player: players["metrics-screen"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(4)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(5)
+            
+            PageView(title: "Session Tags & Reports",
+                     subtitle: Text("Sessions & Transactions with a Tag \(Image(systemName: "tag.fill")) you created can be filtered & grouped together in a custom report for things like a trip, or bankroll challenge."),
+                     videoURL: "tag-reporting",
+                     showDismissButton: false, player: players["tag-reporting"],
+                     nextAction: nextPage,
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(6)
             
             PageView(title: "Home Screen Widgets",
-                     subtitle: Text("Add a stunning bankroll widget to your home screen! Touch & hold an empty area of your home screen until the apps jiggle. Then press the \"Edit\" button, followed by \"Add Widget\", & search for Left Pocket."),
-                     imageName: "paintbrush",
+                     subtitle: Text("Touch & hold an empty area of your home screen until the apps jiggle. Then press the \"Edit\" button, followed by \"Add Widget,\" & search for Left Pocket."),
                      videoURL: "homescreen-widget",
-                     showDismissButton: false,
+                     showDismissButton: false, player: players["homescreen-widget"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(5)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(7)
+            
+            PageView(title: "Advanced Data Metrics",
+                     subtitle: Text("One place for all your important player data. Reports & analytics on location performance, stakes, monthly returns, & so much more."),
+                     videoURL: "advanced-reporting",
+                     showDismissButton: false, player: players["advanced-reporting"],
+                     nextAction: nextPage,
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(8)
             
             PageView(title: "Health & Mental State",
-                     subtitle: Text("For an optimal experience, Left Pocket needs access to your Health information. This allows us to display your sleep hours & mindful minutes within our Health Analytics section, & integrate numbers measured by other devices, like an Apple Watch."),
-                     imageName: "paintbrush",
+                     subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours & mindful minutes in our Health Analytics page, & integrate these numbers measured by other devices, like an Apple Watch."),
                      videoURL: "health-metrics",
-                     showDismissButton: true,
+                     showDismissButton: true, player: players["health-metrics"],
                      nextAction: { hkManager.requestAuthorization() },
-                     shouldShowOnboarding: $shouldShowOnboarding).tag(6)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(9)
         }
         .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)
         .onBoardingBackgroundStyle(colorScheme: .light)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-        .preferredColorScheme(.dark)
         .onChange(of: hkManager.authorizationStatus, perform: { state in
             if state != .notDetermined {
                 showPaywall = true
@@ -104,7 +125,6 @@ struct OnboardingView: View {
         }
         .task {
             for await customerInfo in Purchases.shared.customerInfoStream {
-                
                 showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
                 await subManager.checkSubscriptionStatus()
             }
@@ -120,13 +140,11 @@ struct OnboardingView: View {
 
 struct PageView: View {
     
-    @State private var player: AVPlayer?
-    
     let title: String
     let subtitle: Text
-    let imageName: String
     let videoURL: String
     let showDismissButton: Bool
+    let player: AVPlayer?
     var nextAction: () -> Void
     
     @Binding var shouldShowOnboarding: Bool
@@ -160,27 +178,26 @@ struct PageView: View {
     var video: some View {
         
         Group {
-            
-            let url = Bundle.main.url(forResource: videoURL, withExtension: "mp4")
-            
-            if let url = url {
+            if let player = player {
+                
                 VideoPlayer(player: player)
                     .frame(width: 340, height: 340)
                     .cornerRadius(20)
                     .shadow(radius: 10)
                     .padding(.vertical, 30)
                     .onAppear {
-                        setupPlayer(with: url)
+                        player.seek(to: .zero)
+                        player.play()
                     }
                     .onDisappear {
-                        player?.pause()
-                        player = nil
+                        player.pause()
                     }
+                
             } else {
                 Text("Error. Video file not found.")
+                    .padding()
             }
         }
-        
     }
     
     var nextButton: some View {
@@ -191,7 +208,6 @@ struct PageView: View {
             nextAction()
             
         } label: {
-            
             Text(showDismissButton ? "Let's Do It" : "Continue")
                 .buttonTextStyle()
                 .foregroundColor(.black)
@@ -201,26 +217,9 @@ struct PageView: View {
                 .cornerRadius(30)
                 .padding(.horizontal, 20)
                 .padding(.bottom, 50)
-            
         }
         .buttonStyle(PlainButtonStyle())
     }
-    
-    private func setupPlayer(with url: URL) {
-        
-        self.player = AVPlayer(url: url)
-        self.player?.play()
-        
-        NotificationCenter.default.addObserver(
-            forName: .AVPlayerItemDidPlayToEndTime,
-            object: self.player?.currentItem,
-            queue: .main
-        ) { _ in
-            self.player?.seek(to: .zero)
-            self.player?.play()
-        }
-    }
-    
 }
 
 struct PollView: View {
@@ -288,6 +287,108 @@ struct PollView: View {
             Button {
                 let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
+                nextAction()
+                
+            } label: {
+                Text(showDismissButton ? "Let's Do It" : "Continue")
+                    .buttonTextStyle()
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background(.white)
+                    .cornerRadius(30)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 50)
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+    }
+}
+
+struct StartingBankroll: View {
+    
+    let showDismissButton: Bool
+    var nextAction: () -> Void
+    
+    @AppStorage("savedStartingBankroll") private var savedStartingBankroll: String = ""
+    @State private var startingBankrollTextField: String = ""
+    @Binding var shouldShowOnboarding: Bool
+    @FocusState var isFocused: Bool
+    
+    var body: some View {
+        
+        VStack {
+            
+            VStack (alignment: .leading) {
+                
+                Spacer()
+                
+                Text("Are you starting off with a bankroll today? Enter it below.")
+                    .signInTitleStyle()
+                    .foregroundColor(.brandWhite)
+                    .fontWeight(.black)
+                    .padding(.bottom, 5)
+                
+                Text("(You can skip this step, and if you wish, import data from a different bankroll tracker later)")
+                    .calloutStyle()
+                    .opacity(0.7)
+                    .padding(.bottom, 20)
+                
+                HStack {
+                    
+                    Text("$")
+                        .font(.system(size: 25))
+                        .frame(width: 17)
+                        .foregroundColor(startingBankrollTextField.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+            
+                    TextField("", text: $startingBankrollTextField)
+                        .focused($isFocused, equals: true)
+                        .font(.custom("Asap-Bold", size: 25))
+                        .keyboardType(.numberPad)
+                        .onSubmit {
+                            isFocused = false
+                        }
+                        .toolbar {
+                            ToolbarItem(placement: .keyboard) {
+                                Button("Done") { isFocused = false }
+                            }
+                        }
+                }
+                .padding(.horizontal, 18)
+                .padding(.vertical, 14)
+                .background(.gray.opacity(0.2))
+                .cornerRadius(15)
+                .overlay {
+                    if !startingBankrollTextField.isEmpty {
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(Color.lightGreen, lineWidth: 1.5)
+                    }
+                }
+                
+                Spacer()
+        
+            }
+            .padding(.horizontal, 20)
+            
+            Spacer()
+            
+            Button {
+                let impact = UIImpactFeedbackGenerator(style: .soft)
+                impact.impactOccurred()
+                nextAction()
+            } label: {
+                Text("Skip this step, I'll decide later")
+                    .subHeadlineStyle()
+                    .buttonStyle(.plain)
+            }
+            .buttonStyle(.plain)
+            .padding(.bottom, 12)
+            
+            Button {
+                let impact = UIImpactFeedbackGenerator(style: .heavy)
+                impact.impactOccurred()
+                isFocused = false
+                savedStartingBankroll = startingBankrollTextField
                 nextAction()
                 
             } label: {

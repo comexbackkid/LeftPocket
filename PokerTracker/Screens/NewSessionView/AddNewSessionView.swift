@@ -10,6 +10,18 @@ import RevenueCatUI
 import RevenueCat
 import TipKit
 
+enum Field {
+    case buyIn
+    case cashOut
+    case rebuys
+    case rebuyCount
+    case entrants
+    case finish
+    case expenses
+    case notes
+    case highHands
+}
+
 struct AddNewSessionView: View {
 
     @EnvironmentObject var vm: SessionsListViewModel
@@ -24,6 +36,8 @@ struct AddNewSessionView: View {
     @State var addStakesIsShowing = false
     @State var showPaywall = false
     @State var showCashRebuyField = false
+    
+    @FocusState private var focusedField: Field?
     
     var body: some View {
         
@@ -56,9 +70,9 @@ struct AddNewSessionView: View {
             // Loading optional data if the user activated a live session
             if let liveSessionStartTime = timerViewModel.liveSessionStartTime {
                 newSession.startTime = liveSessionStartTime
-                newSession.buyIn = timerViewModel.totalBuyInForLiveSession == 0 ? "" : String(timerViewModel.totalBuyInForLiveSession - timerViewModel.rebuyTotalForSession)
-                newSession.cashRebuys = newSession.sessionType == .cash ? String(timerViewModel.rebuyTotalForSession) : ""
-                newSession.rebuyCount = String(timerViewModel.totalRebuys.count - 1)
+                newSession.buyIn = String(timerViewModel.totalBuyInForLiveSession - timerViewModel.rebuyTotalForSession)
+                newSession.cashRebuys = timerViewModel.rebuyTotalForSession == 0 ? "" : String(timerViewModel.rebuyTotalForSession)
+                newSession.rebuyCount = String(timerViewModel.totalRebuys.count)
             }
         }
         .sheet(isPresented: $showPaywall) {
@@ -108,7 +122,7 @@ struct AddNewSessionView: View {
         
         VStack (alignment: .leading) {
             
-            if #available(iOS 17.0, *) { newSessionTip }
+            newSessionTip
             
             sessionSelection
             
@@ -150,17 +164,12 @@ struct AddNewSessionView: View {
                 }
                 
                 Button("Tournament") {
-                    
-                    if subManager.isSubscribed {
-                        withAnimation {
-                            newSession.sessionType = .tournament
-                        }
-                        
-                    } else { showPaywall = true }
+                    withAnimation {
+                        newSession.sessionType = .tournament
+                    }
                 }
    
             } label: {
-                
                 switch newSession.sessionType {
                 case .cash:
                     Text("Cash Game")
@@ -172,7 +181,6 @@ struct AddNewSessionView: View {
                         }
                     
                 case .tournament:
-                    
                     Text("Tournament")
                         .bodyStyle()
                         .fixedSize()
@@ -242,11 +250,10 @@ struct AddNewSessionView: View {
                         .lineLimit(1)
 
                 } else {
-                    
                     Text(newSession.location.name)
                         .bodyStyle()
                         .lineLimit(1)
-                        .fixedSize()
+                        .truncationMode(.tail)
                         .animation(nil, value: newSession.location)
                 }
             }
@@ -646,40 +653,22 @@ struct AddNewSessionView: View {
                         }
                         .allowsHitTesting(newSession.noMoreDays ? false : true)
                     
-                    if #available(iOS 17.0, *) {
-                        Image(systemName: newSession.noMoreDays ? "pencil.circle.fill" : "checkmark.circle.fill")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .fontWeight(.black)
-                            .foregroundStyle(newSession.noMoreDays ? Color.yellow : Color.green)
-                            .padding(.leading)
-                            .padding(.trailing, newSession.addDay ? 16 : -30)
-                            .onTapGesture {
-                                let impact = UIImpactFeedbackGenerator(style: .soft)
-                                impact.impactOccurred()
-                                newSession.noMoreDays.toggle()
-                            }
-                            .opacity(newSession.addDay ? 1 : 0)
-                            .animation(.snappy, value: newSession.addDay)
-                            .transition(.scale)
-                            .symbolEffect(.bounce, value: newSession.noMoreDays)
-                    } else {
-                        Image(systemName: newSession.noMoreDays ? "pencil.circle.fill" : "checkmark.circle.fill")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .fontWeight(.black)
-                            .foregroundStyle(newSession.noMoreDays ? Color.yellow : Color.green)
-                            .padding(.leading)
-                            .padding(.trailing, newSession.addDay ? 16 : -30)
-                            .onTapGesture {
-                                let impact = UIImpactFeedbackGenerator(style: .soft)
-                                impact.impactOccurred()
-                                newSession.noMoreDays.toggle()
-                            }
-                            .opacity(newSession.addDay ? 1 : 0)
-                            .animation(.snappy, value: newSession.addDay)
-                            .transition(.scale)
-                    }
+                    Image(systemName: newSession.noMoreDays ? "pencil.circle.fill" : "checkmark.circle.fill")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .fontWeight(.black)
+                        .foregroundStyle(newSession.noMoreDays ? Color.yellow : Color.green)
+                        .padding(.leading)
+                        .padding(.trailing, newSession.addDay ? 16 : -30)
+                        .onTapGesture {
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                            newSession.noMoreDays.toggle()
+                        }
+                        .opacity(newSession.addDay ? 1 : 0)
+                        .animation(.snappy, value: newSession.addDay)
+                        .transition(.scale)
+                        .symbolEffect(.bounce, value: newSession.noMoreDays)
                     
                     Rectangle().frame(height: 0.75)
                         .opacity(0.1)
@@ -709,6 +698,7 @@ struct AddNewSessionView: View {
                         TextField("Buy In", text: $newSession.buyIn)
                             .font(.custom("Asap-Regular", size: 17))
                             .keyboardType(.numberPad)
+                            .focused($focusedField, equals: .buyIn)
                     }
                     .padding(18)
                     .background(.gray.opacity(0.2))
@@ -720,7 +710,8 @@ struct AddNewSessionView: View {
                                                                                            removal: .scale(scale: 0, anchor: .bottomLeading))))
                 }
                 
-                // MARK: CASH GAME CASH OUT
+                // MARK: CASH OUT / WINNINGS
+                
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
@@ -730,6 +721,7 @@ struct AddNewSessionView: View {
                     TextField(newSession.sessionType == .tournament ? "Total Winnings" : "Cash Out", text: $newSession.cashOut)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
+                        .focused($focusedField, equals: .cashOut)
                 }
                 .padding(18)
                 .background(.gray.opacity(0.2))
@@ -740,6 +732,7 @@ struct AddNewSessionView: View {
             }
             
             // MARK: CASH GAME REBUYS
+            
             if newSession.sessionType != .tournament {
                 HStack {
                     Text(vm.userCurrency.symbol)
@@ -750,6 +743,7 @@ struct AddNewSessionView: View {
                     TextField("Rebuys / Top Offs", text: $newSession.cashRebuys)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
+                        .focused($focusedField, equals: .rebuys)
                     
                 }
                 .padding(18)
@@ -760,8 +754,8 @@ struct AddNewSessionView: View {
                 .padding(.bottom, 10)
             }
             
-            
             // MARK: TOURNAMENTS & GASH, EXPENSES / BUY IN HANDLING
+            
             HStack {
                 
                 HStack {
@@ -773,6 +767,7 @@ struct AddNewSessionView: View {
                     TextField(newSession.sessionType == .tournament ? "Buy In" : "Expenses (Tips, rake, etc.)", text: newSession.sessionType == .tournament ? $newSession.buyIn : $newSession.expenses)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
+                        .focused($focusedField, equals: .expenses)
                         .onChange(of: newSession.sessionType, perform: { value in
                             newSession.expenses = ""
                         })
@@ -794,6 +789,7 @@ struct AddNewSessionView: View {
                         TextField("Rebuy Ct.", text: $newSession.rebuyCount)
                             .font(.custom("Asap-Regular", size: 17))
                             .keyboardType(.numberPad)
+                            .focused($focusedField, equals: .rebuyCount)
                     }
                     .padding(18)
                     .background(.gray.opacity(0.2))
@@ -806,8 +802,9 @@ struct AddNewSessionView: View {
                 }
             }
             
+            // MARK: TOURNAMENT-ONLY SPECIFIC DETAILS
+            
             if newSession.sessionType == .tournament {
-                
                 HStack {
                     
                     Image(systemName: "person.fill")
@@ -818,6 +815,7 @@ struct AddNewSessionView: View {
                     TextField("No. of Entrants", text: $newSession.entrants)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
+                        .focused($focusedField, equals: .entrants)
                 }
                 .padding(18)
                 .background(.gray.opacity(0.2))
@@ -836,6 +834,7 @@ struct AddNewSessionView: View {
                     TextField("Your Finish", text: $newSession.finish)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
+                        .focused($focusedField, equals: .finish)
                 }
                 .padding(18)
                 .background(.gray.opacity(0.2))
@@ -848,6 +847,7 @@ struct AddNewSessionView: View {
             // MARK: NOTES
             
             TextEditor(text: $newSession.notes)
+                .focused($focusedField, equals: .notes)
                 .font(.custom("Asap-Regular", size: 17))
                 .padding(12)
                 .frame(height: 130, alignment: .top)
@@ -883,6 +883,7 @@ struct AddNewSessionView: View {
                     TextField("High Hand Bonus (Optional)", text: $newSession.highHandBonus)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
+                        .focused($focusedField, equals: .highHands)
                 }
                 .padding(18)
                 .background(.gray.opacity(0.2))
@@ -930,6 +931,54 @@ struct AddNewSessionView: View {
             }
         }
         .padding(.horizontal, 8)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                if focusedField == .buyIn {
+                    Button("Next") {
+                        focusedField = .cashOut
+                    }
+                } else if focusedField == .cashOut {
+                    Button("Next") {
+                        focusedField = newSession.sessionType == .cash ? .rebuys : .expenses
+                    }
+                } else if focusedField == .rebuys {
+                    Button("Next") {
+                        focusedField = .expenses
+                    }
+                } else if focusedField == .expenses {
+                    Button("Next") {
+                        focusedField = newSession.sessionType == .cash ? .notes : .rebuyCount
+                    }
+                } else if focusedField == .rebuyCount {
+                    Button("Next") {
+                        focusedField = .entrants
+                    }
+                } else if focusedField == .entrants {
+                    Button("Next") {
+                        focusedField = .finish
+                    }
+                } else if focusedField == .finish {
+                    Button("Next") {
+                        focusedField = .notes
+                    }
+                } else if focusedField == .notes {
+                    if newSession.sessionType == .cash {
+                        Button("Next") {
+                            focusedField = .highHands
+                        }
+                    } else {
+                        Button("Done") {
+                            focusedField = nil
+                        }
+                    }
+                } else if focusedField == .highHands {
+                    Button("Done") {
+                        focusedField = nil
+                    }
+                }
+            }
+        }
     }
     
     var saveButton: some View {
@@ -951,6 +1000,7 @@ struct AddNewSessionView: View {
             Button(role: .cancel) {
                 let impact = UIImpactFeedbackGenerator(style: .soft)
                 impact.impactOccurred()
+                audioConfirmation = false
                 isPresented = false
                 
             } label: {
@@ -962,7 +1012,6 @@ struct AddNewSessionView: View {
         .padding(.bottom, 10)
     }
     
-    @available(iOS 17.0, *)
     var newSessionTip: some View {
         
         VStack {

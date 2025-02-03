@@ -78,30 +78,26 @@ struct UserSettings: View {
                     }
                     
                     if !subManager.isSubscribed {
-                        
                         Button {
-                            
                             let impact = UIImpactFeedbackGenerator(style: .soft)
                             impact.impactOccurred()
                             showPaywall = true
                             
                         } label: {
-                            
                             HStack {
                                 Spacer()
-                                VStack {
-                                    Text("✨ Try Left Pocket Pro FREE ✨")
+                                VStack (spacing: 3) {
+                                    Text("⚡️ Try Left Pocket Pro FREE ⚡️")
                                         .subtitleStyle()
-                                        .foregroundStyle(.white)
                                     
                                     Text("Unlock access to all premium features")
                                         .captionStyle()
-                                        .foregroundStyle(.white)
+                                        .opacity(0.75)
                                 }
                                 Spacer()
                             }
                             .frame(height: 75)
-                            .background(Color.brandPrimary.gradient)
+                            .background(.ultraThinMaterial)
                             .clipShape(.rect(cornerRadius: 15))
                             .padding(.bottom, 25)
                         }
@@ -436,7 +432,6 @@ struct UserSettings: View {
                 if subManager.isSubscribed || exportCounter != 0 {
                     
                     Button {
-                        
                         let impact = UIImpactFeedbackGenerator(style: .soft)
                         impact.impactOccurred()
                         
@@ -451,12 +446,11 @@ struct UserSettings: View {
                         }
                         
                     } label: {
-                        
                         HStack {
                             VStack (alignment: .leading) {
                                 HStack {
                                     
-                                    Text("Export My Data")
+                                    Text("Export Data")
                                         .subtitleStyle()
                                         .bold()
                                     
@@ -466,9 +460,8 @@ struct UserSettings: View {
                                         .font(.title2)
                                 }
                                 
-                                // This text will display below "Export My Data" if the user is not subscribed
+                                // This text will display below "Export Data" if the user is not subscribed
                                 if !subManager.isSubscribed {
-                                    
                                     Text("Upgrade to Left Pocket Pro for unlimited exports. You have \(exportCounter) " + "export\(exportCounter > 0 ? "" : "s") remaining.")
                                         .calloutStyle()
                                         .opacity(0.8)
@@ -483,19 +476,17 @@ struct UserSettings: View {
                     }
             
                 } else {
-                    
                     Button {
                         let impact = UIImpactFeedbackGenerator(style: .soft)
                         impact.impactOccurred()
                         showPaywall = true
                             
                     } label: {
-                        
                         HStack {
                             VStack (alignment: .leading) {
                                 HStack {
                                     
-                                    Text("Export My Data")
+                                    Text("Export Data")
                                         .subtitleStyle()
                                         .bold()
                                     
@@ -652,6 +643,5 @@ struct UserSettings_Previews: PreviewProvider {
         UserSettings(isDarkMode: .constant(false), systemThemeEnabled: .constant(true))
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
-            .preferredColorScheme(.dark)
     }
 }
