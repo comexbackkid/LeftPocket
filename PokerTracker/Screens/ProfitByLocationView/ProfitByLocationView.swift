@@ -233,6 +233,22 @@ struct ProfitByLocationView: View {
                 Text("\(viewModel.sessions.filter({ $0.date.getYear() == yearFilter }).count)")
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
+            
+            let mostVisitedLocation = mostVisitedLocation(sessions: viewModel.sessions, forYear: yearFilter)
+            
+            HStack {
+                Image(systemName: "mappin")
+                    .frame(width: 20)
+                    .foregroundColor(Color(.systemGray))
+                
+                Text("Popular")
+                
+                Spacer()
+                
+                Text(mostVisitedLocation)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
+                    .truncationMode(.tail)
+            }
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
         .padding(20)
@@ -254,6 +270,16 @@ struct ProfitByLocationView: View {
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             .padding(.top, 15)
         
+    }
+    
+    private func mostVisitedLocation(sessions: [PokerSession_v2], forYear year: String) -> String {
+        let locationCounts = sessions.reduce(into: [String: Int]()) { counts, session in
+            if session.date.getYear() == year {
+                counts[session.location.name, default: 0] += 1
+            }
+        }
+        
+        return locationCounts.max(by: { $0.value < $1.value })?.key ?? "None"
     }
     
     private func hourlyByLocation(location: String, sessions: [PokerSession_v2]) -> Int {
