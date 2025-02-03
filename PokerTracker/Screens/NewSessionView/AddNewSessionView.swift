@@ -254,7 +254,6 @@ struct AddNewSessionView: View {
                         .bodyStyle()
                         .lineLimit(1)
                         .truncationMode(.tail)
-//                        .fixedSize()
                         .animation(nil, value: newSession.location)
                 }
             }
