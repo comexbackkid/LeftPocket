@@ -69,15 +69,7 @@ struct ProfitByStakesView: View {
                 .padding(.top, showCustomDatesTag == true || yearFilter != nil ? 30 : 10)
                 .padding(.trailing, 20)
                 
-                VStack (spacing: 10) {
-                    
-                    stakesTotals
-                }
-                .padding(20)
-                .frame(width: UIScreen.main.bounds.width * 0.9)
-                .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
-                .cornerRadius(12)
-                .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+                stakesTotals
                 
                 yearTotal
                 
@@ -280,6 +272,11 @@ struct ProfitByStakesView: View {
                 .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
             }
         }
+        .padding(20)
+        .frame(width: UIScreen.main.bounds.width * 0.9)
+        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+        .cornerRadius(12)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     
     var yearTotal: some View {

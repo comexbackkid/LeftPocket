@@ -20,6 +20,10 @@ struct BarChartByStakes: View {
         VStack {
             
             let stakesList = Set(viewModel.allCashSessions().map { $0.stakes })
+            let stakesProfits = Dictionary(grouping: filteredSessions, by: { $0.stakes })
+                .mapValues { sessions in
+                    sessions.reduce(0) { $0 + $1.profit }
+                }
             let stakesCount = stakesList.count
             let baseHeight: CGFloat = 50
             let minHeight: CGFloat = 150
@@ -39,10 +43,13 @@ struct BarChartByStakes: View {
             }
             
             Chart {
-                ForEach(filteredSessions, id: \.self) { session in
-                    BarMark(x: .value("Total", session.profit) , y: .value("Stakes", session.stakes), height: 20.0)
-                        .foregroundStyle(.teal)
-                        .cornerRadius(25)
+                ForEach(stakesProfits.sorted(by: { $0.value > $1.value }), id: \.key) { stake, totalProfit in
+                    BarMark(
+                        x: .value("Total Profit", totalProfit),
+                        y: .value("Stakes", stake), height: 20.0
+                    )
+                    .foregroundStyle(totalProfit >= 0 ? .teal : .pink)
+                    .cornerRadius(25)
                 }
             }
             .padding(.horizontal, 15)
@@ -63,7 +70,6 @@ struct BarChartByStakes: View {
                     }
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 1, dash: [0]))
                         .foregroundStyle(.gray.opacity(0.25))
-                    
                 }
             }
             .padding(.leading, 25)
