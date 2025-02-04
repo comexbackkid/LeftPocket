@@ -364,7 +364,7 @@ struct LeftPocketCustomTabBar: View {
     func performQuickAction() {
         guard let action = qaService.action else { return }
         
-        if isCounting && action == .addNewSession || action == .enterTransaction {
+        if isCounting && action == .addNewSession || isCounting && action == .enterTransaction {
             // Optionally show an alert or log a message instead of performing the action
             print("Cannot add a new session while a live session is active.")
             qaService.action = nil
