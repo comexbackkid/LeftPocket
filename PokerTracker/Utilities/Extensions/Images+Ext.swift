@@ -15,12 +15,12 @@ extension Image {
         self
             .resizable()
             .scaledToFit()
-            .frame(width: 18, height: 18)
+            .frame(width: 15, height: 15)
             .foregroundColor(.white)
             .background(
                 Circle()
                     .foregroundColor(isTournament ? .donutChartOrange : .brandPrimary)
-                    .frame(width: 36, height: 36, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .frame(width: 33, height: 33, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             )
             .padding(.trailing, 15)
     }
