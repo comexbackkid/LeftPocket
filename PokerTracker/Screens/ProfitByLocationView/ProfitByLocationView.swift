@@ -14,12 +14,23 @@ struct ProfitByLocationView: View {
     
     @Environment(\.colorScheme) var colorScheme
     
-    @State private var yearFilter = Date().getYear()
+    @State private var yearFilter: String?
     @State private var metricFilter = "Total"
     @State private var showPaywall = false
     
     @EnvironmentObject var subManager: SubscriptionManager
     @ObservedObject var viewModel: SessionsListViewModel
+    
+    var filteredSessions: [PokerSession_v2] {
+        
+        var result = viewModel.sessions
+        
+        if let yearFilter = yearFilter {
+            result = result.filter({ $0.date.getYear() == yearFilter })
+        }
+        
+        return result
+    }
     
     var body: some View {
         
@@ -113,24 +124,53 @@ struct ProfitByLocationView: View {
         
         VStack {
             
-            let allYears = viewModel.sessions.map({ $0.date.getYear() }).uniqued()
-            
             HStack {
                 
+                let allYears = viewModel.sessions.map({ $0.date.getYear() }).uniqued()
+                
                 Menu {
-                    Picker("", selection: $yearFilter) {
-                        ForEach(allYears, id: \.self) {
-                            Text($0)
+                    
+                    Menu {
+                        Picker("", selection: $yearFilter) {
+                            ForEach(allYears, id: \.self) {
+                                Text($0).tag($0)
+                            }
                         }
+                    } label: {
+                        Text("Filter by Year")
                     }
+                    
+                    Divider()
+                    
+                    Button {
+                        resetAllFilters()
+                    } label: {
+                        Text("Clear Filters")
+                        Image(systemName: "x.circle")
+                    }
+                    
                 } label: {
-                    Text(yearFilter + " ›")
-                        .bodyStyle()
+                    Image(systemName: "slider.horizontal.3")
                 }
                 .accentColor(Color.brandPrimary)
                 .transaction { transaction in
                     transaction.animation = nil
                 }
+                
+//                Menu {
+//                    Picker("", selection: $yearFilter) {
+//                        ForEach(allYears, id: \.self) {
+//                            Text($0)
+//                        }
+//                    }
+//                } label: {
+//                    Text(yearFilter + " ›")
+//                        .bodyStyle()
+//                }
+//                .accentColor(Color.brandPrimary)
+//                .transaction { transaction in
+//                    transaction.animation = nil
+//                }
             }
         }
     }
@@ -168,14 +208,13 @@ struct ProfitByLocationView: View {
                 HStack {
                     Text(location)
                         .lineLimit(1)
+                        .truncationMode(.tail)
                     
                     Spacer()
                     
-                    // Still won't grab data if Sessions are imported from a CSV
-                    let filteredByYear = viewModel.sessions.filter({ $0.date.getYear() == yearFilter })
-                    let total = filteredByYear.filter({ $0.location.name == location }).map({ $0.profit }).reduce(0,+)
-                    let hourlyRate = hourlyByLocation(location: location, sessions: filteredByYear)
-                    let hoursPlayed = viewModel.hoursAbbreviated(filteredByYear.filter({ $0.location.name == location }))
+                    let total = filteredSessions.filter({ $0.location.name == location }).map({ $0.profit }).reduce(0,+)
+                    let hourlyRate = hourlyByLocation(location: location, sessions: filteredSessions)
+                    let hoursPlayed = viewModel.hoursAbbreviated(filteredSessions.filter({ $0.location.name == location }))
                     
                     Text(total.axisShortHand(viewModel.userCurrency))
                         .profitColor(total: total)
@@ -205,7 +244,7 @@ struct ProfitByLocationView: View {
         
         VStack (spacing: 7) {
             
-            let bankrollTotalByYear = viewModel.bankrollByYear(year: yearFilter, sessionFilter: .all)
+            let bankrollTotal = filteredSessions.map({ $0.profit }).reduce(0, +)
             
             HStack {
                 Image(systemName: "dollarsign")
@@ -216,8 +255,8 @@ struct ProfitByLocationView: View {
                     
                 Spacer()
                 
-                Text(bankrollTotalByYear, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .profitColor(total: bankrollTotalByYear)
+                Text(bankrollTotal, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: bankrollTotal)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
@@ -230,11 +269,11 @@ struct ProfitByLocationView: View {
                 
                 Spacer()
                 
-                Text("\(viewModel.sessions.filter({ $0.date.getYear() == yearFilter }).count)")
+                Text("\(filteredSessions.count)")
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
-            let mostVisitedLocation = mostVisitedLocation(sessions: viewModel.sessions, forYear: yearFilter)
+            let mostVisitedLocation = mostVisitedLocation(sessions: filteredSessions)
             
             HStack {
                 Image(systemName: "mappin")
@@ -261,7 +300,7 @@ struct ProfitByLocationView: View {
     
     var locationWinRatesChart: some View {
         
-        RingCharts(viewModel: viewModel, yearFilter: $yearFilter)
+        RingCharts(sessions: filteredSessions)
             .padding(.horizontal, 30)
             .padding(.vertical, 20)
             .frame(width: UIScreen.main.bounds.width * 0.9)
@@ -269,14 +308,15 @@ struct ProfitByLocationView: View {
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             .padding(.top, 15)
-        
     }
     
-    private func mostVisitedLocation(sessions: [PokerSession_v2], forYear year: String) -> String {
+    private func resetAllFilters() {
+        yearFilter = nil
+    }
+    
+    private func mostVisitedLocation(sessions: [PokerSession_v2]) -> String {
         let locationCounts = sessions.reduce(into: [String: Int]()) { counts, session in
-            if session.date.getYear() == year {
-                counts[session.location.name, default: 0] += 1
-            }
+            counts[session.location.name, default: 0] += 1
         }
         
         return locationCounts.max(by: { $0.value < $1.value })?.key ?? "None"

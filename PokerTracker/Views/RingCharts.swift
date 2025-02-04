@@ -9,12 +9,12 @@ import SwiftUI
 
 struct RingCharts: View {
     
-    @ObservedObject var viewModel: SessionsListViewModel
-    @Binding var yearFilter: String
+    let sessions: [PokerSession_v2]
     
     var body: some View {
         
-        let locations = viewModel.sessions.filter({ $0.date.getYear() == yearFilter }).map { $0.location.name }.uniqued().sorted()
+        let locationCounts = Dictionary(grouping: sessions, by: { $0.location.name }).mapValues { $0.count }
+        let topLocations = locationCounts.sorted { $0.value > $1.value }.prefix(3).map { $0.key }
         
         VStack {
             
@@ -26,9 +26,8 @@ struct RingCharts: View {
             }
             
             HStack (alignment: .top, spacing: 10) {
-                
-                ForEach(locations.prefix(3), id: \.self) { location in
-                    RingChart(viewModel: viewModel, location: location, yearFilter: $yearFilter)
+                ForEach(topLocations, id: \.self) { location in
+                    RingChart(location: location, sessions: sessions)
                 }
             }
             .padding(.top)
@@ -39,17 +38,17 @@ struct RingCharts: View {
 
 struct RingChart: View {
     
-    @ObservedObject var viewModel: SessionsListViewModel
     let location: String
+    let sessions: [PokerSession_v2]
     
     @State private var winRate: Float = 0.0
-    @Binding var yearFilter: String
     
     var body: some View {
         
         VStack {
             
             ZStack {
+                
                 Circle()
                     .stroke(lineWidth: 8)
                     .frame(width: 50, height: 50)
@@ -76,28 +75,30 @@ struct RingChart: View {
                 .lineLimit(2)
         }
         .frame(maxWidth: 100)
-        .onAppear { locationWinRate(location: location, year: yearFilter) }
-        .onChange(of: yearFilter, perform: { value in
-            locationWinRate(location: location, year: yearFilter)
+        .onAppear { locationWinRate(location: location, sessions: sessions) }
+        .onChange(of: sessions, perform: { value in
+            locationWinRate(location: location, sessions: value)
         })
     }
     
-    private func locationWinRate(location: String, year: String) {
-       
-        // Need to input the location, and get back that location's number of profitable sessions
-        let profitableVisits = viewModel.sessions.filter({ $0.location.name == location && $0.date.getYear() == year }).filter({ $0.profit > 0 }).count
+    private func locationWinRate(location: String, sessions: [PokerSession_v2]) {
+        var profitableVisits = 0
+        var totalVisits = 0
         
-        // Need to capture the total number of times played at that location
-        let totalVisits = viewModel.sessions.filter({ $0.location.name == location && $0.date.getYear() == year }).count
+        for session in sessions where session.location.name == location {
+            totalVisits += 1
+            if session.profit > 0 {
+                profitableVisits += 1
+            }
+        }
         
-        // Divide # of profitable sessions there, by total number of times played at that location
-        let locationWinRate = Float(profitableVisits) / Float(totalVisits)
+        let locationWinRate = totalVisits > 0 ? Float(profitableVisits) / Float(totalVisits) : 0
         
         winRate = locationWinRate
     }
 }
 
 #Preview {
-    RingCharts(viewModel: SessionsListViewModel(), yearFilter: .constant("2024"))
+    RingCharts(sessions: MockData.allSessions)
         .padding(.horizontal, 30)
 }

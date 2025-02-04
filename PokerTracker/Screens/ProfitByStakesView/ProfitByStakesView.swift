@@ -92,7 +92,6 @@ struct ProfitByStakesView: View {
                     stakesChart
                     
                 } else {
-                    
                     stakesChart
                         .blur(radius: 6)
                         .overlay {
