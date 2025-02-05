@@ -37,6 +37,8 @@ struct AddNewSessionView: View {
     @State var showPaywall = false
     @State var showCashRebuyField = false
     
+    @State private var actionSoldPercent = ""
+    
     @FocusState private var focusedField: Field?
     
     var body: some View {
@@ -692,7 +694,7 @@ struct AddNewSessionView: View {
                     HStack {
                         Text(vm.userCurrency.symbol)
                             .font(.callout)
-                            .frame(width: 13)
+                            .frame(width: 15)
                             .foregroundColor(newSession.buyIn.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                         
                         TextField("Buy In", text: $newSession.buyIn)
@@ -715,7 +717,7 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
-                        .frame(width: 13)
+                        .frame(width: 15)
                         .foregroundColor(newSession.cashOut.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField(newSession.sessionType == .tournament ? "Total Winnings" : "Cash Out", text: $newSession.cashOut)
@@ -737,7 +739,7 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
-                        .frame(width: 13)
+                        .frame(width: 15)
                         .foregroundStyle(newSession.cashRebuys.isEmpty ? .secondary.opacity(0.5) : Color.brandWhite)
                     
                     TextField("Rebuys / Top Offs", text: $newSession.cashRebuys)
@@ -761,7 +763,7 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
-                        .frame(width: 13)
+                        .frame(width: 15)
                         .foregroundColor(newSession.sessionType == .tournament && newSession.buyIn.isEmpty || newSession.sessionType == .cash && newSession.expenses.isEmpty || newSession.sessionType == nil && newSession.expenses.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField(newSession.sessionType == .tournament ? "Buy In" : "Expenses (Tips, rake, etc.)", text: newSession.sessionType == .tournament ? $newSession.buyIn : $newSession.expenses)
@@ -783,7 +785,7 @@ struct AddNewSessionView: View {
                     HStack {
                         Text("#")
                             .font(.callout)
-                            .frame(width: 13)
+                            .frame(width: 15)
                             .foregroundColor(newSession.rebuyCount.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                         
                         TextField("Rebuy Ct.", text: $newSession.rebuyCount)
@@ -809,7 +811,7 @@ struct AddNewSessionView: View {
                     
                     Image(systemName: "person.fill")
                         .font(.callout)
-                        .frame(width: 13)
+                        .frame(width: 15)
                         .foregroundColor(newSession.entrants.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("No. of Entrants", text: $newSession.entrants)
@@ -828,7 +830,7 @@ struct AddNewSessionView: View {
                     
                     Text("#")
                         .font(.callout)
-                        .frame(width: 13)
+                        .frame(width: 15)
                         .foregroundColor(newSession.finish.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("Your Finish", text: $newSession.finish)
@@ -877,7 +879,7 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
-                        .frame(width: 13)
+                        .frame(width: 15)
                         .foregroundColor(newSession.highHandBonus.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("High Hand Bonus (Optional)", text: $newSession.highHandBonus)
@@ -899,7 +901,7 @@ struct AddNewSessionView: View {
             HStack {
                 Image(systemName: "tag.fill")
                     .font(.caption2)
-                    .frame(width: 13)
+                    .frame(width: 15)
                     .foregroundColor(newSession.tags.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                 
                 TextField("Tags (Optional)", text: $newSession.tags)
@@ -928,6 +930,56 @@ struct AddNewSessionView: View {
                         .buttonStyle(.plain)
                     }
                 }
+            }
+            
+            // MARK: TOURNAMENT STAKING
+            
+            VStack {
+                HStack {
+                    Rectangle().frame(height: 0.75)
+                        .opacity(0.1)
+                    Text("Staking")
+                        .captionStyle()
+                        .opacity(0.33)
+                        .padding(.horizontal)
+                    Rectangle().frame(height: 0.75)
+                        .opacity(0.1)
+                }
+                .padding(.horizontal)
+                .padding(.top)
+                .padding(.bottom, 10)
+                
+                HStack {
+                    Image(systemName: "cart.fill")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(Color(.systemGray3))
+                        .frame(width: 30)
+                    
+                    Text("Action Sold")
+                        .bodyStyle()
+                        .padding(.leading, 4)
+                       
+                    Spacer()
+                    
+                    HStack {
+                        Text("%")
+                            .font(.callout)
+                            .frame(width: 15)
+                            .foregroundColor(actionSoldPercent.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                        
+                        TextField("", text: $actionSoldPercent)
+                            .font(.custom("Asap-Regular", size: 17))
+                            .keyboardType(.numberPad)
+                            .focused($focusedField, equals: .highHands)
+                    }
+                    .padding(18)
+                    .background(.gray.opacity(0.2))
+                    .cornerRadius(15)
+                    .foregroundColor(newSession.stakes.isEmpty ? .brandPrimary : .brandWhite)
+                    .frame(width: 90)
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 10)
             }
         }
         .padding(.horizontal, 8)
