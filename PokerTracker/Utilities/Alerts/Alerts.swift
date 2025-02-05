@@ -32,6 +32,10 @@ struct AlertContext {
                                          message: Text("Please select your Stakes. To add your own, select Add Stakes from the dropdown menu."),
                                          dismissButton: .default(Text("OK")))
     
+    static let invalidStaking = AlertItem(title: Text("Invalid Form"),
+                                          message: Text("When offering staking, you need to complete both the name & the percent field."),
+                                          dismissButton: .default(Text("OK")))
+    
     static let inValidDate = AlertItem(title: Text("Invalid Form"),
                                        message: Text("Please select a Date."),
                                        dismissButton: .default(Text("OK")))

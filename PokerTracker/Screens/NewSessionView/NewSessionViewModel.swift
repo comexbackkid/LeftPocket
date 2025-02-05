@@ -36,9 +36,10 @@ final class NewSessionViewModel: ObservableObject {
     @Published var size: String = ""
     @Published var speed: String = ""
     @Published var tags: String = ""
-    @Published var actionSoldPercent: String = ""
+    @Published var staking: Bool = false
+    @Published var actionSold: String = ""
     @Published var stakerName: String = ""
-    @Published var tournamentStakerList: [Staker] = []
+    @Published var stakerList: [Staker] = []
     @Published var multiDayToggle: Bool = false
     @Published var addDay: Bool = false
     @Published var noMoreDays: Bool = false
@@ -74,7 +75,7 @@ final class NewSessionViewModel: ObservableObject {
     // If Tournament action was sold, calculate how much is owed to them if we won
     var action: Int {
         if sessionType == .tournament {
-            let totalPercentage = tournamentStakerList.reduce(0) { $0 + $1.percentage }
+            let totalPercentage = stakerList.reduce(0) { $0 + $1.percentage }
             let amountOwed = (Double(cashOut) ?? 0) * totalPercentage
             return Int(amountOwed)
         } else {
@@ -82,14 +83,16 @@ final class NewSessionViewModel: ObservableObject {
         }
     }
 
+    // Add name & action amount to the array of [Staker]
     func addStaker(_ name: String, _ action: Double) {
         guard !stakerName.isEmpty, action > 0 else { return }
         let newStaker = Staker(name: name, percentage: (action / 100))
-        tournamentStakerList.append(newStaker)
+        stakerList.append(newStaker)
     }
     
+    // Remove selected name from array of [Staker]
     func removeStaker(_ staker: Staker) {
-        tournamentStakerList.removeAll { $0.id == staker.id }
+        stakerList.removeAll { $0.id == staker.id }
     }
     
     // Testing new form validation method

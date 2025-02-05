@@ -434,15 +434,49 @@ struct AddNewSessionView: View {
                 
                 Spacer()
                 
-                Toggle(isOn: $newSession.multiDayToggle) {
-                    // No Label Needed
+                if subManager.isSubscribed {
+                    Toggle(isOn: $newSession.multiDayToggle) {
+                        // No Label Needed
+                    }
+                    .tint(.brandPrimary)
+                    .allowsHitTesting(newSession.addDay ? false : true)
+                    
+                } else {
+                    Image(systemName: "lock.fill")
+                        .font(.title2)
                 }
-                .tint(.brandPrimary)
-                .allowsHitTesting(newSession.addDay ? false : true)
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
-            .animation(.bouncy, value: newSession.sessionType)
+            .animation(.easeInOut, value: newSession.sessionType)
+            
+            HStack {
+                
+                Image(systemName: "cart.fill")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30)
+                
+                Text("Staking")
+                    .bodyStyle()
+                    .padding(.leading, 4)
+                
+                Spacer()
+                
+                if subManager.isSubscribed {
+                    Toggle(isOn: $newSession.staking) {
+                        // No Label Needed
+                    }
+                    .tint(.brandPrimary)
+                    
+                } else {
+                    Image(systemName: "lock.fill")
+                        .font(.title2)
+                }
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 10)
+            .animation(.easeInOut, value: newSession.sessionType)
         }
     }
     
@@ -935,9 +969,7 @@ struct AddNewSessionView: View {
             
             // MARK: TOURNAMENT STAKING
             
-            let fakeNames = ["John Doe is staking 20%", "Steve Gallant is staking 10%", "Ryan Nash is staking 2%"]
-            
-            if newSession.sessionType == .tournament {
+            if newSession.staking {
                 VStack {
                     
                     HStack {
@@ -957,19 +989,28 @@ struct AddNewSessionView: View {
                     
                     HStack (alignment: .center) {
                         
-                        Button {
-                            newSession.addStaker(newSession.stakerName, Double(newSession.actionSoldPercent) ?? 0)
-                            let impact = UIImpactFeedbackGenerator(style: .soft)
-                            impact.impactOccurred()
-                            newSession.stakerName = ""
-                            newSession.actionSoldPercent = ""
-                            focusedField = .stakerName
-                        } label: {
-                            Image(systemName: "plus.circle.fill")
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                                .fontWeight(.black)
-                                .foregroundStyle(Color.brandPrimary)
+                        if !newSession.stakerName.isEmpty {
+                            Group {
+                                Button {
+                                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                                    impact.impactOccurred()
+                                    guard !newSession.stakerName.isEmpty, !newSession.actionSold.isEmpty else {
+                                        newSession.alertItem = AlertContext.invalidStaking
+                                        return
+                                    }
+                                    newSession.addStaker(newSession.stakerName, Double(newSession.actionSold) ?? 0)
+                                    newSession.stakerName = ""
+                                    newSession.actionSold = ""
+                                    focusedField = .stakerName
+                                } label: {
+                                    Image(systemName: "plus.circle.fill")
+                                        .resizable()
+                                        .frame(width: 24, height: 24)
+                                        .fontWeight(.black)
+                                        .foregroundStyle(Color.brandPrimary)
+                                        .padding(.trailing, 5)
+                                }
+                            }
                         }
                         
                         HStack {
@@ -978,22 +1019,23 @@ struct AddNewSessionView: View {
                                 .frame(width: 15)
                                 .foregroundColor(newSession.stakerName.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                             
-                            TextField("Name", text: $newSession.stakerName)
-                                .font(.custom("Asap-Regular", size: 17))
-                                .focused($focusedField, equals: .stakerName)
+                            withAnimation {
+                                TextField("Name", text: $newSession.stakerName)
+                                    .font(.custom("Asap-Regular", size: 17))
+                                    .focused($focusedField, equals: .stakerName)
+                            }
                         }
                         .padding(18)
                         .background(.gray.opacity(0.2))
                         .cornerRadius(15)
-                        .padding(.leading, 5)
                         
                         HStack {
                             Text("%")
                                 .font(.callout)
                                 .frame(width: 15)
-                                .foregroundColor(newSession.actionSoldPercent.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                                .foregroundColor(newSession.actionSold.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                             
-                            TextField("", text: $newSession.actionSoldPercent)
+                            TextField("", text: $newSession.actionSold)
                                 .font(.custom("Asap-Regular", size: 17))
                                 .keyboardType(.numberPad)
                                 .focused($focusedField, equals: .stakerAmount)
@@ -1008,9 +1050,8 @@ struct AddNewSessionView: View {
                     .padding(.bottom, 10)
                 }
                 
-                // Need to display the list of stakers here
                 VStack (alignment: .leading) {
-                    ForEach(newSession.tournamentStakerList) { staker in
+                    ForEach(newSession.stakerList) { staker in
                         HStack (alignment: .center) {
                             
                             Button {
@@ -1035,7 +1076,7 @@ struct AddNewSessionView: View {
                     }
                 }
                 .padding(.top)
-                .padding(.bottom, newSession.tournamentStakerList.isEmpty ? 0 : 16)
+                .padding(.bottom, newSession.stakerList.isEmpty ? 0 : 16)
             }
         }
         .padding(.horizontal, 8)
@@ -1081,6 +1122,16 @@ struct AddNewSessionView: View {
                         }
                     }
                 } else if focusedField == .highHands {
+                    Button("Done") {
+                        focusedField = nil
+                    }
+                }
+                
+                if focusedField == .stakerName {
+                    Button("Next") {
+                        focusedField = .stakerAmount
+                    }
+                } else if focusedField == .stakerAmount {
                     Button("Done") {
                         focusedField = nil
                     }
