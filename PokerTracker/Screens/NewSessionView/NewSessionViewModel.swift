@@ -84,7 +84,7 @@ final class NewSessionViewModel: ObservableObject {
 
     func addStaker(_ name: String, _ action: Double) {
         guard !stakerName.isEmpty, action > 0 else { return }
-        let newStaker = Staker(name: name, percentage: action)
+        let newStaker = Staker(name: name, percentage: (action / 100))
         tournamentStakerList.append(newStaker)
     }
     

@@ -20,6 +20,8 @@ enum Field {
     case expenses
     case notes
     case highHands
+    case stakerName
+    case stakerAmount
 }
 
 struct AddNewSessionView: View {
@@ -933,6 +935,8 @@ struct AddNewSessionView: View {
             
             // MARK: TOURNAMENT STAKING
             
+            let fakeNames = ["John Doe is staking 20%", "Steve Gallant is staking 10%", "Ryan Nash is staking 2%"]
+            
             if newSession.sessionType == .tournament {
                 VStack {
                     
@@ -954,9 +958,12 @@ struct AddNewSessionView: View {
                     HStack (alignment: .center) {
                         
                         Button {
-                            // Add New Backer
+                            newSession.addStaker(newSession.stakerName, Double(newSession.actionSoldPercent) ?? 0)
                             let impact = UIImpactFeedbackGenerator(style: .soft)
                             impact.impactOccurred()
+                            newSession.stakerName = ""
+                            newSession.actionSoldPercent = ""
+                            focusedField = .stakerName
                         } label: {
                             Image(systemName: "plus.circle.fill")
                                 .resizable()
@@ -973,8 +980,7 @@ struct AddNewSessionView: View {
                             
                             TextField("Name", text: $newSession.stakerName)
                                 .font(.custom("Asap-Regular", size: 17))
-                                .keyboardType(.numberPad)
-                                .focused($focusedField, equals: .highHands)
+                                .focused($focusedField, equals: .stakerName)
                         }
                         .padding(18)
                         .background(.gray.opacity(0.2))
@@ -990,9 +996,9 @@ struct AddNewSessionView: View {
                             TextField("", text: $newSession.actionSoldPercent)
                                 .font(.custom("Asap-Regular", size: 17))
                                 .keyboardType(.numberPad)
-                                .focused($focusedField, equals: .highHands)
+                                .focused($focusedField, equals: .stakerAmount)
                         }
-                        .frame(width: 70)
+                        .frame(width: 60)
                         .padding(18)
                         .background(.gray.opacity(0.2))
                         .cornerRadius(15)
@@ -1001,6 +1007,35 @@ struct AddNewSessionView: View {
                     .padding(.horizontal)
                     .padding(.bottom, 10)
                 }
+                
+                // Need to display the list of stakers here
+                VStack (alignment: .leading) {
+                    ForEach(newSession.tournamentStakerList) { staker in
+                        HStack (alignment: .center) {
+                            
+                            Button {
+                                let impact = UIImpactFeedbackGenerator(style: .soft)
+                                impact.impactOccurred()
+                                newSession.removeStaker(staker)
+                            } label: {
+                                Image(systemName: "minus.circle.fill")
+                                    .fontWeight(.black)
+                                    .foregroundStyle(Color.red)
+                                    .padding(.trailing, 10)
+                            }
+                            
+                            Text(staker.name + " is staking \(staker.percentage.asPercent())")
+                                .font(.custom("Asap-Regular", size: 17))
+                                .opacity(0.33)
+                            
+                            Spacer()
+                        }
+                        .padding(.leading)
+                        .padding(.bottom, 5)
+                    }
+                }
+                .padding(.top)
+                .padding(.bottom, newSession.tournamentStakerList.isEmpty ? 0 : 16)
             }
         }
         .padding(.horizontal, 8)
