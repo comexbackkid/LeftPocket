@@ -504,6 +504,7 @@ struct AddNewSessionView: View {
                         .opacity(0.1)
                     Text("Day One")
                         .captionStyle()
+                        .fixedSize()
                         .opacity(0.33)
                         .padding(.horizontal)
                     Rectangle().frame(height: 0.75)
@@ -932,67 +933,74 @@ struct AddNewSessionView: View {
             
             // MARK: TOURNAMENT STAKING
             
-            VStack {
-                
-                HStack {
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                    Text("Action Sold")
-                        .captionStyle()
-                        .opacity(0.33)
-                        .padding(.horizontal)
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                }
-                .padding(.horizontal)
-                .padding(.top)
-                .padding(.bottom, 26)
-                
-                
-                
-                HStack (alignment: .center) {
-                    
-                    Image(systemName: "plus.circle.fill")
-                        .font(.title2)
-                        .foregroundStyle(Color.lightBlue)
+            if newSession.sessionType == .tournament {
+                VStack {
                     
                     HStack {
-                        Image(systemName: "person.fill")
-                            .font(.callout)
-                            .frame(width: 15)
-                            .foregroundColor(newSession.actionSoldPercent.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
-                        
-                        TextField("", text: $newSession.actionSoldPercent)
-                            .font(.custom("Asap-Regular", size: 17))
-                            .keyboardType(.numberPad)
-                            .focused($focusedField, equals: .highHands)
+                        Rectangle().frame(height: 0.75)
+                            .opacity(0.1)
+                        Text("Action Sold")
+                            .captionStyle()
+                            .fixedSize()
+                            .opacity(0.33)
+                            .padding(.horizontal)
+                        Rectangle().frame(height: 0.75)
+                            .opacity(0.1)
                     }
-                    .padding(18)
-                    .background(.gray.opacity(0.2))
-                    .cornerRadius(15)
-                    .padding(.leading, 5)
+                    .padding(.horizontal)
+                    .padding(.top)
+                    .padding(.bottom, 26)
                     
-                    HStack {
-                        Text("%")
-                            .font(.callout)
-                            .frame(width: 15)
-                            .foregroundColor(newSession.actionSoldPercent.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                    HStack (alignment: .center) {
                         
-                        TextField("", text: $newSession.actionSoldPercent)
-                            .font(.custom("Asap-Regular", size: 17))
-                            .keyboardType(.numberPad)
-                            .focused($focusedField, equals: .highHands)
+                        Button {
+                            // Add New Backer
+                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                            impact.impactOccurred()
+                        } label: {
+                            Image(systemName: "plus.circle.fill")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                                .fontWeight(.black)
+                                .foregroundStyle(Color.brandPrimary)
+                        }
+                        
+                        HStack {
+                            Image(systemName: "person.fill")
+                                .font(.callout)
+                                .frame(width: 15)
+                                .foregroundColor(newSession.stakerName.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                            
+                            TextField("Name", text: $newSession.stakerName)
+                                .font(.custom("Asap-Regular", size: 17))
+                                .keyboardType(.numberPad)
+                                .focused($focusedField, equals: .highHands)
+                        }
+                        .padding(18)
+                        .background(.gray.opacity(0.2))
+                        .cornerRadius(15)
+                        .padding(.leading, 5)
+                        
+                        HStack {
+                            Text("%")
+                                .font(.callout)
+                                .frame(width: 15)
+                                .foregroundColor(newSession.actionSoldPercent.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                            
+                            TextField("", text: $newSession.actionSoldPercent)
+                                .font(.custom("Asap-Regular", size: 17))
+                                .keyboardType(.numberPad)
+                                .focused($focusedField, equals: .highHands)
+                        }
+                        .frame(width: 70)
+                        .padding(18)
+                        .background(.gray.opacity(0.2))
+                        .cornerRadius(15)
+                        .padding(.leading, 5)
                     }
-                    .frame(width: 70)
-                    .padding(18)
-                    .background(.gray.opacity(0.2))
-                    .cornerRadius(15)
-                    .padding(.leading, 5)
-                    
+                    .padding(.horizontal)
+                    .padding(.bottom, 10)
                 }
-                .padding(.horizontal)
-                .padding(.bottom, 10)
-                
             }
         }
         .padding(.horizontal, 8)

@@ -37,6 +37,8 @@ final class NewSessionViewModel: ObservableObject {
     @Published var speed: String = ""
     @Published var tags: String = ""
     @Published var actionSoldPercent: String = ""
+    @Published var stakerName: String = ""
+    @Published var tournamentStakerList: [Staker] = []
     @Published var multiDayToggle: Bool = false
     @Published var addDay: Bool = false
     @Published var noMoreDays: Bool = false
@@ -69,14 +71,25 @@ final class NewSessionViewModel: ObservableObject {
         return buyIn * numberOfRebuys
     }
     
-    // If Tournament action was sold, calculate how much of the gross winnings are owed
+    // If Tournament action was sold, calculate how much is owed to them if we won
     var action: Int {
         if sessionType == .tournament {
-            let amountOwed = (Double(cashOut) ?? 0) * ((Double(actionSoldPercent) ?? 0) / 100)
+            let totalPercentage = tournamentStakerList.reduce(0) { $0 + $1.percentage }
+            let amountOwed = (Double(cashOut) ?? 0) * totalPercentage
             return Int(amountOwed)
         } else {
             return 0
         }
+    }
+
+    func addStaker(_ name: String, _ action: Double) {
+        guard !stakerName.isEmpty, action > 0 else { return }
+        let newStaker = Staker(name: name, percentage: action)
+        tournamentStakerList.append(newStaker)
+    }
+    
+    func removeStaker(_ staker: Staker) {
+        tournamentStakerList.removeAll { $0.id == staker.id }
     }
     
     // Testing new form validation method

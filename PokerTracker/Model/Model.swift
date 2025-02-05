@@ -127,6 +127,7 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     let startTimeDayTwo: Date?
     let endTimeDayTwo: Date?
     
+    
     // Individual Session duration
     var sessionDuration: DateComponents {
 
@@ -188,4 +189,10 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
         let bigBlindWin = Float(self.profit) / Float(bigBlind)
         return Double(bigBlindWin) / Double(totalHours)
     }
+}
+
+struct Staker: Identifiable {
+    var id = UUID()
+    let name: String
+    let percentage: Double
 }
