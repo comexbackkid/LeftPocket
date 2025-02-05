@@ -46,7 +46,7 @@ final class NewSessionViewModel: ObservableObject {
         if sessionType == .cash {
             return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - (Int(cashRebuys) ?? 0)
         } else {
-            return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - tournamentRebuys
+            return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - tournamentRebuys - action
         }
     }
     
@@ -67,6 +67,16 @@ final class NewSessionViewModel: ObservableObject {
         let numberOfRebuys = Int(rebuyCount) ?? 0
         
         return buyIn * numberOfRebuys
+    }
+    
+    // If Tournament action was sold, calculate how much of the gross winnings are owed
+    var action: Int {
+        if sessionType == .tournament {
+            let amountOwed = (Double(cashOut) ?? 0) * ((Double(actionSoldPercent) ?? 0) / 100)
+            return Int(amountOwed)
+        } else {
+            return 0
+        }
     }
     
     // Testing new form validation method

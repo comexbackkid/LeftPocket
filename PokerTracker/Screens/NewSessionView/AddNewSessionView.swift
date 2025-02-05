@@ -704,7 +704,7 @@ struct AddNewSessionView: View {
                     .background(.gray.opacity(0.2))
                     .cornerRadius(15)
                     .padding(.leading)
-                    .padding(.trailing, 10)
+                    .padding(.trailing, 5)
                     .padding(.bottom, 10)
                     .transition(.opacity.combined(with: .asymmetric(insertion: .push(from: .leading),
                                                                                            removal: .scale(scale: 0, anchor: .bottomLeading))))
@@ -776,7 +776,7 @@ struct AddNewSessionView: View {
                 .background(.gray.opacity(0.2))
                 .cornerRadius(15)
                 .padding(.leading)
-                .padding(.trailing, newSession.sessionType == .tournament ? 10 : 16)
+                .padding(.trailing, newSession.sessionType == .tournament ? 5 : 16)
                 .padding(.bottom, 10)
                 
                 if newSession.sessionType == .tournament {
@@ -933,10 +933,11 @@ struct AddNewSessionView: View {
             // MARK: TOURNAMENT STAKING
             
             VStack {
+                
                 HStack {
                     Rectangle().frame(height: 0.75)
                         .opacity(0.1)
-                    Text("Staking")
+                    Text("Action Sold")
                         .captionStyle()
                         .opacity(0.33)
                         .padding(.horizontal)
@@ -945,22 +946,18 @@ struct AddNewSessionView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top)
-                .padding(.bottom, 10)
+                .padding(.bottom, 26)
                 
-                HStack {
-                    Image(systemName: "cart.fill")
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(Color(.systemGray3))
-                        .frame(width: 30)
+                
+                
+                HStack (alignment: .center) {
                     
-                    Text("Action Sold")
-                        .bodyStyle()
-                        .padding(.leading, 4)
-                       
-                    Spacer()
+                    Image(systemName: "plus.circle.fill")
+                        .font(.title2)
+                        .foregroundStyle(Color.lightBlue)
                     
                     HStack {
-                        Text("%")
+                        Image(systemName: "person.fill")
                             .font(.callout)
                             .frame(width: 15)
                             .foregroundColor(newSession.actionSoldPercent.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
@@ -973,11 +970,29 @@ struct AddNewSessionView: View {
                     .padding(18)
                     .background(.gray.opacity(0.2))
                     .cornerRadius(15)
-                    .foregroundColor(newSession.actionSoldPercent.isEmpty ? .brandPrimary : .brandWhite)
-                    .frame(width: 90)
+                    .padding(.leading, 5)
+                    
+                    HStack {
+                        Text("%")
+                            .font(.callout)
+                            .frame(width: 15)
+                            .foregroundColor(newSession.actionSoldPercent.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                        
+                        TextField("", text: $newSession.actionSoldPercent)
+                            .font(.custom("Asap-Regular", size: 17))
+                            .keyboardType(.numberPad)
+                            .focused($focusedField, equals: .highHands)
+                    }
+                    .frame(width: 70)
+                    .padding(18)
+                    .background(.gray.opacity(0.2))
+                    .cornerRadius(15)
+                    .padding(.leading, 5)
+                    
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 10)
+                
             }
         }
         .padding(.horizontal, 8)
