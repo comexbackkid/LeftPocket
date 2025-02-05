@@ -37,8 +37,6 @@ struct AddNewSessionView: View {
     @State var showPaywall = false
     @State var showCashRebuyField = false
     
-    @State private var actionSoldPercent = ""
-    
     @FocusState private var focusedField: Field?
     
     var body: some View {
@@ -965,9 +963,9 @@ struct AddNewSessionView: View {
                         Text("%")
                             .font(.callout)
                             .frame(width: 15)
-                            .foregroundColor(actionSoldPercent.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                            .foregroundColor(newSession.actionSoldPercent.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                         
-                        TextField("", text: $actionSoldPercent)
+                        TextField("", text: $newSession.actionSoldPercent)
                             .font(.custom("Asap-Regular", size: 17))
                             .keyboardType(.numberPad)
                             .focused($focusedField, equals: .highHands)
@@ -975,7 +973,7 @@ struct AddNewSessionView: View {
                     .padding(18)
                     .background(.gray.opacity(0.2))
                     .cornerRadius(15)
-                    .foregroundColor(newSession.stakes.isEmpty ? .brandPrimary : .brandWhite)
+                    .foregroundColor(newSession.actionSoldPercent.isEmpty ? .brandPrimary : .brandWhite)
                     .frame(width: 90)
                 }
                 .padding(.horizontal)

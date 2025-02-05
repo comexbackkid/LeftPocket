@@ -36,6 +36,7 @@ final class NewSessionViewModel: ObservableObject {
     @Published var size: String = ""
     @Published var speed: String = ""
     @Published var tags: String = ""
+    @Published var actionSoldPercent: String = ""
     @Published var multiDayToggle: Bool = false
     @Published var addDay: Bool = false
     @Published var noMoreDays: Bool = false
