@@ -432,7 +432,6 @@ struct SessionDetailView: View {
                     
                     Divider()
                 }
-                
             }
             
             if pokerSession.isTournament != true {
@@ -448,52 +447,49 @@ struct SessionDetailView: View {
                         .bodyStyle()
                 }
                 
-                let buyIn = pokerSession.buyIn
-                let cashOut = pokerSession.cashOut
-                    
-                    Divider()
-                    
-                    HStack {
-                        Text("Buy In")
-                            .bodyStyle()
-                            .foregroundColor(.secondary)
-                        
-                        Spacer()
-                        
-                        Text(buyIn, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
-                            .bodyStyle()
-                    }
-                    
-                    Divider()
-                    
-                    HStack {
-                        Text("Cash Out")
-                            .bodyStyle()
-                            .foregroundColor(.secondary)
-                        
-                        Spacer()
-                        
-                        Text(cashOut, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
-                            .bodyStyle()
-                    }
-                
-                
                 Divider()
             }
             
             HStack {
+                let buyIn = pokerSession.buyIn
                 
-                Text(pokerSession.isTournament == true ? "Buy In" : "Expenses")
+                Text("Buy In")
                     .bodyStyle()
                     .foregroundColor(.secondary)
                 
                 Spacer()
                 
-                if pokerSession.isTournament == true {
+                Text(buyIn, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .bodyStyle()
+            }
+            
+            Divider()
+            
+            HStack {
+                
+                let cashOut = pokerSession.cashOut
+                Text("Cash Out")
+                    .bodyStyle()
+                    .foregroundColor(.secondary)
+                
+                Spacer()
+                
+                Text(cashOut, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .bodyStyle()
+            }
+            
+            if pokerSession.isTournament != true {
+                
+                Divider()
+                
+                HStack {
                     
-                    Text(pokerSession.buyIn, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                    Text("Expenses")
                         .bodyStyle()
-                } else {
+                        .foregroundStyle(.secondary)
+                    
+                    Spacer()
+                    
                     Text(pokerSession.expenses, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                         .bodyStyle()
                 }

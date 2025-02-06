@@ -128,6 +128,8 @@ final class NewSessionViewModel: ObservableObject {
                 error = AlertContext.invalidEndTime
             } else if multiDayToggle && (startTimeDayTwo <= endTime) {
                 error = AlertContext.invalidDayTwoStartTime
+            } else if staking && stakerList.isEmpty {
+                error = AlertContext.invalidStaking
             }
         }
 
@@ -197,7 +199,7 @@ final class NewSessionViewModel: ObservableObject {
                                 tournamentDays: sessionType == .tournament ? computedNumberOfTournamentDays : nil,
                                 startTimeDayTwo: computedNumberOfTournamentDays > 1 ? startTimeDayTwo : nil,
                                 endTimeDayTwo: computedNumberOfTournamentDays > 1 ? endTimeDayTwo : nil,
-                                stakers: stakerList)
+                                stakers: sessionType == .tournament && !stakerList.isEmpty ? stakerList : nil)
         
         Task {
             // Counting how many times the user adds a Session. Will display Tip after they enter two

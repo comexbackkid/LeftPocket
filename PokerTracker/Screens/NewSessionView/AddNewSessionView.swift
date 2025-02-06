@@ -998,7 +998,7 @@ struct AddNewSessionView: View {
                                     let impact = UIImpactFeedbackGenerator(style: .soft)
                                     impact.impactOccurred()
                                     guard !newSession.stakerName.isEmpty, !newSession.actionSold.isEmpty else {
-                                        newSession.alertItem = AlertContext.invalidStaking
+                                        newSession.alertItem = AlertContext.invalidStakingField
                                         return
                                     }
                                     newSession.addStaker(newSession.stakerName, Double(newSession.actionSold) ?? 0)
