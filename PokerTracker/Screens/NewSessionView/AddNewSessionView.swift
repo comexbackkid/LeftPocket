@@ -61,6 +61,9 @@ struct AddNewSessionView: View {
                 }
             }
             .scrollDismissesKeyboard(.immediately)
+            .safeAreaInset(edge: .bottom, spacing: 10) {
+                Color.clear.frame(height: 20)
+            }
         }
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .frame(maxHeight: .infinity)
@@ -463,16 +466,16 @@ struct AddNewSessionView: View {
                 
                 Spacer()
                 
-                if subManager.isSubscribed {
+//                if subManager.isSubscribed {
                     Toggle(isOn: $newSession.staking) {
                         // No Label Needed
                     }
                     .tint(.brandPrimary)
                     
-                } else {
-                    Image(systemName: "lock.fill")
-                        .font(.title2)
-                }
+//                } else {
+//                    Image(systemName: "lock.fill")
+//                        .font(.title2)
+//                }
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
@@ -1001,7 +1004,7 @@ struct AddNewSessionView: View {
                                     newSession.addStaker(newSession.stakerName, Double(newSession.actionSold) ?? 0)
                                     newSession.stakerName = ""
                                     newSession.actionSold = ""
-                                    focusedField = .stakerName
+
                                 } label: {
                                     Image(systemName: "plus.circle.fill")
                                         .resizable()
@@ -1028,6 +1031,7 @@ struct AddNewSessionView: View {
                         .padding(18)
                         .background(.gray.opacity(0.2))
                         .cornerRadius(15)
+                        
                         
                         HStack {
                             Text("%")
