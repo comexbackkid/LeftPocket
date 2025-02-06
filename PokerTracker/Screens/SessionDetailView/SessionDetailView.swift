@@ -569,15 +569,17 @@ struct SessionDetailView: View {
                                     ForEach(Array(stakers.enumerated()), id: \.element.id) { index, staker in
                                         HStack {
                                             Text("\(index + 1). " + staker.name + " (\((staker.percentage).formatted(.percent)))")
-                                                .bodyStyle()
+                                                .font(.custom("Asap-Regular", size: 16))
                                                 .foregroundStyle(.secondary)
+                                                .lineLimit(1)
                                             
                                             Spacer()
                                             
                                             let stakersAmountOwed = staker.percentage * Double(pokerSession.cashOut)
                                             
                                             Text(stakersAmountOwed, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
-                                                .bodyStyle()
+                                                .font(.custom("Asap-Regular", size: 16))
+                                                .lineLimit(1)
                                         }
                                     }
                                 }

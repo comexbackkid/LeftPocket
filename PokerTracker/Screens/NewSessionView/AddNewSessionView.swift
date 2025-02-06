@@ -1033,6 +1033,8 @@ struct AddNewSessionView: View {
                                         .padding(.trailing, 5)
                                 }
                             }
+                            .transition(.asymmetric(insertion: .scale.combined(with: .push(from: .leading)),
+                                                    removal: .push(from: .trailing).combined(with: .scale(scale: 0, anchor: .leading))))
                         }
                         
                         HStack {
@@ -1071,6 +1073,7 @@ struct AddNewSessionView: View {
                     }
                     .padding(.horizontal)
                     .padding(.bottom, 10)
+                    .animation(.bouncy, value: newSession.stakerName)
                 }
                 
                 VStack (alignment: .leading) {
