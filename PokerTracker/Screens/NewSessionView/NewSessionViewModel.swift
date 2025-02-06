@@ -49,7 +49,7 @@ final class NewSessionViewModel: ObservableObject {
         if sessionType == .cash {
             return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - (Int(cashRebuys) ?? 0)
         } else {
-            return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - tournamentRebuys - action
+            return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - tournamentRebuys - totalActionSold
         }
     }
     
@@ -73,7 +73,7 @@ final class NewSessionViewModel: ObservableObject {
     }
     
     // If Tournament action was sold, calculate how much is owed to them if we won
-    var action: Int {
+    var totalActionSold: Int {
         if sessionType == .tournament {
             let totalPercentage = stakerList.reduce(0) { $0 + $1.percentage }
             let amountOwed = (Double(cashOut) ?? 0) * totalPercentage
@@ -196,7 +196,8 @@ final class NewSessionViewModel: ObservableObject {
                                 finish: Int(finish),
                                 tournamentDays: sessionType == .tournament ? computedNumberOfTournamentDays : nil,
                                 startTimeDayTwo: computedNumberOfTournamentDays > 1 ? startTimeDayTwo : nil,
-                                endTimeDayTwo: computedNumberOfTournamentDays > 1 ? endTimeDayTwo : nil)
+                                endTimeDayTwo: computedNumberOfTournamentDays > 1 ? endTimeDayTwo : nil,
+                                stakers: stakerList)
         
         Task {
             // Counting how many times the user adds a Session. Will display Tip after they enter two

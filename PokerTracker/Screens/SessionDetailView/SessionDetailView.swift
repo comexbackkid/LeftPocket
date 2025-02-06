@@ -15,6 +15,7 @@ struct SessionDetailView: View {
     @Binding var activeSheet: Sheet?
     @State private var shareButtonisPressed = false
     @State private var showError = false
+    @State private var actionDropDownMenuSelected = false
     
     let pokerSession: PokerSession_v2
     
@@ -22,7 +23,6 @@ struct SessionDetailView: View {
         
         ZStack {
             
-            // Main Scrolling View
             ScrollView (.vertical) {
                 
                 headerGraphic
@@ -47,7 +47,6 @@ struct SessionDetailView: View {
             .background(.regularMaterial)
             .background(locationBackground()).ignoresSafeArea()
             
-            // Floating Buttons
             VStack (spacing: 0) {
                 
                 if activeSheet == .recentSession {
@@ -152,8 +151,10 @@ struct SessionDetailView: View {
             details
             
             notes
+                .animation(.spring.speed(2), value: actionDropDownMenuSelected)
             
             tags
+                .animation(.spring.speed(2), value: actionDropDownMenuSelected)
         }
         .frame(maxWidth: .infinity, alignment: .topLeading)
         .padding(.horizontal, 30)
@@ -528,6 +529,66 @@ struct SessionDetailView: View {
                     Text("\(totalBuyIn, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))")
                         .bodyStyle()
                 }
+                
+                if let stakers = pokerSession.stakers {
+                    
+                    Divider()
+                    
+                    VStack {
+                        
+                        HStack {
+                            
+                            Image(systemName: "chevron.right")
+                                .frame(width: 20)
+                                .foregroundStyle(.primary)
+                                .onTapGesture {
+                                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                                    impact.impactOccurred()
+                                    actionDropDownMenuSelected.toggle()
+                                }
+                                .rotationEffect(Angle(degrees: actionDropDownMenuSelected ? 90 : 0))
+                                .animation(.default, value: actionDropDownMenuSelected)
+                            
+                            Text("Action Sold")
+                                .bodyStyle()
+                                .foregroundColor(.secondary)
+                            
+                            Spacer()
+                            
+                            let amountOwed = calculateActionSold()
+                            
+                            Text(amountOwed, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                                .bodyStyle()
+                        }
+                        
+                        if actionDropDownMenuSelected {
+                            
+                            HStack {
+                                
+                                VStack (alignment: .leading, spacing: 10) {
+                                    
+                                    ForEach(Array(stakers.enumerated()), id: \.element.id) { index, staker in
+                                        HStack {
+                                            Text("\(index + 1). " + staker.name + " (\((staker.percentage).formatted(.percent)))")
+                                                .bodyStyle()
+                                                .foregroundStyle(.secondary)
+                                            
+                                            Spacer()
+                                            
+                                            let stakersAmountOwed = staker.percentage * Double(pokerSession.cashOut)
+                                            
+                                            Text(stakersAmountOwed, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
+                                                .bodyStyle()
+                                        }
+                                    }
+                                }
+                            }
+                            .padding(.top, 5)
+                            .padding(.leading, 30)
+                        }
+                    }
+                    .animation(.spring.speed(2), value: actionDropDownMenuSelected)
+                }
             }
             
             if pokerSession.isTournament != true {
@@ -625,7 +686,7 @@ struct SessionDetailView: View {
         }
     }
     
-    func locationBackground() -> some View {
+    private func locationBackground() -> some View {
         
         if let localImage = pokerSession.location.localImage {
             return Image(localImage).resizable().aspectRatio(contentMode: .fill)
@@ -640,6 +701,14 @@ struct SessionDetailView: View {
         } else {
             return Image("defaultlocation-header").resizable().aspectRatio(contentMode: .fill)
         }
+    }
+    
+    private func calculateActionSold() -> Int {
+        guard let stakers = pokerSession.stakers else { return 0 }
+        
+        let totalPercentage = stakers.reduce(0) { $0 + $1.percentage }
+        let amountOwed = (Double(pokerSession.cashOut)) * totalPercentage
+        return Int(amountOwed)
     }
 }
 
@@ -688,7 +757,7 @@ struct GraphicHeaderView: View {
 
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSessionTwo)
+        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleTournament)
             .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
     }

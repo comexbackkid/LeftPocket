@@ -466,16 +466,16 @@ struct AddNewSessionView: View {
                 
                 Spacer()
                 
-//                if subManager.isSubscribed {
+                if subManager.isSubscribed {
                     Toggle(isOn: $newSession.staking) {
                         // No Label Needed
                     }
                     .tint(.brandPrimary)
                     
-//                } else {
-//                    Image(systemName: "lock.fill")
-//                        .font(.title2)
-//                }
+                } else {
+                    Image(systemName: "lock.fill")
+                        .font(.title2)
+                }
             }
             .padding(.horizontal)
             .padding(.bottom, 10)

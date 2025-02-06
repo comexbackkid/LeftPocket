@@ -126,7 +126,7 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     let tournamentDays: Int?
     let startTimeDayTwo: Date?
     let endTimeDayTwo: Date?
-    
+    let stakers: [Staker]?
     
     // Individual Session duration
     var sessionDuration: DateComponents {
@@ -191,7 +191,7 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     }
 }
 
-struct Staker: Identifiable {
+struct Staker: Identifiable, Codable, Hashable {
     var id = UUID()
     let name: String
     let percentage: Double

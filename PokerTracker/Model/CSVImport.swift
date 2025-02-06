@@ -213,7 +213,8 @@ class CSVImporter {
                                               finish: sessionType == "Tournament" ? finish : nil,
                                               tournamentDays: sessionType == "Tournament" ? 1 : nil,
                                               startTimeDayTwo: nil,
-                                              endTimeDayTwo: nil)
+                                              endTimeDayTwo: nil,
+                                              stakers: nil)
                 
                 importedSessions.append(session)
                 
@@ -279,7 +280,8 @@ class CSVImporter {
                                               finish: nil,
                                               tournamentDays: nil,
                                               startTimeDayTwo: nil,
-                                              endTimeDayTwo: nil)
+                                              endTimeDayTwo: nil,
+                                              stakers: nil)
                 
                 importedSessions.append(session)
                 
@@ -362,7 +364,8 @@ class CSVImporter {
                                                  finish: isTournament == "TRUE" || isTournament == "true" ? finish : nil,
                                                  tournamentDays: isTournament == "TRUE" || isTournament == "true" ? days : nil,
                                                  startTimeDayTwo: nil,
-                                                 endTimeDayTwo: nil)
+                                                 endTimeDayTwo: nil,
+                                                 stakers: nil)
                 
                 importedSessions.append(oldSession)
                 
@@ -415,7 +418,8 @@ class CSVImporter {
                                               finish: isTournament == "TRUE" || isTournament == "true" ? finish : nil,
                                               tournamentDays: isTournament == "TRUE" || isTournament == "true" ? days : nil,
                                               startTimeDayTwo: isMultiDay == "TRUE" || isMultiDay == "true" ? startTimeDayTwo : nil,
-                                              endTimeDayTwo: isMultiDay == "TRUE" || isMultiDay == "true" ? endTimeDayTwo : nil)
+                                              endTimeDayTwo: isMultiDay == "TRUE" || isMultiDay == "true" ? endTimeDayTwo : nil,
+                                              stakers: nil)
                 
                 importedSessions.append(session)
             }
@@ -492,7 +496,8 @@ class CSVImporter {
                                               finish: sessionType == "Tournament" ? finish : nil,
                                               tournamentDays: sessionType == "Tournament" ? 1 : nil,
                                               startTimeDayTwo: nil,
-                                              endTimeDayTwo: nil)
+                                              endTimeDayTwo: nil,
+                                              stakers: nil)
                 
                 importedSessions.append(session)
                 

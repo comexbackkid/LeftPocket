@@ -105,6 +105,7 @@ final class EditSessionViewModel: ObservableObject {
                                 finish: Int(finish),
                                 tournamentDays: Int(tournamentDays),
                                 startTimeDayTwo: startTimeDayTwo,
-                                endTimeDayTwo: endTimeDayTwo)
+                                endTimeDayTwo: endTimeDayTwo,
+                                stakers: nil)
     }
 }

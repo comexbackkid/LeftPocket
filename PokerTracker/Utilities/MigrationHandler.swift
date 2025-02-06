@@ -47,7 +47,8 @@ class MigrationHandler {
                                 finish: oldSession.finish,
                                 tournamentDays: oldSession.tournamentDays,
                                 startTimeDayTwo: oldSession.startTimeDayTwo,
-                                endTimeDayTwo: oldSession.endTimeDayTwo
+                                endTimeDayTwo: oldSession.endTimeDayTwo,
+                                stakers: nil
                 )
             }
             
