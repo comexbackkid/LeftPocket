@@ -463,6 +463,38 @@ struct SessionDetailView: View {
                     .bodyStyle()
             }
             
+            if pokerSession.isTournament == true {
+                
+                Divider()
+                
+                HStack {
+                    
+                    Text("Rebuys")
+                        .bodyStyle()
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
+                    
+                    Text("\(pokerSession.rebuyCount ?? 0)")
+                        .bodyStyle()
+                }
+                
+                Divider()
+                
+                HStack {
+                    
+                    Text("Total Buy In")
+                        .bodyStyle()
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
+                    
+                    let totalBuyIn = pokerSession.buyIn + ((pokerSession.rebuyCount ?? 0) * pokerSession.buyIn)
+                    Text("\(totalBuyIn, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))")
+                        .bodyStyle()
+                }
+            }
+            
             Divider()
             
             HStack {
@@ -496,35 +528,6 @@ struct SessionDetailView: View {
             }
             
             if pokerSession.isTournament == true {
-                
-                Divider()
-                
-                HStack {
-                    
-                    Text("Rebuys")
-                        .bodyStyle()
-                        .foregroundColor(.secondary)
-                    
-                    Spacer()
-                    
-                    Text("\(pokerSession.rebuyCount ?? 0)")
-                        .bodyStyle()
-                }
-                
-                Divider()
-                
-                HStack {
-                    
-                    Text("Total Buy In")
-                        .bodyStyle()
-                        .foregroundColor(.secondary)
-                    
-                    Spacer()
-                    
-                    let totalBuyIn = pokerSession.buyIn + ((pokerSession.rebuyCount ?? 0) * pokerSession.buyIn)
-                    Text("\(totalBuyIn, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))")
-                        .bodyStyle()
-                }
                 
                 if let stakers = pokerSession.stakers {
                     

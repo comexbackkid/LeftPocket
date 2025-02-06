@@ -38,6 +38,7 @@ struct AddNewSessionView: View {
     @State var addStakesIsShowing = false
     @State var showPaywall = false
     @State var showCashRebuyField = false
+    @State var showStakingPopover = false
     
     @FocusState private var focusedField: Field?
     
@@ -460,9 +461,27 @@ struct AddNewSessionView: View {
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30)
                 
-                Text("Staking")
-                    .bodyStyle()
-                    .padding(.leading, 4)
+                HStack {
+                    Text("Staking")
+                        .bodyStyle()
+                    
+                    Button {
+                        showStakingPopover = true
+                    } label: {
+                        Image(systemName: "info.circle")
+                            .font(.subheadline)
+                            .foregroundStyle(Color.brandPrimary)
+                    }
+                }
+                .padding(.leading, 4)
+                .popover(isPresented: $showStakingPopover, content: {
+                    PopoverView(bodyText: "Similar to crowdfunding, if you're selling action or shares of a Tournament you can keep track of who's staking you & for what percentage of the gross winnings they're entitled to.")
+                        .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                        .frame(height: 170)
+                        .dynamicTypeSize(.medium...DynamicTypeSize.medium)
+                        .presentationCompactAdaptation(.popover)
+                        .shadow(radius: 10)
+                })
                 
                 Spacer()
                 
