@@ -448,6 +448,9 @@ struct AddNewSessionView: View {
                 } else {
                     Image(systemName: "lock.fill")
                         .font(.title2)
+                        .onTapGesture {
+                            showPaywall = true
+                        }
                 }
             }
             .padding(.horizontal)
@@ -494,6 +497,9 @@ struct AddNewSessionView: View {
                 } else {
                     Image(systemName: "lock.fill")
                         .font(.title2)
+                        .onTapGesture {
+                            showPaywall = true
+                        }
                 }
             }
             .padding(.horizontal)
