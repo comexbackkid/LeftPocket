@@ -764,6 +764,44 @@ struct EditSession: View {
                     }
                 }
             }
+            
+            if let stakerList = pokerSession.stakers {
+                
+                HStack {
+                    Rectangle().frame(height: 0.75)
+                        .opacity(0.1)
+                    Text("Action Sold")
+                        .captionStyle()
+                        .fixedSize()
+                        .opacity(0.33)
+                        .padding(.horizontal)
+                    Rectangle().frame(height: 0.75)
+                        .opacity(0.1)
+                }
+                .padding(.horizontal)
+                .padding(.top)
+                .padding(.bottom)
+                
+                VStack (alignment: .leading) {
+                    ForEach(stakerList) { staker in
+                        HStack (alignment: .center) {
+
+                            Text(staker.name + " is staking \(staker.percentage.asPercent())")
+                                .font(.custom("Asap-Regular", size: 17))
+                                .opacity(0.33)
+                            
+                            Spacer()
+                        }
+                        .padding(.leading)
+                        .padding(.bottom, 5)
+                    }
+                }
+                .padding(.top)
+                .padding(.bottom)
+                .onAppear {
+                    editSession.stakers = stakerList
+                }
+            }
         }
         .padding(.horizontal, 8)
         .onAppear {

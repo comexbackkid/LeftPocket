@@ -33,6 +33,7 @@ final class EditSessionViewModel: ObservableObject {
     @Published var tournamentDays: String = ""
     @Published var startTimeDayTwo: Date = Date()
     @Published var endTimeDayTwo: Date = Date()
+    @Published var stakers: [Staker] = []
     
     // TODO: ADD ADDITIONAL CHECKS TO THIS, PERHAPS JUST MAKE IT SIMILAR TO NEWSESSION'S CHECKVALIDFORM FUNCTION
     

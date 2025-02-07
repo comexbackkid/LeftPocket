@@ -554,60 +554,62 @@ struct AddNewSessionView: View {
         
         VStack {
             
-            // DAY ONE
+            // MARK: DAY ONE
             
-            if newSession.multiDayToggle {
+            Group {
+                if newSession.multiDayToggle {
+                    HStack {
+                        Rectangle().frame(height: 0.75)
+                            .opacity(0.1)
+                        Text("Day One")
+                            .captionStyle()
+                            .fixedSize()
+                            .opacity(0.33)
+                            .padding(.horizontal)
+                        Rectangle().frame(height: 0.75)
+                            .opacity(0.1)
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom)
+                    .transition(.scale)
+                }
+                
                 HStack {
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                    Text("Day One")
-                        .captionStyle()
-                        .fixedSize()
-                        .opacity(0.33)
-                        .padding(.horizontal)
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
+                    
+                    Image(systemName: "clock")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(Color(.systemGray3))
+                        .frame(width: 30)
+                    
+                    DatePicker("Start", selection: $newSession.startTime, in: ...Date.now, displayedComponents: [.date, .hourAndMinute])
+                    .accentColor(.brandPrimary)
+                    .padding(.leading, 4)
+                    .font(.custom("Asap-Regular", size: 18))
+                    .datePickerStyle(.compact)
+                    .opacity(newSession.addDay ? 0.4 : 1)
                 }
                 .padding(.horizontal)
-                .padding(.bottom)
-                .transition(.scale)
+                .padding(.bottom, 10)
+                .disabled(newSession.addDay ? true : false)
+                
+                HStack {
+                    
+                    Image(systemName: "hourglass.tophalf.filled")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(Color(.systemGray3))
+                        .frame(width: 30)
+                    
+                    DatePicker("End", selection: $newSession.endTime, in: newSession.startTime...Date.now, displayedComponents: [.date, .hourAndMinute])
+                    .accentColor(.brandPrimary)
+                    .padding(.leading, 4)
+                    .font(.custom("Asap-Regular", size: 18))
+                    .datePickerStyle(.compact)
+                    .opacity(newSession.addDay ? 0.4 : 1)
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 16)
+                .disabled(newSession.addDay ? true : false)
             }
-            
-            HStack {
-                
-                Image(systemName: "clock")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
-                
-                DatePicker("Start", selection: $newSession.startTime, in: ...Date.now, displayedComponents: [.date, .hourAndMinute])
-                .accentColor(.brandPrimary)
-                .padding(.leading, 4)
-                .font(.custom("Asap-Regular", size: 18))
-                .datePickerStyle(.compact)
-                .opacity(newSession.addDay ? 0.4 : 1)
-            }
-            .padding(.horizontal)
-            .padding(.bottom, 10)
-            .disabled(newSession.addDay ? true : false)
-            
-            HStack {
-                
-                Image(systemName: "hourglass.tophalf.filled")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
-                
-                DatePicker("End", selection: $newSession.endTime, in: newSession.startTime...Date.now, displayedComponents: [.date, .hourAndMinute])
-                .accentColor(.brandPrimary)
-                .padding(.leading, 4)
-                .font(.custom("Asap-Regular", size: 18))
-                .datePickerStyle(.compact)
-                .opacity(newSession.addDay ? 0.4 : 1)
-            }
-            .padding(.horizontal)
-            .padding(.bottom, 16)
-            .disabled(newSession.addDay ? true : false)
             
             if newSession.addDay {
                 HStack {
@@ -624,7 +626,7 @@ struct AddNewSessionView: View {
                 .padding(.bottom)
             }
             
-            // DAY TWO
+            // MARK: DAY TWO
             
             if newSession.addDay {
 
