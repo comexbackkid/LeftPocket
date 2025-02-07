@@ -768,7 +768,7 @@ struct AddNewSessionView: View {
                     .padding(.trailing, 5)
                     .padding(.bottom, 10)
                     .transition(.opacity.combined(with: .asymmetric(insertion: .push(from: .leading),
-                                                                                           removal: .scale(scale: 0, anchor: .bottomLeading))))
+                                                                    removal: .scale(scale: 0, anchor: .bottomLeading).combined(with: .push(from: .trailing)))))
                 }
                 
                 // MARK: CASH OUT / WINNINGS
@@ -813,6 +813,8 @@ struct AddNewSessionView: View {
                 .padding(.leading)
                 .padding(.trailing, 16)
                 .padding(.bottom, 10)
+                .transition(.asymmetric(insertion: .scale(scale: 0, anchor: .bottom).combined(with: .opacity),
+                                        removal: .scale(scale: 0, anchor: .bottom).combined(with: .opacity)))
             }
             
             // MARK: TOURNAMENTS & GASH, EXPENSES / BUY IN HANDLING
@@ -1086,6 +1088,7 @@ struct AddNewSessionView: View {
                                 let impact = UIImpactFeedbackGenerator(style: .soft)
                                 impact.impactOccurred()
                                 newSession.removeStaker(staker)
+                                
                             } label: {
                                 Image(systemName: "minus.circle.fill")
                                     .fontWeight(.black)
