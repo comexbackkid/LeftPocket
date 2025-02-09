@@ -735,6 +735,7 @@ struct TournamentStats: View {
             let tournamentAvgDuration = viewModel.avgDuration(range: range, bankroll: .tournaments)
             let avgTournamentBuyIn = viewModel.avgTournamentBuyIn(range: range)
             let tournamentCount = viewModel.tournamentCount(range: range)
+            let avgRebuyCount = viewModel.averageTournamentRebuys(range: range)
             let itmRatio = viewModel.inTheMoneyRatio(range: range)
             let tournamentROI = viewModel.tournamentReturnOnInvestment(range: range)
             let tournamentHrsPlayed = viewModel.totalHoursPlayed(range: range, bankroll: .tournaments)
@@ -763,16 +764,6 @@ struct TournamentStats: View {
             Divider()
             
             HStack {
-                Text("Avg. Duration")
-                    .foregroundColor(.secondary)
-                Spacer()
-                Text(tournamentAvgDuration)
-                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
-            }
-            
-            Divider()
-            
-            HStack {
                 Text("Avg. Buy In")
                     .foregroundColor(.secondary)
                 Spacer()
@@ -783,10 +774,30 @@ struct TournamentStats: View {
             Divider()
             
             HStack {
+                Text("Avg. Duration")
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(tournamentAvgDuration)
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
+            }
+            
+            Divider()
+            
+            HStack {
                 Text("No. of Tournaments")
                     .foregroundColor(.secondary)
                 Spacer()
                 Text("\(tournamentCount)")
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Avg. No. of Rebuys")
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text("\(avgRebuyCount, specifier: "%.1f")")
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             

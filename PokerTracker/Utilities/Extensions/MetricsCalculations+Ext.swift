@@ -686,6 +686,31 @@ extension SessionsListViewModel {
         return winRatio.asPercent()
     }
     
+    func averageTournamentRebuys(range: RangeSelection) -> Double {
+        guard !allTournamentSessions().isEmpty else { return 0 }
+        
+        var tournamentArray: [PokerSession_v2] {
+            switch range {
+            case .all:
+                return allTournamentSessions()
+            case .oneMonth:
+                return filterSessionsLastMonth().filter{ $0.isTournament == true }
+            case .threeMonth:
+                return filterSessionsLastThreeMonths().filter { $0.isTournament == true }
+            case .sixMonth:
+                return filterSessionsLastThreeMonths().filter { $0.isTournament == true }
+            case .oneYear:
+                return filterSessionsLastTwelveMonths().filter{ $0.isTournament == true }
+            case .ytd:
+                return filterSessionsYTD().filter{ $0.isTournament == true }
+            }
+        }
+        
+        let totalRebuys = Double(tournamentArray.map({ $0.rebuyCount ?? 0 }).reduce(0, +))
+        let totalTournaments = Double(tournamentArray.count)
+        return totalRebuys / totalTournaments
+    }
+    
     func tournamentReturnOnInvestment(range: RangeSelection) -> String {
         guard !allTournamentSessions().isEmpty else { return "0%" }
         
