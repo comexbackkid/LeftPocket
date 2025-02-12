@@ -406,7 +406,7 @@ extension SessionsListViewModel {
         
         // Add up all the hours & minutes together to simply get a sum of hours
         let totalTime = totalHours + (totalMinutes / 60)
-        let handsPerHour = 25
+        let handsPerHour = UserDefaults.standard.object(forKey: "handsPerHourDefault") as? Int ?? 25
         let totalHands = Int(round(totalTime)) * handsPerHour
         return totalHands
     }

@@ -24,8 +24,8 @@ struct SessionDefaultsView: View {
     @State private var game = ""
     @State private var speed = ""
     @State private var size = ""
-    @State private var handsPerHour = ""
     @State private var currency: CurrencyType = .USD
+    @State private var handsPerHour: Int = 25
     @State private var resultMessage: String = ""
     @State private var errorMessage: String?
     @State private var showAlertModal = false
@@ -147,7 +147,7 @@ struct SessionDefaultsView: View {
                 Image(systemName: "suit.club.fill")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
+                    .frame(width: 30, height: 30)
                 
                 Text("Session")
                     .bodyStyle()
@@ -203,7 +203,7 @@ struct SessionDefaultsView: View {
                 Image(systemName: "mappin.and.ellipse")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
+                    .frame(width: 30, height: 30)
                 
                 Text("Location")
                     .bodyStyle()
@@ -263,7 +263,7 @@ struct SessionDefaultsView: View {
                     Image(systemName: "dollarsign.circle")
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(Color(.systemGray3))
-                        .frame(width: 30)
+                        .frame(width: 30, height: 30)
                     
                     Text("Stakes")
                         .bodyStyle()
@@ -319,7 +319,7 @@ struct SessionDefaultsView: View {
                 Image(systemName: "dice")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
+                    .frame(width: 30, height: 30)
                 
                 Text("Game")
                     .bodyStyle()
@@ -368,7 +368,7 @@ struct SessionDefaultsView: View {
                     Image(systemName: "stopwatch")
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(Color(.systemGray3))
-                        .frame(width: 30)
+                        .frame(width: 30, height: 30)
                     
                     Text("Speed")
                         .bodyStyle()
@@ -417,7 +417,7 @@ struct SessionDefaultsView: View {
                     Image(systemName: "person.2.fill")
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(Color(.systemGray3))
-                        .frame(width: 30)
+                        .frame(width: 30, height: 30)
                     
                     Text("Size")
                         .bodyStyle()
@@ -466,7 +466,8 @@ struct SessionDefaultsView: View {
                 Image(systemName: "banknote.fill")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
+                    .frame(width: 30, height: 30)
+                
                 
                 Text("Currency")
                     .bodyStyle()
@@ -506,9 +507,7 @@ struct SessionDefaultsView: View {
                 Image(systemName: "questionmark.bubble.fill")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
-                
-                
+                    .frame(width: 30, height: 30)
                 
                 Text("Ask Each Time")
                     .bodyStyle()
@@ -523,9 +522,9 @@ struct SessionDefaultsView: View {
                 }
                 .buttonStyle(.plain)
                 .popover(isPresented: $askEachTimePopover, arrowEdge: .bottom, content: {
-                    PopoverView(bodyText: "Every time you begin a Live Session, you'll be prompted to enter all the Session details from the start. You can always change them later.")
+                    PopoverView(bodyText: "With this turned on, every time you begin a Live Session you'll be prompted to enter / verify all Session details from the start. You can change them later if you want.")
                         .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
-                        .frame(height: 130)
+                        .frame(height: 150)
                         .dynamicTypeSize(.medium...DynamicTypeSize.medium)
                         .presentationCompactAdaptation(.popover)
                         .preferredColorScheme(colorScheme == .dark ? .dark : .light)
@@ -541,30 +540,37 @@ struct SessionDefaultsView: View {
             }
             .padding(.bottom, 10)
             
-//            HStack {
-//                
-//                Image(systemName: "banknote.fill")
-//                    .font(.system(size: 24, weight: .bold))
-//                    .foregroundColor(Color(.systemGray3))
-//                    .frame(width: 30)
-//                
-//                Text("Hands Per Hour")
-//                    .bodyStyle()
-//                    .padding(.leading, 4)
-//                
-//                Spacer()
-//                
-//                TextField("25", text: $handsPerHour)
-//                .transaction { transaction in
-//                    transaction.animation = nil
-//                }
-//                .padding(10)
-//                .padding(.leading, 2)
-//                .background(.gray.opacity(0.2))
-//                .cornerRadius(15)
-//                .frame(width: 75)
-//            }
-//            .padding(.bottom, 10)
+            HStack {
+                
+                Image(systemName: "hare.fill")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30, height: 30)
+                
+                Text("Hands Per Hour")
+                    .bodyStyle()
+                    .padding(.leading, 4)
+                
+                Spacer()
+                
+                Menu {
+                    Picker("Hands Per Hour", selection: $handsPerHour) {
+                        Text("15").tag(15)
+                        Text("20").tag(20)
+                        Text("25").tag(25)
+                        Text("30").tag(30)
+                        Text("35").tag(35)
+                    }
+                    
+                } label: {
+                    Text("\(handsPerHour)")
+                        .bodyStyle()
+                        .fixedSize()
+                        .lineLimit(1)
+                }
+                .foregroundColor(.brandWhite)
+            }
+            .padding(.bottom, 10)
             
         }
         .padding(.horizontal, 25)
@@ -609,6 +615,7 @@ struct SessionDefaultsView: View {
         speed = ""
         currency = .USD
         askLiveSessionEachTime = false
+        handsPerHour = 25
         
         let defaults = UserDefaults.standard
         let resetResult = Result {
@@ -621,6 +628,7 @@ struct SessionDefaultsView: View {
             defaults.removeObject(forKey: "tournamentSizeDefault")
             defaults.removeObject(forKey: "tournamentSpeedDefault")
             defaults.removeObject(forKey: "askLiveSessionEachTime")
+            defaults.removeObject(forKey: "handsPerHourDefault")
         }
         
         switch resetResult {
@@ -653,6 +661,7 @@ struct SessionDefaultsView: View {
             defaults.set(size, forKey: "tournamentSizeDefault")
             defaults.set(speed, forKey: "tournamentSpeedDefault")
             defaults.set(askLiveSessionEachTime, forKey: "askLiveSessionEachTime")
+            defaults.set(handsPerHour, forKey: "handsPerHourDefault")
             vm.getUserCurrency()
         }
         
@@ -694,12 +703,19 @@ struct SessionDefaultsView: View {
             location = LocationModel_v2(name: "")
         }
         
+        if let handsPerHour = defaults.object(forKey: "handsPerHourDefault") as? Int {
+            self.handsPerHour = handsPerHour
+        } else {
+            handsPerHour = 25
+        }
+        
         // Load Stakes, Game, & Tournament Defaults
         stakes = defaults.string(forKey: "stakesDefault") ?? ""
         game = defaults.string(forKey: "gameDefault") ?? ""
         size = defaults.string(forKey: "tournamentSizeDefault") ?? ""
         speed = defaults.string(forKey: "tournamentSpeedDefault") ?? ""
         askLiveSessionEachTime = defaults.bool(forKey: "askLiveSessionEachTime")
+        
     }
 }
 
