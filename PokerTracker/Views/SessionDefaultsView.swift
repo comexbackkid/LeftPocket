@@ -464,7 +464,7 @@ struct SessionDefaultsView: View {
             HStack {
                 
                 Image(systemName: "banknote.fill")
-                    .font(.system(size: 24, weight: .bold))
+                    .font(.system(size: 20, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30, height: 30)
                 
@@ -543,7 +543,7 @@ struct SessionDefaultsView: View {
             HStack {
                 
                 Image(systemName: "hare.fill")
-                    .font(.system(size: 24, weight: .bold))
+                    .font(.system(size: 20, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30, height: 30)
                 
