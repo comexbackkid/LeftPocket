@@ -1,4 +1,14 @@
 {
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
   "identifier" : "D8167671",
   "nonRenewingSubscriptions" : [
 
@@ -10,7 +20,7 @@
     "_applicationInternalID" : "1601858981",
     "_developerTeamID" : "J3YC22CPKU",
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 742338894.585163,
+    "_lastSynchronizedDate" : 761000279.54593098,
     "_locale" : "en_US",
     "_storefront" : "USA",
     "_storeKitErrors" : [
@@ -63,6 +73,114 @@
   },
   "subscriptionGroups" : [
     {
+      "id" : "21629539",
+      "localizations" : [
+
+      ],
+      "name" : "Left Pocket Pro",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "79.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6741366983",
+          "introductoryOffer" : {
+            "internalID" : "4AEE6871",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P2W"
+          },
+          "localizations" : [
+            {
+              "description" : "Unlimited access to Left Pocket",
+              "displayName" : "Left Pocket Pro",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "lp_7999_1y",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Annual $79.99",
+          "subscriptionGroupID" : "21629539",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "9.99",
+          "familyShareable" : false,
+          "groupNumber" : 2,
+          "internalID" : "6741367590",
+          "introductoryOffer" : {
+            "internalID" : "6D977220",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
+          "localizations" : [
+            {
+              "description" : "Unlimited access to Left Pocket",
+              "displayName" : "Left Pocket Pro",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "lp_999_1m",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Monthly $9.99",
+          "subscriptionGroupID" : "21629539",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "2.99",
+          "familyShareable" : false,
+          "groupNumber" : 3,
+          "internalID" : "6741367210",
+          "introductoryOffer" : {
+            "internalID" : "372CA094",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P3D"
+          },
+          "localizations" : [
+            {
+              "description" : "Unlimited access to Left Pocket",
+              "displayName" : "Left Pocket Pro",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "lp_299_1w",
+          "recurringSubscriptionPeriod" : "P1W",
+          "referenceName" : "Weekly $2.99",
+          "subscriptionGroupID" : "21629539",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        }
+      ]
+    },
+    {
       "id" : "21425788",
       "localizations" : [
 
@@ -74,17 +192,29 @@
 
           ],
           "codeOffers" : [
-
+            {
+              "eligibility" : [
+                "expired",
+                "new",
+                "existing"
+              ],
+              "internalID" : "0CC9E9DE",
+              "isStackable" : true,
+              "numberOfPeriods" : 1,
+              "paymentMode" : "free",
+              "referenceName" : "Affiliate Marketers",
+              "subscriptionPeriod" : "P1Y"
+            }
           ],
           "displayPrice" : "19.99",
           "familyShareable" : false,
           "groupNumber" : 1,
           "internalID" : "6474787836",
           "introductoryOffer" : {
-            "internalID" : "646A7A37",
+            "internalID" : "9F763243",
             "numberOfPeriods" : 1,
             "paymentMode" : "free",
-            "subscriptionPeriod" : "P1M"
+            "subscriptionPeriod" : "P2W"
           },
           "localizations" : [
             {
@@ -97,21 +227,49 @@
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "Annual $29.99",
           "subscriptionGroupID" : "21425788",
-          "type" : "RecurringSubscription"
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         },
         {
           "adHocOffers" : [
 
           ],
           "codeOffers" : [
-
+            {
+              "eligibility" : [
+                "new",
+                "expired",
+                "existing"
+              ],
+              "internalID" : "7FABD8A9",
+              "isStackable" : true,
+              "numberOfPeriods" : 1,
+              "paymentMode" : "free",
+              "referenceName" : "Left Pocket Affiliate Team",
+              "subscriptionPeriod" : "P3M"
+            },
+            {
+              "eligibility" : [
+                "expired",
+                "new",
+                "existing"
+              ],
+              "internalID" : "15BBA013",
+              "isStackable" : true,
+              "numberOfPeriods" : 1,
+              "paymentMode" : "free",
+              "referenceName" : "Left Pocket Friends & Family",
+              "subscriptionPeriod" : "P1Y"
+            }
           ],
           "displayPrice" : "2.99",
           "familyShareable" : false,
           "groupNumber" : 2,
           "internalID" : "6474787947",
           "introductoryOffer" : {
-            "internalID" : "13BC445E",
+            "internalID" : "98E13166",
             "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P1W"
@@ -127,13 +285,49 @@
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "Monthly $3.99",
           "subscriptionGroupID" : "21425788",
-          "type" : "RecurringSubscription"
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "0.99",
+          "familyShareable" : false,
+          "groupNumber" : 3,
+          "internalID" : "6740544105",
+          "introductoryOffer" : {
+            "internalID" : "FC4DC290",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P3D"
+          },
+          "localizations" : [
+            {
+              "description" : "Unlimited access to Left Pocket",
+              "displayName" : "Premium",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "lp_099_1w",
+          "recurringSubscriptionPeriod" : "P1W",
+          "referenceName" : "Weekly $0.99",
+          "subscriptionGroupID" : "21425788",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         }
       ]
     }
   ],
   "version" : {
-    "major" : 3,
+    "major" : 4,
     "minor" : 0
   }
 }

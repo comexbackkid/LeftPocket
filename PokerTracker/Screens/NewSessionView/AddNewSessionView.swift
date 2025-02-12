@@ -965,6 +965,8 @@ struct AddNewSessionView: View {
             
             // MARK: TAGS
             
+            let tagsList = vm.sessions.filter({ !$0.tags.isEmpty }).map({ $0.tags[0] })
+            
             HStack {
                 Image(systemName: "tag.fill")
                     .font(.caption2)
@@ -980,6 +982,32 @@ struct AddNewSessionView: View {
             .cornerRadius(15)
             .padding(.horizontal)
             .padding(.bottom, 10)
+            .overlay {
+                if !tagsList.isEmpty && subManager.isSubscribed {
+                    HStack {
+                        Spacer()
+                        Menu {
+                            ForEach(tagsList, id: \.self) { tag in
+                                Button(tag) {
+                                    newSession.tags = ""
+                                    newSession.tags = tag
+                                }
+                            }
+                            
+                        } label: {
+                            Image(systemName: "clock.arrow.circlepath")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .fontWeight(.bold)
+                                .frame(height: 20)
+                                .padding(.bottom, 10)
+                                .padding(.trailing, 40)
+                        }
+                        .buttonStyle(.plain)
+                        .foregroundStyle(Color.brandPrimary)
+                    }
+                }
+            }
             .overlay {
                 if !subManager.isSubscribed {
                     HStack {
