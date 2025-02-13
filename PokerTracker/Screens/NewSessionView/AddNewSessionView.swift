@@ -989,6 +989,8 @@ struct AddNewSessionView: View {
                         Menu {
                             ForEach(tagsList, id: \.self) { tag in
                                 Button(tag) {
+                                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                                    impact.impactOccurred()
                                     newSession.tags = ""
                                     newSession.tags = tag
                                 }
