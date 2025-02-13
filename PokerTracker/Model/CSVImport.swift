@@ -510,7 +510,102 @@ class CSVImporter {
         return importedSessions
     }
     
+    // MARK: Bink Poker Import
+    
+    func importCSVFromBinkPoker(data: Data) throws -> [PokerSession_v2] {
+        
+        guard let csvString = String(data: data, encoding: .utf8) else {
+            throw ImportError.invalidData
+        }
+        
+        let rows = csvString.components(separatedBy: "\n")
+        var importedSessions: [PokerSession_v2] = []
+        
+        // Ignore the first row (indexes), start at the second row
+        for rowIndex in 1..<rows.count {
+            
+            let row = rows[rowIndex]
+            let columns = row.components(separatedBy: ",")
+            
+            if columns.count == 14 {
+                
+                // Extract only relevant data and create a PokerSession object
+                let dateString = columns[0].trimmingCharacters(in: .init(charactersIn: "\""))
+                let durationString = columns[1].trimmingCharacters(in: .init(charactersIn: "\""))
+                let startDate = convertToDateFromBinkPoker(dateString) ?? Date()
+                let startTime = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: startDate) ?? Date().modifyTime(minutes: -300)
+                
+                // Parse the duration and calculate end time
+                let duration = Double(durationString) ?? 0.0
+                let durationHours = Int(duration)
+                let durationMinutes = Int((duration.truncatingRemainder(dividingBy: 1)) * 60)
+                let endTime = Calendar.current.date(byAdding: .hour, value: durationHours, to: Calendar.current.date(byAdding: .minute, value: durationMinutes, to: startTime) ?? Date()) ?? Date()
+                let limit = columns[9].trimmingCharacters(in: .init(charactersIn: "\""))
+                let game = limit + " " + columns[8].trimmingCharacters(in: .init(charactersIn: "\""))
+                let location = LocationModel_v2(name: columns[7].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let stakes = columns[4].trimmingCharacters(in: .init(charactersIn: "\""))
+                let buyInString = columns[2].trimmingCharacters(in: .init(charactersIn: "\""))
+                let buyIn = Int(Double(buyInString) ?? 0)
+                let cashOutString = columns[3].trimmingCharacters(in: .init(charactersIn: "\""))
+                let cashOut = Int(Double(cashOutString) ?? 0)
+                let profit = cashOut - buyIn
+                let expensesString = columns[10].trimmingCharacters(in: .init(charactersIn: "\""))
+                let expenses = Int(Double(expensesString) ?? 0)
+                
+                // Tournament Data
+                let sessionType = columns[5].trimmingCharacters(in: .init(charactersIn: "\""))
+                
+                let session = PokerSession_v2(location: location,
+                                              date: startDate,
+                                              startTime: startTime,
+                                              endTime: endTime,
+                                              game: game,
+                                              stakes: stakes,
+                                              buyIn: buyIn,
+                                              cashOut: cashOut,
+                                              profit: profit,
+                                              expenses: expenses,
+                                              notes: "",
+                                              tags: [],
+                                              highHandBonus: 0,
+                                              isTournament: sessionType == "Tournament" ? true : false,
+                                              rebuyCount: nil,
+                                              tournamentSize: sessionType == "Tournament" ? "MTT" : nil,
+                                              tournamentSpeed: sessionType == "Tournament" ? "Standard" : nil,
+                                              entrants: nil,
+                                              finish: nil,
+                                              tournamentDays: sessionType == "Tournament" ? 1 : nil,
+                                              startTimeDayTwo: nil,
+                                              endTimeDayTwo: nil,
+                                              stakers: nil)
+                
+                importedSessions.append(session)
+                
+            } else {
+                print("Column count: \(columns.count)")
+                throw ImportError.parsingFailed
+            }
+        }
+        
+        return importedSessions
+    }
+    
     // MARK: DATE CONVERSIONS
+    
+    // Bink Poker date conversion (e.g. "02/12/2025")
+    func convertToDateFromBinkPoker(_ rawDate: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy" // Matches "02/12/2025"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // Standardized date parsing
+        dateFormatter.timeZone = TimeZone.current // Adjust to the user's timezone
+        
+        if let date = dateFormatter.date(from: rawDate) {
+            return date
+        } else {
+            print("Error: Unable to convert string to Date.")
+            return nil
+        }
+    }
     
     // Poker Income date conversion
     func convertToDateFromPokerIncome(_ rawDate: String) -> Date? {
