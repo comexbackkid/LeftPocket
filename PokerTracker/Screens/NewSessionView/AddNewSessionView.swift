@@ -13,6 +13,7 @@ import TipKit
 enum Field {
     case buyIn
     case cashOut
+    case bounties
     case rebuys
     case rebuyCount
     case entrants
@@ -861,7 +862,7 @@ struct AddNewSessionView: View {
                     TextField("Bounties", text: $newSession.bounties)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
-                        .focused($focusedField, equals: .cashOut)
+                        .focused($focusedField, equals: .bounties)
                 }
                 .padding(18)
                 .background(.gray.opacity(0.2))
@@ -1230,8 +1231,18 @@ struct AddNewSessionView: View {
                         focusedField = .cashOut
                     }
                 } else if focusedField == .cashOut {
+                    if newSession.hasBounties {
+                        Button("Next") {
+                            focusedField = newSession.sessionType == .cash ? .rebuys : .bounties
+                        }
+                    } else {
+                        Button("Next") {
+                            focusedField = newSession.sessionType == .cash ? .rebuys : .expenses
+                        }
+                    }
+                } else if focusedField == .bounties {
                     Button("Next") {
-                        focusedField = newSession.sessionType == .cash ? .rebuys : .expenses
+                        focusedField = .expenses
                     }
                 } else if focusedField == .rebuys {
                     Button("Next") {
@@ -1268,7 +1279,6 @@ struct AddNewSessionView: View {
                         focusedField = nil
                     }
                 }
-                
                 if focusedField == .stakerName {
                     Button("Next") {
                         focusedField = .stakerAmount
