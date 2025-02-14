@@ -39,6 +39,7 @@ struct AddNewSessionView: View {
     @State var showPaywall = false
     @State var showCashRebuyField = false
     @State var showStakingPopover = false
+    @State var showBountiesPopover = false
     
     @FocusState private var focusedField: Field?
     
@@ -402,7 +403,6 @@ struct AddNewSessionView: View {
                     }
                     
                 } label: {
-                    
                     if newSession.size.isEmpty {
                         Text("Please select ›")
                             .bodyStyle()
@@ -424,6 +424,57 @@ struct AddNewSessionView: View {
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
+            
+            HStack {
+                
+                Image(systemName: "target")
+                    .font(.system(size: 24, weight: .light))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30)
+                
+                HStack {
+                    Text("Bounties")
+                        .bodyStyle()
+                        
+                    Button {
+                        showBountiesPopover = true
+                    } label: {
+                        Image(systemName: "info.circle")
+                            .font(.subheadline)
+                            .foregroundStyle(Color.brandPrimary)
+                    }
+                }
+                .padding(.leading, 4)
+                .popover(isPresented: $showBountiesPopover, content: {
+                    PopoverView(bodyText: "Bounty dollar value is added together with your Tournament Payout to determine your total gross winnings.")
+                        .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                        .frame(height: 140)
+                        .dynamicTypeSize(.medium...DynamicTypeSize.medium)
+                        .presentationCompactAdaptation(.popover)
+                        .shadow(radius: 10)
+                })
+                
+                Spacer()
+                
+                if subManager.isSubscribed {
+                    withAnimation {
+                        Toggle(isOn: $newSession.hasBounties.animation()) {
+                            // No Label Needed
+                        }
+                        .tint(.brandPrimary)
+                    }
+                    
+                } else {
+                    Image(systemName: "lock.fill")
+                        .font(.title2)
+                        .onTapGesture {
+                            showPaywall = true
+                        }
+                }
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 10)
+            .animation(.easeInOut, value: newSession.sessionType)
             
             HStack {
                 
@@ -785,7 +836,7 @@ struct AddNewSessionView: View {
                         .frame(width: 15)
                         .foregroundColor(newSession.cashOut.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
-                    TextField(newSession.sessionType == .tournament ? "Total Winnings" : "Cash Out", text: $newSession.cashOut)
+                    TextField(newSession.sessionType == .tournament ? "Tournament Payout" : "Cash Out", text: $newSession.cashOut)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
                         .focused($focusedField, equals: .cashOut)
@@ -796,6 +847,30 @@ struct AddNewSessionView: View {
                 .padding(.leading, newSession.sessionType == .tournament ? 16 : 0)
                 .padding(.trailing)
                 .padding(.bottom, 10)
+            }
+            
+            // MARK: BOUNTIES
+            
+            if newSession.sessionType != .cash && newSession.hasBounties {
+                HStack {
+                    Text(vm.userCurrency.symbol)
+                        .font(.callout)
+                        .frame(width: 15)
+                        .foregroundColor(newSession.bounties.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                    
+                    TextField("Bounties", text: $newSession.bounties)
+                        .font(.custom("Asap-Regular", size: 17))
+                        .keyboardType(.numberPad)
+                        .focused($focusedField, equals: .cashOut)
+                }
+                .padding(18)
+                .background(.gray.opacity(0.2))
+                .cornerRadius(15)
+                .padding(.leading)
+                .padding(.trailing)
+                .padding(.bottom, 10)
+                .transition(.asymmetric(insertion: .scale.combined(with: .push(from: .top)),
+                                        removal: .push(from: .bottom).combined(with: .scale(scale: 0, anchor: .top))))
             }
             
             // MARK: CASH GAME REBUYS

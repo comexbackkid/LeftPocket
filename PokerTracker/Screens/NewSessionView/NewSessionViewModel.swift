@@ -32,6 +32,7 @@ final class NewSessionViewModel: ObservableObject {
     @Published var highHandBonus: String = ""
     @Published var rebuyCount: String = ""
     @Published var cashRebuys: String = ""
+    @Published var bounties: String = ""
     @Published var finish: String = ""
     @Published var size: String = ""
     @Published var speed: String = ""
@@ -40,6 +41,7 @@ final class NewSessionViewModel: ObservableObject {
     @Published var actionSold: String = ""
     @Published var stakerName: String = ""
     @Published var stakerList: [Staker] = []
+    @Published var hasBounties: Bool = false
     @Published var multiDayToggle: Bool = false
     @Published var addDay: Bool = false
     @Published var noMoreDays: Bool = false
