@@ -84,17 +84,20 @@ struct NotificationsView: View {
                     DispatchQueue.main.async {
                         showAlert = true
                     }
+                    
                 } else {
                     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { success, error in
                         if success {
                             notificationsAllowed = true
                             showSuccessAlert = true
+                            
                         } else if let error {
                             print(error.localizedDescription)
                         }
                     }
                 }
             }
+            
         } label: {
             PrimaryButton(title: notificationsAllowed == true ? "Notifications Allowed" : "Enable Notfications",
                           color: notificationsAllowed == true ? Color.gray : .brandPrimary)

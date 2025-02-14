@@ -323,17 +323,6 @@ struct LeftPocketCustomTabBar: View {
             showPaywall = true
             
         } else {
-            
-            if notificationsAllowed != true {
-                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { success, error in
-                    if success {
-                        notificationsAllowed = true
-                    } else if let error {
-                        print("There was an error: \(error.localizedDescription)")
-                    }
-                }
-            }
-            
             timerViewModel.startSession()
             activity = LiveActivityManager().startActivity(startTime: Date(), elapsedTime: timerViewModel.liveSessionTimer)
             showBuyInScreen = true

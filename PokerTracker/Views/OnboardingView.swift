@@ -49,47 +49,49 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(3)
             
+            AllowNotifications(showDismissButton: false, nextAction: nextPage, shouldShowOnboarding: $shouldShowOnboarding).tag(4)
+            
             PageView(title: "Custom Location Images",
                      subtitle: Text("Add your own custom locations and header photos. Just navigate to the Settings \(Image(systemName: "gearshape.fill")) screen, tap on Locations, and then press the \(Image(systemName: "plus")) button."),
                      videoURL: "custom-locations",
                      showDismissButton: false, player: players["custom-locations"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(4)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(5)
             
             PageView(title: "Know When to Move Up",
                      subtitle: Text("Insightful charts, progress rings, & player metrics help you keep a thumb on your poker performance so you know exactly when to climb stakes."),
                      videoURL: "metrics-screen",
                      showDismissButton: false, player: players["metrics-screen"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(5)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(6)
             
             PageView(title: "Session Tags & Reports",
                      subtitle: Text("Sessions & Transactions with a Tag \(Image(systemName: "tag.fill")) you created can be filtered & grouped together in a custom report for things like a trip, or bankroll challenge."),
                      videoURL: "tag-reporting",
                      showDismissButton: false, player: players["tag-reporting"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(6)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(7)
             
             PageView(title: "Home Screen Widgets",
                      subtitle: Text("Touch & hold an empty area of your home screen until the apps jiggle. Then press the \"Edit\" button, followed by \"Add Widget,\" & search for Left Pocket."),
                      videoURL: "homescreen-widget",
                      showDismissButton: false, player: players["homescreen-widget"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(7)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(8)
             
             PageView(title: "Advanced Data Metrics",
                      subtitle: Text("One place for all your important player data. Reports & analytics on location performance, stakes, monthly returns, & so much more."),
                      videoURL: "advanced-reporting",
                      showDismissButton: false, player: players["advanced-reporting"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(8)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(9)
             
             PageView(title: "Health & Mental State",
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours & mindful minutes in our Health Analytics page, & integrate these numbers measured by other devices, like an Apple Watch."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],
                      nextAction: { hkManager.requestAuthorization() },
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(9)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(10)
         }
         .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)
@@ -393,6 +395,87 @@ struct StartingBankroll: View {
                 
             } label: {
                 Text(showDismissButton ? "Let's Do It" : "Continue")
+                    .buttonTextStyle()
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background(.white)
+                    .cornerRadius(30)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 50)
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+    }
+}
+
+struct AllowNotifications: View {
+    
+    let showDismissButton: Bool
+    var nextAction: () -> Void
+    
+    @AppStorage("pushNotificationsAllowed") private var pushNotificationsAllowed = false
+    @State private var startingBankrollTextField: String = ""
+    @Binding var shouldShowOnboarding: Bool
+    @FocusState var isFocused: Bool
+    
+    var body: some View {
+        
+        VStack {
+            
+            VStack (alignment: .leading) {
+                
+                Spacer()
+                
+                Text("Would you please allow push notifications during Live Sessions?")
+                    .signInTitleStyle()
+                    .foregroundColor(.brandWhite)
+                    .fontWeight(.black)
+                    .padding(.bottom, 5)
+                
+                Text("By doing so, we've got your back & will send subtle reminders to stretch, hydrate, & check on how the game is going every few hours.")
+                    .calloutStyle()
+                    .opacity(0.7)
+                    .padding(.bottom, 20)
+                
+                Spacer()
+        
+            }
+            .padding(.horizontal, 20)
+            
+            Spacer()
+            
+            Button {
+                let impact = UIImpactFeedbackGenerator(style: .soft)
+                impact.impactOccurred()
+                pushNotificationsAllowed = false
+                nextAction()
+                
+            } label: {
+                Text("No, thank you")
+                    .subHeadlineStyle()
+                    .buttonStyle(.plain)
+            }
+            .buttonStyle(.plain)
+            .padding(.bottom, 12)
+            
+            Button {
+                let impact = UIImpactFeedbackGenerator(style: .heavy)
+                impact.impactOccurred()
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { success, error in
+                    if success {
+                        pushNotificationsAllowed = true
+                        nextAction()
+                    } else if let error {
+                        print("There was an error: \(error.localizedDescription)")
+                        nextAction()
+                    } else {
+                        nextAction()
+                    }
+                }
+                
+            } label: {
+                Text(showDismissButton ? "Let's Do It" : "Allow Notifications")
                     .buttonTextStyle()
                     .foregroundColor(.black)
                     .frame(maxWidth: .infinity)

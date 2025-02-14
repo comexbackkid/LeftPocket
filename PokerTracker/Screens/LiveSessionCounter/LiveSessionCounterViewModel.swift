@@ -74,10 +74,19 @@ class TimerViewModel: ObservableObject {
         let triggerAfterFiveHours = UNTimeIntervalNotificationTrigger(timeInterval: 18000, repeats: false)
         let requestAfterFiveHours = UNNotificationRequest(identifier: "liveSessionNotificationAfterFiveHours", content: contentAfterFiveHours, trigger: triggerAfterFiveHours)
         UNUserNotificationCenter.current().add(requestAfterFiveHours)
+        
+        // Second Push Notification after eight hours of playing
+        let contentAfterEightHours = UNMutableNotificationContent()
+        contentAfterEightHours.title = UserNotificationContext.fiveHours.msgTitle
+        contentAfterEightHours.body = UserNotificationContext.fiveHours.msgBody
+        contentAfterEightHours.sound = UNNotificationSound.default
+        let triggerAfterEightHours = UNTimeIntervalNotificationTrigger(timeInterval: 28800, repeats: false)
+        let requestAfterEightHours = UNNotificationRequest(identifier: "liveSessionNotificationAfterEightHours", content: contentAfterEightHours, trigger: triggerAfterEightHours)
+        UNUserNotificationCenter.current().add(requestAfterEightHours)
     }
     
     func cancelUserNotifications() {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["liveSessionNotificationAfterTwoHours", "liveSessionNotificationAfterFiveHours"])
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["liveSessionNotificationAfterTwoHours", "liveSessionNotificationAfterFiveHours", "liveSessionNotificationAfterEightHours"])
     }
     
     func startSession() {
@@ -197,7 +206,7 @@ enum UserNotificationContext: String {
         case .fiveHours:
             "You've been playing 5 hours, how do you feel? Take a break if you need it."
         case .eightHours:
-            "You've been playing awhile, should you keep going? Make sure you're in the right heaadspace."
+            "You've been playing awhile, should you keep going? Ensure you're in the right heaadspace."
         }
     }
 }
