@@ -427,7 +427,11 @@ struct AllowNotifications: View {
                 
                 Spacer()
                 
-                Text("Would you please allow push notifications during Live Sessions?")
+                Spacer()
+                
+                Spacer()
+                
+                Text("Allow push notifications during Live Sessions?")
                     .signInTitleStyle()
                     .foregroundColor(.brandWhite)
                     .fontWeight(.black)
@@ -436,7 +440,15 @@ struct AllowNotifications: View {
                 Text("By doing so, we've got your back & will send subtle reminders to stretch, hydrate, & check on how the game is going every few hours.")
                     .calloutStyle()
                     .opacity(0.7)
-                    .padding(.bottom, 20)
+                    .padding(.bottom, 30)
+                
+                HStack {
+                    Spacer()
+                    Image("squigleArrow")
+                        .resizable()
+                        .frame(width: 80, height: 150)
+                    Spacer()
+                }
                 
                 Spacer()
         

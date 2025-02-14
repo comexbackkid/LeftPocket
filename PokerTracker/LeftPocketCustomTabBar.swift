@@ -38,6 +38,7 @@ struct LeftPocketCustomTabBar: View {
     @State private var buyInConfirmationSound = false
     @State private var showSessionDefaultsView = false
     
+    let addSessionTip = AddSessionTip()
     var isCounting: Bool {
         timerViewModel.isCounting
     }
@@ -271,7 +272,7 @@ struct LeftPocketCustomTabBar: View {
     var tips: some View {
         
         VStack {
-            let addSessionTip = AddSessionTip()
+            
             TipView(addSessionTip, arrowEdge: .bottom)
                 .tipViewStyle(CustomTipViewStyle())
                 .padding(.horizontal, 20)
@@ -312,10 +313,7 @@ struct LeftPocketCustomTabBar: View {
     func startLiveSession() {
         let impact = UIImpactFeedbackGenerator(style: .soft)
         impact.impactOccurred()
-        
-        Task {
-            await AddSessionTip.sessionCount.donate()
-        }
+        addSessionTip.invalidate(reason: .actionPerformed)
         
         // If user is NOT subscribed, AND they're over the monthly allowance, the Plus button will display Paywall
         if !subManager.isSubscribed && !viewModel.canLogNewSession() {
@@ -333,10 +331,7 @@ struct LeftPocketCustomTabBar: View {
         
         let impact = UIImpactFeedbackGenerator(style: .soft)
         impact.impactOccurred()
-        
-        Task {
-            await AddSessionTip.sessionCount.donate()
-        }
+        addSessionTip.invalidate(reason: .actionPerformed)
         
         // If user is NOT subscribed, AND they're over the monthly allowance, the Plus button will display Paywall
         if !subManager.isSubscribed && !viewModel.canLogNewSession() {
