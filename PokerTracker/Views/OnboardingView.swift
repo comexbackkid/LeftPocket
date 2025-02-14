@@ -51,17 +51,17 @@ struct OnboardingView: View {
             
             AllowNotifications(showDismissButton: false, nextAction: nextPage, shouldShowOnboarding: $shouldShowOnboarding).tag(4)
             
+            PageView(title: "Know When to Move Up",
+                     subtitle: Text("Insightful charts, progress rings, & player metrics help keep your finger on the pulse of your performance so you know exactly when to climb stakes."),
+                     videoURL: "metrics-screen",
+                     showDismissButton: false, player: players["metrics-screen"],
+                     nextAction: nextPage,
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(5)
+            
             PageView(title: "Custom Location Images",
                      subtitle: Text("Add your own custom locations and header photos. Just navigate to the Settings \(Image(systemName: "gearshape.fill")) screen, tap on Locations, and then press the \(Image(systemName: "plus")) button."),
                      videoURL: "custom-locations",
                      showDismissButton: false, player: players["custom-locations"],
-                     nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(5)
-            
-            PageView(title: "Know When to Move Up",
-                     subtitle: Text("Insightful charts, progress rings, & player metrics help you keep a thumb on your poker performance so you know exactly when to climb stakes."),
-                     videoURL: "metrics-screen",
-                     showDismissButton: false, player: players["metrics-screen"],
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(6)
             
@@ -86,7 +86,7 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(9)
             
-            PageView(title: "Health & Mental State",
+            PageView(title: "Health & Mental Clarity",
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours & mindful minutes in our Health Analytics page, & integrate these numbers measured by other devices, like an Apple Watch."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],
@@ -431,13 +431,13 @@ struct AllowNotifications: View {
                 
                 Spacer()
                 
-                Text("Allow push notifications during Live Sessions?")
+                Text("Turn on notifications for help sustaining longer Live Sessions.")
                     .signInTitleStyle()
                     .foregroundColor(.brandWhite)
                     .fontWeight(.black)
                     .padding(.bottom, 5)
                 
-                Text("By doing so, we've got your back & will send subtle reminders to stretch, hydrate, & check on how the game is going every few hours.")
+                Text("In doing so, we've got your back & will send subtle reminders to stretch, hydrate, & check on how the game is going every few hours.")
                     .calloutStyle()
                     .opacity(0.7)
                     .padding(.bottom, 30)
