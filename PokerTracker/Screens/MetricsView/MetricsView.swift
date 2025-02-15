@@ -740,6 +740,7 @@ struct TournamentStats: View {
             let tournamentROI = viewModel.tournamentReturnOnInvestment(range: range)
             let tournamentHrsPlayed = viewModel.totalHoursPlayed(range: range, bankroll: .tournaments)
             let handsPlayed = viewModel.handsPlayed(range: range, bankroll: .tournaments)
+            let bounties = viewModel.bountiesCollected(range: range)
             
             HStack {
                 Text("Tournament Profit")
@@ -768,6 +769,16 @@ struct TournamentStats: View {
                     .foregroundColor(.secondary)
                 Spacer()
                 Text(avgTournamentBuyIn, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Bounties Collected")
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text(bounties, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
