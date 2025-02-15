@@ -12,14 +12,14 @@ import SwiftUI
 
 enum AppReviewRequest {
     
-    static var threshold = 3
+    static var threshold = 1
     @AppStorage("runsSinceLastRequest") static var runsSinceLastRequest = 0
     @AppStorage("lastMajorMinorVersion") static var lastMajorMinorVersion = ""
     
     static func requestReviewIfNeeded() {
         runsSinceLastRequest += 1
         
-        let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        guard let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String else { return }
         let majorMinorVersion = extractMajorMinorVersion(from: appVersion)
         
         // If the major or minor version has changed, we consider prompting a review
