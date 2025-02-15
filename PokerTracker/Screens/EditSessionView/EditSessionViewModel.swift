@@ -112,8 +112,8 @@ final class EditSessionViewModel: ObservableObject {
                                 tags: tags.isEmpty ? [] : [tags],
                                 highHandBonus: Int(highHandBonus) ?? 0,
                                 isTournament: sessionType == .tournament ? true : false,
-                                rebuyCount: Int(rebuyCount) ?? 0,
-                                bounties: Int(bounties) ?? 0,
+                                rebuyCount: Int(rebuyCount),
+                                bounties: Int(bounties),
                                 tournamentSize: size,
                                 tournamentSpeed: speed,
                                 entrants: Int(entrants),
@@ -121,6 +121,6 @@ final class EditSessionViewModel: ObservableObject {
                                 tournamentDays: Int(tournamentDays),
                                 startTimeDayTwo: startTimeDayTwo,
                                 endTimeDayTwo: endTimeDayTwo,
-                                stakers: stakers)
+                                stakers: sessionType == .tournament && !stakers.isEmpty ? stakers : nil)
     }
 }
