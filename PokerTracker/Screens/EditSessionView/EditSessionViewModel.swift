@@ -24,6 +24,7 @@ final class EditSessionViewModel: ObservableObject {
     @Published var finish: String = ""
     @Published var speed: String = ""
     @Published var size: String = ""
+    @Published var bounties: String = ""
     @Published var rebuyCount: String = ""
     @Published var tags: String = ""
     @Published var addLocationIsShowing = false
@@ -74,6 +75,17 @@ final class EditSessionViewModel: ObservableObject {
         return buyIn * numberOfRebuys
     }
     
+    var totalActionSold: Int {
+        if sessionType == .tournament {
+            let totalPercentage = stakers.reduce(0) { $0 + $1.percentage }
+            let totalWinnings = (Double(cashOut) ?? 0) + (Double(bounties) ?? 0)
+            let amountOwed = totalWinnings * totalPercentage
+            return Int(amountOwed)
+        } else {
+            return 0
+        }
+    }
+    
     // Saves a duplicate of the pokerSession, then deletes the old one
     func saveEditedSession(viewModel: SessionsListViewModel, editedSession: PokerSession_v2) {
         
@@ -81,7 +93,8 @@ final class EditSessionViewModel: ObservableObject {
             if sessionType == .cash {
                 return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - (Int(expenses) ?? 0)
             } else {
-                return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - (tournamentRebuys)
+                let tournamentWinnings = (Int(cashOut) ?? 0) + (Int(bounties) ?? 0)
+                return tournamentWinnings - (Int(buyIn) ?? 0) - tournamentRebuys - totalActionSold
             }
         }
 
@@ -100,7 +113,7 @@ final class EditSessionViewModel: ObservableObject {
                                 highHandBonus: Int(highHandBonus) ?? 0,
                                 isTournament: sessionType == .tournament ? true : false,
                                 rebuyCount: Int(rebuyCount) ?? 0,
-                                bounties: nil,
+                                bounties: Int(bounties) ?? 0,
                                 tournamentSize: size,
                                 tournamentSpeed: speed,
                                 entrants: Int(entrants),
@@ -108,6 +121,6 @@ final class EditSessionViewModel: ObservableObject {
                                 tournamentDays: Int(tournamentDays),
                                 startTimeDayTwo: startTimeDayTwo,
                                 endTimeDayTwo: endTimeDayTwo,
-                                stakers: nil)
+                                stakers: stakers)
     }
 }

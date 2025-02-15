@@ -493,6 +493,23 @@ struct SessionDetailView: View {
                     Text("\(totalBuyIn, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))")
                         .bodyStyle()
                 }
+                
+                if let bounties = pokerSession.bounties {
+                    
+                    Divider()
+                    
+                    HStack {
+                        
+                        Text("Bounties")
+                            .bodyStyle()
+                            .foregroundStyle(.secondary)
+                        
+                        Spacer()
+                        
+                        Text("\(bounties, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))")
+                            .bodyStyle()
+                    }
+                }
             }
             
             Divider()

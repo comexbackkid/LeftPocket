@@ -637,6 +637,22 @@ struct EditSession: View {
             .padding(.bottom, 10)
             
             HStack {
+                Text(viewModel.userCurrency.symbol)
+                    .font(.callout)
+                    .foregroundColor(editSession.bounties.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                
+                TextField("Bounties", text: $editSession.bounties)
+                    .font(.custom("Asap-Regular", size: 17))
+                    .keyboardType(.numberPad)
+            }
+            .padding(18)
+            .background(.gray.opacity(0.2))
+            .cornerRadius(15)
+            .padding(.leading, 16)
+            .padding(.trailing)
+            .padding(.bottom, 10)
+            
+            HStack {
                 
                 HStack {
                     Text(viewModel.userCurrency.symbol)
@@ -807,7 +823,8 @@ struct EditSession: View {
         .onAppear {
             editSession.buyIn = String(pokerSession.buyIn)
             editSession.cashOut = String(pokerSession.cashOut)
-            editSession.rebuyCount = pokerSession.rebuyCount.map { String($0) } ?? "0"
+            editSession.bounties = pokerSession.bounties.map { String($0) } ?? ""
+            editSession.rebuyCount = pokerSession.rebuyCount.map { String($0) } ?? ""
             editSession.entrants = pokerSession.entrants.map { String($0) } ?? ""
             editSession.finish = pokerSession.finish.map { String($0) } ?? ""
             editSession.notes = pokerSession.notes
