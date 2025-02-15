@@ -428,8 +428,8 @@ struct AddNewSessionView: View {
             
             HStack {
                 
-                Image(systemName: "target")
-                    .font(.system(size: 24, weight: .light))
+                Image(systemName: "scope")
+                    .font(.system(size: 24, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30)
                 
