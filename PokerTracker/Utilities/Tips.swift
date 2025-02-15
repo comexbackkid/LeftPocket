@@ -68,6 +68,21 @@ struct MeditationTip: Tip {
     }
 }
 
+struct SessionsListTip: Tip {
+    
+    var title: Text {
+        Text("Edit Sessions")
+    }
+    
+    var message: Text? {
+        Text("Swipe left on a Session in the list to either modify or delete it.")
+    }
+    
+    var image: Image? {
+        Image(systemName: "hand.draw")
+    }
+}
+
 struct AddSessionTip: Tip {
     
     static let sessionCount = Event(id: "clickedAddSessionButton")

@@ -15,6 +15,7 @@ struct LocationGridView: View {
     @State var showAlert = false
     
     let columns = [GridItem(.fixed(165), spacing: 20), GridItem(.fixed(165))]
+    let deleteTip = DeleteLocationTip()
     
     var body: some View {
         
@@ -44,9 +45,7 @@ struct LocationGridView: View {
         .scrollDisabled(vm.locations.isEmpty ? true : false)
         .background(Color.brandBackground)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            addLocationButton
-        }
+        .toolbar { addLocationButton }
     }
     
     var title: some View {
@@ -92,6 +91,7 @@ struct LocationGridView: View {
             let impact = UIImpactFeedbackGenerator(style: .heavy)
             impact.impactOccurred()
             addLocationIsShowing.toggle()
+            deleteTip.invalidate(reason: .actionPerformed)
             
         } label: {
             Image(systemName: "plus")
@@ -105,7 +105,6 @@ struct LocationGridView: View {
     var locationTip: some View {
         
         VStack {
-            let deleteTip = DeleteLocationTip()
             TipView(deleteTip)
                 .tipViewStyle(CustomTipViewStyle())
                 .padding(.horizontal, 20)

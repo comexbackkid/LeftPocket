@@ -103,12 +103,13 @@ struct SessionsListView: View {
         return result
     }
     
+    let editTip = SessionsListTip()
+    
     var body: some View {
         
         NavigationView {
             
             ZStack {
-                
                 switch listFilter {
                 case .sessions:
                     if vm.sessions.isEmpty {
@@ -126,6 +127,8 @@ struct SessionsListView: View {
                                     tappedSession = session
                                 })) {
                                     CellView(pokerSession: session, currency: vm.userCurrency, viewStyle: $viewStyle)
+                                        .popoverTip(editTip)
+                                        .tipViewStyle(CustomTipViewStyle())
                                 }
                                 .listRowBackground(Color.brandBackground)
                                 .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 18))
@@ -389,14 +392,22 @@ struct SessionsListView: View {
     private func swipeActions(_ session: PokerSession_v2) -> some View {
         Group {
             Button(role: .destructive) {
+                let impact = UIImpactFeedbackGenerator(style: .soft)
+                impact.impactOccurred()
                 deleteSession(session)
+                editTip.invalidate(reason: .actionPerformed)
+                
             } label: {
                 Image(systemName: "trash")
             }
             .tint(.red)
             
             Button {
+                let impact = UIImpactFeedbackGenerator(style: .soft)
+                impact.impactOccurred()
                 selectedSession = session
+                editTip.invalidate(reason: .actionPerformed)
+                
             } label: {
                 Image(systemName: "pencil")
             }
