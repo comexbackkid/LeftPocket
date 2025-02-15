@@ -210,5 +210,6 @@ struct CustomTipViewStyle: TipViewStyle {
             }
             .padding()
         }
+        .dynamicTypeSize(...DynamicTypeSize.xLarge)
     }
 }

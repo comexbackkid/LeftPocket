@@ -107,15 +107,12 @@ struct LeftPocketCustomTabBar: View {
                     Button {
                         let impact = UIImpactFeedbackGenerator(style: .medium)
                         impact.impactOccurred()
-                        
                         selectedTab = index
                         
                     } label: {
-                        
                         Spacer()
                         
                         let tabBarImages = ["house.fill", "list.bullet", "cross.fill", "chart.bar.fill", "gearshape.fill"]
-                        
                         Image(systemName: tabBarImages[index])
                             .font(.system(size: index == 2 ? 28 : 22, weight: .black))
                             .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
