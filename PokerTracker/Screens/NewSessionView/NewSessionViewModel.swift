@@ -51,7 +51,8 @@ final class NewSessionViewModel: ObservableObject {
         if sessionType == .cash {
             return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - (Int(cashRebuys) ?? 0)
         } else {
-            return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - tournamentRebuys - totalActionSold
+            let tournamentWinnings = (Int(cashOut) ?? 0) + (Int(bounties) ?? 0)
+            return tournamentWinnings - (Int(buyIn) ?? 0) - tournamentRebuys - totalActionSold
         }
     }
     
@@ -78,7 +79,8 @@ final class NewSessionViewModel: ObservableObject {
     var totalActionSold: Int {
         if sessionType == .tournament {
             let totalPercentage = stakerList.reduce(0) { $0 + $1.percentage }
-            let amountOwed = (Double(cashOut) ?? 0) * totalPercentage
+            let totalWinnings = (Double(cashOut) ?? 0) + (Double(bounties) ?? 0)
+            let amountOwed = totalWinnings * totalPercentage
             return Int(amountOwed)
         } else {
             return 0
@@ -194,6 +196,7 @@ final class NewSessionViewModel: ObservableObject {
                                 highHandBonus: Int(highHandBonus) ?? 0,
                                 isTournament: sessionType == .tournament ? true : false,
                                 rebuyCount: Int(rebuyCount) ?? nil,
+                                bounties: Int(bounties) ?? nil,
                                 tournamentSize: !size.isEmpty ? size : nil,
                                 tournamentSpeed: !speed.isEmpty ? speed : nil,
                                 entrants: Int(entrants),

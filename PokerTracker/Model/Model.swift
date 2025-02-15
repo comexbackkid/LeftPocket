@@ -119,6 +119,7 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     // Tournament Handling
     let isTournament: Bool
     let rebuyCount: Int?
+    let bounties: Int?
     let tournamentSize: String?
     let tournamentSpeed: String?
     let entrants: Int?

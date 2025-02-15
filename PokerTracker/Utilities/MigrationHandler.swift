@@ -41,6 +41,7 @@ class MigrationHandler {
                                 // Tournament Specific Data
                                 isTournament: oldSession.isTournament ?? false,
                                 rebuyCount: oldSession.rebuyCount,
+                                bounties: nil,
                                 tournamentSize: oldSession.tournamentSize,
                                 tournamentSpeed: oldSession.tournamentSpeed,
                                 entrants: oldSession.entrants,

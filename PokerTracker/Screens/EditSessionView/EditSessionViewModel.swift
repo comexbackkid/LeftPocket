@@ -100,6 +100,7 @@ final class EditSessionViewModel: ObservableObject {
                                 highHandBonus: Int(highHandBonus) ?? 0,
                                 isTournament: sessionType == .tournament ? true : false,
                                 rebuyCount: Int(rebuyCount) ?? 0,
+                                bounties: nil,
                                 tournamentSize: size,
                                 tournamentSpeed: speed,
                                 entrants: Int(entrants),

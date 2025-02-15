@@ -499,7 +499,7 @@ struct SessionDetailView: View {
             
             HStack {
                 
-                let cashOut = pokerSession.cashOut
+                let cashOut = pokerSession.cashOut + (pokerSession.bounties ?? 0)
                 Text("Cash Out")
                     .bodyStyle()
                     .foregroundColor(.secondary)
@@ -575,7 +575,8 @@ struct SessionDetailView: View {
                                             
                                             Spacer()
                                             
-                                            let stakersAmountOwed = staker.percentage * Double(pokerSession.cashOut)
+                                            let totalWinnings = Double(pokerSession.cashOut) + Double(pokerSession.bounties ?? 0)
+                                            let stakersAmountOwed = staker.percentage * totalWinnings
                                             
                                             Text(stakersAmountOwed, format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))
                                                 .font(.custom("Asap-Regular", size: 16))
@@ -708,7 +709,7 @@ struct SessionDetailView: View {
         guard let stakers = pokerSession.stakers else { return 0 }
         
         let totalPercentage = stakers.reduce(0) { $0 + $1.percentage }
-        let amountOwed = (Double(pokerSession.cashOut)) * totalPercentage
+        let amountOwed = (Double(pokerSession.cashOut) + Double(pokerSession.bounties ?? 0)) * totalPercentage
         return Int(amountOwed)
     }
 }

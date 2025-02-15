@@ -479,38 +479,6 @@ struct AddNewSessionView: View {
             
             HStack {
                 
-                Image(systemName: "calendar.badge.plus")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
-                
-                Text("Multi-Day")
-                    .bodyStyle()
-                    .padding(.leading, 4)
-                
-                Spacer()
-                
-                if subManager.isSubscribed {
-                    Toggle(isOn: $newSession.multiDayToggle) {
-                        // No Label Needed
-                    }
-                    .tint(.brandPrimary)
-                    .allowsHitTesting(newSession.addDay ? false : true)
-                    
-                } else {
-                    Image(systemName: "lock.fill")
-                        .font(.title2)
-                        .onTapGesture {
-                            showPaywall = true
-                        }
-                }
-            }
-            .padding(.horizontal)
-            .padding(.bottom, 10)
-            .animation(.easeInOut, value: newSession.sessionType)
-            
-            HStack {
-                
                 Image(systemName: "cart.fill")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
@@ -545,6 +513,38 @@ struct AddNewSessionView: View {
                         // No Label Needed
                     }
                     .tint(.brandPrimary)
+                    
+                } else {
+                    Image(systemName: "lock.fill")
+                        .font(.title2)
+                        .onTapGesture {
+                            showPaywall = true
+                        }
+                }
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 10)
+            .animation(.easeInOut, value: newSession.sessionType)
+            
+            HStack {
+                
+                Image(systemName: "calendar.badge.plus")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30)
+                
+                Text("Multi-Day")
+                    .bodyStyle()
+                    .padding(.leading, 4)
+                
+                Spacer()
+                
+                if subManager.isSubscribed {
+                    Toggle(isOn: $newSession.multiDayToggle) {
+                        // No Label Needed
+                    }
+                    .tint(.brandPrimary)
+                    .allowsHitTesting(newSession.addDay ? false : true)
                     
                 } else {
                     Image(systemName: "lock.fill")

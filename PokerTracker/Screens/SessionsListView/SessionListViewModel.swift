@@ -310,6 +310,7 @@ class SessionsListViewModel: ObservableObject {
                        highHandBonus: Int,
                        isTournament: Bool,
                        rebuyCount: Int?,
+                       bounties: Int?,
                        tournamentSize: String?,
                        tournamentSpeed: String?,
                        entrants: Int?,
@@ -319,7 +320,7 @@ class SessionsListViewModel: ObservableObject {
                        endTimeDayTwo: Date?,
                        stakers: [Staker]?) {
         
-        let newSession = PokerSession_v2(location: location, date: date, startTime: startTime, endTime: endTime, game: game, stakes: stakes, buyIn: buyIn, cashOut: cashOut, profit: profit, expenses: expenses, notes: notes, tags: tags, highHandBonus: highHandBonus, isTournament: isTournament, rebuyCount: rebuyCount, tournamentSize: tournamentSize, tournamentSpeed: tournamentSpeed, entrants: entrants, finish: finish, tournamentDays: tournamentDays, startTimeDayTwo: startTimeDayTwo, endTimeDayTwo: endTimeDayTwo, stakers: stakers)
+        let newSession = PokerSession_v2(location: location, date: date, startTime: startTime, endTime: endTime, game: game, stakes: stakes, buyIn: buyIn, cashOut: cashOut, profit: profit, expenses: expenses, notes: notes, tags: tags, highHandBonus: highHandBonus, isTournament: isTournament, rebuyCount: rebuyCount, bounties: bounties, tournamentSize: tournamentSize, tournamentSpeed: tournamentSpeed, entrants: entrants, finish: finish, tournamentDays: tournamentDays, startTimeDayTwo: startTimeDayTwo, endTimeDayTwo: endTimeDayTwo, stakers: stakers)
         
         sessions.append(newSession)
         sessions.sort(by: { $0.date > $1.date })
