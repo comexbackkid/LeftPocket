@@ -14,48 +14,30 @@ extension SessionsListViewModel {
         switch bankroll {
         case .all:
             switch range {
-            case .all:
-                return sessions.count
-            case .oneMonth:
-                return filterSessionsLastMonth().count
-            case .threeMonth:
-                return filterSessionsLastThreeMonths().count
-            case .sixMonth:
-                return filterSessionsLastSixMonths().count
-            case .oneYear:
-                return filterSessionsLastTwelveMonths().count
-            case .ytd:
-                return filterSessionsYTD().count
+            case .all: return sessions.count
+            case .oneMonth: return filterSessionsLastMonth().count
+            case .threeMonth: return filterSessionsLastThreeMonths().count
+            case .sixMonth: return filterSessionsLastSixMonths().count
+            case .oneYear: return filterSessionsLastTwelveMonths().count
+            case .ytd: return filterSessionsYTD().count
             }
         case .cash:
             switch range {
-            case .all:
-                return allCashSessions().count
-            case .oneMonth:
-                return filterSessionsLastMonth().filter { $0.isTournament != true }.count
-            case .threeMonth:
-                return filterSessionsLastThreeMonths().filter { $0.isTournament != true }.count
-            case .sixMonth:
-                return filterSessionsLastSixMonths().filter { $0.isTournament != true }.count
-            case .oneYear:
-                return filterSessionsLastTwelveMonths().filter { $0.isTournament != true }.count
-            case .ytd:
-                return filterSessionsYTD().filter { $0.isTournament != true }.count
+            case .all: return allCashSessions().count
+            case .oneMonth: return filterSessionsLastMonth().filter { $0.isTournament != true }.count
+            case .threeMonth: return filterSessionsLastThreeMonths().filter { $0.isTournament != true }.count
+            case .sixMonth: return filterSessionsLastSixMonths().filter { $0.isTournament != true }.count
+            case .oneYear: return filterSessionsLastTwelveMonths().filter { $0.isTournament != true }.count
+            case .ytd: return filterSessionsYTD().filter { $0.isTournament != true }.count
             }
         case .tournaments:
             switch range {
-            case .all:
-                return allTournamentSessions().count
-            case .oneMonth:
-                return filterSessionsLastMonth().filter { $0.isTournament == true }.count
-            case .threeMonth:
-                return filterSessionsLastThreeMonths().filter { $0.isTournament == true }.count
-            case .sixMonth:
-                return filterSessionsLastSixMonths().filter { $0.isTournament == true }.count
-            case .oneYear:
-                return filterSessionsLastTwelveMonths().filter { $0.isTournament == true }.count
-            case .ytd:
-                return filterSessionsYTD().filter { $0.isTournament == true }.count
+            case .all: return allTournamentSessions().count
+            case .oneMonth: return filterSessionsLastMonth().filter { $0.isTournament == true }.count
+            case .threeMonth: return filterSessionsLastThreeMonths().filter { $0.isTournament == true }.count
+            case .sixMonth: return filterSessionsLastSixMonths().filter { $0.isTournament == true }.count
+            case .oneYear: return filterSessionsLastTwelveMonths().filter { $0.isTournament == true }.count
+            case .ytd: return filterSessionsYTD().filter { $0.isTournament == true }.count
             }
         }
     }
@@ -67,54 +49,37 @@ extension SessionsListViewModel {
         
         if let yearExcluded = yearExcluded {
             return sessions.filter({ $0.date.getYear() != yearExcluded }).map { Int($0.profit) }.reduce(0, +)
+            
         } else  {
             switch bankroll {
             case .all:
                 switch range {
-                case .all:
-                    return sessions.map { Int($0.profit) }.reduce(0, +)
-                case .oneMonth:
-                    return filterSessionsLastMonth().map { Int($0.profit) }.reduce(0, +)
-                case .threeMonth:
-                    return filterSessionsLastThreeMonths().map { Int($0.profit) }.reduce(0, +)
-                case .sixMonth:
-                    return filterSessionsLastSixMonths().map { Int($0.profit) }.reduce(0, +)
-                case .oneYear:
-                    return filterSessionsLastTwelveMonths().map { Int($0.profit) }.reduce(0, +)
-                case .ytd:
-                    return filterSessionsYTD().map { Int($0.profit) }.reduce(0, +)
+                case .all: return sessions.map { Int($0.profit) }.reduce(0, +)
+                case .oneMonth: return filterSessionsLastMonth().map { Int($0.profit) }.reduce(0, +)
+                case .threeMonth: return filterSessionsLastThreeMonths().map { Int($0.profit) }.reduce(0, +)
+                case .sixMonth: return filterSessionsLastSixMonths().map { Int($0.profit) }.reduce(0, +)
+                case .oneYear: return filterSessionsLastTwelveMonths().map { Int($0.profit) }.reduce(0, +)
+                case .ytd: return filterSessionsYTD().map { Int($0.profit) }.reduce(0, +)
                 }
                 
             case .cash:
                 switch range {
-                case .all:
-                    return allCashSessions().map { Int($0.profit) }.reduce(0, +)
-                case .oneMonth:
-                    return filterSessionsLastMonth().filter { $0.isTournament != true }.map { Int($0.profit) }.reduce(0, +)
-                case .threeMonth:
-                    return filterSessionsLastThreeMonths().filter { $0.isTournament != true }.map { Int($0.profit) }.reduce(0, +)
-                case .sixMonth:
-                    return filterSessionsLastSixMonths().filter { $0.isTournament != true }.map { Int($0.profit) }.reduce(0, +)
-                case .oneYear:
-                    return filterSessionsLastTwelveMonths().filter { $0.isTournament != true }.map { Int($0.profit) }.reduce(0, +)
-                case .ytd:
-                    return filterSessionsYTD().filter { $0.isTournament != true }.map { Int($0.profit) }.reduce(0, +)
+                case .all: return allCashSessions().map { Int($0.profit) }.reduce(0, +)
+                case .oneMonth: return filterSessionsLastMonth().filter { $0.isTournament != true }.map { Int($0.profit) }.reduce(0, +)
+                case .threeMonth: return filterSessionsLastThreeMonths().filter { $0.isTournament != true }.map { Int($0.profit) }.reduce(0, +)
+                case .sixMonth: return filterSessionsLastSixMonths().filter { $0.isTournament != true }.map { Int($0.profit) }.reduce(0, +)
+                case .oneYear: return filterSessionsLastTwelveMonths().filter { $0.isTournament != true }.map { Int($0.profit) }.reduce(0, +)
+                case .ytd: return filterSessionsYTD().filter { $0.isTournament != true }.map { Int($0.profit) }.reduce(0, +)
                 }
                 
             case .tournaments:
                 switch range {
-                case .all:
-                    return allTournamentSessions().map { Int($0.profit) }.reduce(0, +)
-                case .oneMonth:
-                    return filterSessionsLastMonth().filter { $0.isTournament == true }.map { Int($0.profit) }.reduce(0, +)
-                case .threeMonth:
-                    return filterSessionsLastThreeMonths().filter { $0.isTournament == true }.map { Int($0.profit) }.reduce(0, +)
-                case .sixMonth:
-                    return filterSessionsLastSixMonths().filter { $0.isTournament == true }.map { Int($0.profit) }.reduce(0, +)
-                case .oneYear:
-                    return filterSessionsLastTwelveMonths().filter { $0.isTournament == true }.map { Int($0.profit) }.reduce(0, +)
-                case .ytd:
-                    return filterSessionsYTD().filter { $0.isTournament == true }.map { Int($0.profit) }.reduce(0, +)
+                case .all: return allTournamentSessions().map { Int($0.profit) }.reduce(0, +)
+                case .oneMonth: return filterSessionsLastMonth().filter { $0.isTournament == true }.map { Int($0.profit) }.reduce(0, +)
+                case .threeMonth: return filterSessionsLastThreeMonths().filter { $0.isTournament == true }.map { Int($0.profit) }.reduce(0, +)
+                case .sixMonth: return filterSessionsLastSixMonths().filter { $0.isTournament == true }.map { Int($0.profit) }.reduce(0, +)
+                case .oneYear: return filterSessionsLastTwelveMonths().filter { $0.isTournament == true }.map { Int($0.profit) }.reduce(0, +)
+                case .ytd: return filterSessionsYTD().filter { $0.isTournament == true }.map { Int($0.profit) }.reduce(0, +)
                 }
             }
         }
@@ -130,50 +95,32 @@ extension SessionsListViewModel {
                 switch bankroll {
                 case .all:
                     switch range {
-                    case .all:
-                        return sessions
-                    case .oneMonth:
-                        return filterSessionsLastMonth()
-                    case .threeMonth:
-                        return filterSessionsLastThreeMonths()
-                    case .sixMonth:
-                        return filterSessionsLastSixMonths()
-                    case .oneYear:
-                        return filterSessionsLastTwelveMonths()
-                    case .ytd:
-                        return filterSessionsYTD()
+                    case .all: return sessions
+                    case .oneMonth: return filterSessionsLastMonth()
+                    case .threeMonth: return filterSessionsLastThreeMonths()
+                    case .sixMonth: return filterSessionsLastSixMonths()
+                    case .oneYear: return filterSessionsLastTwelveMonths()
+                    case .ytd: return filterSessionsYTD()
                     }
                     
                 case .cash:
                     switch range {
-                    case .all:
-                        return allCashSessions()
-                    case .oneMonth:
-                        return filterSessionsLastMonth().filter { $0.isTournament != true }
-                    case .threeMonth:
-                        return filterSessionsLastThreeMonths().filter { $0.isTournament != true }
-                    case .sixMonth:
-                        return filterSessionsLastSixMonths().filter { $0.isTournament != true }
-                    case .oneYear:
-                        return filterSessionsLastTwelveMonths().filter { $0.isTournament != true }
-                    case .ytd:
-                        return filterSessionsYTD().filter { $0.isTournament != true }
+                    case .all: return allCashSessions()
+                    case .oneMonth: return filterSessionsLastMonth().filter { $0.isTournament != true }
+                    case .threeMonth: return filterSessionsLastThreeMonths().filter { $0.isTournament != true }
+                    case .sixMonth: return filterSessionsLastSixMonths().filter { $0.isTournament != true }
+                    case .oneYear: return filterSessionsLastTwelveMonths().filter { $0.isTournament != true }
+                    case .ytd: return filterSessionsYTD().filter { $0.isTournament != true }
                     }
                     
                 case .tournaments:
                     switch range {
-                    case .all:
-                        return allTournamentSessions()
-                    case .oneMonth:
-                        return filterSessionsLastMonth().filter { $0.isTournament == true }
-                    case .threeMonth:
-                        return filterSessionsLastThreeMonths().filter { $0.isTournament == true }
-                    case .sixMonth:
-                        return filterSessionsLastSixMonths().filter { $0.isTournament == true }
-                    case .oneYear:
-                        return filterSessionsLastTwelveMonths().filter { $0.isTournament == true }
-                    case .ytd:
-                        return filterSessionsYTD().filter { $0.isTournament == true }
+                    case .all: return allTournamentSessions()
+                    case .oneMonth: return filterSessionsLastMonth().filter { $0.isTournament == true }
+                    case .threeMonth: return filterSessionsLastThreeMonths().filter { $0.isTournament == true }
+                    case .sixMonth: return filterSessionsLastSixMonths().filter { $0.isTournament == true }
+                    case .oneYear: return filterSessionsLastTwelveMonths().filter { $0.isTournament == true }
+                    case .ytd: return filterSessionsYTD().filter { $0.isTournament == true }
                     }
                 }
             }
@@ -200,31 +147,23 @@ extension SessionsListViewModel {
         
         if let yearExcluded = yearExcluded {
             sessionsArray = sessions.filter({ $0.date.getYear() != yearExcluded })
+            
         } else {
             switch range {
-            case .all:
-                sessionsArray = sessions.filter { $0.isTournament != true }
-            case .oneMonth:
-                sessionsArray = filterSessionsLastMonth().filter { $0.isTournament != true }
-            case .threeMonth:
-                sessionsArray = filterSessionsLastThreeMonths().filter { $0.isTournament != true }
-            case .sixMonth:
-                sessionsArray = filterSessionsLastSixMonths().filter { $0.isTournament != true }
-            case .oneYear:
-                sessionsArray = filterSessionsLastTwelveMonths().filter { $0.isTournament != true }
-            case .ytd:
-                sessionsArray = filterSessionsYTD().filter { $0.isTournament != true }
+            case .all: sessionsArray = sessions.filter { $0.isTournament != true }
+            case .oneMonth: sessionsArray = filterSessionsLastMonth().filter { $0.isTournament != true }
+            case .threeMonth: sessionsArray = filterSessionsLastThreeMonths().filter { $0.isTournament != true }
+            case .sixMonth: sessionsArray = filterSessionsLastSixMonths().filter { $0.isTournament != true }
+            case .oneYear: sessionsArray = filterSessionsLastTwelveMonths().filter { $0.isTournament != true }
+            case .ytd: sessionsArray = filterSessionsYTD().filter { $0.isTournament != true }
             }
         }
         
         guard !sessionsArray.isEmpty else { return 0 }
-        
         let totalBigBlindsWon = Float(sessionsArray.map({ $0.bigBlindsWon }).reduce(0, +))
-        
         let totalHours = Float(sessionsArray.map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+))
         let totalMinutes = Float(sessionsArray.map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
         let totalTime = totalHours + (totalMinutes / 60)
-       
         let result = Double(totalBigBlindsWon / totalTime)
         return (result * 100).rounded() / 100
     }
@@ -233,18 +172,12 @@ extension SessionsListViewModel {
         
         var sessionsArray: [PokerSession_v2] {
             switch range {
-            case .all:
-                return sessions
-            case .oneMonth:
-                return filterSessionsLastMonth()
-            case .threeMonth:
-                return filterSessionsLastThreeMonths()
-            case .sixMonth:
-                return filterSessionsLastSixMonths()
-            case .oneYear:
-                return filterSessionsLastTwelveMonths()
-            case .ytd:
-                return filterSessionsYTD()
+            case .all: return sessions
+            case .oneMonth: return filterSessionsLastMonth()
+            case .threeMonth: return filterSessionsLastThreeMonths()
+            case .sixMonth: return filterSessionsLastSixMonths()
+            case .oneYear: return filterSessionsLastTwelveMonths()
+            case .ytd: return filterSessionsYTD()
             }
         }
         
@@ -283,7 +216,6 @@ extension SessionsListViewModel {
         // Calculate average ROI
         guard totalInvested > 0 else { return "0%" }
         let avgROI = (Double(totalWinnings) - Double(totalInvested)) / Double(totalInvested)
-        
         return avgROI.asPercent()
     }
     
@@ -293,50 +225,32 @@ extension SessionsListViewModel {
             switch bankroll {
             case .all:
                 switch range {
-                case .all:
-                    return sessions
-                case .oneMonth:
-                    return filterSessionsLastMonth()
-                case .threeMonth:
-                    return filterSessionsLastThreeMonths()
-                case .sixMonth:
-                    return filterSessionsLastSixMonths()
-                case .oneYear:
-                    return filterSessionsLastTwelveMonths()
-                case .ytd:
-                    return filterSessionsYTD()
+                case .all: return sessions
+                case .oneMonth: return filterSessionsLastMonth()
+                case .threeMonth: return filterSessionsLastThreeMonths()
+                case .sixMonth: return filterSessionsLastSixMonths()
+                case .oneYear: return filterSessionsLastTwelveMonths()
+                case .ytd: return filterSessionsYTD()
                 }
                 
             case .cash:
                 switch range {
-                case .all:
-                    return allCashSessions()
-                case .oneMonth:
-                    return filterSessionsLastMonth().filter { $0.isTournament != true }
-                case .threeMonth:
-                    return filterSessionsLastThreeMonths().filter { $0.isTournament != true }
-                case .sixMonth:
-                    return filterSessionsLastSixMonths().filter { $0.isTournament != true }
-                case .oneYear:
-                    return filterSessionsLastTwelveMonths().filter { $0.isTournament != true }
-                case .ytd:
-                    return filterSessionsYTD().filter { $0.isTournament != true }
+                case .all: return allCashSessions()
+                case .oneMonth: return filterSessionsLastMonth().filter { $0.isTournament != true }
+                case .threeMonth: return filterSessionsLastThreeMonths().filter { $0.isTournament != true }
+                case .sixMonth: return filterSessionsLastSixMonths().filter { $0.isTournament != true }
+                case .oneYear: return filterSessionsLastTwelveMonths().filter { $0.isTournament != true }
+                case .ytd: return filterSessionsYTD().filter { $0.isTournament != true }
                 }
                 
             case .tournaments:
                 switch range {
-                case .all:
-                    return allTournamentSessions()
-                case .oneMonth:
-                    return filterSessionsLastMonth().filter { $0.isTournament == true }
-                case .threeMonth:
-                    return filterSessionsLastThreeMonths().filter { $0.isTournament == true }
-                case .sixMonth:
-                    return filterSessionsLastSixMonths().filter { $0.isTournament == true }
-                case .oneYear:
-                    return filterSessionsLastTwelveMonths().filter { $0.isTournament == true }
-                case .ytd:
-                    return filterSessionsYTD().filter { $0.isTournament == true }
+                case .all: return allTournamentSessions()
+                case .oneMonth: return filterSessionsLastMonth().filter { $0.isTournament == true }
+                case .threeMonth: return filterSessionsLastThreeMonths().filter { $0.isTournament == true }
+                case .sixMonth: return filterSessionsLastSixMonths().filter { $0.isTournament == true }
+                case .oneYear: return filterSessionsLastTwelveMonths().filter { $0.isTournament == true }
+                case .ytd: return filterSessionsYTD().filter { $0.isTournament == true }
                 }
             }
         }

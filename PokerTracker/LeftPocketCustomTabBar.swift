@@ -274,7 +274,7 @@ struct LeftPocketCustomTabBar: View {
                 .tipViewStyle(CustomTipViewStyle())
                 .padding(.horizontal, 20)
             
-            if viewModel.sessions.count == 2 {
+            if viewModel.sessions.count == 3 {
                 
                 let settingsTip = SettingsTip()
                 TipView(settingsTip)

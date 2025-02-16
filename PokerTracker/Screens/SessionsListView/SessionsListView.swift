@@ -104,6 +104,7 @@ struct SessionsListView: View {
     }
     
     let editTip = SessionsListTip()
+    let filterTip = FilterSessionsTip()
     
     var body: some View {
         
@@ -200,6 +201,9 @@ struct SessionsListView: View {
                 toolbarFilter
             }
             .onAppear {
+                if vm.sessions.count > 1 {
+                    SessionsListTip.shouldShow = false
+                }
                 if !datesInitialized {
                     startDate = firstSessionDate
                     datesInitialized = true
@@ -314,7 +318,10 @@ struct SessionsListView: View {
             
         } label: {
             Image(systemName: "slider.horizontal.3")
+                
         }
+        .popoverTip(filterTip)
+        .tipViewStyle(CustomTipViewStyle())
         .sheet(isPresented: $showDateFilter, content: {
             DateFilter(startDate: $startDate, endDate: $endDate)
                 .presentationDetents([.height(350)])
@@ -376,18 +383,18 @@ struct SessionsListView: View {
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
     
-    var filterTip: some View {
-        
-        VStack {
-            let filterTip = FilterSessionsTip()
-            
-            TipView(filterTip)
-                .tipViewStyle(CustomTipViewStyle())
-                .padding(20)
-            
-            Spacer()
-        }
-    }
+//    var filterTip: some View {
+//        
+//        VStack {
+//            let filterTip = FilterSessionsTip()
+//            
+//            TipView(filterTip)
+//                .tipViewStyle(CustomTipViewStyle())
+//                .padding(20)
+//            
+//            Spacer()
+//        }
+//    }
     
     private func swipeActions(_ session: PokerSession_v2) -> some View {
         Group {

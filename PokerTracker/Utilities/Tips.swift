@@ -70,6 +70,9 @@ struct MeditationTip: Tip {
 
 struct SessionsListTip: Tip {
     
+    @Parameter
+    static var shouldShow: Bool = true
+    
     var title: Text {
         Text("Edit Sessions")
     }
@@ -80,6 +83,13 @@ struct SessionsListTip: Tip {
     
     var image: Image? {
         Image(systemName: "hand.draw")
+    }
+    
+    var rules: [Rule] {
+        
+        #Rule(Self.$shouldShow) {
+            $0 == true
+        }
     }
 }
 
@@ -125,7 +135,7 @@ struct FilterSessionsTip: Tip {
     }
     
     var message: Text? {
-        Text("Tap \(Image(systemName: "slider.horizontal.3")) above to filter Sessions by location, game type, stakes, etc. View transactions by pressing the \(Image(systemName: "creditcard.fill")) button.")
+        Text("Tap \(Image(systemName: "slider.horizontal.3")) to filter by location, game type, stakes, etc. View transactions by pressing the \(Image(systemName: "creditcard.fill")) button.")
     }
     
     var image: Image? {
