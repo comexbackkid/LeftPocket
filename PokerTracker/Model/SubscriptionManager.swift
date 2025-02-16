@@ -23,8 +23,13 @@ class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
         Purchases.shared.delegate = self
         Purchases.shared.attribution.collectDeviceIdentifiers()
         
-        rcUserID = Purchases.shared.appUserID
-        print("Your RevenueCat UserID is: " + rcUserID)
+        let appUserID = Purchases.shared.appUserID
+        if appUserID.isEmpty {
+            print("RevenueCat appUserID is empty, generating anonymous ID")
+        } else {
+            rcUserID = appUserID
+            print("Your RevenueCat UserID is: \(rcUserID)")
+        }
         
         Task {
             await self.checkSubscriptionStatus()
@@ -36,9 +41,15 @@ class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
     func checkSubscriptionStatus() async {
         do {
             let customerInfo = try await Purchases.shared.customerInfo()
-            self.isSubscribed = customerInfo.entitlements["premium"]?.isActive == true
+            if let isActive = customerInfo.entitlements["premium"]?.isActive {
+                self.isSubscribed = isActive
+                
+            } else {
+                print("Premium entitlement missing or nil")
+            }
+            
         } catch {
-            print("Problem checking subscription status: \(error)")
+            print("Problem checking subscription status: \(error.localizedDescription)")
         }
     }
     
