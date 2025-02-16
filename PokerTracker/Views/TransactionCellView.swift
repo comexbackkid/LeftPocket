@@ -23,7 +23,8 @@ struct TransactionCellView: View {
                 
                 HStack {
                     Text(transaction.type.description)
-                        .bodyStyle()
+                        .font(.custom("Asap-Regular", size: 17))
+                        .lineSpacing(2.5)
                         .lineLimit(1)
                     
                     if transaction.tags != nil {

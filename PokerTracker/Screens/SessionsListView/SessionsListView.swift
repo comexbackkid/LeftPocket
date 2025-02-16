@@ -383,19 +383,6 @@ struct SessionsListView: View {
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
     
-//    var filterTip: some View {
-//        
-//        VStack {
-//            let filterTip = FilterSessionsTip()
-//            
-//            TipView(filterTip)
-//                .tipViewStyle(CustomTipViewStyle())
-//                .padding(20)
-//            
-//            Spacer()
-//        }
-//    }
-    
     private func swipeActions(_ session: PokerSession_v2) -> some View {
         Group {
             Button(role: .destructive) {

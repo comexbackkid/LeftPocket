@@ -27,7 +27,8 @@ struct CellView: View {
                 
                 HStack {
                     Text(pokerSession.location.name)
-                        .bodyStyle()
+                        .font(.custom("Asap-Regular", size: 17))
+                        .lineSpacing(2.5)
                         .lineLimit(1)
                     
                     if !pokerSession.tags.isEmpty {
@@ -70,7 +71,6 @@ struct CellView: View {
                             }
                             
                         } else {
-                            
                             Text("\(currency.symbol)" + pokerSession.stakes + " • ")
                                 .captionStyle()
                                 .foregroundColor(.secondary)
