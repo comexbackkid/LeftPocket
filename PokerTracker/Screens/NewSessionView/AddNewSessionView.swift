@@ -971,7 +971,7 @@ struct AddNewSessionView: View {
                 
                 HStack {
                     
-                    Text("#")
+                    Image(systemName: "medal.fill")
                         .font(.callout)
                         .frame(width: 15)
                         .foregroundColor(newSession.finish.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
