@@ -81,7 +81,16 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
+    /// User reported a crash upon launch immediately
+    /// Experimenting with safer handling of URLs and JSON files during init
+    /// Our default fallback for the timebeing will be to just assign sessions as an empty array if there are any fails
     func getNewSessions() {
+        guard FileManager.default.fileExists(atPath: newSessionsPath.path) else {
+            print("No sessions file found, initializing with empty array.")
+            self.sessions = []
+            return
+        }
+        
         do {
             let data = try Data(contentsOf: newSessionsPath)
             let savedSessions = try JSONDecoder().decode([PokerSession_v2].self, from: data)
@@ -90,6 +99,7 @@ class SessionsListViewModel: ObservableObject {
             
         } catch {
             print("Failed to load sessions: \(error.localizedDescription)")
+            self.sessions = []
             alertMessage = "Could not load your session data."
         }
     }
@@ -187,16 +197,19 @@ class SessionsListViewModel: ObservableObject {
         userStakes.sort()
     }
     
+    /// Potential crash point, we were previously assuming UserDefaults had a currencyDefault set
+    /// Now, we're providing a fallback value of USD to be safe
     func getUserCurrency() {
         let defaults = UserDefaults.standard
         
-        guard
-            let data = defaults.object(forKey: "currencyDefault") as? Data,
-            let currency = try? JSONDecoder().decode(CurrencyType.self, from: data)
-                
-        else { return }
-        
-        userCurrency = currency
+        if let data = defaults.data(forKey: "currencyDefault"),
+           let currency = try? JSONDecoder().decode(CurrencyType.self, from: data) {
+            userCurrency = currency
+            
+        } else {
+            userCurrency = .USD // Provide a default value
+            print("No currencyDefault found, defaulting to USD")
+        }
     }
     
     // MARK: CALCULATIONS & DATA PRESENTATION FOR CHARTS & METRICS VIEW
@@ -343,12 +356,16 @@ class SessionsListViewModel: ObservableObject {
     
     // MARK: WIDGET FUNCTIONS
     
+    /// Another potential crash point
+    /// Added a safety check if the UserDefaults for the AppGroup fails
     func writeToWidget() {
         
         guard let defaults = UserDefaults(suiteName: AppGroup.bankrollSuite) else {
-            print("Unable to write to User Defaults!")
+            print("Error: App Group UserDefaults not found.")
             return
         }
+        
+        self.convertToLineChartData()
 
         defaults.set(self.tallyBankroll(bankroll: .all), forKey: AppGroup.bankrollKey)
         defaults.set(self.sessions.first?.profit ?? 0, forKey: AppGroup.lastSessionKey)
@@ -356,13 +373,13 @@ class SessionsListViewModel: ObservableObject {
         defaults.set(self.sessions.count, forKey: AppGroup.totalSessionsKey)
         defaults.set(self.userCurrency.rawValue, forKey: AppGroup.currencyKey)
         
-        self.convertToLineChartData()
-        
-        guard let swiftChartData = try? JSONEncoder().encode(self.convertedLineChartData) else {
-            print("Error writing chart data")
-            return
+        if let swiftChartData = try? JSONEncoder().encode(self.convertedLineChartData) {
+            defaults.set(swiftChartData, forKey: AppGroup.swiftChartKey)
+            
+        } else {
+            print("Error writing chart data.")
         }
-        defaults.set(swiftChartData, forKey: AppGroup.swiftChartKey)
+        
         WidgetCenter.shared.reloadAllTimelines()
     }
     
@@ -387,82 +404,6 @@ class SessionsListViewModel: ObservableObject {
         let loggedThisMonth = sessionsLoggedThisMonth(sessions)
         return loggedThisMonth < 4
     }
-    
-//    func generateDummyPokerSessions(count: Int,
-//                                    startDate: Date,
-//                                    endDate: Date,
-//                                    locations: [LocationModel_v2],
-//                                    maxCashOut: Int) {
-//        
-//        var dummySessions: [PokerSession_v2] = []
-//        let calendar = Calendar.current
-//        
-//        // Possible values
-//        let gameTypes = ["NL Texas Hold Em"]
-//        let stakesOptions = ["1/3"]
-//        
-//        for _ in 0..<count {
-//            // Random Date in Range
-//            let randomTimeInterval = TimeInterval.random(in: startDate.timeIntervalSince1970...endDate.timeIntervalSince1970)
-//            let randomDate = Date(timeIntervalSince1970: randomTimeInterval)
-//            
-//            // Random Start Time (between 12 PM - 10 PM)
-//            let startTime = calendar.date(bySettingHour: Int.random(in: 12...22), minute: Int.random(in: 0...59), second: 0, of: randomDate) ?? randomDate
-//            
-//            // Random session duration (2 to 8 hours)
-//            let sessionDuration = TimeInterval(Int.random(in: 7200...28800)) // 2 - 8 hours
-//            let endTime = startTime.addingTimeInterval(sessionDuration)
-//            
-//            // Random Location
-//            let location = locations.randomElement() ?? MockData.mockLocation
-//            
-//            // Random Game & Stakes
-//            let game = gameTypes.randomElement() ?? "No Limit Hold'em"
-//            let stakes = stakesOptions.randomElement() ?? "1/3"
-//            
-//            // Random Profit & Buy-In
-//            
-//            let buyIn = 500 // Buy-in range
-//            let cashOut = Int.random(in: 0...maxCashOut) // Cash-out calculation
-//            let profit = cashOut - buyIn
-//            
-//            // Random Expenses
-//            let expenses = Int.random(in: 0...250)
-//            
-//            // Create the Session
-//            let session = PokerSession_v2(
-//                id: UUID(),
-//                location: location,
-//                date: randomDate,
-//                startTime: startTime,
-//                endTime: endTime,
-//                game: game,
-//                stakes: stakes,
-//                buyIn: buyIn,
-//                cashOut: cashOut,
-//                profit: profit,
-//                expenses: expenses,
-//                notes: "",
-//                tags: [],
-//                highHandBonus: 0,
-//                isTournament: false,
-//                rebuyCount: nil,
-//                tournamentSize: nil,
-//                tournamentSpeed: nil,
-//                entrants: nil,
-//                finish: nil,
-//                tournamentDays: nil,
-//                startTimeDayTwo: nil,
-//                endTimeDayTwo: nil
-//            )
-//            
-//            dummySessions.append(session)
-//        }
-//        
-//        let fakeSessions = dummySessions
-//        sessions += fakeSessions
-//        sessions.sort(by: { $0.date > $1.date })
-//    }
 }
 
 extension SessionsListViewModel {
