@@ -52,7 +52,7 @@ struct OnboardingView: View {
             AllowNotifications(showDismissButton: false, nextAction: nextPage, shouldShowOnboarding: $shouldShowOnboarding).tag(4)
             
             PageView(title: "Know When to Move Up",
-                     subtitle: Text("Insightful charts, progress rings, & player metrics help keep your finger on the pulse of your performance so you know exactly when to climb stakes."),
+                     subtitle: Text("Insightful charts, progress rings, & crucial player metrics will guide you & advise when it's safe to take a shot at higher stakes."),
                      videoURL: "metrics-screen",
                      showDismissButton: false, player: players["metrics-screen"],
                      nextAction: nextPage,
@@ -80,13 +80,13 @@ struct OnboardingView: View {
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(8)
             
             PageView(title: "Advanced Data Metrics",
-                     subtitle: Text("One place for all your important player data. Reports & analytics on location performance, stakes, monthly returns, & so much more."),
+                     subtitle: Text("One place for all your important player data. Detailed reports on location performance, stakes, tournament analytics, & so much more."),
                      videoURL: "advanced-reporting",
                      showDismissButton: false, player: players["advanced-reporting"],
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(9)
             
-            PageView(title: "Health & Mental Clarity",
+            PageView(title: "Health & Mindfulness",
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours & mindful minutes in our Health Analytics page, & integrate these numbers measured by other devices, like an Apple Watch."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],

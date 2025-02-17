@@ -58,6 +58,7 @@ struct RedeemOfferCode: View {
             if isSubscribed {
                 message = "Offer code redeemed successfully! Enjoy Left Pocket Pro."
                 showAlertModal = true
+                
             } else {
                 message = "Please enter a valid offer code."
                 print("There was an error with your offer code.")
@@ -69,7 +70,6 @@ struct RedeemOfferCode: View {
                 .presentationBackground(.ultraThinMaterial)
             
         })
-
     }
 
     private func redeemOfferCode() {

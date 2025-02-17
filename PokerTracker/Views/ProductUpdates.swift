@@ -38,24 +38,30 @@ struct ProductUpdates: View {
     
     var headerImage: some View {
         
-        Image("sleep-analytics-promo")
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(height: 260)
-            .frame(maxWidth: UIScreen.main.bounds.width)
-            .clipped()
-            .padding(.bottom, 5)
+        VStack {
+            Text("🎉")
+                .font(.custom("Asap-Regular", size: 62))
+                .padding(.top, 50)
+        }
+        
+//        Image("sleep-analytics-promo")
+//            .resizable()
+//            .aspectRatio(contentMode: .fill)
+//            .frame(height: 200)
+//            .frame(maxWidth: UIScreen.main.bounds.width)
+//            .clipped()
+//            .padding(.bottom, 5)
         
     }
     
     var title: some View {
         
         HStack {
-            Text("What's New 🎉")
-                .font(.custom("Asap-Black", size: 34))
+            Text("What's New in Left Pocket")
+                .font(.custom("Asap-Black", size: 38))
                 .bold()
-            
-            Spacer()
+                .multilineTextAlignment(.center)
+                .padding(.bottom, 25)
         }
         
     }
@@ -65,18 +71,16 @@ struct ProductUpdates: View {
         HStack {
             
             let updates = [
+                "Tournament bounties are now available to track for Pro subscribers.",
                 "Poker Mindfulness is here! Track your meditation habits & correlation to poker results.",
                 "Now you can log rebuys for both Completed Sessions & Live Sessions.",
                 "Session Tags! Add a tag to your Session for custom grouping & reporting for trips or challenges.",
             ]
             
             VStack (alignment: .leading, spacing: 20) {
-                Text("We've brought some exciting new features to Left Pocket v\(getAppVersion()) that we hope you'll enjoy.")
-                    .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
-                    .padding(.bottom, 30)
                 
                 HStack (alignment: .center, spacing: 18) {
-                    Image(systemName: "figure.mind.and.body")
+                    Image(systemName: "scope")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 35, height: 35)
@@ -90,7 +94,7 @@ struct ProductUpdates: View {
                 .padding(.horizontal)
                 
                 HStack (alignment: .center, spacing: 18) {
-                    Image(systemName: "dollarsign.arrow.circlepath")
+                    Image(systemName: "figure.mind.and.body")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 35, height: 35)
@@ -104,7 +108,7 @@ struct ProductUpdates: View {
                 .padding(.horizontal)
                 
                 HStack (alignment: .center, spacing: 18) {
-                    Image(systemName: "tag.fill")
+                    Image(systemName: "dollarsign.arrow.circlepath")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 35, height: 35)
@@ -112,6 +116,20 @@ struct ProductUpdates: View {
                         .foregroundStyle(Color.brandPrimary)
                     
                     Text(updates[2])
+                        .bodyStyle()
+                }
+                .padding(.bottom, 6)
+                .padding(.horizontal)
+                
+                HStack (alignment: .center, spacing: 18) {
+                    Image(systemName: "tag.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 35, height: 35)
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.brandPrimary)
+                    
+                    Text(updates[3])
                         .bodyStyle()
                 }
                 .padding(.bottom, 6)
