@@ -49,7 +49,9 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(3)
             
-            AllowNotifications(showDismissButton: false, nextAction: nextPage, shouldShowOnboarding: $shouldShowOnboarding).tag(4)
+            AllowNotifications(showDismissButton: false,
+                               nextAction: nextPage,
+                               shouldShowOnboarding: $shouldShowOnboarding).tag(4)
             
             PageView(title: "Know When to Move Up",
                      subtitle: Text("Insightful charts, progress rings, & crucial player metrics will guide you & advise when it's safe to take a shot at higher stakes."),
@@ -58,40 +60,44 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(5)
             
+            StudyHabits(showDismissButton: false,
+                        nextAction: nextPage,
+                        shouldShowOnboarding: $shouldShowOnboarding).tag(6)
+            
             PageView(title: "Custom Location Images",
                      subtitle: Text("Add your own custom locations and header photos. Just navigate to the Settings \(Image(systemName: "gearshape.fill")) screen, tap on Locations, and then press the \(Image(systemName: "plus")) button."),
                      videoURL: "custom-locations",
                      showDismissButton: false, player: players["custom-locations"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(6)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(7)
             
             PageView(title: "Session Tags & Reports",
                      subtitle: Text("Sessions & Transactions with a Tag \(Image(systemName: "tag.fill")) you created can be filtered & grouped together in a custom report for things like a trip, or bankroll challenge."),
                      videoURL: "tag-reporting",
                      showDismissButton: false, player: players["tag-reporting"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(7)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(8)
             
             PageView(title: "Home Screen Widgets",
                      subtitle: Text("Touch & hold an empty area of your home screen until the apps jiggle. Then press the \"Edit\" button, followed by \"Add Widget,\" & search for Left Pocket."),
                      videoURL: "homescreen-widget",
                      showDismissButton: false, player: players["homescreen-widget"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(8)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(9)
             
             PageView(title: "Advanced Data Metrics",
                      subtitle: Text("One place for all your important player data. Detailed reports on location performance, stakes, tournament analytics, & so much more."),
                      videoURL: "advanced-reporting",
                      showDismissButton: false, player: players["advanced-reporting"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(9)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(10)
             
             PageView(title: "Health & Mindfulness",
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours & mindful minutes in our Health Analytics page, & integrate these numbers measured by other devices, like an Apple Watch."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],
                      nextAction: { hkManager.requestAuthorization() },
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(10)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(11)
         }
         .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)
@@ -331,7 +337,7 @@ struct StartingBankroll: View {
                     .fontWeight(.black)
                     .padding(.bottom, 5)
                 
-                Text("(You can skip this step, and if you wish, import data from a different bankroll tracker later)")
+                Text("You can skip this step, and if you wish, import data from a different bankroll tracker later.")
                     .calloutStyle()
                     .opacity(0.7)
                     .padding(.bottom, 20)
@@ -391,6 +397,85 @@ struct StartingBankroll: View {
                 impact.impactOccurred()
                 isFocused = false
                 savedStartingBankroll = startingBankrollTextField
+                nextAction()
+                
+            } label: {
+                Text(showDismissButton ? "Let's Do It" : "Continue")
+                    .buttonTextStyle()
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background(.white)
+                    .cornerRadius(30)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 50)
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+    }
+}
+
+struct StudyHabits: View {
+    
+    let showDismissButton: Bool
+    var nextAction: () -> Void
+    
+    @State private var selectedHabit: String? = nil
+    @Binding var shouldShowOnboarding: Bool
+    @FocusState var isFocused: Bool
+    
+    var body: some View {
+        
+        VStack {
+            
+            VStack (alignment: .leading) {
+                
+                Spacer()
+                
+                Text("How would you quantify your study habits?")
+                    .signInTitleStyle()
+                    .foregroundColor(.brandWhite)
+                    .fontWeight(.black)
+                    .padding(.bottom, 5)
+                
+                Text("If your goal is crack the 10 big blinds per hour threshold, you need to be honest with yourself.")
+                    .calloutStyle()
+                    .opacity(0.7)
+                    .padding(.bottom, 40)
+                
+                ForEach(["Under 3 hrs. per week", "3-5 hrs. per week", "Over 5 hrs. per week"], id: \.self) { habit in
+                    Button {
+                        let impact = UIImpactFeedbackGenerator(style: .soft)
+                        impact.impactOccurred()
+                        selectedHabit = habit
+                        
+                    } label: {
+                        Text(habit)
+                            .font(.custom("Asap-Medium", size: 16))
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 50)
+                            .background(.thinMaterial)
+                            .cornerRadius(30)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 30)
+                                    .stroke(selectedHabit == habit ? Color.lightGreen : Color.clear, lineWidth: 2)
+                            )
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.bottom, 5)
+                }
+                
+                Spacer()
+        
+            }
+            .padding(.horizontal, 20)
+            
+            Spacer()
+            
+            Button {
+                let impact = UIImpactFeedbackGenerator(style: .heavy)
+                impact.impactOccurred()
+                isFocused = false
                 nextAction()
                 
             } label: {
