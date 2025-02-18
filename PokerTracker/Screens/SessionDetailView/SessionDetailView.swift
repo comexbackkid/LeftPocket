@@ -25,27 +25,12 @@ struct SessionDetailView: View {
             
             ScrollView (.vertical) {
                 
-                headerGraphic
-                    
-                VStack {
-                    
-                    headerText
-                    
-                    if pokerSession.isTournament == true {
-                        
-                        tournamentMetrics
-                        
-                    } else {
-                        
-                        cashMetrics
-                    }
-                    
-                    bottomSection
-                }
-                .offset(y: -90)
+                scrollViewContent
+                
             }
             .background(.regularMaterial)
-            .background(locationBackground()).ignoresSafeArea()
+            .background(locationBackground())
+            .ignoresSafeArea()
             
             VStack (spacing: 0) {
                 
@@ -67,13 +52,16 @@ struct SessionDetailView: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
                     shareButtonisPressed = false
                 }
-                guard let image = ImageRenderer(content: shareSummary).uiImage else {
+                
+                guard let screenshotImage = scrollViewContent
+                    .background(.regularMaterial)
+                    .background(locationBackground().aspectRatio(contentMode: .fill)).snapshot() else {
                     showError = true
                     return
                 }
                 
                 let imageSaver = ImageSaver()
-                imageSaver.writeToPhotoAlbum(image: image)
+                imageSaver.writeToPhotoAlbum(image: screenshotImage)
                 
             } label: {
                 Image(systemName: "arrow.down.to.line")
@@ -91,6 +79,31 @@ struct SessionDetailView: View {
             Alert(title: Text("Uh oh!"),
                   message: Text("Image could not be saved. Please try again later."),
                   dismissButton: .default(Text("Ok")))
+        }
+    }
+    
+    private var scrollViewContent: some View {
+        
+        VStack {
+            
+            headerGraphic
+                
+            VStack {
+                
+                headerText
+                
+                if pokerSession.isTournament == true {
+                    
+                    tournamentMetrics
+                    
+                } else {
+                    
+                    cashMetrics
+                }
+                
+                bottomSection
+            }
+            .offset(y: -90)
         }
     }
     
@@ -655,17 +668,19 @@ struct SessionDetailView: View {
             Spacer()
             Button {
                 shareButtonisPressed = true
-                print("Profit for this Session: \(pokerSession.profit)")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
                     shareButtonisPressed = false
                 }
-                guard let image = ImageRenderer(content: shareSummary).uiImage else {
+                
+                guard let screenshotImage = scrollViewContent
+                    .background(.regularMaterial)
+                    .background(locationBackground().aspectRatio(contentMode: .fill)).snapshot() else {
                     showError = true
                     return
                 }
                 
                 let imageSaver = ImageSaver()
-                imageSaver.writeToPhotoAlbum(image: image)
+                imageSaver.writeToPhotoAlbum(image: screenshotImage)
                 
             } label: {
                 ShareButton()
