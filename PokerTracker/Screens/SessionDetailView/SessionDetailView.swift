@@ -655,13 +655,6 @@ struct SessionDetailView: View {
         .padding(.bottom, 30)
     }
     
-    var shareSummary: some View {
-        SocialShareView(vm: vm,
-                        colorScheme: .dark,
-                        pokerSession: pokerSession,
-                        background: Image("defaultlocation-header"))
-    }
-    
     var shareButton: some View {
         
         HStack {

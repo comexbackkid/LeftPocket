@@ -96,7 +96,6 @@
 		7C6E7D8F2C2CC67300D178E2 /* DateFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E7D8E2C2CC67300D178E2 /* DateFilter.swift */; };
 		7C71AB122D0B3C7700487AB5 /* SystemSounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C71AB112D0B3C7700487AB5 /* SystemSounds.swift */; };
 		7C72E0A62BC05B6100C411F2 /* UsingLeftPocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */; };
-		7C757EFF2C1F218900AD71EE /* SocialShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C757EFE2C1F218900AD71EE /* SocialShareView.swift */; };
 		7C757F032C1F2A9F00AD71EE /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C757F022C1F2A9F00AD71EE /* ShareButton.swift */; };
 		7C7A019E2D1DD13900EC30D4 /* TagReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A019D2D1DD13900EC30D4 /* TagReport.swift */; };
 		7C7B2F8B26D5A2A90069F9C5 /* SessionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B2F8A26D5A2A90069F9C5 /* SessionListViewModel.swift */; };
@@ -364,7 +363,6 @@
 		7C6E7D8E2C2CC67300D178E2 /* DateFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFilter.swift; sourceTree = "<group>"; };
 		7C71AB112D0B3C7700487AB5 /* SystemSounds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSounds.swift; sourceTree = "<group>"; };
 		7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsingLeftPocket.swift; sourceTree = "<group>"; };
-		7C757EFE2C1F218900AD71EE /* SocialShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialShareView.swift; sourceTree = "<group>"; };
 		7C757F022C1F2A9F00AD71EE /* ShareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButton.swift; sourceTree = "<group>"; };
 		7C7A019D2D1DD13900EC30D4 /* TagReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagReport.swift; sourceTree = "<group>"; };
 		7C7B2F8A26D5A2A90069F9C5 /* SessionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListViewModel.swift; sourceTree = "<group>"; };
@@ -683,7 +681,6 @@
 				7CEB453E2BCEA90800AAF710 /* RingCharts.swift */,
 				7CDE9FC62B78F6CC00B4AA33 /* SessionDefaultsView.swift */,
 				7C757F022C1F2A9F00AD71EE /* ShareButton.swift */,
-				7C757EFE2C1F218900AD71EE /* SocialShareView.swift */,
 				7C71AB112D0B3C7700487AB5 /* SystemSounds.swift */,
 				7C85492F2C46C4BE0038ADB4 /* TransactionCellView.swift */,
 				7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */,
@@ -1355,7 +1352,6 @@
 				7C44A68D2C2F3D0100110359 /* MetricsCalculations+Ext.swift in Sources */,
 				7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */,
 				7C7A019E2D1DD13900EC30D4 /* TagReport.swift in Sources */,
-				7C757EFF2C1F218900AD71EE /* SocialShareView.swift in Sources */,
 				7CA940F92BECF8E3009B54BA /* SleepAnalytics.swift in Sources */,
 				7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */,
 				7C608EDF2CC19B5800527405 /* DayOfWeekChart.swift in Sources */,
