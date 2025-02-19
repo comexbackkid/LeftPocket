@@ -268,60 +268,48 @@ extension SessionsListViewModel {
             switch bankroll {
             case .all:
                 switch range {
-                case .all:
-                    return sessions
-                case .oneMonth:
-                    return filterSessionsLastMonth()
-                case .threeMonth:
-                    return filterSessionsLastThreeMonths()
-                case .sixMonth:
-                    return filterSessionsLastSixMonths()
-                case .oneYear:
-                    return filterSessionsLastTwelveMonths()
-                case .ytd:
-                    return filterSessionsYTD()
+                case .all: return sessions
+                case .oneMonth: return filterSessionsLastMonth()
+                case .threeMonth: return filterSessionsLastThreeMonths()
+                case .sixMonth: return filterSessionsLastSixMonths()
+                case .oneYear: return filterSessionsLastTwelveMonths()
+                case .ytd: return filterSessionsYTD()
                 }
             case .cash:
                 switch range {
-                case .all:
-                    return allCashSessions()
-                case .oneMonth:
-                    return filterSessionsLastMonth().filter { $0.isTournament != true }
-                case .threeMonth:
-                    return filterSessionsLastThreeMonths().filter { $0.isTournament != true }
-                case .sixMonth:
-                    return filterSessionsLastSixMonths().filter { $0.isTournament != true }
-                case .oneYear:
-                    return filterSessionsLastTwelveMonths().filter { $0.isTournament != true }
-                case .ytd:
-                    return filterSessionsYTD().filter { $0.isTournament != true }
+                case .all: return allCashSessions()
+                case .oneMonth: return filterSessionsLastMonth().filter { $0.isTournament != true }
+                case .threeMonth: return filterSessionsLastThreeMonths().filter { $0.isTournament != true }
+                case .sixMonth: return filterSessionsLastSixMonths().filter { $0.isTournament != true }
+                case .oneYear: return filterSessionsLastTwelveMonths().filter { $0.isTournament != true }
+                case .ytd: return filterSessionsYTD().filter { $0.isTournament != true }
                 }
             case .tournaments:
                 switch range {
-                case .all:
-                    return allTournamentSessions()
-                case .oneMonth:
-                    return filterSessionsLastMonth().filter { $0.isTournament == true }
-                case .threeMonth:
-                    return filterSessionsLastThreeMonths().filter { $0.isTournament == true }
-                case .sixMonth:
-                    return filterSessionsLastSixMonths().filter { $0.isTournament == true }
-                case .oneYear:
-                    return filterSessionsLastTwelveMonths().filter { $0.isTournament == true }
-                case .ytd:
-                    return filterSessionsYTD().filter { $0.isTournament == true }
+                case .all: return allTournamentSessions()
+                case .oneMonth: return filterSessionsLastMonth().filter { $0.isTournament == true }
+                case .threeMonth: return filterSessionsLastThreeMonths().filter { $0.isTournament == true }
+                case .sixMonth: return filterSessionsLastSixMonths().filter { $0.isTournament == true }
+                case .oneYear: return filterSessionsLastTwelveMonths().filter { $0.isTournament == true }
+                case .ytd: return filterSessionsYTD().filter { $0.isTournament == true }
                 }
             }
         }
         
         guard !sessionsArray.isEmpty else { return 0 }
-        let totalHours = Float(sessionsArray.map { Int($0.sessionDuration.hour ?? 0) }.reduce(0,+))
-        let totalMinutes = Float(sessionsArray.map { Int($0.sessionDuration.minute ?? 0) }.reduce(0,+))
         
-        // Add up all the hours & minutes together to simply get a sum of hours
-        let totalTime = totalHours + (totalMinutes / 60)
-        let handsPerHour = UserDefaults.standard.object(forKey: "handsPerHourDefault") as? Int ?? 25
-        let totalHands = Int(round(totalTime)) * handsPerHour
+        // Get the total hands played per session, considering individual handsPerHour values
+        let totalHands = sessionsArray.reduce(0) { total, session in
+            let sessionHours = Float(session.sessionDuration.hour ?? 0)
+            let sessionMinutes = Float(session.sessionDuration.minute ?? 0)
+            let totalSessionTime = sessionHours + (sessionMinutes / 60)
+            
+            // Use the session's handsPerHour if it exists, otherwise fallback to the default
+            let sessionHandsPerHour = session.handsPerHour ?? (UserDefaults.standard.object(forKey: "handsPerHourDefault") as? Int ?? 25)
+            
+            return total + Int(totalSessionTime * Float(sessionHandsPerHour))
+        }
+        
         return totalHands
     }
     
