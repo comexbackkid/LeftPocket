@@ -138,7 +138,7 @@ struct AddNewSessionView: View {
             
             gameSelection
             
-            if newSession.sessionType != .tournament { stakesSelection }
+            if newSession.sessionType != .tournament { stakesAndHands }
 
             if newSession.sessionType == .tournament { tournamentDetails }
             
@@ -276,7 +276,9 @@ struct AddNewSessionView: View {
         .animation(nil, value: newSession.location)
     }
     
-    var stakesSelection: some View {
+    var stakesAndHands: some View {
+        
+        // MARK: STAKES SELECTION
         
         VStack {
             HStack {
@@ -330,6 +332,8 @@ struct AddNewSessionView: View {
             .sheet(isPresented: $addStakesIsShowing, content: {
                 NewStakesView(addStakesIsShowing: $addStakesIsShowing)
             })
+            
+            // MARK: HANDS PER HOUR SELECTION
             
             if newSession.showHandsPerHour {
                 HStack {
@@ -387,15 +391,15 @@ struct AddNewSessionView: View {
                 .padding(.bottom, 10)
             }
         }
-        
     }
     
     var tournamentDetails: some View {
         
         VStack {
             
+            // MARK: TOURNAMENT SPEED
+            
             HStack {
-                
                 Image(systemName: "stopwatch")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
@@ -440,6 +444,8 @@ struct AddNewSessionView: View {
             .padding(.horizontal)
             .padding(.bottom, 10)
             
+            // MARK: TOURNAMENT SIZE
+            
             HStack {
                 
                 Image(systemName: "person.2.fill")
@@ -483,6 +489,8 @@ struct AddNewSessionView: View {
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
+            
+            // MARK: TOURNAMENT BOUNTIES TOGGLE
             
             HStack {
                 
@@ -535,6 +543,8 @@ struct AddNewSessionView: View {
             .padding(.bottom, 10)
             .animation(.easeInOut, value: newSession.sessionType)
             
+            // MARK: TOURNAMENT STAKING TOGGLE
+            
             HStack {
                 
                 Image(systemName: "cart.fill")
@@ -583,6 +593,8 @@ struct AddNewSessionView: View {
             .padding(.horizontal)
             .padding(.bottom, 10)
             .animation(.easeInOut, value: newSession.sessionType)
+            
+            // MARK: TOURNAMENT MULTI-DAY TOGGLE
             
             HStack {
                 
