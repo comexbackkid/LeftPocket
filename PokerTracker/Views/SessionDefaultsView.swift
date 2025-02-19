@@ -504,6 +504,38 @@ struct SessionDefaultsView: View {
             
             HStack {
                 
+                Image(systemName: "hare.fill")
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30, height: 30)
+                
+                Text("Hands Per Hour")
+                    .bodyStyle()
+                    .padding(.leading, 4)
+                
+                Spacer()
+                
+                Menu {
+                    Picker("Hands Per Hour", selection: $handsPerHour) {
+                        Text("15").tag(15)
+                        Text("20").tag(20)
+                        Text("25").tag(25)
+                        Text("30").tag(30)
+                        Text("35").tag(35)
+                    }
+                    
+                } label: {
+                    Text("\(handsPerHour)")
+                        .bodyStyle()
+                        .fixedSize()
+                        .lineLimit(1)
+                }
+                .foregroundColor(.brandWhite)
+            }
+            .padding(.bottom, 10)
+            
+            HStack {
+                
                 Image(systemName: "questionmark.bubble.fill")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
@@ -539,39 +571,6 @@ struct SessionDefaultsView: View {
                 .tint(.brandPrimary)
             }
             .padding(.bottom, 10)
-            
-            HStack {
-                
-                Image(systemName: "hare.fill")
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30, height: 30)
-                
-                Text("Hands Per Hour")
-                    .bodyStyle()
-                    .padding(.leading, 4)
-                
-                Spacer()
-                
-                Menu {
-                    Picker("Hands Per Hour", selection: $handsPerHour) {
-                        Text("15").tag(15)
-                        Text("20").tag(20)
-                        Text("25").tag(25)
-                        Text("30").tag(30)
-                        Text("35").tag(35)
-                    }
-                    
-                } label: {
-                    Text("\(handsPerHour)")
-                        .bodyStyle()
-                        .fixedSize()
-                        .lineLimit(1)
-                }
-                .foregroundColor(.brandWhite)
-            }
-            .padding(.bottom, 10)
-            
         }
         .padding(.horizontal, 25)
         .padding(.top, 5)

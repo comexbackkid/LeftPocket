@@ -38,6 +38,7 @@ final class NewSessionViewModel: ObservableObject {
     @Published var speed: String = ""
     @Published var tags: String = ""
     @Published var staking: Bool = false
+    @Published var handsPerHour: Int = 25
     @Published var actionSold: String = ""
     @Published var stakerName: String = ""
     @Published var stakerList: [Staker] = []

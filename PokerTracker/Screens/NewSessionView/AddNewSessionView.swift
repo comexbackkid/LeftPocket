@@ -136,10 +136,10 @@ struct AddNewSessionView: View {
             
             locationSelection
             
-            if newSession.sessionType != .tournament { stakesSelection }
-            
             gameSelection
             
+            if newSession.sessionType != .tournament { stakesSelection }
+
             if newSession.sessionType == .tournament { tournamentDetails }
             
             gameTiming
@@ -155,7 +155,7 @@ struct AddNewSessionView: View {
             Image(systemName: "suit.club.fill")
                 .font(.system(size: 24, weight: .bold))
                 .foregroundColor(Color(.systemGray3))
-                .frame(width: 30)
+                .frame(width: 30, height: 30)
             
             Text("Session")
                 .bodyStyle()
@@ -225,7 +225,7 @@ struct AddNewSessionView: View {
             Image(systemName: "mappin.and.ellipse")
                 .font(.system(size: 24, weight: .bold))
                 .foregroundColor(Color(.systemGray3))
-                .frame(width: 30)
+                .frame(width: 30, height: 30)
             
             Text("Location")
                 .bodyStyle()
@@ -278,57 +278,97 @@ struct AddNewSessionView: View {
     
     var stakesSelection: some View {
         
-        HStack {
-            Image(systemName: "dollarsign.circle")
-                .font(.system(size: 24, weight: .bold))
-                .foregroundColor(Color(.systemGray3))
-                .frame(width: 30)
-            
-            Text("Stakes")
-                .bodyStyle()
-                .padding(.leading, 4)
-               
-            Spacer()
-            
-            Menu {
+        VStack {
+            HStack {
+                Image(systemName: "dollarsign.circle")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30, height: 30)
                 
-                Button {
-                    addStakesIsShowing = true
+                Text("Stakes")
+                    .bodyStyle()
+                    .padding(.leading, 4)
+                   
+                Spacer()
+                
+                Menu {
+                    
+                    Button {
+                        addStakesIsShowing = true
+                    } label: {
+                        HStack {
+                            Text("Add Stakes")
+                            Image(systemName: "dollarsign.circle")
+                        }
+                    }
+                    
+                    Picker("Picker", selection: $newSession.stakes) {
+                        ForEach(vm.userStakes, id: \.self) {
+                            Text($0).tag($0)
+                        }
+                    }
+                    
                 } label: {
-                    HStack {
-                        Text("Add Stakes")
-                        Image(systemName: "dollarsign.circle")
+                    if newSession.stakes.isEmpty {
+                        Text("Please select ›")
+                            .bodyStyle()
+                    } else {
+                        Text(newSession.stakes)
+                            .bodyStyle()
+                            .fixedSize()
                     }
                 }
-                
-                Picker("Picker", selection: $newSession.stakes) {
-                    ForEach(vm.userStakes, id: \.self) {
-                        Text($0).tag($0)
-                    }
+                .foregroundColor(newSession.stakes.isEmpty ? .brandPrimary : .brandWhite)
+                .buttonStyle(PlainButtonStyle())
+                .transaction { transaction in
+                    transaction.animation = .none
                 }
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 10)
+            .transition(.opacity.combined(with: .scale(scale: 1, anchor: .top)))
+            .sheet(isPresented: $addStakesIsShowing, content: {
+                NewStakesView(addStakesIsShowing: $addStakesIsShowing)
+            })
+            
+            HStack {
                 
-            } label: {
-                if newSession.stakes.isEmpty {
-                    Text("Please select ›")
-                        .bodyStyle()
-                } else {
-                    Text(newSession.stakes)
+                Image(systemName: "hare.fill")
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30, height: 30)
+                
+                Text("Hands Per Hour")
+                    .bodyStyle()
+                    .padding(.leading, 4)
+                
+                Spacer()
+                
+                Menu {
+                    
+                    withAnimation {
+                        Picker("Hands Per Hour", selection: $newSession.handsPerHour) {
+                            Text("15").tag(15)
+                            Text("20").tag(20)
+                            Text("25").tag(25)
+                            Text("30").tag(30)
+                            Text("35").tag(35)
+                        }
+                    }
+                    
+                } label: {
+                    Text("\(newSession.handsPerHour)")
                         .bodyStyle()
                         .fixedSize()
+                        .lineLimit(1)
+                        .animation(nil, value: newSession.handsPerHour)
                 }
+                .foregroundColor(newSession.game.isEmpty ? .brandPrimary : .brandWhite)
+                .buttonStyle(PlainButtonStyle())
             }
-            .foregroundColor(newSession.stakes.isEmpty ? .brandPrimary : .brandWhite)
-            .buttonStyle(PlainButtonStyle())
-            .transaction { transaction in
-                transaction.animation = .none
-            }
+            .padding(.horizontal)
+            .padding(.bottom, 10)
         }
-        .padding(.horizontal)
-        .padding(.bottom, 10)
-        .transition(.opacity.combined(with: .scale(scale: 1, anchor: .top)))
-        .sheet(isPresented: $addStakesIsShowing, content: {
-            NewStakesView(addStakesIsShowing: $addStakesIsShowing)
-        })
         
     }
     
@@ -341,7 +381,7 @@ struct AddNewSessionView: View {
                 Image(systemName: "stopwatch")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
+                    .frame(width: 30, height: 30)
                 
                 Text("Speed")
                     .bodyStyle()
@@ -387,7 +427,7 @@ struct AddNewSessionView: View {
                 Image(systemName: "person.2.fill")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
+                    .frame(width: 30, height: 30)
                 
                 Text("Size")
                     .bodyStyle()
@@ -431,7 +471,7 @@ struct AddNewSessionView: View {
                 Image(systemName: "scope")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
+                    .frame(width: 30, height: 30)
                 
                 HStack {
                     Text("Bounties")
@@ -482,7 +522,7 @@ struct AddNewSessionView: View {
                 Image(systemName: "cart.fill")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
+                    .frame(width: 30, height: 30)
                 
                 HStack {
                     Text("Staking")
@@ -531,7 +571,7 @@ struct AddNewSessionView: View {
                 Image(systemName: "calendar.badge.plus")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
+                    .frame(width: 30, height: 30)
                 
                 Text("Multi-Day")
                     .bodyStyle()
@@ -562,50 +602,54 @@ struct AddNewSessionView: View {
     
     var gameSelection: some View {
         
-        HStack {
+        VStack {
             
-            Image(systemName: "dice")
-                .font(.system(size: 24, weight: .bold))
-                .foregroundColor(Color(.systemGray3))
-                .frame(width: 30)
-            
-            Text("Game")
-                .bodyStyle()
-                .padding(.leading, 4)
-            
-            Spacer()
-            
-            Menu {
+            HStack {
                 
-                withAnimation {
-                    Picker("Game", selection: $newSession.game) {
-                        Text("NL Texas Hold Em").tag("NL Texas Hold Em")
-                        Text("Pot Limit Omaha").tag("Pot Limit Omaha")
-                        Text("Seven Card Stud").tag("Seven Card Stud")
-                        Text("Mixed").tag("Mixed")
+                Image(systemName: "dice")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30, height: 30)
+                
+                Text("Game")
+                    .bodyStyle()
+                    .padding(.leading, 4)
+                
+                Spacer()
+                
+                Menu {
+                    
+                    withAnimation {
+                        Picker("Game", selection: $newSession.game) {
+                            Text("NL Texas Hold Em").tag("NL Texas Hold Em")
+                            Text("Pot Limit Omaha").tag("Pot Limit Omaha")
+                            Text("Seven Card Stud").tag("Seven Card Stud")
+                            Text("Mixed").tag("Mixed")
+                        }
+                    }
+                    
+                } label: {
+                    if newSession.game.isEmpty {
+                        Text("Please select ›")
+                            .bodyStyle()
+                            .fixedSize()
+                    } else {
+                        
+                        Text(newSession.game)
+                            .bodyStyle()
+                            .fixedSize()
+                            .lineLimit(1)
+                            .animation(nil, value: newSession.game)
                     }
                 }
-                
-            } label: {
-                
-                if newSession.game.isEmpty {
-                    Text("Please select ›")
-                        .bodyStyle()
-                        .fixedSize()
-                } else {
-                    
-                    Text(newSession.game)
-                        .bodyStyle()
-                        .fixedSize()
-                        .lineLimit(1)
-                        .animation(nil, value: newSession.game)
-                }
+                .foregroundColor(newSession.game.isEmpty ? .brandPrimary : .brandWhite)
+                .buttonStyle(PlainButtonStyle())
             }
-            .foregroundColor(newSession.game.isEmpty ? .brandPrimary : .brandWhite)
-            .buttonStyle(PlainButtonStyle())
+            .padding(.horizontal)
+            .padding(.bottom, 10)
+            
+            
         }
-        .padding(.horizontal)
-        .padding(.bottom, 10)
     }
     
     var gameTiming: some View {

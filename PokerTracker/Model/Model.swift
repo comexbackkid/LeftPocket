@@ -115,6 +115,7 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     let notes: String
     let tags: [String]
     let highHandBonus: Int
+//    let handsPerHour: Int?
     
     // Tournament Handling
     let isTournament: Bool
