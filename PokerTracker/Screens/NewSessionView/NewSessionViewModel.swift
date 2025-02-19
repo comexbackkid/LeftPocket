@@ -198,6 +198,7 @@ final class NewSessionViewModel: ObservableObject {
                                 notes: notes,
                                 tags: tags.isEmpty ? [] : [tags],
                                 highHandBonus: Int(highHandBonus) ?? 0,
+                                handsPerHour: handsPerHour,
                                 isTournament: sessionType == .tournament ? true : false,
                                 rebuyCount: Int(rebuyCount) ?? nil,
                                 bounties: Int(bounties) ?? nil,

@@ -111,6 +111,7 @@ final class EditSessionViewModel: ObservableObject {
                                 notes: notes,
                                 tags: tags.isEmpty ? [] : [tags],
                                 highHandBonus: Int(highHandBonus) ?? 0,
+                                handsPerHour: 25,
                                 isTournament: sessionType == .tournament ? true : false,
                                 rebuyCount: Int(rebuyCount),
                                 bounties: Int(bounties),

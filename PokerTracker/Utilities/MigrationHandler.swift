@@ -37,6 +37,7 @@ class MigrationHandler {
                                 notes: oldSession.notes,
                                 tags: oldSession.tags ?? [],
                                 highHandBonus: oldSession.highHandBonus ?? 0,
+                                handsPerHour: 25,
                                 
                                 // Tournament Specific Data
                                 isTournament: oldSession.isTournament ?? false,
