@@ -384,7 +384,6 @@ struct AddNewSessionView: View {
                             .lineLimit(1)
                             .animation(nil, value: newSession.handsPerHour)
                     }
-                    .foregroundColor(newSession.game.isEmpty ? .brandPrimary : .brandWhite)
                     .buttonStyle(PlainButtonStyle())
                 }
                 .padding(.horizontal)

@@ -27,6 +27,7 @@ final class EditSessionViewModel: ObservableObject {
     @Published var bounties: String = ""
     @Published var rebuyCount: String = ""
     @Published var tags: String = ""
+    @Published var handsPerHour = 25
     @Published var addLocationIsShowing = false
     @Published var addStakesIsShowing = false
     @Published var alertItem: AlertItem?
@@ -111,7 +112,7 @@ final class EditSessionViewModel: ObservableObject {
                                 notes: notes,
                                 tags: tags.isEmpty ? [] : [tags],
                                 highHandBonus: Int(highHandBonus) ?? 0,
-                                handsPerHour: 25,
+                                handsPerHour: handsPerHour,
                                 isTournament: sessionType == .tournament ? true : false,
                                 rebuyCount: Int(rebuyCount),
                                 bounties: Int(bounties),

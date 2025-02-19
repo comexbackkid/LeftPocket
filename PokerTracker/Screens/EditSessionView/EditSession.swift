@@ -92,9 +92,11 @@ struct EditSession: View {
                         
             locationSelection
             
+            gameSelection
+            
             stakesSelection
             
-            gameSelection
+            handsPerHourSelection
             
             gameTiming
             
@@ -309,7 +311,66 @@ struct EditSession: View {
         .sheet(isPresented: $editSession.addStakesIsShowing, content: {
             NewStakesView(addStakesIsShowing: $editSession.addStakesIsShowing)
         })
+    }
+    
+    var handsPerHourSelection: some View {
         
+        HStack {
+            
+            Image(systemName: "hare.fill")
+                .font(.system(size: 20, weight: .bold))
+                .foregroundColor(Color(.systemGray3))
+                .frame(width: 30, height: 30)
+            
+            Text("Hands Per Hour")
+                .bodyStyle()
+                .padding(.leading, 4)
+            
+            Spacer()
+            
+            Menu {
+                
+                Menu {
+                    Picker("Live Hands Per Hour", selection: $editSession.handsPerHour) {
+                        Text("15").tag(15)
+                        Text("20").tag(20)
+                        Text("25").tag(25)
+                        Text("30").tag(30)
+                        Text("35").tag(35)
+                    }
+                } label: {
+                    Text("Live")
+                }
+                
+                Menu {
+                    Picker("Online ands Per Hour", selection: $editSession.handsPerHour) {
+                        Text("50").tag(50)
+                        Text("75").tag(75)
+                        Text("100").tag(100)
+                        Text("125").tag(125)
+                        Text("150").tag(150)
+                        Text("175").tag(175)
+                        Text("200").tag(200)
+                    }
+                } label: {
+                    Text("Online")
+                }
+                
+            } label: {
+                Text("\(editSession.handsPerHour)")
+                    .bodyStyle()
+                    .fixedSize()
+                    .lineLimit(1)
+                    .animation(nil, value: editSession.handsPerHour)
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+        .onAppear {
+            let defaultHandsPerHour = UserDefaults.standard.integer(forKey: "handsPerHourDefault")
+            editSession.handsPerHour = pokerSession.handsPerHour ?? defaultHandsPerHour
+        }
+        .padding(.horizontal)
+        .padding(.bottom, 10)
     }
     
     var gameSelection: some View {
@@ -339,7 +400,6 @@ struct EditSession: View {
                 }
                 
             } label: {
-                
                 Text(editSession.game)
                     .bodyStyle()
                     .fixedSize()
@@ -867,7 +927,7 @@ struct EditSession: View {
 }
 
 #Preview {
-    EditSession(pokerSession: MockData.sampleTournament)
+    EditSession(pokerSession: MockData.sampleSession)
         .environmentObject(SessionsListViewModel())
         .environmentObject(SubscriptionManager())
         .preferredColorScheme(.dark)
