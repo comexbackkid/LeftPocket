@@ -32,6 +32,7 @@ struct SessionDefaultsView: View {
     @State private var addStakesIsShowing = false
     @State private var addLocationIsShowing = false
     @State private var askLiveSessionEachTime = false
+    @State private var showHandsPerHourOnNewSessionView = false
     
     var body: some View {
             
@@ -516,12 +517,30 @@ struct SessionDefaultsView: View {
                 Spacer()
                 
                 Menu {
-                    Picker("Hands Per Hour", selection: $handsPerHour) {
-                        Text("15").tag(15)
-                        Text("20").tag(20)
-                        Text("25").tag(25)
-                        Text("30").tag(30)
-                        Text("35").tag(35)
+                    Menu {
+                        Picker("Live Hands Per Hour", selection: $handsPerHour) {
+                            Text("15").tag(15)
+                            Text("20").tag(20)
+                            Text("25").tag(25)
+                            Text("30").tag(30)
+                            Text("35").tag(35)
+                        }
+                    } label: {
+                        Text("Live")
+                    }
+                    
+                    Menu {
+                        Picker("Online ands Per Hour", selection: $handsPerHour) {
+                            Text("50").tag(50)
+                            Text("75").tag(75)
+                            Text("100").tag(100)
+                            Text("125").tag(125)
+                            Text("150").tag(150)
+                            Text("175").tag(175)
+                            Text("200").tag(200)
+                        }
+                    } label: {
+                        Text("Online")
                     }
                     
                 } label: {
@@ -540,33 +559,51 @@ struct SessionDefaultsView: View {
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30, height: 30)
-                
-                Text("Ask Each Time")
-                    .bodyStyle()
-                    .padding(.leading, 4)
-                
-                Button {
-                    askEachTimePopover = true
-                } label: {
-                    Image(systemName: "info.circle")
-                        .font(.subheadline)
-                        .foregroundStyle(Color.brandPrimary)
-                }
-                .buttonStyle(.plain)
-                .popover(isPresented: $askEachTimePopover, arrowEdge: .bottom, content: {
-                    PopoverView(bodyText: "With this turned on, every time you begin a Live Session you'll be prompted to enter / verify all Session details from the start. You can change them later if you want.")
-                        .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
-                        .frame(height: 150)
-                        .dynamicTypeSize(.medium...DynamicTypeSize.medium)
-                        .presentationCompactAdaptation(.popover)
-                        .preferredColorScheme(colorScheme == .dark ? .dark : .light)
-                        .shadow(radius: 10)
-                })
                     
                 Spacer()
                 
+                Toggle(isOn: $showHandsPerHourOnNewSessionView) {
+                    Text("Show Hands Per Hour")
+                        .bodyStyle()
+                        .padding(.leading, 4)
+                }
+                .tint(.brandPrimary)
+            }
+            .padding(.bottom, 10)
+            
+            HStack {
+                
+                Image(systemName: "questionmark.bubble.fill")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30, height: 30)
+                
+                Spacer()
+                
                 Toggle(isOn: $askLiveSessionEachTime) {
-                    // No label necessary
+                    HStack {
+                        Text("Ask Each Time")
+                            .bodyStyle()
+                            .padding(.leading, 4)
+                        
+                        Button {
+                            askEachTimePopover = true
+                        } label: {
+                            Image(systemName: "info.circle")
+                                .font(.subheadline)
+                                .foregroundStyle(Color.brandPrimary)
+                        }
+                        .buttonStyle(.plain)
+                        .popover(isPresented: $askEachTimePopover, arrowEdge: .bottom, content: {
+                            PopoverView(bodyText: "With this turned on, every time you begin a Live Session you'll be prompted to enter / verify all Session details from the start. You can change them later if you want.")
+                                .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                                .frame(height: 150)
+                                .dynamicTypeSize(.medium...DynamicTypeSize.medium)
+                                .presentationCompactAdaptation(.popover)
+                                .preferredColorScheme(colorScheme == .dark ? .dark : .light)
+                                .shadow(radius: 10)
+                        })
+                    }
                 }
                 .tint(.brandPrimary)
             }
@@ -593,7 +630,6 @@ struct SessionDefaultsView: View {
     var resetDefaultsButton: some View {
         
         Button {
-            
             let impact = UIImpactFeedbackGenerator(style: .heavy)
             impact.impactOccurred()
             resetUserDefaults()
@@ -614,6 +650,7 @@ struct SessionDefaultsView: View {
         speed = ""
         currency = .USD
         askLiveSessionEachTime = false
+        showHandsPerHourOnNewSessionView = false
         handsPerHour = 25
         
         let defaults = UserDefaults.standard
@@ -627,6 +664,7 @@ struct SessionDefaultsView: View {
             defaults.removeObject(forKey: "tournamentSizeDefault")
             defaults.removeObject(forKey: "tournamentSpeedDefault")
             defaults.removeObject(forKey: "askLiveSessionEachTime")
+            defaults.removeObject(forKey: "showHandsPerHourOnNewSessionView")
             defaults.removeObject(forKey: "handsPerHourDefault")
         }
         
@@ -660,6 +698,7 @@ struct SessionDefaultsView: View {
             defaults.set(size, forKey: "tournamentSizeDefault")
             defaults.set(speed, forKey: "tournamentSpeedDefault")
             defaults.set(askLiveSessionEachTime, forKey: "askLiveSessionEachTime")
+            defaults.set(showHandsPerHourOnNewSessionView, forKey: "showHandsPerHourOnNewSessionView")
             defaults.set(handsPerHour, forKey: "handsPerHourDefault")
             vm.getUserCurrency()
         }
@@ -714,7 +753,7 @@ struct SessionDefaultsView: View {
         size = defaults.string(forKey: "tournamentSizeDefault") ?? ""
         speed = defaults.string(forKey: "tournamentSpeedDefault") ?? ""
         askLiveSessionEachTime = defaults.bool(forKey: "askLiveSessionEachTime")
-        
+        showHandsPerHourOnNewSessionView = defaults.bool(forKey: "showHandsPerHourOnNewSessionView")
     }
 }
 

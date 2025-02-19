@@ -42,6 +42,7 @@ final class NewSessionViewModel: ObservableObject {
     @Published var actionSold: String = ""
     @Published var stakerName: String = ""
     @Published var stakerList: [Staker] = []
+    @Published var showHandsPerHour: Bool = false
     @Published var hasBounties: Bool = false
     @Published var multiDayToggle: Bool = false
     @Published var addDay: Bool = false
@@ -177,6 +178,8 @@ final class NewSessionViewModel: ObservableObject {
         game = defaults.string(forKey: "gameDefault") ?? ""
         size = defaults.string(forKey: "tournamentSizeDefault") ?? ""
         speed = defaults.string(forKey: "tournamentSpeedDefault") ?? ""
+        handsPerHour = defaults.integer(forKey: "handsPerHourDefault")
+        showHandsPerHour = defaults.bool(forKey: "showHandsPerHourOnNewSessionView")
     }
     
     func savedButtonPressed(viewModel: SessionsListViewModel) {
