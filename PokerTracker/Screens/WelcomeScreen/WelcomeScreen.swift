@@ -32,11 +32,11 @@ struct WelcomeScreen: View {
         }
         .background(
             GeometryReader { geometry in
-                Image("welcome-screen-bg-3")
+                Image("welcome-screen-bg-4")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .overlay {
-                        Image("welcome-screen-bg-3")
+                        Image("welcome-screen-bg-4")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .blur(radius: 20, opaque: true)
@@ -50,7 +50,7 @@ struct WelcomeScreen: View {
                     .overlay(
                         LinearGradient(gradient: Gradient(stops: [
                             Gradient.Stop(color: Color(white: 0, opacity: 0.0), location: 0.4),
-                            Gradient.Stop(color: Color(white: 0, opacity: 0.6), location: 0.9),
+                            Gradient.Stop(color: Color(white: 0, opacity: 0.7), location: 0.9),
                         ]), startPoint: .top, endPoint: .bottom)
                     )
                     .frame(width: geometry.size.width, height: UIScreen.main.bounds.height)
