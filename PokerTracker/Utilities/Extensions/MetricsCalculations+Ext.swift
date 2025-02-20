@@ -593,23 +593,47 @@ extension SessionsListViewModel {
         
         var tournamentArray: [PokerSession_v2] {
             switch range {
-            case .all:
-                return allTournamentSessions()
-            case .oneMonth:
-                return filterSessionsLastMonth().filter{ $0.isTournament == true }
-            case .threeMonth:
-                return filterSessionsLastThreeMonths().filter { $0.isTournament == true }
-            case .sixMonth:
-                return filterSessionsLastSixMonths().filter{ $0.isTournament == true }
-            case .oneYear:
-                return filterSessionsLastTwelveMonths().filter{ $0.isTournament == true }
-            case .ytd:
-                return filterSessionsYTD().filter{ $0.isTournament == true }
+            case .all: return allTournamentSessions()
+            case .oneMonth: return filterSessionsLastMonth().filter{ $0.isTournament == true }
+            case .threeMonth: return filterSessionsLastThreeMonths().filter { $0.isTournament == true }
+            case .sixMonth: return filterSessionsLastSixMonths().filter{ $0.isTournament == true }
+            case .oneYear: return filterSessionsLastTwelveMonths().filter{ $0.isTournament == true }
+            case .ytd: return filterSessionsYTD().filter{ $0.isTournament == true }
             }
         }
         
         let bountiesCollected = tournamentArray.compactMap { $0.bounties }.reduce(0, +)
         return bountiesCollected
+    }
+    
+    func totalActionSold(range: RangeSelection) -> Int {
+        guard !allTournamentSessions().isEmpty else { return 0 }
+        
+        var tournamentArray: [PokerSession_v2] {
+            switch range {
+            case .all: return allTournamentSessions()
+            case .oneMonth: return filterSessionsLastMonth().filter{ $0.isTournament == true }
+            case .threeMonth: return filterSessionsLastThreeMonths().filter { $0.isTournament == true }
+            case .sixMonth: return filterSessionsLastSixMonths().filter{ $0.isTournament == true }
+            case .oneYear: return filterSessionsLastTwelveMonths().filter{ $0.isTournament == true }
+            case .ytd: return filterSessionsYTD().filter{ $0.isTournament == true }
+            }
+        }
+        
+        let totalPaidOut = tournamentArray.reduce(0) { total, session in
+            let cashOut = Double(session.cashOut)
+            let bounties = Double(session.bounties ?? 0)
+            
+            let totalPrizeMoney = cashOut + bounties
+            
+            let sessionTotalPayout = session.stakers?.reduce(0.0) { payout, staker in
+                payout + (totalPrizeMoney * staker.percentage)
+            } ?? 0.0
+            
+            return total + Int(sessionTotalPayout)
+        }
+        
+        return totalPaidOut
     }
     
     func averageTournamentRebuys(range: RangeSelection) -> Double {
