@@ -337,7 +337,7 @@ struct StartingBankroll: View {
                     .fontWeight(.black)
                     .padding(.bottom, 5)
                 
-                Text("You can skip this step, and if you wish, import data from a different bankroll tracker later.")
+                Text("You can skip this step, & later import data from a different bankroll tracker.")
                     .calloutStyle()
                     .opacity(0.7)
                     .padding(.bottom, 20)
@@ -438,7 +438,7 @@ struct StudyHabits: View {
                     .fontWeight(.black)
                     .padding(.bottom, 5)
                 
-                Text("If your goal is crack the 10 big blinds per hour threshold, you need to be honest with yourself.")
+                Text("If your goal is crack the 10 big blinds per hour threshold, let's take accountability.")
                     .calloutStyle()
                     .opacity(0.7)
                     .padding(.bottom, 40)
@@ -516,13 +516,13 @@ struct AllowNotifications: View {
                 
                 Spacer()
                 
-                Text("Turn on notifications for help sustaining longer Live Sessions.")
+                Text("Turn on notifications for help sustaining longer sessions.")
                     .signInTitleStyle()
                     .foregroundColor(.brandWhite)
                     .fontWeight(.black)
                     .padding(.bottom, 5)
                 
-                Text("In doing so, we've got your back & will send subtle reminders to stretch, hydrate, & check on how the game is going every few hours.")
+                Text("We've got your back! Left Pocket sends subtle reminders to stretch, hydrate, & check your focus every few hours.")
                     .calloutStyle()
                     .opacity(0.7)
                     .padding(.bottom, 30)
