@@ -105,6 +105,7 @@ struct SessionDetailView: View {
             }
             .offset(y: -90)
         }
+        .frame(maxWidth: UIScreen.main.bounds.width)
     }
     
     var headerGraphic: some View {
@@ -169,7 +170,6 @@ struct SessionDetailView: View {
             tags
                 .animation(.spring.speed(2), value: actionDropDownMenuSelected)
         }
-        .frame(maxWidth: .infinity, alignment: .topLeading)
         .padding(.horizontal, 30)
         .padding(.top, 20)
         .padding(.bottom, activeSheet == .recentSession ? 0 : 20)
@@ -336,6 +336,8 @@ struct SessionDetailView: View {
                 Text("None")
                     .bodyStyle()
                     .foregroundStyle(.secondary)
+                    .lineLimit(nil)
+                    .fixedSize(horizontal: false, vertical: true)
                 
             } else {
                 
@@ -345,7 +347,6 @@ struct SessionDetailView: View {
             }
         }
         .padding(.bottom, 30)
-
     }
     
     var tags: some View {
@@ -716,17 +717,26 @@ struct SessionDetailView: View {
     private func locationBackground() -> some View {
         
         if let localImage = pokerSession.location.localImage {
-            return Image(localImage).resizable().aspectRatio(contentMode: .fill)
+            return Image(localImage)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
                     
         } else if let importedImagePath = pokerSession.location.importedImage {
             if let uiImage = ImageLoader.loadImage(from: importedImagePath) {
-                return Image(uiImage: uiImage).resizable().aspectRatio(contentMode: .fill)
+                return Image(uiImage: uiImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                
             } else {
-                return Image("defaultlocation-header").resizable().aspectRatio(contentMode: .fill)
+                return Image("defaultlocation-header")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
             }
             
         } else {
-            return Image("defaultlocation-header").resizable().aspectRatio(contentMode: .fill)
+            return Image("defaultlocation-header")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
         }
     }
     
@@ -784,7 +794,7 @@ struct GraphicHeaderView: View {
 
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleTournament)
+        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
             .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
     }
