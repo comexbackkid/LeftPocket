@@ -24,6 +24,16 @@ final class NewSessionViewModel: ObservableObject {
     @Published var endTimeDayTwo: Date = Date()
     @Published var startTimeDayThree: Date = Date()
     @Published var endTimeDayThree: Date = Date()
+    @Published var startTimeDayFour: Date = Date()
+    @Published var endTimeDayFour: Date = Date()
+    @Published var startTimeDayFive: Date = Date()
+    @Published var endTimeDayFive: Date = Date()
+    @Published var startTimeDaySix: Date = Date()
+    @Published var endTimeDaySix: Date = Date()
+    @Published var startTimeDaySeven: Date = Date()
+    @Published var endTimeDaySeven: Date = Date()
+    @Published var startTimeDayEight: Date = Date()
+    @Published var endTimeDayEight: Date = Date()
     @Published var expenses: String = ""
     @Published var presentation: Bool?
     @Published var sessionType: SessionType?
@@ -48,6 +58,7 @@ final class NewSessionViewModel: ObservableObject {
     @Published var hasBounties: Bool = false
     @Published var multiDayToggle: Bool = false
     @Published var addDay: Bool = false
+    @Published var tournamentDays: Int = 1
     @Published var noMoreDays: Bool = false
     
     // Making sure to include rebuys in profit calculation
