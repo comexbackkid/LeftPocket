@@ -92,7 +92,7 @@ final class EditSessionViewModel: ObservableObject {
         
         var computedProfit: Int {
             if sessionType == .cash {
-                return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - (Int(expenses) ?? 0)
+                return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0)
             } else {
                 let tournamentWinnings = (Int(cashOut) ?? 0) + (Int(bounties) ?? 0)
                 return tournamentWinnings - (Int(buyIn) ?? 0) - tournamentRebuys - totalActionSold
