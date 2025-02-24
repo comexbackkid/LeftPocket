@@ -49,6 +49,20 @@ struct LiveSessionCounter: View {
         .background(.ultraThinMaterial)
         .cornerRadius(16)
         .contextMenu {
+            
+            let totalBuyInForLiveSession = timerViewModel.totalBuyInForLiveSession
+            
+            Menu {
+                ForEach(Array(timerViewModel.totalRebuys.enumerated()), id: \.offset) { index, rebuy in
+                    Text("Added Rebuy $\(rebuy)")
+                }
+            } label: {
+                Text("In the Game For $\(totalBuyInForLiveSession)")
+                    .foregroundStyle(.red)
+            }
+            
+            Divider()
+            
             Button {
                 showSessionDefaultsView = true
             } label: {

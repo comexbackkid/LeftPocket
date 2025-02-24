@@ -224,7 +224,7 @@ struct LeftPocketCustomTabBar: View {
                         
                         Button("Yes", role: .destructive) {
                             timerViewModel.stopTimer()
-                            LiveActivityManager().endActivity()
+                            LiveActivityManager.shared.endActivity()
                             isPresented = true
                         }
                         
@@ -319,7 +319,7 @@ struct LeftPocketCustomTabBar: View {
             
         } else {
             timerViewModel.startSession()
-            activity = LiveActivityManager().startActivity(startTime: Date(), elapsedTime: timerViewModel.liveSessionTimer)
+            LiveActivityManager.shared.startActivity(startTime: Date(), elapsedTime: timerViewModel.liveSessionTimer)
             showBuyInScreen = true
         }
     }

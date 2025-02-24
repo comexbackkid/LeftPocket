@@ -23,11 +23,9 @@ class TimerViewModel: ObservableObject {
     var totalBuyInForLiveSession: Int {
         (Int(initialBuyInAmount) ?? 0) + rebuyTotalForSession
     }
-    
     var rebuyTotalForSession: Int {
         return totalRebuys.reduce(0,+)
     }
-    
     var isCounting: Bool {
         UserDefaults.standard.object(forKey: "liveSessionStartTime") != nil
     }
@@ -35,7 +33,7 @@ class TimerViewModel: ObservableObject {
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector(fileAccessAvailable), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appDidResume), name: UIApplication.willEnterForegroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(appWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(appWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
         loadTimerData()
     }
     

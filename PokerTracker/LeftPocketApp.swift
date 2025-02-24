@@ -9,6 +9,7 @@ import SwiftUI
 import TipKit
 import BranchSDK
 import RevenueCat
+import ActivityKit
 
 @main
 struct LeftPocketApp: App {
@@ -48,6 +49,17 @@ struct LeftPocketApp: App {
         
     init() {
         configureTips()
+        
+        // This helps kill the stale Activity, but we aren't yet bothering to restart a new one, it glitches the app
+        Task {
+            let existingActivities = Activity<LiveSessionWidgetAttributes>.activities
+            if !existingActivities.isEmpty {
+                print("Found lingering Live Activities on launch. Ending them now.")
+                for activity in existingActivities {
+                    await activity.end(dismissalPolicy: .immediate)
+                }
+            }
+        }
     }
     
     func configureTips() {
