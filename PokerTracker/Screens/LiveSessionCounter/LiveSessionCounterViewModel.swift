@@ -167,10 +167,9 @@ class TimerViewModel: ObservableObject {
         let minutes = Int(interval) / 60 % 60
         
         if hours > 0 {
-
             return String(format: "%02d:%02d", hours, minutes)
+            
         } else {
-
             let seconds = Int(interval) % 60
             return String(format: "%02d:%02d", minutes, seconds)
         }
