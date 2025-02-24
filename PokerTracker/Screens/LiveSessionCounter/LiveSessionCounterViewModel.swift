@@ -45,6 +45,7 @@ class TimerViewModel: ObservableObject {
             print("No Live Session start time found.")
             return
         }
+        
         liveSessionStartTime = startTime
         updateElapsedTime()
         startUpdatingTimer()
