@@ -71,21 +71,13 @@ final class NewSessionViewModel: ObservableObject {
         }
     }
     
-//    // How many days was the Tournament, default to 1
-//    var computedNumberOfTournamentDays: Int {
-//        if multiDayToggle == true {
-//            return 2
-//        } else {
-//            return 1
-//        }
-//    }
-    
-    // Adjusted Start/End Time for Day Two (Only for Multi-Day Tournaments)
+    // Adjusted Start/End Time for Day Two, default to day two's start time if it's only a two-day tournament
     var adjustedStartTimeDayTwo: Date? {
-        guard self.tournamentDays > 2 else { return startTimeDayTwo } // Use the actual value if only a two-day tournament
+        guard self.tournamentDays > 2 else { return startTimeDayTwo }
         return startTimeDayTwo
     }
     
+    // If tournamentDays are greater than two, we'll compute an arbitrary end time for endTimeDayTwo to get an accurate time duration
     var adjustedEndTimeDayTwo: Date? {
         guard self.tournamentDays > 2, let startTimeDayTwo = adjustedStartTimeDayTwo else { return endTimeDayTwo }
         let totalHoursPlayed = calculateTotalPlayTimeFromMultiDayTournament()
@@ -103,10 +95,9 @@ final class NewSessionViewModel: ObservableObject {
             Calendar.current.dateComponents([.hour], from: startTimeDaySeven, to: endTimeDaySeven).hour ?? 0,
             Calendar.current.dateComponents([.hour], from: startTimeDayEight, to: endTimeDayEight).hour ?? 0
         ]
-        print(dayDurations)
+ 
         // Sum only the relevant days based on tournamentDays
         return dayDurations.prefix(tournamentDays).reduce(0, +)
-        
     }
     
     // Adds up the total dollar amount of Tournament rebuys
@@ -170,12 +161,8 @@ final class NewSessionViewModel: ObservableObject {
                 error = AlertContext.invalidFinishPlace
             } else if buyIn.isEmpty {
                 error = AlertContext.invalidBuyIn
-//            } else if multiDayToggle && (!addDay || !noMoreDays) {
-//                error = AlertContext.invalidTournamentDates
-//            } else if multiDayToggle && (endTimeDayTwo <= startTimeDayTwo) {
-//                error = AlertContext.invalidEndTime
-//            } else if multiDayToggle && (startTimeDayTwo <= endTime) {
-//                error = AlertContext.invalidDayTwoStartTime
+            } else if multiDayToggle && (tournamentDays < 2 || !noMoreDays) {
+                error = AlertContext.invalidTournamentDates
             } else if staking && stakerList.isEmpty {
                 error = AlertContext.invalidStaking
             }
