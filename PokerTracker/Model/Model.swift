@@ -135,7 +135,7 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
 
         let dayOneDuration = Calendar.current.dateComponents([.hour, .minute], from: self.startTime, to: self.endTime)
         
-        // Check if it's a Multi-Day Tournament
+        // Check if it's a Multi-Day Tournament, might want to re-label some variables here given new functionality in NewSessionViewModel
         if let tournamentDays = self.tournamentDays, tournamentDays > 1 {
             if let startTimeDayTwo = self.startTimeDayTwo, let endTimeDayTwo = self.endTimeDayTwo {
 

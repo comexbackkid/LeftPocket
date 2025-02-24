@@ -71,13 +71,42 @@ final class NewSessionViewModel: ObservableObject {
         }
     }
     
-    // How many days was the Tournament, default to 1
-    var computedNumberOfTournamentDays: Int {
-        if multiDayToggle == true {
-            return 2
-        } else {
-            return 1
-        }
+//    // How many days was the Tournament, default to 1
+//    var computedNumberOfTournamentDays: Int {
+//        if multiDayToggle == true {
+//            return 2
+//        } else {
+//            return 1
+//        }
+//    }
+    
+    // Adjusted Start/End Time for Day Two (Only for Multi-Day Tournaments)
+    var adjustedStartTimeDayTwo: Date? {
+        guard self.tournamentDays > 2 else { return startTimeDayTwo } // Use the actual value if only a two-day tournament
+        return startTimeDayTwo
+    }
+    
+    var adjustedEndTimeDayTwo: Date? {
+        guard self.tournamentDays > 2, let startTimeDayTwo = adjustedStartTimeDayTwo else { return endTimeDayTwo }
+        let totalHoursPlayed = calculateTotalPlayTimeFromMultiDayTournament()
+        return startTimeDayTwo.addingTimeInterval(TimeInterval(totalHoursPlayed * 3600))
+    }
+    
+    // Computes total duration of all played sessions in hours
+    private func calculateTotalPlayTimeFromMultiDayTournament() -> Int {
+        let dayDurations = [
+            Calendar.current.dateComponents([.hour], from: startTimeDayTwo, to: endTimeDayTwo).hour ?? 0,
+            Calendar.current.dateComponents([.hour], from: startTimeDayThree, to: endTimeDayThree).hour ?? 0,
+            Calendar.current.dateComponents([.hour], from: startTimeDayFour, to: endTimeDayFour).hour ?? 0,
+            Calendar.current.dateComponents([.hour], from: startTimeDayFive, to: endTimeDayFive).hour ?? 0,
+            Calendar.current.dateComponents([.hour], from: startTimeDaySix, to: endTimeDaySix).hour ?? 0,
+            Calendar.current.dateComponents([.hour], from: startTimeDaySeven, to: endTimeDaySeven).hour ?? 0,
+            Calendar.current.dateComponents([.hour], from: startTimeDayEight, to: endTimeDayEight).hour ?? 0
+        ]
+        print(dayDurations)
+        // Sum only the relevant days based on tournamentDays
+        return dayDurations.prefix(tournamentDays).reduce(0, +)
+        
     }
     
     // Adds up the total dollar amount of Tournament rebuys
@@ -141,12 +170,12 @@ final class NewSessionViewModel: ObservableObject {
                 error = AlertContext.invalidFinishPlace
             } else if buyIn.isEmpty {
                 error = AlertContext.invalidBuyIn
-            } else if multiDayToggle && (!addDay || !noMoreDays) {
-                error = AlertContext.invalidTournamentDates
-            } else if multiDayToggle && (endTimeDayTwo <= startTimeDayTwo) {
-                error = AlertContext.invalidEndTime
-            } else if multiDayToggle && (startTimeDayTwo <= endTime) {
-                error = AlertContext.invalidDayTwoStartTime
+//            } else if multiDayToggle && (!addDay || !noMoreDays) {
+//                error = AlertContext.invalidTournamentDates
+//            } else if multiDayToggle && (endTimeDayTwo <= startTimeDayTwo) {
+//                error = AlertContext.invalidEndTime
+//            } else if multiDayToggle && (startTimeDayTwo <= endTime) {
+//                error = AlertContext.invalidDayTwoStartTime
             } else if staking && stakerList.isEmpty {
                 error = AlertContext.invalidStaking
             }
@@ -219,9 +248,9 @@ final class NewSessionViewModel: ObservableObject {
                                 tournamentSpeed: !speed.isEmpty ? speed : nil,
                                 entrants: Int(entrants),
                                 finish: Int(finish),
-                                tournamentDays: sessionType == .tournament ? computedNumberOfTournamentDays : nil,
-                                startTimeDayTwo: computedNumberOfTournamentDays > 1 ? startTimeDayTwo : nil,
-                                endTimeDayTwo: computedNumberOfTournamentDays > 1 ? endTimeDayTwo : nil,
+                                tournamentDays: sessionType == .tournament ? tournamentDays : nil,
+                                startTimeDayTwo: tournamentDays > 1 ? adjustedStartTimeDayTwo : nil,
+                                endTimeDayTwo: tournamentDays > 1 ? adjustedEndTimeDayTwo : nil,
                                 stakers: sessionType == .tournament && !stakerList.isEmpty ? stakerList : nil)
         
         Task {
