@@ -1350,7 +1350,7 @@ struct AddNewSessionView: View {
                         .frame(width: 15)
                         .foregroundColor(newSession.sessionType == .tournament && newSession.buyIn.isEmpty || newSession.sessionType == .cash && newSession.expenses.isEmpty || newSession.sessionType == nil && newSession.expenses.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
-                    TextField(newSession.sessionType == .tournament ? "Buy In" : "Expenses (Tips, rake, etc.)", text: newSession.sessionType == .tournament ? $newSession.buyIn : $newSession.expenses)
+                    TextField(newSession.sessionType == .tournament ? "Buy In" : "Table Expenses (Rake, tips)", text: newSession.sessionType == .tournament ? $newSession.buyIn : $newSession.expenses)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
                         .focused($focusedField, equals: .expenses)
@@ -1372,7 +1372,7 @@ struct AddNewSessionView: View {
                             .frame(width: 15)
                             .foregroundColor(newSession.rebuyCount.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                         
-                        TextField("Rebuy Ct.", text: $newSession.rebuyCount)
+                        TextField("Rebuys", text: $newSession.rebuyCount)
                             .font(.custom("Asap-Regular", size: 17))
                             .keyboardType(.numberPad)
                             .focused($focusedField, equals: .rebuyCount)
