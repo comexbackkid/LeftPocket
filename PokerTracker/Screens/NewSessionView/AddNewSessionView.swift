@@ -322,9 +322,6 @@ struct AddNewSessionView: View {
                 }
                 .foregroundColor(newSession.stakes.isEmpty ? .brandPrimary : .brandWhite)
                 .buttonStyle(PlainButtonStyle())
-                .transaction { transaction in
-                    transaction.animation = .none
-                }
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
@@ -332,6 +329,7 @@ struct AddNewSessionView: View {
             .sheet(isPresented: $addStakesIsShowing, content: {
                 NewStakesView(addStakesIsShowing: $addStakesIsShowing)
             })
+            .animation(nil, value: newSession.stakes)
             
             // MARK: HANDS PER HOUR SELECTION
             
