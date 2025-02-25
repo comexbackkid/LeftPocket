@@ -68,7 +68,6 @@ struct LeftPocketApp: App {
                              .displayFrequency(TipKitConfig.displayFrequency)])
     }
     
-    // TODO: Use a check to see if the new sessions_v2.json exists, instead of a Bool
     func migrateDataIfNeeded(viewModel: SessionsListViewModel) {
         let fileManager = FileManager.default
         let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
