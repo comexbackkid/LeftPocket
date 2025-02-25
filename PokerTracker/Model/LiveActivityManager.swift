@@ -10,6 +10,10 @@ import SwiftUI
 import ActivityKit
 
 class LiveActivityManager {
+       
+    static let shared = LiveActivityManager() // Singleton instance
+    
+    private init() {}
     
     @discardableResult
     func startActivity(startTime: Date, elapsedTime: String) -> Activity<LiveSessionWidgetAttributes>? {

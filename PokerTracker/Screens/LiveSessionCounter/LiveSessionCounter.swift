@@ -49,8 +49,28 @@ struct LiveSessionCounter: View {
         .background(.ultraThinMaterial)
         .cornerRadius(16)
         .contextMenu {
+            
+            let totalBuyInForLiveSession = timerViewModel.totalBuyInForLiveSession
+            
+            Menu {
+                ForEach(Array(timerViewModel.totalRebuys.enumerated()), id: \.offset) { index, rebuy in
+                    if rebuy == Int(timerViewModel.initialBuyInAmount) {
+                        Text("Rebuy for $\(rebuy)")
+                    } else {
+                        Text("Topped off $\(rebuy)")
+                    }
+                }
+                
+            } label: {
+                Text("In the Game For $\(totalBuyInForLiveSession)")
+                    .foregroundStyle(.red)
+            }
+            
+            Divider()
+            
             Button {
                 showSessionDefaultsView = true
+                
             } label: {
                 HStack {
                     Text("Update Session Details")
@@ -60,6 +80,7 @@ struct LiveSessionCounter: View {
             
             Button {
                 showRebuyModal = true
+                
             } label: {
                 HStack {
                     Text("Add Rebuy")
