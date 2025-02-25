@@ -608,20 +608,20 @@ struct AddNewSessionView: View {
                 
                 Spacer()
                 
-//                if subManager.isSubscribed {
+                if subManager.isSubscribed {
                     Toggle(isOn: $newSession.multiDayToggle) {
                         // No Label Needed
                     }
                     .tint(.brandPrimary)
                     .allowsHitTesting(newSession.tournamentDays > 1 ? false : true)
                     
-//                } else {
-//                    Image(systemName: "lock.fill")
-//                        .font(.title2)
-//                        .onTapGesture {
-//                            showPaywall = true
-//                        }
-//                }
+                } else {
+                    Image(systemName: "lock.fill")
+                        .font(.title2)
+                        .onTapGesture {
+                            showPaywall = true
+                        }
+                }
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
