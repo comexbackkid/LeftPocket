@@ -221,6 +221,7 @@ struct EditSession: View {
                 
                 Button {
                     editSession.addLocationIsShowing = true
+                    
                 } label: {
                     HStack {
                         Text("Add New Location")
@@ -420,74 +421,22 @@ struct EditSession: View {
         
         VStack {
             
-            if let tournamentDays = pokerSession.tournamentDays, tournamentDays > 1 {
-                HStack {
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                    Text("Day One")
-                        .captionStyle()
-                        .opacity(0.33)
-                        .padding(.horizontal)
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                }
-                .padding(.horizontal)
-                .padding(.bottom)
-            }
+//            if let tournamentDays = pokerSession.tournamentDays, tournamentDays > 1 {
+//                HStack {
+//                    Rectangle().frame(height: 0.75)
+//                        .opacity(0.1)
+//                    Text("Day One")
+//                        .captionStyle()
+//                        .opacity(0.33)
+//                        .padding(.horizontal)
+//                    Rectangle().frame(height: 0.75)
+//                        .opacity(0.1)
+//                }
+//                .padding(.horizontal)
+//                .padding(.bottom)
+//            }
             
-            HStack {
-                
-                Image(systemName: "clock")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
-                
-                DatePicker("Start", selection: $editSession.startTime, in: ...Date.now,
-                           displayedComponents: [.date, .hourAndMinute])
-                .accentColor(.brandPrimary)
-                .padding(.leading, 4)
-                .font(.custom("Asap-Regular", size: 18))
-                .datePickerStyle(.compact)
-                
-            }
-            .padding(.horizontal)
-            .padding(.bottom, 10)
-            .opacity(pokerSession.tournamentDays ?? 0 > 1 ? 0.4 : 1)
-            .disabled(pokerSession.tournamentDays ?? 0 > 1 ? true : false)
-            
-            HStack {
-                
-                Image(systemName: "hourglass.tophalf.filled")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(Color(.systemGray3))
-                    .frame(width: 30)
-                
-                DatePicker("End", selection: $editSession.endTime, in: editSession.startTime...Date.now,
-                           displayedComponents: [.date, .hourAndMinute])
-                .accentColor(.brandPrimary)
-                .padding(.leading, 4)
-                .font(.custom("Asap-Regular", size: 18))
-                .datePickerStyle(.compact)
-            }
-            .padding(.horizontal)
-            .padding(.bottom, 16)
-            .opacity(pokerSession.tournamentDays ?? 0 > 1 ? 0.4 : 1)
-            .disabled(pokerSession.tournamentDays ?? 0 > 1 ? true : false)
-            
-            if pokerSession.tournamentDays ?? 0 > 1 {
-                HStack {
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                    Text("Day Two")
-                        .captionStyle()
-                        .opacity(0.33)
-                        .padding(.horizontal)
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                }
-                .padding(.horizontal)
-                .padding(.bottom)
-                .disabled(true)
+            if pokerSession.tournamentDays ?? 1 < 2 {
                 
                 HStack {
                     
@@ -496,7 +445,7 @@ struct EditSession: View {
                         .foregroundColor(Color(.systemGray3))
                         .frame(width: 30)
                     
-                    DatePicker("Start", selection: $editSession.startTimeDayTwo, in: ...Date.now,
+                    DatePicker("Start", selection: $editSession.startTime, in: ...Date.now,
                                displayedComponents: [.date, .hourAndMinute])
                     .accentColor(.brandPrimary)
                     .padding(.leading, 4)
@@ -507,7 +456,7 @@ struct EditSession: View {
                 .padding(.horizontal)
                 .padding(.bottom, 10)
                 .opacity(pokerSession.tournamentDays ?? 0 > 1 ? 0.4 : 1)
-                .disabled(true)
+                .disabled(pokerSession.tournamentDays ?? 0 > 1 ? true : false)
                 
                 HStack {
                     
@@ -516,7 +465,7 @@ struct EditSession: View {
                         .foregroundColor(Color(.systemGray3))
                         .frame(width: 30)
                     
-                    DatePicker("End", selection: $editSession.endTimeDayTwo, in: editSession.startTimeDayTwo...Date.now,
+                    DatePicker("End", selection: $editSession.endTime, in: editSession.startTime...Date.now,
                                displayedComponents: [.date, .hourAndMinute])
                     .accentColor(.brandPrimary)
                     .padding(.leading, 4)
@@ -524,10 +473,113 @@ struct EditSession: View {
                     .datePickerStyle(.compact)
                 }
                 .padding(.horizontal)
-                .padding(.bottom, 16)
+                .padding(.bottom, 10)
                 .opacity(pokerSession.tournamentDays ?? 0 > 1 ? 0.4 : 1)
-                .disabled(true)
+                .disabled(pokerSession.tournamentDays ?? 0 > 1 ? true : false)
             }
+            
+            if let tournamentDays = pokerSession.tournamentDays, tournamentDays > 1 {
+                
+                HStack {
+                    
+                    Image(systemName: "calendar")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundStyle(Color(.systemGray3))
+                        .frame(width: 30)
+                        .opacity(0.4)
+                    
+                    Text("Days")
+                        .bodyStyle()
+                        .padding(.leading, 4)
+                        .opacity(0.4)
+                    
+                    Spacer()
+                    
+                    Text("\(tournamentDays)")
+                        .bodyStyle()
+                        .opacity(0.4)
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 10)
+                
+                
+                HStack {
+                    
+                    Image(systemName: "hourglass.tophalf.filled")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundStyle(Color(.systemGray3))
+                        .frame(width: 30)
+                        .opacity(0.4)
+                    
+                    Text("Total Playing Time")
+                        .bodyStyle()
+                        .padding(.leading, 4)
+                        .opacity(0.4)
+                    
+                    Spacer()
+                    
+                    Text("\(pokerSession.sessionDuration.durationShortHand())")
+                        .bodyStyle()
+                        .opacity(0.4)
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 16)
+            }
+            
+//            if pokerSession.tournamentDays ?? 0 > 1 {
+//                HStack {
+//                    Rectangle().frame(height: 0.75)
+//                        .opacity(0.1)
+//                    Text("Day Two")
+//                        .captionStyle()
+//                        .opacity(0.33)
+//                        .padding(.horizontal)
+//                    Rectangle().frame(height: 0.75)
+//                        .opacity(0.1)
+//                }
+//                .padding(.horizontal)
+//                .padding(.bottom)
+//                .disabled(true)
+//                
+//                HStack {
+//                    
+//                    Image(systemName: "clock")
+//                        .font(.system(size: 24, weight: .bold))
+//                        .foregroundColor(Color(.systemGray3))
+//                        .frame(width: 30)
+//                    
+//                    DatePicker("Start", selection: $editSession.startTimeDayTwo, in: ...Date.now,
+//                               displayedComponents: [.date, .hourAndMinute])
+//                    .accentColor(.brandPrimary)
+//                    .padding(.leading, 4)
+//                    .font(.custom("Asap-Regular", size: 18))
+//                    .datePickerStyle(.compact)
+//                    
+//                }
+//                .padding(.horizontal)
+//                .padding(.bottom, 10)
+//                .opacity(pokerSession.tournamentDays ?? 0 > 1 ? 0.4 : 1)
+//                .disabled(true)
+//                
+//                HStack {
+//                    
+//                    Image(systemName: "hourglass.tophalf.filled")
+//                        .font(.system(size: 24, weight: .bold))
+//                        .foregroundColor(Color(.systemGray3))
+//                        .frame(width: 30)
+//                    
+//                    DatePicker("End", selection: $editSession.endTimeDayTwo, in: editSession.startTimeDayTwo...Date.now,
+//                               displayedComponents: [.date, .hourAndMinute])
+//                    .accentColor(.brandPrimary)
+//                    .padding(.leading, 4)
+//                    .font(.custom("Asap-Regular", size: 18))
+//                    .datePickerStyle(.compact)
+//                }
+//                .padding(.horizontal)
+//                .padding(.bottom, 16)
+//                .opacity(pokerSession.tournamentDays ?? 0 > 1 ? 0.4 : 1)
+//                .disabled(true)
+//            }
         }
     }
     
@@ -927,7 +979,7 @@ struct EditSession: View {
 }
 
 #Preview {
-    EditSession(pokerSession: MockData.sampleSession)
+    EditSession(pokerSession: MockData.sampleTournament)
         .environmentObject(SessionsListViewModel())
         .environmentObject(SubscriptionManager())
         .preferredColorScheme(.dark)
