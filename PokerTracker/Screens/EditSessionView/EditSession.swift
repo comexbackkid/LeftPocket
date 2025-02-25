@@ -421,21 +421,6 @@ struct EditSession: View {
         
         VStack {
             
-//            if let tournamentDays = pokerSession.tournamentDays, tournamentDays > 1 {
-//                HStack {
-//                    Rectangle().frame(height: 0.75)
-//                        .opacity(0.1)
-//                    Text("Day One")
-//                        .captionStyle()
-//                        .opacity(0.33)
-//                        .padding(.horizontal)
-//                    Rectangle().frame(height: 0.75)
-//                        .opacity(0.1)
-//                }
-//                .padding(.horizontal)
-//                .padding(.bottom)
-//            }
-            
             if pokerSession.tournamentDays ?? 1 < 2 {
                 
                 HStack {
@@ -502,7 +487,6 @@ struct EditSession: View {
                 .padding(.horizontal)
                 .padding(.bottom, 10)
                 
-                
                 HStack {
                     
                     Image(systemName: "hourglass.tophalf.filled")
@@ -525,61 +509,6 @@ struct EditSession: View {
                 .padding(.horizontal)
                 .padding(.bottom, 16)
             }
-            
-//            if pokerSession.tournamentDays ?? 0 > 1 {
-//                HStack {
-//                    Rectangle().frame(height: 0.75)
-//                        .opacity(0.1)
-//                    Text("Day Two")
-//                        .captionStyle()
-//                        .opacity(0.33)
-//                        .padding(.horizontal)
-//                    Rectangle().frame(height: 0.75)
-//                        .opacity(0.1)
-//                }
-//                .padding(.horizontal)
-//                .padding(.bottom)
-//                .disabled(true)
-//                
-//                HStack {
-//                    
-//                    Image(systemName: "clock")
-//                        .font(.system(size: 24, weight: .bold))
-//                        .foregroundColor(Color(.systemGray3))
-//                        .frame(width: 30)
-//                    
-//                    DatePicker("Start", selection: $editSession.startTimeDayTwo, in: ...Date.now,
-//                               displayedComponents: [.date, .hourAndMinute])
-//                    .accentColor(.brandPrimary)
-//                    .padding(.leading, 4)
-//                    .font(.custom("Asap-Regular", size: 18))
-//                    .datePickerStyle(.compact)
-//                    
-//                }
-//                .padding(.horizontal)
-//                .padding(.bottom, 10)
-//                .opacity(pokerSession.tournamentDays ?? 0 > 1 ? 0.4 : 1)
-//                .disabled(true)
-//                
-//                HStack {
-//                    
-//                    Image(systemName: "hourglass.tophalf.filled")
-//                        .font(.system(size: 24, weight: .bold))
-//                        .foregroundColor(Color(.systemGray3))
-//                        .frame(width: 30)
-//                    
-//                    DatePicker("End", selection: $editSession.endTimeDayTwo, in: editSession.startTimeDayTwo...Date.now,
-//                               displayedComponents: [.date, .hourAndMinute])
-//                    .accentColor(.brandPrimary)
-//                    .padding(.leading, 4)
-//                    .font(.custom("Asap-Regular", size: 18))
-//                    .datePickerStyle(.compact)
-//                }
-//                .padding(.horizontal)
-//                .padding(.bottom, 16)
-//                .opacity(pokerSession.tournamentDays ?? 0 > 1 ? 0.4 : 1)
-//                .disabled(true)
-//            }
         }
     }
     
@@ -721,8 +650,8 @@ struct EditSession: View {
         .onAppear {
             editSession.buyIn = String(pokerSession.buyIn)
             editSession.cashOut = String(pokerSession.cashOut)
-            editSession.expenses = String(pokerSession.expenses)
-            editSession.highHandBonus = String(pokerSession.highHandBonus)
+            editSession.expenses = pokerSession.expenses == 0 ? "" : String(pokerSession.expenses)
+            editSession.highHandBonus = pokerSession.highHandBonus == 0 ? "" : String(pokerSession.highHandBonus)
             editSession.notes = pokerSession.notes
             editSession.tags = pokerSession.tags.joined(separator: ", ")
         }
@@ -789,7 +718,7 @@ struct EditSession: View {
                         .font(.callout)
                         .foregroundColor(editSession.rebuyCount.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
-                    TextField("Rebuy Ct.", text: $editSession.rebuyCount)
+                    TextField("Rebuys", text: $editSession.rebuyCount)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
                 }
