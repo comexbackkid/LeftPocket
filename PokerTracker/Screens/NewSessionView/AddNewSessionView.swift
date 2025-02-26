@@ -1480,7 +1480,7 @@ struct AddNewSessionView: View {
             
             // MARK: TAGS
             
-            let tagsList = vm.sessions.filter({ !$0.tags.isEmpty }).map({ $0.tags[0] })
+            let tagsList = vm.sessions.filter({ !$0.tags.isEmpty }).map({ $0.tags[0] }).uniqued()
             
             HStack {
                 Image(systemName: "tag.fill")
