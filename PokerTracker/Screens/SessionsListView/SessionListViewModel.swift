@@ -55,12 +55,11 @@ class SessionsListViewModel: ObservableObject {
     /// We're running this in the event the app gets launched in the background prior to having permissions to read/write data to the file system.
     /// What we do is simply check for an error message, and then attempt to load the data again once triggered by the NotificationCenter.
     @objc func fileAccessAvailable() {
-        if alertMessage != nil {
-            getNewSessions()
-            getNewLocations()
-            getUserStakes()
-            alertMessage = nil
-        }
+        getNewSessions()
+        getNewLocations()
+        getUserStakes()
+        alertMessage = nil
+        
     }
     
     var sessionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("sessions.json") }
@@ -81,16 +80,7 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
-    /// User reported a crash upon launch immediately
-    /// Experimenting with safer handling of URLs and JSON files during init
-    /// Our default fallback for the timebeing will be to just assign sessions as an empty array if there are any fails
     func getNewSessions() {
-        guard FileManager.default.fileExists(atPath: newSessionsPath.path) else {
-            print("No sessions file found, initializing with empty array.")
-            self.sessions = []
-            return
-        }
-        
         do {
             let data = try Data(contentsOf: newSessionsPath)
             let savedSessions = try JSONDecoder().decode([PokerSession_v2].self, from: data)
@@ -99,7 +89,6 @@ class SessionsListViewModel: ObservableObject {
             
         } catch {
             print("Failed to load sessions: \(error.localizedDescription)")
-            self.sessions = []
             alertMessage = "Could not load your session data."
         }
     }
