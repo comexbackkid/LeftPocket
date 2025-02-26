@@ -39,15 +39,8 @@ class TimerViewModel: ObservableObject {
     
     func loadTimerData() {
         // Attempt to recover liveSessionStartTime from UserDefaults
-//        guard let startTime = UserDefaults.standard.object(forKey: "liveSessionStartTime") as? Date else {
-//            print("No Live Session start time found.")
-//            return
-//        }
-        
-        
         guard let startTime = UserDefaults.standard.object(forKey: "liveSessionStartTime") as? Date else {
-            print("No Live Session start time found. Resetting session due to possible force restart.")
-            resetTimer()
+            print("No Live Session start time found.")
             return
         }
         
