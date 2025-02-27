@@ -49,7 +49,7 @@ struct BarChartWeeklySessionCount: View {
                     
                     Spacer()
                 }
-                .padding(.bottom, 40)
+                .padding(.bottom, 20)
             }
             
             barChart
@@ -69,7 +69,7 @@ struct BarChartWeeklySessionCount: View {
             .chartXScale(domain: [1, 52])
             .chartXAxis(.hidden)
             .chartYAxis {
-                AxisMarks(position: .leading) { value in
+                AxisMarks(position: .leading, values: .automatic(desiredCount: 3)) { value in
                     AxisGridLine()
                         .foregroundStyle(.gray.opacity(0.33))
                     AxisValueLabel() {
@@ -94,7 +94,7 @@ struct BarChartWeeklySessionCount: View {
                     .foregroundStyle(.secondary)
             }
             .padding(.leading, 26)
-            .padding(.top, 2)
+            .padding(.top, 10)
         }
     }
 }

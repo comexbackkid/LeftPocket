@@ -81,6 +81,25 @@ struct MetricsView: View {
                                 
                                 performanceChart
                                 
+                                let barChartDateRange = viewModel.sessions.filter({ $0.date.getYear() == Date().getYear() })
+                                
+                                BarChartWeeklySessionCount(showTitle: true, dateRange: barChartDateRange)
+                                    .padding(20)
+                                    .frame(width: UIScreen.main.bounds.width * 0.9, height: 190)
+                                    .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                                    .cornerRadius(12)
+                                    .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+                                    .overlay {
+                                        if barChartDateRange.isEmpty {
+                                            VStack {
+                                                Text("No chart data to display.")
+                                                    .calloutStyle()
+                                                    .foregroundStyle(.secondary)
+                                            }
+                                            .offset(y: 20)
+                                        }
+                                    }
+                                
                                 AdditionalMetricsView()
                                     .padding(.bottom, activeSheet == .metricsAsSheet ? 0 : 50)
                             }
