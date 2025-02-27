@@ -12,7 +12,49 @@ class CSVConversion: ObservableObject {
     
     @Published var errorMsg: String?
     @Published var successfulMsg: String?
+    
+    // MARK: EXPORT TRANSACTIONS FUNCTIONS
+    
+    static func exportTransactionsCSV(from transactions: [BankrollTransaction]) throws -> URL {
 
+        guard !transactions.isEmpty else {
+            throw CSVError.invalidTransactionData
+        }
+        
+        let csvText = convertTransactionsToCSV(data: transactions)
+        
+        do {
+            let fileURL = try getDocumentsDirectoryNew().appendingPathComponent("Left_Pocket_Transactions.csv")
+            try csvText.write(to: fileURL, atomically: true, encoding: .utf8)
+            return fileURL
+            
+        } catch {
+            throw CSVError.exportFailed
+        }
+    }
+    
+    static private func convertTransactionsToCSV(data: [BankrollTransaction]) -> String {
+        var csvText = "Date,Type,Amount,Entry Title\n"
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
+        
+        for transaction in data {
+            let date = "\"\(dateFormatter.string(from: transaction.date))\""
+            let type = "\"\(transaction.type.description)\""
+            let amount = "\(transaction.amount)"
+            let entryTitle = "\"\(transaction.notes)\""
+            
+            let rowText = "\(date),\(type),\(amount),\(entryTitle)\n"
+            
+            csvText.append(rowText)
+        }
+        
+        return csvText
+    }
+    
+    // MARK: EXPORT SESSIONS FUNCTIONS
+    
     static func exportCSV(from sessions: [PokerSession_v2]) throws -> URL {
         
         guard !sessions.isEmpty else {
@@ -32,7 +74,7 @@ class CSVConversion: ObservableObject {
     }
     
     static private func convertToCSV(data: [PokerSession_v2]) -> String {
-        var csvText = "Date,Start Time,End Time,Location,Game,Stakes,Buy In,Cash Out,Profit,Expenses,High Hands,Tournament,Multi-Day,Days,Day Two Start,Day Two End,Rebuy Count,Size,Speed,Entrants,Finish,Tags,Notes\n"
+        var csvText = "Date,Start Time,End Time,Location,Game,Stakes,Buy In,Cash Out,Profit,Table Expenses,High Hands,Tournament,Multi-Day,Days,Day Two Start,Day Two End,Rebuy Count,Size,Speed,Entrants,Finish,Tags,Notes\n"
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
@@ -85,6 +127,7 @@ class CSVConversion: ObservableObject {
         guard let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             throw CSVError.exportFailed
         }
+        
         return directoryURL
     }
 }
@@ -94,15 +137,14 @@ extension CSVConversion {
     enum CSVError: Error, LocalizedError {
         
         case invalidData
+        case invalidTransactionData
         case exportFailed
         
         var errorDescription: String? {
-            
             switch self {
-            case .invalidData:
-                return "There are no Sessions to export."
-            case .exportFailed:
-                return "There was an error exporting your data."
+            case .invalidData: return "There are no Sessions to export."
+            case .invalidTransactionData: return "There are no Transactions to export."
+            case .exportFailed: return "There was an error exporting your data."
             }
         }
     }
