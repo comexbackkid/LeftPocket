@@ -42,7 +42,7 @@ struct OnboardingView: View {
                              nextAction: nextPage,
                              shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(2)
             
-            PageView(title: "Easy Live Session Tracking",
+            PageView(title: "Track Your Live Sessions",
                      subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Monitor from your lock screen too!"),
                      videoURL: "logging-sessions-new",
                      showDismissButton: false, player: players["logging-sessions-new"],
@@ -72,7 +72,7 @@ struct OnboardingView: View {
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(7)
             
             PageView(title: "Session Tags & Reports",
-                     subtitle: Text("Sessions & Transactions with a Tag \(Image(systemName: "tag.fill")) you created can be filtered & grouped together in a custom report for things like a trip, or bankroll challenge."),
+                     subtitle: Text("Easily filter & group together similar Sessions & Transactions by applying a Tag \(Image(systemName: "tag.fill")) to them. Custom Tag reports can be found in your Metrics screen."),
                      videoURL: "tag-reporting",
                      showDismissButton: false, player: players["tag-reporting"],
                      nextAction: nextPage,
