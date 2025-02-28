@@ -71,6 +71,9 @@ struct MetricsView: View {
                                     }
                                 }
                                 .clipped()
+                                .background(colorScheme == .dark && !subManager.isSubscribed ? Color.black.opacity(0.5) : Color.white)
+                                .cornerRadius(12)
+                                .shadow(color: colorScheme == .dark && !subManager.isSubscribed ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
 
                                 HStack {
                                     dayOfWeekChart
@@ -213,6 +216,9 @@ struct MetricsView: View {
                 }
             }
             .clipped()
+            .background(colorScheme == .dark && !subManager.isSubscribed ? Color.black.opacity(0.5) : Color.white)
+            .cornerRadius(12)
+            .shadow(color: colorScheme == .dark && !subManager.isSubscribed ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     
     var barChart: some View {
@@ -1196,6 +1202,6 @@ struct MetricsView_Previews: PreviewProvider {
         MetricsView(activeSheet: .constant(nil))
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
-            .preferredColorScheme(.dark)
+//            .preferredColorScheme(.dark)
     }
 }
