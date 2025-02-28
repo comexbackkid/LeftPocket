@@ -81,7 +81,7 @@ struct AddNewTransaction: View {
         VStack (alignment: .leading, spacing: 20) {
             
             HStack {
-                Text("Enter any \"off-the-felt\" expenses like meals, travel, & memberships, or, manage your withdrawals / deposits to your bankroll. Transactions do NOT affect your stats. ")
+                Text("Enter any \"off-the-felt\" expenses like meals, travel, & memberships, or bankroll transactions. These do not affect your performance stats.")
                     .bodyStyle()
                 
                 Spacer()
@@ -105,7 +105,7 @@ struct AddNewTransaction: View {
                 .foregroundStyle(Color.brandPrimary)
             }
             .popover(isPresented: $transactionPopup, arrowEdge: .bottom, content: {
-                PopoverView(bodyText: "Transactions are for players who want a precise ledger of their current, actual bankroll figure. They do not factor into your player stats, & are tallied together in Tag Reports & your Annual Report.")
+                PopoverView(bodyText: "Transactions are for players who want a precise ledger of their current, actual bankroll figure. They do not factor into your player stats, & are tallied together in Tag Reports & your Annual Report to assist with profit & loss statements.")
                     .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
                     .frame(height: 180)
                     .dynamicTypeSize(.medium...DynamicTypeSize.medium)

@@ -37,7 +37,7 @@ struct ProfitByYear: View {
                 
                 incomeReport
                 
-                barChart
+//                barChart
                 
                 bestPlays
                 

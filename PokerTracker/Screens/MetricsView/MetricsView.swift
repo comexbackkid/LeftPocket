@@ -51,29 +51,7 @@ struct MetricsView: View {
                                 
                                 barChart
                                 
-                                ToolTipView(image: "stopwatch",
-                                            message: "You tend to play better when your Session lasts \(viewModel.bestSessionLength()).",
-                                            color: .brandPrimary,
-                                            premium: subManager.isSubscribed ? false : true)
-                                .overlay {
-                                    if !subManager.isSubscribed {
-                                        HStack {
-                                            Image(systemName: "lock.fill")
-                                            Text("Upgrade to Pro")
-                                                .calloutStyle()
-                                                .fontWeight(.black)
-                                        }
-                                        .padding(35)
-                                        .background(colorScheme == .dark ? Color.black.blur(radius: 25) : Color.white.blur(radius: 25))
-                                        .onTapGesture {
-                                            showPaywall = true
-                                        }
-                                    }
-                                }
-                                .clipped()
-                                .background(colorScheme == .dark && !subManager.isSubscribed ? Color.black.opacity(0.5) : Color.white)
-                                .cornerRadius(12)
-                                .shadow(color: colorScheme == .dark && !subManager.isSubscribed ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+                                sessionLengthToolTip
 
                                 HStack {
                                     dayOfWeekChart
@@ -182,6 +160,40 @@ struct MetricsView: View {
         }
     }
     
+    var sessionLengthToolTip: some View {
+        
+        Group {
+            if !subManager.isSubscribed {
+                ToolTipView(image: "stopwatch",
+                            message: "You tend to play better when your Session lasts \(viewModel.bestSessionLength()).",
+                            color: .brandPrimary,
+                            premium: subManager.isSubscribed ? false : true)
+                .overlay {
+                    if !subManager.isSubscribed {
+                        HStack {
+                            Image(systemName: "lock.fill")
+                            Text("Upgrade to Pro")
+                                .calloutStyle()
+                                .fontWeight(.black)
+                        }
+                        .padding(35)
+                        .background(colorScheme == .dark ? Color.black.blur(radius: 25) : Color.white.blur(radius: 25))
+                        .onTapGesture {
+                            showPaywall = true
+                        }
+                    }
+                }
+                .clipped()
+                
+            } else {
+                ToolTipView(image: "stopwatch",
+                            message: "You tend to play better when your Session lasts \(viewModel.bestSessionLength()).",
+                            color: .brandPrimary,
+                            premium: subManager.isSubscribed ? false : true)
+            }
+        }
+    }
+    
     var bankrollChart: some View {
         
         BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, showPatternBackground: false, overlayAnnotation: false, showToggleAndFilter: true)
@@ -192,33 +204,43 @@ struct MetricsView: View {
     
     var bankrollProgressView: some View {
         
-        BankrollProgressView(progressIndicator: $progressIndicator, isSubscribed: subManager.isSubscribed)
-            .onAppear(perform: {
-                self.progressIndicator = viewModel.bankrollProgressRing
-            })
-            .onReceive(viewModel.$sessions, perform: { _ in
-                self.progressIndicator = viewModel.bankrollProgressRing
-            })
-            .cardShadow(colorScheme: colorScheme)
-            .overlay {
-                if !subManager.isSubscribed {
-                    HStack {
-                        Image(systemName: "lock.fill")
-                        Text("Upgrade to Pro")
-                            .calloutStyle()
-                            .fontWeight(.black)
+        Group {
+            if !subManager.isSubscribed {
+                BankrollProgressView(progressIndicator: $progressIndicator, isSubscribed: subManager.isSubscribed)
+                    .onAppear(perform: {
+                        self.progressIndicator = viewModel.bankrollProgressRing
+                    })
+                    .onReceive(viewModel.$sessions, perform: { _ in
+                        self.progressIndicator = viewModel.bankrollProgressRing
+                    })
+                    .cardShadow(colorScheme: colorScheme)
+                    .overlay {
+                        HStack {
+                            Image(systemName: "lock.fill")
+                            Text("Upgrade to Pro")
+                                .calloutStyle()
+                                .fontWeight(.black)
+                        }
+                        .padding(35)
+                        .background(colorScheme == .dark ? Color.black.blur(radius: 25) : Color.white.blur(radius: 25))
+                        .onTapGesture {
+                            showPaywall = true
+                        }
+                        
                     }
-                    .padding(35)
-                    .background(colorScheme == .dark ? Color.black.blur(radius: 25) : Color.white.blur(radius: 25))
-                    .onTapGesture {
-                        showPaywall = true
-                    }
-                }
+                    .clipped()
+                
+            } else {
+                BankrollProgressView(progressIndicator: $progressIndicator, isSubscribed: subManager.isSubscribed)
+                    .onAppear(perform: {
+                        self.progressIndicator = viewModel.bankrollProgressRing
+                    })
+                    .onReceive(viewModel.$sessions, perform: { _ in
+                        self.progressIndicator = viewModel.bankrollProgressRing
+                    })
+                    .cardShadow(colorScheme: colorScheme)
             }
-            .clipped()
-            .background(colorScheme == .dark && !subManager.isSubscribed ? Color.black.opacity(0.5) : Color.white)
-            .cornerRadius(12)
-            .shadow(color: colorScheme == .dark && !subManager.isSubscribed ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+        }
     }
     
     var barChart: some View {
