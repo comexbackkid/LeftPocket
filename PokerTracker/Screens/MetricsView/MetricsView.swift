@@ -1139,7 +1139,7 @@ struct AdditionalMetricsView: View {
                             destination: ProfitByYear(),
                             label: {
                                 AdditionalMetricsCardView(title: "Annual Report",
-                                                          description: "Review & export your results from the previous year.",
+                                                          description: "Review & export results from last year.",
                                                           image: "list.clipboard",
                                                           color: .donutChartDarkBlue)
                             })
@@ -1160,7 +1160,7 @@ struct AdditionalMetricsView: View {
                             destination: ProfitByMonth(vm: viewModel),
                             label: {
                                 AdditionalMetricsCardView(title: "Monthly Snapshot",
-                                                          description: "View your results on a month by month basis.",
+                                                          description: "View results on a month by month basis.",
                                                           image: "calendar",
                                                           color: .donutChartGreen)
                             })
@@ -1180,7 +1180,7 @@ struct AdditionalMetricsView: View {
                             destination: ProfitByLocationView(viewModel: viewModel),
                             label: {
                                 AdditionalMetricsCardView(title: "Location Statistics",
-                                                          description: "View your profit or loss for every location you've played at.",
+                                                          description: "Review stats for every location you've played at.",
                                                           image: "mappin.and.ellipse",
                                                           color: .donutChartRed)
                             })
@@ -1190,7 +1190,7 @@ struct AdditionalMetricsView: View {
                             destination: ProfitByStakesView(viewModel: viewModel),
                             label: {
                                 AdditionalMetricsCardView(title: "Game Stakes",
-                                                          description: "Break down your game by different table stakes.",
+                                                          description: "Break down your play by different game stakes.",
                                                           image: "dollarsign.circle",
                                                           color: .donutChartPurple)
                             })
@@ -1200,7 +1200,7 @@ struct AdditionalMetricsView: View {
                             destination: TagReport(),
                             label: {
                                 AdditionalMetricsCardView(title: "Tag Report",
-                                                          description: "Generate a report sorted via tags applied to your Sessions.",
+                                                          description: "Generate a detailed report sorted via Tags.",
                                                           image: "tag.fill",
                                                           color: .brandWhite)
                             })

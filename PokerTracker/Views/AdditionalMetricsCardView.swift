@@ -34,16 +34,18 @@ struct AdditionalMetricsCardView: View {
                 Image(systemName: image)
                     .resizable()
                     .bold()
-                    .foregroundStyle(color.gradient)
+                    .foregroundStyle(Color.black)
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 38, height: 38)
-                    .padding(14)
-                    .cornerRadius(6)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(.primary, lineWidth: 1)
-                    )
-                    .opacity(0.4)
+                    .frame(width: 30, height: 30)
+                    .padding(12)
+                    .background(color)
+                    .cornerRadius(12)
+                    
+//                    .overlay(
+//                        RoundedRectangle(cornerRadius: 12)
+//                            .stroke(.primary, lineWidth: 1)
+//                    )
+//                    .opacity(0.4)
                     
                 VStack (alignment: .leading, spacing: 3) {
                     
@@ -75,7 +77,7 @@ struct AdditionalMetricsCardView: View {
             }
             .padding(18)
         }
-        .frame(width: 300, height: 120)
+        .frame(width: 300, height: 100)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -84,7 +86,7 @@ struct AdditionalMetricsCardView: View {
 
 struct AdditionalMetricsCardView_Previews: PreviewProvider {
     static var previews: some View {
-        AdditionalMetricsCardView(title: "Annual Summary", description: "Review results and stats for a given year.", image: "list.clipboard", color: .lightGreen)
+        AdditionalMetricsCardView(title: "Annual Summary", description: "Review results from last year", image: "list.clipboard", color: .lightGreen)
             .preferredColorScheme(.dark)
     }
 }
