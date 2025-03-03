@@ -1202,7 +1202,7 @@ struct AdditionalMetricsView: View {
                                 AdditionalMetricsCardView(title: "Tag Report",
                                                           description: "Generate a detailed report sorted via Tags.",
                                                           image: "tag.fill",
-                                                          color: .brandWhite)
+                                                          color: colorScheme == .dark ? .brandWhite : .gray)
                             })
                         .buttonStyle(PlainButtonStyle())
                     }
