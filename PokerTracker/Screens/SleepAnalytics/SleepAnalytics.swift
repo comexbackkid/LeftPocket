@@ -70,45 +70,9 @@ struct SleepAnalytics: View {
 
                             sleepChart
                                                         
-                            ToolTipView(image: "bed.double.fill",
-                                        message: "In the last month, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 || countLowSleepSessions() < 1  ? "s" : "") under-rested.",
-                                        color: .donutChartOrange,
-                                        premium: subManager.isSubscribed ? false : true)
-                            .overlay {
-                                if !subManager.isSubscribed {
-                                    HStack {
-                                        Image(systemName: "lock.fill")
-                                        Text("Upgrade to Pro")
-                                            .calloutStyle()
-                                            .fontWeight(.black)
-                                            
-                                        
-                                    }
-                                    .padding(35)
-                                    .background(colorScheme == .dark ? Color.black.blur(radius: 25) : Color.white.blur(radius: 25))
-                                }
-                            }
-                            .clipped()
+                            lowSleepToolTip
                             
-                            ToolTipView(image: "gauge",
-                                        message: performanceComparison(),
-                                        color: .chartAccent,
-                                        premium: subManager.isSubscribed ? false : true)
-                            .overlay {
-                                if !subManager.isSubscribed {
-                                    HStack {
-                                        Image(systemName: "lock.fill")
-                                        Text("Upgrade to Pro")
-                                            .calloutStyle()
-                                            .fontWeight(.black)
-                                            
-                                        
-                                    }
-                                    .padding(35)
-                                    .background(colorScheme == .dark ? Color.black.blur(radius: 25) : Color.white.blur(radius: 25))
-                                }
-                            }
-                            .clipped()
+                            sleepPerformanceToolTip
                             
                             NavigationLink(destination: MindfulnessAnalytics()) {
                                 mindfulnessCard
@@ -222,6 +186,72 @@ struct SleepAnalytics: View {
                 showPaywall = true
             } label: {
                 PrimaryButton(title: "Try Left Pocket Pro")
+            }
+        }
+    }
+    
+    var lowSleepToolTip: some View {
+        
+        Group {
+            if !subManager.isSubscribed {
+                ToolTipView(image: "bed.double.fill",
+                            message: "In the last month, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 || countLowSleepSessions() < 1  ? "s" : "") under-rested.",
+                            color: .donutChartOrange,
+                            premium: true)
+                .overlay {
+                    if !subManager.isSubscribed {
+                        HStack {
+                            Image(systemName: "lock.fill")
+                            Text("Upgrade to Pro")
+                                .calloutStyle()
+                                .fontWeight(.black)
+                                
+                            
+                        }
+                        .padding(35)
+                        .background(colorScheme == .dark ? Color.black.blur(radius: 25) : Color.white.blur(radius: 25))
+                    }
+                }
+                .clipped()
+                
+            } else {
+                ToolTipView(image: "bed.double.fill",
+                            message: "In the last month, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 || countLowSleepSessions() < 1  ? "s" : "") under-rested.",
+                            color: .donutChartOrange,
+                            premium: false)
+            }
+        }
+    }
+    
+    var sleepPerformanceToolTip: some View {
+        
+        Group {
+            if !subManager.isSubscribed {
+                ToolTipView(image: "gauge",
+                            message: performanceComparison(),
+                            color: .chartAccent,
+                            premium: true)
+                .overlay {
+                    if !subManager.isSubscribed {
+                        HStack {
+                            Image(systemName: "lock.fill")
+                            Text("Upgrade to Pro")
+                                .calloutStyle()
+                                .fontWeight(.black)
+                                
+                            
+                        }
+                        .padding(35)
+                        .background(colorScheme == .dark ? Color.black.blur(radius: 25) : Color.white.blur(radius: 25))
+                    }
+                }
+                .clipped()
+                
+            } else {
+                ToolTipView(image: "gauge",
+                            message: performanceComparison(),
+                            color: .chartAccent,
+                            premium: false)
             }
         }
     }

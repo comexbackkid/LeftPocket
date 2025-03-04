@@ -42,25 +42,7 @@ struct MindfulnessAnalytics: View {
 
                     meditationChart
                     
-                    ToolTipView(image: "chart.line.uptrend.xyaxis",
-                                message: meditationPerformanceComparison(),
-                                color: .indigo,
-                                premium: subManager.isSubscribed ? false : true)
-                    .overlay {
-                        if !subManager.isSubscribed {
-                            HStack {
-                                Image(systemName: "lock.fill")
-                                Text("Upgrade to Pro")
-                                    .calloutStyle()
-                                    .fontWeight(.black)
-                                    
-                                
-                            }
-                            .padding(35)
-                            .background(colorScheme == .dark ? Color.black.blur(radius: 25) : Color.white.blur(radius: 25))
-                        }
-                    }
-                    .clipped()
+                    meditationPerformanceToolTip
                     
                     meditationClasses
                                         
@@ -108,6 +90,37 @@ struct MindfulnessAnalytics: View {
         }
         .padding(.horizontal)
         .padding(.bottom)
+    }
+    
+    var meditationPerformanceToolTip: some View {
+        
+        Group {
+            if !subManager.isSubscribed {
+                ToolTipView(image: "chart.line.uptrend.xyaxis",
+                            message: meditationPerformanceComparison(),
+                            color: .indigo,
+                            premium: true)
+                .overlay {
+                    if !subManager.isSubscribed {
+                        HStack {
+                            Image(systemName: "lock.fill")
+                            Text("Upgrade to Pro")
+                                .calloutStyle()
+                                .fontWeight(.black)
+                        }
+                        .padding(35)
+                        .background(colorScheme == .dark ? Color.black.blur(radius: 25) : Color.white.blur(radius: 25))
+                    }
+                }
+                .clipped()
+                
+            } else {
+                ToolTipView(image: "chart.line.uptrend.xyaxis",
+                            message: meditationPerformanceComparison(),
+                            color: .indigo,
+                            premium: false)
+            }
+        }
     }
     
     var meditationClasses: some View {
