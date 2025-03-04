@@ -112,8 +112,8 @@ struct BarChartByYear: View {
             }
             .chartXAxis {
                 AxisMarks {
-                    AxisGridLine(stroke: StrokeStyle(lineWidth: 1, dash: [2, 8]))
-                        .foregroundStyle(.gray.opacity(0.33))
+//                    AxisGridLine(stroke: StrokeStyle(lineWidth: 1, dash: [2, 8]))
+//                        .foregroundStyle(.gray.opacity(0.33))
                     AxisValueLabel(format: .dateTime.month(.abbreviated),
                                    horizontalSpacing: sessionProfitByMonth.isEmpty ? 25 : 0,
                                    verticalSpacing: 15).font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
