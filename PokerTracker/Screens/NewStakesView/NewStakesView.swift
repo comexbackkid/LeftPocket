@@ -141,6 +141,7 @@ struct NewStakesView: View {
                 impact.impactOccurred()
                 newStakesViewModel.saveStakes(viewModel: vm)
                 addStakesIsShowing = newStakesViewModel.presentation ?? true
+                
             } label: {
                 PrimaryButton(title: "Save Stakes")
             }
@@ -150,13 +151,13 @@ struct NewStakesView: View {
                 let impact = UIImpactFeedbackGenerator(style: .soft)
                 impact.impactOccurred()
                 addStakesIsShowing.toggle()
+                
             } label: {
                 Text("Cancel")
                     .buttonTextStyle()
             }
             .tint(.red)
         }
-        
     }
 }
 

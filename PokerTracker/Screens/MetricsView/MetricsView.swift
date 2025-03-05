@@ -1224,6 +1224,6 @@ struct MetricsView_Previews: PreviewProvider {
         MetricsView(activeSheet: .constant(nil))
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
-//            .preferredColorScheme(.dark)
+            .preferredColorScheme(.dark)
     }
 }
