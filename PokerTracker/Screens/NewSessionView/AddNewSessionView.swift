@@ -651,6 +651,7 @@ struct AddNewSessionView: View {
                             Text("NL Texas Hold Em").tag("NL Texas Hold Em")
                             Text("Pot Limit Omaha").tag("Pot Limit Omaha")
                             Text("Seven Card Stud").tag("Seven Card Stud")
+                            Text("Razz").tag("Razz")
                             Text("Mixed").tag("Mixed")
                         }
                     }

@@ -70,6 +70,20 @@ struct CellView: View {
                                 }
                             }
                             
+                            if pokerSession.bounties != nil {
+                                
+                                HStack (spacing: 0) {
+                                    Text(" • ")
+                                        .captionStyle()
+                                        .foregroundStyle(.secondary)
+                                    
+                                    Image(systemName: "scope")
+                                        .resizable()
+                                        .foregroundStyle(.secondary)
+                                        .frame(width: 12, height: 12)
+                                }
+                            }
+                            
                         } else {
                             Text("\(currency.symbol)" + pokerSession.stakes + " • ")
                                 .captionStyle()

@@ -84,14 +84,7 @@ struct TagReport: View {
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             .padding(.bottom, 14)
             
-            BankrollLineChart(customDateRange: taggedSessions, showTitle: true, showYAxis: true, showRangeSelector: false, showPatternBackground: false, overlayAnnotation: false, showToggleAndFilter: false)
-                .padding(20)
-                .padding(.bottom)
-                .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)
-                .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
-                .cornerRadius(12)
-                .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
-                .padding(.bottom, 80)
+            lineChart
         }
         .background(Color.brandBackground)
         .accentColor(.brandPrimary)
@@ -148,7 +141,7 @@ struct TagReport: View {
             Menu {
                 Picker("Tag Selection", selection: $tagsFilter) {
                     ForEach(taggedSessions, id: \.self) {
-                        Text($0.capitalized).tag($0)
+                        Text($0).tag($0)
                     }
                     
                     if taggedSessions.isEmpty {
@@ -163,7 +156,7 @@ struct TagReport: View {
                     Text("Please select ›")
                         .bodyStyle()
                 } else {
-                    Text(tagsFilter.capitalized)
+                    Text(tagsFilter)
                         .bodyStyle()
                         .lineLimit(1)
                 }
@@ -260,6 +253,7 @@ struct TagReport: View {
             let profitPerSession = tagProfitPerSession(tag: tagsFilter)
             let hourlyRate = tagHourlyRate(tag: tagsFilter)
             let roi = tagTournamentROI(tag: tagsFilter)
+            let actionSold = tagActionSold(tag: tagsFilter)
             let startDate = tagDateRange(tag: tagsFilter)?.0.formatted(.dateTime.month(.defaultDigits).day(.defaultDigits).year(.twoDigits))
             let endDate = tagDateRange(tag: tagsFilter)?.1.formatted(.dateTime.month(.defaultDigits).day(.defaultDigits).year(.twoDigits))
             
@@ -316,6 +310,14 @@ struct TagReport: View {
             }
             
             HStack {
+                Text("Action Sold")
+                
+                Spacer()
+                
+                Text(actionSold, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+            }
+            
+            HStack {
                 Text("Hours Played")
                 
                 Spacer()
@@ -336,6 +338,18 @@ struct TagReport: View {
                 }
             }
         }
+    }
+    
+    var lineChart: some View {
+        
+        BankrollLineChart(customDateRange: taggedSessions, showTitle: true, showYAxis: true, showRangeSelector: false, showPatternBackground: false, overlayAnnotation: false, showToggleAndFilter: false)
+            .padding(20)
+            .padding(.bottom)
+            .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)
+            .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+            .cornerRadius(12)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+            .padding(.bottom, 80)
     }
     
     private func tagSessionCount(tag: String) -> Int {
@@ -493,6 +507,23 @@ struct TagReport: View {
         let lastDay = matchedSessions.first!.date
         
         return (firstDay, lastDay)
+    }
+    
+    private func tagActionSold(tag: String) -> Int {
+        
+        let taggedSessions = viewModel.sessions.filter({ !$0.tags.isEmpty })
+        let matchedSessions = taggedSessions.filter({ $0.tags.first == tag })
+        
+        let totalAmountOwed = matchedSessions.reduce(0.0) { total, session in
+            guard let stakers = session.stakers else { return total }
+            
+            let totalPercentage = stakers.reduce(0.0) { $0 + $1.percentage }
+            let amountOwed = (Double(session.cashOut) + Double(session.bounties ?? 0)) * totalPercentage
+            
+            return total + amountOwed
+        }
+        
+        return Int(totalAmountOwed)
     }
 }
 
