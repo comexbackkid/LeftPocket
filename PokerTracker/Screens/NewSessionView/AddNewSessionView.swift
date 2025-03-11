@@ -591,6 +591,50 @@ struct AddNewSessionView: View {
             .padding(.bottom, 10)
             .animation(.easeInOut, value: newSession.sessionType)
             
+            if newSession.staking {
+                HStack {
+                    
+                    Image(systemName: "percent")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(Color(.systemGray3))
+                        .frame(width: 30, height: 30)
+                    
+                    Text("Markup")
+                        .bodyStyle()
+                        .padding(.leading, 4)
+                    
+                    
+                    Spacer()
+                    
+                    Menu {
+                        withAnimation {
+                            Picker("Markup", selection: $newSession.markup) {
+                                Text("1.0").tag(1.0)
+                                Text("1.1").tag(1.1)
+                                Text("1.2").tag(1.2)
+                                Text("1.3").tag(1.3)
+                                Text("1.4").tag(1.4)
+                                Text("1.5").tag(1.5)
+                            }
+                        }
+                        
+                    } label: {
+                        Text("\(newSession.markup.formatted(.number.precision(.fractionLength(1))))")
+                            .bodyStyle()
+                            .fixedSize()
+                            .lineLimit(1)
+                            .animation(nil, value: newSession.markup)
+                    }
+                    .transaction { transaction in
+                        transaction.animation = nil
+                    }
+                    .buttonStyle(.plain)
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 10)
+                .animation(.easeInOut, value: newSession.staking)
+            }
+            
             // MARK: TOURNAMENT MULTI-DAY TOGGLE
             
             HStack {

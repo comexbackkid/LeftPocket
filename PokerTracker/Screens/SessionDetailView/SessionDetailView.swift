@@ -523,6 +523,23 @@ struct SessionDetailView: View {
                             .bodyStyle()
                     }
                 }
+                
+                if pokerSession.stakers != nil {
+                    
+                    Divider()
+                    
+                    HStack {
+                        
+                        Text("Markup Earned")
+                            .bodyStyle()
+                            .foregroundStyle(.secondary)
+                        
+                        Spacer()
+                        
+                        Text("\(calculateMarkupEarned(), format: .currency(code: vm.userCurrency.rawValue).precision(.fractionLength(0)))")
+                            .bodyStyle()
+                    }
+                }
             }
             
             Divider()
@@ -746,6 +763,20 @@ struct SessionDetailView: View {
         let amountOwed = (Double(pokerSession.cashOut) + Double(pokerSession.bounties ?? 0)) * totalPercentage
         return Int(amountOwed)
     }
+    
+    private func calculateMarkupEarned() -> Int {
+        guard let stakers = pokerSession.stakers else { return 0 }
+        
+        let buyIn = Double(pokerSession.buyIn)
+        
+        let markupEarned = stakers.reduce(0.0) { total, staker in
+            let stakeCostWithoutMarkup = buyIn * staker.percentage
+            let stakeCostWithMarkup = stakeCostWithoutMarkup * (staker.markup ?? 1.0)
+            return total + (stakeCostWithMarkup - stakeCostWithoutMarkup)
+        }
+        
+        return Int(markupEarned)
+    }
 }
 
 struct GraphicHeaderView: View {
@@ -793,7 +824,7 @@ struct GraphicHeaderView: View {
 
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
+        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleTournament)
             .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
     }

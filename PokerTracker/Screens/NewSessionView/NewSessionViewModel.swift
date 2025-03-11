@@ -54,6 +54,7 @@ final class NewSessionViewModel: ObservableObject {
     @Published var actionSold: String = ""
     @Published var stakerName: String = ""
     @Published var stakerList: [Staker] = []
+    @Published var markup: Double = 1.0
     @Published var showHandsPerHour: Bool = false
     @Published var hasBounties: Bool = false
     @Published var multiDayToggle: Bool = false
@@ -65,9 +66,31 @@ final class NewSessionViewModel: ObservableObject {
     var computedProfit: Int {
         if sessionType == .cash {
             return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - (Int(cashRebuys) ?? 0)
+            
         } else {
             let tournamentWinnings = (Int(cashOut) ?? 0) + (Int(bounties) ?? 0)
-            return tournamentWinnings - (Int(buyIn) ?? 0) - tournamentRebuys - totalActionSold
+            
+            // Calculate total staker percentage
+            let totalPercentageSold = stakerList.reduce(0.0) { $0 + $1.percentage }
+            
+            // Corrected Player Buy-in Cost (subtract stakers' share of both buy-in and rebuys)
+            let totalBuyIn = (Int(buyIn) ?? 0) + tournamentRebuys
+            let stakersContribution = Double(totalBuyIn) * totalPercentageSold
+            let playerBuyInCost = totalBuyIn - Int(stakersContribution)
+            
+            // Compute the total action sold (based on winnings split, NOT buy-in)
+            let totalActionSold = stakerList.reduce(0.0) { total, staker in
+                return total + (Double(tournamentWinnings) * staker.percentage)
+            }
+            
+            // Compute the markup earned (extra money from backers)
+            let markupEarned = stakerList.reduce(0.0) { total, staker in
+                let stakeCostWithoutMarkup = (Double(buyIn) ?? 0) * staker.percentage
+                let markupAmount = stakeCostWithoutMarkup * ((staker.markup ?? 1.0) - 1.0)
+                return total + markupAmount
+            }
+            
+            return tournamentWinnings - playerBuyInCost + Int(markupEarned) - Int(totalActionSold)
         }
     }
     
@@ -125,7 +148,7 @@ final class NewSessionViewModel: ObservableObject {
     // Add name & action amount to the array of [Staker]
     func addStaker(_ name: String, _ action: Double) {
         guard !stakerName.isEmpty, action > 0 else { return }
-        let newStaker = Staker(name: name, percentage: (action / 100))
+        let newStaker = Staker(name: name, percentage: (action / 100), markup: self.markup)
         stakerList.append(newStaker)
     }
     

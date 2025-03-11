@@ -12,8 +12,8 @@ struct MockData {
     static let mockLocation = LocationModel_v2(name: "Encore Boston Harbor", localImage: "encore-header2")
     static let mockLocation2 = LocationModel_v2(name: "Turning Stone Casino", localImage: "turningstone-header")
     static let mockLocation3 = LocationModel_v2(name: "MGM Springfield")
-    static let mockStakerOne = Staker(name: "Steve Gallant", percentage: 0.20)
-    static let mockStakerTwo = Staker(name: "Ryan Nash", percentage: 0.10)
+    static let mockStakerOne = Staker(name: "Steve Gallant", percentage: 0.20, markup: 1.5)
+    static let mockStakerTwo = Staker(name: "Ryan Nash", percentage: 0.10, markup: 1.5)
     static let sampleSession = PokerSession_v2(location: mockLocation, date: Date().modifyDays(days: -7), startTime: Date().modifyTime(minutes: -395), endTime: Date(), game: "NL Texas Hold Em", stakes: "1/3", buyIn: 700, cashOut: 1121, profit: 421, expenses: 0, notes: "We kicked butt! Lots of text here to run a text wrapping issue while exporting a share iamge.", tags: ["Vegas Trip 2024"], highHandBonus: 0, handsPerHour: nil, isTournament: false, rebuyCount: nil, bounties: nil, tournamentSize: nil, tournamentSpeed: nil, entrants: nil, finish: nil, tournamentDays: nil, startTimeDayTwo: nil, endTimeDayTwo: nil, stakers: nil)
     
     static let sampleSessionTwo = PokerSession_v2(location: mockLocation, date: Date().modifyDays(days: -12), startTime: Date().modifyDays(days: -12).modifyTime(minutes: -395), endTime: Date(), game: "NL Texas Hold Em", stakes: "1/3", buyIn: 300, cashOut: 100, profit: -200, expenses: 40, notes: "Not great, Bob!", tags: [], highHandBonus: 0, handsPerHour: nil, isTournament: false, rebuyCount: nil, bounties: nil, tournamentSize: nil, tournamentSpeed: nil, entrants: nil, finish: nil, tournamentDays: nil, startTimeDayTwo: nil, endTimeDayTwo: nil, stakers: nil)

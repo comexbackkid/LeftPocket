@@ -677,21 +677,24 @@ struct EditSession: View {
             .padding(.trailing)
             .padding(.bottom, 10)
             
-            HStack {
-                Text(viewModel.userCurrency.symbol)
-                    .font(.callout)
-                    .foregroundColor(editSession.bounties.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+            if pokerSession.bounties != nil {
                 
-                TextField("Bounties", text: $editSession.bounties)
-                    .font(.custom("Asap-Regular", size: 17))
-                    .keyboardType(.numberPad)
+                HStack {
+                    Text(viewModel.userCurrency.symbol)
+                        .font(.callout)
+                        .foregroundColor(editSession.bounties.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                    
+                    TextField("Bounties", text: $editSession.bounties)
+                        .font(.custom("Asap-Regular", size: 17))
+                        .keyboardType(.numberPad)
+                }
+                .padding(18)
+                .background(.gray.opacity(0.2))
+                .cornerRadius(15)
+                .padding(.leading, 16)
+                .padding(.trailing)
+                .padding(.bottom, 10)
             }
-            .padding(18)
-            .background(.gray.opacity(0.2))
-            .cornerRadius(15)
-            .padding(.leading, 16)
-            .padding(.trailing)
-            .padding(.bottom, 10)
             
             HStack {
                 

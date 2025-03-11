@@ -93,9 +93,31 @@ final class EditSessionViewModel: ObservableObject {
         var computedProfit: Int {
             if sessionType == .cash {
                 return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0)
+                
             } else {
                 let tournamentWinnings = (Int(cashOut) ?? 0) + (Int(bounties) ?? 0)
-                return tournamentWinnings - (Int(buyIn) ?? 0) - tournamentRebuys - totalActionSold
+                
+                // Calculate total staker percentage
+                let totalPercentageSold = stakers.reduce(0.0) { $0 + $1.percentage }
+                
+                // Corrected Player Buy-in Cost (subtract stakers' share of both buy-in and rebuys)
+                let totalBuyIn = (Int(buyIn) ?? 0) + tournamentRebuys
+                let stakersContribution = Double(totalBuyIn) * totalPercentageSold
+                let playerBuyInCost = totalBuyIn - Int(stakersContribution)
+                
+                // Compute the total action sold (based on winnings split, NOT buy-in)
+                let totalActionSold = stakers.reduce(0.0) { total, staker in
+                    return total + (Double(tournamentWinnings) * staker.percentage)
+                }
+                
+                // Compute the markup earned (extra money from backers)
+                let markupEarned = stakers.reduce(0.0) { total, staker in
+                    let stakeCostWithoutMarkup = (Double(buyIn) ?? 0) * staker.percentage
+                    let markupAmount = stakeCostWithoutMarkup * ((staker.markup ?? 1.0) - 1.0)
+                    return total + markupAmount
+                }
+                
+                return tournamentWinnings - playerBuyInCost + Int(markupEarned) - Int(totalActionSold)
             }
         }
 
