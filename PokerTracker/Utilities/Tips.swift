@@ -30,7 +30,7 @@ struct MonthlyReportTip: Tip {
     }
     
     var message: Text? {
-        Text("The columns below, in order from left to right, represent your Net Profit \(Image(systemName: "dollarsign")), Hourly Rate \(Image(systemName: "gauge.high")), and Total Hours \(Image(systemName: "clock"))")
+        Text("The columns below represent your Net Profit \(Image(systemName: "dollarsign")), Hourly Rate \(Image(systemName: "gauge.high")), and Total Hours \(Image(systemName: "clock"))")
     }
     
     var image: Image? {
@@ -50,6 +50,10 @@ struct NewSessionViewTip: Tip {
     
     var image: Image? {
         Image(systemName: "pencil.line")
+    }
+    
+    var actions: [Action] {
+        Action(id: "add-first-location", title: "Add My First Location")
     }
 }
 
@@ -192,9 +196,23 @@ struct CustomTipViewStyle: TipViewStyle {
             
             VStack (alignment: .leading, spacing: 5) {
                 configuration.title.font(.headline)
-                configuration.message.font(.subheadline)
-                    .foregroundColor(.secondary)
+                configuration.message.font(.subheadline).foregroundColor(.secondary)
+                
+                if !configuration.actions.isEmpty {
                     
+                    Divider().padding(.vertical, 8)
+                    
+                    ForEach(configuration.actions, id: \.id) { action in
+                        Button {
+                            action.handler()
+                        } label: {
+                            action.label()
+                                .font(.subheadline)
+                                .bold()
+                                .tint(.brandPrimary)
+                        }
+                    }
+                }
             }
             
             Spacer()

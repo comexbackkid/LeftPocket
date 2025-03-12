@@ -1811,10 +1811,15 @@ struct AddNewSessionView: View {
         
         VStack {
             let newSessionTip = NewSessionViewTip()
-            TipView(newSessionTip)
-                .tipViewStyle(CustomTipViewStyle())
-                .padding(.horizontal, 16)
-                .padding(.bottom)
+            TipView(newSessionTip) { action in
+                if action.id == "add-first-location" {
+                    addLocationIsShowing = true
+                    newSessionTip.invalidate(reason: .actionPerformed)
+                }
+            }
+            .tipViewStyle(CustomTipViewStyle())
+            .padding(.horizontal, 16)
+            .padding(.bottom)
         }
     }
 }
