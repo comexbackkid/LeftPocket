@@ -230,7 +230,7 @@ final class NewSessionViewModel: ObservableObject {
         game = defaults.string(forKey: "gameDefault") ?? ""
         size = defaults.string(forKey: "tournamentSizeDefault") ?? ""
         speed = defaults.string(forKey: "tournamentSpeedDefault") ?? ""
-        handsPerHour = defaults.integer(forKey: "handsPerHourDefault")
+        handsPerHour = defaults.object(forKey: "handsPerHourDefault") != nil ? defaults.integer(forKey: "handsPerHourDefault") : 25
         showHandsPerHour = defaults.bool(forKey: "showHandsPerHourOnNewSessionView")
     }
     
