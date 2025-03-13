@@ -47,6 +47,19 @@ struct SessionDetailView: View {
         .accentColor(.brandPrimary)
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .toolbar {
+//            if let uiImage = scrollViewContent
+//                .background(.regularMaterial)
+//                .background(locationBackground().aspectRatio(contentMode: .fill))
+//                .snapshot() {
+//                
+//                if let imageData = uiImage.pngData() {
+//                    ShareLink(item: TransferableImage(data: imageData), preview: SharePreview("Share My Session", image: Image(uiImage: uiImage))) {
+//                        Image(systemName: "paperplane.fill")
+//                            .fontWeight(.medium)
+//                            .tint(.brandPrimary)
+//                    }
+//                }
+//            }
             Button {
                 shareButtonisPressed = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
@@ -676,6 +689,20 @@ struct SessionDetailView: View {
         
         HStack {
             Spacer()
+
+//            if let uiImage = scrollViewContent
+//                .background(.regularMaterial)
+//                .background(locationBackground().aspectRatio(contentMode: .fill))
+//                .snapshot() {
+//                
+//                if let imageData = uiImage.pngData() {
+//                    ShareLink(item: TransferableImage(data: imageData), preview: SharePreview("Share My Session", image: Image(uiImage: uiImage))) {
+//                        ShareButton()
+//                            .padding(.trailing, 20)
+//                    }
+//                }
+//            }
+            
             Button {
                 shareButtonisPressed = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
@@ -822,10 +849,22 @@ struct GraphicHeaderView: View {
     }
 }
 
+struct TransferableImage: Transferable {
+    let data: Data
+
+    static var transferRepresentation: some TransferRepresentation {
+        DataRepresentation(exportedContentType: .png) { item in
+            item.data
+        }
+    }
+}
+
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleTournament)
+        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
             .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
     }
 }
+
+

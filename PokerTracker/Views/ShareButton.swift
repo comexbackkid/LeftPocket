@@ -18,10 +18,11 @@ struct ShareButton: View {
                 .foregroundColor(.white)
                 .opacity(0.6)
             
-            Image(systemName: "arrow.down.to.line")
+            Image(systemName: "paperplane.fill")
                 .fontWeight(.medium)
                 .frame(width: 44, height: 44)
                 .foregroundColor(.black)
+                .offset(x: -1)
         }
     }
 }

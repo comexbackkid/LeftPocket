@@ -1455,7 +1455,7 @@ struct AddNewSessionView: View {
                 
                 HStack {
                     
-                    Image(systemName: "medal.fill")
+                    Image(systemName: "trophy.fill")
                         .font(.callout)
                         .frame(width: 15)
                         .foregroundColor(newSession.finish.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
