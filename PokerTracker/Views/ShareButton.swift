@@ -19,7 +19,7 @@ struct ShareButton: View {
                 .opacity(0.6)
             
             Image(systemName: "paperplane.fill")
-                .imageScale(.medium)
+                .imageScale(.small)
                 .fontWeight(.medium)
                 .frame(width: 44, height: 44)
                 .foregroundColor(.black)
