@@ -47,46 +47,14 @@ struct SessionDetailView: View {
         .accentColor(.brandPrimary)
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .toolbar {
-//            if let uiImage = scrollViewContent
-//                .background(.regularMaterial)
-//                .background(locationBackground().aspectRatio(contentMode: .fill))
-//                .snapshot() {
-//                
-//                if let imageData = uiImage.pngData() {
-//                    ShareLink(item: TransferableImage(data: imageData), preview: SharePreview("Share My Session", image: Image(uiImage: uiImage))) {
-//                        Image(systemName: "paperplane.fill")
-//                            .fontWeight(.medium)
-//                            .tint(.brandPrimary)
-//                    }
-//                }
-//            }
-            Button {
-                shareButtonisPressed = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-                    shareButtonisPressed = false
-                }
-                
-                guard let screenshotImage = scrollViewContent
-                    .background(.regularMaterial)
-                    .background(locationBackground().aspectRatio(contentMode: .fill)).snapshot() else {
-                    showError = true
-                    return
-                }
-                
-                let imageSaver = ImageSaver()
-                imageSaver.writeToPhotoAlbum(image: screenshotImage)
-                
-            } label: {
-                Image(systemName: "arrow.down.to.line")
-                    .opacity(shareButtonisPressed ? 0 : 1)
-                    .overlay {
-                        if shareButtonisPressed {
-                            ProgressView()
-                                .tint(.brandPrimary)
-                        }
-                    }
+            ShareLink(item: takeScreenshot(), preview: SharePreview("Share My Session", image: Image("appicon-tiny"))) {
+                Image(systemName: "paperplane.fill")
+                    .fontWeight(.medium)
+                    .tint(.brandPrimary)
             }
-            .tint(.brandPrimary)
+            
+            
+
         }
         .alert(isPresented: $showError) {
             Alert(title: Text("Uh oh!"),
@@ -689,53 +657,11 @@ struct SessionDetailView: View {
         
         HStack {
             Spacer()
-
-//            if let uiImage = scrollViewContent
-//                .background(.regularMaterial)
-//                .background(locationBackground().aspectRatio(contentMode: .fill))
-//                .snapshot() {
-//                
-//                if let imageData = uiImage.pngData() {
-//                    ShareLink(item: TransferableImage(data: imageData), preview: SharePreview("Share My Session", image: Image(uiImage: uiImage))) {
-//                        ShareButton()
-//                            .padding(.trailing, 20)
-//                    }
-//                }
-//            }
             
-            Button {
-                shareButtonisPressed = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-                    shareButtonisPressed = false
-                }
-                
-                guard let screenshotImage = scrollViewContent
-                    .background(.regularMaterial)
-                    .background(locationBackground().aspectRatio(contentMode: .fill)).snapshot() else {
-                    showError = true
-                    return
-                }
-                
-                let imageSaver = ImageSaver()
-                imageSaver.writeToPhotoAlbum(image: screenshotImage)
-                
-            } label: {
+            ShareLink(item: takeScreenshot(), preview: SharePreview("Share My Session", image: Image("appicon-tiny"))) {
                 ShareButton()
-                    .opacity(shareButtonisPressed ? 0 : 1)
-                    .overlay {
-                        if shareButtonisPressed {
-                            ProgressView()
-                                .tint(.brandPrimary)
-                                .background(
-                                    Circle()
-                                        .frame(width: 33, height: 33)
-                                        .foregroundColor(.white)
-                                        .opacity(0.6))
-                        }
-                    }
                     .padding(.trailing, 20)
             }
-            .buttonStyle(.plain)
         }
     }
     
@@ -803,6 +729,15 @@ struct SessionDetailView: View {
         }
         
         return Int(markupEarned)
+    }
+    
+    @MainActor func takeScreenshot() -> Image {
+        let content = scrollViewContent
+            .background(.regularMaterial)
+            .background(locationBackground().aspectRatio(contentMode: .fill))
+            .environment(\.colorScheme, UITraitCollection.current.userInterfaceStyle == .dark ? .dark : .light)
+        let renderer = ImageRenderer(content: content)
+        return Image(uiImage: renderer.uiImage!)
     }
 }
 
