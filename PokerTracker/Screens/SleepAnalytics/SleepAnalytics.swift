@@ -353,7 +353,8 @@ struct SleepAnalytics: View {
                     
                     Text("Establish your focus & headspace before you play.")
                         .calloutStyle()
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.white)
+                        .opacity(0.5)
                 }
                 .padding(.leading)
                 
@@ -361,7 +362,7 @@ struct SleepAnalytics: View {
                 
                 Image(systemName: "arrow.right")
                     .bold()
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.white)
             }
             
             
@@ -372,8 +373,13 @@ struct SleepAnalytics: View {
         .background(
             Image("nightsky")
                 .resizable()
+                .aspectRatio(contentMode: .fill)
                 .clipped()
-                .blur(radius: 22, opaque: true)
+                .overlay {
+                    LinearGradient(colors: [.black, .clear], startPoint: .bottom, endPoint: .top)
+                        .opacity(0.75)
+                }
+//                .blur(radius: 22, opaque: true)
         )
         .cornerRadius(12)
     }

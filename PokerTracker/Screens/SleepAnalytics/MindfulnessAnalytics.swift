@@ -140,7 +140,7 @@ struct MindfulnessAnalytics: View {
                 }
                 
                 HStack {
-                    Text("Choose from our own curated ambient meditation tracks to start a new mindfulness session before you play. Matched Sessions where you also meditated are displayed down below.")
+                    Text("Choose from our own curated ambient meditation tracks to start a new mindfulness session before you play.")
                         .bodyStyle()
                     
                     Spacer()
@@ -238,7 +238,7 @@ struct MindfulnessAnalytics: View {
             }
             
             if matchedSessions.isEmpty {
-                Text("No matched Sessions found!")
+                Text("None found!")
                     .bodyStyle()
                     .padding(.leading)
                     .padding(.top, 1)

@@ -52,9 +52,6 @@ struct SessionDetailView: View {
                     .fontWeight(.medium)
                     .tint(.brandPrimary)
             }
-            
-            
-
         }
         .alert(isPresented: $showError) {
             Alert(title: Text("Uh oh!"),
