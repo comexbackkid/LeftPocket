@@ -157,14 +157,12 @@ struct SessionDetailView: View {
         
         HStack(spacing: 0) {
             
-            VStack {
+            VStack (spacing: 10) {
                 
                 Image(systemName: "clock")
                     .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
-                
-                Spacer()
                 
                 Text(pokerSession.playingTIme)
                     .fontWeight(.semibold)
@@ -178,13 +176,11 @@ struct SessionDetailView: View {
             
             Spacer()
             
-            VStack {
+            VStack (spacing: 10) {
                 Image(systemName: "trophy.fill")
                     .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
-                
-                Spacer()
                 
                 Text(pokerSession.profit.currencyShortHand(vm.userCurrency))
                     .profitColor(total: pokerSession.profit)
@@ -200,13 +196,11 @@ struct SessionDetailView: View {
             
             Spacer()
             
-            VStack {
+            VStack (spacing: 10) {
                 Image(systemName: "gauge.high")
                     .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
-                
-                Spacer()
                 
                 Text(pokerSession.hourlyRate.axisShortHand(vm.userCurrency) + " / Hr")
                     .profitColor(total: pokerSession.hourlyRate)
@@ -231,14 +225,12 @@ struct SessionDetailView: View {
         
         HStack(spacing: 0) {
             
-            VStack {
+            VStack (spacing: 10)  {
                 
                 Image(systemName: "clock")
                     .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
-                
-                Spacer()
                 
                 Text(pokerSession.playingTIme)
                     .fontWeight(.semibold)
@@ -252,13 +244,11 @@ struct SessionDetailView: View {
             
             Spacer()
             
-            VStack {
+            VStack (spacing: 10) {
                 Image(systemName: "trophy.fill")
                     .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
-                
-                Spacer()
                 
                 Text(pokerSession.profit.currencyShortHand(vm.userCurrency))
                     .profitColor(total: pokerSession.profit)
@@ -272,13 +262,11 @@ struct SessionDetailView: View {
             
             Spacer()
             
-            VStack {
+            VStack (spacing: 10) {
                 Image(systemName: "person.2.fill")
                     .font(.title2)
                     .opacity(0.3)
                     .padding(.bottom, 1)
-                
-                Spacer()
                 
                 HStack (spacing: 0) {
                     if let finish = pokerSession.finish {
@@ -315,7 +303,6 @@ struct SessionDetailView: View {
                     .bodyStyle()
                     .foregroundStyle(.secondary)
                     .lineLimit(nil)
-                    .fixedSize(horizontal: false, vertical: true)
                 
             } else {
                 
@@ -324,6 +311,7 @@ struct SessionDetailView: View {
                     .textSelection(.enabled)
             }
         }
+        .fixedSize(horizontal: false, vertical: true)
         .padding(.bottom, 30)
     }
     
