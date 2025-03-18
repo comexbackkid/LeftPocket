@@ -64,13 +64,6 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(6)
             
-//            PageView(title: "Custom Location Images",
-//                     subtitle: Text("Add your own custom locations and header photos. Just navigate to the Settings \(Image(systemName: "gearshape.fill")) screen, tap on Locations, and then press the \(Image(systemName: "plus")) button."),
-//                     videoURL: "custom-locations",
-//                     showDismissButton: false, player: players["custom-locations"],
-//                     nextAction: nextPage,
-//                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(7)
-            
             PageView(title: "Session Tags & Reports",
                      subtitle: Text("Easily filter & group together similar Sessions & Transactions by applying a Tag \(Image(systemName: "tag.fill")) to them. Custom Tag reports can be found in your Metrics screen."),
                      videoURL: "tag-reporting",
@@ -84,13 +77,6 @@ struct OnboardingView: View {
                      showDismissButton: false, player: players["homescreen-widget"],
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(8)
-            
-//            PageView(title: "Advanced Data Metrics",
-//                     subtitle: Text("One place for all your important player data. Detailed reports on location performance, stakes, tournament analytics, & so much more."),
-//                     videoURL: "advanced-reporting",
-//                     showDismissButton: false, player: players["advanced-reporting"],
-//                     nextAction: nextPage,
-//                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(9)
             
             PageView(title: "Health & Mindfulness",
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours & mindful minutes in our Health Analytics page, & integrate these numbers measured by other devices, like an Apple Watch."),

@@ -32,11 +32,11 @@ struct WelcomeScreen: View {
         }
         .background(
             GeometryReader { geometry in
-                Image("welcome-screen-bg-4")
+                Image("welcome-screen-bg-5")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .overlay {
-                        Image("welcome-screen-bg-4")
+                        Image("welcome-screen-bg-5")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .blur(radius: 20, opaque: true)
