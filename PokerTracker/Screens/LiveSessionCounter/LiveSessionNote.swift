@@ -80,7 +80,7 @@ struct LiveSessionNote: View {
         VStack (alignment: .leading, spacing: 20) {
             
             HStack {
-                Text("Jot down any hand histories or player notes here. All notes will be automatically saved to your Live Session once you're finished.")
+                Text("Jot down any hand histories or player notes here. All notes will be automatically saved to your Live Session once it's ended.")
                     .bodyStyle()
                 
                 Spacer()
@@ -120,7 +120,7 @@ struct LiveSessionNote: View {
     private func saveNote() {
         
         if !timerViewModel.notes.isEmpty {
-            timerViewModel.notes.append("\n\n" + noteText)
+            timerViewModel.notes.append("\n" + noteText)
         } else {
             timerViewModel.notes.append(noteText)
         }

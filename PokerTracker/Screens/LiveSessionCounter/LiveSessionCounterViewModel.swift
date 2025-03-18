@@ -95,6 +95,7 @@ class TimerViewModel: ObservableObject {
         UserDefaults.standard.set(now, forKey: "liveSessionStartTime")
         UserDefaults.standard.set(initialBuyInAmount, forKey: "initialBuyInAmount")
         UserDefaults.standard.set(totalRebuys, forKey: "totalRebuys")
+        UserDefaults.standard.set(notes, forKey: "liveSessionNotes")
         startUpdatingTimer()
         scheduleUserNotification()
     }
@@ -122,6 +123,7 @@ class TimerViewModel: ObservableObject {
         UserDefaults.standard.removeObject(forKey: "liveSessionStartTime")
         UserDefaults.standard.removeObject(forKey: "initialBuyInAmount")
         UserDefaults.standard.removeObject(forKey: "totalRebuys")
+        UserDefaults.standard.removeObject(forKey: "liveSessionNotes")
         cancelUserNotifications()
     }
     
@@ -132,10 +134,12 @@ class TimerViewModel: ObservableObject {
         cancelUserNotifications()
         initialBuyInAmount = ""
         reBuyAmount = ""
+        notes = []
         totalRebuys.removeAll()
         UserDefaults.standard.removeObject(forKey: "liveSessionStartTime")
         UserDefaults.standard.removeObject(forKey: "initialBuyInAmount")
         UserDefaults.standard.removeObject(forKey: "totalRebuys")
+        UserDefaults.standard.removeObject(forKey: "liveSessionNotes")
     }
     
     func addInitialBuyIn(_ amount: String) {
@@ -180,6 +184,7 @@ class TimerViewModel: ObservableObject {
         cancelUserNotifications()
         initialBuyInAmount = ""
         reBuyAmount = ""
+        notes = []
         totalRebuys.removeAll()
     }
 }
