@@ -15,6 +15,7 @@ struct LiveSessionCounter: View {
     
     @State private var showRebuyModal = false
     @State private var showSessionDefaultsView = false
+    @State private var showNewNoteView = false
     @State private var rebuyConfirmationSound = false
     @State private var audioPlayer: AVAudioPlayer?
     @State private var location: LocationModel_v2?
@@ -48,6 +49,9 @@ struct LiveSessionCounter: View {
         .padding(12)
         .background(.ultraThinMaterial)
         .cornerRadius(16)
+        .sheet(isPresented: $showNewNoteView) {
+            LiveSessionNote(timerViewModel: timerViewModel)
+        }
         .contextMenu {
             
             let totalBuyInForLiveSession = timerViewModel.totalBuyInForLiveSession
@@ -79,7 +83,7 @@ struct LiveSessionCounter: View {
             }
             
             Button {
-                // TBD
+                showNewNoteView = true
                 
             } label: {
                 HStack {

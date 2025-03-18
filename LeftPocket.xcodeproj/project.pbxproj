@@ -209,6 +209,7 @@
 		7CB587322D426AF500BCE642 /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB587312D426AF500BCE642 /* TransactionModel.swift */; };
 		7CB587342D4275C200BCE642 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB587332D4275C200BCE642 /* MockData.swift */; };
 		7CB587362D4287C600BCE642 /* MigrationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB587352D4287C600BCE642 /* MigrationHandler.swift */; };
+		7CB8D3362D89F86600E08869 /* LiveSessionNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB8D3352D89F86600E08869 /* LiveSessionNote.swift */; };
 		7CBB2D0E28A2EB4200A0CC99 /* Colors+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBEF44527596DEE00744F4A /* Colors+Ext.swift */; };
 		7CBB6B6E2C41A55200DAD20D /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 7CBB6B6D2C41A55200DAD20D /* Glur */; };
 		7CBBA3B72BF40CA700733D53 /* SleepCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CBBA3B62BF40CA700733D53 /* SleepCardView.swift */; };
@@ -438,6 +439,7 @@
 		7CB587312D426AF500BCE642 /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
 		7CB587332D4275C200BCE642 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		7CB587352D4287C600BCE642 /* MigrationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationHandler.swift; sourceTree = "<group>"; };
+		7CB8D3352D89F86600E08869 /* LiveSessionNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionNote.swift; sourceTree = "<group>"; };
 		7CBBA3B62BF40CA700733D53 /* SleepCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepCardView.swift; sourceTree = "<group>"; };
 		7CBEB52D2C2A1EF00099C7CF /* DeepLlinking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLlinking.swift; sourceTree = "<group>"; };
 		7CBEF44527596DEE00744F4A /* Colors+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Colors+Ext.swift"; sourceTree = "<group>"; };
@@ -852,6 +854,7 @@
 				7C6E75BD2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift */,
 				7CD010E82BF23FE300998FD5 /* LiveSessionRebuyModal.swift */,
 				7C455DEF2C98CD50008C1446 /* LiveSessionInitialBuyIn.swift */,
+				7CB8D3352D89F86600E08869 /* LiveSessionNote.swift */,
 			);
 			path = LiveSessionCounter;
 			sourceTree = "<group>";
@@ -1274,6 +1277,7 @@
 				7CAFDFF32B2C884100B7338D /* CustomToggle.swift in Sources */,
 				7C65B188272C3A5A00AFE796 /* NewLocationView.swift in Sources */,
 				7C85492E2C453D540038ADB4 /* AddNewTransaction.swift in Sources */,
+				7CB8D3362D89F86600E08869 /* LiveSessionNote.swift in Sources */,
 				7C62F1EF2BD0493400F14483 /* NewStakesViewModel.swift in Sources */,
 				7CEB453F2BCEA90800AAF710 /* RingCharts.swift in Sources */,
 				7CE37EC72C304965002ACA81 /* ToolTipCalculations+Ext.swift in Sources */,

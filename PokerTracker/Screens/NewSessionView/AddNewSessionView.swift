@@ -81,6 +81,7 @@ struct AddNewSessionView: View {
                 newSession.buyIn = String(timerViewModel.totalBuyInForLiveSession - timerViewModel.rebuyTotalForSession)
                 newSession.cashRebuys = timerViewModel.rebuyTotalForSession == 0 ? "" : String(timerViewModel.rebuyTotalForSession)
                 newSession.rebuyCount = String(timerViewModel.totalRebuys.count)
+                newSession.notes = timerViewModel.notes.joined(separator: "\n\n")
             }
         }
         .sheet(isPresented: $showPaywall) {
