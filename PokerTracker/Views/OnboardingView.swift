@@ -20,11 +20,9 @@ struct OnboardingView: View {
     
     private let players: [String: AVPlayer] = [
             "logging-sessions-new": AVPlayer(url: Bundle.main.url(forResource: "logging-sessions-new", withExtension: "mp4")!),
-            "custom-locations": AVPlayer(url: Bundle.main.url(forResource: "custom-locations", withExtension: "mp4")!),
             "metrics-screen": AVPlayer(url: Bundle.main.url(forResource: "metrics-screen", withExtension: "mp4")!),
             "tag-reporting": AVPlayer(url: Bundle.main.url(forResource: "tag-reporting", withExtension: "mp4")!),
             "homescreen-widget": AVPlayer(url: Bundle.main.url(forResource: "homescreen-widget", withExtension: "mp4")!),
-            "advanced-reporting": AVPlayer(url: Bundle.main.url(forResource: "advanced-reporting", withExtension: "mp4")!),
             "health-metrics": AVPlayer(url: Bundle.main.url(forResource: "health-metrics", withExtension: "mp4")!)
         ]
     
@@ -42,41 +40,41 @@ struct OnboardingView: View {
                              nextAction: nextPage,
                              shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(2)
             
-            AllowNotifications(showDismissButton: false,
-                               nextAction: nextPage,
-                               shouldShowOnboarding: $shouldShowOnboarding).tag(3)
-            
             StudyHabits(showDismissButton: false,
                         nextAction: nextPage,
-                        shouldShowOnboarding: $shouldShowOnboarding).tag(4)
+                        shouldShowOnboarding: $shouldShowOnboarding).tag(3)
             
             PageView(title: "Track Your Live Sessions",
                      subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Monitor from your lock screen too!"),
                      videoURL: "logging-sessions-new",
                      showDismissButton: false, player: players["logging-sessions-new"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(5)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(4)
             
             PageView(title: "Know When to Move Up",
                      subtitle: Text("Insightful charts, progress rings, & crucial player metrics will guide you & advise when it's safe to take a shot at higher stakes."),
                      videoURL: "metrics-screen",
                      showDismissButton: false, player: players["metrics-screen"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(6)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(5)
             
             PageView(title: "Session Tags & Reports",
                      subtitle: Text("Easily filter & group together similar Sessions & Transactions by applying a Tag \(Image(systemName: "tag.fill")) to them. Custom Tag reports can be found in your Metrics screen."),
                      videoURL: "tag-reporting",
                      showDismissButton: false, player: players["tag-reporting"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(7)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(6)
             
             PageView(title: "Home Screen Widgets",
                      subtitle: Text("Touch & hold an empty area of your home screen until the apps jiggle. Then press the \"Edit\" button, followed by \"Add Widget,\" & search for Left Pocket."),
                      videoURL: "homescreen-widget",
                      showDismissButton: false, player: players["homescreen-widget"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(8)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(7)
+            
+            AllowNotifications(showDismissButton: false,
+                               nextAction: nextPage,
+                               shouldShowOnboarding: $shouldShowOnboarding).tag(8)
             
             PageView(title: "Health & Mindfulness",
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours & mindful minutes in our Health Analytics page, & integrate these numbers measured by other devices, like an Apple Watch."),
@@ -363,6 +361,9 @@ struct StartingBankroll: View {
         
             }
             .padding(.horizontal, 20)
+            .onTapGesture {
+                isFocused = false
+            }
             
             Spacer()
             
@@ -508,7 +509,7 @@ struct AllowNotifications: View {
                     .fontWeight(.black)
                     .padding(.bottom, 5)
                 
-                Text("We've got your back! Left Pocket sends subtle reminders to stretch, hydrate, & check your focus every few hours.")
+                Text("We've got your back! Receive subtle reminders to stretch, hydrate, & check your focus during Live Sessions.")
                     .calloutStyle()
                     .opacity(0.7)
                     .padding(.bottom, 30)
