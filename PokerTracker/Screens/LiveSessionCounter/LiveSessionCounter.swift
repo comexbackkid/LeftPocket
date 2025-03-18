@@ -17,6 +17,7 @@ struct LiveSessionCounter: View {
     @State private var showSessionDefaultsView = false
     @State private var showNewNoteView = false
     @State private var rebuyConfirmationSound = false
+    @State private var noteConfirmationSound = false
     @State private var audioPlayer: AVAudioPlayer?
     @State private var location: LocationModel_v2?
     @State private var sessionType: SessionType?
@@ -49,9 +50,13 @@ struct LiveSessionCounter: View {
         .padding(12)
         .background(.ultraThinMaterial)
         .cornerRadius(16)
-        .sheet(isPresented: $showNewNoteView) {
-            LiveSessionNote(timerViewModel: timerViewModel)
-        }
+        .sheet(isPresented: $showNewNoteView, onDismiss: {
+            if noteConfirmationSound {
+                playNoteSound()
+            }
+        }, content: {
+            LiveSessionNote(noteConfirmationSound: $noteConfirmationSound, timerViewModel: timerViewModel)
+        })
         .contextMenu {
             
             let totalBuyInForLiveSession = timerViewModel.totalBuyInForLiveSession
@@ -104,7 +109,7 @@ struct LiveSessionCounter: View {
         }
         .sheet(isPresented: $showRebuyModal, onDismiss: {
             if rebuyConfirmationSound {
-                playSound()
+                playRebuySound()
             }
         }, content: {
             LiveSessionRebuyModal(timerViewModel: timerViewModel, rebuyConfirmationSound: $rebuyConfirmationSound)
@@ -233,13 +238,27 @@ struct LiveSessionCounter: View {
         }
     }
     
-    private func playSound() {
+    private func playNoteSound() {
+        
+        guard let url = Bundle.main.url(forResource: "handwriting", withExtension: ".mp3") else { return }
+        
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.play()
+            
+        } catch {
+            print("Error loading sound: \(error.localizedDescription)")
+        }
+    }
+    
+    private func playRebuySound() {
             
         guard let url = Bundle.main.url(forResource: "rebuy-sfx", withExtension: ".wav") else { return }
         
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: url)
             audioPlayer?.play()
+            
         } catch {
             print("Error loading sound: \(error.localizedDescription)")
         }

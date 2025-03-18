@@ -10,6 +10,7 @@ import SwiftUI
 struct LiveSessionNote: View {
     
     @State private var noteText: String = ""
+    @Binding var noteConfirmationSound: Bool
     @ObservedObject var timerViewModel: TimerViewModel
     @Environment(\.dismiss) var dismiss
     
@@ -98,6 +99,7 @@ struct LiveSessionNote: View {
                 impact.impactOccurred()
                 saveNote()
                 dismiss()
+                noteConfirmationSound = true
                 
             } label: {
                 PrimaryButton(title: "Save Note")
@@ -129,5 +131,5 @@ struct LiveSessionNote: View {
 }
 
 #Preview {
-    LiveSessionNote(timerViewModel: TimerViewModel())
+    LiveSessionNote(noteConfirmationSound: .constant(false), timerViewModel: TimerViewModel())
 }
