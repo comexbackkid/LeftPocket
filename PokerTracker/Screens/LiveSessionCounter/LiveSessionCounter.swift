@@ -79,6 +79,16 @@ struct LiveSessionCounter: View {
             }
             
             Button {
+                // TBD
+                
+            } label: {
+                HStack {
+                    Text("Add Note")
+                    Image(systemName: "pencil.line")
+                }
+            }
+            
+            Button {
                 showRebuyModal = true
                 
             } label: {

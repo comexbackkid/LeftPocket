@@ -19,6 +19,7 @@ class TimerViewModel: ObservableObject {
     @Published var reBuyAmount: String = ""
     @Published var initialBuyInAmount: String = ""
     @Published var totalRebuys: [Int] = []
+    @Published var notes: [String] = []
     
     var totalBuyInForLiveSession: Int {
         (Int(initialBuyInAmount) ?? 0) + rebuyTotalForSession
