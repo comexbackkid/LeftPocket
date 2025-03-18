@@ -85,19 +85,19 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(8)
             
-            PageView(title: "Advanced Data Metrics",
-                     subtitle: Text("One place for all your important player data. Detailed reports on location performance, stakes, tournament analytics, & so much more."),
-                     videoURL: "advanced-reporting",
-                     showDismissButton: false, player: players["advanced-reporting"],
-                     nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(9)
+//            PageView(title: "Advanced Data Metrics",
+//                     subtitle: Text("One place for all your important player data. Detailed reports on location performance, stakes, tournament analytics, & so much more."),
+//                     videoURL: "advanced-reporting",
+//                     showDismissButton: false, player: players["advanced-reporting"],
+//                     nextAction: nextPage,
+//                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(9)
             
             PageView(title: "Health & Mindfulness",
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours & mindful minutes in our Health Analytics page, & integrate these numbers measured by other devices, like an Apple Watch."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],
                      nextAction: { hkManager.requestAuthorization() },
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(10)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(9)
         }
         .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)
