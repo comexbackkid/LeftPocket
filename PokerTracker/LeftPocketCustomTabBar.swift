@@ -170,17 +170,17 @@ struct LeftPocketCustomTabBar: View {
                         Spacer()
                         
                     }
-                    .sheet(isPresented: $showNewTransaction, onDismiss: { 
+                    .sheet(isPresented: $showNewTransaction, onDismiss: {
                         if audioConfirmation {
                             playSound()
                         }
                      }, content: {
                         AddNewTransaction(showNewTransaction: $showNewTransaction, audioConfirmation: $audioConfirmation)
                     })
-                    .onTapGesture(perform: {
+                    .onTapGesture {
                         let impact = UIImpactFeedbackGenerator(style: .medium)
                         impact.impactOccurred()
-                    })
+                    }
                     .sheet(isPresented: $showPaywall) {
                         PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
                             .dynamicTypeSize(.medium...DynamicTypeSize.large)
@@ -231,6 +231,7 @@ struct LeftPocketCustomTabBar: View {
                         Button("Cancel", role: .cancel) {
                             print("User is resuming Live Session")
                         }
+                        
                     } message: {
                         Text("If you're ready to end your Live Session, tap Yes & then input Session details on the next screen.")
                     }

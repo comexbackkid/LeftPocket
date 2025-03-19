@@ -110,7 +110,6 @@ struct MetricsView: View {
                         }
                         
                     } else {
-                        
                         EmptyState(title: "No Sessions", image: .metrics)
                             .padding(.bottom, 50)
                     }
