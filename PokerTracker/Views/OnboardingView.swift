@@ -25,6 +25,9 @@ struct OnboardingView: View {
             "homescreen-widget": AVPlayer(url: Bundle.main.url(forResource: "homescreen-widget", withExtension: "mp4")!),
             "health-metrics": AVPlayer(url: Bundle.main.url(forResource: "health-metrics", withExtension: "mp4")!)
         ]
+    private var isZoomed: Bool {
+        UIScreen.main.scale < UIScreen.main.nativeScale
+    }
     
     var body: some View {
         
@@ -140,6 +143,9 @@ struct PageView: View {
     var nextAction: () -> Void
     
     @Binding var shouldShowOnboarding: Bool
+    private var isZoomed: Bool {
+        UIScreen.main.scale < UIScreen.main.nativeScale
+    }
     
     var body: some View {
         
@@ -151,8 +157,9 @@ struct PageView: View {
                 .signInTitleStyle()
                 .foregroundColor(.brandWhite)
                 .padding(.bottom, 10)
+                .padding(.horizontal, 20)
                 .multilineTextAlignment(.center)
-            
+                
             subtitle
                 .calloutStyle()
                 .lineSpacing(2.5)
@@ -173,7 +180,7 @@ struct PageView: View {
             if let player = player {
                 
                 VideoPlayer(player: player)
-                    .frame(width: 340, height: 340)
+                    .frame(width: isZoomed ? 240 : 340, height: isZoomed ? 240 : 340)
                     .cornerRadius(20)
                     .shadow(radius: 10)
                     .padding(.vertical, 30)
@@ -218,6 +225,9 @@ struct PollView: View {
     
     let showDismissButton: Bool
     var nextAction: () -> Void
+    private var isZoomed: Bool {
+        UIScreen.main.scale < UIScreen.main.nativeScale
+    }
     
     @State private var selectedButtons: Set<String> = []
     @Binding var shouldShowOnboarding: Bool
@@ -234,13 +244,16 @@ struct PollView: View {
                     .fontWeight(.black)
                     .padding(.top, 30)
                     .padding(.bottom, 10)
+                    .multilineTextAlignment(.leading)
+                    .minimumScaleFactor(isZoomed ? 0.5 : 1.0)
 
                 Text("Choose any & all that may apply.")
                     .calloutStyle()
                     .opacity(0.7)
-                    .padding(.bottom, 30)
+                    .padding(.bottom, isZoomed ? 10 : 30)
                 
-                let columns = [GridItem(.flexible(minimum: 160, maximum: 200)), GridItem(.flexible(minimum: 160, maximum: 200))]
+//                let columns = [GridItem(.flexible(minimum: 160, maximum: 200)), GridItem(.flexible(minimum: 160, maximum: 200))]
+                let columns = [GridItem(.adaptive(minimum: 160, maximum: 170)), GridItem(.adaptive(minimum: 160, maximum: 170))]
                 let buttonText = ["Bankroll Management", "Moving up Stakes", "Focus", "Mental Game", "Keeping Hand History", "Tracking Expenses", "Not Going Bust", "When To End a Session"]
                 
                 LazyVGrid(columns: columns) {
@@ -257,7 +270,7 @@ struct PollView: View {
                             Text(text)
                                 .multilineTextAlignment(.center)
                                 .frame(maxWidth: .infinity)
-                                .frame(height: 75)
+                                .frame(height: isZoomed ? 60 : 70)
                                 .padding(12)
                                 .background(.thinMaterial)
                                 .cornerRadius(12)
@@ -320,6 +333,8 @@ struct StartingBankroll: View {
                     .foregroundColor(.brandWhite)
                     .fontWeight(.black)
                     .padding(.bottom, 5)
+                    .lineLimit(3)
+                    .minimumScaleFactor(0.7)
                 
                 Text("You can skip this step, & later import data from a different bankroll tracker.")
                     .calloutStyle()
