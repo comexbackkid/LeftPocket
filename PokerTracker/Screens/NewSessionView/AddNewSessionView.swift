@@ -42,6 +42,10 @@ struct AddNewSessionView: View {
     @State var showStakingPopover = false
     @State var showBountiesPopover = false
     
+    private var isZoomed: Bool {
+        UIScreen.main.scale < UIScreen.main.nativeScale
+    }
+    
     @FocusState private var focusedField: Field?
     
     var body: some View {
@@ -749,6 +753,22 @@ struct AddNewSessionView: View {
                     .transition(.scale)
                 }
                 
+                if isZoomed {
+                    HStack {
+                        Rectangle().frame(height: 0.75)
+                            .opacity(0.1)
+                        Text("Start & End Time")
+                            .captionStyle()
+                            .fixedSize()
+                            .opacity(0.33)
+                            .padding(.horizontal)
+                        Rectangle().frame(height: 0.75)
+                            .opacity(0.1)
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom)
+                }
+                
                 HStack {
                     
                     Image(systemName: "clock")
@@ -756,16 +776,17 @@ struct AddNewSessionView: View {
                         .foregroundColor(Color(.systemGray3))
                         .frame(width: 30)
                     
-                    DatePicker("Start", selection: $newSession.startTime, in: ...Date.now, displayedComponents: [.date, .hourAndMinute])
-                    .accentColor(.brandPrimary)
-                    .padding(.leading, 4)
-                    .font(.custom("Asap-Regular", size: 18))
-                    .datePickerStyle(.compact)
-                    .opacity(newSession.tournamentDays >= 2 ? 0.4 : 1)
+                    DatePicker(!isZoomed ? "Start" : "", selection: $newSession.startTime, in: ...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        .accentColor(.brandPrimary)
+                        .padding(.leading, 4)
+                        .font(.custom("Asap-Regular", size: 18))
+                        .datePickerStyle(.compact)
+                        .opacity(newSession.tournamentDays >= 2 ? 0.4 : 1)
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 10)
                 .disabled(newSession.tournamentDays >= 2 ? true : false)
+                
                 
                 HStack {
                     
@@ -774,12 +795,12 @@ struct AddNewSessionView: View {
                         .foregroundColor(Color(.systemGray3))
                         .frame(width: 30)
                     
-                    DatePicker("End", selection: $newSession.endTime, in: newSession.startTime...Date.now, displayedComponents: [.date, .hourAndMinute])
-                    .accentColor(.brandPrimary)
-                    .padding(.leading, 4)
-                    .font(.custom("Asap-Regular", size: 18))
-                    .datePickerStyle(.compact)
-                    .opacity(newSession.tournamentDays >= 2 ? 0.4 : 1)
+                    DatePicker(!isZoomed ? "End" : "", selection: $newSession.endTime, in: newSession.startTime...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        .accentColor(.brandPrimary)
+                        .padding(.leading, 4)
+                        .font(.custom("Asap-Regular", size: 18))
+                        .datePickerStyle(.compact)
+                        .opacity(newSession.tournamentDays >= 2 ? 0.4 : 1)
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 16)
@@ -813,7 +834,7 @@ struct AddNewSessionView: View {
                             .foregroundColor(Color(.systemGray3))
                             .frame(width: 30)
                         
-                        DatePicker("Start", selection: $newSession.startTimeDayTwo, in: newSession.endTime...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker(!isZoomed ? "Start" : "", selection: $newSession.startTimeDayTwo, in: newSession.endTime...Date.now, displayedComponents: [.date, .hourAndMinute])
                         .accentColor(.brandPrimary)
                         .padding(.leading, 4)
                         .font(.custom("Asap-Regular", size: 18))
@@ -832,7 +853,7 @@ struct AddNewSessionView: View {
                             .foregroundColor(Color(.systemGray3))
                             .frame(width: 30)
                         
-                        DatePicker("End", selection: $newSession.endTimeDayTwo, in: newSession.startTimeDayTwo...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker(!isZoomed ? "End" : "", selection: $newSession.endTimeDayTwo, in: newSession.startTimeDayTwo...Date.now, displayedComponents: [.date, .hourAndMinute])
                         .accentColor(.brandPrimary)
                         .padding(.leading, 4)
                         .font(.custom("Asap-Regular", size: 18))
@@ -874,7 +895,7 @@ struct AddNewSessionView: View {
                             .foregroundColor(Color(.systemGray3))
                             .frame(width: 30)
                         
-                        DatePicker("Start", selection: $newSession.startTimeDayThree, in: newSession.endTimeDayTwo...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker(!isZoomed ? "Start" : "", selection: $newSession.startTimeDayThree, in: newSession.endTimeDayTwo...Date.now, displayedComponents: [.date, .hourAndMinute])
                         .accentColor(.brandPrimary)
                         .padding(.leading, 4)
                         .font(.custom("Asap-Regular", size: 18))
@@ -893,7 +914,7 @@ struct AddNewSessionView: View {
                             .foregroundColor(Color(.systemGray3))
                             .frame(width: 30)
                         
-                        DatePicker("End", selection: $newSession.endTimeDayThree, in: newSession.startTimeDayThree...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker(!isZoomed ? "End" : "", selection: $newSession.endTimeDayThree, in: newSession.startTimeDayThree...Date.now, displayedComponents: [.date, .hourAndMinute])
                         .accentColor(.brandPrimary)
                         .padding(.leading, 4)
                         .font(.custom("Asap-Regular", size: 18))
@@ -935,7 +956,7 @@ struct AddNewSessionView: View {
                             .foregroundColor(Color(.systemGray3))
                             .frame(width: 30)
                         
-                        DatePicker("Start", selection: $newSession.startTimeDayFour, in: newSession.endTimeDayThree...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker(!isZoomed ? "Start" : "", selection: $newSession.startTimeDayFour, in: newSession.endTimeDayThree...Date.now, displayedComponents: [.date, .hourAndMinute])
                         .accentColor(.brandPrimary)
                         .padding(.leading, 4)
                         .font(.custom("Asap-Regular", size: 18))
@@ -954,7 +975,7 @@ struct AddNewSessionView: View {
                             .foregroundColor(Color(.systemGray3))
                             .frame(width: 30)
                         
-                        DatePicker("End", selection: $newSession.endTimeDayFour, in: newSession.startTimeDayFour...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker(!isZoomed ? "End" : "", selection: $newSession.endTimeDayFour, in: newSession.startTimeDayFour...Date.now, displayedComponents: [.date, .hourAndMinute])
                         .accentColor(.brandPrimary)
                         .padding(.leading, 4)
                         .font(.custom("Asap-Regular", size: 18))
@@ -996,7 +1017,7 @@ struct AddNewSessionView: View {
                             .foregroundColor(Color(.systemGray3))
                             .frame(width: 30)
                         
-                        DatePicker("Start", selection: $newSession.startTimeDayFive, in: newSession.endTimeDayFour...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker(!isZoomed ? "Start" : "", selection: $newSession.startTimeDayFive, in: newSession.endTimeDayFour...Date.now, displayedComponents: [.date, .hourAndMinute])
                         .accentColor(.brandPrimary)
                         .padding(.leading, 4)
                         .font(.custom("Asap-Regular", size: 18))
@@ -1015,7 +1036,7 @@ struct AddNewSessionView: View {
                             .foregroundColor(Color(.systemGray3))
                             .frame(width: 30)
                         
-                        DatePicker("End", selection: $newSession.endTimeDayFive, in: newSession.startTimeDayFive...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker(!isZoomed ? "End" : "", selection: $newSession.endTimeDayFive, in: newSession.startTimeDayFive...Date.now, displayedComponents: [.date, .hourAndMinute])
                         .accentColor(.brandPrimary)
                         .padding(.leading, 4)
                         .font(.custom("Asap-Regular", size: 18))
@@ -1057,7 +1078,7 @@ struct AddNewSessionView: View {
                             .foregroundColor(Color(.systemGray3))
                             .frame(width: 30)
                         
-                        DatePicker("Start", selection: $newSession.startTimeDaySix, in: newSession.endTimeDayFive...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker(!isZoomed ? "Start" : "", selection: $newSession.startTimeDaySix, in: newSession.endTimeDayFive...Date.now, displayedComponents: [.date, .hourAndMinute])
                         .accentColor(.brandPrimary)
                         .padding(.leading, 4)
                         .font(.custom("Asap-Regular", size: 18))
@@ -1076,7 +1097,7 @@ struct AddNewSessionView: View {
                             .foregroundColor(Color(.systemGray3))
                             .frame(width: 30)
                         
-                        DatePicker("End", selection: $newSession.endTimeDaySix, in: newSession.startTimeDaySix...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker(!isZoomed ? "End" : "", selection: $newSession.endTimeDaySix, in: newSession.startTimeDaySix...Date.now, displayedComponents: [.date, .hourAndMinute])
                         .accentColor(.brandPrimary)
                         .padding(.leading, 4)
                         .font(.custom("Asap-Regular", size: 18))
@@ -1118,7 +1139,7 @@ struct AddNewSessionView: View {
                             .foregroundColor(Color(.systemGray3))
                             .frame(width: 30)
                         
-                        DatePicker("Start", selection: $newSession.startTimeDaySeven, in: newSession.endTimeDaySix...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker(!isZoomed ? "Start" : "", selection: $newSession.startTimeDaySeven, in: newSession.endTimeDaySix...Date.now, displayedComponents: [.date, .hourAndMinute])
                         .accentColor(.brandPrimary)
                         .padding(.leading, 4)
                         .font(.custom("Asap-Regular", size: 18))
@@ -1137,7 +1158,7 @@ struct AddNewSessionView: View {
                             .foregroundColor(Color(.systemGray3))
                             .frame(width: 30)
                         
-                        DatePicker("End", selection: $newSession.endTimeDaySeven, in: newSession.startTimeDaySeven...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker(!isZoomed ? "End" : "", selection: $newSession.endTimeDaySeven, in: newSession.startTimeDaySeven...Date.now, displayedComponents: [.date, .hourAndMinute])
                         .accentColor(.brandPrimary)
                         .padding(.leading, 4)
                         .font(.custom("Asap-Regular", size: 18))
@@ -1179,7 +1200,7 @@ struct AddNewSessionView: View {
                             .foregroundColor(Color(.systemGray3))
                             .frame(width: 30)
                         
-                        DatePicker("Start", selection: $newSession.startTimeDayEight, in: newSession.endTimeDaySeven...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker(!isZoomed ? "Start" : "", selection: $newSession.startTimeDayEight, in: newSession.endTimeDaySeven...Date.now, displayedComponents: [.date, .hourAndMinute])
                         .accentColor(.brandPrimary)
                         .padding(.leading, 4)
                         .font(.custom("Asap-Regular", size: 18))
@@ -1198,7 +1219,7 @@ struct AddNewSessionView: View {
                             .foregroundColor(Color(.systemGray3))
                             .frame(width: 30)
                         
-                        DatePicker("End", selection: $newSession.endTimeDayEight, in: newSession.startTimeDayEight...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker(!isZoomed ? "End" : "", selection: $newSession.endTimeDayEight, in: newSession.startTimeDayEight...Date.now, displayedComponents: [.date, .hourAndMinute])
                         .accentColor(.brandPrimary)
                         .padding(.leading, 4)
                         .font(.custom("Asap-Regular", size: 18))

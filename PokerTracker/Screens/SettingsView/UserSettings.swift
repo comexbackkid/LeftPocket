@@ -89,6 +89,7 @@ struct UserSettings: View {
                                 VStack (spacing: 3) {
                                     Text("⚡️ Try Left Pocket Pro FREE ⚡️")
                                         .subtitleStyle()
+                                        .environment(\.sizeCategory, .small)
                                     
                                     Text("Unlock access to all premium features")
                                         .captionStyle()
@@ -100,6 +101,7 @@ struct UserSettings: View {
                             .background(.ultraThinMaterial)
                             .clipShape(.rect(cornerRadius: 15))
                             .padding(.bottom, 25)
+                            
                         }
                         .buttonStyle(.plain)
                     }
@@ -126,20 +128,17 @@ struct UserSettings: View {
                 
                 VStack (alignment: .leading) {
                     
-                    HStack (spacing: -10) {
+                    Toggle(isOn: $systemThemeEnabled) {
                         Text("Use System Display")
                             .subtitleStyle()
                             .bold()
-                        
-                        Toggle("", isOn: $systemThemeEnabled)
-                            .tint(.brandPrimary)
-                            .onChange(of: systemThemeEnabled, perform: { _ in
-                                
-                                SystemThemeManager
-                                    .shared
-                                    .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
-                            })
                     }
+                    .tint(.brandPrimary)
+                    .onChange(of: hideBankroll, perform: { _ in
+                        SystemThemeManager
+                            .shared
+                            .handleTheme(darkMode: isDarkMode, system: systemThemeEnabled)
+                    })
                     
                     Text("Using System Display will override Dark Mode and use your current device preferences.")
                         .calloutStyle()
@@ -156,24 +155,20 @@ struct UserSettings: View {
                 
                 VStack (alignment: .leading) {
                     
-                    HStack (spacing: -10) {
+                    Toggle(isOn: $hideBankroll) {
                         Text("Incognito Bankroll")
                             .subtitleStyle()
                             .bold()
-                        
-                        Toggle("", isOn: $hideBankroll)
-                            .tint(.brandPrimary)
-                            .onChange(of: hideBankroll, perform: { _ in
-                                
-                                hideBankroll.toggle()
-                            })
                     }
+                    .tint(.brandPrimary)
+                    .onChange(of: hideBankroll, perform: { _ in
+                        hideBankroll.toggle()
+                    })
                     
                     Text("Minimal Dashboard view to conceal sensitive bankroll numbers.")
                         .calloutStyle()
                         .opacity(0.8)
                         .padding(.top, 1)
-                    
                 }
                 
                 Spacer()

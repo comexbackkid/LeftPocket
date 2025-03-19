@@ -209,6 +209,7 @@ struct SessionDefaultsView: View {
                 Text("Location")
                     .bodyStyle()
                     .padding(.leading, 4)
+                    .lineLimit(1)
                 
                 Spacer()
                 
@@ -245,7 +246,7 @@ struct SessionDefaultsView: View {
                         Text(location.name)
                             .bodyStyle()
                             .lineLimit(1)
-                            .fixedSize()
+                            .truncationMode(.tail)
                     }
                 }
                 .foregroundColor(location.name.isEmpty ? .brandPrimary : .brandWhite)

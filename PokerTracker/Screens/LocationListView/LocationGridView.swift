@@ -14,7 +14,9 @@ struct LocationGridView: View {
     @State var addLocationIsShowing = false
     @State var showAlert = false
     
-    let columns = [GridItem(.fixed(165), spacing: 20), GridItem(.fixed(165))]
+//    let columns = [GridItem(.fixed(165), spacing: 20), GridItem(.fixed(165))]
+//    let columns = [GridItem(.adaptive(minimum: 100, maximum: 165), spacing: 20), GridItem(.adaptive(minimum: 100, maximum: 165), spacing: 20)]
+    let columns = [GridItem(.adaptive(minimum: 160, maximum: 360), spacing: 10)]
     let deleteTip = DeleteLocationTip()
     
     var body: some View {

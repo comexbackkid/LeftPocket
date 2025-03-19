@@ -287,6 +287,7 @@ struct ProfitByLocationView: View {
                 Text(mostVisitedLocation)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
                     .truncationMode(.tail)
+                    .multilineTextAlignment(.trailing)
             }
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
