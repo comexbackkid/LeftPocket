@@ -16,6 +16,7 @@ struct BankrollLineChart: View {
     @State private var selectedIndex: Int?
     @State private var animationProgress: CGFloat = 0.0
     @State private var showChart: Bool = false
+    @Binding var minimizeLineChart: Bool
     @AppStorage("sessionFilter") private var chartSessionFilter: SessionFilter = .all
     @AppStorage("dateRangeSelection") private var chartRange: RangeSelection = .all
     
@@ -36,7 +37,6 @@ struct BankrollLineChart: View {
         getProfitForIndex(index: selectedIndex ?? 0, cumulativeProfits: convertedData)
     }
     var convertedData: [Int] {
-        
         // Start with zero as our initial data point so chart doesn't look goofy
         var originalDataPoint = [0]
         let newDataPoints = viewModel.calculateCumulativeProfit(sessions: customDateRange != nil ? customDateRange! : dateRange, sessionFilter: chartSessionFilter)
@@ -182,7 +182,7 @@ struct BankrollLineChart: View {
             .chartXAxis(.hidden)
             .chartYScale(domain: [convertedData.min()!, convertedData.max()!])
             .chartYAxis {
-                AxisMarks(position: .trailing, values: .automatic(desiredCount: 4)) { value in
+                AxisMarks(position: .trailing, values: .automatic(desiredCount: minimizeLineChart ? 3 : 4)) { value in
                     AxisGridLine()
                         .foregroundStyle(.gray.opacity(0.33))
                     AxisValueLabel() {
@@ -216,6 +216,7 @@ struct BankrollLineChart: View {
             let impact = UIImpactFeedbackGenerator(style: .soft)
             impact.impactOccurred()
             viewModel.lineChartFullScreen.toggle()
+            
         } label: {
             Image(systemName: "arrow.up.left.and.down.right.and.arrow.up.right.and.down.left")
         }
@@ -252,6 +253,7 @@ struct BankrollLineChart: View {
                     let impact = UIImpactFeedbackGenerator(style: .soft)
                     impact.impactOccurred()
                     chartRange = range
+                    
                 } label: {
                     Text("\(range.displayName)")
                         .bodyStyle()
@@ -262,6 +264,19 @@ struct BankrollLineChart: View {
             
             Spacer()
             
+            if viewModel.lineChartFullScreen == false {
+                Button {
+                    withAnimation {
+                        let impact = UIImpactFeedbackGenerator(style: .soft)
+                        impact.impactOccurred()
+                        minimizeLineChart.toggle()
+                    }
+                    
+                } label: {
+                    Image(systemName: "rectangle.expand.vertical")
+                }
+                .tint(.brandPrimary)
+            }
         }
         .padding(.top, 20)
     }
@@ -314,7 +329,7 @@ struct BankrollLineChart: View {
 struct SwiftChartsPractice_Previews: PreviewProvider {
     
     static var previews: some View {
-        BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, showPatternBackground: false, overlayAnnotation: true, showToggleAndFilter: true)
+        BankrollLineChart(minimizeLineChart: .constant(false), showTitle: true, showYAxis: true, showRangeSelector: true, showPatternBackground: false, overlayAnnotation: true, showToggleAndFilter: true)
             .environmentObject(SessionsListViewModel())
             .preferredColorScheme(.dark)
             .frame(height: 400)

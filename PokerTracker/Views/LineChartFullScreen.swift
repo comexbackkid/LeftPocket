@@ -20,7 +20,8 @@ struct LineChartFullScreen: View {
     var body: some View {
         
         VStack {
-            BankrollLineChart(showTitle: false,
+            BankrollLineChart(minimizeLineChart: .constant(false),
+                              showTitle: false,
                               showYAxis: true,
                               showRangeSelector: true,
                               showPatternBackground: false,

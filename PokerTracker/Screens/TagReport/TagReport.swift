@@ -342,7 +342,7 @@ struct TagReport: View {
     
     var lineChart: some View {
         
-        BankrollLineChart(customDateRange: taggedSessions, showTitle: true, showYAxis: true, showRangeSelector: false, showPatternBackground: false, overlayAnnotation: false, showToggleAndFilter: false)
+        BankrollLineChart(minimizeLineChart: .constant(false), customDateRange: taggedSessions, showTitle: true, showYAxis: true, showRangeSelector: false, showPatternBackground: false, overlayAnnotation: false, showToggleAndFilter: false)
             .padding(20)
             .padding(.bottom)
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)

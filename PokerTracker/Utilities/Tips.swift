@@ -26,15 +26,30 @@ struct DeleteLocationTip: Tip {
 struct MonthlyReportTip: Tip {
     
     var title: Text {
-        Text("Columns Legend")
+        Text("Using this Table")
     }
     
     var message: Text? {
-        Text("The columns below represent your Net Profit \(Image(systemName: "dollarsign")), Hourly Rate \(Image(systemName: "gauge.high")), and Total Hours \(Image(systemName: "clock"))")
+        Text("From left to right is your Net Profit \(Image(systemName: "dollarsign")), Hourly Rate \(Image(systemName: "gauge.high")), & Total Hours \(Image(systemName: "clock")) for each month.")
     }
     
     var image: Image? {
         Image(systemName: "chart.bar.xaxis")
+    }
+}
+
+struct ChartsTip: Tip {
+    
+    var title: Text {
+        Text("Player Data")
+    }
+    
+    var message: Text? {
+        Text("Use this screen to track your performance. Tap & hold charts for additional info.")
+    }
+    
+    var image: Image? {
+        Image(systemName: "lightbulb")
     }
 }
 

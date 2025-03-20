@@ -19,6 +19,7 @@ struct MetricsView: View {
     
     @State private var showPaywall = false
     @State private var progressIndicator: Float = 0.0
+    @State private var minimizeLineChart = false
     @AppStorage("dateRangeSelection") private var statsRange: RangeSelection = .all
     @AppStorage("sessionFilter") private var sessionFilter: SessionFilter = .all
     @Binding var activeSheet: Sheet?
@@ -26,7 +27,9 @@ struct MetricsView: View {
     var body: some View {
         
         NavigationStack {
+            
             ZStack {
+                
                 VStack {
                     
                     if !viewModel.sessions.isEmpty {
@@ -41,13 +44,13 @@ struct MetricsView: View {
                                                                 
                                 bankrollChart
                                 
-                                bankrollProgressView
-                                
                                 playerStats
                                 
-                                ToolTipView(image: "calendar",
-                                            message: "Your best month so far this year has been \(viewModel.bestMonth).",
-                                            color: .donutChartOrange)
+                                bankrollProgressView
+                                
+//                                ToolTipView(image: "calendar",
+//                                            message: "Your best month so far this year has been \(viewModel.bestMonth).",
+//                                            color: .donutChartOrange)
                                 
                                 barChart
                                 
@@ -195,9 +198,9 @@ struct MetricsView: View {
     
     var bankrollChart: some View {
         
-        BankrollLineChart(showTitle: true, showYAxis: true, showRangeSelector: true, showPatternBackground: false, overlayAnnotation: false, showToggleAndFilter: true)
+        BankrollLineChart(minimizeLineChart: $minimizeLineChart, showTitle: true, showYAxis: true, showRangeSelector: true, showPatternBackground: false, overlayAnnotation: false, showToggleAndFilter: true)
             .padding(.bottom, 5)
-            .cardStyle(colorScheme: colorScheme, height: 475)
+            .cardStyle(colorScheme: colorScheme, height: minimizeLineChart ? 280 : 475)
             .cardShadow(colorScheme: colorScheme)
     }
     
@@ -340,12 +343,10 @@ struct MetricsView: View {
                                     
                             }
                         }
+                        
                     } label: {
                         Text(sessionFilter.rawValue.capitalized + " ›")
                             .bodyStyle()
-                    }
-                    .transaction { transaction in
-                        transaction.animation = nil
                     }
                 }
                 .padding(.bottom)

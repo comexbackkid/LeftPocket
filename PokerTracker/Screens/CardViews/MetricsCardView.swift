@@ -22,7 +22,7 @@ struct MetricsCardView: View {
                 
                 Spacer()
          
-                BankrollLineChart(showTitle: false, showYAxis: false, showRangeSelector: false, showPatternBackground: false, overlayAnnotation: false, showToggleAndFilter: false)
+                BankrollLineChart(minimizeLineChart: .constant(false), showTitle: false, showYAxis: false, showRangeSelector: false, showPatternBackground: false, overlayAnnotation: false, showToggleAndFilter: false)
                     .padding(.top, 25)
                     .padding(.horizontal, 20)
                 
