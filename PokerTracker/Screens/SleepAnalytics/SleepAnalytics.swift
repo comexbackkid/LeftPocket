@@ -184,6 +184,7 @@ struct SleepAnalytics: View {
         VStack {
             Button {
                 showPaywall = true
+                
             } label: {
                 PrimaryButton(title: "Try Left Pocket Pro")
             }
@@ -569,7 +570,7 @@ struct SleepAnalytics: View {
         // Filter sessions where you've slept under 6 hours
         let sessions = viewModel.sessions.filter {
             guard let sleep = hkManager.sleepData.sleepHours(on: $0.date) else { return false }
-            return sleep < 7
+            return sleep < 6
         }
         
         // Further filter sessions that occurred in the last 30 days
@@ -591,7 +592,7 @@ struct SleepAnalytics: View {
         for session in viewModel.sessions {
                 let sessionDate = Calendar.current.startOfDay(for: session.date)
                 if let sleepHours = sleepDataByDate[sessionDate] {
-                    if sleepHours >= 7 {
+                    if sleepHours >= 6 {
                         hourlyRateWithEnoughSleep += Double(session.hourlyRate)
                         countWithEnoughSleep += 1
                     } else {
@@ -605,7 +606,7 @@ struct SleepAnalytics: View {
                 if countWithLessSleep == 0 {
                     return "No data available to compare performances yet."
                 }
-                return "Uh oh! All your sessions have been with less than 7 hours of sleep."
+                return "Uh oh! All your sessions have been with less than 6 hours of sleep."
             }
 
             let avgHourlyRateWithEnoughSleep = hourlyRateWithEnoughSleep / Double(countWithEnoughSleep)
@@ -614,9 +615,9 @@ struct SleepAnalytics: View {
             // Calculate percentage improvement
             if avgHourlyRateWithLessSleep != 0 {
                 let improvement = ((avgHourlyRateWithEnoughSleep - avgHourlyRateWithLessSleep) / abs(avgHourlyRateWithLessSleep)) * 100
-                return "Your hourly rate is \(improvement.formatted(.number.precision(.fractionLength(0))))% \(improvement > 0 ? "greater" : "worse") on days you sleep at least 7 hours."
+                return "Your hourly rate is \(improvement.formatted(.number.precision(.fractionLength(0))))% \(improvement > 0 ? "greater" : "worse") on days you sleep at least 6 hours."
             } else {
-                return "Great! No sessions played with less than 7 hours of sleep."
+                return "Great! No sessions played with less than 6 hours of sleep."
             }
     }
     

@@ -39,27 +39,27 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(1)
             
-            StartingBankroll(showDismissButton: false,
-                             nextAction: nextPage,
-                             shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(2)
-            
 //            StudyHabits(showDismissButton: false,
 //                        nextAction: nextPage,
 //                        shouldShowOnboarding: $shouldShowOnboarding).tag(3)
             
             PageView(title: "Track Your Live Sessions",
-                     subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Monitor from your lock screen too!"),
+                     subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Monitor your time & receive updates from any screen with ease."),
                      videoURL: "logging-sessions-new",
                      showDismissButton: false, player: players["logging-sessions-new"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(3)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(2)
             
             PageView(title: "Know When to Move Up",
                      subtitle: Text("Insightful charts, progress rings, & crucial player metrics will guide you & advise when it's safe to take a shot at higher stakes."),
                      videoURL: "metrics-screen",
                      showDismissButton: false, player: players["metrics-screen"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(4)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(3)
+            
+            StartingBankroll(showDismissButton: false,
+                             nextAction: nextPage,
+                             shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(4)
             
             PageView(title: "Session Tags & Reports",
                      subtitle: Text("Easily filter & group together similar Sessions & Transactions by applying a Tag \(Image(systemName: "tag.fill")) to them. Custom Tag reports can be found in your Metrics screen."),
