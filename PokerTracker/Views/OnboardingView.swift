@@ -328,7 +328,7 @@ struct StartingBankroll: View {
                 
                 Spacer()
                 
-                Text("Are you starting off with a bankroll today? Enter it below.")
+                Text("Are you starting off with a bankroll today?")
                     .signInTitleStyle()
                     .foregroundColor(.brandWhite)
                     .fontWeight(.black)
