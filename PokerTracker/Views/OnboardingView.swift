@@ -39,39 +39,32 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(1)
             
-//            StudyHabits(showDismissButton: false,
-//                        nextAction: nextPage,
-//                        shouldShowOnboarding: $shouldShowOnboarding).tag(3)
+            StartingBankroll(showDismissButton: false,
+                             nextAction: nextPage,
+                             shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(2)
             
-            PageView(title: "Track Your Live Sessions",
-                     subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Monitor your time & receive updates from any screen with ease."),
+            StudyHabits(showDismissButton: false,
+                        nextAction: nextPage,
+                        shouldShowOnboarding: $shouldShowOnboarding).tag(3)
+            
+            PageView(title: "Stay Focused at the Table",
+                     subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Stay focused on what matters."),
                      videoURL: "logging-sessions-new",
                      showDismissButton: false, player: players["logging-sessions-new"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(2)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(4)
             
             PageView(title: "Know When to Move Up",
                      subtitle: Text("Insightful charts, progress rings, & crucial player metrics will guide you & advise when it's safe to take a shot at higher stakes."),
                      videoURL: "metrics-screen",
                      showDismissButton: false, player: players["metrics-screen"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(3)
-            
-            StartingBankroll(showDismissButton: false,
-                             nextAction: nextPage,
-                             shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(4)
-            
-            PageView(title: "Session Tags & Reports",
-                     subtitle: Text("Easily filter & group together similar Sessions & Transactions by applying a Tag \(Image(systemName: "tag.fill")) to them. Custom Tag reports can be found in your Metrics screen."),
-                     videoURL: "tag-reporting",
-                     showDismissButton: false, player: players["tag-reporting"],
-                     nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(5)
             
-            PageView(title: "Home Screen Widgets",
-                     subtitle: Text("Touch & hold an empty area of your home screen until the apps jiggle. Then press the \"Edit\" button, followed by \"Add Widget,\" & search for Left Pocket."),
-                     videoURL: "homescreen-widget",
-                     showDismissButton: false, player: players["homescreen-widget"],
+            PageView(title: "Easily Share Your Progress",
+                     subtitle: Text("Accountability is important. Quickly share Sessions and progress with your circle of friends to keep motivated."),
+                     videoURL: "tag-reporting",
+                     showDismissButton: false, player: players["tag-reporting"],
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(6)
             
@@ -79,7 +72,7 @@ struct OnboardingView: View {
                                nextAction: nextPage,
                                shouldShowOnboarding: $shouldShowOnboarding).tag(7)
             
-            PageView(title: "Health & Mindfulness",
+            PageView(title: "Boost Your Mental Game",
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours & mindful minutes in our Health Analytics page, & integrate these numbers measured by other devices, like an Apple Watch."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],
@@ -252,7 +245,6 @@ struct PollView: View {
                     .opacity(0.7)
                     .padding(.bottom, isZoomed ? 10 : 30)
                 
-//                let columns = [GridItem(.flexible(minimum: 160, maximum: 200)), GridItem(.flexible(minimum: 160, maximum: 200))]
                 let columns = [GridItem(.adaptive(minimum: 160, maximum: 170)), GridItem(.adaptive(minimum: 160, maximum: 170))]
                 let buttonText = ["Bankroll Management", "Moving up Stakes", "Focus", "Mental Game", "Keeping Hand History", "Tracking Expenses", "Not Going Bust", "When To End a Session"]
                 
@@ -300,12 +292,13 @@ struct PollView: View {
                     .foregroundColor(.black)
                     .frame(maxWidth: .infinity)
                     .frame(height: 50)
-                    .background(.white)
+                    .background(selectedButtons.isEmpty ? .gray.opacity(0.75) : .white)
                     .cornerRadius(30)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 50)
             }
             .buttonStyle(PlainButtonStyle())
+            .allowsHitTesting(selectedButtons.isEmpty ? false : true)
         }
     }
 }
@@ -442,7 +435,7 @@ struct StudyHabits: View {
                     .fontWeight(.black)
                     .padding(.bottom, 5)
                 
-                Text("If your goal is crack the 10 big blinds per hour threshold, let's take accountability.")
+                Text("Watching YouTube doesn't count!")
                     .calloutStyle()
                     .opacity(0.7)
                     .padding(.bottom, 40)
@@ -488,12 +481,13 @@ struct StudyHabits: View {
                     .foregroundColor(.black)
                     .frame(maxWidth: .infinity)
                     .frame(height: 50)
-                    .background(.white)
+                    .background(selectedHabit == nil ? .gray.opacity(0.75) : .white)
                     .cornerRadius(30)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 50)
             }
             .buttonStyle(PlainButtonStyle())
+            .allowsHitTesting(selectedHabit == nil ? false : true)
         }
     }
 }
@@ -520,7 +514,7 @@ struct AllowNotifications: View {
                 
                 Spacer()
                 
-                Text("Turn on notifications for help sustaining longer sessions.")
+                Text("Turn on notifications for help during live sessions.")
                     .signInTitleStyle()
                     .foregroundColor(.brandWhite)
                     .fontWeight(.black)
