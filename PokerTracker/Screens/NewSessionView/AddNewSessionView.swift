@@ -31,21 +31,17 @@ struct AddNewSessionView: View {
     @EnvironmentObject var subManager: SubscriptionManager
     @StateObject var newSession = NewSessionViewModel()
     @ObservedObject var timerViewModel: TimerViewModel
-    
     @Binding var isPresented: Bool
     @Binding var audioConfirmation: Bool
-    
     @State var addLocationIsShowing = false
     @State var addStakesIsShowing = false
     @State var showPaywall = false
     @State var showCashRebuyField = false
     @State var showStakingPopover = false
     @State var showBountiesPopover = false
-    
     private var isZoomed: Bool {
         UIScreen.main.scale < UIScreen.main.nativeScale
     }
-    
     @FocusState private var focusedField: Field?
     
     var body: some View {

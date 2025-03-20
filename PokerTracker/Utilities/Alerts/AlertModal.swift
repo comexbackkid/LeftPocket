@@ -38,8 +38,10 @@ struct AlertModal: View {
         
         HStack {
             
+            Spacer()
+            
             Text("Success!")
-                .font(.custom("Asap-Black", size: 34))
+                .font(.custom("Asap-Black", size: 30))
                 .bold()
                 .padding(.bottom, 25)
                 .padding(.top, 20)
@@ -57,10 +59,12 @@ struct AlertModal: View {
             
             HStack {
                 
+                Spacer()
+                
                 Text(message)
                     .bodyStyle()
                     .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.leading)
+                    .multilineTextAlignment(.center)
                 
                 Spacer()
             }

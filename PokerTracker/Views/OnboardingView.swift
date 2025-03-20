@@ -43,48 +43,48 @@ struct OnboardingView: View {
                              nextAction: nextPage,
                              shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(2)
             
-            StudyHabits(showDismissButton: false,
-                        nextAction: nextPage,
-                        shouldShowOnboarding: $shouldShowOnboarding).tag(3)
+//            StudyHabits(showDismissButton: false,
+//                        nextAction: nextPage,
+//                        shouldShowOnboarding: $shouldShowOnboarding).tag(3)
             
             PageView(title: "Track Your Live Sessions",
                      subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Monitor from your lock screen too!"),
                      videoURL: "logging-sessions-new",
                      showDismissButton: false, player: players["logging-sessions-new"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(4)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(3)
             
             PageView(title: "Know When to Move Up",
                      subtitle: Text("Insightful charts, progress rings, & crucial player metrics will guide you & advise when it's safe to take a shot at higher stakes."),
                      videoURL: "metrics-screen",
                      showDismissButton: false, player: players["metrics-screen"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(5)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(4)
             
             PageView(title: "Session Tags & Reports",
                      subtitle: Text("Easily filter & group together similar Sessions & Transactions by applying a Tag \(Image(systemName: "tag.fill")) to them. Custom Tag reports can be found in your Metrics screen."),
                      videoURL: "tag-reporting",
                      showDismissButton: false, player: players["tag-reporting"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(6)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(5)
             
             PageView(title: "Home Screen Widgets",
                      subtitle: Text("Touch & hold an empty area of your home screen until the apps jiggle. Then press the \"Edit\" button, followed by \"Add Widget,\" & search for Left Pocket."),
                      videoURL: "homescreen-widget",
                      showDismissButton: false, player: players["homescreen-widget"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(7)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(6)
             
             AllowNotifications(showDismissButton: false,
                                nextAction: nextPage,
-                               shouldShowOnboarding: $shouldShowOnboarding).tag(8)
+                               shouldShowOnboarding: $shouldShowOnboarding).tag(7)
             
             PageView(title: "Health & Mindfulness",
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours & mindful minutes in our Health Analytics page, & integrate these numbers measured by other devices, like an Apple Watch."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],
                      nextAction: { hkManager.requestAuthorization() },
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(9)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(8)
         }
         .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)
@@ -336,7 +336,7 @@ struct StartingBankroll: View {
                     .lineLimit(3)
                     .minimumScaleFactor(0.7)
                 
-                Text("You can skip this step, & later import data from a different bankroll tracker.")
+                Text("You can skip this step, & import data later from a different bankroll tracker.")
                     .calloutStyle()
                     .opacity(0.7)
                     .padding(.bottom, 20)
@@ -379,6 +379,7 @@ struct StartingBankroll: View {
             .onTapGesture {
                 isFocused = false
             }
+            .scrollDismissesKeyboard(.immediately)
             
             Spacer()
             
@@ -386,6 +387,7 @@ struct StartingBankroll: View {
                 let impact = UIImpactFeedbackGenerator(style: .soft)
                 impact.impactOccurred()
                 nextAction()
+                
             } label: {
                 Text("Skip this step, I'll decide later")
                     .subHeadlineStyle()

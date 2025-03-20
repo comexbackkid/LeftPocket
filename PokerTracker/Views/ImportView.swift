@@ -654,7 +654,8 @@ struct PokerBankrollTrackerImportView: View {
     
     @State private var showFileImporter = false
     @State private var errorMessage: String?
-    @State private var showSuccessMessage: String?
+    @State private var showSuccessMessage = ""
+    @State private var showAlertModal = false
     
     var body: some View {
         
@@ -727,6 +728,11 @@ struct PokerBankrollTrackerImportView: View {
                 }
                 .lineSpacing(5)
                 .padding(.vertical, 20)
+                .sheet(isPresented: $showAlertModal) {
+                    AlertModal(message: showSuccessMessage)
+                        .presentationDetents([.height(210)])
+                        .presentationBackground(.ultraThinMaterial)
+                }
             }
             .padding(.horizontal)
             
@@ -744,17 +750,6 @@ struct PokerBankrollTrackerImportView: View {
                         .foregroundColor(.red)
                 }
                 
-            } else if let showSuccessMessage {
-                
-                VStack {
-                    Text("Success!")
-                    Text(showSuccessMessage)
-                    Image(systemName: "checkmark.circle")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .padding(.top, 1)
-                        .foregroundColor(.green)
-                }
             }
             
             HStack {
@@ -792,6 +787,7 @@ struct PokerBankrollTrackerImportView: View {
                     vm.sessions += importedSessions
                     vm.sessions.sort(by: {$0.date > $1.date})
                     showSuccessMessage = "All sessions imported successfully."
+                    showAlertModal = true
                 }
                 
                 selectedURL.stopAccessingSecurityScopedResource()
@@ -1043,8 +1039,9 @@ struct LeftPocketImportView: View {
     @EnvironmentObject var vm: SessionsListViewModel
     
     @State private var showFileImporter = false
+    @State private var showAlertModal = false
     @State private var errorMessage: String?
-    @State private var showSuccessMessage: String?
+    @State private var showSuccessMessage: String = ""
     
     var body: some View {
         
@@ -1105,6 +1102,11 @@ struct LeftPocketImportView: View {
                 }
                 .lineSpacing(5)
                 .padding(.vertical, 20)
+                .sheet(isPresented: $showAlertModal) {
+                    AlertModal(message: showSuccessMessage)
+                        .presentationDetents([.height(210)])
+                        .presentationBackground(.ultraThinMaterial)
+                }
             }
             .padding(.horizontal)
             
@@ -1123,18 +1125,6 @@ struct LeftPocketImportView: View {
                 }
                 .padding(.horizontal)
                 
-            } else if let showSuccessMessage {
-                
-                VStack {
-                    Text("Success!")
-                    Text(showSuccessMessage)
-                    Image(systemName: "checkmark.circle")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .padding(.top, 1)
-                        .foregroundColor(.green)
-                }
-                .padding(.horizontal)
             }
             
             HStack {
@@ -1171,6 +1161,7 @@ struct LeftPocketImportView: View {
                     vm.sessions += importedSessions
                     vm.sessions.sort(by: {$0.date > $1.date})
                     showSuccessMessage = "All sessions imported successfully."
+                    showAlertModal = true
                 }
                 
                 selectedURL.stopAccessingSecurityScopedResource()
@@ -1204,8 +1195,9 @@ struct PokerAnalyticsImportView: View {
     @EnvironmentObject var vm: SessionsListViewModel
     
     @State private var showFileImporter = false
+    @State private var showAlertModal = false
     @State private var errorMessage: String?
-    @State private var showSuccessMessage: String?
+    @State private var showSuccessMessage = ""
     
     var body: some View {
         
@@ -1278,6 +1270,11 @@ struct PokerAnalyticsImportView: View {
                 }
                 .lineSpacing(5)
                 .padding(.vertical, 20)
+                .sheet(isPresented: $showAlertModal) {
+                    AlertModal(message: showSuccessMessage)
+                        .presentationDetents([.height(210)])
+                        .presentationBackground(.ultraThinMaterial)
+                }
             }
             .padding(.horizontal)
             
@@ -1294,16 +1291,6 @@ struct PokerAnalyticsImportView: View {
                         .foregroundColor(.red)
                 }
                 
-            } else if let showSuccessMessage {
-                VStack {
-                    Text("Success!")
-                    Text(showSuccessMessage)
-                    Image(systemName: "checkmark.circle")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .padding(.top, 1)
-                        .foregroundColor(.green)
-                }
             }
             
             HStack {
@@ -1340,6 +1327,7 @@ struct PokerAnalyticsImportView: View {
                     vm.sessions += importedSessions
                     vm.sessions.sort(by: {$0.date > $1.date})
                     showSuccessMessage = "All sessions imported successfully."
+                    showAlertModal = true
                 }
                 
                 selectedURL.stopAccessingSecurityScopedResource()
@@ -1369,7 +1357,7 @@ struct PokerAnalyticsImportView: View {
 
 struct ImportView_Previews: PreviewProvider {
     static var previews: some View {
-        ImportView()
+        LeftPocketImportView()
             .preferredColorScheme(.dark)
     }
 }
