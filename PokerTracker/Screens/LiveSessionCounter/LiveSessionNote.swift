@@ -13,6 +13,7 @@ struct LiveSessionNote: View {
     @Binding var noteConfirmationSound: Bool
     @ObservedObject var timerViewModel: TimerViewModel
     @Environment(\.dismiss) var dismiss
+    @FocusState var isFocused: Bool
     
     var body: some View {
         
@@ -33,11 +34,12 @@ struct LiveSessionNote: View {
                         .scrollContentBackground(.hidden)
                         .background(.gray.opacity(0.2))
                         .cornerRadius(15)
+                        .focused($isFocused, equals: true)
                         .overlay(
                             HStack {
                                 VStack {
                                     VStack {
-                                        Text(noteText.isEmpty ? "Session Note" : "")
+                                        Text(noteText.isEmpty ? "Type here..." : "")
                                             .font(.custom("Asap-Regular", size: 17))
                                             .font(.callout)
                                             .foregroundColor(.secondary.opacity(0.5))
@@ -57,9 +59,17 @@ struct LiveSessionNote: View {
                 }
             }
         }
+        .scrollDismissesKeyboard(.immediately)
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .frame(maxHeight: .infinity)
         .background(Color.brandBackground)
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Button("Done") {
+                    isFocused = false
+                }
+            }
+        }
     }
     
     var title: some View {
