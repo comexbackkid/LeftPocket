@@ -87,11 +87,11 @@ struct UserSettings: View {
                             HStack {
                                 Spacer()
                                 VStack (spacing: 3) {
-                                    Text("⚡️ Try Left Pocket Pro FREE ⚡️")
+                                    Text("⚡️ Try Left Pocket Pro ⚡️")
                                         .subtitleStyle()
                                         .environment(\.sizeCategory, .small)
                                     
-                                    Text("Unlock access to all premium features")
+                                    Text("Tap here to unlock access")
                                         .captionStyle()
                                         .opacity(0.75)
                                 }
