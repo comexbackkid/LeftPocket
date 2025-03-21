@@ -25,6 +25,7 @@ struct OnboardingView: View {
         "import-sessions": AVPlayer(url: Bundle.main.url(forResource: "import-sessions", withExtension: "mp4")!),
         "logging-sessions-new": AVPlayer(url: Bundle.main.url(forResource: "logging-sessions-new", withExtension: "mp4")!),
         "metrics-screen": AVPlayer(url: Bundle.main.url(forResource: "metrics-screen", withExtension: "mp4")!),
+        "sharing": AVPlayer(url: Bundle.main.url(forResource: "sharing", withExtension: "mp4")!),
         "health-metrics": AVPlayer(url: Bundle.main.url(forResource: "health-metrics", withExtension: "mp4")!)
     ]
     private var isZoomed: Bool {
@@ -71,9 +72,9 @@ struct OnboardingView: View {
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(6)
             
             PageView(title: "Easily Share Your Progress",
-                     subtitle: Text("Accountability is important. Quickly share Sessions and progress with your circle of friends to keep motivated."),
-                     videoURL: "tag-reporting",
-                     showDismissButton: false, player: players["tag-reporting"],
+                     subtitle: Text("Accountability is everything. Quickly share Sessions and progress with your circle of friends to stay motivated."),
+                     videoURL: "sharing",
+                     showDismissButton: false, player: players["sharing"],
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(7)
             
