@@ -47,37 +47,44 @@ struct OnboardingView: View {
                         nextAction: nextPage,
                         shouldShowOnboarding: $shouldShowOnboarding).tag(3)
             
+            PageView(title: "Import from Other Apps",
+                     subtitle: Text("From the Settings screen importing old data from other apps is super easy. You can be up & running in a matter of seconds."),
+                     videoURL: "logging-sessions-new",
+                     showDismissButton: false, player: players["logging-sessions-new"],
+                     nextAction: nextPage,
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(4)
+            
             PageView(title: "Stay Focused at the Table",
                      subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Stay focused on what matters."),
                      videoURL: "logging-sessions-new",
                      showDismissButton: false, player: players["logging-sessions-new"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(4)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(5)
             
             PageView(title: "Know When to Move Up",
                      subtitle: Text("Insightful charts, progress rings, & crucial player metrics will guide you & advise when it's safe to take a shot at higher stakes."),
                      videoURL: "metrics-screen",
                      showDismissButton: false, player: players["metrics-screen"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(5)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(6)
             
             PageView(title: "Easily Share Your Progress",
                      subtitle: Text("Accountability is important. Quickly share Sessions and progress with your circle of friends to keep motivated."),
                      videoURL: "tag-reporting",
                      showDismissButton: false, player: players["tag-reporting"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(6)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(7)
             
             AllowNotifications(showDismissButton: false,
                                nextAction: nextPage,
-                               shouldShowOnboarding: $shouldShowOnboarding).tag(7)
+                               shouldShowOnboarding: $shouldShowOnboarding).tag(8)
             
             PageView(title: "Boost Your Mental Game",
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours & mindful minutes in our Health Analytics page, & integrate these numbers measured by other devices, like an Apple Watch."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],
                      nextAction: { hkManager.requestAuthorization() },
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(8)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(9)
         }
         .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)
@@ -93,20 +100,21 @@ struct OnboardingView: View {
         .sheet(isPresented: $showPaywall) {
             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
                 .dynamicTypeSize(.medium...DynamicTypeSize.large)
-                .overlay {
-                    HStack {
-                        Spacer()
-                        VStack {
-                            DismissButton()
-                                .padding()
-                                .onTapGesture {
-                                    shouldShowOnboarding = false
-                                    showPaywall = false
-                            }
-                            Spacer()
-                        }
-                    }
-                }
+//                .overlay {
+//                    HStack {
+//                        Spacer()
+//                        VStack {
+//                            DismissButton()
+//                                .padding()
+//                                .onTapGesture {
+//                                    shouldShowOnboarding = false
+//                                    showPaywall = false
+//                            }
+//                            Spacer()
+//                        }
+//                    }
+//                }
+//                .interactiveDismissDisabled()
                 .onDisappear(perform: {
                     shouldShowOnboarding = false
                 })

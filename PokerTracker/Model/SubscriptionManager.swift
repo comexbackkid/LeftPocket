@@ -13,6 +13,8 @@ import AdSupport
 class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
     
     @Published var isSubscribed = false
+    @Published var packages: [Package]?
+    @Published var offerings: Offering?
     @AppStorage("rcUserId") private var rcUserID: String = ""
     
     override init() {
@@ -22,6 +24,10 @@ class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
         Purchases.configure(withAPIKey: "appl_nzoxZjFOdCffwvTEKrdMdDqjfzO")
         Purchases.shared.delegate = self
         Purchases.shared.attribution.collectDeviceIdentifiers()
+        Purchases.shared.getOfferings { (offerings, error) in
+//            self.packages = offerings?.offering(identifier: "Last Chance Offer")?.availablePackages
+            self.offerings = offerings?.offering(identifier: "ofrng8098218fad")
+        }
         
         let appUserID = Purchases.shared.appUserID
         if appUserID.isEmpty {
