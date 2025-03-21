@@ -14,17 +14,19 @@ struct OnboardingView: View {
     
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var hkManager: HealthKitManager
+    @Environment(\.dismiss) var dismiss
     @Binding var shouldShowOnboarding: Bool
     @State private var selectedPage: Int = 0
     @State private var showPaywall = false
+    @State private var shouldShowLastChance = false
+    @State private var offering: Offering?
     
     private let players: [String: AVPlayer] = [
-            "logging-sessions-new": AVPlayer(url: Bundle.main.url(forResource: "logging-sessions-new", withExtension: "mp4")!),
-            "metrics-screen": AVPlayer(url: Bundle.main.url(forResource: "metrics-screen", withExtension: "mp4")!),
-            "tag-reporting": AVPlayer(url: Bundle.main.url(forResource: "tag-reporting", withExtension: "mp4")!),
-            "homescreen-widget": AVPlayer(url: Bundle.main.url(forResource: "homescreen-widget", withExtension: "mp4")!),
-            "health-metrics": AVPlayer(url: Bundle.main.url(forResource: "health-metrics", withExtension: "mp4")!)
-        ]
+        "import-sessions": AVPlayer(url: Bundle.main.url(forResource: "import-sessions", withExtension: "mp4")!),
+        "logging-sessions-new": AVPlayer(url: Bundle.main.url(forResource: "logging-sessions-new", withExtension: "mp4")!),
+        "metrics-screen": AVPlayer(url: Bundle.main.url(forResource: "metrics-screen", withExtension: "mp4")!),
+        "health-metrics": AVPlayer(url: Bundle.main.url(forResource: "health-metrics", withExtension: "mp4")!)
+    ]
     private var isZoomed: Bool {
         UIScreen.main.scale < UIScreen.main.nativeScale
     }
@@ -49,8 +51,8 @@ struct OnboardingView: View {
             
             PageView(title: "Import from Other Apps",
                      subtitle: Text("From the Settings screen importing old data from other apps is super easy. You can be up & running in a matter of seconds."),
-                     videoURL: "logging-sessions-new",
-                     showDismissButton: false, player: players["logging-sessions-new"],
+                     videoURL: "import-sessions",
+                     showDismissButton: false, player: players["import-sessions"],
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(4)
             
@@ -97,9 +99,38 @@ struct OnboardingView: View {
                 showPaywall = true
             }
         })
-        .sheet(isPresented: $showPaywall) {
+        .sheet(isPresented: $showPaywall, onDismiss: {
+            /// After first paywall is closed, check the subscription status. If they didn't subscribe, hit user with Last Chance Offer
+            Task {
+                if !subManager.isSubscribed {
+                    lastChanceOfferFetch()
+                    
+                } else {
+                    /// If they did subscribe, kill the onboarding flow
+                    shouldShowOnboarding = false
+                }
+            }
+        }, content: {
             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
                 .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                .overlay {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            DismissButton()
+                                .padding()
+                                .onTapGesture {
+                                    showPaywall = false
+                                }
+                            Spacer()
+                        }
+                    }
+                }
+        })
+//        .sheet(item: $offering, onDismiss: {
+//            shouldShowOnboarding = false
+//        }, content: { offering in
+//            PaywallView(offering: offering)
 //                .overlay {
 //                    HStack {
 //                        Spacer()
@@ -107,24 +138,56 @@ struct OnboardingView: View {
 //                            DismissButton()
 //                                .padding()
 //                                .onTapGesture {
+//                                    dismiss()
 //                                    shouldShowOnboarding = false
-//                                    showPaywall = false
-//                            }
+//                                }
 //                            Spacer()
 //                        }
 //                    }
 //                }
-//                .interactiveDismissDisabled()
-                .onDisappear(perform: {
-                    shouldShowOnboarding = false
-                })
-        }
+//        })
+        .sheet(isPresented: $shouldShowLastChance, onDismiss: {
+            /// When the Last Chance Offer is dismissed, kill the onboarding flow
+            shouldShowOnboarding = false
+        }, content: {
+            if let offering = offering {
+                PaywallView(offering: offering)
+                    .overlay {
+                        HStack {
+                            Spacer()
+                            VStack {
+                                DismissButton()
+                                    .padding()
+                                    .onTapGesture {
+                                        shouldShowLastChance = false
+                                        self.offering = nil
+                                    }
+                                Spacer()
+                            }
+                        }
+                    }
+                
+            } else {
+                ProgressView("Loading paywall...")
+            }
+        })
         .task {
             for await customerInfo in Purchases.shared.customerInfoStream {
-                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                let isSubscribed = customerInfo.entitlements["premium"]?.isActive == true
+                
+                /// If at any point they subscribe, dismiss any and all paywalls, kill the onboarding flow, and proceed to the app
+                if isSubscribed {
+                    showPaywall = false
+                    offering = nil
+                    shouldShowOnboarding = false
+                }
+                
                 await subManager.checkSubscriptionStatus()
             }
         }
+        .onDisappear(perform: {
+            shouldShowOnboarding = false
+        })
     }
     
     func nextPage() {
@@ -132,6 +195,33 @@ struct OnboardingView: View {
             selectedPage += 1
         }
     }
+    
+    private func lastChanceOfferFetch() {
+        Task {
+            do {
+                let fetchedOffering = try await Purchases.shared.offerings().offering(identifier: "Last Chance Offer")
+                await MainActor.run {
+                    self.offering = fetchedOffering
+                    self.shouldShowLastChance = true
+                }
+            } catch {
+                print("🚨 ERROR: No Offering Found.")
+            }
+        }
+    }
+    
+//    private func lastChanceOfferFetch() {
+//        Task {
+//            do {
+//                offering = try await Purchases.shared.offerings().offering(identifier: "Last Chance Offer")
+//                
+//            } catch {
+//                print("ERROR: No Offering Found.")
+//            }
+//        }
+//    }
+
+    
 }
 
 struct PageView: View {
