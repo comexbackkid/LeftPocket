@@ -36,62 +36,62 @@ struct OnboardingView: View {
         
         TabView(selection: $selectedPage) {
             
-            PersonalizedExperience(showDismissButton: false,
-                                   nextAction: nextPage,
-                                   shouldShowOnboarding: $shouldShowOnboarding).tag(0)
+            WelcomeScreen(selectedPage: $selectedPage).gesture(DragGesture()).tag(0)
             
-//            WelcomeScreen(selectedPage: $selectedPage).gesture(DragGesture()).tag(0)
-//            
-//            PollView(showDismissButton: false,
-//                     nextAction: nextPage,
-//                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(1)
-//            
-//            StartingBankroll(showDismissButton: false,
-//                             nextAction: nextPage,
-//                             shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(2)
+            PollView(showDismissButton: false,
+                     nextAction: nextPage,
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(1)
             
-            StudyHabits(showDismissButton: false,
+            StartingBankroll(showDismissButton: false,
+                             nextAction: nextPage,
+                             shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(2)
+            
+            RiskTolerance(showDismissButton: false,
                         nextAction: nextPage,
                         shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(3)
+            
+            AllowNotifications(showDismissButton: false,
+                               nextAction: nextPage,
+                               shouldShowOnboarding: $shouldShowOnboarding).tag(4)
+            
+            PersonalizedExperience(showDismissButton: false,
+                                   nextAction: nextPage,
+                                   shouldShowOnboarding: $shouldShowOnboarding).tag(5)
             
             PageView(title: "Painless Data Imports",
                      subtitle: Text("From the Settings screen importing old data from other apps is super easy. You can be up & running in a matter of seconds."),
                      videoURL: "import-sessions",
                      showDismissButton: false, player: players["import-sessions"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(4)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(6)
             
             PageView(title: "Stay Focused at the Table",
                      subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Stay focused on what matters."),
                      videoURL: "logging-sessions-new",
                      showDismissButton: false, player: players["logging-sessions-new"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(5)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(7)
             
             PageView(title: "Know When to Move Up",
                      subtitle: Text("Insightful charts, progress rings, & crucial player metrics will guide you & advise when it's safe to take a shot at higher stakes."),
                      videoURL: "metrics-screen",
                      showDismissButton: false, player: players["metrics-screen"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(6)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(8)
             
             PageView(title: "Easily Share Your Progress",
                      subtitle: Text("Accountability is everything. Quickly share Sessions and progress with your circle of friends to stay motivated."),
                      videoURL: "sharing",
                      showDismissButton: false, player: players["sharing"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(7)
-            
-            AllowNotifications(showDismissButton: false,
-                               nextAction: nextPage,
-                               shouldShowOnboarding: $shouldShowOnboarding).tag(8)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(9)
             
             PageView(title: "Boost Your Mental Game",
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours & mindful minutes in our Health Analytics page, & integrate these numbers measured by other devices, like an Apple Watch."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],
                      nextAction: { hkManager.requestAuthorization() },
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(9)
+                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(10)
         }
         .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)
@@ -491,6 +491,7 @@ struct PersonalizedExperience: View {
     var nextAction: () -> Void
     
     @Binding var shouldShowOnboarding: Bool
+    @State private var progressBarComplete = false
     
     var body: some View {
         
@@ -500,42 +501,24 @@ struct PersonalizedExperience: View {
                 
                 Spacer()
                 
-                Text("Congratulations!")
+                Text("Congratulations! You're almost done.")
                     .signInTitleStyle()
                     .foregroundColor(.brandWhite)
                     .fontWeight(.black)
                     .padding(.bottom, 5)
+                    .padding(.horizontal, 20)
                 
-                Text("Sit tight while we personalize your experience, this will only take a couple seconds.")
+                Text("Sit tight while we configure the app for you. This will only take a few seconds.")
                     .calloutStyle()
                     .opacity(0.7)
                     .padding(.bottom, 40)
+                    .padding(.horizontal, 20)
                 
-//                ForEach(["Conservative", "Standard", "Aggressive"], id: \.self) { habit in
-//                    Button {
-//                        let impact = UIImpactFeedbackGenerator(style: .medium)
-//                        impact.impactOccurred()
-//                        
-//                    } label: {
-//                        Text(habit)
-//                            .font(.custom("Asap-Medium", size: 16))
-//                            .frame(maxWidth: .infinity)
-//                            .frame(height: 50)
-//                            .background(.thinMaterial)
-//                            .cornerRadius(30)
-//                            .overlay(
-//                                RoundedRectangle(cornerRadius: 30)
-//                                    .stroke(selectedTolerance == habit ? Color.lightGreen : Color.clear, lineWidth: 2)
-//                            )
-//                    }
-//                    .buttonStyle(.plain)
-//                    .padding(.bottom, 5)
-//                }
+                ProgressAnimation()
                 
                 Spacer()
         
             }
-            .padding(.horizontal, 20)
             
             Spacer()
             
@@ -550,18 +533,23 @@ struct PersonalizedExperience: View {
                     .foregroundColor(.black)
                     .frame(maxWidth: .infinity)
                     .frame(height: 50)
-                    .background(.white)
+                    .background(progressBarComplete ? .white : .gray.opacity(0.75))
                     .cornerRadius(30)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 50)
             }
             .buttonStyle(PlainButtonStyle())
-//            .allowsHitTesting(selectedTolerance == nil ? false : true)
+            .allowsHitTesting(progressBarComplete ? true : false)
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                progressBarComplete = true
+            }
         }
     }
 }
 
-struct StudyHabits: View {
+struct RiskTolerance: View {
     
     let showDismissButton: Bool
     var nextAction: () -> Void
@@ -569,7 +557,8 @@ struct StudyHabits: View {
     @State private var selectedTolerance: String? = nil
     @Binding var shouldShowOnboarding: Bool
     @FocusState var isFocused: Bool
-    @AppStorage("userRiskTolerance") var riskTolerance: String = ""
+//    @AppStorage("userRiskTolerance") var riskTolerance: String = ""
+    @AppStorage("userRiskTolerance") private var selectedRiskTolerance: String = UserRiskTolerance.standard.rawValue
     
     var body: some View {
         
@@ -590,14 +579,14 @@ struct StudyHabits: View {
                     .opacity(0.7)
                     .padding(.bottom, 40)
                 
-                ForEach(["Conservative", "Standard", "Aggressive"], id: \.self) { habit in
+                ForEach(UserRiskTolerance.allCases, id: \.self) { tolerance in
                     Button {
                         let impact = UIImpactFeedbackGenerator(style: .medium)
                         impact.impactOccurred()
-                        selectedTolerance = habit
+                        selectedTolerance = tolerance.rawValue
                         
                     } label: {
-                        Text(habit)
+                        Text(tolerance.rawValue)
                             .font(.custom("Asap-Medium", size: 16))
                             .frame(maxWidth: .infinity)
                             .frame(height: 50)
@@ -605,7 +594,10 @@ struct StudyHabits: View {
                             .cornerRadius(30)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 30)
-                                    .stroke(selectedTolerance == habit ? Color.lightGreen : Color.clear, lineWidth: 2)
+                                    .stroke(
+                                        selectedTolerance == tolerance.rawValue ? Color.lightGreen : Color.clear,
+                                        lineWidth: 2
+                                    )
                             )
                     }
                     .buttonStyle(.plain)
@@ -623,8 +615,11 @@ struct StudyHabits: View {
                 let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
                 isFocused = false
-                riskTolerance = selectedTolerance ?? "Conservative"
-                nextAction()
+                if let selected = selectedTolerance {
+                    selectedRiskTolerance = selected
+                    nextAction()
+                    print("User's selected risk tolerance level: \(selected)")
+                }
                 
             } label: {
                 Text(showDismissButton ? "Let's Do It" : "Continue")
@@ -741,5 +736,34 @@ struct OnboardingView_Previews: PreviewProvider {
         OnboardingView(shouldShowOnboarding: .constant(true))
             .environmentObject(SubscriptionManager())
             .environmentObject(HealthKitManager())
+    }
+}
+
+struct ProgressAnimation: View {
+    @State private var drawingWidth = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+
+            ZStack(alignment: .leading) {
+                
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color(.systemGray).opacity(0.25))
+                    .frame(height: 12)
+
+                GeometryReader { geo in
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.lightGreen.gradient)
+                        .frame(width: drawingWidth ? geo.size.width : 0, height: 12)
+                        .animation(.easeInOut(duration: 5), value: drawingWidth)
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 12)) // Mask to prevent overflow
+            }
+            .frame(height: 12)
+        }
+        .padding(.horizontal, 20) // Matches your button's horizontal padding
+        .onAppear {
+            drawingWidth = true
+        }
     }
 }

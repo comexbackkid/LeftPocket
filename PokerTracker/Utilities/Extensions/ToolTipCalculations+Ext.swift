@@ -8,30 +8,49 @@
 import Foundation
 import SwiftUI
 
+enum UserRiskTolerance: String, CaseIterable {
+    case conservative = "Conservative"
+    case standard = "Standard"
+    case aggressive = "Aggressive"
+    
+    var buyInMultiplier: Int {
+        switch self {
+        case .conservative: return 6000
+        case .standard: return 4000
+        case .aggressive: return 2000
+        }
+    }
+}
+
 extension SessionsListViewModel {
     
     // MARK: FUNCTIONS FOR STAKES PROGRESS INDICATOR
     
-    func calculateTargetBankrollSize(from pokerSessions: [PokerSession_v2]) -> Int? {
-        guard let lastStake = pokerSessions.filter({ $0.isTournament != true }).sorted(by: { $0.date > $1.date }).map({ $0.stakes }).first,
+    func calculateTargetBankrollSize(from pokerSessions: [PokerSession_v2], riskTolerance: UserRiskTolerance) -> Int? {
+        guard let lastStake = pokerSessions.filter({ !$0.isTournament }).sorted(by: { $0.date > $1.date }).map({ $0.stakes }).first,
               let lastSlashIndex = lastStake.lastIndex(of: "/"),
-              let bigBlind = Int(lastStake[lastSlashIndex...].trimmingCharacters(in: .punctuationCharacters)) else {
-            
+              let bigBlind = Int(lastStake[lastStake.index(after: lastSlashIndex)...])
+                
+        else {
             return nil
         }
 
-        // You want to have 60 buy-in's of your current stakes before advancing. 1 buy-in equals 100 big blinds. So, 100 x 60 = 6000 as our simple multiplier
-        return bigBlind * 6000
+        return bigBlind * riskTolerance.buyInMultiplier
+    }
+    
+    var userRiskTolerance: UserRiskTolerance {
+        UserRiskTolerance(rawValue: riskRaw) ?? .conservative
     }
     
     // Called when Sessions is updated, will update the progress status for the stakes progress indicator
     func updateBankrollProgressRing() {
         
-        guard let targetBankroll = calculateTargetBankrollSize(from: sessions) else {
+        guard let targetBankroll = calculateTargetBankrollSize(from: sessions, riskTolerance: userRiskTolerance) else {
             return
         }
         
-        self.bankrollProgressRing = Float(tallyBankroll(bankroll: .all)) / Float(targetBankroll)
+        let allTransactions = transactions.map({ $0.amount }).reduce(0, +)
+        self.bankrollProgressRing = (Float(tallyBankroll(bankroll: .all)) + Float(allTransactions)) / Float(targetBankroll)
     }
     
     // MARK: BEST MONTH
