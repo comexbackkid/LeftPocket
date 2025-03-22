@@ -39,7 +39,7 @@ class SessionsListViewModel: ObservableObject {
             saveTransactions()
         }
     }
-    @AppStorage("userRiskTolerance") var riskRaw: String = UserRiskTolerance.standard.rawValue
+    @AppStorage("userRiskTolerance") var riskRaw: String = UserRiskTolerance.conservative.rawValue
     
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector(fileAccessAvailable), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
