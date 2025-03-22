@@ -59,7 +59,7 @@ struct OnboardingView: View {
                                    shouldShowOnboarding: $shouldShowOnboarding).tag(5)
             
             PageView(title: "Painless Data Imports",
-                     subtitle: Text("From the Settings screen importing old data from other apps is super easy. You can be up & running in a matter of seconds."),
+                     subtitle: Text("From the Settings screen importing old data from other apps is super easy. You can be up and running in a matter of seconds."),
                      videoURL: "import-sessions",
                      showDismissButton: false, player: players["import-sessions"],
                      nextAction: nextPage,
@@ -73,7 +73,7 @@ struct OnboardingView: View {
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(7)
             
             PageView(title: "Know When to Move Up",
-                     subtitle: Text("Insightful charts, progress rings, & crucial player metrics will guide you & advise when it's safe to take a shot at higher stakes."),
+                     subtitle: Text("Insightful charts, progress rings, and crucial player metrics will advise when it's safe to take a shot at higher stakes."),
                      videoURL: "metrics-screen",
                      showDismissButton: false, player: players["metrics-screen"],
                      nextAction: nextPage,
@@ -87,7 +87,7 @@ struct OnboardingView: View {
                      shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(9)
             
             PageView(title: "Boost Your Mental Game",
-                     subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours & mindful minutes in our Health Analytics page, & integrate these numbers measured by other devices, like an Apple Watch."),
+                     subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours and mindful minutes in our Health Analytics page, and integrate these numbers measured by other devices, like an Apple Watch."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],
                      nextAction: { hkManager.requestAuthorization() },
@@ -313,13 +313,13 @@ struct PollView: View {
                     .multilineTextAlignment(.leading)
                     .minimumScaleFactor(isZoomed ? 0.5 : 1.0)
 
-                Text("Choose any & all that may apply.")
+                Text("Choose any and all that may apply.")
                     .calloutStyle()
                     .opacity(0.7)
                     .padding(.bottom, isZoomed ? 10 : 30)
                 
                 let columns = [GridItem(.adaptive(minimum: 160, maximum: 170)), GridItem(.adaptive(minimum: 160, maximum: 170))]
-                let buttonText = ["Bankroll Management", "Moving up Stakes", "Focus", "Mental Game", "Keeping Hand History", "Tracking Expenses", "Not Going Bust", "When To End a Session"]
+                let buttonText = ["Bankroll Management", "Climbing Stakes", "Focus", "Mental Game", "Hand Histories", "Tracking Expenses", "Not Going Bust", "When To End a Session"]
                 
                 LazyVGrid(columns: columns) {
                     ForEach(buttonText, id: \.self) { text in
@@ -402,7 +402,7 @@ struct StartingBankroll: View {
                     .lineLimit(3)
                     .minimumScaleFactor(0.7)
                 
-                Text("You can skip this step, & import data later from a different bankroll tracker.")
+                Text("You can skip this step, and import data later from a different bankroll tracker.")
                     .calloutStyle()
                     .opacity(0.7)
                     .padding(.bottom, 20)
@@ -557,7 +557,6 @@ struct RiskTolerance: View {
     @State private var selectedTolerance: String? = nil
     @Binding var shouldShowOnboarding: Bool
     @FocusState var isFocused: Bool
-//    @AppStorage("userRiskTolerance") var riskTolerance: String = ""
     @AppStorage("userRiskTolerance") private var selectedRiskTolerance: String = UserRiskTolerance.standard.rawValue
     
     var body: some View {
@@ -574,7 +573,7 @@ struct RiskTolerance: View {
                     .fontWeight(.black)
                     .padding(.bottom, 5)
                 
-                Text("This helps us establish your target bankroll recommendation.")
+                Text("This will help us establish a target bankroll size prior to jumping stakes.")
                     .calloutStyle()
                     .opacity(0.7)
                     .padding(.bottom, 40)
@@ -666,7 +665,7 @@ struct AllowNotifications: View {
                     .fontWeight(.black)
                     .padding(.bottom, 5)
                 
-                Text("We've got your back! Receive subtle reminders to stretch, hydrate, & check your focus during Live Sessions.")
+                Text("We've got your back! Receive subtle reminders to stretch, hydrate, and check your focus.")
                     .calloutStyle()
                     .opacity(0.7)
                     .padding(.bottom, 30)
@@ -731,18 +730,12 @@ struct AllowNotifications: View {
     }
 }
 
-struct OnboardingView_Previews: PreviewProvider {
-    static var previews: some View {
-        OnboardingView(shouldShowOnboarding: .constant(true))
-            .environmentObject(SubscriptionManager())
-            .environmentObject(HealthKitManager())
-    }
-}
-
 struct ProgressAnimation: View {
+    
     @State private var drawingWidth = false
 
     var body: some View {
+        
         VStack(alignment: .leading, spacing: 12) {
 
             ZStack(alignment: .leading) {
@@ -765,5 +758,13 @@ struct ProgressAnimation: View {
         .onAppear {
             drawingWidth = true
         }
+    }
+}
+
+struct OnboardingView_Previews: PreviewProvider {
+    static var previews: some View {
+        OnboardingView(shouldShowOnboarding: .constant(true))
+            .environmentObject(SubscriptionManager())
+            .environmentObject(HealthKitManager())
     }
 }
