@@ -101,7 +101,6 @@ struct CellView: View {
             Spacer()
             
             Text(pokerSession.profit.currencyShortHand(currency))
-//                .bodyStyle()
                 .font(.custom("Asap-Regular", size: 17))
                 .bold()
                 .profitColor(total: pokerSession.profit)

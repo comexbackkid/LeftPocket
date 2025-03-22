@@ -51,9 +51,9 @@ struct TransactionCellView: View {
             Spacer()
             
             Text(transaction.amount, format: .currency(code: currency.rawValue).precision(.fractionLength(0)))
-                .bodyStyle()
+                .font(.custom("Asap-Regular", size: 17))
                 .bold()
-                .foregroundColor(transaction.type == .deposit ? Color.lightGreen : .red)
+                .profitColor(total: transaction.amount)
         }
         .padding(.leading, 10)
         .padding(.vertical, 12)
@@ -63,5 +63,5 @@ struct TransactionCellView: View {
 
 #Preview {
     TransactionCellView(transaction: MockData.sampleTransactions[1], currency: .USD)
-        .preferredColorScheme(.dark)
+//        .preferredColorScheme(.dark)
 }
