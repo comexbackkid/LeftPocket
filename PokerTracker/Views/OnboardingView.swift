@@ -40,58 +40,58 @@ struct OnboardingView: View {
             
             PollView(showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(1)
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(1)
             
             StartingBankroll(showDismissButton: false,
                              nextAction: nextPage,
-                             shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(2)
+                             shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(2)
             
             RiskTolerance(showDismissButton: false,
                         nextAction: nextPage,
-                        shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(3)
+                        shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(3)
             
             AllowNotifications(showDismissButton: false,
                                nextAction: nextPage,
-                               shouldShowOnboarding: $shouldShowOnboarding).tag(4)
+                               shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(4)
             
             PersonalizedExperience(showDismissButton: false,
                                    nextAction: nextPage,
-                                   shouldShowOnboarding: $shouldShowOnboarding).tag(5)
+                                   shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(5)
             
             PageView(title: "Painless Data Imports",
                      subtitle: Text("From the Settings screen importing old data from other apps is super easy. You can be up and running in a matter of seconds."),
                      videoURL: "import-sessions",
                      showDismissButton: false, player: players["import-sessions"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(6)
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(6)
             
             PageView(title: "Stay Focused at the Table",
                      subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Stay focused on what matters."),
                      videoURL: "logging-sessions-new",
                      showDismissButton: false, player: players["logging-sessions-new"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(7)
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(7)
             
             PageView(title: "Know When to Move Up",
                      subtitle: Text("Insightful charts, progress rings, and crucial player metrics will advise when it's safe to take a shot at higher stakes."),
                      videoURL: "metrics-screen",
                      showDismissButton: false, player: players["metrics-screen"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(8)
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(8)
             
             PageView(title: "Easily Share Your Progress",
                      subtitle: Text("Accountability is everything. Quickly share Sessions and progress with your circle of friends to stay motivated."),
                      videoURL: "sharing",
                      showDismissButton: false, player: players["sharing"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(9)
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(9)
             
             PageView(title: "Boost Your Mental Game",
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours and mindful minutes in our Health Analytics page, and integrate these numbers measured by other devices, like an Apple Watch."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],
                      nextAction: { hkManager.requestAuthorization() },
-                     shouldShowOnboarding: $shouldShowOnboarding).gesture(DragGesture()).tag(10)
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(10)
         }
         .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)
@@ -137,7 +137,7 @@ struct OnboardingView: View {
             shouldShowOnboarding = false
         }, content: {
             if let offering = offering {
-                PaywallView(offering: offering)
+                PaywallView(offering: offering, fonts: CustomPaywallFontProvider(fontName: "Asap"))
                     .dynamicTypeSize(.medium...DynamicTypeSize.large)
                     .overlay {
                         HStack {
@@ -172,9 +172,6 @@ struct OnboardingView: View {
                 await subManager.checkSubscriptionStatus()
             }
         }
-        .onDisappear(perform: {
-            shouldShowOnboarding = false
-        })
     }
     
     func nextPage() {
@@ -556,7 +553,6 @@ struct RiskTolerance: View {
     
     @State private var selectedTolerance: String? = nil
     @Binding var shouldShowOnboarding: Bool
-    @FocusState var isFocused: Bool
     @AppStorage("userRiskTolerance") private var selectedRiskTolerance: String = UserRiskTolerance.standard.rawValue
     
     var body: some View {
@@ -583,6 +579,7 @@ struct RiskTolerance: View {
                         let impact = UIImpactFeedbackGenerator(style: .medium)
                         impact.impactOccurred()
                         selectedTolerance = tolerance.rawValue
+                        selectedRiskTolerance = selectedTolerance ?? "Conservative"
                         
                     } label: {
                         Text(tolerance.rawValue)
@@ -613,12 +610,8 @@ struct RiskTolerance: View {
             Button {
                 let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
-                isFocused = false
-                if let selected = selectedTolerance {
-                    selectedRiskTolerance = selected
-                    nextAction()
-                    print("User's selected risk tolerance level: \(selected)")
-                }
+                print("User's selected risk tolerance is: \(selectedRiskTolerance)")
+                nextAction()
                 
             } label: {
                 Text(showDismissButton ? "Let's Do It" : "Continue")
