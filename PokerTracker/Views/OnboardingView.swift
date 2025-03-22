@@ -302,7 +302,7 @@ struct PollView: View {
             
             VStack (alignment: .leading) {
                 
-                Text("Where do you need the most help in your poker career?")
+                Text("Which poker goals are you most focused on?")
                     .signInTitleStyle()
                     .foregroundColor(.brandWhite)
                     .fontWeight(.black)
@@ -314,7 +314,9 @@ struct PollView: View {
                 Text("Choose any and all that may apply.")
                     .calloutStyle()
                     .opacity(0.7)
-                    .padding(.bottom, isZoomed ? 10 : 30)
+                    .padding(.bottom, 10)
+                
+                Spacer()
                 
                 let columns = [GridItem(.adaptive(minimum: 160, maximum: 170)), GridItem(.adaptive(minimum: 160, maximum: 170))]
                 let buttonText = ["Bankroll Management", "Climbing Stakes", "Focus", "Mental Game", "Hand Histories", "Tracking Expenses", "Not Going Bust", "When To End a Session"]
@@ -347,6 +349,8 @@ struct PollView: View {
                 }
                 .font(.custom("Asap-Regular", size: 16))
                 .fontWeight(.heavy)
+                
+                Spacer()
             }
             .padding(.horizontal, 20)
             
