@@ -20,41 +20,17 @@ struct RedeemOfferCode: View {
         ScrollView {
             
             VStack {
-                HStack {
-                    Text("Redeem Offer Code")
-                        .titleStyle()
-                        .padding(.horizontal)
-                    
-                    Spacer()
-                }
                 
-                VStack (alignment: .leading) {
-                    
-                    HStack {
-                        Text("Tap the button below and you'll be prompted to enter in the offer code that you were given. For any problems, contact support via email from your Settings screen.")
-                            .bodyStyle()
-                            .padding(.horizontal)
-                            .padding(.bottom)
-                        
-                        Spacer()
-                    }
-                }
+                title
                 
-                Button {
-//                    redeemOfferCode()
-                    Task {
-                        Purchases.shared.presentCodeRedemptionSheet()
-                    }
-                    
-                } label: {
-                    PrimaryButton(title: "Redeem Offer Code")
-                }
+                bodyText
+                
+                redeemButton
                 
                 Text(message)
                     .padding()
                     .foregroundColor(.red)
             }
-            
         }
         .background(Color.brandBackground)
         .navigationBarTitleDisplayMode(.inline)
@@ -73,6 +49,45 @@ struct RedeemOfferCode: View {
                 .presentationBackground(.ultraThinMaterial)
             
         })
+    }
+    
+    var title: some View {
+        
+        HStack {
+            Text("Redeem Offer Code")
+                .titleStyle()
+                .padding(.horizontal)
+            
+            Spacer()
+        }
+    }
+    
+    var bodyText: some View {
+        
+        VStack (alignment: .leading) {
+            
+            HStack {
+                Text("Tap the button below and you'll be prompted to enter in the offer code that you were given. For any problems, contact support via email from your Settings screen.")
+                    .bodyStyle()
+                    .padding(.horizontal)
+                    .padding(.bottom)
+                
+                Spacer()
+            }
+        }
+    }
+    
+    var redeemButton: some View {
+        
+        Button {
+//                    redeemOfferCode()
+            Task {
+                Purchases.shared.presentCodeRedemptionSheet()
+            }
+            
+        } label: {
+            PrimaryButton(title: "Redeem Offer Code")
+        }
     }
 
     private func redeemOfferCode() {
