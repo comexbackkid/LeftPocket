@@ -388,64 +388,73 @@ struct StartingBankroll: View {
     @Binding var shouldShowOnboarding: Bool
     @FocusState var isFocused: Bool
     
+    private var isZoomed: Bool {
+        UIScreen.main.scale < UIScreen.main.nativeScale
+    }
+    
     var body: some View {
         
         VStack {
             
-            VStack (alignment: .leading) {
+            ScrollView {
                 
-                Spacer()
-                
-                Text("Are you starting off with a bankroll today?")
-                    .signInTitleStyle()
-                    .foregroundColor(.brandWhite)
-                    .fontWeight(.black)
-                    .padding(.bottom, 5)
-                    .lineLimit(3)
-                    .minimumScaleFactor(0.7)
-                
-                Text("You can skip this step, and import data later from a different bankroll tracker.")
-                    .calloutStyle()
-                    .opacity(0.7)
-                    .padding(.bottom, 20)
-                
-                HStack {
+                VStack (alignment: .leading) {
                     
-                    Text("$")
-                        .font(.system(size: 25))
-                        .frame(width: 17)
-                        .foregroundColor(startingBankrollTextField.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
-            
-                    TextField("", text: $startingBankrollTextField)
-                        .focused($isFocused, equals: true)
-                        .font(.custom("Asap-Bold", size: 25))
-                        .keyboardType(.numberPad)
-                        .onSubmit {
-                            isFocused = false
-                        }
-                        .toolbar {
-                            ToolbarItem(placement: .keyboard) {
-                                Button("Done") { isFocused = false }
+                    Spacer()
+                    
+                    Text("Are you starting off with a bankroll today?")
+                        .signInTitleStyle()
+                        .foregroundColor(.brandWhite)
+                        .fontWeight(.black)
+                        .padding(.bottom, 5)
+                        .lineLimit(3)
+                        .minimumScaleFactor(0.7)
+                    
+                    Text("You can skip this step, and import data later from a different bankroll tracker.")
+                        .calloutStyle()
+                        .opacity(0.7)
+                        .padding(.bottom, 20)
+                    
+                    HStack {
+                        
+                        Text("$")
+                            .font(.system(size: 25))
+                            .frame(width: 17)
+                            .foregroundColor(startingBankrollTextField.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                        
+                        TextField("", text: $startingBankrollTextField)
+                            .focused($isFocused, equals: true)
+                            .font(.custom("Asap-Bold", size: 25))
+                            .keyboardType(.numberPad)
+                            .onSubmit {
+                                isFocused = false
                             }
-                        }
-                }
-                .padding(.horizontal, 18)
-                .padding(.vertical, 14)
-                .background(.gray.opacity(0.2))
-                .cornerRadius(15)
-                .overlay {
-                    if !startingBankrollTextField.isEmpty {
-                        RoundedRectangle(cornerRadius: 14)
-                            .stroke(Color.lightGreen, lineWidth: 1.5)
+                            .toolbar {
+                                ToolbarItem(placement: .keyboard) {
+                                    Button("Done") { isFocused = false }
+                                }
+                            }
                     }
+                    .padding(.horizontal, 18)
+                    .padding(.vertical, 14)
+                    .background(.gray.opacity(0.2))
+                    .cornerRadius(15)
+                    .overlay {
+                        if !startingBankrollTextField.isEmpty {
+                            RoundedRectangle(cornerRadius: 14)
+                                .stroke(Color.lightGreen, lineWidth: 1.5)
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                }
+                .padding(.top, isZoomed ? 16 : 200)
+                .padding(.horizontal, 20)
+                .onTapGesture {
+                    isFocused = false
                 }
                 
-                Spacer()
-        
-            }
-            .padding(.horizontal, 20)
-            .onTapGesture {
-                isFocused = false
             }
             .scrollDismissesKeyboard(.immediately)
             
