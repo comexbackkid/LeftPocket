@@ -63,6 +63,7 @@
 		7C4CE7042773560D0070B16E /* DefaultLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4CE7032773560D0070B16E /* DefaultLocations.swift */; };
 		7C4CE7062773B2330070B16E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C4CE7052773B2330070B16E /* LaunchScreen.storyboard */; };
 		7C5997AB27872FCF00966764 /* AnnualReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5997AA27872FCF00966764 /* AnnualReportViewModel.swift */; };
+		7C59B30A2D8ED81E002C5B18 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 7C59B3092D8ED81E002C5B18 /* Lottie */; };
 		7C5B0C882BBF201E00A5014B /* LineChartFullScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */; };
 		7C5C79962B2780210088A841 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5C79952B2780210088A841 /* UserSettings.swift */; };
 		7C5D5D332BE2B6A8003DC94D /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5D322BE2B6A8003DC94D /* HealthKitManager.swift */; };
@@ -83,6 +84,7 @@
 		7C63FC392B35EF1200FE731C /* StoreKitTestCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 7C63FC382B35EF1200FE731C /* StoreKitTestCertificate.cer */; };
 		7C63FC3A2B35EF1200FE731C /* StoreKitTestCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 7C63FC382B35EF1200FE731C /* StoreKitTestCertificate.cer */; };
 		7C63FC3F2B3640FF00FE731C /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C63FC3E2B3640FF00FE731C /* SubscriptionManager.swift */; };
+		7C64FB7C2D8ED54F00264C05 /* Lottie-Confetti.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C64FB7B2D8ED54F00264C05 /* Lottie-Confetti.json */; };
 		7C65B188272C3A5A00AFE796 /* NewLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C65B187272C3A5A00AFE796 /* NewLocationView.swift */; };
 		7C6769E22B8CD300006ACB7D /* BankrollProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6769E12B8CD300006ACB7D /* BankrollProgressView.swift */; };
 		7C67DDB52BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C67DDB42BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift */; };
@@ -129,6 +131,8 @@
 		7CA9900E2CC2E5D400446D66 /* MindfulnessAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA9900D2CC2E5D400446D66 /* MindfulnessAnalytics.swift */; };
 		7CAB7EF72D4416B4008A84F9 /* ImageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAB7EF62D4416B4008A84F9 /* ImageHandler.swift */; };
 		7CAB7EF92D452654008A84F9 /* EditSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAB7EF82D452654008A84F9 /* EditSessionViewModel.swift */; };
+		7CAC1F4B2D8DACE800917580 /* import-sessions.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CAC1F4A2D8DACE800917580 /* import-sessions.mp4 */; };
+		7CAC1F4D2D8DB4A000917580 /* sharing.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CAC1F4C2D8DB4A000917580 /* sharing.mp4 */; };
 		7CAFDFF32B2C884100B7338D /* CustomToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF22B2C884100B7338D /* CustomToggle.swift */; };
 		7CAFE0062B2CA9E300B7338D /* AsapCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */; };
 		7CAFE0072B2CA9E300B7338D /* AsapCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */; };
@@ -243,13 +247,11 @@
 		7CED6EA827517D7F00E18053 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED6EA727517D7F00E18053 /* Array+Ext.swift */; };
 		7CF39C922BE6DBB4003B4C00 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF39C912BE6DBB4003B4C00 /* NotificationsView.swift */; };
 		7CFB683A2B7CFC92005AB81F /* BarChartByYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */; };
-		7CFBCB6C2D491A37006C3175 /* tag-reporting.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CFBCB6B2D491A37006C3175 /* tag-reporting.mp4 */; };
 		7CFBCB6E2D491FC1006C3175 /* metrics-screen.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CFBCB6D2D491FC1006C3175 /* metrics-screen.mp4 */; };
 		7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */; };
 		7CFD78A92B34DF2D00C1A9F6 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 7CFD78A82B34DF2D00C1A9F6 /* RevenueCat */; };
 		7CFD78AB2B34DF2D00C1A9F6 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7CFD78AA2B34DF2D00C1A9F6 /* RevenueCatUI */; };
 		7CFD78AD2B34E46100C1A9F6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CFD78AC2B34E46100C1A9F6 /* StoreKit.framework */; };
-		7CFDD83E2C0CFF00002C9775 /* homescreen-widget.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CFDD83D2C0CFF00002C9775 /* homescreen-widget.mp4 */; };
 		7CFF1BFF2BD9AA81000D56BC /* HeatMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */; };
 /* End PBXBuildFile section */
 
@@ -351,6 +353,7 @@
 		7C63FC352B35ED7200FE731C /* StoreKitConfiguration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = StoreKitConfiguration.storekit; sourceTree = "<group>"; };
 		7C63FC382B35EF1200FE731C /* StoreKitTestCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = StoreKitTestCertificate.cer; sourceTree = "<group>"; };
 		7C63FC3E2B3640FF00FE731C /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
+		7C64FB7B2D8ED54F00264C05 /* Lottie-Confetti.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Lottie-Confetti.json"; sourceTree = "<group>"; };
 		7C65B187272C3A5A00AFE796 /* NewLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLocationView.swift; sourceTree = "<group>"; };
 		7C6769E12B8CD300006ACB7D /* BankrollProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankrollProgressView.swift; sourceTree = "<group>"; };
 		7C67DDB42BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionWidgetAttributes.swift; sourceTree = "<group>"; };
@@ -395,6 +398,8 @@
 		7CA9900D2CC2E5D400446D66 /* MindfulnessAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindfulnessAnalytics.swift; sourceTree = "<group>"; };
 		7CAB7EF62D4416B4008A84F9 /* ImageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHandler.swift; sourceTree = "<group>"; };
 		7CAB7EF82D452654008A84F9 /* EditSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSessionViewModel.swift; sourceTree = "<group>"; };
+		7CAC1F4A2D8DACE800917580 /* import-sessions.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "import-sessions.mp4"; sourceTree = "<group>"; };
+		7CAC1F4C2D8DB4A000917580 /* sharing.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = sharing.mp4; sourceTree = "<group>"; };
 		7CAFDFF22B2C884100B7338D /* CustomToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToggle.swift; sourceTree = "<group>"; };
 		7CAFDFF52B2CA9E300B7338D /* AsapCondensed-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-Light.ttf"; sourceTree = "<group>"; };
 		7CAFDFF62B2CA9E300B7338D /* AsapCondensed-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AsapCondensed-LightItalic.ttf"; sourceTree = "<group>"; };
@@ -470,11 +475,9 @@
 		7CED6EA727517D7F00E18053 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
 		7CF39C912BE6DBB4003B4C00 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartByYear.swift; sourceTree = "<group>"; };
-		7CFBCB6B2D491A37006C3175 /* tag-reporting.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "tag-reporting.mp4"; sourceTree = "<group>"; };
 		7CFBCB6D2D491FC1006C3175 /* metrics-screen.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "metrics-screen.mp4"; sourceTree = "<group>"; };
 		7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
 		7CFD78AC2B34E46100C1A9F6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		7CFDD83D2C0CFF00002C9775 /* homescreen-widget.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "homescreen-widget.mp4"; sourceTree = "<group>"; };
 		7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMap.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -497,6 +500,7 @@
 				7C3E8E0E2BC9E87C005A8992 /* AdSupport.framework in Frameworks */,
 				7C3E8E0C2BC9E869005A8992 /* AdServices.framework in Frameworks */,
 				7C3E8E0A2BC9E85E005A8992 /* CoreSpotlight.framework in Frameworks */,
+				7C59B30A2D8ED81E002C5B18 /* Lottie in Frameworks */,
 				7C3E8E082BC9E84E005A8992 /* WebKit.framework in Frameworks */,
 				7C3E8E062BC9E83E005A8992 /* CoreTelephony.framework in Frameworks */,
 				7C3E8E042BC9E82E005A8992 /* SystemConfiguration.framework in Frameworks */,
@@ -812,6 +816,7 @@
 				7C6906AA2C0CCEAA009CD0D5 /* Video */,
 				7C63949B26C14E8400939F40 /* Preview Content */,
 				7C63949926C14E8400939F40 /* Assets.xcassets */,
+				7C64FB7B2D8ED54F00264C05 /* Lottie-Confetti.json */,
 				7C31E2692BB6E7FB00D90F44 /* PrivacyInfo.xcprivacy */,
 				7CAFE0282B2CAC1B00B7338D /* Asap */,
 				7CAFDFF42B2CA9E300B7338D /* Asap_Condensed */,
@@ -841,10 +846,10 @@
 			isa = PBXGroup;
 			children = (
 				7C9F23662C933939001AA6A6 /* logging-sessions-new.mp4 */,
-				7CFDD83D2C0CFF00002C9775 /* homescreen-widget.mp4 */,
 				7CDBB5E02D0DE6D9003D2B0B /* health-metrics.mp4 */,
-				7CFBCB6B2D491A37006C3175 /* tag-reporting.mp4 */,
 				7CFBCB6D2D491FC1006C3175 /* metrics-screen.mp4 */,
+				7CAC1F4A2D8DACE800917580 /* import-sessions.mp4 */,
+				7CAC1F4C2D8DB4A000917580 /* sharing.mp4 */,
 			);
 			path = Video;
 			sourceTree = "<group>";
@@ -1069,6 +1074,7 @@
 				7C3E8DFF2BC9E5EC005A8992 /* BranchSDK */,
 				7CBB6B6D2C41A55200DAD20D /* Glur */,
 				7C0866742D25B25D006B5D39 /* InterfaceOrientation */,
+				7C59B3092D8ED81E002C5B18 /* Lottie */,
 			);
 			productName = PokerTracker;
 			productReference = 7C63949226C14E8300939F40 /* LeftPocket.app */;
@@ -1107,6 +1113,7 @@
 				7C3E8DFE2BC9E5EC005A8992 /* XCRemoteSwiftPackageReference "ios-branch-deep-linking" */,
 				7CBB6B6C2C41A55200DAD20D /* XCRemoteSwiftPackageReference "Glur" */,
 				7C0866732D25B25D006B5D39 /* XCRemoteSwiftPackageReference "swiftui-interface-orientation" */,
+				7C59B3082D8ED81E002C5B18 /* XCRemoteSwiftPackageReference "lottie-spm" */,
 			);
 			productRefGroup = 7C63949326C14E8300939F40 /* Products */;
 			projectDirPath = "";
@@ -1182,7 +1189,7 @@
 				7CFBCB6E2D491FC1006C3175 /* metrics-screen.mp4 in Resources */,
 				7C9F23672C933939001AA6A6 /* logging-sessions-new.mp4 in Resources */,
 				7CAFE00E2B2CA9E300B7338D /* AsapCondensed-ExtraBold.ttf in Resources */,
-				7CFBCB6C2D491A37006C3175 /* tag-reporting.mp4 in Resources */,
+				7CAC1F4D2D8DB4A000917580 /* sharing.mp4 in Resources */,
 				7CAFE00A2B2CA9E300B7338D /* AsapCondensed-ExtraLightItalic.ttf in Resources */,
 				7CAFE0512B2CAC1B00B7338D /* Asap-SemiBoldItalic.ttf in Resources */,
 				7CAFE0472B2CAC1B00B7338D /* Asap-BlackItalic.ttf in Resources */,
@@ -1204,6 +1211,7 @@
 				7C63FC362B35ED7200FE731C /* StoreKitConfiguration.storekit in Resources */,
 				7CAFE05D2B2CAC1B00B7338D /* Asap-Italic.ttf in Resources */,
 				7CAFE0592B2CAC1B00B7338D /* Asap-ExtraBoldItalic.ttf in Resources */,
+				7CAC1F4B2D8DACE800917580 /* import-sessions.mp4 in Resources */,
 				7C7D09682BF7DB80002FA350 /* rebuy-sfx.wav in Resources */,
 				7CAFE0162B2CA9E300B7338D /* AsapCondensed-Regular.ttf in Resources */,
 				7CAFE03D2B2CAC1B00B7338D /* Asap-ThinItalic.ttf in Resources */,
@@ -1213,7 +1221,6 @@
 				7CAFE03B2B2CAC1B00B7338D /* Asap-ExtraLight.ttf in Resources */,
 				7CAFE04D2B2CAC1B00B7338D /* Asap-LightItalic.ttf in Resources */,
 				7CAFE0222B2CA9E300B7338D /* AsapCondensed-ExtraBoldItalic.ttf in Resources */,
-				7CFDD83E2C0CFF00002C9775 /* homescreen-widget.mp4 in Resources */,
 				7C63949A26C14E8400939F40 /* Assets.xcassets in Resources */,
 				7CAFE0532B2CAC1B00B7338D /* Asap-Regular.ttf in Resources */,
 				7CB8D3382D8A129A00E08869 /* handwriting.mp3 in Resources */,
@@ -1222,6 +1229,7 @@
 				7CAFE0412B2CAC1B00B7338D /* Asap-ExtraBold.ttf in Resources */,
 				7CAFE04F2B2CAC1B00B7338D /* Asap-ExtraLightItalic.ttf in Resources */,
 				7CAFE0242B2CA9E300B7338D /* AsapCondensed-Bold.ttf in Resources */,
+				7C64FB7C2D8ED54F00264C05 /* Lottie-Confetti.json in Resources */,
 				7CAFE00C2B2CA9E300B7338D /* AsapCondensed-MediumItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1396,7 +1404,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1409,7 +1417,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 5.1.0;
+				MARKETING_VERSION = 5.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1427,7 +1435,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1440,7 +1448,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 5.1.0;
+				MARKETING_VERSION = 5.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1579,18 +1587,18 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = PokerTracker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.1.0;
+				MARKETING_VERSION = 5.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1607,18 +1615,18 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = PokerTracker/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.1.0;
+				MARKETING_VERSION = 5.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1683,6 +1691,14 @@
 				minimumVersion = 3.4.1;
 			};
 		};
+		7C59B3082D8ED81E002C5B18 /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.1;
+			};
+		};
 		7CBB6B6C2C41A55200DAD20D /* XCRemoteSwiftPackageReference "Glur" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/joogps/Glur.git";
@@ -1711,6 +1727,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7C3E8DFE2BC9E5EC005A8992 /* XCRemoteSwiftPackageReference "ios-branch-deep-linking" */;
 			productName = BranchSDK;
+		};
+		7C59B3092D8ED81E002C5B18 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7C59B3082D8ED81E002C5B18 /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
 		};
 		7CBB6B6D2C41A55200DAD20D /* Glur */ = {
 			isa = XCSwiftPackageProductDependency;

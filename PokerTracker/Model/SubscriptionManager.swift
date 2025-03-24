@@ -17,7 +17,6 @@ class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
     
     override init() {
         super.init()
-        
         Purchases.logLevel = .debug
         Purchases.configure(withAPIKey: "appl_nzoxZjFOdCffwvTEKrdMdDqjfzO")
         Purchases.shared.delegate = self
@@ -26,6 +25,7 @@ class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
         let appUserID = Purchases.shared.appUserID
         if appUserID.isEmpty {
             print("RevenueCat appUserID is empty, generating anonymous ID")
+            
         } else {
             rcUserID = appUserID
             print("Your RevenueCat UserID is: \(rcUserID)")

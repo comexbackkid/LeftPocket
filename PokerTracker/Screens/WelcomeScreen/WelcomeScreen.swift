@@ -69,8 +69,9 @@ struct WelcomeScreen: View {
                 .font(.caption)
                 .fontWeight(.light)
             
-            Text("Where you keep your important money.")
+            Text("Bankroll management for aspiring players.")
                 .signInTitleStyle()
+                .multilineTextAlignment(.center)
                 .foregroundColor(.white)
                 .padding(.bottom, 50)
             
