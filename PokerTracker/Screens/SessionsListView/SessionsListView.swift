@@ -132,7 +132,7 @@ struct SessionsListView: View {
                                         .tipViewStyle(CustomTipViewStyle())
                                 }
                                 .listRowBackground(Color.brandBackground)
-                                .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 18))
+                                .listRowInsets(EdgeInsets(top: 3, leading: 12, bottom: 3, trailing: 12))
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                     swipeActions(session)
                                 }
@@ -160,7 +160,7 @@ struct SessionsListView: View {
                             ForEach(filteredTransactions, id: \.self) { transaction in
                                 TransactionCellView(transaction: transaction, currency: vm.userCurrency)
                                     .listRowBackground(Color.brandBackground)
-                                    .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 18))
+                                    .listRowInsets(EdgeInsets(top: 3, leading: 12, bottom: 3, trailing: 12))
                             }
                             .onDelete(perform: { indexSet in
                                 deleteTransaction(at: indexSet)

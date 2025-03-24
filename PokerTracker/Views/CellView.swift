@@ -42,7 +42,7 @@ struct CellView: View {
                    
                     HStack (alignment: .firstTextBaseline, spacing: 0) {
                       
-                        Text("\(pokerSession.date.dateStyle())" + " • ")
+                        Text(pokerSession.date.formatted(.dateTime.day(.defaultDigits).month(.defaultDigits).year(.twoDigits)) + " • ")
                             .captionStyle()
                             .foregroundColor(.secondary)
                         

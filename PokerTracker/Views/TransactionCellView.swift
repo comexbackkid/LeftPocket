@@ -35,7 +35,7 @@ struct TransactionCellView: View {
                 }
                 
                 HStack (alignment: .firstTextBaseline, spacing: 0) {
-                    Text(transaction.date.formatted(date: .abbreviated, time: .omitted))
+                    Text(transaction.date.formatted(.dateTime.day(.defaultDigits).month(.defaultDigits).year(.twoDigits)))
                         .captionStyle()
                         .foregroundStyle(.secondary)
                     

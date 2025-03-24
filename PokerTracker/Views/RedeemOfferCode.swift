@@ -42,6 +42,10 @@ struct RedeemOfferCode: View {
                 
                 Button {
                     redeemOfferCode()
+//                    Task {
+//                        Purchases.shared.presentCodeRedemptionSheet()
+//                    }
+                    
                 } label: {
                     PrimaryButton(title: "Redeem Offer Code")
                 }
