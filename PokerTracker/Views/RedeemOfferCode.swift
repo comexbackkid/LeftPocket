@@ -31,7 +31,7 @@ struct RedeemOfferCode: View {
                 VStack (alignment: .leading) {
                     
                     HStack {
-                        Text("Tap the button below and you'll be prompted to enter in the offer code that you were sent.")
+                        Text("Tap the button below and you'll be prompted to enter in the offer code that you were given. For any problems, contact support via email from your Settings screen.")
                             .bodyStyle()
                             .padding(.horizontal)
                             .padding(.bottom)
@@ -41,10 +41,10 @@ struct RedeemOfferCode: View {
                 }
                 
                 Button {
-                    redeemOfferCode()
-//                    Task {
-//                        Purchases.shared.presentCodeRedemptionSheet()
-//                    }
+//                    redeemOfferCode()
+                    Task {
+                        Purchases.shared.presentCodeRedemptionSheet()
+                    }
                     
                 } label: {
                     PrimaryButton(title: "Redeem Offer Code")
@@ -65,7 +65,6 @@ struct RedeemOfferCode: View {
                 
             } else {
                 message = "Please enter a valid offer code."
-                print("There was an error with your offer code.")
             }
         }
         .sheet(isPresented: $showAlertModal, content: {
