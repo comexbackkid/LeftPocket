@@ -604,6 +604,7 @@ struct BinkPokerImportView: View {
             PrimaryButton(title: "Import CSV Data")
         }
         .padding(.bottom, 20)
+        .padding(.horizontal)
         .fileImporter(isPresented: $showFileImporter,
                       allowedContentTypes: [.plainText, .commaSeparatedText],
                       onCompletion: { result in
@@ -771,6 +772,7 @@ struct PokerBankrollTrackerImportView: View {
             
         }
         .padding(.bottom, 20)
+        .padding(.horizontal)
         .fileImporter(isPresented: $showFileImporter,
                       allowedContentTypes: [.plainText, .commaSeparatedText],
                       onCompletion: { result in
@@ -991,6 +993,7 @@ struct PokerbaseImportView: View {
             PrimaryButton(title: "Import CSV Data")
         }
         .padding(.bottom, 20)
+        .padding(.horizontal)
         .fileImporter(isPresented: $showFileImporter,
                       allowedContentTypes: [.plainText, .commaSeparatedText],
                       onCompletion: { result in
@@ -1145,6 +1148,7 @@ struct LeftPocketImportView: View {
             PrimaryButton(title: "Import CSV Data")
         }
         .padding(.bottom, 20)
+        .padding(.horizontal)
         .fileImporter(isPresented: $showFileImporter,
                       allowedContentTypes: [.plainText, .commaSeparatedText],
                       onCompletion: { result in

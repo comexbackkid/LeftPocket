@@ -622,11 +622,12 @@ struct SessionDefaultsView: View {
             impact.impactOccurred()
             saveToUserDefaults()
             vm.writeToWidget()
+            
         } label: {
             PrimaryButton(title: "Save")
         }
         .padding(.top, 4)
-        
+        .padding(.horizontal)
     }
     
     var resetDefaultsButton: some View {

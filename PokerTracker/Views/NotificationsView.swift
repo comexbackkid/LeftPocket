@@ -104,6 +104,7 @@ struct NotificationsView: View {
         }
         .allowsHitTesting(notificationsAllowed == true ? false : true)
         .padding(.bottom, 10)
+        .padding(.horizontal)
         .alert(isPresented: $showAlert) {
             Alert(title: Text("Uh Oh!"), message: Text(alertMessage), dismissButton: .default(Text("Ok")))
         }
@@ -111,13 +112,15 @@ struct NotificationsView: View {
     
     var bottomDescription: some View {
         
-        VStack {
+        VStack (alignment: .leading) {
+            
             Text("To disable notifications, or to re-enable them after disabling, you must do so from your device settings. Follow the steps below.")
                 .bodyStyle()
                 .padding(.horizontal)
                 .padding(.bottom, 20)
             
             VStack (alignment: .leading, spacing: 25) {
+                
                 HStack {
                     Image(systemName: "1.circle.fill")
                         .resizable()

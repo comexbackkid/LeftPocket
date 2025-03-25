@@ -32,7 +32,6 @@ struct DashboardConfig: View {
                     statsList
                     
                     Button {
-                        
                         let impact = UIImpactFeedbackGenerator(style: .medium)
                         impact.impactOccurred()
                         saveDashboardConfig()
@@ -40,6 +39,7 @@ struct DashboardConfig: View {
                     } label: {
                         PrimaryButton(title: "Save Layout")
                     }
+                    .padding(.horizontal)
                 }
             }
             .background(Color.brandBackground)

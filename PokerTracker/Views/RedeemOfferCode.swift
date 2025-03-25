@@ -80,7 +80,6 @@ struct RedeemOfferCode: View {
     var redeemButton: some View {
         
         Button {
-//                    redeemOfferCode()
             Task {
                 Purchases.shared.presentCodeRedemptionSheet()
             }
@@ -88,6 +87,7 @@ struct RedeemOfferCode: View {
         } label: {
             PrimaryButton(title: "Redeem Offer Code")
         }
+        .padding(.horizontal)
     }
 
     private func redeemOfferCode() {

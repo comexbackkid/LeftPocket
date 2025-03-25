@@ -46,8 +46,7 @@ struct AddNewTransaction: View {
                         inputFields
                         
                     }
-                    .padding(.horizontal)
-                    .padding(.horizontal, 8)
+                    .padding(.horizontal, 24)
                     
                     saveButton
                 }
@@ -341,6 +340,7 @@ struct AddNewTransaction: View {
             .tint(.red)
         }
         .padding(.bottom, 10)
+        .padding(.horizontal, 24)
     }
     
     private func saveButtonPressed() {
