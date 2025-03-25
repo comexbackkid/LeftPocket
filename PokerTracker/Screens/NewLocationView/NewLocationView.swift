@@ -21,7 +21,7 @@ struct NewLocationView: View {
     
     var body: some View {
         
-        NavigationView {
+        NavigationStack {
             
             ScrollView {
                 
@@ -106,11 +106,12 @@ struct NewLocationView: View {
                         }
                         .tint(.red)
                     }
+                    .padding(.horizontal)
                     
                     Spacer()
 
                 }
-                .navigationBarTitle(Text(""))
+                .navigationBarHidden(true)
                 .alert(item: $newLocationViewModel.alertItem) { alertItem in
                     
                     Alert(title: alertItem.title,

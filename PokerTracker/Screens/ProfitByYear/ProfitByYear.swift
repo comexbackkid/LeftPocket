@@ -37,8 +37,6 @@ struct ProfitByYear: View {
                 
                 incomeReport
                 
-//                barChart
-                
                 bestPlays
                 
                 exportButton
@@ -145,9 +143,9 @@ struct ProfitByYear: View {
         .lineSpacing(2.5)
         .animation(nil, value: vm.pickerSelection)
         .padding(30)
-        .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
+        .padding(.horizontal, 20)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
     }
     
@@ -556,6 +554,7 @@ struct ProfitByYear: View {
         }
         .animation(nil, value: vm.pickerSelection)
         .padding(.top, 20)
+        .padding(.horizontal, 20)
     }
     
     var exportButton: some View {
@@ -582,6 +581,7 @@ struct ProfitByYear: View {
         } label: {
             PrimaryButton(title: "Export Results")
         }
+        .padding(.horizontal, 20)
         .padding(.top, 12)
         .alert(isPresented: $showError) {
             Alert(title: Text("Uh oh!"), message: Text(exportUtility.errorMsg ?? ""), dismissButton: .default(Text("OK")))

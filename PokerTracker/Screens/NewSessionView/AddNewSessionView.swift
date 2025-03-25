@@ -1834,6 +1834,7 @@ struct AddNewSessionView: View {
             }
             .tint(.red)
         }
+        .padding(.horizontal, 24)
         .padding(.bottom, 10)
     }
     

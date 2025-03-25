@@ -73,7 +73,7 @@ struct BestLocationView: View {
             }
         }
         .padding(30)
-        .frame(width: UIScreen.main.bounds.width * 0.9, height: 120)
+        .frame(height: 120)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)

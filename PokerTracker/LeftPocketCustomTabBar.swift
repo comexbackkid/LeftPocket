@@ -42,6 +42,9 @@ struct LeftPocketCustomTabBar: View {
     var isCounting: Bool {
         timerViewModel.isCounting
     }
+    var isPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
     
     var body: some View {
         
@@ -247,11 +250,21 @@ struct LeftPocketCustomTabBar: View {
                 playSound()
             }
         }, content: {
-            AddNewSessionView(vm: viewModel, timerViewModel: timerViewModel, isPresented: $isPresented, audioConfirmation: $audioConfirmation)
+            if isPad {
+                if #available(iOS 18.0, *) {
+                    AddNewSessionView(vm: viewModel, timerViewModel: timerViewModel, isPresented: $isPresented, audioConfirmation: $audioConfirmation)
+                        .presentationSizing(.page)
+                } else {
+                    AddNewSessionView(vm: viewModel, timerViewModel: timerViewModel, isPresented: $isPresented, audioConfirmation: $audioConfirmation)
+                }
+            } else {
+                AddNewSessionView(vm: viewModel, timerViewModel: timerViewModel, isPresented: $isPresented, audioConfirmation: $audioConfirmation)
+            }
         })
         .onChange(of: qaService.action) { _ in
             performQuickAction()
         }
+        
         .sheet(isPresented: $showBuyInScreen, onDismiss: {
             if buyInConfirmationSound {
                 playBuyInCashSound()
