@@ -907,6 +907,8 @@ struct EditSession: View {
             .tint(.red)
         }
         .padding(.bottom, 10)
+        .padding(.horizontal, 8)
+        .padding(.horizontal)
     }
 }
 
