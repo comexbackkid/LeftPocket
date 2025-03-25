@@ -10,13 +10,13 @@ import SwiftUI
 
 enum UserRiskTolerance: String, CaseIterable {
     case conservative = "Conservative"
-    case standard = "Standard"
+    case moderate = "Moderate"
     case aggressive = "Aggressive"
     
     var buyInMultiplier: Int {
         switch self {
         case .conservative: return 6000
-        case .standard: return 4000
+        case .moderate: return 4000
         case .aggressive: return 2000
         }
     }

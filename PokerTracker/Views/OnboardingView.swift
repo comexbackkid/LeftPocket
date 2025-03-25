@@ -585,7 +585,7 @@ struct RiskTolerance: View {
     
     @State private var selectedTolerance: String? = nil
     @Binding var shouldShowOnboarding: Bool
-    @AppStorage("userRiskTolerance") private var selectedRiskTolerance: String = UserRiskTolerance.standard.rawValue
+    @AppStorage("userRiskTolerance") private var selectedRiskTolerance: String = UserRiskTolerance.moderate.rawValue
     
     var body: some View {
         
