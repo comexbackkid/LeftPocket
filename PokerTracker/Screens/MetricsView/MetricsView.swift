@@ -48,10 +48,6 @@ struct MetricsView: View {
                                 
                                 bankrollProgressView
                                 
-//                                ToolTipView(image: "calendar",
-//                                            message: "Your best month so far this year has been \(viewModel.bestMonth).",
-//                                            color: .donutChartOrange)
-                                
                                 barChart
                                 
                                 sessionLengthToolTip
@@ -61,7 +57,7 @@ struct MetricsView: View {
                                     Spacer()
                                     donutChart
                                 }
-                                .frame(width: UIScreen.main.bounds.width * 0.9)
+//                                .frame(width: UIScreen.main.bounds.width * 0.9)
                                 
                                 performanceChart
                                 
@@ -69,7 +65,8 @@ struct MetricsView: View {
                                 
                                 BarChartWeeklySessionCount(showTitle: true, dateRange: barChartDateRange)
                                     .padding(20)
-                                    .frame(width: UIScreen.main.bounds.width * 0.9, height: 190)
+//                                    .frame(width: UIScreen.main.bounds.width * 0.9, height: 190)
+                                    .frame(height: 190)
                                     .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                                     .cornerRadius(12)
                                     .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -83,10 +80,12 @@ struct MetricsView: View {
                                             .offset(y: 20)
                                         }
                                     }
-                                
-                                AdditionalMetricsView()
-                                    .padding(.bottom, activeSheet == .metricsAsSheet ? 0 : 50)
                             }
+                            .padding(.horizontal)
+                            .padding(.bottom, 20)
+                            
+                            AdditionalMetricsView()
+                                .padding(.bottom, activeSheet == .metricsAsSheet ? 0 : 50)
                         }
                         .sheet(isPresented: $showPaywall, content: {
                             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
@@ -290,11 +289,13 @@ struct MetricsView: View {
         HStack {
             DayOfWeekChart(sessions: viewModel.allCashSessions())
                 .padding(.leading, 7)
-                .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
+//                .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
+                .frame(height: 190)
                 .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                 .cornerRadius(12)
                 .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         }
+        .padding(.trailing, 6)
     }
     
     var donutChart: some View {
@@ -302,11 +303,13 @@ struct MetricsView: View {
         HStack {
             BestTimeOfDay()
                 .padding()
-                .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
+//                .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
+                .frame(height: 190)
                 .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                 .cornerRadius(12)
                 .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         }
+        .padding(.leading, 6)
     }
     
     var dismissButton: some View {
@@ -950,7 +953,7 @@ struct ToolTipView: View {
             
         }
         .padding(20)
-        .frame(width: UIScreen.main.bounds.width * 0.9)
+//        .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)

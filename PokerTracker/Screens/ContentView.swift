@@ -24,6 +24,9 @@ struct ContentView: View {
     @State var activeSheet: Sheet?
     
     let lastSeenVersionKey = "LastSeenAppVersion"
+    var isPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
     
     var body: some View {
         
@@ -57,9 +60,23 @@ struct ContentView: View {
         .sheet(item: $activeSheet) { sheet in
             switch sheet {
             case .productUpdates: ProductUpdates(activeSheet: $activeSheet)
-            case .recentSession: SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
+            case .recentSession: if isPad {
+                if #available(iOS 18.0, *) {
+                    SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
+                        .presentationSizing(.page)
+                } else {
+                    SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
+                }
+            } else { SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!) }
             case .healthAnalytics: SleepAnalytics(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
-            case .metricsAsSheet: MetricsView(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
+            case .metricsAsSheet: if isPad {
+                if #available(iOS 18.0, *) {
+                    MetricsView(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
+                        .presentationSizing(.page)
+                } else {
+                    MetricsView(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
+                }
+            } else { MetricsView(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge) }
             }
         }
     }
@@ -134,18 +151,17 @@ struct ContentView: View {
     
     var metricsCard: some View {
         
-        Button(action: {
-            
+        Button {
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
             activeSheet = .metricsAsSheet
             
-        }, label: {
+        } label: {
             if !hideBankroll {
                 MetricsCardView()
                 
             } else { metricsMiniCard }
-        })
+        }
         .buttonStyle(PlainButtonStyle())
         .zIndex(1.0)
     }
@@ -186,15 +202,12 @@ struct ContentView: View {
     var recentSessionCard: some View {
         
         Button(action: {
-            
             let impact = UIImpactFeedbackGenerator(style: .medium)
             impact.impactOccurred()
             activeSheet = .recentSession
             
         }, label: {
-            
             RecentSessionCardView(pokerSession: viewModel.sessions.first!)
-            
         })
         .buttonStyle(CardViewButtonStyle())
     }
