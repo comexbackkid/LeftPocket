@@ -14,7 +14,9 @@ import ActivityKit
 @main
 struct LeftPocketApp: App {
     
+#if os(iOS)
     @StateObject var hkManager = HealthKitManager()
+#endif
     @StateObject var vm = SessionsListViewModel()
     @StateObject var subManager = SubscriptionManager()
     @AppStorage("shouldShowOnboarding") var showWelcomeScreen: Bool = true

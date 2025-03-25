@@ -80,6 +80,8 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(8)
             
+#if os(iOS)
+            
             PageView(title: "Easily Share Your Progress",
                      subtitle: Text("Accountability is everything. Quickly share Sessions and progress with your circle of friends to stay motivated."),
                      videoURL: "sharing",
@@ -93,6 +95,17 @@ struct OnboardingView: View {
                      showDismissButton: true, player: players["health-metrics"],
                      nextAction: { hkManager.requestAuthorization() },
                      shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(10)
+            
+#elseif os(macOS)
+            
+            PageView(title: "Easily Share Your Progress",
+                     subtitle: Text("Accountability is everything. Quickly share Sessions and progress with your circle of friends to stay motivated."),
+                     videoURL: "sharing",
+                     showDismissButton: false, player: players["sharing"],
+                     nextAction: showPaywall = true,
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(9)
+            
+#endif
         }
         .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)
