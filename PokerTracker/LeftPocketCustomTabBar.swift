@@ -247,7 +247,7 @@ struct LeftPocketCustomTabBar: View {
                 playSound()
             }
         }, content: {
-            AddNewSessionView(timerViewModel: timerViewModel, isPresented: $isPresented, audioConfirmation: $audioConfirmation)
+            AddNewSessionView(vm: viewModel, timerViewModel: timerViewModel, isPresented: $isPresented, audioConfirmation: $audioConfirmation)
         })
         .onChange(of: qaService.action) { _ in
             performQuickAction()

@@ -27,8 +27,10 @@ enum Field {
 
 struct AddNewSessionView: View {
 
-    @EnvironmentObject var vm: SessionsListViewModel
+    @ObservedObject var vm: SessionsListViewModel
+#if os(iOS)
     @EnvironmentObject var subManager: SubscriptionManager
+#endif
     @StateObject var newSession = NewSessionViewModel()
     @ObservedObject var timerViewModel: TimerViewModel
     @Binding var isPresented: Bool
@@ -521,6 +523,7 @@ struct AddNewSessionView: View {
                 
                 Spacer()
                 
+#if os(iOS)
                 if subManager.isSubscribed {
                     withAnimation {
                         Toggle(isOn: $newSession.hasBounties.animation()) {
@@ -536,6 +539,7 @@ struct AddNewSessionView: View {
                             showPaywall = true
                         }
                 }
+#endif
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
@@ -574,6 +578,8 @@ struct AddNewSessionView: View {
                 
                 Spacer()
                 
+#if os(iOS)
+                
                 if subManager.isSubscribed {
                     Toggle(isOn: $newSession.staking) {
                         // No Label Needed
@@ -587,6 +593,8 @@ struct AddNewSessionView: View {
                             showPaywall = true
                         }
                 }
+                
+#endif
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
@@ -651,6 +659,8 @@ struct AddNewSessionView: View {
                 
                 Spacer()
                 
+#if os(iOS)
+                
                 if subManager.isSubscribed {
                     Toggle(isOn: $newSession.multiDayToggle) {
                         // No Label Needed
@@ -665,6 +675,8 @@ struct AddNewSessionView: View {
                             showPaywall = true
                         }
                 }
+                
+#endif
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
@@ -1554,7 +1566,7 @@ struct AddNewSessionView: View {
                 TextField("Tags (Optional)", text: $newSession.tags)
                     .font(.custom("Asap-Regular", size: 17))
             }
-            .allowsHitTesting(subManager.isSubscribed ? true : false)
+//            .allowsHitTesting(subManager.isSubscribed ? true : false)
             .padding(18)
             .background(.gray.opacity(0.2))
             .cornerRadius(15)
@@ -1588,24 +1600,24 @@ struct AddNewSessionView: View {
                     }
                 }
             }
-            .overlay {
-                if !subManager.isSubscribed {
-                    HStack {
-                        Spacer()
-                        Button {
-                            showPaywall = true
-                        } label: {
-                            Image(systemName: "lock.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(height: 20)
-                                .padding(.bottom, 10)
-                                .padding(.trailing, 40)
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-            }
+//            .overlay {
+//                if !subManager.isSubscribed {
+//                    HStack {
+//                        Spacer()
+//                        Button {
+//                            showPaywall = true
+//                        } label: {
+//                            Image(systemName: "lock.fill")
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(height: 20)
+//                                .padding(.bottom, 10)
+//                                .padding(.trailing, 40)
+//                        }
+//                        .buttonStyle(.plain)
+//                    }
+//                }
+//            }
             
             // MARK: TOURNAMENT STAKING
             
@@ -1844,7 +1856,7 @@ struct AddNewSessionView: View {
 
 struct AddNewSessionView_Previews: PreviewProvider {
     static var previews: some View {
-        AddNewSessionView(timerViewModel: TimerViewModel(), isPresented: .constant(true), audioConfirmation: .constant(false))
+        AddNewSessionView(vm: SessionsListViewModel(), timerViewModel: TimerViewModel(), isPresented: .constant(true), audioConfirmation: .constant(false))
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
             .environmentObject(TimerViewModel())
