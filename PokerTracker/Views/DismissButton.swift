@@ -12,6 +12,7 @@ struct DismissButton: View {
     var body: some View {
         
         ZStack {
+            
             Circle()
                 .frame(width: 33, height: 33)
                 .foregroundColor(.white)
@@ -19,7 +20,7 @@ struct DismissButton: View {
             
             Image(systemName: "xmark")
                 .imageScale(.medium)
-                .fontWeight(.medium)
+                .fontWeight(.black)
                 .frame(width: 44, height: 44)
                 .foregroundColor(.black)
         }

@@ -436,6 +436,7 @@ struct UserSettings: View {
                                 shareFile(fileURL) {
                                     exportCounter = 0
                                 }
+                                
                             } catch {
                                 exportUtility.errorMsg = "\(error.localizedDescription)"
                                 showError.toggle()

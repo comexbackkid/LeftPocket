@@ -38,18 +38,18 @@ struct MonthlyReportTip: Tip {
     }
 }
 
-struct ChartsTip: Tip {
+struct ShareTip: Tip {
     
     var title: Text {
-        Text("Player Data")
+        Text("Share Your Session")
     }
     
     var message: Text? {
-        Text("Use this screen to track your performance. Tap & hold charts for additional info.")
+        Text("Tap the paper airplane button to share this Session with your friends or study group.")
     }
     
     var image: Image? {
-        Image(systemName: "lightbulb")
+        Image(systemName: "paperplane.fill")
     }
 }
 

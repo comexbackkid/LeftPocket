@@ -18,6 +18,7 @@ struct SessionDetailView: View {
     @State private var actionDropDownMenuSelected = false
     
     let pokerSession: PokerSession_v2
+    let shareTip = ShareTip()
     
     var body: some View {
         
@@ -192,7 +193,6 @@ struct SessionDetailView: View {
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
-            
             
             Spacer()
             
@@ -645,7 +645,9 @@ struct SessionDetailView: View {
             
             ShareLink(item: takeScreenshot(), preview: SharePreview("Share My Session", image: Image("appicon-tiny"))) {
                 ShareButton()
-                    .padding(.trailing, 20)
+                    .padding(.trailing, 10)
+                    .popoverTip(shareTip)
+                    .tipViewStyle(CustomTipViewStyle())
             }
         }
     }
@@ -658,8 +660,8 @@ struct SessionDetailView: View {
                 Spacer()
                 
                 DismissButton()
-                    .padding(.trailing, 20)
-                    .padding(.top, 20)
+                    .padding(.trailing, 10)
+                    .padding(.top, 10)
                     .onTapGesture {
                         activeSheet = nil
                         dismiss()

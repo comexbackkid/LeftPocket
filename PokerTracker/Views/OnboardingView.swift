@@ -223,6 +223,9 @@ struct PageView: View {
     private var isZoomed: Bool {
         UIScreen.main.scale < UIScreen.main.nativeScale
     }
+    var isPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
     
     var body: some View {
         
@@ -242,12 +245,11 @@ struct PageView: View {
                 .lineSpacing(2.5)
                 .opacity(0.7)
                 .foregroundColor(.brandWhite)
-                .padding(.horizontal, 20)
+                .padding(.horizontal, isPad ? 80 : 30)
             
             Spacer()
             
             nextButton
-            
         }
     }
     
@@ -256,21 +258,38 @@ struct PageView: View {
         Group {
             if let player = player {
                 
-                VideoPlayer(player: player)
-                    .frame(width: isZoomed ? 240 : 340, height: isZoomed ? 240 : 340)
-                    .cornerRadius(20)
-                    .shadow(radius: 10)
-                    .padding(.vertical, 30)
-                    .onAppear {
-                        player.seek(to: .zero)
-                        player.play()
-                    }
-                    .onDisappear {
-                        player.pause()
-                    }
+                if isPad {
+                    VideoPlayer(player: player)
+                        .frame(width: 480, height: 480)
+                        .cornerRadius(20)
+                        .shadow(radius: 10)
+                        .padding(.vertical, 30)
+                        .onAppear {
+                            player.seek(to: .zero)
+                            player.play()
+                        }
+                        .onDisappear {
+                            player.pause()
+                        }
+                    
+                } else {
+                    VideoPlayer(player: player)
+                        .frame(width: isZoomed ? 240 : 340, height: isZoomed ? 240 : 340)
+                        .cornerRadius(20)
+                        .shadow(radius: 10)
+                        .padding(.vertical, 30)
+                        .onAppear {
+                            player.seek(to: .zero)
+                            player.play()
+                        }
+                        .onDisappear {
+                            player.pause()
+                        }
+                }
                 
             } else {
                 Text("Error. Video file not found.")
+                    .bodyStyle()
                     .padding()
             }
         }
@@ -291,7 +310,7 @@ struct PageView: View {
                 .frame(height: 50)
                 .background(.white)
                 .cornerRadius(30)
-                .padding(.horizontal, 20)
+                .padding(.horizontal, isPad ? 50 : 30)
                 .padding(.bottom, 50)
         }
         .buttonStyle(PlainButtonStyle())
@@ -690,10 +709,6 @@ struct AllowNotifications: View {
         VStack {
             
             VStack (alignment: .leading) {
-                
-                Spacer()
-                
-                Spacer()
                 
                 Spacer()
                 

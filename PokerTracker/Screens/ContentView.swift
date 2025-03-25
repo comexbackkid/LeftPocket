@@ -67,7 +67,10 @@ struct ContentView: View {
                 } else {
                     SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
                 }
-            } else { SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!) }
+            } else {
+                SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
+                    .presentationDragIndicator(.visible)
+            }
             case .healthAnalytics: SleepAnalytics(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
             case .metricsAsSheet: if isPad {
                 if #available(iOS 18.0, *) {
