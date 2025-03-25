@@ -32,6 +32,9 @@ struct OnboardingView: View {
     private var isZoomed: Bool {
         UIScreen.main.scale < UIScreen.main.nativeScale
     }
+    var isPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
     
     var body: some View {
         
@@ -130,21 +133,60 @@ struct OnboardingView: View {
                 }
             }
         }, content: {
-            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                .dynamicTypeSize(.medium...DynamicTypeSize.large)
-                .overlay {
-                    HStack {
-                        Spacer()
-                        VStack {
-                            DismissButton()
-                                .padding()
-                                .onTapGesture {
-                                    showPaywall = false
+            if isPad {
+                if #available(iOS 18.0, *) {
+                    PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                        .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                        .presentationSizing(.page)
+                        .overlay {
+                            HStack {
+                                Spacer()
+                                VStack {
+                                    DismissButton()
+                                        .padding()
+                                        .onTapGesture {
+                                            showPaywall = false
+                                        }
+                                    Spacer()
                                 }
+                            }
+                        }
+                    
+                } else {
+                    PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                        .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                        .overlay {
+                            HStack {
+                                Spacer()
+                                VStack {
+                                    DismissButton()
+                                        .padding()
+                                        .onTapGesture {
+                                            showPaywall = false
+                                        }
+                                    Spacer()
+                                }
+                            }
+                        }
+                }
+                
+            } else {
+                PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                    .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                    .overlay {
+                        HStack {
                             Spacer()
+                            VStack {
+                                DismissButton()
+                                    .padding()
+                                    .onTapGesture {
+                                        showPaywall = false
+                                    }
+                                Spacer()
+                            }
                         }
                     }
-                }
+            }
         })
         .sheet(isPresented: $shouldShowLastChance, onDismiss: {
             /// When the Last Chance Offer is dismissed, kill the onboarding flow
