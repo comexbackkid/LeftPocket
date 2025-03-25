@@ -1566,7 +1566,7 @@ struct AddNewSessionView: View {
                 TextField("Tags (Optional)", text: $newSession.tags)
                     .font(.custom("Asap-Regular", size: 17))
             }
-//            .allowsHitTesting(subManager.isSubscribed ? true : false)
+            .allowsHitTesting(subManager.isSubscribed ? true : false)
             .padding(18)
             .background(.gray.opacity(0.2))
             .cornerRadius(15)
@@ -1600,24 +1600,24 @@ struct AddNewSessionView: View {
                     }
                 }
             }
-//            .overlay {
-//                if !subManager.isSubscribed {
-//                    HStack {
-//                        Spacer()
-//                        Button {
-//                            showPaywall = true
-//                        } label: {
-//                            Image(systemName: "lock.fill")
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .frame(height: 20)
-//                                .padding(.bottom, 10)
-//                                .padding(.trailing, 40)
-//                        }
-//                        .buttonStyle(.plain)
-//                    }
-//                }
-//            }
+            .overlay {
+                if !subManager.isSubscribed {
+                    HStack {
+                        Spacer()
+                        Button {
+                            showPaywall = true
+                        } label: {
+                            Image(systemName: "lock.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 20)
+                                .padding(.bottom, 10)
+                                .padding(.trailing, 40)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
             
             // MARK: TOURNAMENT STAKING
             

@@ -108,7 +108,7 @@ struct SessionsListView: View {
     
     var body: some View {
         
-        NavigationView {
+        NavigationSplitView {
             
             ZStack {
                 switch listFilter {
@@ -121,6 +121,7 @@ struct SessionsListView: View {
                         
                     } else {
                         List {
+                            
                             screenTitle
                             
                             ForEach(filteredSessions) { session in
@@ -144,6 +145,8 @@ struct SessionsListView: View {
                         .sheet(item: $selectedSession) { session in
                             EditSession(pokerSession: session)
                         }
+                        .navigationBarTitleDisplayMode(.inline)
+                        .background(Color.brandBackground)
                     }
                     
                 case .transactions:
@@ -171,9 +174,6 @@ struct SessionsListView: View {
                     }
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .accentColor(.brandPrimary)
-            .background(Color.brandBackground)
             .toolbar {
                 VStack {
                     switch listFilter {
@@ -182,6 +182,7 @@ struct SessionsListView: View {
                             let impact = UIImpactFeedbackGenerator(style: .soft)
                             impact.impactOccurred()
                             listFilter = .transactions
+                            
                         } label: {
                             Image(systemName: "creditcard.fill")
                         }
@@ -191,6 +192,7 @@ struct SessionsListView: View {
                             let impact = UIImpactFeedbackGenerator(style: .soft)
                             impact.impactOccurred()
                             listFilter = .sessions
+                            
                         } label: {
                             Image(systemName: "suit.club.fill")
                         }
@@ -200,6 +202,34 @@ struct SessionsListView: View {
                 
                 toolbarFilter
             }
+            .accentColor(.brandPrimary)
+            .background(Color.brandBackground)
+            
+            } detail: {
+                if let session = selectedSession {
+                    SessionDetailView(activeSheet: $activeSheet, pokerSession: session)
+                    
+                } else {
+                    VStack {
+                        Image(systemName: "rectangle.on.rectangle.angled")
+                            .resizable()
+                            .frame(width: 80, height: 80)
+                            .foregroundColor(.secondary)
+                            .padding()
+
+                        Text("Select a session to view details")
+                            .bodyStyle()
+                            .foregroundColor(.secondary)
+                    }
+                }
+            }
+            .overlay {
+                switch listFilter {
+                case .sessions: if filteredSessions.isEmpty { startingScreen }
+                case .transactions: if filteredTransactions.isEmpty { startingScreen }
+                }
+            }
+            .accentColor(.brandPrimary)
             .onAppear {
                 if vm.sessions.count > 1 {
                     SessionsListTip.shouldShow = false
@@ -214,14 +244,121 @@ struct SessionsListView: View {
                     startDate = firstSessionDate
                 }
             }
-        }
-        .accentColor(.brandPrimary)
-        .overlay {
-            switch listFilter {
-            case .sessions: if filteredSessions.isEmpty { startingScreen }
-            case .transactions: if filteredTransactions.isEmpty { startingScreen }
-            }
-        }
+        
+//        NavigationView {
+//            
+//            ZStack {
+//                switch listFilter {
+//                case .sessions:
+//                    if vm.sessions.isEmpty {
+//                        VStack {
+//                            screenTitle
+//                            Spacer()
+//                        }
+//                        
+//                    } else {
+//                        List {
+//                            screenTitle
+//                            
+//                            ForEach(filteredSessions) { session in
+//                                NavigationLink(destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session).onAppear(perform: {
+//                                    tappedSession = session
+//                                })) {
+//                                    CellView(pokerSession: session, currency: vm.userCurrency, viewStyle: $viewStyle)
+//                                        .popoverTip(editTip)
+//                                        .tipViewStyle(CustomTipViewStyle())
+//                                }
+//                                .listRowBackground(Color.brandBackground)
+//                                .listRowInsets(EdgeInsets(top: 3, leading: 12, bottom: 3, trailing: 12))
+//                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+//                                    swipeActions(session)
+//                                }
+//                            }
+//                        }
+//                        .sensoryFeedback(.impact, trigger: tappedSession)
+//                        .listStyle(.plain)
+//                        .padding(.bottom, 50)
+//                        .sheet(item: $selectedSession) { session in
+//                            EditSession(pokerSession: session)
+//                        }
+//                    }
+//                    
+//                case .transactions:
+//                    if vm.transactions.isEmpty {
+//                        VStack {
+//                            screenTitle
+//                            Spacer()
+//                        }
+//                        
+//                    } else {
+//                        List {
+//                            screenTitle
+//                            
+//                            ForEach(filteredTransactions, id: \.self) { transaction in
+//                                TransactionCellView(transaction: transaction, currency: vm.userCurrency)
+//                                    .listRowBackground(Color.brandBackground)
+//                                    .listRowInsets(EdgeInsets(top: 3, leading: 12, bottom: 3, trailing: 12))
+//                            }
+//                            .onDelete(perform: { indexSet in
+//                                deleteTransaction(at: indexSet)
+//                            })
+//                        }
+//                        .listStyle(.plain)
+//                        .padding(.bottom, 50)
+//                    }
+//                }
+//            }
+//            .navigationBarTitleDisplayMode(.inline)
+//            .accentColor(.brandPrimary)
+//            .background(Color.brandBackground)
+//            .toolbar {
+//                VStack {
+//                    switch listFilter {
+//                    case .sessions:
+//                        Button {
+//                            let impact = UIImpactFeedbackGenerator(style: .soft)
+//                            impact.impactOccurred()
+//                            listFilter = .transactions
+//                        } label: {
+//                            Image(systemName: "creditcard.fill")
+//                        }
+//                        
+//                    case .transactions:
+//                        Button {
+//                            let impact = UIImpactFeedbackGenerator(style: .soft)
+//                            impact.impactOccurred()
+//                            listFilter = .sessions
+//                        } label: {
+//                            Image(systemName: "suit.club.fill")
+//                        }
+//                    }
+//                }
+//                .frame(width: 25)
+//                
+//                toolbarFilter
+//            }
+//            .onAppear {
+//                if vm.sessions.count > 1 {
+//                    SessionsListTip.shouldShow = false
+//                }
+//                if !datesInitialized {
+//                    startDate = firstSessionDate
+//                    datesInitialized = true
+//                }
+//            }
+//            .onChange(of: vm.sessions) { _ in
+//                if datesInitialized {
+//                    startDate = firstSessionDate
+//                }
+//            }
+//        }
+//        .accentColor(.brandPrimary)
+//        .overlay {
+//            switch listFilter {
+//            case .sessions: if filteredSessions.isEmpty { startingScreen }
+//            case .transactions: if filteredTransactions.isEmpty { startingScreen }
+//            }
+//        }
     }
     
     var toolbarFilter: some View {
