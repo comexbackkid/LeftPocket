@@ -57,7 +57,6 @@ struct MetricsView: View {
                                     Spacer()
                                     donutChart
                                 }
-//                                .frame(width: UIScreen.main.bounds.width * 0.9)
                                 
                                 performanceChart
                                 
@@ -65,7 +64,6 @@ struct MetricsView: View {
                                 
                                 BarChartWeeklySessionCount(showTitle: true, dateRange: barChartDateRange)
                                     .padding(20)
-//                                    .frame(width: UIScreen.main.bounds.width * 0.9, height: 190)
                                     .frame(height: 190)
                                     .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                                     .cornerRadius(12)
@@ -121,7 +119,6 @@ struct MetricsView: View {
                 .navigationBarHidden(true)
                 
                 if activeSheet == .metricsAsSheet { dismissButton }
-                
             }
         }
         .accentColor(.brandPrimary)
@@ -289,7 +286,6 @@ struct MetricsView: View {
         HStack {
             DayOfWeekChart(sessions: viewModel.allCashSessions())
                 .padding(.leading, 7)
-//                .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
                 .frame(height: 190)
                 .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                 .cornerRadius(12)
@@ -303,7 +299,6 @@ struct MetricsView: View {
         HStack {
             BestTimeOfDay()
                 .padding()
-//                .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
                 .frame(height: 190)
                 .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                 .cornerRadius(12)

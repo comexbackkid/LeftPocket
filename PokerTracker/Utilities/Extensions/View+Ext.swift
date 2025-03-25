@@ -21,7 +21,6 @@ extension View {
     func cardStyle(colorScheme: ColorScheme, height: CGFloat? = nil) -> some View {
         self
             .padding()
-//            .frame(width: UIScreen.main.bounds.width * 0.9, height: height)
             .frame(height: height)
             .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
             .cornerRadius(12)

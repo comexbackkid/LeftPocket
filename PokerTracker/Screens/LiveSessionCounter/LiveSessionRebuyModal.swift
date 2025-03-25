@@ -141,6 +141,7 @@ struct LiveSessionRebuyModal: View {
             }
             .tint(.red)
         }
+        .padding(.horizontal)
     }
     
     var isValidForm: Bool {

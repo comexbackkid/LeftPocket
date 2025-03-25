@@ -83,6 +83,7 @@ struct SleepAnalytics: View {
                         .navigationTitle("")
                         .padding(.bottom, 50)
                         .padding(.top)
+                        .padding(.horizontal)
                         .padding(.bottom, activeSheet == .healthAnalytics ? 0 : 40)
                     }
                 }
@@ -330,7 +331,7 @@ struct SleepAnalytics: View {
         }
         .animation(nil, value: rawSelectedDate)
         .padding()
-        .frame(width: UIScreen.main.bounds.width * 0.9)
+//        .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -370,7 +371,7 @@ struct SleepAnalytics: View {
         }
         .foregroundStyle(.white)
         .padding(20)
-        .frame(width: UIScreen.main.bounds.width * 0.9)
+//        .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(
             Image("nightsky")
                 .resizable()
@@ -512,7 +513,8 @@ struct SleepAnalytics: View {
             }
         }
         .padding()
-        .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
+//        .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
+        .frame(height: 290)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)

@@ -127,6 +127,8 @@ struct LiveSessionNote: View {
             .tint(.red)
         }
         .padding(.bottom, 10)
+        .padding(.horizontal)
+        .padding(.horizontal, 8)
     }
     
     private func saveNote() {

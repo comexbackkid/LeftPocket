@@ -100,7 +100,10 @@ struct LiveSessionInitialBuyIn: View {
             buyInConfirmationSound = true
             saveButtonPressed()
             
-        } label: { PrimaryButton(title: "Save") }
+        } label: {
+            PrimaryButton(title: "Save")
+        }
+        .padding(.horizontal)
     }
     
     private var isValidForm: Bool {

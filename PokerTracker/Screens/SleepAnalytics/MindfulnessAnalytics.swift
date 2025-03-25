@@ -48,6 +48,7 @@ struct MindfulnessAnalytics: View {
                                         
                     recentMeditations
                 }
+                .padding(.horizontal)
             }
         }
         .onChange(of: hkManager.errorMsg, perform: { _ in
@@ -132,7 +133,6 @@ struct MindfulnessAnalytics: View {
                     Text("Start a Meditation")
                         .font(.custom("Asap-Black", size: 24))
                         .bold()
-                        .padding(.horizontal)
                         .padding(.top)
                         .padding(.bottom, 5)
                     
@@ -145,7 +145,6 @@ struct MindfulnessAnalytics: View {
                     
                     Spacer()
                 }
-                .padding(.horizontal)
                 .padding(.bottom)
             }
 
@@ -163,6 +162,7 @@ struct MindfulnessAnalytics: View {
                         } else {
                             showPaywall = true
                         }
+                        
                     } label: {
                         Text(meditation.title)
                             .font(.custom("Asap-Bold", size: 18, relativeTo: .title2))
@@ -188,7 +188,6 @@ struct MindfulnessAnalytics: View {
                     }
                 }
             }
-            .frame(width: UIScreen.main.bounds.width * 0.9)
         }
         .padding(.bottom)
         .fullScreenCover(item: $selectedMeditation) { meditation in
@@ -227,7 +226,6 @@ struct MindfulnessAnalytics: View {
                 Text("Mindful Poker Sessions")
                     .font(.custom("Asap-Black", size: 24))
                     .bold()
-                    .padding(.horizontal)
                     .padding(.top)
                 
                 Spacer()
@@ -240,7 +238,6 @@ struct MindfulnessAnalytics: View {
             if matchedSessions.isEmpty {
                 Text("None found!")
                     .bodyStyle()
-                    .padding(.leading)
                     .padding(.top, 1)
                     .foregroundStyle(.secondary)
             }
@@ -393,7 +390,7 @@ struct MindfulnessAnalytics: View {
             }
         }
         .padding()
-        .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
+        .frame(height: 290)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)

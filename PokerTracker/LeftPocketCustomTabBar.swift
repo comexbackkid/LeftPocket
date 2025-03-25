@@ -51,7 +51,6 @@ struct LeftPocketCustomTabBar: View {
         ZStack {
             
             VStack {
-                
                 switch selectedTab {
                 case 0: ContentView()
                 case 1: SessionsListView()
