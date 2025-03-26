@@ -15,7 +15,7 @@ struct DeleteLocationTip: Tip {
     }
     
     var message: Text? {
-        Text("To add a location, press the \(Image(systemName: "plus")) above. Tap & hold a thumbnail to delete. If you've imported data, be sure location names match.")
+        Text("To add a location, press the \(Image(systemName: "plus.circle.fill")) above. Tap & hold a thumbnail to delete. If you've imported data, be sure location names match.")
     }
     
     var image: Image? {
@@ -26,7 +26,7 @@ struct DeleteLocationTip: Tip {
 struct MonthlyReportTip: Tip {
     
     var title: Text {
-        Text("Using this Table")
+        Text("Using This Table")
     }
     
     var message: Text? {

@@ -41,6 +41,7 @@ struct ProfitByLocationView: View {
                 VStack {
                     
                     if viewModel.sessions.isEmpty {
+                        
                         EmptyState(title: "No Sessions", image: .locations)
                         
                     } else {
@@ -52,6 +53,7 @@ struct ProfitByLocationView: View {
                         }
                                                 
                         if subManager.isSubscribed {
+                            
                             locationWinRatesChart
                             
                         } else {
@@ -79,6 +81,7 @@ struct ProfitByLocationView: View {
                         Spacer()
                     }
                 }
+                .padding(.horizontal)
                 .sheet(isPresented: $showPaywall) {
                     PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
                         .dynamicTypeSize(.medium...DynamicTypeSize.large)
@@ -156,21 +159,6 @@ struct ProfitByLocationView: View {
                 .transaction { transaction in
                     transaction.animation = nil
                 }
-                
-//                Menu {
-//                    Picker("", selection: $yearFilter) {
-//                        ForEach(allYears, id: \.self) {
-//                            Text($0)
-//                        }
-//                    }
-//                } label: {
-//                    Text(yearFilter + " ›")
-//                        .bodyStyle()
-//                }
-//                .accentColor(Color.brandPrimary)
-//                .transaction { transaction in
-//                    transaction.animation = nil
-//                }
             }
         }
     }
@@ -233,7 +221,6 @@ struct ProfitByLocationView: View {
             }
         }
         .padding(20)
-        .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -292,7 +279,6 @@ struct ProfitByLocationView: View {
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
         .padding(20)
-        .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -304,7 +290,6 @@ struct ProfitByLocationView: View {
         RingCharts(sessions: filteredSessions)
             .padding(.horizontal, 30)
             .padding(.vertical, 20)
-            .frame(width: UIScreen.main.bounds.width * 0.9)
             .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -343,7 +328,7 @@ struct ProfitByLocationView: View {
 
 struct ProfitByLocationView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             ProfitByLocationView(viewModel: SessionsListViewModel())
                 .environmentObject(SubscriptionManager())
                 .preferredColorScheme(.dark)

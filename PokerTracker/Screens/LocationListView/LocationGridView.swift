@@ -236,7 +236,7 @@ extension SessionsListViewModel {
 
 struct LocationGridView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             LocationGridView()
                 .environmentObject(SessionsListViewModel())
                 .environmentObject(SubscriptionManager())

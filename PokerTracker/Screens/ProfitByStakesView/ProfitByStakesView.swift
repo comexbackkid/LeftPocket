@@ -479,7 +479,7 @@ extension SessionsListViewModel {
 
 struct ProfitByStakesView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             ProfitByStakesView(viewModel: SessionsListViewModel())
                 .environmentObject(SubscriptionManager())
         }
