@@ -7,12 +7,16 @@
 
 import SwiftUI
 import TipKit
+import RevenueCatUI
+import RevenueCat
 
 struct LocationGridView: View {
     
+    @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var vm: SessionsListViewModel
-    @State var addLocationIsShowing = false
-    @State var showAlert = false
+    @State private var addLocationIsShowing = false
+    @State private var showAlert = false
+    @State private var showPaywall = false
     
     let columns = [GridItem(.adaptive(minimum: 160, maximum: 360), spacing: 10)]
     let deleteTip = DeleteLocationTip()
@@ -38,6 +42,7 @@ struct LocationGridView: View {
         .overlay {
             VStack {
                 if vm.locations.isEmpty {
+                    
                     emptyState
                 }
             }
@@ -87,19 +92,53 @@ struct LocationGridView: View {
     
     var addLocationButton: some View {
         
-        Button {
-            let impact = UIImpactFeedbackGenerator(style: .heavy)
-            impact.impactOccurred()
-            addLocationIsShowing.toggle()
-            deleteTip.invalidate(reason: .actionPerformed)
+        Group {
             
-        } label: {
-            Image(systemName: "plus")
+            let locationCount = vm.locations.count
+            
+            Button {
+                let impact = UIImpactFeedbackGenerator(style: .heavy)
+                impact.impactOccurred()
+                if subManager.isSubscribed || locationCount < 2 {
+                    addLocationIsShowing.toggle()
+                    
+                } else {
+                    showPaywall = true
+                }
+                deleteTip.invalidate(reason: .actionPerformed)
+                
+            } label: {
+                Image(systemName: "plus.circle.fill")
+                    .fontWeight(.black)
+            }
+            .foregroundColor(.brandPrimary)
+            .sheet(isPresented: $addLocationIsShowing, content: {
+                NewLocationView(addLocationIsShowing: $addLocationIsShowing)
+            })
         }
-        .foregroundColor(.brandPrimary)
-        .sheet(isPresented: $addLocationIsShowing, content: {
-            NewLocationView(addLocationIsShowing: $addLocationIsShowing)
-        })
+        .sheet(isPresented: $showPaywall) {
+            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                .overlay {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            DismissButton()
+                                .padding()
+                                .onTapGesture {
+                                    showPaywall = false
+                            }
+                            Spacer()
+                        }
+                    }
+                }
+        }
+        .task {
+            for await customerInfo in Purchases.shared.customerInfoStream {
+                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                await subManager.checkSubscriptionStatus()
+            }
+        }
     }
     
     var locationTip: some View {
@@ -200,6 +239,7 @@ struct LocationGridView_Previews: PreviewProvider {
         NavigationView {
             LocationGridView()
                 .environmentObject(SessionsListViewModel())
+                .environmentObject(SubscriptionManager())
         }
     }
 }
