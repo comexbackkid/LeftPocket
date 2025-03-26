@@ -426,89 +426,50 @@ struct UserSettings: View {
         }
     }
     
-    var exportData: some View {
+    var exportButtonContent: some View {
         
+        HStack {
+            Text("Export Sessions")
+                .subtitleStyle()
+                .bold()
+            
+            Spacer()
+            
+            Text("›")
+                .font(.title2)
+        }
+    }
+    
+    var exportData: some View {
+
         VStack (spacing: 40) {
+            
+            // MARK: EXPORT SESSIONS
             HStack {
                 
                 VStack (alignment: .leading) {
                     
-                    if subManager.isSubscribed || exportCounter != 0 {
-                        
-                        Button {
-                            let impact = UIImpactFeedbackGenerator(style: .soft)
-                            impact.impactOccurred()
-                            
-                            do {
-                                let fileURL = try CSVConversion.exportCSV(from: vm.sessions)
-                                shareFile(fileURL) {
-                                    exportCounter = 0
-                                }
+                    if let sessionsFileURL = try? CSVConversion.exportCSV(from: vm.sessions) {
+                        ShareLink(item: sessionsFileURL) {
+                            exportButtonContent
                                 
-                            } catch {
-                                exportUtility.errorMsg = "\(error.localizedDescription)"
-                                showError.toggle()
-                            }
-                            
-                        } label: {
-                            HStack {
-                                VStack (alignment: .leading) {
-                                    HStack {
-                                        
-                                        Text("Export Sessions")
-                                            .subtitleStyle()
-                                            .bold()
-                                        
-                                        Spacer()
-                                        
-                                        Text("›")
-                                            .font(.title2)
-                                    }
-                                    
-                                    // This text will display below "Export Data" if the user is not subscribed
-                                    if !subManager.isSubscribed {
-                                        Text("Upgrade to Left Pocket Pro for unlimited exports. You have \(exportCounter) " + "export\(exportCounter > 0 ? "" : "s") remaining.")
-                                            .calloutStyle()
-                                            .opacity(0.8)
-                                            .padding(.top, 1)
-                                    }
-                                }
-                            }
                         }
-                        .buttonStyle(PlainButtonStyle())
-                        .alert(isPresented: $showError) {
-                            Alert(title: Text("Uh oh!"), message: Text(exportUtility.errorMsg ?? ""), dismissButton: .default(Text("OK")))
-                        }
+                        .buttonStyle(.plain)
                         
                     } else {
                         Button {
-                            let impact = UIImpactFeedbackGenerator(style: .soft)
-                            impact.impactOccurred()
-                            showPaywall = true
+                            exportUtility.errorMsg = "Export failed. No Session data was found."
+                            showError = true
                             
                         } label: {
-                            HStack {
-                                VStack (alignment: .leading) {
-                                    HStack {
-                                        
-                                        Text("Export Sessions")
-                                            .subtitleStyle()
-                                            .bold()
-                                        
-                                        Spacer()
-                                        
-                                        Text("›")
-                                            .font(.title2)
-                                    }
-                                    
-                                    Text("Upgrade to Left Pocket Pro for unlimited exports. You have \(exportCounter) " + "export\(exportCounter > 0 ? "" : "s") remaining.")
-                                        .calloutStyle()
-                                        .opacity(0.8)
-                                        .padding(.top, 1)
-                                }
-                            }
+                            exportButtonContent
                         }
-                        .buttonStyle(PlainButtonStyle())
+                        .buttonStyle(.plain)
+                        .alert(isPresented: $showError) {
+                            Alert(title: Text("Uh oh!"),
+                                  message: Text(exportUtility.errorMsg ?? "Export failed. No Session data was found."),
+                                  dismissButton: .default(Text("OK")))
+                        }
                     }
                 }
                 
@@ -518,44 +479,84 @@ struct UserSettings: View {
                 AlertModal(message: "Your data was exported successfully.")
                     .presentationDetents([.height(210)])
                     .presentationBackground(.ultraThinMaterial)
-                
             })
             
-            HStack {
-                Button {
-                    let impact = UIImpactFeedbackGenerator(style: .soft)
-                    impact.impactOccurred()
+            // MARK: EXPORT TRANSACTIONS
+            if subManager.isSubscribed {
+                HStack {
                     
-                    do {
-                        let fileURL = try CSVConversion.exportTransactionsCSV(from: vm.transactions)
-                        shareFile(fileURL) {
-                            // What do I put here?
+                    if let transactionsFileURL = try? CSVConversion.exportTransactionsCSV(from: vm.transactions) {
+                        ShareLink(item: transactionsFileURL) {
+                            HStack {
+                                HStack {
+                                    Text("Export Transactions")
+                                        .subtitleStyle()
+                                        .bold()
+                                    
+                                    Spacer()
+                                    
+                                    Text("›")
+                                        .font(.title2)
+                                }
+                            }
+                                
                         }
+                        .buttonStyle(.plain)
                         
-                    } catch {
-                        exportUtility.errorMsg = "\(error.localizedDescription)"
-                        showError.toggle()
-                    }
-                        
-                } label: {
-                    HStack {
-                        
-                        HStack {
+                    } else {
+                        Button {
+                            exportUtility.errorMsg = "Export failed. No Transactions data was found."
+                            showError = true
                             
-                            Text("Export Transactions")
-                                .subtitleStyle()
-                                .bold()
-                            
-                            Spacer()
-                            
-                            Text("›")
-                                .font(.title2)
+                        } label: {
+                            HStack {
+                                HStack {
+                                    Text("Export Transactions")
+                                        .subtitleStyle()
+                                        .bold()
+                                    
+                                    Spacer()
+                                    
+                                    Text("›")
+                                        .font(.title2)
+                                }
+                            }
+                        }
+                        .buttonStyle(.plain)
+                        .alert(isPresented: $showError) {
+                            Alert(title: Text("Uh oh!"),
+                                  message: Text(exportUtility.errorMsg ?? "Export failed. No Transactions data was found."),
+                                  dismissButton: .default(Text("OK")))
                         }
                     }
+                    
+                    Spacer()
                 }
-                .buttonStyle(PlainButtonStyle())
                 
-                Spacer()
+            } else {
+                HStack {
+                    
+                    Button {
+                        showPaywall = true
+                        
+                    } label: {
+                        HStack {
+                            HStack {
+                                Text("Export Transactions")
+                                    .subtitleStyle()
+                                    .bold()
+                                
+                                Spacer()
+                                
+                                Image(systemName: "lock.fill")
+                                    .font(.title2)
+                            }
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    
+                    Spacer()
+                }
             }
         }
     }
@@ -653,24 +654,46 @@ struct UserSettings: View {
         }
     }
     
-    func shareFile(_ fileURL: URL, completion: @escaping () -> Void) {
+    func shareFile(_ fileURL: URL, from sourceView: UIView? = nil, completion: @escaping () -> Void) {
         let activityViewController = UIActivityViewController(
             activityItems: [fileURL],
             applicationActivities: nil
         )
         
-        activityViewController.completionWithItemsHandler = { activityType, completed, _, _ in
-            
-                // Check if the activity was completed successfully
-                if completed {
-                    showAlertModal = true
-                    
-                    // Run the second parameter, "completion" after success. It takes in a function or action of some kind
-                    completion()
-                }
-            }
+        // iPad-specific presentation
+        if let popover = activityViewController.popoverPresentationController {
+            popover.sourceView = sourceView ?? UIApplication.shared.connectedScenes
+                .compactMap({ $0 as? UIWindowScene })
+                .first?.windows
+                .first(where: { $0.isKeyWindow })
+        }
         
-        UIApplication.shared.windows.first?.rootViewController?.present(activityViewController, animated: true, completion: nil)
+        activityViewController.completionWithItemsHandler = { activityType, completed, _, _ in
+            if completed {
+                showAlertModal = true
+                completion()
+            }
+        }
+        
+        if let topVC = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .first?.windows
+            .first(where: { $0.isKeyWindow })?.rootViewController {
+            topVC.present(activityViewController, animated: true)
+        }
+        
+//        activityViewController.completionWithItemsHandler = { activityType, completed, _, _ in
+//            
+//                // Check if the activity was completed successfully
+//                if completed {
+//                    showAlertModal = true
+//                    
+//                    // Run the second parameter, "completion" after success. It takes in a function or action of some kind
+//                    completion()
+//                }
+//            }
+//        
+//        UIApplication.shared.windows.first?.rootViewController?.present(activityViewController, animated: true, completion: nil)
     }
     
     func getAppVersion() -> String {
