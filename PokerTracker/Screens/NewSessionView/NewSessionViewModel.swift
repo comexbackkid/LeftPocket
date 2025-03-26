@@ -62,6 +62,10 @@ final class NewSessionViewModel: ObservableObject {
     @Published var tournamentDays: Int = 1
     @Published var noMoreDays: Bool = false
     
+    private var isPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
+    
     // Making sure to include rebuys in profit calculation
     var computedProfit: Int {
         if sessionType == .cash {
@@ -197,6 +201,48 @@ final class NewSessionViewModel: ObservableObject {
             error = AlertContext.invalidEndTime
         } else if endTime.timeIntervalSince(startTime) <= 60 {
             error = AlertContext.invalidDuration
+        }
+        
+        if isPad {
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: buyIn)) else {
+                alertItem = AlertContext.invalidCharacter
+                return false
+            }
+            
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: cashOut)) else {
+                alertItem = AlertContext.invalidCharacter
+                return false
+            }
+            
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: finish)) else {
+                alertItem = AlertContext.invalidCharacter
+                return false
+            }
+            
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: entrants)) else {
+                alertItem = AlertContext.invalidCharacter
+                return false
+            }
+            
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: rebuyCount)) else {
+                alertItem = AlertContext.invalidCharacter
+                return false
+            }
+            
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: cashRebuys)) else {
+                alertItem = AlertContext.invalidCharacter
+                return false
+            }
+            
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: highHandBonus)) else {
+                alertItem = AlertContext.invalidCharacter
+                return false
+            }
+            
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: expenses)) else {
+                alertItem = AlertContext.invalidCharacter
+                return false
+            }
         }
 
         if let error = error {

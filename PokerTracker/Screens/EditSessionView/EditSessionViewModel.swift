@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 final class EditSessionViewModel: ObservableObject {
     
@@ -37,30 +38,82 @@ final class EditSessionViewModel: ObservableObject {
     @Published var endTimeDayTwo: Date = Date()
     @Published var stakers: [Staker] = []
     
-    // TODO: ADD ADDITIONAL CHECKS TO THIS, PERHAPS JUST MAKE IT SIMILAR TO NEWSESSION'S CHECKVALIDFORM FUNCTION
+    private var isPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
     
     var isValidForm: Bool {
         
-        guard endTime > startTime else {
-            alertItem = AlertContext.invalidEndTime
-            return false
+        var error: AlertItem? = nil
+
+        if sessionType == .cash {
+            if stakes.isEmpty {
+                error = AlertContext.inValidStakes
+            } else if buyIn.isEmpty {
+                error = AlertContext.invalidBuyIn
+            }
+        } else {
+            if speed.isEmpty {
+                error = AlertContext.invalidSpeed
+            } else if size.isEmpty {
+                error = AlertContext.invalidSize
+            } else if entrants.isEmpty {
+                error = AlertContext.invalidEntrants
+            } else if finish.isEmpty {
+                error = AlertContext.invalidFinish
+            } else if Int(finish)! >= Int(entrants)! {
+                error = AlertContext.invalidFinishPlace
+            } else if buyIn.isEmpty {
+                error = AlertContext.invalidBuyIn
+            }
         }
         
-        guard endTime.timeIntervalSince(startTime) > 60 else {
-            alertItem = AlertContext.invalidDuration
-            return false
-        }
-        
-        if sessionType == .tournament {
-            guard !entrants.isEmpty else {
-                alertItem = AlertContext.invalidEntrants
+        if isPad {
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: buyIn)) else {
+                alertItem = AlertContext.invalidCharacter
                 return false
             }
             
-            guard !finish.isEmpty else {
-                alertItem = AlertContext.invalidFinish
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: cashOut)) else {
+                alertItem = AlertContext.invalidCharacter
                 return false
             }
+            
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: finish)) else {
+                alertItem = AlertContext.invalidCharacter
+                return false
+            }
+            
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: entrants)) else {
+                alertItem = AlertContext.invalidCharacter
+                return false
+            }
+            
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: rebuyCount)) else {
+                alertItem = AlertContext.invalidCharacter
+                return false
+            }
+            
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: highHandBonus)) else {
+                alertItem = AlertContext.invalidCharacter
+                return false
+            }
+            
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: expenses)) else {
+                alertItem = AlertContext.invalidCharacter
+                return false
+            }
+        }
+
+        if endTime <= startTime {
+            error = AlertContext.invalidEndTime
+        } else if endTime.timeIntervalSince(startTime) <= 60 {
+            error = AlertContext.invalidDuration
+        }
+   
+        if let error = error {
+            alertItem = error
+            return false
         }
         
         return true
