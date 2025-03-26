@@ -112,12 +112,21 @@ struct LeftPocketCustomTabBar: View {
                         selectedTab = index
                         
                     } label: {
+                        
                         Spacer()
                         
-                        let tabBarImages = ["house.fill", "list.bullet", "cross.fill", "chart.bar.fill", "gearshape.fill"]
-                        Image(systemName: tabBarImages[index])
-                            .font(.system(size: index == 2 ? 28 : 22, weight: .black))
-                            .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
+                        if index == 0 {
+                            Image("custom-house-icon")
+                                .font(.system(size: 26, weight: .black))
+                                .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
+                            
+                        } else {
+                            let tabBarImages = ["custom-house-icon", "list.bullet", "cross.fill", "chart.bar.fill", "gearshape.fill"]
+                            Image(systemName: tabBarImages[index])
+                                .font(.system(size: index == 2 ? 28 : 22, weight: .black))
+                                .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
+                        }
+                        
                         
                         Spacer()
                     }

@@ -236,10 +236,17 @@ struct AddNewSessionView: View {
             
             Spacer()
             
+            let locationCount = vm.locations.count
+            
             Menu {
                 
                 Button {
-                    addLocationIsShowing.toggle()
+                    if !subManager.isSubscribed && locationCount < 2 {
+                        addLocationIsShowing.toggle()
+                    } else {
+                        showPaywall = true
+                    }
+                    
                 } label: {
                     HStack {
                         Text("Add New Location")
