@@ -28,32 +28,47 @@ struct UserSettings: View {
     @State private var notificationsAllowed = false
     @State private var showAlertModal = false
     
+    private var isPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
+    
     var body: some View {
 
         NavigationStack {
             
             ScrollView(.vertical) {
                 
-                VStack (spacing: 40) {
+                VStack {
                     
-                    displayOptions
-                                        
-                    Divider()
+                    HStack {
+                        Text("Settings")
+                            .titleStyle()
+                            .padding(.horizontal)
+                        
+                        Spacer()
+                    }
                     
-                    middleSection
-                    
-                    Divider()
-                    
-                    bottomSection
-                    
-                    Divider()
-                    
-                    appVersion
-                    
-                    Spacer()
+                    VStack {
+                        
+                        displayOptions
+                        
+                        Divider().padding(.vertical)
+                        
+                        middleSection
+                        
+                        Divider().padding(.vertical)
+                        
+                        bottomSection
+                        
+                        Divider().padding(.vertical)
+                        
+                        appVersion
+                        
+                        Spacer()
+                    }
+                    .padding(.horizontal, isPad ? 40 : 16)
+                    .padding(.bottom, 50)
                 }
-                .padding(.horizontal)
-                .padding(.bottom, 50)
             }
             .background(Color.brandBackground)
             .navigationBarHidden(true)
@@ -69,13 +84,6 @@ struct UserSettings: View {
             HStack {
                 
                 VStack (alignment: .leading) {
-                    
-                    HStack {
-                        Text("Settings")
-                            .titleStyle()
-                        
-                        Spacer()
-                    }
                     
                     if !subManager.isSubscribed {
                         Button {

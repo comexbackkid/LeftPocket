@@ -24,6 +24,10 @@ struct MetricsView: View {
     @AppStorage("sessionFilter") private var sessionFilter: SessionFilter = .all
     @Binding var activeSheet: Sheet?
     
+    private var isPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
+    
     var body: some View {
         
         NavigationStack {
@@ -36,9 +40,9 @@ struct MetricsView: View {
                         
                         ScrollView {
                             
+                            title
+                            
                             VStack (spacing: 22) {
-                                
-                                title
                                 
                                 winStreakToolTip
                                                                 
@@ -79,7 +83,7 @@ struct MetricsView: View {
                                         }
                                     }
                             }
-                            .padding(.horizontal)
+                            .padding(.horizontal, isPad ? 40 : 16)
                             .padding(.bottom, 20)
                             
                             AdditionalMetricsView()

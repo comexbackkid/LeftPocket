@@ -99,4 +99,8 @@ struct AlertContext {
     static let invalidRebuy = AlertItem(title: Text("Invalid Rebuy"),
                                          message: Text("When playing a Tournament, your Rebuy must be equal to your initial Buy In."),
                                          dismissButton: .default(Text("OK")))
+    
+    static let invalidCharacter = AlertItem(title: Text("Invalid Character"),
+                                            message: Text("You've entered an invalid character. Please try again."),
+                                            dismissButton: .default(Text("OK")))
 }

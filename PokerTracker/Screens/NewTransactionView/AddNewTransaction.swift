@@ -27,6 +27,10 @@ struct AddNewTransaction: View {
     @State private var alertItem: AlertItem?
     @State private var showPaywall = false
     
+    private var isPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
+    
     var body: some View {
         
         VStack {
@@ -310,6 +314,14 @@ struct AddNewTransaction: View {
         guard !amount.isEmpty else {
             alertItem = AlertContext.invalidAmount
             return false
+        }
+        
+        if isPad {
+            
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: amount)) else {
+                alertItem = AlertContext.invalidCharacter
+                return false
+            }
         }
         
         return true

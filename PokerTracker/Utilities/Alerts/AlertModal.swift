@@ -26,7 +26,10 @@ struct AlertModal: View {
                 impact.impactOccurred()
                 dismiss()
                 
-            } label: { PrimaryButton(title: "OK") }
+            } label: {
+                PrimaryButton(title: "OK")
+            }
+            .padding(.horizontal)
             
             Spacer()
         }
