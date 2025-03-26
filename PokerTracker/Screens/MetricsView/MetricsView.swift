@@ -189,7 +189,7 @@ struct MetricsView: View {
                 
             } else {
                 ToolTipView(image: "stopwatch",
-                            message: "You tend to play better when your Session lasts \(viewModel.bestSessionLength()).",
+                            message: "You tend to play better when your Session lasts \(viewModel.bestSessionLength())",
                             color: .brandPrimary,
                             premium: subManager.isSubscribed ? false : true)
             }

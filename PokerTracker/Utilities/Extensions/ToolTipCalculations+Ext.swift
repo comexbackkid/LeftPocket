@@ -62,10 +62,10 @@ extension SessionsListViewModel {
     // MARK: FUNCTIONS FOR FINDING USER'S IDEAL SESSION LENGTH
     
     enum SessionLengthCategory: String {
-        case lessThanThreeHours = "less than 3 hours"
-        case threeToSixHours = "3-6 hours"
-        case sixToNineHours = "6-9 hours"
-        case moreThanNineHours = "over 9 hours"
+        case lessThanThreeHours = "less than 3 hours."
+        case threeToSixHours = "3-6 hours."
+        case sixToNineHours = "6-9 hours."
+        case moreThanNineHours = "over 9 hours."
     }
     
     func sessionCategory(from duration: Double) -> SessionLengthCategory {

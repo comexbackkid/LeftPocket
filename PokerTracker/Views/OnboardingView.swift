@@ -69,46 +69,33 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(6)
             
-            PageView(title: "Stay Focused at the Table",
-                     subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Stay focused on what matters."),
-                     videoURL: "logging-sessions-new",
-                     showDismissButton: false, player: players["logging-sessions-new"],
-                     nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(7)
+//            PageView(title: "Stay Focused at the Table",
+//                     subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Stay focused on what matters."),
+//                     videoURL: "logging-sessions-new",
+//                     showDismissButton: false, player: players["logging-sessions-new"],
+//                     nextAction: nextPage,
+//                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(7)
             
             PageView(title: "Know When to Move Up",
                      subtitle: Text("Insightful charts, progress rings, and crucial player metrics will advise when it's safe to take a shot at higher stakes."),
                      videoURL: "metrics-screen",
                      showDismissButton: false, player: players["metrics-screen"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(8)
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(7)
             
-#if os(iOS)
-            
-            PageView(title: "Easily Share Your Progress",
-                     subtitle: Text("Accountability is everything. Quickly share Sessions and progress with your circle of friends to stay motivated."),
-                     videoURL: "sharing",
-                     showDismissButton: false, player: players["sharing"],
-                     nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(9)
+//            PageView(title: "Easily Share Your Progress",
+//                     subtitle: Text("Accountability is everything. Quickly share Sessions and progress with your circle of friends to stay motivated."),
+//                     videoURL: "sharing",
+//                     showDismissButton: false, player: players["sharing"],
+//                     nextAction: nextPage,
+//                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(9)
             
             PageView(title: "Boost Your Mental Game",
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours and mindful minutes in our Health Analytics page, and integrate these numbers measured by other devices, like an Apple Watch."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],
                      nextAction: { hkManager.requestAuthorization() },
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(10)
-            
-#elseif os(macOS)
-            
-            PageView(title: "Easily Share Your Progress",
-                     subtitle: Text("Accountability is everything. Quickly share Sessions and progress with your circle of friends to stay motivated."),
-                     videoURL: "sharing",
-                     showDismissButton: false, player: players["sharing"],
-                     nextAction: showPaywall = true,
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(9)
-            
-#endif
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(8)
         }
         .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)
@@ -367,8 +354,9 @@ struct PollView: View {
         UIScreen.main.scale < UIScreen.main.nativeScale
     }
     
-    @State private var selectedButtons: Set<String> = []
+    @State private var selectedButton: UserGameImprovement?
     @Binding var shouldShowOnboarding: Bool
+    @AppStorage("userGameImprovementSelection") var userGameImprovementSelection = UserGameImprovement.bankroll.rawValue
     
     var body: some View {
         
@@ -376,7 +364,7 @@ struct PollView: View {
             
             VStack (alignment: .leading) {
                 
-                Text("Which poker goals are you most focused on?")
+                Text("What part of your game needs the most work?")
                     .signInTitleStyle()
                     .foregroundColor(.brandWhite)
                     .fontWeight(.black)
@@ -385,7 +373,7 @@ struct PollView: View {
                     .multilineTextAlignment(.leading)
                     .minimumScaleFactor(isZoomed ? 0.5 : 1.0)
 
-                Text("Choose any and all that may apply.")
+                Text("Make your selection below.")
                     .calloutStyle()
                     .opacity(0.7)
                     .padding(.bottom, 10)
@@ -393,20 +381,20 @@ struct PollView: View {
                 Spacer()
                 
                 let columns = [GridItem(.adaptive(minimum: 160, maximum: 170)), GridItem(.adaptive(minimum: 160, maximum: 170))]
-                let buttonText = ["Bankroll Management", "Climbing Stakes", "Focus", "Mental Game", "Hand Histories", "Tracking Expenses", "Not Going Bust", "When To End a Session"]
                 
                 LazyVGrid(columns: columns) {
-                    ForEach(buttonText, id: \.self) { text in
+                    ForEach(UserGameImprovement.allCases, id: \.self) { text in
                         Button {
                             let impact = UIImpactFeedbackGenerator(style: .medium)
                             impact.impactOccurred()
-                            if selectedButtons.contains(text) {
-                                selectedButtons.remove(text)
-                            } else {
-                                selectedButtons.insert(text)
-                            }
+                            if selectedButton == text {
+                                    selectedButton = nil
+                                } else {
+                                    selectedButton = text
+                                }
+                            
                         } label: {
-                            Text(text)
+                            Text(text.description)
                                 .multilineTextAlignment(.center)
                                 .frame(maxWidth: .infinity)
                                 .frame(height: isZoomed ? 60 : 70)
@@ -415,7 +403,7 @@ struct PollView: View {
                                 .cornerRadius(12)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 12)
-                                        .stroke(selectedButtons.contains(text) ? Color.lightGreen : Color.clear, lineWidth: 2)
+                                        .stroke(selectedButton == text ? Color.lightGreen : Color.clear, lineWidth: 2)
                                 )
                         }
                         .buttonStyle(.plain)
@@ -433,6 +421,14 @@ struct PollView: View {
             Button {
                 let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
+                userGameImprovementSelection = selectedButton?.rawValue ?? "bankroll"
+                Purchases.shared.attribution.setAttributes(["user-game-improvement-selection" : userGameImprovementSelection])
+                
+                // TODO: NEED TO UPDATE REVENUECAT SDK TO FETCH ONE MORE FUNCTION
+//                Purchases.shared.syncAttributesAndOfferingsIfNeeded { offerings, error in
+//                    // Put nextAction() func here
+//                }
+                
                 nextAction()
                 
             } label: {
@@ -441,13 +437,13 @@ struct PollView: View {
                     .foregroundColor(.black)
                     .frame(maxWidth: .infinity)
                     .frame(height: 50)
-                    .background(selectedButtons.isEmpty ? .gray.opacity(0.75) : .white)
+                    .background(selectedButton == nil ? .gray.opacity(0.75) : .white)
                     .cornerRadius(30)
                     .padding(.horizontal, 20)
                     .padding(.bottom, 50)
             }
             .buttonStyle(PlainButtonStyle())
-            .allowsHitTesting(selectedButtons.isEmpty ? false : true)
+            .allowsHitTesting(selectedButton == nil ? false : true)
         }
     }
 }
@@ -760,7 +756,7 @@ struct AllowNotifications: View {
                     .fontWeight(.black)
                     .padding(.bottom, 5)
                 
-                Text("We've got your back! Receive subtle reminders to stretch, hydrate, and check your focus.")
+                Text("We've got your back! Get subtle reminders to stretch, hydrate, and check your focus.")
                     .calloutStyle()
                     .opacity(0.7)
                     .padding(.bottom, 30)
@@ -852,6 +848,31 @@ struct ProgressAnimation: View {
         .padding(.horizontal, 20) // Matches your button's horizontal padding
         .onAppear {
             drawingWidth = true
+        }
+    }
+}
+
+enum UserGameImprovement: String, CaseIterable {
+    case bankroll, stakes, focus, mental, hands, expenses, busting, ending
+    
+    var description: String {
+        switch self {
+        case .bankroll:
+            "Bankroll Management"
+        case .stakes:
+            "Climbing Stakes"
+        case .focus:
+            "Focus"
+        case .mental:
+            "Mental Game"
+        case .hands:
+            "Hand Histories"
+        case .expenses:
+            "Tracking Expenses"
+        case .busting:
+            "Not Going Bust"
+        case .ending:
+            "When to End a Session"
         }
     }
 }
