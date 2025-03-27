@@ -316,6 +316,7 @@ final class NewSessionViewModel: ObservableObject {
         
         // Only after the form checks out will the presentation be set to false and the sheet will dismiss
         self.presentation = false
+        AppReviewRequest.requestReviewIfNeeded()
     }
 }
 
