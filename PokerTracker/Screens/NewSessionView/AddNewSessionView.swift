@@ -242,7 +242,11 @@ struct AddNewSessionView: View {
                 
                 Button {
                     if !subManager.isSubscribed && locationCount < 2 {
-                        addLocationIsShowing.toggle()
+                        addLocationIsShowing = true
+                        
+                    } else if subManager.isSubscribed {
+                        addLocationIsShowing = true
+                        
                     } else {
                         showPaywall = true
                     }

@@ -97,7 +97,9 @@ struct BankrollLineChart: View {
                     Spacer()
                     
                     if showToggleAndFilter {
+                        
                         fullScreenToggleButton
+                        
                         filterButton
                     }
                 }
