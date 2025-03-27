@@ -12,8 +12,6 @@ struct MetricsCardView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var viewModel: SessionsListViewModel
     
-    let width = UIScreen.main.bounds.width * 0.85
-    
     var body: some View {
         
         ZStack (alignment: .leading) {
@@ -48,7 +46,7 @@ struct MetricsCardView: View {
                 }
             }
         }
-        .frame(width: width, height: 350)
+        .frame(height: 350)
         .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.5 : 1.0))
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)

@@ -42,60 +42,48 @@ struct OnboardingView: View {
             
             WelcomeScreen(selectedPage: $selectedPage).gesture(DragGesture()).tag(0)
             
+            SkipScreen(showDismissButton: false, nextAction: nextPage, skipToEnd: skipToLastPage, shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(1)
+            
             PollView(showDismissButton: false,
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(1)
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(2)
             
             StartingBankroll(showDismissButton: false,
                              nextAction: nextPage,
-                             shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(2)
+                             shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(3)
             
             RiskTolerance(showDismissButton: false,
                         nextAction: nextPage,
-                        shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(3)
+                        shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(4)
             
             AllowNotifications(showDismissButton: false,
                                nextAction: nextPage,
-                               shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(4)
+                               shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(5)
             
             PersonalizedExperience(showDismissButton: false,
                                    nextAction: nextPage,
-                                   shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(5)
+                                   shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(6)
             
             PageView(title: "Painless Data Imports",
                      subtitle: Text("From the Settings \(Image(systemName: "gearshape.fill")) screen importing old data from other apps is super easy. You can be up and running in a matter of seconds."),
                      videoURL: "import-sessions",
                      showDismissButton: false, player: players["import-sessions"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(6)
-            
-//            PageView(title: "Stay Focused at the Table",
-//                     subtitle: Text("Activate a Live Session by tapping the \(Image(systemName: "cross.fill")) in the navigation bar. To enter rebuys, just press the \(Image(systemName: "dollarsign.arrow.circlepath")) button. Stay focused on what matters."),
-//                     videoURL: "logging-sessions-new",
-//                     showDismissButton: false, player: players["logging-sessions-new"],
-//                     nextAction: nextPage,
-//                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(7)
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(7)
             
             PageView(title: "Know When to Move Up",
                      subtitle: Text("Insightful charts, progress rings, and crucial player metrics will advise when it's safe to take a shot at higher stakes."),
                      videoURL: "metrics-screen",
                      showDismissButton: false, player: players["metrics-screen"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(7)
-            
-//            PageView(title: "Easily Share Your Progress",
-//                     subtitle: Text("Accountability is everything. Quickly share Sessions and progress with your circle of friends to stay motivated."),
-//                     videoURL: "sharing",
-//                     showDismissButton: false, player: players["sharing"],
-//                     nextAction: nextPage,
-//                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(9)
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(8)
             
             PageView(title: "Boost Your Mental Game",
-                     subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours and mindful minutes in our Health Analytics page, and integrate these numbers measured by other devices, like an Apple Watch."),
+                     subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours and mindful minutes in our Health Analytics page, and integrate these numbers measured by other devices."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],
                      nextAction: { hkManager.requestAuthorization() },
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(8)
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(9)
         }
         .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)
@@ -223,6 +211,12 @@ struct OnboardingView: View {
         }
     }
     
+    func skipToLastPage() {
+        withAnimation {
+            selectedPage = 9
+        }
+    }
+    
     private func lastChanceOfferFetch() {
         Task {
             do {
@@ -346,6 +340,77 @@ struct PageView: View {
     }
 }
 
+struct SkipScreen: View {
+    
+    let showDismissButton: Bool
+    var nextAction: () -> Void
+    var skipToEnd: () -> Void
+    
+    @AppStorage("pushNotificationsAllowed") private var pushNotificationsAllowed = false
+    @State private var startingBankrollTextField: String = ""
+    @Binding var shouldShowOnboarding: Bool
+    @FocusState var isFocused: Bool
+    
+    var body: some View {
+        
+        VStack {
+            
+            VStack (alignment: .leading) {
+                
+                Spacer()
+                
+                Text("We need to ask a couple questions to customize your experience.")
+                    .signInTitleStyle()
+                    .foregroundColor(.brandWhite)
+                    .fontWeight(.black)
+                    .padding(.bottom, 5)
+                
+                Text("If you'd prefer to skip this step, tap \"Skip to the End\" below.")
+                    .calloutStyle()
+                    .opacity(0.7)
+                    .padding(.bottom, 30)
+                
+                Spacer()
+        
+            }
+            .padding(.horizontal, 20)
+            
+            Spacer()
+            
+            Button {
+                let impact = UIImpactFeedbackGenerator(style: .soft)
+                impact.impactOccurred()
+                skipToEnd()
+                
+            } label: {
+                Text("Skip to the End")
+                    .subHeadlineStyle()
+                    .buttonStyle(.plain)
+            }
+            .buttonStyle(.plain)
+            .padding(.bottom, 12)
+            
+            Button {
+                let impact = UIImpactFeedbackGenerator(style: .heavy)
+                impact.impactOccurred()
+                nextAction()
+                
+            } label: {
+                Text(showDismissButton ? "Let's Do It" : "Continue")
+                    .buttonTextStyle()
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background(.white)
+                    .cornerRadius(30)
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 50)
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+    }
+}
+
 struct PollView: View {
     
     let showDismissButton: Bool
@@ -364,11 +429,12 @@ struct PollView: View {
             
             VStack (alignment: .leading) {
                 
+                Spacer()
+                
                 Text("What part of your game needs the most work?")
                     .signInTitleStyle()
                     .foregroundColor(.brandWhite)
                     .fontWeight(.black)
-                    .padding(.top, 30)
                     .padding(.bottom, 10)
                     .multilineTextAlignment(.leading)
                     .minimumScaleFactor(isZoomed ? 0.5 : 1.0)
@@ -376,9 +442,7 @@ struct PollView: View {
                 Text("Make your selection below.")
                     .calloutStyle()
                     .opacity(0.7)
-                    .padding(.bottom, 10)
-                
-                Spacer()
+                    .padding(.bottom, 30)
                 
                 let columns = [GridItem(.adaptive(minimum: 160, maximum: 170)), GridItem(.adaptive(minimum: 160, maximum: 170))]
                 
@@ -466,67 +530,68 @@ struct StartingBankroll: View {
         
         VStack {
             
-            ScrollView {
-                
-                VStack (alignment: .leading) {
+            GeometryReader { geo in
+                ScrollView {
                     
-                    Spacer()
-                    
-                    Text("Are you starting off with a bankroll today?")
-                        .signInTitleStyle()
-                        .foregroundColor(.brandWhite)
-                        .fontWeight(.black)
-                        .padding(.bottom, 5)
-                        .lineLimit(3)
-                        .minimumScaleFactor(0.7)
-                    
-                    Text("You can skip this step, and import data later from a different bankroll tracker.")
-                        .calloutStyle()
-                        .opacity(0.7)
-                        .padding(.bottom, 20)
-                    
-                    HStack {
+                    VStack (alignment: .leading) {
                         
-                        Text("$")
-                            .font(.system(size: 25))
-                            .frame(width: 17)
-                            .foregroundColor(startingBankrollTextField.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                        Spacer()
                         
-                        TextField("", text: $startingBankrollTextField)
-                            .focused($isFocused, equals: true)
-                            .font(.custom("Asap-Bold", size: 25))
-                            .keyboardType(.numberPad)
-                            .onSubmit {
-                                isFocused = false
-                            }
-                            .toolbar {
-                                ToolbarItem(placement: .keyboard) {
-                                    Button("Done") { isFocused = false }
+                        Text("Are you starting off with a bankroll today?")
+                            .signInTitleStyle()
+                            .foregroundColor(.brandWhite)
+                            .fontWeight(.black)
+                            .padding(.bottom, 5)
+                            .lineLimit(3)
+                            .minimumScaleFactor(0.7)
+                        
+                        Text("You can skip this step, and import data later from a different bankroll tracker.")
+                            .calloutStyle()
+                            .opacity(0.7)
+                            .padding(.bottom, 20)
+                        
+                        HStack {
+                            
+                            Text("$")
+                                .font(.system(size: 25))
+                                .frame(width: 17)
+                                .foregroundColor(startingBankrollTextField.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
+                            
+                            TextField("", text: $startingBankrollTextField)
+                                .focused($isFocused, equals: true)
+                                .font(.custom("Asap-Bold", size: 25))
+                                .keyboardType(.numberPad)
+                                .onSubmit {
+                                    isFocused = false
                                 }
-                            }
-                    }
-                    .padding(.horizontal, 18)
-                    .padding(.vertical, 14)
-                    .background(.gray.opacity(0.2))
-                    .cornerRadius(15)
-                    .overlay {
-                        if !startingBankrollTextField.isEmpty {
-                            RoundedRectangle(cornerRadius: 14)
-                                .stroke(Color.lightGreen, lineWidth: 1.5)
+                                .toolbar {
+                                    ToolbarItem(placement: .keyboard) {
+                                        Button("Done") { isFocused = false }
+                                    }
+                                }
                         }
+                        .padding(.horizontal, 18)
+                        .padding(.vertical, 14)
+                        .background(.gray.opacity(0.2))
+                        .cornerRadius(15)
+                        .overlay {
+                            if !startingBankrollTextField.isEmpty {
+                                RoundedRectangle(cornerRadius: 14)
+                                    .stroke(Color.lightGreen, lineWidth: 1.5)
+                            }
+                        }
+                        
+                        Spacer()
+                        
                     }
-                    
-                    Spacer()
-                    
+                    .frame(minHeight: geo.size.height)
+                    .padding(.horizontal, 20)
+                    .onTapGesture {
+                        isFocused = false
+                    }
                 }
-                .padding(.top, isZoomed ? 16 : 200)
-                .padding(.horizontal, 20)
-                .onTapGesture {
-                    isFocused = false
-                }
-                
+                .scrollDismissesKeyboard(.immediately)
             }
-            .scrollDismissesKeyboard(.immediately)
             
             Spacer()
             

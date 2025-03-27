@@ -79,13 +79,11 @@ struct LocationGridView: View {
                 .multilineTextAlignment(.center)
                 .padding(.top)
             
-            Text("Tap the \(Image(systemName: "plus")) button above to get started\nwith adding your own locations.")
+            Text("Tap the \(Image(systemName: "plus.circle.fill")) button above to get started\nwith adding your own locations.")
                 .foregroundColor(.secondary)
                 .subHeadlineStyle()
                 .multilineTextAlignment(.center)
                 .lineSpacing(3)
-            
-            
         }
         
     }

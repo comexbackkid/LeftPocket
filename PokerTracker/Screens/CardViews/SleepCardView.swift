@@ -12,8 +12,6 @@ struct SleepCardView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var viewModel: SessionsListViewModel
     
-    let width = UIScreen.main.bounds.width * 0.85
-    
     var body: some View {
         
         ZStack (alignment: .leading) {
@@ -24,7 +22,6 @@ struct SleepCardView: View {
                     Image("nightsky")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: width)
                         .clipped()
                         .frame(maxHeight: 250)
                 }
@@ -52,7 +49,7 @@ struct SleepCardView: View {
                     
                     Spacer()
                 }
-                .frame(width: width, height: 110)
+                .frame(height: 110)
                 .background(
                     Image("nightsky")
                         .resizable()
@@ -77,7 +74,7 @@ struct SleepCardView: View {
             .padding()
             
         }
-        .frame(width: width, height: 360)
+        .frame(height: 360)
         .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.25 : 1.0))
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)

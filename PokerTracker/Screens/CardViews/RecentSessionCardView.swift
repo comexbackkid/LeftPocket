@@ -14,7 +14,6 @@ struct RecentSessionCardView: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     
     var pokerSession: PokerSession_v2
-    let width = UIScreen.main.bounds.width * 0.85
     
     var body: some View {
         
@@ -27,7 +26,6 @@ struct RecentSessionCardView: View {
                         Image(localImage)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: width)
                             .clipped()
                         
                     } else if let importedImagePath = pokerSession.location.importedImage {
@@ -35,14 +33,12 @@ struct RecentSessionCardView: View {
                             Image(uiImage: uiImage)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .frame(width: width)
                                 .clipped()
                             
                         } else {
                             Image("defaultlocation-header")
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .frame(width: width)
                                 .clipped()
                         }
                         
@@ -50,7 +46,6 @@ struct RecentSessionCardView: View {
                         Image("defaultlocation-header")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: width)
                             .clipped()
                     }
                 }
@@ -125,7 +120,7 @@ struct RecentSessionCardView: View {
             .padding()
                 
         }
-        .frame(width: width, height: 360)
+        .frame(height: 360)
         .background(Color(.systemBackground))
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)

@@ -53,7 +53,7 @@ struct ContentView: View {
                     Spacer()
                 }
             }
-            .frame(width: UIScreen.main.bounds.width)
+            .padding(.horizontal, 30)
             .padding(.bottom, 50)
         }
         .background { Color.brandBackground.ignoresSafeArea() }
@@ -199,7 +199,6 @@ struct ContentView: View {
         .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.5 : 1.0))
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
-        .frame(width: UIScreen.main.bounds.width * 0.85)
     }
     
     var recentSessionCard: some View {
@@ -381,7 +380,6 @@ struct QuickMetricsBoxGrid: View {
                                percentageChange: 0)
             }
         }
-        .frame(width: UIScreen.main.bounds.width * 0.85)
         .onAppear { loadDashboardConfig() }
     }
     
@@ -408,10 +406,6 @@ struct QuickMetricsBoxGrid: View {
             self.hoursPlayed = defaults.bool(forKey: "dashboardHoursPlayed")
         }
     }
-    
-//    private func percentChange(_ newValue: Double, _ oldValue: Double) -> Double {
-//        (newValue - oldValue) / oldValue
-//    }
     
     private func percentChange(_ newValue: Double, _ oldValue: Double) -> Double {
         guard oldValue != 0 else { return newValue.isZero ? 0 : .infinity }

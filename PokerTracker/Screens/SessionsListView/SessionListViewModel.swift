@@ -420,7 +420,7 @@ class SessionsListViewModel: ObservableObject {
     // Returns false if the user tries to add a 6th session for the month
     func canLogNewSession() -> Bool {
         let loggedThisMonth = sessionsLoggedThisMonth(sessions)
-        return loggedThisMonth < 4
+        return loggedThisMonth < 3
     }
 }
 
