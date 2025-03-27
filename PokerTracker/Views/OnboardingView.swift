@@ -216,7 +216,7 @@ struct OnboardingView: View {
     
     func skipToLastPage() {
         withAnimation {
-            selectedPage = 9
+            selectedPage = 8
         }
     }
     
