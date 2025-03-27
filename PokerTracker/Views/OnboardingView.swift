@@ -42,7 +42,10 @@ struct OnboardingView: View {
             
             WelcomeScreen(selectedPage: $selectedPage).gesture(DragGesture()).tag(0)
             
-            SkipScreen(showDismissButton: false, nextAction: nextPage, skipToEnd: skipToLastPage, shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(1)
+            SkipScreen(showDismissButton: false,
+                       nextAction: nextPage,
+                       skipToEnd: skipToLastPage,
+                       shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(1)
             
             PollView(showDismissButton: false,
                      nextAction: nextPage,
@@ -431,7 +434,7 @@ struct PollView: View {
                 
                 Spacer()
                 
-                Text("What part of your game needs the most work?")
+                Text("What part of your game needs the most help?")
                     .signInTitleStyle()
                     .foregroundColor(.brandWhite)
                     .fontWeight(.black)

@@ -274,12 +274,13 @@ struct MetricsView: View {
                             Text("Try Left Pocket Pro")
                                 .buttonTextStyle()
                                 .frame(height: 50)
-                                .frame(width: UIScreen.main.bounds.width * 0.6)
+                                .frame(maxWidth: .infinity)
                                 .background(Color.white)
                                 .foregroundColor(Color.black.opacity(0.8))
                                 .cornerRadius(30)
                                 .shadow(color: colorScheme == .dark ? .black : .black.opacity(0.25), radius: 20)
                         }
+                        .padding(.horizontal)
                     }
             }
         }
@@ -480,12 +481,13 @@ struct AllStats: View {
                 }
                 .popover(isPresented: $highHandPopover, arrowEdge: .bottom, content: {
                     PopoverView(bodyText: "High hand bonuses are not factored in to your profit or player metrics. You can find them tallied in with your Annual Report.")
-                        .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                        .frame(maxWidth: .infinity)
                         .frame(height: 130)
                         .dynamicTypeSize(.medium...DynamicTypeSize.medium)
                         .presentationCompactAdaptation(.popover)
                         .preferredColorScheme(colorScheme == .dark ? .dark : .light)
                         .shadow(radius: 10)
+                        .padding(.horizontal)
                 })
                 
                 Spacer()
@@ -662,12 +664,13 @@ struct CashStats: View {
                 }
                 .popover(isPresented: $highHandPopover, arrowEdge: .bottom, content: {
                     PopoverView(bodyText: "High hand bonuses are not factored in to your profit or player metrics. You can find them tallied in with your Annual Report.")
-                        .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                        .frame(maxWidth: .infinity)
                         .frame(height: 130)
                         .dynamicTypeSize(.medium...DynamicTypeSize.medium)
                         .presentationCompactAdaptation(.popover)
                         .preferredColorScheme(colorScheme == .dark ? .dark : .light)
                         .shadow(radius: 10)
+                        .padding(.horizontal)
                 })
                 
                 Spacer()
@@ -694,12 +697,13 @@ struct CashStats: View {
                     }
                     .popover(isPresented: $bbPerHrPopover, arrowEdge: .bottom, content: {
                         PopoverView(bodyText: "This number is an average of all your big blind per hour finishes across ALL stakes. For a more detailed breakdown of your BB / Hr rate, scroll down to your Game Stakes Report.")
-                            .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                            .frame(maxWidth: .infinity)
                             .frame(height: 180)
                             .dynamicTypeSize(.medium...DynamicTypeSize.medium)
                             .presentationCompactAdaptation(.popover)
                             .preferredColorScheme(colorScheme == .dark ? .dark : .light)
                             .shadow(radius: 10)
+                            .padding(.horizontal)
                     })
                 }
                 
@@ -952,7 +956,6 @@ struct ToolTipView: View {
             
         }
         .padding(20)
-//        .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -1017,7 +1020,7 @@ struct AdditionalMetricsView: View {
                         Spacer()
                     }
                     .padding(12)
-                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .frame(maxWidth: .infinity)
                     .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                     .cornerRadius(12)
 
@@ -1035,7 +1038,7 @@ struct AdditionalMetricsView: View {
                         Spacer()
                     }
                     .padding(12)
-                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .frame(maxWidth: .infinity)
                     .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                     .cornerRadius(12)
 
@@ -1053,7 +1056,7 @@ struct AdditionalMetricsView: View {
                         Spacer()
                     }
                     .padding(12)
-                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .frame(maxWidth: .infinity)
                     .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                     .cornerRadius(12)
 
@@ -1071,7 +1074,7 @@ struct AdditionalMetricsView: View {
                         Spacer()
                     }
                     .padding(12)
-                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .frame(maxWidth: .infinity)
                     .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                     .cornerRadius(12)
 
@@ -1089,7 +1092,7 @@ struct AdditionalMetricsView: View {
                         Spacer()
                     }
                     .padding(12)
-                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .frame(maxWidth: .infinity)
                     .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                     .cornerRadius(12)
 
@@ -1107,7 +1110,7 @@ struct AdditionalMetricsView: View {
                         Spacer()
                     }
                     .padding(12)
-                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .frame(maxWidth: .infinity)
                     .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                     .cornerRadius(12)
 
@@ -1125,7 +1128,7 @@ struct AdditionalMetricsView: View {
                         Spacer()
                     }
                     .padding(12)
-                    .frame(width: UIScreen.main.bounds.width * 0.9)
+                    .frame(maxWidth: .infinity)
                     .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                     .cornerRadius(12)
                 }
