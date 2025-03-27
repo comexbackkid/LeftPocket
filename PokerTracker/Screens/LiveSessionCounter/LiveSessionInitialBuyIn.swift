@@ -16,6 +16,10 @@ struct LiveSessionInitialBuyIn: View {
     @State private var initialBuyInField: String = ""
     @Binding var buyInConfirmationSound: Bool
     
+    private var isPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
+    
     var body: some View {
         
         VStack {
@@ -109,6 +113,11 @@ struct LiveSessionInitialBuyIn: View {
     private var isValidForm: Bool {
         guard !initialBuyInField.isEmpty else {
             alertItem = AlertContext.invalidBuyIn
+            return false
+        }
+        
+        guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: initialBuyInField)) else {
+            alertItem = AlertContext.invalidCharacter
             return false
         }
         

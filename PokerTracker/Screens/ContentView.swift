@@ -53,7 +53,7 @@ struct ContentView: View {
                     Spacer()
                 }
             }
-            .padding(.horizontal, 30)
+            .padding(.horizontal, isPad ? 40 : 16)
             .padding(.bottom, 50)
         }
         .background { Color.brandBackground.ignoresSafeArea() }
@@ -249,12 +249,13 @@ struct ContentView: View {
                     .foregroundStyle(Color.brandPrimary)
                     .popover(isPresented: $showBankrollPopup, arrowEdge: .top, content: {
                         PopoverView(bodyText: "\"My Bankroll\" is your true bankroll ledger, including all transactions. \"Total Profit\" represents your poker winnings over time.")
-                            .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
+                            .frame(maxWidth: .infinity)
                             .frame(height: 150)
                             .dynamicTypeSize(.medium...DynamicTypeSize.medium)
                             .presentationCompactAdaptation(.popover)
                             .preferredColorScheme(colorScheme == .dark ? .dark : .light)
                             .shadow(radius: 10)
+                            .padding(.horizontal)
                     })
                 }
                 

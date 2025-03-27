@@ -17,6 +17,10 @@ struct LiveSessionRebuyModal: View {
     @State private var sessionType: SessionType?
     @Binding var rebuyConfirmationSound: Bool
     
+    private var isPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
+    
     var body: some View {
         
         VStack {
@@ -151,6 +155,11 @@ struct LiveSessionRebuyModal: View {
                 alertItem = AlertContext.invalidRebuy
                 return false
             }
+        }
+        
+        guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: timerViewModel.reBuyAmount)) else {
+            alertItem = AlertContext.invalidCharacter
+            return false
         }
         
         return true
