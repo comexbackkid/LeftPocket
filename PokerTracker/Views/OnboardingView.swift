@@ -63,10 +63,6 @@ struct OnboardingView: View {
                                nextAction: nextPage,
                                shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(5)
             
-//            PersonalizedExperience(showDismissButton: false,
-//                                   nextAction: nextPage,
-//                                   shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(6)
-            
             PageView(title: "Painless Data Imports",
                      subtitle: Text("From the Settings \(Image(systemName: "gearshape.fill")) screen importing old data from other apps is super easy. You can be up and running in a matter of seconds."),
                      videoURL: "import-sessions",
@@ -362,7 +358,7 @@ struct SkipScreen: View {
                 
                 Spacer()
                 
-                Text("We need to ask a couple questions to customize your experience.")
+                Text("Next we'll ask you some questions to customize your experience.")
                     .signInTitleStyle()
                     .foregroundColor(.brandWhite)
                     .fontWeight(.black)
@@ -386,7 +382,7 @@ struct SkipScreen: View {
                 skipToEnd()
                 
             } label: {
-                Text("Skip to the End")
+                Text("No thanks, skip to the end")
                     .subHeadlineStyle()
                     .buttonStyle(.plain)
             }
@@ -818,13 +814,13 @@ struct AllowNotifications: View {
                 
                 Spacer()
                 
-                Text("Turn on notifications for help during live sessions.")
+                Text("Turn on notifications to crush live sessions.")
                     .signInTitleStyle()
                     .foregroundColor(.brandWhite)
                     .fontWeight(.black)
                     .padding(.bottom, 5)
                 
-                Text("We've got your back! Get subtle reminders to stretch, hydrate, and check your focus.")
+                Text("We've got your back! Get subtle reminders to stretch, hydrate, and avoid tilt.")
                     .calloutStyle()
                     .opacity(0.7)
                     .padding(.bottom, 30)
