@@ -7,13 +7,17 @@
 
 import SwiftUI
 import Charts
+import RevenueCat
+import RevenueCatUI
 
 struct PerformanceLineChart: View {
     
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var viewModel: SessionsListViewModel
+    @EnvironmentObject var subManager: SubscriptionManager
     @State private var selectedMonth: Date?
     @State private var metricFilter: MetricFilter = .hourly
+    @State private var showPaywall = false
     
     let firstDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 1, day: 1)
     let lastDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 12, day: 31)
@@ -139,7 +143,49 @@ struct PerformanceLineChart: View {
                 }
             }
             .padding(.top, 30)
-            
+            .blur(radius: subManager.isSubscribed ? 0 : 4)
+            .allowsHitTesting(subManager.isSubscribed ? true : false)
+            .overlay {
+                if !subManager.isSubscribed {
+                    Button {
+                       showPaywall = true
+                    } label: {
+                        Text("Try Left Pocket Pro")
+                            .buttonTextStyle()
+                            .frame(height: 50)
+                            .frame(maxWidth: .infinity)
+                            .background(Color.white)
+                            .foregroundColor(Color.black.opacity(0.8))
+                            .cornerRadius(30)
+                            .shadow(color: colorScheme == .dark ? .black : .black.opacity(0.25), radius: 20)
+                    }
+                    .padding(.horizontal)
+                }
+            }
+            .sheet(isPresented: $showPaywall) {
+                PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                    .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                    .overlay {
+                        HStack {
+                            Spacer()
+                            VStack {
+                                DismissButton()
+                                    .padding()
+                                    .onTapGesture {
+                                        showPaywall = false
+                                }
+                                Spacer()
+                            }
+                        }
+                    }
+            }
+            .task {
+                for await customerInfo in Purchases.shared.customerInfoStream {
+                    
+                    showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                    await subManager.checkSubscriptionStatus()
+                }
+            }
         }
     }
     
@@ -335,5 +381,6 @@ struct PerformanceLineChart: View {
         .frame(height: 400)
         .padding()
         .environmentObject(SessionsListViewModel())
+        .environmentObject(SubscriptionManager())
         .preferredColorScheme(.dark)
 }

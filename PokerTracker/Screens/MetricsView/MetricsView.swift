@@ -254,36 +254,9 @@ struct MetricsView: View {
     
     var performanceChart: some View {
         
-        VStack {
-            if subManager.isSubscribed {
-                
-                PerformanceLineChart()
-                    .cardStyle(colorScheme: colorScheme, height: 380)
-                    .cardShadow(colorScheme: colorScheme)
-                
-            } else {
-                PerformanceLineChart()
-                    .cardStyle(colorScheme: colorScheme, height: 380)
-                    .cardShadow(colorScheme: colorScheme)
-                    .blur(radius: 3)
-                    .allowsHitTesting(false)
-                    .overlay {
-                        Button {
-                           showPaywall = true
-                        } label: {
-                            Text("Try Left Pocket Pro")
-                                .buttonTextStyle()
-                                .frame(height: 50)
-                                .frame(maxWidth: .infinity)
-                                .background(Color.white)
-                                .foregroundColor(Color.black.opacity(0.8))
-                                .cornerRadius(30)
-                                .shadow(color: colorScheme == .dark ? .black : .black.opacity(0.25), radius: 20)
-                        }
-                        .padding(.horizontal)
-                    }
-            }
-        }
+        PerformanceLineChart()
+            .cardStyle(colorScheme: colorScheme, height: 380)
+            .cardShadow(colorScheme: colorScheme)
     }
     
     var dayOfWeekChart: some View {
