@@ -30,7 +30,7 @@ struct DayOfWeekChart: View {
                 .cornerRadius(15)
                 .annotation(position: .leading) {
                     Text(dayProfit.day)
-                        .captionStyle()
+                        .font(.custom("Asap-Regular", size: 12))
                         .foregroundColor(.clear)
                         .frame(maxWidth: 37, alignment: .trailing)
                         .padding(.trailing, 10)
@@ -59,7 +59,7 @@ struct DayOfWeekChart: View {
                 .cornerRadius(15)
                 .annotation(position: .leading) {
                     Text(dayProfit.day)
-                        .captionStyle()
+                        .font(.custom("Asap-Regular", size: 12))
                         .foregroundColor(.secondary)
                         .frame(maxWidth: 37, alignment: .trailing)
                         .padding(.trailing, 10)

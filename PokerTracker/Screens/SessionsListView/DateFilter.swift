@@ -120,6 +120,7 @@ struct DateFilter: View {
             }
             .tint(.red)
         }
+        .padding(.horizontal)
     }
 }
 
