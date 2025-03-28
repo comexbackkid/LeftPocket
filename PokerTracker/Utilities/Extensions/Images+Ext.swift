@@ -44,4 +44,14 @@ extension Image {
             .overlay(RoundedRectangle(cornerRadius: 20).stroke(.white, lineWidth: 4))
             .shadow(color: .gray.opacity(colorScheme == .light ? 0.5 : 0.0), radius: 7)
     }
+    
+    func centerCropped() -> some View {
+        GeometryReader { geo in
+            self
+            .resizable()
+            .scaledToFill()
+            .frame(width: geo.size.width, height: geo.size.height)
+            .clipped()
+        }
+    }
 }

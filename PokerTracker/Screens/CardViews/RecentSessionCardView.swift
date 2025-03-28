@@ -24,29 +24,21 @@ struct RecentSessionCardView: View {
                 VStack {
                     if let localImage = pokerSession.location.localImage {
                         Image(localImage)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .clipped()
+                            .centerCropped()
                         
                     } else if let importedImagePath = pokerSession.location.importedImage {
                         if let uiImage = loadImage(from: importedImagePath) {
                             Image(uiImage: uiImage)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .clipped()
+                                .centerCropped()
                             
                         } else {
                             Image("defaultlocation-header")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .clipped()
+                                .centerCropped()
                         }
                         
                     } else {
                         Image("defaultlocation-header")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .clipped()
+                            .centerCropped()
                     }
                 }
                 .frame(maxHeight: 250)
@@ -139,3 +131,5 @@ struct RecentSessionCardView_Previews: PreviewProvider {
         RecentSessionCardView(pokerSession: MockData.sampleSession).environmentObject(SessionsListViewModel())
     }
 }
+
+
