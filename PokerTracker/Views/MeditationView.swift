@@ -12,6 +12,7 @@ import TipKit
 struct MeditationView: View {
     
     @Environment(\.dismiss) var dismiss
+    @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var hkManager: HealthKitManager
     
     @Binding var passedMeditation: Meditation?
@@ -76,6 +77,13 @@ struct MeditationView: View {
             .onReceive(timer) { _ in
                 guard let player = audioManager.player, player.isPlaying, !isEditing else { return }
                 value = player.currentTime
+            }
+            .onChange(of: scenePhase) { newPhase in
+                if newPhase == .active {
+                    audioManager.setupAudioPlayer(track: meditation.track)
+                } else if newPhase == .background || newPhase == .inactive {
+                    stopPlaybackAndReset()
+                }
             }
             .overlay {
                 let meditationTip = MeditationTip()
