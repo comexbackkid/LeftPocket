@@ -323,6 +323,7 @@ struct MetricsView: View {
                     } label: {
                         Text(sessionFilter.rawValue.capitalized + " ›")
                             .bodyStyle()
+                            .animation(nil, value: sessionFilter)
                     }
                 }
                 .padding(.bottom)
