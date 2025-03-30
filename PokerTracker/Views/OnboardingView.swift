@@ -63,30 +63,30 @@ struct OnboardingView: View {
                                nextAction: nextPage,
                                shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(5)
             
-//            ReviewScreen(showDismissButton: false,
-//                     nextAction: nextPage,
-//                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(6)
+            ReviewScreen(showDismissButton: false,
+                     nextAction: nextPage,
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(6)
             
             PageView(title: "Painless Data Imports",
                      subtitle: Text("From the Settings \(Image(systemName: "gearshape.fill")) screen importing old data from other apps is super easy. You can be up and running in a matter of seconds."),
                      videoURL: "import-sessions",
                      showDismissButton: false, player: players["import-sessions"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(6)
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(7)
             
             PageView(title: "Know When to Move Up",
                      subtitle: Text("Insightful charts, progress rings, and crucial player metrics will advise when it's safe to take a shot at higher stakes."),
                      videoURL: "metrics-screen",
                      showDismissButton: false, player: players["metrics-screen"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(7)
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(8)
             
             PageView(title: "Boost Your Mental Game",
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours and mindful minutes in our Health Analytics page, and integrate these numbers measured by other devices."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],
                      nextAction: { hkManager.requestAuthorization() },
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(8)
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(9)
         }
         .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)
@@ -216,7 +216,7 @@ struct OnboardingView: View {
     
     func skipToLastPage() {
         withAnimation {
-            selectedPage = 8
+            selectedPage = 9
         }
     }
     
@@ -931,6 +931,37 @@ struct ReviewScreen: View {
                         .cornerRadius(12)
                         .font(.custom("Asap-Regular", size: 16))
                         
+                        VStack (alignment: .leading, spacing: 5) {
+                            
+                            Text("Great tool")
+                                .headlineStyle()
+                            
+                            Text("Excellent and easy to use app for keeping track of your game play. Highly recommend for any poker player.")
+                                .calloutStyle()
+                                .multilineTextAlignment(.leading)
+                            
+                            HStack (spacing: 0) {
+                                Image(systemName: "star.fill")
+                                Image(systemName: "star.fill")
+                                Image(systemName: "star.fill")
+                                Image(systemName: "star.fill")
+                                Image(systemName: "star.fill")
+                            }
+                            .foregroundStyle(.orange)
+                            .padding(.top)
+                            
+                            Text("audioguy13, 1/11/2022")
+                                .captionStyle()
+                                .foregroundStyle(.secondary)
+                            
+                        }
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity)
+                        .padding(25)
+                        .background(.thinMaterial)
+                        .cornerRadius(12)
+                        .font(.custom("Asap-Regular", size: 16))
+                        
                         Spacer()
                     }
                     .padding(.horizontal, 20)
@@ -942,6 +973,7 @@ struct ReviewScreen: View {
             Button {
                 let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
+                AppReviewRequest.requestReviewIfNeeded()
                 nextAction()
                 
             } label: {
