@@ -40,10 +40,6 @@ struct OnboardingView: View {
         
         TabView(selection: $selectedPage) {
             
-            ReviewScreen(showDismissButton: false,
-                     nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(0)
-            
             WelcomeScreen(selectedPage: $selectedPage).gesture(DragGesture()).tag(0)
             
             SkipScreen(showDismissButton: false,
@@ -66,6 +62,10 @@ struct OnboardingView: View {
             AllowNotifications(showDismissButton: false,
                                nextAction: nextPage,
                                shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(5)
+            
+//            ReviewScreen(showDismissButton: false,
+//                     nextAction: nextPage,
+//                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(6)
             
             PageView(title: "Painless Data Imports",
                      subtitle: Text("From the Settings \(Image(systemName: "gearshape.fill")) screen importing old data from other apps is super easy. You can be up and running in a matter of seconds."),
