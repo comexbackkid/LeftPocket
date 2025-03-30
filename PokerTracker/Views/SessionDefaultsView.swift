@@ -331,12 +331,10 @@ struct SessionDefaultsView: View {
                 
                 Menu {
                     
-                    Picker("Picker", selection: $game) {
-                        Text("NL Texas Hold Em").tag("NL Texas Hold Em")
-                        Text("Pot Limit Omaha").tag("Pot Limit Omaha")
-                        Text("Seven Card Stud").tag("Seven Card Stud")
-                        Text("Razz").tag("Razz")
-                        Text("Mixed").tag("Mixed")
+                    Picker("Game", selection: $game) {
+                        ForEach(vm.userGameTypes, id: \.self) {
+                            Text($0).tag($0)
+                        }
                     }
                     .onChange(of: game, perform: { value in
                         errorMessage = nil
@@ -344,7 +342,6 @@ struct SessionDefaultsView: View {
                     })
                     
                 } label: {
-                    
                     if game.isEmpty {
                         Text("Please select ›")
                             .bodyStyle()

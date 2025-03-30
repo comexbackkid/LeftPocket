@@ -158,6 +158,7 @@ struct NewStakesView: View {
             }
             .tint(.red)
         }
+        .padding(.horizontal)
     }
 }
 

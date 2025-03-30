@@ -103,4 +103,12 @@ struct AlertContext {
     static let invalidCharacter = AlertItem(title: Text("Invalid Character"),
                                             message: Text("You've entered an invalid character. Please try again."),
                                             dismissButton: .default(Text("OK")))
+    
+    static let invalidCustomGame = AlertItem(title: Text("Invalid Form"),
+                                             message: Text("The Game Type field is empty. Please enter a valid game type."),
+                                             dismissButton: .default(Text("OK")))
+    
+    static let invalidCustomGameAlreadyExists = AlertItem(title: Text("Invalid Form"),
+                                                          message: Text("The Game Type you've entered already exists."),
+                                                          dismissButton: .default(Text("OK")))
 }

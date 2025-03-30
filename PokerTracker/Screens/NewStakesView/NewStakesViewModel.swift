@@ -18,9 +18,7 @@ final class NewStakesViewModel: ObservableObject {
     }
     
     func saveStakes(viewModel: SessionsListViewModel) {
-        
         viewModel.addStakes(stakeEntry)
-        
         self.presentation = false
     }
 }

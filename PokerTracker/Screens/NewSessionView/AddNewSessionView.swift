@@ -37,6 +37,7 @@ struct AddNewSessionView: View {
     @Binding var audioConfirmation: Bool
     @State var addLocationIsShowing = false
     @State var addStakesIsShowing = false
+    @State var addGameTypeIsShowing = false
     @State var showPaywall = false
     @State var showCashRebuyField = false
     @State var showStakingPopover = false
@@ -714,13 +715,19 @@ struct AddNewSessionView: View {
                 
                 Menu {
                     
-                    withAnimation {
-                        Picker("Game", selection: $newSession.game) {
-                            Text("NL Texas Hold Em").tag("NL Texas Hold Em")
-                            Text("Pot Limit Omaha").tag("Pot Limit Omaha")
-                            Text("Seven Card Stud").tag("Seven Card Stud")
-                            Text("Razz").tag("Razz")
-                            Text("Mixed").tag("Mixed")
+                    Button {
+                        addGameTypeIsShowing = true
+                        
+                    } label: {
+                        HStack {
+                            Text("Add Game")
+                            Image(systemName: "dice")
+                        }
+                    }
+                    
+                    Picker("Game", selection: $newSession.game) {
+                        ForEach(vm.userGameTypes, id: \.self) {
+                            Text($0).tag($0)
                         }
                     }
                     
@@ -729,8 +736,8 @@ struct AddNewSessionView: View {
                         Text("Please select ›")
                             .bodyStyle()
                             .fixedSize()
-                    } else {
                         
+                    } else {
                         Text(newSession.game)
                             .bodyStyle()
                             .fixedSize()
@@ -743,7 +750,9 @@ struct AddNewSessionView: View {
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
-            
+            .sheet(isPresented: $addGameTypeIsShowing) {
+                NewGameType()
+            }
             
         }
     }

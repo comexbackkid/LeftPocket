@@ -116,6 +116,7 @@
 		7C8647842B2A642700F48951 /* AddNewSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8647832B2A642700F48951 /* AddNewSessionView.swift */; };
 		7C8834102735BB5D0093B201 /* NewLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */; };
 		7C90CA0B2CD2B789002881FD /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C90CA0A2CD2B789002881FD /* MotionManager.swift */; };
+		7C91EE892D9987BB00FFFD63 /* NewGameType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C91EE882D9987BB00FFFD63 /* NewGameType.swift */; };
 		7C944D562BBDA26E009E6EC5 /* ProductUpdates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C944D552BBDA26E009E6EC5 /* ProductUpdates.swift */; };
 		7C947AB42CCBE04E009CF5BB /* MindfulnessCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C947AB32CCBE04E009CF5BB /* MindfulnessCompleted.swift */; };
 		7C9A0D9E2CBDEAA70070EBA3 /* FilterTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9A0D9D2CBDEAA70070EBA3 /* FilterTag.swift */; };
@@ -384,6 +385,7 @@
 		7C8647832B2A642700F48951 /* AddNewSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSessionView.swift; sourceTree = "<group>"; };
 		7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLocationViewModel.swift; sourceTree = "<group>"; };
 		7C90CA0A2CD2B789002881FD /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
+		7C91EE882D9987BB00FFFD63 /* NewGameType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGameType.swift; sourceTree = "<group>"; };
 		7C944D552BBDA26E009E6EC5 /* ProductUpdates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductUpdates.swift; sourceTree = "<group>"; };
 		7C947AB32CCBE04E009CF5BB /* MindfulnessCompleted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindfulnessCompleted.swift; sourceTree = "<group>"; };
 		7C9A0D9D2CBDEAA70070EBA3 /* FilterTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTag.swift; sourceTree = "<group>"; };
@@ -609,6 +611,7 @@
 				7CA658522CA60A9E00A74CE4 /* Goals */,
 				7C6E75BC2BAA1DBD006173A4 /* LiveSessionCounter */,
 				7C897F172891BBFB00E42FDA /* LocationListView */,
+				7C91EE872D99878700FFFD63 /* NewGameTypeView */,
 				7C82E13126EFC83F00E3EB6F /* MetricsView */,
 				7C62F1EB2BD0349600F14483 /* NewStakesView */,
 				7C65B186272C3A4300AFE796 /* NewLocationView */,
@@ -965,6 +968,14 @@
 			path = LocationListView;
 			sourceTree = "<group>";
 		};
+		7C91EE872D99878700FFFD63 /* NewGameTypeView */ = {
+			isa = PBXGroup;
+			children = (
+				7C91EE882D9987BB00FFFD63 /* NewGameType.swift */,
+			);
+			path = NewGameTypeView;
+			sourceTree = "<group>";
+		};
 		7CA658522CA60A9E00A74CE4 /* Goals */ = {
 			isa = PBXGroup;
 			children = (
@@ -1289,6 +1300,7 @@
 				7CAFDFF32B2C884100B7338D /* CustomToggle.swift in Sources */,
 				7C65B188272C3A5A00AFE796 /* NewLocationView.swift in Sources */,
 				7C85492E2C453D540038ADB4 /* AddNewTransaction.swift in Sources */,
+				7C91EE892D9987BB00FFFD63 /* NewGameType.swift in Sources */,
 				7CB8D3362D89F86600E08869 /* LiveSessionNote.swift in Sources */,
 				7C62F1EF2BD0493400F14483 /* NewStakesViewModel.swift in Sources */,
 				7CEB453F2BCEA90800AAF710 /* RingCharts.swift in Sources */,

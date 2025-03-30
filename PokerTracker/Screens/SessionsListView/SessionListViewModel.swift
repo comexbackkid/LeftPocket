@@ -18,6 +18,11 @@ class SessionsListViewModel: ObservableObject {
             saveUserStakes()
         }
     }
+    @Published var userGameTypes: [String] = ["NL Texas Hold Em", "Pot Limit Omaha", "Seven Card Stud", "Razz", "Mixed"] {
+        didSet {
+            saveUserGameTypes()
+        }
+    }
     @Published var userCurrency: CurrencyType = .USD
     @Published var lineChartFullScreen = false
     @Published var convertedLineChartData: [Int]?
@@ -48,6 +53,7 @@ class SessionsListViewModel: ObservableObject {
         getTransactions()
         getUserStakes()
         getUserCurrency()
+        getUserGameTypes()
         writeToWidget()
     }
     
@@ -67,6 +73,7 @@ class SessionsListViewModel: ObservableObject {
     var locationsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("locations.json") }
     var newLocationsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("locations_v2.json") }
     var stakesPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("stakes.json") }
+    var gameTypePath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("gameTypes.json") }
     var transactionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("transactions.json") }
     
     func saveNewSessions() {
@@ -162,6 +169,29 @@ class SessionsListViewModel: ObservableObject {
             }
         } catch {
             print("Failed to save user's stakes, \(error)")
+        }
+    }
+    
+    func saveUserGameTypes() {
+        do {
+            if let encodedData = try? JSONEncoder().encode(userGameTypes) {
+                try? FileManager.default.removeItem(at: gameTypePath)
+                try encodedData.write(to: gameTypePath)
+            }
+        } catch {
+            print("Failed to save user's game types, \(error)")
+        }
+    }
+    
+    func getUserGameTypes() {
+        do {
+            let data = try Data(contentsOf: gameTypePath)
+            let importedGameTypes = try JSONDecoder().decode([String].self, from: data)
+            self.userGameTypes = importedGameTypes
+            
+        } catch {
+            print("Failed to load Stakes with error: \(error)")
+            alertMessage = error.localizedDescription
         }
     }
     
