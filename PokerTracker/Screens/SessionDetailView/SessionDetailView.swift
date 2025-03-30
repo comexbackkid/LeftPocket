@@ -14,6 +14,7 @@ struct SessionDetailView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var activeSheet: Sheet?
     @State private var shareButtonisPressed = false
+    @State private var showEditSessionView = false
     @State private var showError = false
     @State private var actionDropDownMenuSelected = false
     
@@ -41,6 +42,8 @@ struct SessionDetailView: View {
                     
                     shareButton
                     
+                    editButton
+                    
                     Spacer()
                 }
             }
@@ -53,11 +56,26 @@ struct SessionDetailView: View {
                     .fontWeight(.medium)
                     .tint(.brandPrimary)
             }
+            
+            Button {
+                showEditSessionView = true
+                
+            } label: {
+                Image(systemName: "pencil")
+                    .bold()
+            }
+            .tint(.brandPrimary)
         }
         .alert(isPresented: $showError) {
             Alert(title: Text("Uh oh!"),
                   message: Text("Image could not be saved. Please try again later."),
                   dismissButton: .default(Text("Ok")))
+        }
+        .sheet(isPresented: $showEditSessionView) {
+            EditSession(pokerSession: pokerSession)
+        }
+        .onChange(of: vm.sessions) { _, _ in
+            dismiss()
         }
     }
     
@@ -641,6 +659,7 @@ struct SessionDetailView: View {
     var shareButton: some View {
         
         HStack {
+            
             Spacer()
             
             ShareLink(item: takeScreenshot(), preview: SharePreview("Share My Session", image: Image("appicon-tiny"))) {
@@ -654,18 +673,33 @@ struct SessionDetailView: View {
     
     var dismissButton: some View {
         
-        VStack {
-            HStack {
+        HStack {
+            
+            Spacer()
+            
+            DismissButton()
+                .padding(.trailing, 10)
+                .padding(.top, 10)
+                .onTapGesture {
+                    activeSheet = nil
+                    dismiss()
+                }
+        }
+        
+    }
+    
+    var editButton: some View {
+        
+        HStack {
+            
+            Spacer()
+            
+            Button {
+                showEditSessionView = true
                 
-                Spacer()
-                
-                DismissButton()
+            } label: {
+                EditButton()
                     .padding(.trailing, 10)
-                    .padding(.top, 10)
-                    .onTapGesture {
-                        activeSheet = nil
-                        dismiss()
-                    }
             }
         }
     }
@@ -783,10 +817,9 @@ struct TransferableImage: Transferable {
 
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
+        
         SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
             .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
     }
 }
-
-
