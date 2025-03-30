@@ -40,28 +40,28 @@ struct OnboardingView: View {
         
         TabView(selection: $selectedPage) {
             
-            WelcomeScreen(selectedPage: $selectedPage).gesture(DragGesture()).tag(0)
-            
-            SkipScreen(showDismissButton: false,
-                       nextAction: nextPage,
-                       skipToEnd: skipToLastPage,
-                       shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(1)
-            
-            PollView(showDismissButton: false,
-                     nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(2)
-            
-            StartingBankroll(showDismissButton: false,
-                             nextAction: nextPage,
-                             shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(3)
-            
-            RiskTolerance(showDismissButton: false,
-                        nextAction: nextPage,
-                        shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(4)
-            
-            AllowNotifications(showDismissButton: false,
-                               nextAction: nextPage,
-                               shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(5)
+//            WelcomeScreen(selectedPage: $selectedPage).gesture(DragGesture()).tag(0)
+//            
+//            SkipScreen(showDismissButton: false,
+//                       nextAction: nextPage,
+//                       skipToEnd: skipToLastPage,
+//                       shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(1)
+//            
+//            PollView(showDismissButton: false,
+//                     nextAction: nextPage,
+//                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(2)
+//            
+//            StartingBankroll(showDismissButton: false,
+//                             nextAction: nextPage,
+//                             shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(3)
+//            
+//            RiskTolerance(showDismissButton: false,
+//                        nextAction: nextPage,
+//                        shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(4)
+//            
+//            AllowNotifications(showDismissButton: false,
+//                               nextAction: nextPage,
+//                               shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(5)
             
             ReviewScreen(showDismissButton: false,
                      nextAction: nextPage,
@@ -822,7 +822,7 @@ struct ReviewScreen: View {
                     
                     VStack (alignment: .leading) {
                         
-                        Text("Leave us a Review?")
+                        Text("Leave a Review?")
                             .signInTitleStyle()
                             .foregroundColor(.brandWhite)
                             .fontWeight(.black)
@@ -833,7 +833,6 @@ struct ReviewScreen: View {
                         Text("Help the Left Pocket community grow by spreading the love and leaving us a 5-star review.")
                             .calloutStyle()
                             .opacity(0.7)
-                        
                         
                         VStack {
                             
@@ -868,29 +867,35 @@ struct ReviewScreen: View {
                             .padding(.top, 5)
                         }
                         
-                        VStack (alignment: .leading, spacing: 5) {
+                        // MARK: FIRST REVIEW
+                        HStack {
                             
-                            Text("Poker players best friend")
-                                .headlineStyle()
-                            
-                            Text("This app is constantly improving with player feedback, and it's clear that the team behind it is dedicated to providing the best experience.")
-                                .calloutStyle()
-                                .multilineTextAlignment(.leading)
-                            
-                            HStack (spacing: 0) {
-                                Image(systemName: "star.fill")
-                                Image(systemName: "star.fill")
-                                Image(systemName: "star.fill")
-                                Image(systemName: "star.fill")
-                                Image(systemName: "star.fill")
+                            VStack (alignment: .leading, spacing: 5) {
+                                
+                                Text("Poker players best friend")
+                                    .headlineStyle()
+                                
+                                Text("This app is constantly improving with player feedback, and it's clear that the team behind it is dedicated to providing the best experience.")
+                                    .calloutStyle()
+                                    .multilineTextAlignment(.leading)
+                                
+                                HStack (spacing: 0) {
+                                    Image(systemName: "star.fill")
+                                    Image(systemName: "star.fill")
+                                    Image(systemName: "star.fill")
+                                    Image(systemName: "star.fill")
+                                    Image(systemName: "star.fill")
+                                }
+                                .foregroundStyle(.orange)
+                                .padding(.top)
+                                
+                                Text("Gitgudumiss, 2/12/2025")
+                                    .captionStyle()
+                                    .foregroundStyle(.secondary)
+                                
                             }
-                            .foregroundStyle(.orange)
-                            .padding(.top)
                             
-                            Text("Gitgudumiss, 2/12/2025")
-                                .captionStyle()
-                                .foregroundStyle(.secondary)
-                            
+                            Spacer()
                         }
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity)
@@ -900,29 +905,34 @@ struct ReviewScreen: View {
                         .font(.custom("Asap-Regular", size: 16))
                         .padding(.top, 30)
                         
-                        VStack (alignment: .leading, spacing: 5) {
+                        // MARK: SECOND REVIEW
+                        HStack {
                             
-                            Text("Great app!")
-                                .headlineStyle()
-                            
-                            Text("One of the better apps out to track your wins and losses and keep track of your poker bankroll. It’s aesthetically pleasing and looks like they are frequently updating!")
-                                .calloutStyle()
-                                .multilineTextAlignment(.leading)
-                            
-                            HStack (spacing: 0) {
-                                Image(systemName: "star.fill")
-                                Image(systemName: "star.fill")
-                                Image(systemName: "star.fill")
-                                Image(systemName: "star.fill")
-                                Image(systemName: "star.fill")
+                            VStack (alignment: .leading, spacing: 5) {
+                                
+                                Text("Great app!")
+                                    .headlineStyle()
+                                
+                                Text("One of the better apps out to track your wins and losses and keep track of your poker bankroll. It’s aesthetically pleasing and looks like they are frequently updating!")
+                                    .calloutStyle()
+                                    .multilineTextAlignment(.leading)
+                                
+                                HStack (spacing: 0) {
+                                    Image(systemName: "star.fill")
+                                    Image(systemName: "star.fill")
+                                    Image(systemName: "star.fill")
+                                    Image(systemName: "star.fill")
+                                    Image(systemName: "star.fill")
+                                }
+                                .foregroundStyle(.orange)
+                                .padding(.top)
+                                
+                                Text("Moto508, 1/12/2025")
+                                    .captionStyle()
+                                    .foregroundStyle(.secondary)
                             }
-                            .foregroundStyle(.orange)
-                            .padding(.top)
                             
-                            Text("Moto508, 1/12/2025")
-                                .captionStyle()
-                                .foregroundStyle(.secondary)
-                            
+                            Spacer()
                         }
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity)
@@ -931,29 +941,35 @@ struct ReviewScreen: View {
                         .cornerRadius(12)
                         .font(.custom("Asap-Regular", size: 16))
                         
-                        VStack (alignment: .leading, spacing: 5) {
+                        // MARK: THIRD REVIEW
+                        HStack {
                             
-                            Text("Great tool")
-                                .headlineStyle()
-                            
-                            Text("Excellent and easy to use app for keeping track of your game play. Highly recommend for any poker player.")
-                                .calloutStyle()
-                                .multilineTextAlignment(.leading)
-                            
-                            HStack (spacing: 0) {
-                                Image(systemName: "star.fill")
-                                Image(systemName: "star.fill")
-                                Image(systemName: "star.fill")
-                                Image(systemName: "star.fill")
-                                Image(systemName: "star.fill")
+                            VStack (alignment: .leading, spacing: 5) {
+                                
+                                Text("Great tool")
+                                    .headlineStyle()
+                                
+                                Text("Excellent and easy to use app for keeping track of your game play. Highly recommend for any poker player.")
+                                    .calloutStyle()
+                                    .multilineTextAlignment(.leading)
+                                
+                                HStack (spacing: 0) {
+                                    Image(systemName: "star.fill")
+                                    Image(systemName: "star.fill")
+                                    Image(systemName: "star.fill")
+                                    Image(systemName: "star.fill")
+                                    Image(systemName: "star.fill")
+                                }
+                                .foregroundStyle(.orange)
+                                .padding(.top)
+                                
+                                Text("audioguy13, 1/11/2022")
+                                    .captionStyle()
+                                    .foregroundStyle(.secondary)
+                                
                             }
-                            .foregroundStyle(.orange)
-                            .padding(.top)
                             
-                            Text("audioguy13, 1/11/2022")
-                                .captionStyle()
-                                .foregroundStyle(.secondary)
-                            
+                            Spacer()
                         }
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity)

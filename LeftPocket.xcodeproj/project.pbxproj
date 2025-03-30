@@ -115,7 +115,6 @@
 		7C8647812B29277900F48951 /* WelcomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8647802B29277900F48951 /* WelcomeScreen.swift */; };
 		7C8647842B2A642700F48951 /* AddNewSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8647832B2A642700F48951 /* AddNewSessionView.swift */; };
 		7C8834102735BB5D0093B201 /* NewLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */; };
-		7C90CA0B2CD2B789002881FD /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C90CA0A2CD2B789002881FD /* MotionManager.swift */; };
 		7C91EE892D9987BB00FFFD63 /* NewGameType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C91EE882D9987BB00FFFD63 /* NewGameType.swift */; };
 		7C91EE8B2D99B6AB00FFFD63 /* EditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C91EE8A2D99B6AB00FFFD63 /* EditButton.swift */; };
 		7C944D562BBDA26E009E6EC5 /* ProductUpdates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C944D552BBDA26E009E6EC5 /* ProductUpdates.swift */; };
@@ -239,7 +238,6 @@
 		7CDE39C32CE6991F006C3391 /* snow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7CDE39C02CE6991F006C3391 /* snow.mp3 */; };
 		7CDE39C42CE6991F006C3391 /* forest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7CDE39BF2CE6991F006C3391 /* forest.mp3 */; };
 		7CDE9FC72B78F6CC00B4AA33 /* SessionDefaultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CDE9FC62B78F6CC00B4AA33 /* SessionDefaultsView.swift */; };
-		7CE19B702CD2BCC500F0E08C /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C90CA0A2CD2B789002881FD /* MotionManager.swift */; };
 		7CE37EC72C304965002ACA81 /* ToolTipCalculations+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE37EC62C304965002ACA81 /* ToolTipCalculations+Ext.swift */; };
 		7CE37EC92C3055D0002ACA81 /* QuickMetricBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE37EC82C3055D0002ACA81 /* QuickMetricBox.swift */; };
 		7CE7DC1A28FE1AA8009F4CE9 /* BankrollLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE7DC1928FE1AA8009F4CE9 /* BankrollLineChart.swift */; };
@@ -385,7 +383,6 @@
 		7C8647802B29277900F48951 /* WelcomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreen.swift; sourceTree = "<group>"; };
 		7C8647832B2A642700F48951 /* AddNewSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSessionView.swift; sourceTree = "<group>"; };
 		7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLocationViewModel.swift; sourceTree = "<group>"; };
-		7C90CA0A2CD2B789002881FD /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		7C91EE882D9987BB00FFFD63 /* NewGameType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGameType.swift; sourceTree = "<group>"; };
 		7C91EE8A2D99B6AB00FFFD63 /* EditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditButton.swift; sourceTree = "<group>"; };
 		7C944D552BBDA26E009E6EC5 /* ProductUpdates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductUpdates.swift; sourceTree = "<group>"; };
@@ -712,7 +709,6 @@
 				7C0B3FF92CC6989A00F446EA /* MeditationModel.swift */,
 				7CB587332D4275C200BCE642 /* MockData.swift */,
 				7CB3EBA426C352C6009E8DF3 /* Model.swift */,
-				7C90CA0A2CD2B789002881FD /* MotionManager.swift */,
 				7C63FC3E2B3640FF00FE731C /* SubscriptionManager.swift */,
 				7C8549312C47ED830038ADB4 /* SceneDelegate.swift */,
 				7CB587312D426AF500BCE642 /* TransactionModel.swift */,
@@ -1256,7 +1252,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7CBB2D0E28A2EB4200A0CC99 /* Colors+Ext.swift in Sources */,
-				7CE19B702CD2BCC500F0E08C /* MotionManager.swift in Sources */,
 				7C67DDB62BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift in Sources */,
 				7CA7F8162B6FF5FB00F976EE /* Tips.swift in Sources */,
 				7CEA58B928A56E5000418E11 /* MainWidgetView.swift in Sources */,
@@ -1361,7 +1356,6 @@
 				7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */,
 				7C68FE4326D7CEA40019BA53 /* RecentSessionCardView.swift in Sources */,
 				7C3738372BC4838900699819 /* BarChartWeeklyCount.swift in Sources */,
-				7C90CA0B2CD2B789002881FD /* MotionManager.swift in Sources */,
 				7C5997AB27872FCF00966764 /* AnnualReportViewModel.swift in Sources */,
 				7CD010E92BF23FE300998FD5 /* LiveSessionRebuyModal.swift in Sources */,
 				7C68FE4126D709530019BA53 /* PlusButton.swift in Sources */,
