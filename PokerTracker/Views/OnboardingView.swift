@@ -40,28 +40,28 @@ struct OnboardingView: View {
         
         TabView(selection: $selectedPage) {
             
-//            WelcomeScreen(selectedPage: $selectedPage).gesture(DragGesture()).tag(0)
-//            
-//            SkipScreen(showDismissButton: false,
-//                       nextAction: nextPage,
-//                       skipToEnd: skipToLastPage,
-//                       shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(1)
-//            
-//            PollView(showDismissButton: false,
-//                     nextAction: nextPage,
-//                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(2)
-//            
-//            StartingBankroll(showDismissButton: false,
-//                             nextAction: nextPage,
-//                             shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(3)
-//            
-//            RiskTolerance(showDismissButton: false,
-//                        nextAction: nextPage,
-//                        shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(4)
-//            
-//            AllowNotifications(showDismissButton: false,
-//                               nextAction: nextPage,
-//                               shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(5)
+            WelcomeScreen(selectedPage: $selectedPage).gesture(DragGesture()).tag(0)
+            
+            SkipScreen(showDismissButton: false,
+                       nextAction: nextPage,
+                       skipToEnd: skipToLastPage,
+                       shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(1)
+            
+            PollView(showDismissButton: false,
+                     nextAction: nextPage,
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(2)
+            
+            StartingBankroll(showDismissButton: false,
+                             nextAction: nextPage,
+                             shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(3)
+            
+            RiskTolerance(showDismissButton: false,
+                        nextAction: nextPage,
+                        shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(4)
+            
+            AllowNotifications(showDismissButton: false,
+                               nextAction: nextPage,
+                               shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(5)
             
             ReviewScreen(showDismissButton: false,
                      nextAction: nextPage,
@@ -358,24 +358,29 @@ struct SkipScreen: View {
         
         VStack {
             
-            VStack (alignment: .leading) {
+            HStack {
+                VStack (alignment: .leading) {
+                    
+                    Spacer()
+                    
+                    Text("Next we'll ask you some questions to customize your experience.")
+                        .signInTitleStyle()
+                        .foregroundColor(.brandWhite)
+                        .fontWeight(.black)
+                        .padding(.bottom, 5)
+                    
+                    Text("If you'd prefer to skip ahead and hurt our feelings, tap \"Skip to the End\" below.")
+                        .calloutStyle()
+                        .opacity(0.7)
+                        .padding(.bottom, 30)
+                    
+                    Spacer()
+            
+                }
                 
                 Spacer()
-                
-                Text("Next we'll ask you some questions to customize your experience.")
-                    .signInTitleStyle()
-                    .foregroundColor(.brandWhite)
-                    .fontWeight(.black)
-                    .padding(.bottom, 5)
-                
-                Text("If you'd prefer to skip this step, tap \"Skip to the End\" below.")
-                    .calloutStyle()
-                    .opacity(0.7)
-                    .padding(.bottom, 30)
-                
-                Spacer()
-        
             }
+            .frame(maxWidth: .infinity)
             .padding(.horizontal, 20)
             
             Spacer()
