@@ -44,6 +44,7 @@ class SessionsListViewModel: ObservableObject {
             saveTransactions()
         }
     }
+    @Published var tempBankrolls: [Bankroll] = []
     @Published var bankrolls: [Bankroll] = [] {
         didSet {
 //            saveBankrolls()
@@ -70,6 +71,8 @@ class SessionsListViewModel: ObservableObject {
         getUserCurrency()
         getUserGameTypes()
         writeToWidget()
+        
+        tempBankrolls = [Bankroll(name: "Default Bankroll", sessions: MockData.allSessions)]
         
         if multipleBankrollsEnabled {
             loadBankrolls()
@@ -110,7 +113,7 @@ class SessionsListViewModel: ObservableObject {
     func enableMultipleBankrolls() {
         guard bankrolls.isEmpty else { return }
         
-        let defaultBankroll = Bankroll(name: "My Bankroll", sessions: sessions)
+        let defaultBankroll = Bankroll(name: "Default Bankroll", sessions: self.sessions)
         bankrolls = [defaultBankroll]
         selectedBankroll = defaultBankroll
         selectedBankrollID = defaultBankroll.id
