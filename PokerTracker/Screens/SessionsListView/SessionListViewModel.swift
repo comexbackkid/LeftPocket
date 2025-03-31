@@ -72,11 +72,11 @@ class SessionsListViewModel: ObservableObject {
         getUserGameTypes()
         writeToWidget()
         
-        tempBankrolls = [Bankroll(name: "Default Bankroll", sessions: MockData.allSessions)]
+        tempBankrolls = [Bankroll(name: "Default Bankroll", sessions: MockData.allSessions), Bankroll(name: "Online Bankroll", sessions: MockData.allSessions)]
         
-        if multipleBankrollsEnabled {
-            loadBankrolls()
-        }
+//        if multipleBankrollsEnabled {
+//            loadBankrolls()
+//        }
     }
     
     // MARK: SAVING & LOADING APP DATA: SESSIONS, LOCATIONS, STAKES

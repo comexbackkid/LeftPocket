@@ -223,6 +223,30 @@ struct UserSettings: View {
             
             exportData
             
+            NavigationLink {
+                ManageBankrolls()
+            } label: {
+                HStack {
+                    
+                    VStack (alignment: .leading) {
+                        
+                        HStack {
+                            Text("Manage Bankrolls")
+                                .subtitleStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
             howToGuide
             
         }

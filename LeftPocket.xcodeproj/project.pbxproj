@@ -28,6 +28,7 @@
 		7C18FC122D9ACE0E00E837AE /* BankrollModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C18FC112D9ACE0E00E837AE /* BankrollModel.swift */; };
 		7C18FC152D9ADECF00E837AE /* ManageBankrolls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C18FC142D9ADECF00E837AE /* ManageBankrolls.swift */; };
 		7C18FC172D9AE2C800E837AE /* BankrollCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C18FC162D9AE2C800E837AE /* BankrollCellView.swift */; };
+		7C18FC192D9AF6FD00E837AE /* AddNewBankroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C18FC182D9AF6FD00E837AE /* AddNewBankroll.swift */; };
 		7C1941252BDAA33E00377364 /* BestTimeOfDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */; };
 		7C1DF2B52CC6D63100E3D69E /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1DF2B42CC6D63100E3D69E /* AudioManager.swift */; };
 		7C20CFB2271E2D1600739764 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20CFB1271E2D1600739764 /* OnboardingView.swift */; };
@@ -303,6 +304,7 @@
 		7C18FC112D9ACE0E00E837AE /* BankrollModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankrollModel.swift; sourceTree = "<group>"; };
 		7C18FC142D9ADECF00E837AE /* ManageBankrolls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageBankrolls.swift; sourceTree = "<group>"; };
 		7C18FC162D9AE2C800E837AE /* BankrollCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankrollCellView.swift; sourceTree = "<group>"; };
+		7C18FC182D9AF6FD00E837AE /* AddNewBankroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewBankroll.swift; sourceTree = "<group>"; };
 		7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestTimeOfDay.swift; sourceTree = "<group>"; };
 		7C1DF2B42CC6D63100E3D69E /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		7C20CFB1271E2D1600739764 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -574,6 +576,7 @@
 			isa = PBXGroup;
 			children = (
 				7C18FC142D9ADECF00E837AE /* ManageBankrolls.swift */,
+				7C18FC182D9AF6FD00E837AE /* AddNewBankroll.swift */,
 			);
 			path = ManageBankrolls;
 			sourceTree = "<group>";
@@ -1380,6 +1383,7 @@
 				7CD010E92BF23FE300998FD5 /* LiveSessionRebuyModal.swift in Sources */,
 				7C68FE4126D709530019BA53 /* PlusButton.swift in Sources */,
 				7C15DD39276D575600889FB2 /* PlaceholderView.swift in Sources */,
+				7C18FC192D9AF6FD00E837AE /* AddNewBankroll.swift in Sources */,
 				7CC81FB8294CBAD400E849A9 /* BestLocationView.swift in Sources */,
 				7C9D32772B261FA700900C8C /* AdditionalMetricsCardView.swift in Sources */,
 				7C8647842B2A642700F48951 /* AddNewSessionView.swift in Sources */,
