@@ -42,10 +42,10 @@ struct AddNewSessionView: View {
     @State var showCashRebuyField = false
     @State var showStakingPopover = false
     @State var showBountiesPopover = false
+    @FocusState private var focusedField: Field?
     private var isZoomed: Bool {
         UIScreen.main.scale < UIScreen.main.nativeScale
     }
-    @FocusState private var focusedField: Field?
     
     var body: some View {
         

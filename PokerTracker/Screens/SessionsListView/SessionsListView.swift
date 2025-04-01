@@ -116,7 +116,6 @@ struct SessionsListView: View {
                         
                     } else {
                         List {
-                            
                             screenTitle
                             
                             ForEach(filteredSessions) { session in
@@ -206,47 +205,47 @@ struct SessionsListView: View {
                 }
             }
             
-            } detail: {
-                if let session = selectedSession {
-                    SessionDetailView(activeSheet: $activeSheet, pokerSession: session)
+        } detail: {
+            if let session = selectedSession {
+                SessionDetailView(activeSheet: $activeSheet, pokerSession: session)
+                
+            } else {
+                VStack {
+                    Image(systemName: "rectangle.on.rectangle.angled")
+                        .resizable()
+                        .frame(width: 80, height: 80)
+                        .foregroundColor(.secondary)
+                        .padding()
                     
-                } else {
-                    VStack {
-                        Image(systemName: "rectangle.on.rectangle.angled")
-                            .resizable()
-                            .frame(width: 80, height: 80)
-                            .foregroundColor(.secondary)
-                            .padding()
-
-                        Text("Select a session to view details")
-                            .bodyStyle()
-                            .foregroundColor(.secondary)
-                    }
+                    Text("Select a session to view details")
+                        .bodyStyle()
+                        .foregroundColor(.secondary)
                 }
             }
-            .accentColor(.brandPrimary)
-            .onAppear {
-                if vm.sessions.count > 1 {
-                    SessionsListTip.shouldShow = false
-                }
-                if !datesInitialized {
-                    startDate = firstSessionDate
-                    datesInitialized = true
+        }
+        .accentColor(.brandPrimary)
+        .onAppear {
+            if vm.sessions.count > 1 {
+                SessionsListTip.shouldShow = false
+            }
+            if !datesInitialized {
+                startDate = firstSessionDate
+                datesInitialized = true
+            }
+        }
+        .onChange(of: vm.sessions) { _ in
+            if datesInitialized {
+                startDate = firstSessionDate
+            }
+        }
+        .overlay {
+            if !isPad {
+                switch listFilter {
+                case .sessions: if filteredSessions.isEmpty { startingScreen }
+                case .transactions: if filteredTransactions.isEmpty { startingScreen }
                 }
             }
-            .onChange(of: vm.sessions) { _ in
-                if datesInitialized {
-                    startDate = firstSessionDate
-                }
-            }
-            .overlay {
-                if !isPad {
-                    switch listFilter {
-                    case .sessions: if filteredSessions.isEmpty { startingScreen }
-                    case .transactions: if filteredTransactions.isEmpty { startingScreen }
-                    }
-                }
-            }
+        }
     }
     
     var toolbarFilter: some View {
