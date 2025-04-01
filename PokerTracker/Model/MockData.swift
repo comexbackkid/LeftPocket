@@ -22,6 +22,8 @@ struct MockData {
     
     static let allSessions = [sampleSession, sampleSessionTwo]
     
+    static let mockTransaction = BankrollTransaction(date: Date(), type: .deposit, amount: 500, notes: "Starting Bankroll", tags: ["Online Bankroll"])
+    
     static let sampleTransactions = [
         BankrollTransaction(date: Date().modifyDays(days: -7), type: .deposit, amount: 1000, notes: "Starting bankroll", tags: ["My First Tag"]),
         BankrollTransaction(date: Date(), type: .expense, amount: 77, notes: "Dinner", tags: nil)

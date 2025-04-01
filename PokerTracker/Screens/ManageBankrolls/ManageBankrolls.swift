@@ -38,7 +38,7 @@ struct ManageBankrolls: View {
                             .listRowBackground(Color.brandBackground)
                         
                         ForEach(vm.tempBankrolls) { bankroll in
-                            BankrollCellView(bankroll: bankroll, currency: .USD)
+                            BankrollCellView(bankroll: bankroll, currency: .USD, transactions: vm.transactions)
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                     Button(role: .destructive) {
                                         let impact = UIImpactFeedbackGenerator(style: .soft)
@@ -60,24 +60,15 @@ struct ManageBankrolls: View {
                 } else {
                     
                     Group {
-                        if showProgressBar {
-                            HStack {
-                                Spacer()
-                                ProgressView()
-                                    .padding(.top, 25)
-                                Spacer()
-                            }
+                       
+                        Button {
+                            let impact = UIImpactFeedbackGenerator(style: .heavy)
+                            impact.impactOccurred()
+                            showSuccessModal = true
                             
-                        } else {
-                            Button {
-                                showSuccessModal = true
-                                showProgressBar = true
-                                
-                            } label: {
-                                PrimaryButton(title: "Enable Multiple Bankrolls")
-                                    .padding(.horizontal)
-                            }
-                            
+                        } label: {
+                            PrimaryButton(title: "Enable Multiple Bankrolls")
+                                .padding(.horizontal)
                         }
                     }
                     .sheet(isPresented: $showSuccessModal) {
@@ -95,7 +86,7 @@ struct ManageBankrolls: View {
             .background(Color.brandBackground)
             .sheet(isPresented: $showAddNewBankroll) {
                 AddNewBankroll()
-                    .presentationDetents([.height(340), .large])
+                    .presentationDetents([.height(400), .large])
                     .presentationBackground(.ultraThinMaterial)
             }
         }
@@ -121,12 +112,15 @@ struct ManageBankrolls: View {
     var addBankrollButton: some View {
         
         Button {
+            let impact = UIImpactFeedbackGenerator(style: .heavy)
+            impact.impactOccurred()
             showAddNewBankroll = true
             
         } label: {
             PrimaryButton(title: "Add a Bankroll")
         }
         .padding(.horizontal)
+        .padding(.bottom, 50)
     }
 }
 
