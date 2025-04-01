@@ -63,30 +63,30 @@ struct OnboardingView: View {
                                nextAction: nextPage,
                                shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(5)
             
-            ReviewScreen(showDismissButton: false,
-                     nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(6)
+//            ReviewScreen(showDismissButton: false,
+//                     nextAction: nextPage,
+//                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(6)
             
             PageView(title: "Painless Data Imports",
                      subtitle: Text("From the Settings \(Image(systemName: "gearshape.fill")) screen importing old data from other apps is super easy. You can be up and running in a matter of seconds."),
                      videoURL: "import-sessions",
                      showDismissButton: false, player: players["import-sessions"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(7)
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(6)
             
             PageView(title: "Know When to Move Up",
                      subtitle: Text("Insightful charts, progress rings, and crucial player metrics will advise when it's safe to take a shot at higher stakes."),
                      videoURL: "metrics-screen",
                      showDismissButton: false, player: players["metrics-screen"],
                      nextAction: nextPage,
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(8)
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(7)
             
             PageView(title: "Boost Your Mental Game",
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours and mindful minutes in our Health Analytics page, and integrate these numbers measured by other devices."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],
                      nextAction: { hkManager.requestAuthorization() },
-                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(9)
+                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(8)
         }
         .ignoresSafeArea()
         .dynamicTypeSize(...DynamicTypeSize.large)
@@ -216,7 +216,7 @@ struct OnboardingView: View {
     
     func skipToLastPage() {
         withAnimation {
-            selectedPage = 9
+            selectedPage = 8
         }
     }
     
@@ -363,7 +363,7 @@ struct SkipScreen: View {
                     
                     Spacer()
                     
-                    Text("Next we'll ask you some questions to customize your experience.")
+                    Text("We need to ask a few questions to customize your experience.")
                         .signInTitleStyle()
                         .foregroundColor(.brandWhite)
                         .fontWeight(.black)
@@ -439,7 +439,7 @@ struct PollView: View {
                 
                 Spacer()
                 
-                Text("What part of your game needs the most help?")
+                Text("What is your primary focus with poker right now?")
                     .signInTitleStyle()
                     .foregroundColor(.brandWhite)
                     .fontWeight(.black)
