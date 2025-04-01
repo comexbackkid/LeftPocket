@@ -37,21 +37,29 @@ struct ManageBankrolls: View {
                             .headlineStyle()
                             .listRowBackground(Color.brandBackground)
                         
-                        ForEach(vm.tempBankrolls) { bankroll in
-                            BankrollCellView(bankroll: bankroll, currency: .USD, transactions: vm.transactions)
-                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                    Button(role: .destructive) {
-                                        let impact = UIImpactFeedbackGenerator(style: .soft)
-                                        impact.impactOccurred()
-                                        
-                                    } label: {
-                                        Image(systemName: "trash")
+                        if !vm.tempBankrolls.isEmpty {
+                            ForEach(vm.tempBankrolls) { bankroll in
+                                BankrollCellView(bankroll: bankroll, currency: .USD, transactions: vm.transactions)
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                        Button(role: .destructive) {
+                                            let impact = UIImpactFeedbackGenerator(style: .soft)
+                                            impact.impactOccurred()
+                                            
+                                        } label: {
+                                            Image(systemName: "trash")
+                                        }
+                                        .tint(.red)
                                     }
-                                    .tint(.red)
-                                }
-                                .padding(.vertical, 4)
+                                    .padding(.vertical, 4)
+                            }
+                            .listRowBackground(Color.brandBackground)
+                            
+                        } else {
+                            Text("None")
+                                .calloutStyle()
+                                .foregroundStyle(.secondary)
+                                .listRowBackground(Color.brandBackground)
                         }
-                        .listRowBackground(Color.brandBackground)
                     }
                     .listStyle(.plain)
                     
