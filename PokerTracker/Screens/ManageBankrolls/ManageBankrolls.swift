@@ -12,8 +12,7 @@ struct ManageBankrolls: View {
     @EnvironmentObject var vm: SessionsListViewModel
     @State private var showAddNewBankroll = false
     @State private var showSuccessModal = false
-//    @AppStorage("multipleBankrollsEnabled") var multipleBankrollsEnabled: Bool = false
-    @State private var multipleBankrollsEnabled = false
+    @AppStorage("multipleBankrollsEnabled") var multipleBankrollsEnabled: Bool = false
     @State private var showProgressBar = false
     
     var body: some View {
@@ -32,32 +31,31 @@ struct ManageBankrolls: View {
                 
                 if multipleBankrollsEnabled {
                     List {
-                        
                         Text("My Bankrolls")
                             .headlineStyle()
                             .listRowBackground(Color.brandBackground)
                         
-                        if !vm.tempBankrolls.isEmpty {
-                            ForEach(vm.tempBankrolls) { bankroll in
-                                BankrollCellView(bankroll: bankroll, currency: .USD, transactions: vm.transactions)
-                                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                        Button(role: .destructive) {
-                                            let impact = UIImpactFeedbackGenerator(style: .soft)
-                                            impact.impactOccurred()
-                                            
-                                        } label: {
-                                            Image(systemName: "trash")
-                                        }
-                                        .tint(.red)
+                        BankrollCellView(
+                            bankroll: Bankroll(name: "Default Bankroll", sessions: vm.sessions, transactions: vm.transactions),
+                            currency: .USD
+                        )
+                        .padding(.vertical, 4)
+                        .listRowBackground(Color.brandBackground)
+                        
+                        ForEach(vm.bankrolls) { bankroll in
+                            BankrollCellView(bankroll: bankroll, currency: .USD)
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                    Button(role: .destructive) {
+                                        let impact = UIImpactFeedbackGenerator(style: .soft)
+                                        impact.impactOccurred()
+                                        deleteBankroll(bankroll)
+                                        
+                                    } label: {
+                                        Image(systemName: "trash")
                                     }
-                                    .padding(.vertical, 4)
-                            }
-                            .listRowBackground(Color.brandBackground)
-                            
-                        } else {
-                            Text("None")
-                                .calloutStyle()
-                                .foregroundStyle(.secondary)
+                                    .tint(.red)
+                                }
+                                .padding(.vertical, 4)
                                 .listRowBackground(Color.brandBackground)
                         }
                     }
@@ -129,6 +127,12 @@ struct ManageBankrolls: View {
         }
         .padding(.horizontal)
         .padding(.bottom, 50)
+    }
+    
+    private func deleteBankroll(_ bankroll: Bankroll) {
+        if let index = vm.bankrolls.firstIndex(where: { $0.id == bankroll.id }) {
+            vm.bankrolls.remove(at: index)
+        }
     }
 }
 

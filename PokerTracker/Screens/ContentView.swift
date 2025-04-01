@@ -85,12 +85,28 @@ struct ContentView: View {
     }
     
     var bankroll: Int {
+        let legacyHighHands = viewModel.sessions.map(\.highHandBonus).reduce(0, +)
+        let legacyTransactions = viewModel.transactions.reduce(0) { total, tx in
+            switch tx.type {
+            case .deposit: return total + tx.amount
+            case .withdrawal, .expense: return total - tx.amount
+            }
+        }
+        let legacyProfit = viewModel.sessions.map(\.profit).reduce(0, +)
         
-        let highHandTotals = viewModel.sessions.map({ $0.highHandBonus}).reduce(0, +)
-        let transactions = viewModel.transactions.map({ $0.amount }).reduce(0, +)
-        let playerProfits = viewModel.tallyBankroll(bankroll: .all)
+        let customBankrollTotals = viewModel.bankrolls.reduce(0) { total, bankroll in
+            let profits = bankroll.sessions.map(\.profit).reduce(0, +)
+            let highHands = bankroll.sessions.map(\.highHandBonus).reduce(0, +)
+            let txTotal = bankroll.transactions.reduce(0) { subTotal, tx in
+                switch tx.type {
+                case .deposit: return subTotal + tx.amount
+                case .withdrawal, .expense: return subTotal - tx.amount
+                }
+            }
+            return total + profits + txTotal + highHands
+        }
         
-        return playerProfits + transactions + highHandTotals
+        return legacyProfit + legacyTransactions + legacyHighHands + customBankrollTotals
     }
     
     var emptyState: some View {

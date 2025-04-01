@@ -44,20 +44,11 @@ class SessionsListViewModel: ObservableObject {
             saveTransactions()
         }
     }
-    @Published var tempBankrolls: [Bankroll] = []
     @Published var bankrolls: [Bankroll] = [] {
         didSet {
-//            saveBankrolls()
+            saveBankrolls()
         }
     }
-    @Published var selectedBankrollID: UUID? {
-        didSet {
-            if let id = selectedBankrollID {
-                selectedBankroll = bankrolls.first(where: { $0.id == id })
-            }
-        }
-    }
-    @Published var selectedBankroll: Bankroll?
     
     @AppStorage("userRiskTolerance") var riskRaw: String = UserRiskTolerance.conservative.rawValue
     @AppStorage("multipleBankrollsEnabled") var multipleBankrollsEnabled: Bool = false
@@ -71,12 +62,11 @@ class SessionsListViewModel: ObservableObject {
         getUserCurrency()
         getUserGameTypes()
         writeToWidget()
+//        multipleBankrollsEnabled = false
         
-//        tempBankrolls = [Bankroll(name: "Default Bankroll", sessions: MockData.allSessions)]
-        
-//        if multipleBankrollsEnabled {
-//            loadBankrolls()
-//        }
+        if multipleBankrollsEnabled {
+            loadBankrolls()
+        }
     }
     
     // MARK: SAVING & LOADING APP DATA: SESSIONS, LOCATIONS, STAKES
@@ -90,16 +80,6 @@ class SessionsListViewModel: ObservableObject {
         alertMessage = nil
     }
     
-    /// Acting as a single source of truth for which Sessions to display
-    var currentSessions: [PokerSession_v2] {
-        if multipleBankrollsEnabled {
-            return self.selectedBankroll?.sessions ?? []
-            
-        } else {
-            return self.sessions
-        }
-    }
-    
     var sessionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("sessions.json") }
     var newSessionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("sessions_v2.json") }
     var locationsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("locations.json") }
@@ -108,17 +88,6 @@ class SessionsListViewModel: ObservableObject {
     var gameTypePath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("gameTypes.json") }
     var transactionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("transactions.json") }
     var bankrollsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("bankrolls.json") }
-    
-    /// Call this function when the user turns on Multiple Bankrolls from Settings
-    func enableMultipleBankrolls() {
-        guard bankrolls.isEmpty else { return }
-        
-        let defaultBankroll = Bankroll(name: "Default Bankroll", sessions: self.sessions)
-        bankrolls = [defaultBankroll]
-        selectedBankroll = defaultBankroll
-        selectedBankrollID = defaultBankroll.id
-        multipleBankrollsEnabled = true
-    }
     
     func saveBankrolls() {
         do {
@@ -136,8 +105,6 @@ class SessionsListViewModel: ObservableObject {
             let data = try Data(contentsOf: bankrollsPath)
             let decoded = try JSONDecoder().decode([Bankroll].self, from: data)
             self.bankrolls = decoded
-            self.selectedBankroll = decoded.first
-            self.selectedBankrollID = decoded.first?.id
             
         } catch {
             print("Failed to load bankrolls: \(error)")

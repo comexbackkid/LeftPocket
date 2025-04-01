@@ -50,8 +50,7 @@ struct SessionsListView: View {
         }
     }
     var filteredTransactions: [BankrollTransaction] {
-        
-        var result = vm.transactions
+        var result = vm.transactions + vm.bankrolls.flatMap { $0.transactions }
         
         if let tagsFilter = tagsFilter {
             result = result.filter { transaction in
@@ -59,48 +58,41 @@ struct SessionsListView: View {
             }
         }
         
-        return result
+        return result.sorted(by: { $0.date > $1.date })
     }
     var filteredSessions: [PokerSession_v2] {
         
-        var result = vm.sessions
+        var result: [PokerSession_v2] = vm.sessions + vm.bankrolls.flatMap { $0.sessions }
         
-        // Apply Session type filter
         switch sessionFilter {
         case .all: break
-        case .cash: result = vm.allCashSessions()
-        case .tournaments: result = vm.allTournamentSessions()
+        case .cash: result = result.filter { !$0.isTournament }
+        case .tournaments: result = result.filter { $0.isTournament }
         }
         
-        // Apply Location filter if selected
         if let locationFilter = locationFilter {
             result = result.filter { $0.location.name == locationFilter.name }
         }
         
-        // Apply Game Type filter
         if let gameTypeFilter = gameTypeFilter {
             result = result.filter { $0.game == gameTypeFilter }
         }
         
-        // Apply Stakes filter
         if let stakesFilter = stakesFilter {
             result = result.filter { $0.stakes == stakesFilter }
         }
         
-        // Apply Date Range filter
         result = result.filter { session in
-            let sessionDate = session.date
-            return sessionDate >= startDate && sessionDate <= endDate
+            session.date >= startDate && session.date <= endDate
         }
         
-        // Apply Tags filter
         if let tagsFilter = tagsFilter {
             result = result.filter { session in
                 session.tags.contains(tagsFilter)
             }
         }
         
-        return result
+        return result.sorted(by: { $0.date > $1.date })
     }
     
     let editTip = SessionsListTip()
@@ -153,7 +145,7 @@ struct SessionsListView: View {
                     }
                     
                 case .transactions:
-                    if vm.transactions.isEmpty {
+                    if vm.transactions.isEmpty && vm.bankrolls.flatMap({ $0.transactions }).isEmpty {
                         VStack {
                             screenTitle
                             Spacer()
@@ -163,14 +155,12 @@ struct SessionsListView: View {
                         List {
                             screenTitle
                             
-                            ForEach(filteredTransactions, id: \.self) { transaction in
+                            ForEach(filteredTransactions, id: \.id) { transaction in
                                 TransactionCellView(transaction: transaction, currency: vm.userCurrency)
                                     .listRowBackground(Color.brandBackground)
                                     .listRowInsets(EdgeInsets(top: 3, leading: 12, bottom: 3, trailing: 12))
                             }
-                            .onDelete(perform: { indexSet in
-                                deleteTransaction(at: indexSet)
-                            })
+                            .onDelete(perform: deleteTransaction)
                         }
                         .listStyle(.plain)
                         .padding(.bottom, 50)
@@ -460,8 +450,28 @@ struct SessionsListView: View {
         }
     }
     
+//    private func deleteTransaction(at offsets: IndexSet) {
+//        vm.transactions.remove(atOffsets: offsets)
+//    }
+    
     private func deleteTransaction(at offsets: IndexSet) {
-        vm.transactions.remove(atOffsets: offsets)
+        for index in offsets {
+            let transactionToDelete = filteredTransactions[index]
+            
+            // First try to delete from default (legacy) transactions
+            if let legacyIndex = vm.transactions.firstIndex(where: { $0.id == transactionToDelete.id }) {
+                vm.transactions.remove(at: legacyIndex)
+                return
+            }
+            
+            // Otherwise try to find and delete from any bankroll
+            for i in vm.bankrolls.indices {
+                if let txIndex = vm.bankrolls[i].transactions.firstIndex(where: { $0.id == transactionToDelete.id }) {
+                    vm.bankrolls[i].transactions.remove(at: txIndex)
+                    return
+                }
+            }
+        }
     }
     
     private func binding(for session: PokerSession_v2) -> Binding<PokerSession_v2> {

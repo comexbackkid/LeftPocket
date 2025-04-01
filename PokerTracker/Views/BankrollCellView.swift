@@ -13,7 +13,6 @@ struct BankrollCellView: View {
     
     let bankroll: Bankroll
     let currency: CurrencyType
-    let transactions: [BankrollTransaction]
     
     var body: some View {
         
@@ -38,34 +37,33 @@ struct BankrollCellView: View {
             
             Spacer()
             
-            Text("\(calculateTotal().currencyShortHand(currency))")
+            let total = calculateTotal()
+            Text("\(total.currencyShortHand(currency))")
                 .font(.custom("Asap-Regular", size: 17))
                 .bold()
-                .profitColor(total: calculateTotal())
+                .profitColor(total: total)
         }
         .padding(.leading, 10)
         .padding(.vertical, 5)
     }
     
     private func calculateTotal() -> Int {
-           let bankrollTotal = bankroll.sessions.map(\.profit).reduce(0, +)
-           
-           let txTotal = transactions
-               .filter { $0.tags?.contains(bankroll.name) == true }
-               .reduce(0) { total, tx in
-                   switch tx.type {
-                   case .deposit:
-                       return total + tx.amount
-                   case .withdrawal, .expense:
-                       return total - tx.amount
-                   }
-               }
-           
-           return bankrollTotal + txTotal
+        let sessionTotal = bankroll.sessions.map(\.profit).reduce(0, +)
+        
+        let txTotal = bankroll.transactions.reduce(0) { total, tx in
+            switch tx.type {
+            case .deposit:
+                return total + tx.amount
+            case .withdrawal, .expense:
+                return total - tx.amount
+            }
+        }
+        
+        return sessionTotal + txTotal
        }
 }
 
 #Preview {
-    BankrollCellView(bankroll: Bankroll(name: "Online Bankroll", sessions: MockData.allSessions), currency: .USD, transactions: [MockData.mockTransaction])
+    BankrollCellView(bankroll: Bankroll(name: "Online Bankroll", sessions: MockData.allSessions), currency: .USD)
         .preferredColorScheme(.dark)
 }
