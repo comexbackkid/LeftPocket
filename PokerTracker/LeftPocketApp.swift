@@ -30,7 +30,8 @@ struct LeftPocketApp: App {
             LeftPocketCustomTabBar()
                 .fullScreenCover(isPresented: $showWelcomeScreen, onDismiss: {
                     if !savedStartingBankroll.isEmpty {
-                        vm.addTransaction(date: Date(), type: .deposit, amount: Int(savedStartingBankroll) ?? 0, notes: "Starting Bankroll", tags: nil)
+                        let transaction = BankrollTransaction(date: Date(), type: .deposit, amount: Int(savedStartingBankroll) ?? 0, notes: "Starting Bankroll", tags: nil)
+                        vm.transactions.append(transaction)
                     }
                 }, content: {
                     OnboardingView(shouldShowOnboarding: $showWelcomeScreen)

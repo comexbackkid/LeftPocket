@@ -51,15 +51,16 @@ struct SessionsListView: View {
         }
     }
     var filteredTransactions: [BankrollTransaction] {
-        var result = vm.transactions + vm.bankrolls.flatMap { $0.transactions }
-        
-        if let tagsFilter = tagsFilter {
-            result = result.filter { transaction in
-                transaction.tags?.contains(tagsFilter) ?? false
+        let allTransactions = vm.transactions + vm.bankrolls.flatMap(\.transactions)
+            
+        let filtered = allTransactions.filter { tx in
+            if let tag = tagsFilter {
+                return tx.tags?.contains(tag) ?? false
             }
+            return true
         }
         
-        return result.sorted(by: { $0.date > $1.date })
+        return filtered.sorted(by: { $0.date > $1.date })
     }
     var filteredSessions: [PokerSession_v2] {
         
@@ -267,9 +268,27 @@ struct SessionsListView: View {
                 }
             }
             
+            var availableSessionTypes: [SessionFilter] {
+                let allSessions = vm.sessions + vm.bankrolls.flatMap(\.sessions)
+                var types: Set<SessionFilter> = []
+
+                for session in allSessions {
+                    if session.isTournament {
+                        types.insert(.tournaments)
+                    } else {
+                        types.insert(.cash)
+                    }
+                }
+
+                // Always allow "All"
+                types.insert(.all)
+
+                return SessionFilter.allCases.filter { types.contains($0) }
+            }
+            
             Menu {
                 Picker("Select Session Type", selection: $sessionFilter) {
-                    ForEach(SessionFilter.allCases, id: \.self) {
+                    ForEach(availableSessionTypes, id: \.self) {
                         Text($0.rawValue.capitalized).tag($0)
                     }
                 }
@@ -277,7 +296,6 @@ struct SessionsListView: View {
                 Text("Session Type")
                 Image(systemName: "suit.club.fill")
             }
-            
             
             Menu {
                 Picker("Select Bankroll", selection: $bankrollFilter) {
@@ -294,9 +312,17 @@ struct SessionsListView: View {
             }
 
             Menu {
+                let allLocations: [LocationModel_v2] = {
+                    let allSessions = vm.sessions + vm.bankrolls.flatMap(\.sessions)
+                    return allSessions
+                        .map { $0.location }
+                        .filter { !$0.name.isEmpty }
+                        .uniquedByName() // assuming you have this helper
+                        .sorted(by: { $0.name.lowercased() < $1.name.lowercased() })
+                }()
                 Picker("Select Location", selection: $locationFilter) {
                     Text("All").tag(nil as LocationModel_v2?)
-                    ForEach(vm.sessions.map({ $0.location }).uniquedByName(), id: \.self) { location in
+                    ForEach(allLocations, id: \.self) { location in
                         Text(location.name).tag(location as LocationModel_v2?)
                     }
                 }
@@ -307,10 +333,19 @@ struct SessionsListView: View {
                 }
             }
             
+            var allGameTypes: [String] {
+                let allSessions = vm.sessions + vm.bankrolls.flatMap(\.sessions)
+                return allSessions
+                    .map { $0.game }
+                    .filter { !$0.isEmpty }
+                    .uniqued()
+                    .sorted(by: { $0.lowercased() < $1.lowercased() })
+            }
+            
             Menu {
                 Picker("Select Game Type", selection: $gameTypeFilter) {
                     Text("All").tag(nil as String?)
-                    ForEach(vm.sessions.map { $0.game }.uniqued(), id: \.self) { game in
+                    ForEach(allGameTypes, id: \.self) { game in
                         Text(game).tag(game as String?)
                     }
                 }
@@ -321,10 +356,21 @@ struct SessionsListView: View {
                 }
             }
             
+            var allStakes: [String] {
+                let allCashSessions = (vm.sessions + vm.bankrolls.flatMap(\.sessions))
+                    .filter { !$0.isTournament }
+
+                return allCashSessions
+                    .map { $0.stakes }
+                    .filter { !$0.isEmpty }
+                    .uniqued()
+                    .sorted(by: { $0.lowercased() < $1.lowercased() })
+            }
+            
             Menu {
                 Picker("Select Stakes", selection: $stakesFilter) {
                     Text("All").tag(nil as String?)
-                    ForEach(vm.allCashSessions().map { $0.stakes }.uniqued(), id: \.self) { stakes in
+                    ForEach(allStakes, id: \.self) { stakes in
                         Text(stakes).tag(stakes as String?)
                     }
                 }
@@ -334,9 +380,23 @@ struct SessionsListView: View {
             }
             
             Menu {
+                let allTags: [String] = {
+                    let sessionTags = (vm.sessions + vm.bankrolls.flatMap(\.sessions))
+                        .compactMap { $0.tags }
+                        .flatMap { $0 }
+                    
+                    let transactionTags = (vm.transactions + vm.bankrolls.flatMap(\.transactions))
+                        .compactMap { $0.tags }
+                        .flatMap { $0 }
+                    
+                    return (sessionTags + transactionTags)
+                        .filter { !$0.isEmpty }
+                        .uniqued()
+                        .sorted(by: { $0.lowercased() < $1.lowercased() })
+                }()
                 Picker("Tags", selection: $tagsFilter) {
                     Text("None").tag(nil as String?)
-                    ForEach(vm.sessions.compactMap { $0.tags }.flatMap { $0 }.filter { !$0.isEmpty }.uniqued(), id: \.self) { tag in
+                    ForEach(allTags, id: \.self) { tag in
                         Text(tag).tag(tag as String?)
                     }
                 }

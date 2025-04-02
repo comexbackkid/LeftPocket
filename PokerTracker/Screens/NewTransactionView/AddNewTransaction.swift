@@ -14,11 +14,12 @@ struct AddNewTransaction: View {
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
     @Environment(\.colorScheme) var colorScheme
-    
+    @AppStorage("multipleBankrollsEnabled") var multipleBankrollsEnabled: Bool = false
     @Binding var showNewTransaction: Bool
     @Binding var audioConfirmation: Bool
     
     @State private var type: TransactionType?
+    @State private var selectedBankrollID: UUID?
     @State private var amount: String = ""
     @State private var date: Date = .now
     @State private var notes: String = ""
@@ -26,7 +27,14 @@ struct AddNewTransaction: View {
     @State private var transactionPopup = false
     @State private var alertItem: AlertItem?
     @State private var showPaywall = false
-    
+    private var selectedBankrollName: String {
+        if let id = selectedBankrollID,
+           let match = vm.bankrolls.first(where: { $0.id == id }) {
+            return match.name
+        } else {
+            return "Default Bankroll"
+        }
+    }
     private var isPad: Bool {
         UIDevice.current.userInterfaceIdiom == .pad
     }
@@ -183,6 +191,41 @@ struct AddNewTransaction: View {
                 
             }
             .padding(.bottom, 10)
+            
+            if multipleBankrollsEnabled {
+                HStack {
+                    
+                    Image(systemName: "bag.fill")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(Color(.systemGray3))
+                        .frame(width: 30, height: 30)
+                    
+                    Text("Bankroll")
+                        .bodyStyle()
+                        .padding(.leading, 4)
+                    
+                    Spacer()
+                    
+                    Menu {
+                            
+                        Picker("Bankroll Picker", selection: $selectedBankrollID) {
+                            Text("Default Bankroll").tag(UUID?.none)
+                            ForEach(vm.bankrolls) { bankroll in
+                                Text(bankroll.name).tag(Optional(bankroll.id))
+                            }
+                        }
+           
+                    } label: {
+                        Text(selectedBankrollName)
+                            .bodyStyle()
+                            .lineLimit(1)
+                            .truncationMode(.tail)
+                    }
+                    .foregroundColor(.brandWhite)
+                    .buttonStyle(PlainButtonStyle())
+                }
+                .padding(.bottom, 10)
+            }
             
             HStack {
                 
@@ -357,7 +400,20 @@ struct AddNewTransaction: View {
     
     private func saveButtonPressed() {
         guard isValidForm else { return }
-        vm.addTransaction(date: date, type: type!, amount: Int(amount) ?? 0, notes: notes, tags: tags.isEmpty ? nil : [tags])
+        let newTransaction = vm.createTransaction(
+            date: date,
+            type: type!,
+            amount: Int(amount) ?? 0,
+            notes: notes,
+            tags: tags.isEmpty ? nil : [tags]
+        )
+
+        if let bankrollID = selectedBankrollID {
+            vm.addTransaction(newTransaction, to: bankrollID)
+        } else {
+            vm.transactions.append(newTransaction)
+            vm.transactions.sort(by: { $0.date > $1.date })
+        }
         showNewTransaction = false
     }
 }

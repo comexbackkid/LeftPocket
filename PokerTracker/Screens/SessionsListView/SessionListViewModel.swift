@@ -430,20 +430,31 @@ class SessionsListViewModel: ObservableObject {
         sessions.sort(by: { $0.date > $1.date })
     }
     
-    func addTransaction(date: Date, type: TransactionType, amount: Int, notes: String, tags: [String]?) {
-        
-        if type == .withdrawal || type == .expense {
-            let newAmount = -(amount)
-            let newTransaction = BankrollTransaction(date: date, type: type, amount: newAmount, notes: notes, tags: tags)
-            transactions.append(newTransaction)
-            
-        } else {
-            let newTransaction = BankrollTransaction(date: date, type: type, amount: amount, notes: notes, tags: tags)
-            transactions.append(newTransaction)
-        }
-        
-        transactions.sort(by: {$0.date > $1.date})
+    func createTransaction(date: Date, type: TransactionType, amount: Int, notes: String, tags: [String]?) -> BankrollTransaction {
+        let signedAmount = (type == .withdrawal || type == .expense) ? -amount : amount
+        return BankrollTransaction(date: date, type: type, amount: signedAmount, notes: notes, tags: tags)
     }
+    
+    func addTransaction(_ transaction: BankrollTransaction, to bankrollID: UUID) {
+        guard let index = bankrolls.firstIndex(where: { $0.id == bankrollID }) else { return }
+        bankrolls[index].transactions.append(transaction)
+        bankrolls[index].transactions.sort(by: { $0.date > $1.date })
+    }
+    
+//    func addTransaction(date: Date, type: TransactionType, amount: Int, notes: String, tags: [String]?) {
+//        
+//        if type == .withdrawal || type == .expense {
+//            let newAmount = -(amount)
+//            let newTransaction = BankrollTransaction(date: date, type: type, amount: newAmount, notes: notes, tags: tags)
+//            transactions.append(newTransaction)
+//            
+//        } else {
+//            let newTransaction = BankrollTransaction(date: date, type: type, amount: amount, notes: notes, tags: tags)
+//            transactions.append(newTransaction)
+//        }
+//        
+//        transactions.sort(by: {$0.date > $1.date})
+//    }
     
     // MARK: WIDGET FUNCTIONS
     
