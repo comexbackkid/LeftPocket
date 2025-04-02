@@ -223,29 +223,59 @@ struct UserSettings: View {
             
             exportData
             
-            NavigationLink {
-                ManageBankrolls()
-            } label: {
-                HStack {
+            Group {
+                if subManager.isSubscribed {
+                    NavigationLink(
+                        destination: ManageBankrolls(),
+                        label: {
+                            HStack {
+                                
+                                VStack (alignment: .leading) {
+                                    
+                                    HStack {
+                                        Text("Manage Bankrolls")
+                                            .subtitleStyle()
+                                            .bold()
+                                        
+                                        Spacer()
+                                        
+                                        Text("›")
+                                            .font(.title2)
+                                    }
+                                }
+                                
+                                Spacer()
+                            }
+                        })
+                    .buttonStyle(PlainButtonStyle())
                     
-                    VStack (alignment: .leading) {
+                } else {
+                    Button {
+                        showPaywall = true
                         
+                    } label: {
                         HStack {
-                            Text("Manage Bankrolls")
-                                .subtitleStyle()
-                                .bold()
+                            
+                            VStack (alignment: .leading) {
+                                
+                                HStack {
+                                    Text("Manage Bankrolls")
+                                        .subtitleStyle()
+                                        .bold()
+                                    
+                                    Spacer()
+                                    
+                                    Image(systemName: "lock.fill")
+                                        .font(.title2)
+                                }
+                            }
                             
                             Spacer()
-                            
-                            Text("›")
-                                .font(.title2)
                         }
                     }
-                    
-                    Spacer()
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
-            .buttonStyle(PlainButtonStyle())
             
             howToGuide
             

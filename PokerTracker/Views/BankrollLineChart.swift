@@ -19,27 +19,47 @@ struct BankrollLineChart: View {
     @Binding var minimizeLineChart: Bool
     @AppStorage("sessionFilter") private var chartSessionFilter: SessionFilter = .all
     @AppStorage("dateRangeSelection") private var chartRange: RangeSelection = .all
+    @State private var bankrollFilter: UUID?
     
     // Optional year selector, only used in Annual Report View. Overrides dateRange if used
     var customDateRange: [PokerSession_v2]?
     var dateRange: [PokerSession_v2] {
-        switch chartRange {
-        case .all: return viewModel.sessions
-        case .oneMonth: return viewModel.filterSessionsLastMonth()
-        case .threeMonth: return viewModel.filterSessionsLastThreeMonths()
-        case .sixMonth: return viewModel.filterSessionsLastSixMonths()
-        case .oneYear: return viewModel.filterSessionsLastTwelveMonths()
-        case .ytd: return viewModel.filterSessionsYTD()
+        let allSessions: [PokerSession_v2] = {
+            if let id = bankrollFilter {
+                return viewModel.bankrolls.first(where: { $0.id == id })?.sessions ?? []
+            } else {
+                return viewModel.sessions + viewModel.bankrolls.flatMap(\.sessions)
+            }
+        }()
+        
+        let sessionsByDate: [PokerSession_v2] = {
+            switch chartRange {
+            case .all: return allSessions
+            case .oneMonth: return allSessions.filter { $0.date >= Calendar.current.date(byAdding: .month, value: -1, to: Date())! }
+            case .threeMonth: return allSessions.filter { $0.date >= Calendar.current.date(byAdding: .month, value: -3, to: Date())! }
+            case .sixMonth: return allSessions.filter { $0.date >= Calendar.current.date(byAdding: .month, value: -6, to: Date())! }
+            case .oneYear: return allSessions.filter { $0.date >= Calendar.current.date(byAdding: .year, value: -1, to: Date())! }
+            case .ytd:
+                let startOfYear = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: Date()))!
+                return allSessions.filter { $0.date >= startOfYear }
+            }
+        }()
+        
+        switch chartSessionFilter {
+        case .all:
+            return sessionsByDate
+        case .cash:
+            return sessionsByDate.filter { !$0.isTournament }
+        case .tournaments:
+            return sessionsByDate.filter { $0.isTournament }
         }
     }
     var profitAnnotation: Int? {
-        
         getProfitForIndex(index: selectedIndex ?? 0, cumulativeProfits: convertedData)
     }
     var convertedData: [Int] {
-        // Start with zero as our initial data point so chart doesn't look goofy
         var originalDataPoint = [0]
-        let newDataPoints = viewModel.calculateCumulativeProfit(sessions: customDateRange != nil ? customDateRange! : dateRange, sessionFilter: chartSessionFilter)
+        let newDataPoints = viewModel.calculateCumulativeProfit(sessions: customDateRange ?? dateRange, sessionFilter: chartSessionFilter)
         originalDataPoint += newDataPoints
         return originalDataPoint
     }
@@ -230,7 +250,23 @@ struct BankrollLineChart: View {
     var filterButton: some View {
         
         Menu {
-            Picker("", selection: $chartSessionFilter) {
+            
+            Menu {
+                Picker("Bankroll Picker", selection: $bankrollFilter) {
+                    Text("All").tag(UUID?.none)
+                    ForEach(viewModel.bankrolls) { bankroll in
+                        Text(bankroll.name).tag(Optional(bankroll.id))
+                    }
+                }
+                
+            } label: {
+                HStack {
+                    Text("Bankrolls")
+                    Image(systemName: "bag.fill")
+                }
+            }
+            
+            Picker("Session Filter", selection: $chartSessionFilter) {
                 ForEach(SessionFilter.allCases, id: \.self) {
                     Text($0.rawValue.capitalized).tag($0)
                 }

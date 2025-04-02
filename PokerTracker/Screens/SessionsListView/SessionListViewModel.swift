@@ -62,7 +62,6 @@ class SessionsListViewModel: ObservableObject {
         getUserCurrency()
         getUserGameTypes()
         writeToWidget()
-//        multipleBankrollsEnabled = false
         
         if multipleBankrollsEnabled {
             loadBankrolls()
@@ -88,6 +87,11 @@ class SessionsListViewModel: ObservableObject {
     var gameTypePath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("gameTypes.json") }
     var transactionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("transactions.json") }
     var bankrollsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("bankrolls.json") }
+    
+    // Combining original session data, aka "Default Bankroll" and any newly created bankroll sessions
+    var allSessions: [PokerSession_v2] {
+        sessions + bankrolls.flatMap(\.sessions)
+    }
     
     func saveBankrolls() {
         do {
@@ -469,10 +473,11 @@ class SessionsListViewModel: ObservableObject {
         
         self.convertToLineChartData()
 
-        defaults.set(self.tallyBankroll(bankroll: .all), forKey: AppGroup.bankrollKey)
-        defaults.set(self.sessions.first?.profit ?? 0, forKey: AppGroup.lastSessionKey)
-        defaults.set(self.hourlyRate(bankroll: .all), forKey: AppGroup.hourlyKey)
-        defaults.set(self.sessions.count, forKey: AppGroup.totalSessionsKey)
+        defaults.set(self.tallyBankroll(bankrollID: nil, type: .all, range: .all), forKey: AppGroup.bankrollKey)
+//        defaults.set(self.sessions.first?.profit ?? 0, forKey: AppGroup.lastSessionKey)
+        defaults.set(self.allSessions.first?.profit ?? 0, forKey: AppGroup.lastSessionKey)
+        defaults.set(self.hourlyRate(bankrollID: nil, type: .all, range: .all), forKey: AppGroup.hourlyKey)
+        defaults.set(self.allSessions.count, forKey: AppGroup.totalSessionsKey)
         defaults.set(self.userCurrency.rawValue, forKey: AppGroup.currencyKey)
         
         if let swiftChartData = try? JSONEncoder().encode(self.convertedLineChartData) {

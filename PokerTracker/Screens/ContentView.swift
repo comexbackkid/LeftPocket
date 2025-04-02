@@ -352,47 +352,46 @@ struct QuickMetricsBoxGrid: View {
         // Stuck trying to figure out how to get a starting number, looking messy this way
         // Right now I think the previous year calculation is ONLY sessions that happened in that year, not the year's end value cumulatively
         LazyVGrid(columns: columns, spacing: 20) {
-            
-            let playerProfitNumber = viewModel.tallyBankroll(bankroll: .all).dashboardPlayerProfitShortHand(viewModel.userCurrency)
+            let playerProfitNumber = viewModel.tallyBankroll(type: .all).dashboardPlayerProfitShortHand(viewModel.userCurrency)
             let bbPerHrNumber = viewModel.bbPerHour()
-            let hourlyRateNumber = viewModel.hourlyRate(bankroll: .all).currencyShortHand(viewModel.userCurrency)
-            let profitPerSessionNumber = viewModel.avgProfit(bankroll: .all).currencyShortHand(viewModel.userCurrency)
-            let winRatioNumber = viewModel.totalWinRate(bankroll: .all)
+            let hourlyRateNumber = viewModel.hourlyRate(type: .all).currencyShortHand(viewModel.userCurrency)
+            let profitPerSessionNumber = viewModel.avgProfit(type: .all).currencyShortHand(viewModel.userCurrency)
+            let winRatioNumber = viewModel.totalWinRate(type: .all)
             let hoursPlayedNumber = viewModel.totalHoursPlayedHomeScreen()
             
             if playerProfit {
                 QuickMetricBox(title: "Total Profit",
                                metric: playerProfitNumber,
-                               percentageChange: percentChange(Double(viewModel.tallyBankroll(bankroll: .all)),
-                                                               Double(viewModel.tallyBankroll(yearExcluded: Date().getYear(), bankroll: .all))))
+                               percentageChange: percentChange(Double(viewModel.tallyBankroll(type: .all)),
+                                                               Double(viewModel.tallyBankroll(type: .all, excludingYear: Date().getYear()))))
             }
             
             if bbPerHr {
                 QuickMetricBox(title: "BB / Hr",
                                metric: String(format: "%.2f", bbPerHrNumber),
                                percentageChange: percentChange(bbPerHrNumber,
-                                                               viewModel.bbPerHour(yearExcluded: Date().getYear())))
+                                                               viewModel.bbPerHour(excludingYear: Date().getYear())))
             }
             
             if hourlyRate {
                 QuickMetricBox(title: "Hourly Rate",
                                metric: hourlyRateNumber,
-                               percentageChange: percentChange(Double(viewModel.hourlyRate(bankroll: .all)),
-                                                               Double(viewModel.hourlyRate(yearExcluded: Date().getYear(), bankroll: .all))))
+                               percentageChange: percentChange(Double(viewModel.hourlyRate(type: .all)),
+                                                               Double(viewModel.hourlyRate(type: .all, excludingYear: Date().getYear()))))
             }
             
             if profitPerSession {
                 QuickMetricBox(title: "Avg. Session Profit",
                                metric: profitPerSessionNumber,
-                               percentageChange: percentChange(Double(viewModel.avgProfit(bankroll: .all)),
-                                                               Double(viewModel.avgProfit(yearExcluded: Date().getYear(), bankroll: .all))))
+                               percentageChange: percentChange(Double(viewModel.avgProfit(type: .all)),
+                                                               Double(viewModel.avgProfit(type: .all, excludingYear: Date().getYear()))))
             }
             
             if winRatio {
                 QuickMetricBox(title: "Win Ratio",
                                metric: winRatioNumber.asPercent(),
                                percentageChange: percentChange(winRatioNumber,
-                                                               viewModel.totalWinRate(yearExcluded: Date().getYear(), bankroll: .all)))
+                                                               viewModel.totalWinRate(type: .all, excludingYear: Date().getYear())))
             }
             
             if hoursPlayed {

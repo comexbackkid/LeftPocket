@@ -44,14 +44,25 @@ extension SessionsListViewModel {
     
     // Called when Sessions is updated, will update the progress status for the stakes progress indicator
     func updateBankrollProgressRing() {
+        // Combine sessions from all sources
+        let allSessions = sessions + bankrolls.flatMap(\.sessions)
         
-        guard let targetBankroll = calculateTargetBankrollSize(from: sessions, riskTolerance: userRiskTolerance) else {
+        // Calculate target bankroll based on all sessions
+        guard let targetBankroll = calculateTargetBankrollSize(from: allSessions, riskTolerance: userRiskTolerance) else {
             return
         }
         
-        let allTransactions = transactions.map({ $0.amount }).reduce(0, +)
-        self.bankrollProgressRing = (Float(tallyBankroll(bankroll: .all)) + Float(allTransactions)) / Float(targetBankroll)
+        // Combine all transactions
+        let allTransactions = transactions + bankrolls.flatMap(\.transactions)
+        let transactionTotal = allTransactions.map(\.amount).reduce(0, +)
+        
+        // Sum all profits
+        let profitTotal = allSessions.map(\.profit).reduce(0, +)
+        
+        // Final progress ring value
+        self.bankrollProgressRing = (Float(profitTotal + transactionTotal) / Float(targetBankroll))
     }
+
     
     // MARK: BEST MONTH
     
