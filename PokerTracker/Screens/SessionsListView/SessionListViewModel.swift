@@ -362,6 +362,14 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // Adds a new Session to var sessions, only used in AddNewSessionView and EditSession
+    func addSession(_ session: PokerSession_v2, to bankrollID: UUID) {
+        guard let index = bankrolls.firstIndex(where: { $0.id == bankrollID }) else { return }
+        
+        bankrolls[index].sessions.append(session)
+        bankrolls[index].sessions.sort(by: { $0.date > $1.date })
+    }
+    
+    // MARK: DELETE THIS
     func addNewSession(
         location: LocationModel_v2,
         date: Date,

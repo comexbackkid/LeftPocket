@@ -58,6 +58,7 @@ struct ContentView: View {
         }
         .background { Color.brandBackground.ignoresSafeArea() }
         .sheet(item: $activeSheet) { sheet in
+            let recentSession = (viewModel.sessions + viewModel.bankrolls.flatMap(\.sessions)).sorted(by: { $0.date > $1.date }).first!
             switch sheet {
             case .productUpdates: ProductUpdates(activeSheet: $activeSheet)
             case .recentSession: if isPad {
@@ -68,7 +69,7 @@ struct ContentView: View {
                     SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
                 }
             } else {
-                SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
+                SessionDetailView(activeSheet: $activeSheet, pokerSession: recentSession)
                     .presentationDragIndicator(.visible)
             }
             case .healthAnalytics: SleepAnalytics(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
@@ -219,15 +220,18 @@ struct ContentView: View {
     
     var recentSessionCard: some View {
         
-        Button(action: {
-            let impact = UIImpactFeedbackGenerator(style: .medium)
-            impact.impactOccurred()
-            activeSheet = .recentSession
-            
-        }, label: {
-            RecentSessionCardView(pokerSession: viewModel.sessions.first!)
-        })
-        .buttonStyle(CardViewButtonStyle())
+        Group {
+            let recentSession = (viewModel.sessions + viewModel.bankrolls.flatMap(\.sessions)).sorted(by: { $0.date > $1.date }).first!
+            Button(action: {
+                let impact = UIImpactFeedbackGenerator(style: .medium)
+                impact.impactOccurred()
+                activeSheet = .recentSession
+                
+            }, label: {
+                RecentSessionCardView(pokerSession: recentSession)
+            })
+            .buttonStyle(CardViewButtonStyle())
+        }
     }
     
     var healthAnalyticsCard: some View {

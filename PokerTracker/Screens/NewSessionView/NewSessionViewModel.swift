@@ -12,6 +12,7 @@ import TipKit
 
 final class NewSessionViewModel: ObservableObject {
     
+    @Published var selectedBankrollID: UUID?
     @Published var location: LocationModel_v2 = LocationModel_v2(name: "")
     @Published var game: String = ""
     @Published var stakes: String = ""
@@ -283,31 +284,39 @@ final class NewSessionViewModel: ObservableObject {
     func savedButtonPressed(viewModel: SessionsListViewModel) {
         
         guard self.validateForm() else { return }
-        viewModel.addNewSession(location: location,
-                                date: startTime,
-                                startTime: startTime,
-                                endTime: endTime,
-                                game: game,
-                                stakes: stakes,
-                                buyIn: (Int(buyIn) ?? 0) + (sessionType == .cash ? (Int(self.cashRebuys) ?? 0) : 0),
-                                cashOut: Int(cashOut) ?? 0,
-                                profit: computedProfit,
-                                expenses: Int(expenses) ?? 0,
-                                notes: notes,
-                                tags: tags.isEmpty ? [] : [tags],
-                                highHandBonus: Int(highHandBonus) ?? 0,
-                                handsPerHour: handsPerHour,
-                                isTournament: sessionType == .tournament ? true : false,
-                                rebuyCount: Int(rebuyCount) ?? nil,
-                                bounties: Int(bounties) ?? nil,
-                                tournamentSize: !size.isEmpty ? size : nil,
-                                tournamentSpeed: !speed.isEmpty ? speed : nil,
-                                entrants: Int(entrants),
-                                finish: Int(finish),
-                                tournamentDays: sessionType == .tournament ? tournamentDays : nil,
-                                startTimeDayTwo: tournamentDays > 1 ? adjustedStartTimeDayTwo : nil,
-                                endTimeDayTwo: tournamentDays > 1 ? adjustedEndTimeDayTwo : nil,
-                                stakers: sessionType == .tournament && !stakerList.isEmpty ? stakerList : nil)
+        
+        let newSession = PokerSession_v2(location: location,
+                                         date: startTime,
+                                         startTime: startTime,
+                                         endTime: endTime,
+                                         game: game,
+                                         stakes: stakes,
+                                         buyIn: (Int(buyIn) ?? 0) + (sessionType == .cash ? (Int(self.cashRebuys) ?? 0) : 0),
+                                         cashOut: Int(cashOut) ?? 0,
+                                         profit: computedProfit,
+                                         expenses: Int(expenses) ?? 0,
+                                         notes: notes,
+                                         tags: tags.isEmpty ? [] : [tags],
+                                         highHandBonus: Int(highHandBonus) ?? 0,
+                                         handsPerHour: handsPerHour,
+                                         isTournament: sessionType == .tournament ? true : false,
+                                         rebuyCount: Int(rebuyCount) ?? nil,
+                                         bounties: Int(bounties) ?? nil,
+                                         tournamentSize: !size.isEmpty ? size : nil,
+                                         tournamentSpeed: !speed.isEmpty ? speed : nil,
+                                         entrants: Int(entrants),
+                                         finish: Int(finish),
+                                         tournamentDays: sessionType == .tournament ? tournamentDays : nil,
+                                         startTimeDayTwo: tournamentDays > 1 ? adjustedStartTimeDayTwo : nil,
+                                         endTimeDayTwo: tournamentDays > 1 ? adjustedEndTimeDayTwo : nil,
+                                         stakers: sessionType == .tournament && !stakerList.isEmpty ? stakerList : nil)
+        
+        if let bankrollID = selectedBankrollID {
+            viewModel.addSession(newSession, to: bankrollID)
+        } else {
+            viewModel.sessions.append(newSession)
+            viewModel.sessions.sort(by: { $0.date > $1.date })
+        }
         
         Task {
             // Counting how many times the user adds a Session. Will display Tip after they enter two
@@ -316,7 +325,11 @@ final class NewSessionViewModel: ObservableObject {
         
         // Only after the form checks out will the presentation be set to false and the sheet will dismiss
         self.presentation = false
-        AppReviewRequest.requestReviewIfNeeded()
+        
+        // Ping for a Review Request if they made money on this Session
+        if Int(self.profit) ?? 0 > 0 {
+            AppReviewRequest.requestReviewIfNeeded()
+        }
     }
 }
 

@@ -26,6 +26,7 @@ struct SessionsListView: View {
     @State var gameTypeFilter: String?
     @State var tagsFilter: String?
     @State var stakesFilter: String?
+    @State var bankrollFilter: UUID?
     @State var startDate: Date = Date()
     @State var endDate: Date = .now
     @State var datesInitialized = false
@@ -68,6 +69,15 @@ struct SessionsListView: View {
         case .all: break
         case .cash: result = result.filter { !$0.isTournament }
         case .tournaments: result = result.filter { $0.isTournament }
+        }
+        
+        if let bankrollID = bankrollFilter {
+            if let match = vm.bankrolls.first(where: { $0.id == bankrollID }) {
+                result = match.sessions
+            }
+            
+        } else {
+            result = vm.sessions + vm.bankrolls.flatMap { $0.sessions }
         }
         
         if let locationFilter = locationFilter {
@@ -268,6 +278,21 @@ struct SessionsListView: View {
                 Image(systemName: "suit.club.fill")
             }
             
+            
+            Menu {
+                Picker("Select Bankroll", selection: $bankrollFilter) {
+                    Text("All").tag(UUID?.none)
+                    ForEach(vm.bankrolls) { bankroll in
+                        Text(bankroll.name).tag(Optional(bankroll.id))
+                    }
+                }
+            } label: {
+                HStack {
+                    Text("Bankroll")
+                    Image(systemName: "bag.fill")
+                }
+            }
+
             Menu {
                 Picker("Select Location", selection: $locationFilter) {
                     Text("All").tag(nil as LocationModel_v2?)
@@ -439,19 +464,34 @@ struct SessionsListView: View {
         gameTypeFilter = nil
         stakesFilter = nil
         tagsFilter = nil
+        bankrollFilter = nil
         startDate = firstSessionDate
         endDate = Date.now
     }
     
-    private func deleteSession(_ session: PokerSession_v2) {
-        if let index = vm.sessions.firstIndex(where: { $0.id == session.id }) {
-            vm.sessions.remove(at: index)
-        }
-    }
+//    private func deleteSession(_ session: PokerSession_v2) {
+//        if let index = vm.sessions.firstIndex(where: { $0.id == session.id }) {
+//            vm.sessions.remove(at: index)
+//        }
+//    }
     
 //    private func deleteTransaction(at offsets: IndexSet) {
 //        vm.transactions.remove(atOffsets: offsets)
 //    }
+    
+    private func deleteSession(_ session: PokerSession_v2) {
+        if let index = vm.sessions.firstIndex(where: { $0.id == session.id }) {
+            vm.sessions.remove(at: index)
+            return
+        }
+        
+        for i in vm.bankrolls.indices {
+            if let sessionIndex = vm.bankrolls[i].sessions.firstIndex(where: { $0.id == session.id }) {
+                vm.bankrolls[i].sessions.remove(at: sessionIndex)
+                return
+            }
+        }
+    }
     
     private func deleteTransaction(at offsets: IndexSet) {
         for index in offsets {

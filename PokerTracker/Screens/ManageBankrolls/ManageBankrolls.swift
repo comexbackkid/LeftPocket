@@ -13,7 +13,6 @@ struct ManageBankrolls: View {
     @State private var showAddNewBankroll = false
     @State private var showSuccessModal = false
     @AppStorage("multipleBankrollsEnabled") var multipleBankrollsEnabled: Bool = false
-    @State private var showProgressBar = false
     
     var body: some View {
         

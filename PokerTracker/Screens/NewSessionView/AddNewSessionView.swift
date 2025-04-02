@@ -43,8 +43,17 @@ struct AddNewSessionView: View {
     @State var showStakingPopover = false
     @State var showBountiesPopover = false
     @FocusState private var focusedField: Field?
+    @AppStorage("multipleBankrollsEnabled") var multipleBankrollsEnabled: Bool = false
     private var isZoomed: Bool {
         UIScreen.main.scale < UIScreen.main.nativeScale
+    }
+    private var selectedBankrollName: String {
+        if let id = newSession.selectedBankrollID,
+           let match = vm.bankrolls.first(where: { $0.id == id }) {
+            return match.name
+        } else {
+            return "Default Bankroll"
+        }
     }
     
     var body: some View {
@@ -138,6 +147,8 @@ struct AddNewSessionView: View {
             
             sessionSelection
             
+            if multipleBankrollsEnabled { bankrollSelection }
+            
             locationSelection
             
             gameSelection
@@ -221,6 +232,45 @@ struct AddNewSessionView: View {
         .padding(.horizontal)
         .padding(.bottom, 10)
         
+    }
+    
+    var bankrollSelection: some View {
+        
+        HStack {
+            
+            Image(systemName: "bag.fill")
+                .font(.system(size: 24, weight: .bold))
+                .foregroundColor(Color(.systemGray3))
+                .frame(width: 30, height: 30)
+            
+            Text("Bankroll")
+                .bodyStyle()
+                .padding(.leading, 4)
+            
+            Spacer()
+            
+            Menu {
+                    
+                Picker("Bankroll Picker", selection: $newSession.selectedBankrollID) {
+                    Text("Default Bankroll").tag(UUID?.none)
+                    ForEach(vm.bankrolls) { bankroll in
+                        Text(bankroll.name).tag(Optional(bankroll.id))
+                    }
+                }
+   
+            } label: {
+                Text(selectedBankrollName)
+                    .bodyStyle()
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                    .animation(nil, value: newSession.selectedBankrollID)
+            }
+            .foregroundColor(.brandWhite)
+            .buttonStyle(PlainButtonStyle())
+            .animation(.none, value: newSession.selectedBankrollID)
+        }
+        .padding(.horizontal)
+        .padding(.bottom, 10)
     }
     
     var locationSelection: some View {
