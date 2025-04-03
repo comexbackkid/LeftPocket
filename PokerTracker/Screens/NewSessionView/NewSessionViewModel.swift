@@ -71,31 +71,33 @@ final class NewSessionViewModel: ObservableObject {
     var computedProfit: Int {
         if sessionType == .cash {
             return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - (Int(cashRebuys) ?? 0)
-            
         } else {
-            let tournamentWinnings = (Int(cashOut) ?? 0) + (Int(bounties) ?? 0)
+            let cashOutAmount = Double(Int(cashOut) ?? 0)
+            let bountiesAmount = Double(Int(bounties) ?? 0)
+            let totalWinnings = cashOutAmount + bountiesAmount
             
-            // Calculate total staker percentage
-            let totalPercentageSold = stakerList.reduce(0.0) { $0 + $1.percentage }
+            let totalBuyIn = Double(Int(buyIn) ?? 0) + Double(tournamentRebuys)
             
-            // Corrected Player Buy-in Cost (subtract stakers' share of both buy-in and rebuys)
-            let totalBuyIn = (Int(buyIn) ?? 0) + tournamentRebuys
-            let stakersContribution = Double(totalBuyIn) * totalPercentageSold
-            let playerBuyInCost = totalBuyIn - Int(stakersContribution)
+            // How much player pays to stakers from prize money
+            let totalStakerPayout = stakerList.reduce(0.0) { $0 + (totalWinnings * $1.percentage) }
             
-            // Compute the total action sold (based on winnings split, NOT buy-in)
-            let totalActionSold = stakerList.reduce(0.0) { total, staker in
-                return total + (Double(tournamentWinnings) * staker.percentage)
-            }
+            // How much stakers contributed to entry
+            let stakerContribution = totalBuyIn * stakerList.reduce(0.0) { $0 + $1.percentage }
             
-            // Compute the markup earned (extra money from backers)
+            // Player's share of entry
+            let playerBuyInCost = totalBuyIn - stakerContribution
+            
+            // Markup: money player received from stakers beyond just their % of buy-in
             let markupEarned = stakerList.reduce(0.0) { total, staker in
-                let stakeCostWithoutMarkup = (Double(buyIn) ?? 0) * staker.percentage
-                let markupAmount = stakeCostWithoutMarkup * ((staker.markup ?? 1.0) - 1.0)
-                return total + markupAmount
+                let baseStake = Double(Int(buyIn) ?? 0) * staker.percentage
+                let markup = (staker.markup ?? 1.0)
+                return total + (baseStake * (markup - 1.0))
             }
             
-            return tournamentWinnings - playerBuyInCost + Int(markupEarned) - Int(totalActionSold)
+            // Final profit = winnings - stake paid - own entry + markup
+            let netProfit = totalWinnings - totalStakerPayout - playerBuyInCost + markupEarned
+            
+            return Int(netProfit.rounded())
         }
     }
     
