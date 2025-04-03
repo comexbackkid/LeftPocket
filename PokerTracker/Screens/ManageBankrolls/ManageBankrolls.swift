@@ -12,6 +12,8 @@ struct ManageBankrolls: View {
     @EnvironmentObject var vm: SessionsListViewModel
     @State private var showAddNewBankroll = false
     @State private var showSuccessModal = false
+    @State private var showAlert = false
+    @State private var selectedBankroll: Bankroll? = nil
     @AppStorage("multipleBankrollsEnabled") var multipleBankrollsEnabled: Bool = false
     
     var body: some View {
@@ -47,7 +49,8 @@ struct ManageBankrolls: View {
                                     Button(role: .destructive) {
                                         let impact = UIImpactFeedbackGenerator(style: .soft)
                                         impact.impactOccurred()
-                                        deleteBankroll(bankroll)
+                                        selectedBankroll = bankroll
+                                        showAlert = true
                                         
                                     } label: {
                                         Image(systemName: "trash")
@@ -59,6 +62,19 @@ struct ManageBankrolls: View {
                         }
                     }
                     .listStyle(.plain)
+                    .alert("Are You Sure?", isPresented: $showAlert, presenting: selectedBankroll) { bankroll in
+                        Button("Delete", role: .destructive) {
+                            withAnimation {
+                                deleteBankroll(bankroll)
+                            }
+                            selectedBankroll = nil
+                        }
+                        Button("Cancel", role: .cancel) {
+                            selectedBankroll = nil
+                        }
+                    } message: { bankroll in
+                        Text("This action can't be undone, and you will lose all Sessions in this bankroll.")
+                    }
                     
                     addBankrollButton
                     

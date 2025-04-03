@@ -65,7 +65,9 @@ struct AddNewBankroll: View {
         )
         
         let newBankroll = Bankroll(name: trimmedName, sessions: [], transactions: [startingTransaction])
-        vm.bankrolls.append(newBankroll)
+        withAnimation {
+            vm.bankrolls.append(newBankroll)
+        }
     }
     
     var title: some View {
@@ -126,6 +128,7 @@ struct AddNewBankroll: View {
                     .padding(.trailing, 10)
                 
                 TextField("Starting Amount", text: $startingBankroll)
+                    .keyboardType(.numberPad)
                     .font(.custom("Asap-Regular", size: 17))
                     .foregroundColor(startingBankroll.isEmpty ? .primary : .brandPrimary)
                 

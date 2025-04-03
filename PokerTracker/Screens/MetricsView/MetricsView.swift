@@ -249,7 +249,6 @@ struct MetricsView: View {
     }
     
     var performanceChart: some View {
-        
         PerformanceLineChart()
             .cardStyle(colorScheme: colorScheme, height: 380)
             .cardShadow(colorScheme: colorScheme)
