@@ -452,6 +452,10 @@ extension SessionsListViewModel {
         sessions + bankrolls.flatMap(\.sessions)
     }
     
+    var allTransactions: [BankrollTransaction] {
+        transactions + bankrolls.flatMap({ $0.transactions })
+    }
+    
     func allTournamentSessions() -> [PokerSession_v2] {
         return sessions.filter({ $0.isTournament == true })
     }
