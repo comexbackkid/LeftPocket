@@ -12,9 +12,20 @@ import AVKit
 struct EditSession: View {
     
     @Environment(\.dismiss) var dismiss
+    @AppStorage("multipleBankrollsEnabled") var multipleBankrollsEnabled: Bool = false
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
     @StateObject var editSession = EditSessionViewModel()
+    private var selectedBankrollName: String {
+        switch editSession.selectedBankroll {
+        case .default:
+            return "Default"
+        case .custom(let id):
+            return viewModel.bankrolls.first(where: { $0.id == id })?.name ?? "Unknown"
+        case .all:
+            return "All"
+        }
+    }
     
     let pokerSession: PokerSession_v2
     
@@ -53,6 +64,7 @@ struct EditSession: View {
         }
         .onAppear {
             determineSessionType()
+            editSession.selectedBankrollID = viewModel.bankrollID(for: pokerSession)
             editSession.date = pokerSession.startTime
             editSession.startTime = pokerSession.startTime
             editSession.endTime = pokerSession.endTime
@@ -61,6 +73,13 @@ struct EditSession: View {
             }
             if let endTimeDayTwo = pokerSession.endTimeDayTwo {
                 editSession.endTimeDayTwo = endTimeDayTwo
+            }
+            if let id = viewModel.bankrollID(for: pokerSession) {
+                editSession.selectedBankrollID = id
+                editSession.selectedBankroll = .custom(id)
+            } else {
+                editSession.selectedBankrollID = nil
+                editSession.selectedBankroll = .default
             }
         }
     }
@@ -90,6 +109,8 @@ struct EditSession: View {
         
         VStack (alignment: .leading) {
                         
+            if multipleBankrollsEnabled { bankrollSelection }
+            
             locationSelection
             
             gameSelection
@@ -107,6 +128,8 @@ struct EditSession: View {
     var tournamentGameDetails: some View {
         
         VStack (alignment: .leading) {
+            
+            if multipleBankrollsEnabled { bankrollSelection }
             
             locationSelection
             
@@ -201,6 +224,45 @@ struct EditSession: View {
             editSession.speed = pokerSession.tournamentSpeed.map { String($0) } ?? "Standard"
             editSession.size = pokerSession.tournamentSize.map { String($0) } ?? "MTT"
         }
+    }
+    
+    var bankrollSelection: some View {
+        
+        HStack {
+            
+            Image(systemName: "bag.fill")
+                .font(.system(size: 24, weight: .bold))
+                .foregroundColor(Color(.systemGray3))
+                .frame(width: 30, height: 30)
+            
+            Text("Bankroll")
+                .bodyStyle()
+                .padding(.leading, 4)
+            
+            Spacer()
+            
+            Menu {
+                    
+                Picker("Bankroll Picker", selection: $editSession.selectedBankroll) {
+                    Text("Default").tag(BankrollSelection.default)
+                    ForEach(viewModel.bankrolls) { bankroll in
+                        Text(bankroll.name).tag(BankrollSelection.custom(bankroll.id))
+                    }
+                }
+   
+            } label: {
+                Text(selectedBankrollName)
+                    .bodyStyle()
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                    
+            }
+            .foregroundColor(.brandWhite)
+            .buttonStyle(PlainButtonStyle())
+        }
+        .padding(.horizontal)
+        .padding(.bottom, 10)
+        
     }
     
     var locationSelection: some View {
@@ -885,9 +947,6 @@ struct EditSession: View {
                 impact.impactOccurred()
                 if editSession.isValidForm {
                     editSession.saveEditedSession(viewModel: viewModel, editedSession: pokerSession)
-                    viewModel.sessions.removeAll { session in
-                        session.id == pokerSession.id
-                    }
                     dismiss()
                 }
                 
@@ -917,4 +976,15 @@ struct EditSession: View {
         .environmentObject(SessionsListViewModel())
         .environmentObject(SubscriptionManager())
         .preferredColorScheme(.dark)
+}
+
+extension SessionsListViewModel {
+    func bankrollID(for session: PokerSession_v2) -> UUID? {
+        for bankroll in bankrolls {
+            if bankroll.sessions.contains(where: { $0.id == session.id }) {
+                return bankroll.id
+            }
+        }
+        return nil
+    }
 }

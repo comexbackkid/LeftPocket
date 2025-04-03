@@ -14,7 +14,7 @@ struct BarChartByYear: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     @State private var selectedMonth: Date?
     @AppStorage("sessionFilter") private var chartSessionFilter: SessionFilter = .all
-    @State private var bankrollFilter: UUID?
+    @State private var bankrollFilter: BankrollSelection = .default
     
     let showTitle: Bool
     let moreAxisMarks: Bool
@@ -141,9 +141,10 @@ struct BarChartByYear: View {
             
             Menu {
                 Picker("Bankroll Picker", selection: $bankrollFilter) {
-                    Text("All").tag(UUID?.none)
+                    Text("All").tag(BankrollSelection.all)
+                    Text("Default").tag(BankrollSelection.default)
                     ForEach(viewModel.bankrolls) { bankroll in
-                        Text(bankroll.name).tag(Optional(bankroll.id))
+                        Text(bankroll.name).tag(BankrollSelection.custom(bankroll.id))
                     }
                 }
                 
@@ -171,10 +172,10 @@ struct BarChartByYear: View {
     }
     
     var allSessions: [PokerSession_v2] {
-        if let id = bankrollFilter {
-            return viewModel.bankrolls.first(where: { $0.id == id })?.sessions ?? []
-        } else {
-            return viewModel.sessions + viewModel.bankrolls.flatMap(\.sessions)
+        switch bankrollFilter {
+        case .all: return viewModel.sessions + viewModel.bankrolls.flatMap(\.sessions)
+        case .default: return viewModel.sessions
+        case .custom(let id): return viewModel.bankrolls.first(where: { $0.id == id })?.sessions ?? []
         }
     }
   
@@ -182,20 +183,6 @@ struct BarChartByYear: View {
         guard let selectedMonth else { return nil }
         return profitByMonth(month: selectedMonth, data: allSessions, sessionFilter: chartSessionFilter)
     }
-    
-//    var profitAnnotation: Int? {
-//        
-//        guard let selectedMonth = selectedMonth else {
-//            
-//            return nil
-//        }
-//        
-//        return profitByMonth(month: selectedMonth, data: viewModel.sessions, sessionFilter: chartSessionFilter)
-//    }
-    
-//    var sessionProfitByMonth: [(month: Date, profit: Int)] {
-//        sessionsByMonth(sessions: viewModel.sessions, sessionFilter: chartSessionFilter)
-//    }
     
     var sessionProfitByMonth: [(month: Date, profit: Int)] {
         sessionsByMonth(sessions: allSessions, sessionFilter: chartSessionFilter)

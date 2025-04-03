@@ -10,24 +10,15 @@ import SwiftUI
 
 extension SessionsListViewModel {
     
-    func countSessions(bankrollID: UUID? = nil, type: SessionFilter = .all, range: RangeSelection = .all) -> Int {
+    func countSessions(bankroll: BankrollSelection = .all, type: SessionFilter = .all, range: RangeSelection = .all) -> Int {
         
-        let allSessions: [PokerSession_v2] = {
-            if let id = bankrollID {
-                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
-                return sessions + bankrolls.flatMap(\.sessions)
-            }
-        }()
+        let allSessions = sessions(for: bankroll)
         
         let filteredByType: [PokerSession_v2] = {
             switch type {
-            case .all:
-                return allSessions
-            case .cash:
-                return allSessions.filter { !$0.isTournament }
-            case .tournaments:
-                return allSessions.filter { $0.isTournament }
+            case .all: return allSessions
+            case .cash: return allSessions.filter { !$0.isTournament }
+            case .tournaments: return allSessions.filter { $0.isTournament }
             }
         }()
         
@@ -36,13 +27,21 @@ extension SessionsListViewModel {
             case .all:
                 return filteredByType
             case .oneMonth:
-                return filteredByType.filter { $0.date >= Calendar.current.date(byAdding: .month, value: -1, to: Date())! }
+                return filteredByType.filter {
+                    $0.date >= Calendar.current.date(byAdding: .month, value: -1, to: Date())!
+                }
             case .threeMonth:
-                return filteredByType.filter { $0.date >= Calendar.current.date(byAdding: .month, value: -3, to: Date())! }
+                return filteredByType.filter {
+                    $0.date >= Calendar.current.date(byAdding: .month, value: -3, to: Date())!
+                }
             case .sixMonth:
-                return filteredByType.filter { $0.date >= Calendar.current.date(byAdding: .month, value: -6, to: Date())! }
+                return filteredByType.filter {
+                    $0.date >= Calendar.current.date(byAdding: .month, value: -6, to: Date())!
+                }
             case .oneYear:
-                return filteredByType.filter { $0.date >= Calendar.current.date(byAdding: .year, value: -1, to: Date())! }
+                return filteredByType.filter {
+                    $0.date >= Calendar.current.date(byAdding: .year, value: -1, to: Date())!
+                }
             case .ytd:
                 let startOfYear = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: Date()))!
                 return filteredByType.filter { $0.date >= startOfYear }
@@ -52,21 +51,14 @@ extension SessionsListViewModel {
         return result.count
     }
     
-    func tallyBankroll(bankrollID: UUID? = nil, type: SessionFilter = .all, range: RangeSelection = .all, excludingYear: String? = nil) -> Int {
-        // Get sessions from the correct source
-        let sourceSessions: [PokerSession_v2] = {
-            if let id = bankrollID {
-                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
-                return sessions + bankrolls.flatMap(\.sessions)
-            }
-        }()
+    func tallyBankroll(bankroll: BankrollSelection = .all, type: SessionFilter = .all, range: RangeSelection = .all, excludingYear: String? = nil) -> Int {
         
-        // Time filter
+        let sourceSessions = sessions(for: bankroll)
+        let calendar = Calendar.current
+        let now = Date()
+        
+        // Date Range Filtering
         let dateFiltered: [PokerSession_v2] = {
-            let calendar = Calendar.current
-            let now = Date()
-            
             switch range {
             case .all:
                 return sourceSessions
@@ -80,7 +72,7 @@ extension SessionsListViewModel {
                 let cutoff = calendar.date(byAdding: .month, value: -6, to: now)!
                 return sourceSessions.filter { $0.date >= cutoff }
             case .oneYear:
-                let cutoff = calendar.date(byAdding: .month, value: -12, to: now)!
+                let cutoff = calendar.date(byAdding: .year, value: -1, to: now)!
                 return sourceSessions.filter { $0.date >= cutoff }
             case .ytd:
                 let startOfYear = calendar.date(from: calendar.dateComponents([.year], from: now))!
@@ -90,30 +82,35 @@ extension SessionsListViewModel {
         
         // Optional year exclusion
         let yearFiltered = excludingYear != nil
-        ? dateFiltered.filter { $0.date.getYear() != excludingYear }
-        : dateFiltered
+            ? dateFiltered.filter { $0.date.getYear() != excludingYear }
+            : dateFiltered
         
         // Optional session type filtering
         let typeFiltered: [PokerSession_v2] = {
             switch type {
-            case .all: return yearFiltered
-            case .cash: return yearFiltered.filter { !$0.isTournament }
-            case .tournaments: return yearFiltered.filter { $0.isTournament }
+            case .all:
+                return yearFiltered
+            case .cash:
+                return yearFiltered.filter { !$0.isTournament }
+            case .tournaments:
+                return yearFiltered.filter { $0.isTournament }
             }
         }()
         
-        // Return total profit
         return typeFiltered.map(\.profit).reduce(0, +)
     }
     
-    func hourlyRate(bankrollID: UUID? = nil, type: SessionFilter = .all, range: RangeSelection = .all, excludingYear: String? = nil) -> Int {
+    func hourlyRate(bankroll: BankrollSelection = .all, type: SessionFilter = .all, range: RangeSelection = .all, excludingYear: String? = nil) -> Int {
         
         // Pull correct session data
         let allSessions: [PokerSession_v2] = {
-            if let id = bankrollID {
-                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
+            switch bankroll {
+            case .all:
                 return sessions + bankrolls.flatMap(\.sessions)
+            case .default:
+                return sessions
+            case .custom(let id):
+                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
             }
         }()
         
@@ -123,7 +120,8 @@ extension SessionsListViewModel {
             let now = Date()
             
             switch range {
-            case .all: return allSessions
+            case .all:
+                return allSessions
             case .oneMonth:
                 let cutoff = calendar.date(byAdding: .month, value: -1, to: now)!
                 return allSessions.filter { $0.date >= cutoff }
@@ -134,7 +132,7 @@ extension SessionsListViewModel {
                 let cutoff = calendar.date(byAdding: .month, value: -6, to: now)!
                 return allSessions.filter { $0.date >= cutoff }
             case .oneYear:
-                let cutoff = calendar.date(byAdding: .month, value: -12, to: now)!
+                let cutoff = calendar.date(byAdding: .year, value: -1, to: now)!
                 return allSessions.filter { $0.date >= cutoff }
             case .ytd:
                 let startOfYear = calendar.date(from: calendar.dateComponents([.year], from: now))!
@@ -170,19 +168,21 @@ extension SessionsListViewModel {
         
         return Int(round(totalProfit / totalTime))
     }
-    
-    func bbPerHour(bankrollID: UUID? = nil, range: RangeSelection = .all, excludingYear: String? = nil) -> Double {
+
+    func bbPerHour(bankroll: BankrollSelection = .all, range: RangeSelection = .all, excludingYear: String? = nil) -> Double {
         
         // Get relevant sessions (cash only)
-        let sourceSessions: [PokerSession_v2]
-
-        if let id = bankrollID {
-            sourceSessions = bankrolls.first(where: { $0.id == id })?.sessions ?? []
-        } else {
-            sourceSessions = sessions + bankrolls.flatMap(\.sessions)
-        }
+        let sourceSessions: [PokerSession_v2] = {
+            switch bankroll {
+            case .all:
+                return sessions + bankrolls.flatMap(\.sessions)
+            case .default:
+                return sessions
+            case .custom(let id):
+                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
+            }
+        }()
         
-        // Filter out tournaments
         let cashOnly = sourceSessions.filter { !$0.isTournament }
         
         // Apply date range
@@ -191,7 +191,8 @@ extension SessionsListViewModel {
         
         let rangeFiltered: [PokerSession_v2] = {
             switch range {
-            case .all: return cashOnly
+            case .all:
+                return cashOnly
             case .oneMonth:
                 let cutoff = calendar.date(byAdding: .month, value: -1, to: now)!
                 return cashOnly.filter { $0.date >= cutoff }
@@ -202,7 +203,7 @@ extension SessionsListViewModel {
                 let cutoff = calendar.date(byAdding: .month, value: -6, to: now)!
                 return cashOnly.filter { $0.date >= cutoff }
             case .oneYear:
-                let cutoff = calendar.date(byAdding: .month, value: -12, to: now)!
+                let cutoff = calendar.date(byAdding: .year, value: -1, to: now)!
                 return cashOnly.filter { $0.date >= cutoff }
             case .ytd:
                 let startOfYear = calendar.date(from: calendar.dateComponents([.year], from: now))!
@@ -210,33 +211,35 @@ extension SessionsListViewModel {
             }
         }()
         
-        // Exclude year if needed
-        let sessions = excludingYear != nil
+        // Optional year exclusion
+        let filtered = excludingYear != nil
             ? rangeFiltered.filter { $0.date.getYear() != excludingYear }
             : rangeFiltered
-
-        guard !sessions.isEmpty else { return 0 }
-
+        
+        guard !filtered.isEmpty else { return 0 }
+        
         // Time & BBs
-        let totalBBs = Float(sessions.map(\.bigBlindsWon).reduce(0, +))
-        let totalHours = Float(sessions.compactMap { $0.sessionDuration.hour }.reduce(0, +))
-        let totalMinutes = Float(sessions.compactMap { $0.sessionDuration.minute }.reduce(0, +))
+        let totalBBs = Float(filtered.map(\.bigBlindsWon).reduce(0, +))
+        let totalHours = Float(filtered.compactMap { $0.sessionDuration.hour }.reduce(0, +))
+        let totalMinutes = Float(filtered.compactMap { $0.sessionDuration.minute }.reduce(0, +))
         let totalTime = totalHours + (totalMinutes / 60)
-
+        
         guard totalTime > 0 else { return 0 }
         
         let result = Double(totalBBs / totalTime)
         return (result * 100).rounded() / 100
     }
-    
-    func avgROI(bankrollID: UUID? = nil, range: RangeSelection = .all) -> String {
+
+    func avgROI(bankroll: BankrollSelection = .all, range: RangeSelection = .all) -> String {
         
-        // Source sessions (default or specific bankroll)
         let allSessions: [PokerSession_v2] = {
-            if let id = bankrollID {
-                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
+            switch bankroll {
+            case .all:
                 return sessions + bankrolls.flatMap(\.sessions)
+            case .default:
+                return sessions
+            case .custom(let id):
+                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
             }
         }()
         
@@ -294,14 +297,17 @@ extension SessionsListViewModel {
         let avgROI = (Double(totalWinnings) - Double(totalInvested)) / Double(totalInvested)
         return avgROI.asPercent()
     }
-    
-    func totalHoursPlayed(bankrollID: UUID? = nil, type: SessionFilter = .all, range: RangeSelection = .all) -> String {
+
+    func totalHoursPlayed(bankroll: BankrollSelection = .all, type: SessionFilter = .all, range: RangeSelection = .all) -> String {
         
         let allSessions: [PokerSession_v2] = {
-            if let id = bankrollID {
-                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
+            switch bankroll {
+            case .all:
                 return sessions + bankrolls.flatMap(\.sessions)
+            case .default:
+                return sessions
+            case .custom(let id):
+                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
             }
         }()
         
@@ -345,14 +351,17 @@ extension SessionsListViewModel {
         let dateComponents = DateComponents(hour: totalHours, minute: totalMinutes)
         return dateComponents.durationShortHand()
     }
-    
-    func handsPlayed(bankrollID: UUID? = nil, type: SessionFilter = .all, range: RangeSelection = .all) -> Int {
+
+    func handsPlayed(bankroll: BankrollSelection = .all, type: SessionFilter = .all, range: RangeSelection = .all) -> Int {
         
         let allSessions: [PokerSession_v2] = {
-            if let id = bankrollID {
-                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
+            switch bankroll {
+            case .all:
                 return sessions + bankrolls.flatMap(\.sessions)
+            case .default:
+                return sessions
+            case .custom(let id):
+                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
             }
         }()
         
@@ -403,25 +412,26 @@ extension SessionsListViewModel {
         
         return totalHands
     }
-    
+
     func profitPer100(hands: Int, bankroll: Int) -> Int {
         
         guard hands != 0 else { return 0 }
         return Int(Double(bankroll) / Double(hands) * 100)
     }
     
-    func avgDuration(bankrollID: UUID? = nil, type: SessionFilter = .all, range: RangeSelection = .all) -> String {
+    func avgDuration(bankroll: BankrollSelection = .all, type: SessionFilter = .all, range: RangeSelection = .all) -> String {
         
-        // Grab sessions from correct source
         let allSessions: [PokerSession_v2] = {
-            if let id = bankrollID {
-                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
+            switch bankroll {
+            case .all:
                 return sessions + bankrolls.flatMap(\.sessions)
+            case .default:
+                return sessions
+            case .custom(let id):
+                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
             }
         }()
         
-        // Filter by date range
         let calendar = Calendar.current
         let now = Date()
         
@@ -446,7 +456,6 @@ extension SessionsListViewModel {
             }
         }()
         
-        // Filter by session type
         let filteredSessions: [PokerSession_v2] = {
             switch type {
             case .all: return filteredByRange
@@ -456,8 +465,7 @@ extension SessionsListViewModel {
         }()
         
         guard !filteredSessions.isEmpty else { return "0" }
-
-        // Average duration
+        
         let totalHours = filteredSessions.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
         let totalMinutes = filteredSessions.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
         
@@ -467,22 +475,23 @@ extension SessionsListViewModel {
         let dateComponents = DateComponents(hour: avgHours, minute: avgMinutes)
         return dateComponents.durationShortHand()
     }
-    
-    func avgProfit(bankrollID: UUID? = nil, type: SessionFilter = .all, range: RangeSelection = .all, excludingYear: String? = nil) -> Int {
+
+    func avgProfit(bankroll: BankrollSelection = .all, type: SessionFilter = .all, range: RangeSelection = .all, excludingYear: String? = nil) -> Int {
         
-        // Get session list (default + bankrolls or just one bankroll)
         let allSessions: [PokerSession_v2] = {
-            if let id = bankrollID {
-                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
+            switch bankroll {
+            case .all:
                 return sessions + bankrolls.flatMap(\.sessions)
+            case .default:
+                return sessions
+            case .custom(let id):
+                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
             }
         }()
         
         let calendar = Calendar.current
         let now = Date()
         
-        // Apply range filtering
         let filteredByRange: [PokerSession_v2] = {
             switch range {
             case .all: return allSessions
@@ -504,7 +513,6 @@ extension SessionsListViewModel {
             }
         }()
         
-        // Filter by session type
         let filteredByType: [PokerSession_v2] = {
             switch type {
             case .all: return filteredByRange
@@ -513,7 +521,6 @@ extension SessionsListViewModel {
             }
         }()
         
-        // Optionally exclude a year
         let finalSessions: [PokerSession_v2] = {
             if let year = excludingYear {
                 return filteredByType.filter { $0.date.getYear() != year }
@@ -527,22 +534,23 @@ extension SessionsListViewModel {
         let totalProfit = finalSessions.reduce(0) { $0 + $1.profit }
         return totalProfit / finalSessions.count
     }
-    
-    func totalWinRate(bankrollID: UUID? = nil, type: SessionFilter = .all, range: RangeSelection = .all, excludingYear: String? = nil) -> Double {
+
+    func totalWinRate(bankroll: BankrollSelection = .all, type: SessionFilter = .all, range: RangeSelection = .all, excludingYear: String? = nil) -> Double {
         
-        // Source session list
         let allSessions: [PokerSession_v2] = {
-            if let id = bankrollID {
-                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
+            switch bankroll {
+            case .all:
                 return sessions + bankrolls.flatMap(\.sessions)
+            case .default:
+                return sessions
+            case .custom(let id):
+                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
             }
         }()
         
         let calendar = Calendar.current
         let now = Date()
         
-        // Filter by date range
         let filteredByRange: [PokerSession_v2] = {
             switch range {
             case .all: return allSessions
@@ -564,7 +572,6 @@ extension SessionsListViewModel {
             }
         }()
         
-        // Filter by type
         let filteredByType: [PokerSession_v2] = {
             switch type {
             case .all: return filteredByRange
@@ -573,7 +580,6 @@ extension SessionsListViewModel {
             }
         }()
         
-        // Filter by year (optional)
         let finalSessions: [PokerSession_v2] = {
             if let year = excludingYear {
                 return filteredByType.filter { $0.date.getYear() != year }
@@ -587,15 +593,17 @@ extension SessionsListViewModel {
         let profitable = finalSessions.filter { $0.profit > 0 }.count
         return Double(profitable) / Double(finalSessions.count)
     }
-    
-    func avgTournamentBuyIn(bankrollID: UUID? = nil, range: RangeSelection = .all) -> Int {
+
+    func avgTournamentBuyIn(bankroll: BankrollSelection = .all, range: RangeSelection = .all) -> Int {
         
-        // Fetch sessions based on scope
         let allSessions: [PokerSession_v2] = {
-            if let id = bankrollID {
-                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
+            switch bankroll {
+            case .all:
                 return sessions + bankrolls.flatMap(\.sessions)
+            case .default:
+                return sessions
+            case .custom(let id):
+                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
             }
         }()
         
@@ -604,7 +612,6 @@ extension SessionsListViewModel {
         let calendar = Calendar.current
         let now = Date()
         
-        // Filter by range
         let filteredByRange: [PokerSession_v2] = {
             switch range {
             case .all:
@@ -633,14 +640,17 @@ extension SessionsListViewModel {
         let totalBuyIns = tournamentSessions.map(\.buyIn).reduce(0, +)
         return totalBuyIns / tournamentSessions.count
     }
-    
-    func tournamentCount(bankrollID: UUID? = nil, range: RangeSelection = .all) -> Int {
+
+    func tournamentCount(bankroll: BankrollSelection = .all, range: RangeSelection = .all) -> Int {
         
         let allSessions: [PokerSession_v2] = {
-            if let id = bankrollID {
-                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
+            switch bankroll {
+            case .all:
                 return sessions + bankrolls.flatMap(\.sessions)
+            case .default:
+                return sessions
+            case .custom(let id):
+                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
             }
         }()
         
@@ -649,7 +659,6 @@ extension SessionsListViewModel {
         let calendar = Calendar.current
         let now = Date()
         
-        // Filter by range
         let filteredByRange: [PokerSession_v2] = {
             switch range {
             case .all:
@@ -672,25 +681,25 @@ extension SessionsListViewModel {
             }
         }()
         
-        let tournamentSessions = filteredByRange.filter { $0.isTournament }
-        return tournamentSessions.count
+        return filteredByRange.filter { $0.isTournament }.count
     }
-    
-    func inTheMoneyRatio(bankrollID: UUID? = nil, range: RangeSelection = .all) -> String {
+
+    func inTheMoneyRatio(bankroll: BankrollSelection = .all, range: RangeSelection = .all) -> String {
         
-        // Fetch all sessions
         let allSessions: [PokerSession_v2] = {
-            if let id = bankrollID {
-                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
+            switch bankroll {
+            case .all:
                 return sessions + bankrolls.flatMap(\.sessions)
+            case .default:
+                return sessions
+            case .custom(let id):
+                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
             }
         }()
         
         let calendar = Calendar.current
         let now = Date()
         
-        // Filter by range
         let filteredByRange: [PokerSession_v2] = {
             switch range {
             case .all:
@@ -721,15 +730,17 @@ extension SessionsListViewModel {
         
         return ratio.asPercent()
     }
-    
-    func bountiesCollected(bankrollID: UUID? = nil, range: RangeSelection = .all) -> Int {
+
+    func bountiesCollected(bankroll: BankrollSelection = .all, range: RangeSelection = .all) -> Int {
         
-        // Load sessions from either default or selected bankroll
         let allSessions: [PokerSession_v2] = {
-            if let id = bankrollID {
-                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
+            switch bankroll {
+            case .all:
                 return sessions + bankrolls.flatMap(\.sessions)
+            case .default:
+                return sessions
+            case .custom(let id):
+                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
             }
         }()
         
@@ -738,7 +749,6 @@ extension SessionsListViewModel {
         let calendar = Calendar.current
         let now = Date()
         
-        // Apply range filter
         let filteredByRange: [PokerSession_v2] = {
             switch range {
             case .all:
@@ -761,14 +771,12 @@ extension SessionsListViewModel {
             }
         }()
         
-        // Only look at tournament sessions
         let tournamentSessions = filteredByRange.filter { $0.isTournament }
         guard !tournamentSessions.isEmpty else { return 0 }
 
-        // Sum non-nil bounties
         return tournamentSessions.compactMap(\.bounties).reduce(0, +)
     }
-    
+
     // MARK: COME BACK TO THIS, DEFINITELY NEEDS UPDATING
     func totalActionSold(range: RangeSelection) -> Int {
         guard !allTournamentSessions().isEmpty else { return 0 }
@@ -800,13 +808,16 @@ extension SessionsListViewModel {
         return totalPaidOut
     }
     
-    func averageTournamentRebuys(bankrollID: UUID? = nil, range: RangeSelection = .all) -> Double {
+    func averageTournamentRebuys(bankroll: BankrollSelection = .all, range: RangeSelection = .all) -> Double {
         
         let allSessions: [PokerSession_v2] = {
-            if let id = bankrollID {
-                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
+            switch bankroll {
+            case .all:
                 return sessions + bankrolls.flatMap(\.sessions)
+            case .default:
+                return sessions
+            case .custom(let id):
+                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
             }
         }()
         
@@ -841,19 +852,20 @@ extension SessionsListViewModel {
         let totalRebuys = tournaments.map { $0.rebuyCount ?? 0 }.reduce(0, +)
         return Double(totalRebuys) / Double(tournaments.count)
     }
-    
-    func tournamentReturnOnInvestment(bankrollID: UUID? = nil, range: RangeSelection = .all) -> String {
+
+    func tournamentReturnOnInvestment(bankroll: BankrollSelection = .all, range: RangeSelection = .all) -> String {
         
-        // Step 1: Fetch all sessions
         let allSessions: [PokerSession_v2] = {
-            if let id = bankrollID {
-                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
+            switch bankroll {
+            case .all:
                 return sessions + bankrolls.flatMap(\.sessions)
+            case .default:
+                return sessions
+            case .custom(let id):
+                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
             }
         }()
         
-        // Step 2: Filter by date range
         let calendar = Calendar.current
         let now = Date()
         
@@ -882,7 +894,6 @@ extension SessionsListViewModel {
         let tournaments = filteredByRange.filter { $0.isTournament }
         guard !tournaments.isEmpty else { return "0%" }
         
-        // Step 3: Calculate investment and winnings
         let totalBuyIns = tournaments.reduce(0) { total, session in
             total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
         }
@@ -896,19 +907,20 @@ extension SessionsListViewModel {
         let roi = (Double(totalWinnings) - Double(totalBuyIns)) / Double(totalBuyIns)
         return roi.asPercent()
     }
-    
-    func numOfCashes(bankrollID: UUID? = nil, range: RangeSelection = .all) -> Int {
+
+    func numOfCashes(bankroll: BankrollSelection = .all, range: RangeSelection = .all) -> Int {
         
-        // Step 1: Get sessions from the right source
         let allSessions: [PokerSession_v2] = {
-            if let id = bankrollID {
-                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
+            switch bankroll {
+            case .all:
                 return sessions + bankrolls.flatMap(\.sessions)
+            case .default:
+                return sessions
+            case .custom(let id):
+                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
             }
         }()
         
-        // Step 2: Filter by date range
         let calendar = Calendar.current
         let now = Date()
         
@@ -934,22 +946,22 @@ extension SessionsListViewModel {
             }
         }()
         
-        // Step 3: Count profitable cash sessions
         return filtered.filter { !$0.isTournament && $0.profit > 0 }.count
     }
-    
-    func totalHighHands(bankrollID: UUID? = nil, range: RangeSelection = .all) -> Int {
+
+    func totalHighHands(bankroll: BankrollSelection = .all, range: RangeSelection = .all) -> Int {
         
-        // Step 1: Get sessions from either a specific or all bankrolls
         let allSessions: [PokerSession_v2] = {
-            if let id = bankrollID {
-                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
+            switch bankroll {
+            case .all:
                 return sessions + bankrolls.flatMap(\.sessions)
+            case .default:
+                return sessions
+            case .custom(let id):
+                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
             }
         }()
         
-        // Step 2: Filter by date range
         let calendar = Calendar.current
         let now = Date()
         
@@ -975,7 +987,6 @@ extension SessionsListViewModel {
             }
         }()
         
-        // Step 3: Only include cash games and sum highHandBonus
         let cashSessions = filtered.filter { !$0.isTournament }
         return cashSessions.map { $0.highHandBonus }.reduce(0, +)
     }

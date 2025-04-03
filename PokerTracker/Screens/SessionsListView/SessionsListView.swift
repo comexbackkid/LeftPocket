@@ -26,7 +26,7 @@ struct SessionsListView: View {
     @State var gameTypeFilter: String?
     @State var tagsFilter: String?
     @State var stakesFilter: String?
-    @State var bankrollFilter: UUID?
+    @State var bankrollFilter: BankrollSelection = .all
     @State var startDate: Date = Date()
     @State var endDate: Date = .now
     @State var datesInitialized = false
@@ -66,19 +66,16 @@ struct SessionsListView: View {
         
         var result: [PokerSession_v2] = vm.sessions + vm.bankrolls.flatMap { $0.sessions }
         
+        switch bankrollFilter {
+        case .all: result = vm.sessions + vm.bankrolls.flatMap { $0.sessions }
+        case .default: result = vm.sessions
+        case .custom(let id): result = vm.bankrolls.first(where: { $0.id == id })?.sessions ?? []
+        }
+        
         switch sessionFilter {
         case .all: break
         case .cash: result = result.filter { !$0.isTournament }
         case .tournaments: result = result.filter { $0.isTournament }
-        }
-        
-        if let bankrollID = bankrollFilter {
-            if let match = vm.bankrolls.first(where: { $0.id == bankrollID }) {
-                result = match.sessions
-            }
-            
-        } else {
-            result = vm.sessions + vm.bankrolls.flatMap { $0.sessions }
         }
         
         if let locationFilter = locationFilter {
@@ -299,9 +296,10 @@ struct SessionsListView: View {
             
             Menu {
                 Picker("Select Bankroll", selection: $bankrollFilter) {
-                    Text("All").tag(UUID?.none)
+                    Text("All").tag(BankrollSelection.all)
+                    Text("Default").tag(BankrollSelection.default)
                     ForEach(vm.bankrolls) { bankroll in
-                        Text(bankroll.name).tag(Optional(bankroll.id))
+                        Text(bankroll.name).tag(BankrollSelection.custom(bankroll.id))
                     }
                 }
             } label: {
@@ -524,20 +522,10 @@ struct SessionsListView: View {
         gameTypeFilter = nil
         stakesFilter = nil
         tagsFilter = nil
-        bankrollFilter = nil
+        bankrollFilter = .all
         startDate = firstSessionDate
         endDate = Date.now
     }
-    
-//    private func deleteSession(_ session: PokerSession_v2) {
-//        if let index = vm.sessions.firstIndex(where: { $0.id == session.id }) {
-//            vm.sessions.remove(at: index)
-//        }
-//    }
-    
-//    private func deleteTransaction(at offsets: IndexSet) {
-//        vm.transactions.remove(atOffsets: offsets)
-//    }
     
     private func deleteSession(_ session: PokerSession_v2) {
         if let index = vm.sessions.firstIndex(where: { $0.id == session.id }) {
@@ -598,6 +586,12 @@ enum SessionFilter: String, CaseIterable {
             return "Tournaments"
         }
     }
+}
+
+enum BankrollSelection: Hashable {
+    case all
+    case `default`
+    case custom(UUID)
 }
 
 enum ListFilter: String, CaseIterable {

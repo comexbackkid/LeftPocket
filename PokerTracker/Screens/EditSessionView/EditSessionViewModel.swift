@@ -11,6 +11,8 @@ import SwiftUI
 final class EditSessionViewModel: ObservableObject {
     
     @Published var location: LocationModel_v2 = DefaultData.defaultLocation
+    @Published var selectedBankroll: BankrollSelection = .default
+    @Published var selectedBankrollID: UUID?
     @Published var date: Date = Date()
     @Published var stakes: String = ""
     @Published var game: String = ""
@@ -174,30 +176,50 @@ final class EditSessionViewModel: ObservableObject {
             }
         }
 
-        viewModel.addNewSession(location: location,
-                                date: startTime,
-                                startTime: startTime,
-                                endTime: endTime,
-                                game: game,
-                                stakes: stakes,
-                                buyIn: Int(buyIn) ?? 0,
-                                cashOut: Int(cashOut) ?? 0,
-                                profit: computedProfit,
-                                expenses: Int(expenses) ?? 0,
-                                notes: notes,
-                                tags: tags.isEmpty ? [] : [tags],
-                                highHandBonus: Int(highHandBonus) ?? 0,
-                                handsPerHour: handsPerHour,
-                                isTournament: sessionType == .tournament ? true : false,
-                                rebuyCount: Int(rebuyCount),
-                                bounties: Int(bounties),
-                                tournamentSize: size,
-                                tournamentSpeed: speed,
-                                entrants: Int(entrants),
-                                finish: Int(finish),
-                                tournamentDays: Int(tournamentDays),
-                                startTimeDayTwo: startTimeDayTwo,
-                                endTimeDayTwo: endTimeDayTwo,
-                                stakers: sessionType == .tournament && !stakers.isEmpty ? stakers : nil)
+        let session = PokerSession_v2(location: location,
+                                      date: startTime,
+                                      startTime: startTime,
+                                      endTime: endTime,
+                                      game: game,
+                                      stakes: stakes,
+                                      buyIn: Int(buyIn) ?? 0,
+                                      cashOut: Int(cashOut) ?? 0,
+                                      profit: computedProfit,
+                                      expenses: Int(expenses) ?? 0,
+                                      notes: notes,
+                                      tags: tags.isEmpty ? [] : [tags],
+                                      highHandBonus: Int(highHandBonus) ?? 0,
+                                      handsPerHour: handsPerHour,
+                                      isTournament: sessionType == .tournament ? true : false,
+                                      rebuyCount: Int(rebuyCount),
+                                      bounties: Int(bounties),
+                                      tournamentSize: size,
+                                      tournamentSpeed: speed,
+                                      entrants: Int(entrants),
+                                      finish: Int(finish),
+                                      tournamentDays: Int(tournamentDays),
+                                      startTimeDayTwo: startTimeDayTwo,
+                                      endTimeDayTwo: endTimeDayTwo,
+                                      stakers: sessionType == .tournament && !stakers.isEmpty ? stakers : nil)
+        
+        // Save to the correct bankroll
+        switch selectedBankroll {
+        case .default:
+            viewModel.sessions.append(session)
+            viewModel.sessions.sort(by: { $0.date > $1.date })
+            
+        case .custom(let id):
+            viewModel.addSession(session, to: id)
+            
+        case .all:
+            break // shouldn't happen, but if it does, we might want to ignore it
+        }
+        
+        // Delete old session (wherever it came from)
+        if let existingID = viewModel.bankrollID(for: editedSession) {
+            viewModel.removeSession(editedSession, from: existingID)
+        } else {
+            viewModel.sessions.removeAll(where: { $0.id == editedSession.id })
+        }
     }
 }

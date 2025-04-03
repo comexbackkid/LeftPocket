@@ -270,6 +270,15 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
+    /// Helper function to filter Sessions based on a BankrollSelection filter
+    func sessions(for selection: BankrollSelection) -> [PokerSession_v2] {
+        switch selection {
+        case .all: return sessions + bankrolls.flatMap(\.sessions)
+        case .default: return sessions
+        case .custom(let id): return bankrolls.first(where: { $0.id == id })?.sessions ?? []
+        }
+    }
+    
     // MARK: CALCULATIONS & DATA PRESENTATION FOR CHARTS & METRICS VIEW
     
     // Simply counts how many sessions played each year
@@ -373,6 +382,11 @@ class SessionsListViewModel: ObservableObject {
         bankrolls[index].sessions.sort(by: { $0.date > $1.date })
     }
     
+    func removeSession(_ session: PokerSession_v2, from bankrollID: UUID) {
+        guard let index = bankrolls.firstIndex(where: { $0.id == bankrollID }) else { return }
+        bankrolls[index].sessions.removeAll(where: { $0.id == session.id })
+    }
+    
     // MARK: DELETE THIS
     func addNewSession(
         location: LocationModel_v2,
@@ -473,10 +487,9 @@ class SessionsListViewModel: ObservableObject {
         
         self.convertToLineChartData()
 
-        defaults.set(self.tallyBankroll(bankrollID: nil, type: .all, range: .all), forKey: AppGroup.bankrollKey)
-//        defaults.set(self.sessions.first?.profit ?? 0, forKey: AppGroup.lastSessionKey)
+        defaults.set(self.tallyBankroll(bankroll: .all, type: .all, range: .all), forKey: AppGroup.bankrollKey)
         defaults.set(self.allSessions.first?.profit ?? 0, forKey: AppGroup.lastSessionKey)
-        defaults.set(self.hourlyRate(bankrollID: nil, type: .all, range: .all), forKey: AppGroup.hourlyKey)
+        defaults.set(self.hourlyRate(bankroll: .all, type: .all, range: .all), forKey: AppGroup.hourlyKey)
         defaults.set(self.allSessions.count, forKey: AppGroup.totalSessionsKey)
         defaults.set(self.userCurrency.rawValue, forKey: AppGroup.currencyKey)
         

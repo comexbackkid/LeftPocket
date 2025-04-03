@@ -19,16 +19,16 @@ struct BankrollLineChart: View {
     @Binding var minimizeLineChart: Bool
     @AppStorage("sessionFilter") private var chartSessionFilter: SessionFilter = .all
     @AppStorage("dateRangeSelection") private var chartRange: RangeSelection = .all
-    @State private var bankrollFilter: UUID?
+    @State private var bankrollFilter: BankrollSelection = .default
     
     // Optional year selector, only used in Annual Report View. Overrides dateRange if used
     var customDateRange: [PokerSession_v2]?
     var dateRange: [PokerSession_v2] {
         let allSessions: [PokerSession_v2] = {
-            if let id = bankrollFilter {
-                return viewModel.bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            } else {
-                return viewModel.sessions + viewModel.bankrolls.flatMap(\.sessions)
+            switch bankrollFilter {
+            case .all: return viewModel.sessions + viewModel.bankrolls.flatMap(\.sessions)
+            case .default: return viewModel.sessions
+            case .custom(let id): return viewModel.bankrolls.first(where: { $0.id == id })?.sessions ?? []
             }
         }()
         
@@ -253,12 +253,12 @@ struct BankrollLineChart: View {
             
             Menu {
                 Picker("Bankroll Picker", selection: $bankrollFilter) {
-                    Text("All").tag(UUID?.none)
+                    Text("All").tag(BankrollSelection.all)
+                    Text("Default").tag(BankrollSelection.default)
                     ForEach(viewModel.bankrolls) { bankroll in
-                        Text(bankroll.name).tag(Optional(bankroll.id))
+                        Text(bankroll.name).tag(BankrollSelection.custom(bankroll.id))
                     }
                 }
-                
             } label: {
                 HStack {
                     Text("Bankrolls")

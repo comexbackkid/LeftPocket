@@ -22,7 +22,7 @@ struct MetricsView: View {
     @State private var minimizeLineChart = false
     @AppStorage("dateRangeSelection") private var statsRange: RangeSelection = .all
     @AppStorage("sessionFilter") private var sessionFilter: SessionFilter = .all
-    @State private var bankrollFilter: UUID?
+    @State private var bankrollFilter: BankrollSelection = .default
     @Binding var activeSheet: Sheet?
     
     private var isPad: Bool {
@@ -317,12 +317,12 @@ struct MetricsView: View {
                         
                         Menu {
                             Picker("Bankroll Picker", selection: $bankrollFilter) {
-                                Text("All").tag(UUID?.none)
+                                Text("All").tag(BankrollSelection.all)
+                                Text("Default").tag(BankrollSelection.default)
                                 ForEach(viewModel.bankrolls) { bankroll in
-                                    Text(bankroll.name).tag(Optional(bankroll.id))
+                                    Text(bankroll.name).tag(BankrollSelection.custom(bankroll.id))
                                 }
                             }
-                            
                         } label: {
                             HStack {
                                 Text("Bankrolls")
@@ -390,23 +390,23 @@ struct AllStats: View {
     let sessionFilter: SessionFilter
     let viewModel: SessionsListViewModel
     let range: RangeSelection
-    let bankroll: UUID?
+    let bankroll: BankrollSelection
     
     var body: some View {
         
         VStack {
             
             let currencyType = viewModel.userCurrency.rawValue
-            let totalBankroll = viewModel.tallyBankroll(bankrollID: bankroll, type: sessionFilter, range: range)
-            let hourlyRate = viewModel.hourlyRate(bankrollID: bankroll, type: sessionFilter, range: range)
-            let profitPerSession = viewModel.avgProfit(bankrollID: bankroll, type: sessionFilter, range: range)
-            let highHandBonus = viewModel.totalHighHands(bankrollID: bankroll, range: range)
-            let avgDuration = viewModel.avgDuration(bankrollID: bankroll, type: sessionFilter, range: range)
-            let totalSessions = viewModel.countSessions(bankrollID: bankroll, type: sessionFilter, range: range)
-            let totalWinRate = viewModel.totalWinRate(bankrollID: bankroll, type: sessionFilter, range: range)
-            let totalHours = viewModel.totalHoursPlayed(bankrollID: bankroll, type: sessionFilter, range: range)
-            let avgROI = viewModel.avgROI(bankrollID: bankroll, range: range)
-            let handsPlayed = viewModel.handsPlayed(bankrollID: bankroll, type: sessionFilter, range: range)
+            let totalBankroll = viewModel.tallyBankroll(bankroll: bankroll, type: sessionFilter, range: range)
+            let hourlyRate = viewModel.hourlyRate(bankroll: bankroll, type: sessionFilter, range: range)
+            let profitPerSession = viewModel.avgProfit(bankroll: bankroll, type: sessionFilter, range: range)
+            let highHandBonus = viewModel.totalHighHands(bankroll: bankroll, range: range)
+            let avgDuration = viewModel.avgDuration(bankroll: bankroll, type: sessionFilter, range: range)
+            let totalSessions = viewModel.countSessions(bankroll: bankroll, type: sessionFilter, range: range)
+            let totalWinRate = viewModel.totalWinRate(bankroll: bankroll, type: sessionFilter, range: range)
+            let totalHours = viewModel.totalHoursPlayed(bankroll: bankroll, type: sessionFilter, range: range)
+            let avgROI = viewModel.avgROI(bankroll: bankroll, range: range)
+            let handsPlayed = viewModel.handsPlayed(bankroll: bankroll, type: sessionFilter, range: range)
             let profitPer100 = viewModel.profitPer100(hands: handsPlayed, bankroll: totalBankroll)
             
             HStack {
@@ -574,23 +574,23 @@ struct CashStats: View {
     let sessionFilter: SessionFilter
     let viewModel: SessionsListViewModel
     let range: RangeSelection
-    let bankroll: UUID?
+    let bankroll: BankrollSelection
     
     var body: some View {
         
         VStack {
             
             let currencyType = viewModel.userCurrency.rawValue
-            let cashBankroll = viewModel.tallyBankroll(bankrollID: bankroll, type: sessionFilter, range: range)
-            let hourlyRate = viewModel.hourlyRate(bankrollID: bankroll, type: sessionFilter, range: range)
-            let profitPerSession = viewModel.avgProfit(bankrollID: bankroll, type: sessionFilter, range: range)
-            let highHandBonus = viewModel.totalHighHands(bankrollID: bankroll, range: range)
-            let avgDuration = viewModel.avgDuration(bankrollID: bankroll, type: sessionFilter, range: range)
-            let cashWinCount = viewModel.numOfCashes(bankrollID: bankroll, range: range)
-            let totalSessions = viewModel.countSessions(bankrollID: bankroll, type: sessionFilter, range: range)
-            let cashWinRate = viewModel.totalWinRate(bankrollID: bankroll, type: sessionFilter, range: range)
-            let cashTotalHours = viewModel.totalHoursPlayed(bankrollID: bankroll, type: sessionFilter, range: range)
-            let handsPlayed = viewModel.handsPlayed(bankrollID: bankroll, type: sessionFilter, range: range)
+            let cashBankroll = viewModel.tallyBankroll(bankroll: bankroll, type: sessionFilter, range: range)
+            let hourlyRate = viewModel.hourlyRate(bankroll: bankroll, type: sessionFilter, range: range)
+            let profitPerSession = viewModel.avgProfit(bankroll: bankroll, type: sessionFilter, range: range)
+            let highHandBonus = viewModel.totalHighHands(bankroll: bankroll, range: range)
+            let avgDuration = viewModel.avgDuration(bankroll: bankroll, type: sessionFilter, range: range)
+            let cashWinCount = viewModel.numOfCashes(bankroll: bankroll, range: range)
+            let totalSessions = viewModel.countSessions(bankroll: bankroll, type: sessionFilter, range: range)
+            let cashWinRate = viewModel.totalWinRate(bankroll: bankroll, type: sessionFilter, range: range)
+            let cashTotalHours = viewModel.totalHoursPlayed(bankroll: bankroll, type: sessionFilter, range: range)
+            let handsPlayed = viewModel.handsPlayed(bankroll: bankroll, type: sessionFilter, range: range)
             let profitPer100 = viewModel.profitPer100(hands: handsPlayed, bankroll: cashBankroll)
             
             HStack {
@@ -771,22 +771,22 @@ struct TournamentStats: View {
     let sessionFilter: SessionFilter
     let viewModel: SessionsListViewModel
     let range: RangeSelection
-    let bankroll: UUID?
+    let bankroll: BankrollSelection
     
     var body: some View {
         
         VStack {
             
-            let tournamentProfit = viewModel.tallyBankroll(bankrollID: bankroll, type: .tournaments, range: range)
-            let tournamentHourlyRate = viewModel.hourlyRate(bankrollID: bankroll, type: .tournaments, range: range)
-            let tournamentAvgDuration = viewModel.avgDuration(bankrollID: bankroll, type: .tournaments, range: range)
-            let avgTournamentBuyIn = viewModel.avgTournamentBuyIn(bankrollID: bankroll, range: range)
-            let tournamentCount = viewModel.tournamentCount(bankrollID: bankroll, range: range)
-            let itmRatio = viewModel.inTheMoneyRatio(bankrollID: bankroll, range: range)
-            let tournamentROI = viewModel.tournamentReturnOnInvestment(bankrollID: bankroll, range: range)
-            let tournamentHrsPlayed = viewModel.totalHoursPlayed(bankrollID: bankroll, type: .tournaments, range: range)
-            let handsPlayed = viewModel.handsPlayed(bankrollID: bankroll, type: .tournaments, range: range)
-            let bounties = viewModel.bountiesCollected(bankrollID: bankroll, range: range)
+            let tournamentProfit = viewModel.tallyBankroll(bankroll: bankroll, type: .tournaments, range: range)
+            let tournamentHourlyRate = viewModel.hourlyRate(bankroll: bankroll, type: .tournaments, range: range)
+            let tournamentAvgDuration = viewModel.avgDuration(bankroll: bankroll, type: .tournaments, range: range)
+            let avgTournamentBuyIn = viewModel.avgTournamentBuyIn(bankroll: bankroll, range: range)
+            let tournamentCount = viewModel.tournamentCount(bankroll: bankroll, range: range)
+            let itmRatio = viewModel.inTheMoneyRatio(bankroll: bankroll, range: range)
+            let tournamentROI = viewModel.tournamentReturnOnInvestment(bankroll: bankroll, range: range)
+            let tournamentHrsPlayed = viewModel.totalHoursPlayed(bankroll: bankroll, type: .tournaments, range: range)
+            let handsPlayed = viewModel.handsPlayed(bankroll: bankroll, type: .tournaments, range: range)
+            let bounties = viewModel.bountiesCollected(bankroll: bankroll, range: range)
             let actionSold = viewModel.totalActionSold(range: range)
             
             HStack {

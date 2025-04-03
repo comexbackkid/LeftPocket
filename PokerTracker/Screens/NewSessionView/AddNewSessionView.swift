@@ -52,7 +52,7 @@ struct AddNewSessionView: View {
            let match = vm.bankrolls.first(where: { $0.id == id }) {
             return match.name
         } else {
-            return "Default Bankroll"
+            return "Default"
         }
     }
     
@@ -252,7 +252,7 @@ struct AddNewSessionView: View {
             Menu {
                     
                 Picker("Bankroll Picker", selection: $newSession.selectedBankrollID) {
-                    Text("Default Bankroll").tag(UUID?.none)
+                    Text("Default").tag(UUID?.none)
                     ForEach(vm.bankrolls) { bankroll in
                         Text(bankroll.name).tag(Optional(bankroll.id))
                     }
