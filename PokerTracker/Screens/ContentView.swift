@@ -164,7 +164,6 @@ struct ContentView: View {
     }
     
     var quickMetricsBoxes: some View {
-        
         QuickMetricsBoxGrid(viewModel: viewModel)
             .padding(.top, hideBankroll ? 30 : 0)
     }
@@ -441,10 +440,10 @@ extension SessionsListViewModel {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         
-        guard !sessions.isEmpty else { return "0h" } // Return "0h" if there are no sessions
+        guard !allSessions.isEmpty else { return "0h" } // Return "0h" if there are no sessions
         
-        let totalHours = sessions.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
-        let totalMins = sessions.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
+        let totalHours = allSessions.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
+        let totalMins = allSessions.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
         let dateComponents = DateComponents(hour: totalHours, minute: totalMins)
         let totalTime = Int(dateComponents.durationInHours)
         let formattedTotalTime = formatter.string(from: NSNumber(value: totalTime)) ?? "0"

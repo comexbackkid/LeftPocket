@@ -315,6 +315,7 @@ final class NewSessionViewModel: ObservableObject {
         
         if let bankrollID = selectedBankrollID {
             viewModel.addSession(newSession, to: bankrollID)
+            viewModel.updateBankrollProgressRing()
         } else {
             viewModel.sessions.append(newSession)
             viewModel.sessions.sort(by: { $0.date > $1.date })

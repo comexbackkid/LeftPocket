@@ -777,7 +777,6 @@ extension SessionsListViewModel {
         return tournamentSessions.compactMap(\.bounties).reduce(0, +)
     }
 
-    // MARK: COME BACK TO THIS, DEFINITELY NEEDS UPDATING
     func totalActionSold(bankroll: BankrollSelection = .all, range: RangeSelection = .all) -> Int {
         // Get sessions based on bankroll selection
         let allSessions: [PokerSession_v2] = {
@@ -833,7 +832,6 @@ extension SessionsListViewModel {
         return totalPaidOut
     }
 
-    
     func averageTournamentRebuys(bankroll: BankrollSelection = .all, range: RangeSelection = .all) -> Double {
         
         let allSessions: [PokerSession_v2] = {

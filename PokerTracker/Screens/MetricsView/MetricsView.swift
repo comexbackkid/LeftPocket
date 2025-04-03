@@ -65,7 +65,7 @@ struct MetricsView: View {
                                 
                                 performanceChart
                                 
-                                let barChartDateRange = viewModel.sessions.filter({ $0.date.getYear() == Date().getYear() })
+                                let barChartDateRange = viewModel.allSessions.filter({ $0.date.getYear() == Date().getYear() })
                                 
                                 BarChartWeeklySessionCount(showTitle: true, dateRange: barChartDateRange)
                                     .padding(20)
@@ -145,12 +145,12 @@ struct MetricsView: View {
     var winStreakToolTip: some View {
         
         Group {
-            if viewModel.sessions.count > 1 && viewModel.winStreak() > 2 {
+            if viewModel.allSessions.count > 1 && viewModel.winStreak() > 2 {
                 ToolTipView(image: "flame.fill",
                             message: "You're on a win streak! That's \(viewModel.winStreak()) in a row, well done.",
                             color: .yellow)
                 
-            } else if viewModel.sessions.count > 1 && viewModel.winStreak() < -2 {
+            } else if viewModel.allSessions.count > 1 && viewModel.winStreak() < -2 {
                 ToolTipView(image: "snowflake",
                             message: "You're on a slight downswing. Take a breather, & re-focus.",
                             color: .lightBlue)
@@ -210,12 +210,6 @@ struct MetricsView: View {
         Group {
             if !subManager.isSubscribed {
                 BankrollProgressView(progressIndicator: $progressIndicator, isSubscribed: subManager.isSubscribed)
-                    .onAppear(perform: {
-                        self.progressIndicator = viewModel.bankrollProgressRing
-                    })
-                    .onReceive(viewModel.$sessions, perform: { _ in
-                        self.progressIndicator = viewModel.bankrollProgressRing
-                    })
                     .cardShadow(colorScheme: colorScheme)
                     .overlay {
                         HStack {
@@ -236,11 +230,12 @@ struct MetricsView: View {
             } else {
                 BankrollProgressView(progressIndicator: $progressIndicator, isSubscribed: subManager.isSubscribed)
                     .onAppear(perform: {
+                        viewModel.updateBankrollProgressRing()
                         self.progressIndicator = viewModel.bankrollProgressRing
                     })
-                    .onReceive(viewModel.$sessions, perform: { _ in
+                    .onReceive(viewModel.$progressRingTrigger) { _ in
                         self.progressIndicator = viewModel.bankrollProgressRing
-                    })
+                    }
                     .cardShadow(colorScheme: colorScheme)
             }
         }

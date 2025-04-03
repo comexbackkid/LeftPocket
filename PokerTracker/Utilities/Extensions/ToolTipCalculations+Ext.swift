@@ -46,9 +46,10 @@ extension SessionsListViewModel {
     func updateBankrollProgressRing() {
         // Combine sessions from all sources
         let allSessions = sessions + bankrolls.flatMap(\.sessions)
+        let allCashSessions = allSessions.filter({ $0.isTournament == false })
         
         // Calculate target bankroll based on all sessions
-        guard let targetBankroll = calculateTargetBankrollSize(from: allSessions, riskTolerance: userRiskTolerance) else {
+        guard let targetBankroll = calculateTargetBankrollSize(from: allCashSessions, riskTolerance: userRiskTolerance) else {
             return
         }
         
@@ -57,17 +58,18 @@ extension SessionsListViewModel {
         let transactionTotal = allTransactions.map(\.amount).reduce(0, +)
         
         // Sum all profits
-        let profitTotal = allSessions.map(\.profit).reduce(0, +)
+        let profitTotal = allCashSessions.map(\.profit).reduce(0, +)
         
         // Final progress ring value
         self.bankrollProgressRing = (Float(profitTotal + transactionTotal) / Float(targetBankroll))
+        progressRingTrigger = UUID()
     }
 
     
     // MARK: BEST MONTH
     
     var bestMonth: String {
-        mostProfitableMonth(in: sessions)
+        mostProfitableMonth(in: allSessions)
     }
     
     // MARK: FUNCTIONS FOR FINDING USER'S IDEAL SESSION LENGTH
@@ -91,7 +93,7 @@ extension SessionsListViewModel {
     func bestSessionLength() -> String {
         var categoryTotals = [SessionLengthCategory: (totalHourlyRate: Int, count: Int)]()
 
-        for session in sessions {
+        for session in allSessions {
             let duration = session.endTime.timeIntervalSince(session.startTime) / 3600 // Duration in hours
             let category = sessionCategory(from: duration)
             
@@ -157,7 +159,7 @@ extension SessionsListViewModel {
         var streak = 0
         
         // Iterate through sessions in reverse order (from most recent to oldest)
-        for session in sessions {
+        for session in allSessions {
             if session.profit > 0 {
                 // If on a win streak or neutral, increment the streak
                 if streak >= 0 {

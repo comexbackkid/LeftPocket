@@ -13,6 +13,7 @@ class SessionsListViewModel: ObservableObject {
     // I'm not sure I'm even using this alert... SHOULD probably use it for migration function in case of error
     @Published var alertMessage: String?
     @Published var bankrollProgressRing: Float = 0.0
+    @Published var progressRingTrigger = UUID()
     @Published var userStakes: [String] = ["1/2", "1/3", "2/5", "5/10"] {
         didSet {
             saveUserStakes()
@@ -87,11 +88,6 @@ class SessionsListViewModel: ObservableObject {
     var gameTypePath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("gameTypes.json") }
     var transactionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("transactions.json") }
     var bankrollsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("bankrolls.json") }
-    
-    // Combining original session data, aka "Default Bankroll" and any newly created bankroll sessions
-    var allSessions: [PokerSession_v2] {
-        sessions + bankrolls.flatMap(\.sessions)
-    }
     
     func saveBankrolls() {
         do {
@@ -387,67 +383,6 @@ class SessionsListViewModel: ObservableObject {
         bankrolls[index].sessions.removeAll(where: { $0.id == session.id })
     }
     
-    // MARK: DELETE THIS
-    func addNewSession(
-        location: LocationModel_v2,
-        date: Date,
-        startTime: Date,
-        endTime: Date,
-        game: String,
-        stakes: String,
-        buyIn: Int,
-        cashOut: Int,
-        profit: Int,
-        expenses: Int,
-        notes: String,
-        tags: [String],
-        highHandBonus: Int,
-        handsPerHour: Int,
-        isTournament: Bool,
-        rebuyCount: Int?,
-        bounties: Int?,
-        tournamentSize: String?,
-        tournamentSpeed: String?,
-        entrants: Int?,
-        finish: Int?,
-        tournamentDays: Int?,
-        startTimeDayTwo: Date?,
-        endTimeDayTwo: Date?,
-        stakers: [Staker]?
-    ) {
-        
-        let newSession = PokerSession_v2(
-            location: location,
-            date: date,
-            startTime: startTime,
-            endTime: endTime,
-            game: game,
-            stakes: stakes,
-            buyIn: buyIn,
-            cashOut: cashOut,
-            profit: profit,
-            expenses: expenses,
-            notes: notes,
-            tags: tags,
-            highHandBonus: highHandBonus,
-            handsPerHour: handsPerHour,
-            isTournament: isTournament,
-            rebuyCount: rebuyCount,
-            bounties: bounties,
-            tournamentSize: tournamentSize,
-            tournamentSpeed: tournamentSpeed,
-            entrants: entrants,
-            finish: finish,
-            tournamentDays: tournamentDays,
-            startTimeDayTwo: startTimeDayTwo,
-            endTimeDayTwo: endTimeDayTwo,
-            stakers: stakers
-        )
-        
-        sessions.append(newSession)
-        sessions.sort(by: { $0.date > $1.date })
-    }
-    
     func createTransaction(date: Date, type: TransactionType, amount: Int, notes: String, tags: [String]?) -> BankrollTransaction {
         let signedAmount = (type == .withdrawal || type == .expense) ? -amount : amount
         return BankrollTransaction(date: date, type: type, amount: signedAmount, notes: notes, tags: tags)
@@ -459,27 +394,11 @@ class SessionsListViewModel: ObservableObject {
         bankrolls[index].transactions.sort(by: { $0.date > $1.date })
     }
     
-//    func addTransaction(date: Date, type: TransactionType, amount: Int, notes: String, tags: [String]?) {
-//        
-//        if type == .withdrawal || type == .expense {
-//            let newAmount = -(amount)
-//            let newTransaction = BankrollTransaction(date: date, type: type, amount: newAmount, notes: notes, tags: tags)
-//            transactions.append(newTransaction)
-//            
-//        } else {
-//            let newTransaction = BankrollTransaction(date: date, type: type, amount: amount, notes: notes, tags: tags)
-//            transactions.append(newTransaction)
-//        }
-//        
-//        transactions.sort(by: {$0.date > $1.date})
-//    }
-    
     // MARK: WIDGET FUNCTIONS
     
     /// Another potential crash point
     /// Added a safety check if the UserDefaults for the AppGroup fails
     func writeToWidget() {
-        
         guard let defaults = UserDefaults(suiteName: AppGroup.bankrollSuite) else {
             print("Error: App Group UserDefaults not found.")
             return
@@ -521,12 +440,17 @@ class SessionsListViewModel: ObservableObject {
     
     // Returns false if the user tries to add a 6th session for the month
     func canLogNewSession() -> Bool {
-        let loggedThisMonth = sessionsLoggedThisMonth(sessions)
+        let loggedThisMonth = sessionsLoggedThisMonth(allSessions)
         return loggedThisMonth < 3
     }
 }
 
 extension SessionsListViewModel {
+    
+    // Combining original session data, aka "Default Bankroll" and any newly created bankroll sessions
+    var allSessions: [PokerSession_v2] {
+        sessions + bankrolls.flatMap(\.sessions)
+    }
     
     func allTournamentSessions() -> [PokerSession_v2] {
         return sessions.filter({ $0.isTournament == true })

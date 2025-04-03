@@ -187,6 +187,7 @@ struct LeftPocketCustomTabBar: View {
                         }
                      }, content: {
                         AddNewTransaction(showNewTransaction: $showNewTransaction, audioConfirmation: $audioConfirmation)
+                             .presentationDragIndicator(.visible)
                     })
                     .onTapGesture {
                         let impact = UIImpactFeedbackGenerator(style: .medium)
@@ -267,6 +268,7 @@ struct LeftPocketCustomTabBar: View {
                 }
             } else {
                 AddNewSessionView(vm: viewModel, timerViewModel: timerViewModel, isPresented: $isPresented, audioConfirmation: $audioConfirmation)
+                    .presentationDragIndicator(.visible)
             }
         })
         .onChange(of: qaService.action) { _ in
