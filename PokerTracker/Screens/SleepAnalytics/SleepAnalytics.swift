@@ -41,7 +41,7 @@ struct SleepAnalytics: View {
     var pokerSessionMatch: PokerSession_v2? {
         guard let rawSelectedDate else { return nil }
         let last30Days = Calendar.current.date(byAdding: .day, value: -30, to: Date())!
-        let sessions = viewModel.sessions.filter({ $0.date >= last30Days })
+        let sessions = viewModel.allSessions.filter({ $0.date >= last30Days })
         
         return sessions.first {
             Calendar.current.isDate(rawSelectedDate, inSameDayAs: $0.date)
@@ -466,7 +466,7 @@ struct SleepAnalytics: View {
                 ForEach(hkManager.sleepData) { sleep in
 //                ForEach(SleepMetric.MockData) { sleep in
                     BarMark(x: .value("Date", sleep.date), y: .value("Hours", sleep.value))
-                        .foregroundStyle(calculateBarColor(healthMetric: sleep, viewModel: viewModel).gradient)
+                        .foregroundStyle(calculateBarColor(healthMetric: sleep).gradient)
                         .opacity(rawSelectedDate == nil || sleep.date == selectedSleepMetric?.date ? 1.0 : 0.1)
                 }
             }
@@ -513,7 +513,6 @@ struct SleepAnalytics: View {
             }
         }
         .padding()
-//        .frame(width: UIScreen.main.bounds.width * 0.9, height: 290)
         .frame(height: 290)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
@@ -540,11 +539,11 @@ struct SleepAnalytics: View {
     }
     
     // Dynamically return red vs. green if the user won or lost money
-    private func calculateBarColor(healthMetric: SleepMetric, viewModel: SessionsListViewModel) -> Color {
+    private func calculateBarColor(healthMetric: SleepMetric) -> Color {
         
         // Filter sessions to find any that match the date of the health metric
         let date = Calendar.current.startOfDay(for: healthMetric.date)
-        let daysSessions = viewModel.sessions.filter { session in
+        let daysSessions = viewModel.allSessions.filter { session in
             Calendar.current.isDate(session.date, inSameDayAs: date)
         }
         
@@ -570,7 +569,7 @@ struct SleepAnalytics: View {
         let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date())!
         
         // Filter sessions where you've slept under 6 hours
-        let sessions = viewModel.sessions.filter {
+        let sessions = viewModel.allSessions.filter {
             guard let sleep = hkManager.sleepData.sleepHours(on: $0.date) else { return false }
             return sleep < 6
         }
@@ -591,7 +590,7 @@ struct SleepAnalytics: View {
         var hourlyRateWithLessSleep = 0.0
         var countWithLessSleep = 0
 
-        for session in viewModel.sessions {
+        for session in viewModel.allSessions {
                 let sessionDate = Calendar.current.startOfDay(for: session.date)
                 if let sleepHours = sleepDataByDate[sessionDate] {
                     if sleepHours >= 6 {
