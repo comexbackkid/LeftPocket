@@ -778,35 +778,61 @@ extension SessionsListViewModel {
     }
 
     // MARK: COME BACK TO THIS, DEFINITELY NEEDS UPDATING
-    func totalActionSold(range: RangeSelection) -> Int {
-        guard !allTournamentSessions().isEmpty else { return 0 }
-        
-        var tournamentArray: [PokerSession_v2] {
-            switch range {
-            case .all: return allTournamentSessions()
-            case .oneMonth: return filterSessionsLastMonth().filter{ $0.isTournament == true }
-            case .threeMonth: return filterSessionsLastThreeMonths().filter { $0.isTournament == true }
-            case .sixMonth: return filterSessionsLastSixMonths().filter{ $0.isTournament == true }
-            case .oneYear: return filterSessionsLastTwelveMonths().filter{ $0.isTournament == true }
-            case .ytd: return filterSessionsYTD().filter{ $0.isTournament == true }
+    func totalActionSold(bankroll: BankrollSelection = .all, range: RangeSelection = .all) -> Int {
+        // Get sessions based on bankroll selection
+        let allSessions: [PokerSession_v2] = {
+            switch bankroll {
+            case .all:
+                return sessions + bankrolls.flatMap(\.sessions)
+            case .default:
+                return sessions
+            case .custom(let id):
+                return bankrolls.first(where: { $0.id == id })?.sessions ?? []
             }
-        }
+        }()
         
-        let totalPaidOut = tournamentArray.reduce(0) { total, session in
-            let cashOut = Double(session.cashOut)
-            let bounties = Double(session.bounties ?? 0)
-            
-            let totalPrizeMoney = cashOut + bounties
-            
-            let sessionTotalPayout = session.stakers?.reduce(0.0) { payout, staker in
-                payout + (totalPrizeMoney * staker.percentage)
+        // Filter by date range
+        let calendar = Calendar.current
+        let now = Date()
+        
+        let dateFiltered: [PokerSession_v2] = {
+            switch range {
+            case .all:
+                return allSessions
+            case .oneMonth:
+                let cutoff = calendar.date(byAdding: .month, value: -1, to: now)!
+                return allSessions.filter { $0.date >= cutoff }
+            case .threeMonth:
+                let cutoff = calendar.date(byAdding: .month, value: -3, to: now)!
+                return allSessions.filter { $0.date >= cutoff }
+            case .sixMonth:
+                let cutoff = calendar.date(byAdding: .month, value: -6, to: now)!
+                return allSessions.filter { $0.date >= cutoff }
+            case .oneYear:
+                let cutoff = calendar.date(byAdding: .month, value: -12, to: now)!
+                return allSessions.filter { $0.date >= cutoff }
+            case .ytd:
+                let startOfYear = calendar.date(from: calendar.dateComponents([.year], from: now))!
+                return allSessions.filter { $0.date >= startOfYear }
+            }
+        }()
+        
+        // Only include tournament sessions
+        let tournamentSessions = dateFiltered.filter { $0.isTournament }
+        guard !tournamentSessions.isEmpty else { return 0 }
+        
+        // Calculate total action sold
+        let totalPaidOut = tournamentSessions.reduce(0) { total, session in
+            let totalPrizeMoney = Double(session.cashOut) + Double(session.bounties ?? 0)
+            let payout = session.stakers?.reduce(0.0) { result, staker in
+                result + (totalPrizeMoney * staker.percentage)
             } ?? 0.0
-            
-            return total + Int(sessionTotalPayout)
+            return total + Int(payout)
         }
         
         return totalPaidOut
     }
+
     
     func averageTournamentRebuys(bankroll: BankrollSelection = .all, range: RangeSelection = .all) -> Double {
         

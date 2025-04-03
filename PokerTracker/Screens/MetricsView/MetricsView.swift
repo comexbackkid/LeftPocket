@@ -787,7 +787,7 @@ struct TournamentStats: View {
             let tournamentHrsPlayed = viewModel.totalHoursPlayed(bankroll: bankroll, type: .tournaments, range: range)
             let handsPlayed = viewModel.handsPlayed(bankroll: bankroll, type: .tournaments, range: range)
             let bounties = viewModel.bountiesCollected(bankroll: bankroll, range: range)
-            let actionSold = viewModel.totalActionSold(range: range)
+            let actionSold = viewModel.totalActionSold(bankroll: bankroll, range: range)
             
             HStack {
                 Text("Tournament Profit")
