@@ -37,7 +37,7 @@ struct MetricsView: View {
                 
                 VStack {
                     
-                    if !viewModel.sessions.isEmpty {
+                    if !viewModel.allSessions.isEmpty {
                         
                         ScrollView {
                             

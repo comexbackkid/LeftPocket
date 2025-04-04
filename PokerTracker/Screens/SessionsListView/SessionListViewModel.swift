@@ -457,10 +457,10 @@ extension SessionsListViewModel {
     }
     
     func allTournamentSessions() -> [PokerSession_v2] {
-        return sessions.filter({ $0.isTournament == true })
+        return allSessions.filter({ $0.isTournament == true })
     }
     
     func allCashSessions() -> [PokerSession_v2] {
-        return sessions.filter({ $0.isTournament == false })
+        return allSessions.filter({ $0.isTournament == false })
     }
 }

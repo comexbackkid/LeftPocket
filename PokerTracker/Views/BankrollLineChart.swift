@@ -224,8 +224,9 @@ struct BankrollLineChart: View {
                         Text("No chart data to display.")
                             .calloutStyle()
                             .foregroundStyle(.secondary)
+                            .lineLimit(2)
+                            .truncationMode(.tail)
                     }
-                    .offset(y: -20)
                 }
             }
             .allowsHitTesting(cumulativeProfitArray.isEmpty ? false : true)

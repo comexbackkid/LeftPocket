@@ -36,7 +36,7 @@ struct ContentView: View {
                 
                 if !hideBankroll { bankrollView }
                 
-                if viewModel.sessions.isEmpty {
+                if viewModel.allSessions.isEmpty {
                     
                     emptyState
                     

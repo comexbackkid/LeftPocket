@@ -27,8 +27,8 @@ struct SessionsListView: View {
     @State var tagsFilter: String?
     @State var stakesFilter: String?
     @State var bankrollFilter: BankrollSelection = .all
-    @State var startDate: Date = Date()
-    @State var endDate: Date = .now
+    @State var startDate: Date? = nil
+    @State var endDate: Date? = nil
     @State var datesInitialized = false
     @State var listFilter: ListFilter = .sessions
     @State var selectedSession: PokerSession_v2?
@@ -73,7 +73,7 @@ struct SessionsListView: View {
         }
         
         switch sessionFilter {
-        case .all: break
+        case .all: result = vm.sessions + vm.bankrolls.flatMap { $0.sessions }
         case .cash: result = result.filter { !$0.isTournament }
         case .tournaments: result = result.filter { $0.isTournament }
         }
@@ -90,8 +90,12 @@ struct SessionsListView: View {
             result = result.filter { $0.stakes == stakesFilter }
         }
         
-        result = result.filter { session in
-            session.date >= startDate && session.date <= endDate
+        if let start = startDate, let end = endDate {
+            result = result.filter { $0.date >= start && $0.date <= end }
+        } else if let start = startDate {
+            result = result.filter { $0.date >= start }
+        } else if let end = endDate {
+            result = result.filter { $0.date <= end }
         }
         
         if let tagsFilter = tagsFilter {
@@ -116,7 +120,7 @@ struct SessionsListView: View {
             ZStack {
                 switch listFilter {
                 case .sessions:
-                    if vm.sessions.isEmpty {
+                    if vm.allSessions.isEmpty {
                         VStack {
                             screenTitle
                             Spacer()
@@ -152,7 +156,7 @@ struct SessionsListView: View {
                     }
                     
                 case .transactions:
-                    if vm.transactions.isEmpty && vm.bankrolls.flatMap({ $0.transactions }).isEmpty {
+                    if vm.allTransactions.isEmpty && vm.bankrolls.flatMap({ $0.transactions }).isEmpty {
                         VStack {
                             screenTitle
                             Spacer()
@@ -236,15 +240,6 @@ struct SessionsListView: View {
             if vm.sessions.count > 1 {
                 SessionsListTip.shouldShow = false
             }
-            if !datesInitialized {
-                startDate = firstSessionDate
-                datesInitialized = true
-            }
-        }
-        .onChange(of: vm.sessions) { _ in
-            if datesInitialized {
-                startDate = firstSessionDate
-            }
         }
         .overlay {
             if !isPad {
@@ -268,7 +263,7 @@ struct SessionsListView: View {
             var availableSessionTypes: [SessionFilter] {
                 let allSessions = vm.sessions + vm.bankrolls.flatMap(\.sessions)
                 var types: Set<SessionFilter> = []
-
+                
                 for session in allSessions {
                     if session.isTournament {
                         types.insert(.tournaments)
@@ -276,10 +271,10 @@ struct SessionsListView: View {
                         types.insert(.cash)
                     }
                 }
-
+                
                 // Always allow "All"
                 types.insert(.all)
-
+                
                 return SessionFilter.allCases.filter { types.contains($0) }
             }
             
@@ -289,6 +284,7 @@ struct SessionsListView: View {
                         Text($0.rawValue.capitalized).tag($0)
                     }
                 }
+                
             } label: {
                 Text("Session Type")
                 Image(systemName: "suit.club.fill")
@@ -302,20 +298,21 @@ struct SessionsListView: View {
                         Text(bankroll.name).tag(BankrollSelection.custom(bankroll.id))
                     }
                 }
+                
             } label: {
                 HStack {
                     Text("Bankroll")
                     Image(systemName: "bag.fill")
                 }
             }
-
+            
             Menu {
                 let allLocations: [LocationModel_v2] = {
                     let allSessions = vm.sessions + vm.bankrolls.flatMap(\.sessions)
                     return allSessions
                         .map { $0.location }
                         .filter { !$0.name.isEmpty }
-                        .uniquedByName() // assuming you have this helper
+                        .uniquedByName()
                         .sorted(by: { $0.name.lowercased() < $1.name.lowercased() })
                 }()
                 Picker("Select Location", selection: $locationFilter) {
@@ -324,6 +321,7 @@ struct SessionsListView: View {
                         Text(location.name).tag(location as LocationModel_v2?)
                     }
                 }
+                
             } label: {
                 HStack {
                     Text("Location")
@@ -347,6 +345,7 @@ struct SessionsListView: View {
                         Text(game).tag(game as String?)
                     }
                 }
+                
             } label: {
                 HStack {
                     Text("Game Type")
@@ -357,7 +356,7 @@ struct SessionsListView: View {
             var allStakes: [String] {
                 let allCashSessions = (vm.sessions + vm.bankrolls.flatMap(\.sessions))
                     .filter { !$0.isTournament }
-
+                
                 return allCashSessions
                     .map { $0.stakes }
                     .filter { !$0.isEmpty }
@@ -372,6 +371,7 @@ struct SessionsListView: View {
                         Text(stakes).tag(stakes as String?)
                     }
                 }
+                
             } label: {
                 Text("Stakes")
                 Image(systemName: "dollarsign.circle")
@@ -398,6 +398,7 @@ struct SessionsListView: View {
                         Text(tag).tag(tag as String?)
                     }
                 }
+                
             } label: {
                 HStack {
                     Text("Tags")
@@ -409,6 +410,7 @@ struct SessionsListView: View {
             
             Button {
                 showDateFilter = true
+                
             } label: {
                 Text("Date Range")
                 Image(systemName: "calendar")
@@ -418,6 +420,7 @@ struct SessionsListView: View {
             
             Button {
                 resetAllFilters()
+                
             } label: {
                 Text("Clear Filters")
                 Image(systemName: "x.circle")
@@ -425,7 +428,7 @@ struct SessionsListView: View {
             
         } label: {
             Image(systemName: "slider.horizontal.3")
-                
+            
         }
         .popoverTip(filterTip)
         .tipViewStyle(CustomTipViewStyle())
@@ -433,6 +436,7 @@ struct SessionsListView: View {
             DateFilter(startDate: $startDate, endDate: $endDate)
                 .presentationDetents([.height(350)])
                 .presentationBackground(.ultraThinMaterial)
+                .presentationDragIndicator(.visible)
         })
     }
     
@@ -471,15 +475,12 @@ struct SessionsListView: View {
                         .padding(.bottom)
                 }
             }
-            let today = Calendar.current.startOfDay(for: Date.now)
-            let normalizedEndDate = Calendar.current.startOfDay(for: endDate)
-            if !vm.sessions.isEmpty {
-                if startDate != firstSessionDate || normalizedEndDate != today {
-                    FilterTag(type: "Dates", filterName: "Custom")
-                        .truncationMode(.tail)
-                        .lineLimit(1)
-                        .padding(.bottom)
-                }
+            
+            if startDate != nil {
+                FilterTag(type: "Dates", filterName: "Custom")
+                    .truncationMode(.tail)
+                    .lineLimit(1)
+                    .padding(.bottom)
             }
         }
         .padding(.horizontal)
@@ -523,8 +524,8 @@ struct SessionsListView: View {
         stakesFilter = nil
         tagsFilter = nil
         bankrollFilter = .all
-        startDate = firstSessionDate
-        endDate = Date.now
+        startDate = nil
+        endDate = nil
     }
     
     private func deleteSession(_ session: PokerSession_v2) {
