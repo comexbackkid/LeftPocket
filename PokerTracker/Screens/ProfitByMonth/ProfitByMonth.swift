@@ -18,11 +18,7 @@ struct ProfitByMonth: View {
         
         ScrollView {
                         
-            let monthlyReportTip = MonthlyReportTip()
-            TipView(monthlyReportTip)
-                .tipViewStyle(CustomTipViewStyle())
-                .padding(.horizontal, 20)
-                .padding(.top)
+            tipView
             
             monthlyTotals
                 
@@ -38,6 +34,7 @@ struct ProfitByMonth: View {
             ToolbarItem {
                 headerInfo
             }
+            
             ToolbarItem(placement: .principal) {
                 Text("Monthly Snapshot")
                     .font(.custom("Asap-Bold", size: 18))
@@ -53,7 +50,7 @@ struct ProfitByMonth: View {
         
         VStack {
             
-            let allYears = vm.sessions.map({ $0.date.getYear() }).uniqued()
+            let allYears = vm.allSessions.map({ $0.date.getYear() }).uniqued()
             
             HStack {
                 
@@ -72,6 +69,17 @@ struct ProfitByMonth: View {
                     transaction.animation = nil
                 }
             }
+        }
+    }
+    
+    var tipView: some View {
+        
+        Group {
+            let monthlyReportTip = MonthlyReportTip()
+            TipView(monthlyReportTip)
+                .tipViewStyle(CustomTipViewStyle())
+                .padding(.horizontal, 20)
+                .padding(.top)
         }
     }
     
@@ -109,7 +117,7 @@ struct ProfitByMonth: View {
                     
                     Spacer()
                     
-                    let filteredMonths = vm.sessions.filter({ $0.date.getYear() == yearFilter })
+                    let filteredMonths = vm.allSessions.filter({ $0.date.getYear() == yearFilter })
                     let total = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.profit }.reduce(0,+)
                     let hourlyRate = hourlyByMonth(month: month, sessions: filteredMonths)
                     let hoursPlayed = vm.hoursAbbreviated(filteredMonths.filter({ $0.date.getMonth() == month }))

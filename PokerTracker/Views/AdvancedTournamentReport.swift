@@ -44,6 +44,7 @@ struct AdvancedTournamentReport: View {
             ToolbarItem {
                 headerInfo
             }
+            
             ToolbarItem(placement: .principal) {
                 Text("Tournament Report")
                     .font(.custom("Asap-Bold", size: 18))
@@ -59,7 +60,7 @@ struct AdvancedTournamentReport: View {
         
         VStack {
             
-            let allYears = vm.sessions.map({ $0.date.getYear() }).uniqued()
+            let allYears = vm.allSessions.map({ $0.date.getYear() }).uniqued()
             
             HStack {
                 
@@ -114,7 +115,7 @@ struct AdvancedTournamentReport: View {
                     
                     Spacer()
                     
-                    let filteredMonths = vm.sessions.filter({ $0.date.getYear() == yearFilter && $0.isTournament == true })
+                    let filteredMonths = vm.allSessions.filter({ $0.date.getYear() == yearFilter && $0.isTournament == true })
                     let totalBuyIns = filteredMonths.filter({ $0.date.getMonth() == month }).reduce(0) { total, session in
                         total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
                     }
@@ -150,7 +151,7 @@ struct AdvancedTournamentReport: View {
         
         VStack (spacing: 10) {
             
-            let tournamentListByYear = vm.sessions.filter({ $0.isTournament == true && $0.date.getYear() == yearFilter })
+            let tournamentListByYear = vm.allSessions.filter({ $0.isTournament == true && $0.date.getYear() == yearFilter })
             let totalBuyInsByYear = tournamentListByYear.reduce(0) { total, session in
                 total + session.buyIn + ((session.rebuyCount ?? 0) * session.buyIn)
             }

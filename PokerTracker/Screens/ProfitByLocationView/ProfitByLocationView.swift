@@ -23,7 +23,7 @@ struct ProfitByLocationView: View {
     
     var filteredSessions: [PokerSession_v2] {
         
-        var result = viewModel.sessions
+        var result = viewModel.allSessions
         
         if let yearFilter = yearFilter {
             result = result.filter({ $0.date.getYear() == yearFilter })
@@ -40,8 +40,7 @@ struct ProfitByLocationView: View {
                 
                 VStack {
                     
-                    if viewModel.sessions.isEmpty {
-                        
+                    if viewModel.allSessions.isEmpty {
                         EmptyState(title: "No Sessions", image: .locations)
                         
                     } else {
@@ -112,6 +111,7 @@ struct ProfitByLocationView: View {
             ToolbarItem {
                 headerInfo
             }
+            
             ToolbarItem(placement: .principal) {
                 Text("Location Statistics")
                     .font(.custom("Asap-Bold", size: 18))
@@ -129,7 +129,7 @@ struct ProfitByLocationView: View {
             
             HStack {
                 
-                let allYears = viewModel.sessions.map({ $0.date.getYear() }).uniqued()
+                let allYears = viewModel.allSessions.map({ $0.date.getYear() }).uniqued()
                 
                 Menu {
                     
@@ -147,6 +147,7 @@ struct ProfitByLocationView: View {
                     
                     Button {
                         resetAllFilters()
+                        
                     } label: {
                         Text("Clear Filters")
                         Image(systemName: "x.circle")
@@ -190,7 +191,7 @@ struct ProfitByLocationView: View {
             
             Divider().padding(.bottom, 10)
             
-            let locationList = viewModel.sessions.map({ $0.location.name }).uniqued()
+            let locationList = viewModel.allSessions.map({ $0.location.name }).uniqued()
             
             ForEach(locationList, id: \.self) { location in
                 HStack {
@@ -286,7 +287,6 @@ struct ProfitByLocationView: View {
     }
     
     var locationWinRatesChart: some View {
-        
         RingCharts(sessions: filteredSessions)
             .padding(.horizontal, 30)
             .padding(.vertical, 20)
