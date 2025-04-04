@@ -125,9 +125,13 @@ struct ManageBankrolls: View {
     
     var instructions: some View {
         
-        Text("Use this screen to manage multiple bankrolls. For example you may have a separate bankroll for online poker.")
-            .bodyStyle()
-            .padding(.bottom, 30)
+        HStack {
+            Text("Use this screen if you want to manage separate bankrolls. For example, you may have a different bankroll for tracking online poker.")
+                .bodyStyle()
+                .padding(.bottom, 30)
+            
+            Spacer()
+        }
     }
     
     var addBankrollButton: some View {

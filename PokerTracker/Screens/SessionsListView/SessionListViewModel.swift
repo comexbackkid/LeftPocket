@@ -318,7 +318,7 @@ class SessionsListViewModel: ObservableObject {
             
             // Start with zero as our initial data point so chart doesn't look goofy
             var originalDataPoint = [0]
-            let newDataPoints = calculateCumulativeProfit(sessions: self.sessions, sessionFilter: .all)
+            let newDataPoints = calculateCumulativeProfit(sessions: allSessions, sessionFilter: .all)
             originalDataPoint += newDataPoints
             return originalDataPoint
         }
@@ -353,16 +353,8 @@ class SessionsListViewModel: ObservableObject {
     
     // MARK: ADDITIONAL METRICS CARDS
     
-    func sessionsByMonth(_ month: String) -> [PokerSession_v2] {
-        sessions.filter({ $0.date.monthOfYear(month: $0.date) == month })
-    }
-    
-    func profitByMonth(_ month: String) -> Int {
-        return sessionsByMonth(month).reduce(0) { $0 + $1.profit }
-    }
-    
     func sessionsByStakes(_ stakes: String) -> [PokerSession_v2] {
-        sessions.filter({ $0.stakes == stakes })
+        allSessions.filter({ $0.stakes == stakes })
     }
     
     // Take in the stakes, and feed it which sessions to filter from
