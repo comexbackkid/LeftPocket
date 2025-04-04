@@ -503,7 +503,7 @@ struct UserSettings: View {
                 
                 VStack (alignment: .leading) {
                     
-                    if let sessionsFileURL = try? CSVConversion.exportCSV(from: vm.sessions) {
+                    if let sessionsFileURL = try? CSVConversion.exportCSV(from: vm.allSessions) {
                         ShareLink(item: sessionsFileURL) {
                             exportButtonContent
                                 
@@ -539,7 +539,7 @@ struct UserSettings: View {
             if subManager.isSubscribed {
                 HStack {
                     
-                    if let transactionsFileURL = try? CSVConversion.exportTransactionsCSV(from: vm.transactions) {
+                    if let transactionsFileURL = try? CSVConversion.exportTransactionsCSV(from: vm.allTransactions) {
                         ShareLink(item: transactionsFileURL) {
                             HStack {
                                 HStack {

@@ -73,7 +73,7 @@ struct SessionsListView: View {
         }
         
         switch sessionFilter {
-        case .all: result = vm.sessions + vm.bankrolls.flatMap { $0.sessions }
+        case .all: break
         case .cash: result = result.filter { !$0.isTournament }
         case .tournaments: result = result.filter { $0.isTournament }
         }
