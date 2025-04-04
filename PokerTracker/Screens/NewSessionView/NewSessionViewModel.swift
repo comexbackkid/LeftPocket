@@ -109,25 +109,30 @@ final class NewSessionViewModel: ObservableObject {
     
     // If tournamentDays are greater than two, we'll compute an arbitrary end time for endTimeDayTwo to get an accurate time duration
     var adjustedEndTimeDayTwo: Date? {
-        guard self.tournamentDays > 2, let startTimeDayTwo = adjustedStartTimeDayTwo else { return endTimeDayTwo }
-        let totalHoursPlayed = calculateTotalPlayTimeFromMultiDayTournament()
-        return startTimeDayTwo.addingTimeInterval(TimeInterval(totalHoursPlayed * 3600))
+        guard tournamentDays > 2, let startTimeDayTwo = adjustedStartTimeDayTwo else { return endTimeDayTwo }
+        
+        let totalMinutesPlayed = calculateTotalPlayTimeFromMultiDayTournament()
+        return startTimeDayTwo.addingTimeInterval(TimeInterval(totalMinutesPlayed * 60))
     }
     
     // Computes total duration of all played sessions in hours
     private func calculateTotalPlayTimeFromMultiDayTournament() -> Int {
-        let dayDurations = [
-            Calendar.current.dateComponents([.hour], from: startTimeDayTwo, to: endTimeDayTwo).hour ?? 0,
-            Calendar.current.dateComponents([.hour], from: startTimeDayThree, to: endTimeDayThree).hour ?? 0,
-            Calendar.current.dateComponents([.hour], from: startTimeDayFour, to: endTimeDayFour).hour ?? 0,
-            Calendar.current.dateComponents([.hour], from: startTimeDayFive, to: endTimeDayFive).hour ?? 0,
-            Calendar.current.dateComponents([.hour], from: startTimeDaySix, to: endTimeDaySix).hour ?? 0,
-            Calendar.current.dateComponents([.hour], from: startTimeDaySeven, to: endTimeDaySeven).hour ?? 0,
-            Calendar.current.dateComponents([.hour], from: startTimeDayEight, to: endTimeDayEight).hour ?? 0
+        let dayPairs: [(Date, Date)] = [
+            (startTimeDayTwo, endTimeDayTwo),
+            (startTimeDayThree, endTimeDayThree),
+            (startTimeDayFour, endTimeDayFour),
+            (startTimeDayFive, endTimeDayFive),
+            (startTimeDaySix, endTimeDaySix),
+            (startTimeDaySeven, endTimeDaySeven),
+            (startTimeDayEight, endTimeDayEight)
         ]
- 
-        // Sum only the relevant days based on tournamentDays
-        return dayDurations.prefix(tournamentDays).reduce(0, +)
+        
+        let totalMinutes = dayPairs.prefix(tournamentDays).reduce(0) { sum, day in
+            let components = Calendar.current.dateComponents([.minute], from: day.0, to: day.1)
+            return sum + (components.minute ?? 0)
+        }
+        
+        return totalMinutes
     }
     
     // Adds up the total dollar amount of Tournament rebuys
