@@ -53,6 +53,7 @@ struct ContentView: View {
                     Spacer()
                 }
             }
+            .frame(maxWidth: .infinity)
             .padding(.horizontal, isPad ? 40 : 16)
             .padding(.bottom, 50)
         }
@@ -301,7 +302,6 @@ struct ContentView: View {
                 }
             }
         }
-        .frame(maxWidth: .infinity)
         .padding(.bottom, 10)
         .padding(.top, 20)
     }

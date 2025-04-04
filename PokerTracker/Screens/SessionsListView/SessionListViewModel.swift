@@ -279,8 +279,8 @@ class SessionsListViewModel: ObservableObject {
     
     // Simply counts how many sessions played each year
     func sessionsPerYear(year: String) -> Int {
-        guard !sessions.isEmpty else { return 0 }
-        return sessions.filter({ $0.date.getYear() == year }).count
+        guard !allSessions.isEmpty else { return 0 }
+        return allSessions.filter({ $0.date.getYear() == year }).count
     }
     
     // Returns percentage of winning sessions
@@ -296,11 +296,11 @@ class SessionsListViewModel: ObservableObject {
     func bankrollByYear(year: String, sessionFilter: SessionFilter) -> Int {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
+        guard !allSessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
         
         var bankroll: Int {
             switch sessionFilter {
-            case .all: sessions.filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
+            case .all: allSessions.filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
             case .cash: allCashSessions().filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
             case .tournaments: allTournamentSessions().filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
             }
