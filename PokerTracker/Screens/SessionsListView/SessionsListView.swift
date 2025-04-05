@@ -12,10 +12,8 @@ import TipKit
 struct SessionsListView: View {
     
     @AppStorage("viewStyle") var viewStyle: ViewStyle = .standard
-    
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
-    
     @State var activeSheet: Sheet?
     @State var showEditScreen = false
     @State var showPaywall = false
@@ -33,10 +31,7 @@ struct SessionsListView: View {
     @State var listFilter: ListFilter = .sessions
     @State var selectedSession: PokerSession_v2?
     @State var tappedSession: PokerSession_v2?
-    
-    var firstSessionDate: Date {
-        vm.sessions.last?.date ?? Date().modifyDays(days: 15000)
-    }
+
     var filteredTransactions: [BankrollTransaction] {
         let allTransactions = vm.transactions + vm.bankrolls.flatMap(\.transactions)
             
@@ -93,12 +88,11 @@ struct SessionsListView: View {
         
         return result.sorted(by: { $0.date > $1.date })
     }
-    
-    let editTip = SessionsListTip()
-    let filterTip = FilterSessionsTip()
     var isPad: Bool {
         UIDevice.current.userInterfaceIdiom == .pad
     }
+    let editTip = SessionsListTip()
+    let filterTip = FilterSessionsTip()
     
     var body: some View {
         
@@ -126,7 +120,7 @@ struct SessionsListView: View {
                                         .tipViewStyle(CustomTipViewStyle())
                                 }
                                 .listRowBackground(Color.brandBackground)
-                                .listRowInsets(EdgeInsets(top: 3, leading: 12, bottom: 3, trailing: 12))
+                                .listRowInsets(EdgeInsets(top: 4, leading: 12, bottom: 4, trailing: 12))
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                     swipeActions(session)
                                 }
@@ -156,7 +150,7 @@ struct SessionsListView: View {
                             ForEach(filteredTransactions, id: \.id) { transaction in
                                 TransactionCellView(transaction: transaction, currency: vm.userCurrency)
                                     .listRowBackground(Color.brandBackground)
-                                    .listRowInsets(EdgeInsets(top: 3, leading: 12, bottom: 3, trailing: 12))
+                                    .listRowInsets(EdgeInsets(top: 4, leading: 12, bottom: 4, trailing: 12))
                             }
                             .onDelete(perform: deleteTransaction)
                         }
