@@ -63,10 +63,6 @@ struct OnboardingView: View {
                                nextAction: nextPage,
                                shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(5)
             
-//            ReviewScreen(showDismissButton: false,
-//                     nextAction: nextPage,
-//                     shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(6)
-            
             PageView(title: "Painless Data Imports",
                      subtitle: Text("From the Settings \(Image(systemName: "gearshape.fill")) screen importing old data from other apps is super easy. You can be up and running in a matter of seconds."),
                      videoURL: "import-sessions",
@@ -74,7 +70,7 @@ struct OnboardingView: View {
                      nextAction: nextPage,
                      shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(6)
             
-            PageView(title: "Know When to Move Up",
+            PageView(title: "Escape Low Stakes",
                      subtitle: Text("Insightful charts, progress rings, and crucial player metrics will advise when it's safe to take a shot at higher stakes."),
                      videoURL: "metrics-screen",
                      showDismissButton: false, player: players["metrics-screen"],
@@ -1126,7 +1122,7 @@ struct ProgressAnimation: View {
             }
             .frame(height: 12)
         }
-        .padding(.horizontal, 20) // Matches your button's horizontal padding
+        .padding(.horizontal, 20)
         .onAppear {
             drawingWidth = true
         }
@@ -1134,26 +1130,16 @@ struct ProgressAnimation: View {
 }
 
 enum UserGameImprovement: String, CaseIterable {
-    case bankroll, stakes, focus, mental, hands, expenses, busting, ending
+    case bankroll, stakes, mental, hands, expenses, busting
     
     var description: String {
         switch self {
-        case .bankroll:
-            "Bankroll Management"
-        case .stakes:
-            "Climbing Stakes"
-        case .focus:
-            "Focus"
-        case .mental:
-            "Mental Game"
-        case .hands:
-            "Hand Histories"
-        case .expenses:
-            "Tracking Expenses"
-        case .busting:
-            "Not Going Bust"
-        case .ending:
-            "When to End a Session"
+        case .bankroll: "Bankroll Management"
+        case .stakes: "Climbing Stakes"
+        case .mental: "Mental Game"
+        case .hands: "Hand Histories"
+        case .expenses: "Tracking Expenses"
+        case .busting: "Not Going Bust"
         }
     }
 }
