@@ -13,6 +13,7 @@ struct AddNewBankroll: View {
     @Environment(\.dismiss) var dismiss
     @State private var bankrollName: String = ""
     @State private var startingBankroll: String = ""
+    @State private var alertItem: AlertItem?
     
     var body: some View {
         
@@ -24,34 +25,17 @@ struct AddNewBankroll: View {
             
             inputFields
             
-            Button {
-                let impact = UIImpactFeedbackGenerator(style: .heavy)
-                impact.impactOccurred()
-                saveBankroll()
-                dismiss()
-                
-            } label: {
-                PrimaryButton(title: "Save Bankroll")
-                    .padding(.horizontal)
-            }
-            
-            Button(role: .cancel) {
-                let impact = UIImpactFeedbackGenerator(style: .soft)
-                impact.impactOccurred()
-                dismiss()
-                
-            } label: {
-                Text("Cancel")
-                    .buttonTextStyle()
-            }
-            .tint(.red)
+            buttons
             
             Spacer()
         }
         .dynamicTypeSize(.medium)
+        .alert(item: $alertItem) { alertItem in
+            Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
+        }
     }
     
-    private func saveBankroll() {
+    private func saveBankroll(dismiss: () -> Void) {
         let trimmedName = bankrollName.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedName.isEmpty else { return }
         
@@ -64,10 +48,15 @@ struct AddNewBankroll: View {
             tags: nil
         )
         
-        let newBankroll = Bankroll(name: trimmedName, sessions: [], transactions: [startingTransaction])
+        let newBankroll = Bankroll(name: trimmedName, sessions: [], transactions: startingTransaction.amount > 0 ? [startingTransaction] : [])
+        guard !vm.bankrolls.contains(where: { $0.name == newBankroll.name }) else {
+            alertItem = AlertContext.invalidBankrollAlreadyExists
+            return
+        }
         withAnimation {
             vm.bankrolls.append(newBankroll)
         }
+        dismiss()
     }
     
     var title: some View {
@@ -143,6 +132,34 @@ struct AddNewBankroll: View {
         .cornerRadius(15)
         .padding(.horizontal)
         .padding(.bottom)
+    }
+    
+    var buttons: some View {
+        
+        VStack {
+            Button {
+                let impact = UIImpactFeedbackGenerator(style: .heavy)
+                impact.impactOccurred()
+                saveBankroll {
+                    dismiss()
+                }
+                
+            } label: {
+                PrimaryButton(title: "Save Bankroll")
+                    .padding(.horizontal)
+            }
+            
+            Button(role: .cancel) {
+                let impact = UIImpactFeedbackGenerator(style: .soft)
+                impact.impactOccurred()
+                dismiss()
+                
+            } label: {
+                Text("Cancel")
+                    .buttonTextStyle()
+            }
+            .tint(.red)
+        }
     }
 }
 

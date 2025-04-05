@@ -37,19 +37,6 @@ struct SessionsListView: View {
     var firstSessionDate: Date {
         vm.sessions.last?.date ?? Date().modifyDays(days: 15000)
     }
-    var viewStyles: String {
-        switch viewStyle {
-        case .compact: "Compact View"
-        case .standard: "Standard View"
-        }
-    }
-    var sessionsTitle: String {
-        switch sessionFilter {
-        case .all: "All Sessions"
-        case .cash: "Cash Sessions"
-        case .tournaments: "Tournaments"
-        }
-    }
     var filteredTransactions: [BankrollTransaction] {
         let allTransactions = vm.transactions + vm.bankrolls.flatMap(\.transactions)
             
@@ -462,7 +449,7 @@ struct SessionsListView: View {
     var screenTitle: some View {
         
         HStack (alignment: .center) {
-            Text(listFilter == .sessions ? sessionsTitle : "All Transactions")
+            Text(listFilter == .sessions ? sessionFilter.titleString : "All Transactions")
                 .titleStyle()
             
             Spacer()
@@ -572,6 +559,13 @@ struct SessionsListView: View {
 
 enum ViewStyle: String, CaseIterable {
     case standard, compact
+    
+    var titleString: String {
+        switch self {
+        case .standard: return "Standard View"
+        case .compact: return "Compact View"
+        }
+    }
 }
 
 enum SessionFilter: String, CaseIterable {
@@ -579,12 +573,17 @@ enum SessionFilter: String, CaseIterable {
     
     var description: String {
         switch self {
-        case .all:
-            return "All"
-        case .cash:
-            return "Cash"
-        case .tournaments:
-            return "Tournaments"
+        case .all: return "All"
+        case .cash: return "Cash"
+        case .tournaments: return "Tournaments"
+        }
+    }
+    
+    var titleString: String {
+        switch self {
+        case .all: return "All Sessions"
+        case .cash: return "Cash Sessions"
+        case .tournaments: return "Tournaments"
         }
     }
 }
@@ -600,10 +599,8 @@ enum ListFilter: String, CaseIterable {
     
     var description: String {
         switch self {
-        case .sessions:
-            return "All Sessions"
-        case .transactions:
-            return "All Transactions"
+        case .sessions: return "All Sessions"
+        case .transactions: return "All Transactions"
         }
     }
 }

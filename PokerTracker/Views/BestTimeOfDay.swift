@@ -20,17 +20,10 @@ struct BestTimeOfDay: View {
         
         var total = 0.0
         
-        return prepareChartData(sessions: viewModel.sessions).first {
+        return prepareChartData(sessions: viewModel.allSessions).first {
             total += $0.averageHourlyRate
             return rawSelectedBucketValue <= total
         }
-        
-//        let number = prepareChartData(sessions: viewModel.sessions).first { (_, count) in
-//            accumulatedCount += count
-//            return value <= accumulatedCount
-//        }
-//
-//        return number?.bucket.rawValue
     }
     
     var body: some View {
@@ -39,7 +32,7 @@ struct BestTimeOfDay: View {
             
             ZStack {
                 
-                if let highestData = highestRateData(sessions: viewModel.sessions) {
+                if let highestData = highestRateData(sessions: viewModel.allSessions) {
                     
                     VStack (spacing: 0) {
                         
@@ -56,7 +49,7 @@ struct BestTimeOfDay: View {
                 donutChart
             }
             
-            if let highestData = highestRateData(sessions: viewModel.sessions) {
+            if let highestData = highestRateData(sessions: viewModel.allSessions) {
                 
                 HStack {
                     Text("You perform the best between \(highestData.bucket.rawValue)")
@@ -74,8 +67,8 @@ struct BestTimeOfDay: View {
         
         Chart {
             
-            let highestBucket = highestRateBucket(sessions: viewModel.sessions)
-            let chartData = prepareChartData(sessions: viewModel.sessions)
+            let highestBucket = highestRateBucket(sessions: viewModel.allSessions)
+            let chartData = prepareChartData(sessions: viewModel.allSessions)
             
             ForEach(chartData, id: \.bucket) { data in
                 SectorMark(
@@ -86,7 +79,6 @@ struct BestTimeOfDay: View {
                 .foregroundStyle(by: .value("Bucket", data.bucket.rawValue))
                 .cornerRadius(25)
                 .opacity(data.bucket == highestBucket ? 1.0 : 0.2)
-//                .opacity(selectedBucket?.bucket == nil ? 1.0 : (selectedBucket?.bucket == data.bucket ? 1.0 : 0.2))
             }
         }
         .chartAngleSelection(value: $rawSelectedBucketValue)
@@ -199,5 +191,3 @@ enum TimeBucket: String, CaseIterable, Plottable {
     .frame(width: UIScreen.main.bounds.width * 0.43, height: 190)
     .cornerRadius(20)
 }
-
-

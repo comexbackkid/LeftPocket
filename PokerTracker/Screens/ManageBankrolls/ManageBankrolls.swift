@@ -81,7 +81,6 @@ struct ManageBankrolls: View {
                 } else {
                     
                     Group {
-                       
                         Button {
                             let impact = UIImpactFeedbackGenerator(style: .heavy)
                             impact.impactOccurred()
