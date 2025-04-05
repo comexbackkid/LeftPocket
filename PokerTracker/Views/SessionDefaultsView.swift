@@ -809,6 +809,10 @@ enum CurrencyType: String, CaseIterable, Identifiable, Codable {
         case .THB: return "฿"
         }
     }
+    
+    var symbolWidth: CGFloat {
+        symbol.count > 1 ? 30 : 15
+    }
 }
 
 #Preview {

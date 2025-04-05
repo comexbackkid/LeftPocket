@@ -1396,7 +1396,9 @@ struct AddNewSessionView: View {
                     HStack {
                         Text(vm.userCurrency.symbol)
                             .font(.callout)
-                            .frame(width: 15)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
+                            .frame(width: vm.userCurrency.symbolWidth)
                             .foregroundColor(newSession.buyIn.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                         
                         TextField("Buy In", text: $newSession.buyIn)
@@ -1419,7 +1421,10 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
-                        .frame(width: 15)
+                        .font(.callout)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                        .frame(width: vm.userCurrency.symbolWidth)
                         .foregroundColor(newSession.cashOut.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField(newSession.sessionType == .tournament ? "Tournament Payout" : "Cash Out", text: $newSession.cashOut)
@@ -1441,7 +1446,10 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
-                        .frame(width: 15)
+                        .font(.callout)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                        .frame(width: vm.userCurrency.symbolWidth)
                         .foregroundColor(newSession.bounties.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("Bounties", text: $newSession.bounties)
@@ -1465,7 +1473,10 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
-                        .frame(width: 15)
+                        .font(.callout)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                        .frame(width: vm.userCurrency.symbolWidth)
                         .foregroundStyle(newSession.cashRebuys.isEmpty ? .secondary.opacity(0.5) : Color.brandWhite)
                     
                     TextField("Rebuys / Top Offs", text: $newSession.cashRebuys)
@@ -1491,7 +1502,10 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
-                        .frame(width: 15)
+                        .font(.callout)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                        .frame(width: vm.userCurrency.symbolWidth)
                         .foregroundColor(newSession.sessionType == .tournament && newSession.buyIn.isEmpty || newSession.sessionType == .cash && newSession.expenses.isEmpty || newSession.sessionType == nil && newSession.expenses.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField(newSession.sessionType == .tournament ? "Buy In" : "Table Expenses (Rake, tips)", text: newSession.sessionType == .tournament ? $newSession.buyIn : $newSession.expenses)
@@ -1513,7 +1527,7 @@ struct AddNewSessionView: View {
                     HStack {
                         Text("#")
                             .font(.callout)
-                            .frame(width: 15)
+                            .frame(width: vm.userCurrency.symbolWidth)
                             .foregroundColor(newSession.rebuyCount.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                         
                         TextField("Rebuys", text: $newSession.rebuyCount)
@@ -1539,7 +1553,7 @@ struct AddNewSessionView: View {
                     
                     Image(systemName: "person.fill")
                         .font(.callout)
-                        .frame(width: 15)
+                        .frame(width: vm.userCurrency.symbolWidth)
                         .foregroundColor(newSession.entrants.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("No. of Entrants", text: $newSession.entrants)
@@ -1558,7 +1572,7 @@ struct AddNewSessionView: View {
                     
                     Image(systemName: "trophy.fill")
                         .font(.callout)
-                        .frame(width: 15)
+                        .frame(width: vm.userCurrency.symbolWidth)
                         .foregroundColor(newSession.finish.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("Your Finish", text: $newSession.finish)
@@ -1607,7 +1621,9 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
-                        .frame(width: 15)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                        .frame(width: vm.userCurrency.symbolWidth)
                         .foregroundColor(newSession.highHandBonus.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("High Hand Bonus (Optional)", text: $newSession.highHandBonus)
@@ -1631,7 +1647,7 @@ struct AddNewSessionView: View {
             HStack {
                 Image(systemName: "tag.fill")
                     .font(.caption2)
-                    .frame(width: 15)
+                    .frame(width: vm.userCurrency.symbolWidth)
                     .foregroundColor(newSession.tags.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                 
                 TextField("Tags (Optional)", text: $newSession.tags)
