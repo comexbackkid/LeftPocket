@@ -16,7 +16,6 @@ struct MetricsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
-    
     @State private var showPaywall = false
     @State private var progressIndicator: Float = 0.0
     @State private var minimizeLineChart = false
@@ -24,7 +23,6 @@ struct MetricsView: View {
     @AppStorage("sessionFilter") private var sessionFilter: SessionFilter = .all
     @State private var bankrollFilter: BankrollSelection = .default
     @Binding var activeSheet: Sheet?
-    
     private var isPad: Bool {
         UIDevice.current.userInterfaceIdiom == .pad
     }
@@ -255,7 +253,6 @@ struct MetricsView: View {
     }
     
     var dayOfWeekChart: some View {
-        
         HStack {
             DayOfWeekChart(sessions: viewModel.allCashSessions())
                 .padding(.leading, 7)

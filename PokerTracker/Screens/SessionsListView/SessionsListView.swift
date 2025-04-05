@@ -31,7 +31,6 @@ struct SessionsListView: View {
     @State var listFilter: ListFilter = .sessions
     @State var selectedSession: PokerSession_v2?
     @State var tappedSession: PokerSession_v2?
-
     var filteredTransactions: [BankrollTransaction] {
         let allTransactions = vm.transactions + vm.bankrolls.flatMap(\.transactions)
             

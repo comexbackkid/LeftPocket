@@ -26,25 +26,31 @@ struct SleepAnalytics: View {
     @State private var showError = false
     @State private var showPaywall = false
     @State private var howThisWorksPopup = false
-    @State private var numbersLookOffPopup = false
     @State private var comparisonPopup = false
     @State private var rawSelectedDate: Date?
-    @State private var dailyMindfulMinutes: [Date: Double] = [:]
+    @State private var chartData: [SleepMetric] = []
     @Binding var activeSheet: Sheet?
 
-    var selectedSleepMetric: SleepMetric? {
-        guard let rawSelectedDate else { return nil }
-        return hkManager.sleepData.first {
-            Calendar.current.isDate(rawSelectedDate, inSameDayAs: $0.date)
-        }
+    // Using this Dictionary to speed up matching a green day or red day
+    var dailyProfits: [Date: Int] {
+        Dictionary(grouping: viewModel.allSessions, by: { Calendar.current.startOfDay(for: $0.date) })
+            .mapValues { $0.reduce(0) { $0 + $1.profit } }
     }
-    var pokerSessionMatch: PokerSession_v2? {
-        guard let rawSelectedDate else { return nil }
-        let last30Days = Calendar.current.date(byAdding: .day, value: -30, to: Date())!
-        let sessions = viewModel.allSessions.filter({ $0.date >= last30Days })
+    var mostRecentSessionMatch: (session: PokerSession_v2, sleep: SleepMetric)? {
+        guard let mostRecentSession = viewModel.allSessions.sorted(by: { $0.date > $1.date }).first else {
+            return nil
+        }
         
-        return sessions.first {
-            Calendar.current.isDate(rawSelectedDate, inSameDayAs: $0.date)
+        // Normalize date to just the day (no time)
+        let sessionDate = Calendar.current.startOfDay(for: mostRecentSession.date)
+        
+        // Try to find matching sleep metric for same day
+        if let sleepMetric = hkManager.sleepData.first(where: {
+            Calendar.current.isDate($0.date, inSameDayAs: sessionDate)
+        }) {
+            return (mostRecentSession, sleepMetric)
+        } else {
+            return (mostRecentSession, SleepMetric(date: sessionDate, value: 0)) // fallback if no sleep found
         }
     }
         
@@ -64,7 +70,7 @@ struct SleepAnalytics: View {
                         
                         VStack (spacing: 22) {
                             
-                            selectedSessionStats
+                            recentSleepSession
                             
                             if !subManager.isSubscribed { upgradeButton }
 
@@ -258,12 +264,12 @@ struct SleepAnalytics: View {
         }
     }
     
-    var selectedSessionStats: some View {
+    var recentSleepSession: some View {
         
         VStack {
             
             HStack {
-                Text("Selected Session Info")
+                Text("Most Recent Session")
                     .cardTitleStyle()
                     .padding(.bottom)
                 
@@ -277,7 +283,7 @@ struct SleepAnalytics: View {
                 VStack (spacing: 2) {
                     
                     if subManager.isSubscribed {
-                        Text(selectedSleepMetric?.dayNoYear ?? "None")
+                        Text(mostRecentSessionMatch?.sleep.dayNoYear ?? "None")
                             .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
                     } else {
                         Image(systemName: "lock.fill")
@@ -295,7 +301,7 @@ struct SleepAnalytics: View {
                 VStack (spacing: 2) {
                     
                     if subManager.isSubscribed {
-                        Text("\(selectedSleepMetric?.value ?? 0, format: .number.rounded(increment: 0.1)) hrs")
+                        Text("\(mostRecentSessionMatch?.sleep.value ?? 0, format: .number.rounded(increment: 0.1)) hrs")
                             .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
                     } else {
                         Image(systemName: "lock.fill")
@@ -313,7 +319,7 @@ struct SleepAnalytics: View {
                 VStack (spacing: 2) {
                     
                     if subManager.isSubscribed {
-                        Text(pokerSessionMatch?.hourlyRate.axisShortHand(viewModel.userCurrency) ?? "\(viewModel.userCurrency.symbol)0")
+                        Text(mostRecentSessionMatch?.session.hourlyRate.axisShortHand(viewModel.userCurrency) ?? "\(viewModel.userCurrency.symbol)0")
                             .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
                     } else {
                         Image(systemName: "lock.fill")
@@ -331,7 +337,6 @@ struct SleepAnalytics: View {
         }
         .animation(nil, value: rawSelectedDate)
         .padding()
-//        .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -386,39 +391,6 @@ struct SleepAnalytics: View {
         .cornerRadius(12)
     }
     
-    var disclaimerText: some View {
-        
-        HStack {
-            
-            Button {
-                numbersLookOffPopup = true
-            } label: {
-                HStack (spacing: 4) {
-                    
-                    Text("Why are my sleep numbers off?")
-                        .calloutStyle()
-                    
-                    Image(systemName: "info.circle")
-                        .font(.subheadline)
-                }
-            }
-            .foregroundStyle(Color.brandPrimary)
-            
-            Spacer()
-        }
-        .padding(.horizontal)
-        
-        .popover(isPresented: $numbersLookOffPopup, arrowEdge: .bottom, content: {
-            PopoverView(bodyText: "If your sleep data looks different than what your smart device is reporting, kindly let us know. On occasion, sleep numbers can get double-counted in Apple's Health App. Email leftpocketpoker@gmail.com.")
-                .frame(maxWidth: UIScreen.main.bounds.width * 0.9)
-                .frame(height: 180)
-                .dynamicTypeSize(.medium...DynamicTypeSize.medium)
-                .presentationCompactAdaptation(.popover)
-                .preferredColorScheme(colorScheme == .dark ? .dark : .light)
-                .shadow(radius: 10)
-        })
-    }
-    
     var dismissButton: some View {
         
         VStack {
@@ -444,7 +416,7 @@ struct SleepAnalytics: View {
         VStack {
             VStack (alignment: .leading, spacing: 3) {
                 HStack {
-                    Text("Last 30 Days of Sleep")
+                    Text("Last 60 Days of Sleep")
                         .cardTitleStyle()
                     
                     Spacer()
@@ -458,23 +430,16 @@ struct SleepAnalytics: View {
             .padding(.bottom, 40)
             
             Chart {
-                if let selectedSleepMetric {
-                    RuleMark(x: .value("Selected Metric", selectedSleepMetric.date))
-                        .foregroundStyle(.gray.opacity(0.3))
-                }
-                
-                ForEach(hkManager.sleepData) { sleep in
+                ForEach(chartData) { sleep in
 //                ForEach(SleepMetric.MockData) { sleep in
-                    BarMark(x: .value("Date", sleep.date), y: .value("Hours", sleep.value))
-                        .foregroundStyle(calculateBarColor(healthMetric: sleep).gradient)
-                        .opacity(rawSelectedDate == nil || sleep.date == selectedSleepMetric?.date ? 1.0 : 0.1)
+                    BarMark(x: .value("Date", sleep.date, unit: .day), y: .value("Hours", sleep.value))
+                        .foregroundStyle(calculateBarColor(for: sleep))
                 }
             }
-//            .chartScrollableAxes(.horizontal)
-//            .chartXVisibleDomain(length: 86400*28)
-//            .chartScrollPosition(initialX: Date().modifyDays(days: -28))
-//            .chartScrollTargetBehavior(.paging)
-            .sensoryFeedback(.selection, trigger: selectedSleepMetric?.value)
+            .chartScrollableAxes(.horizontal)
+            .chartXVisibleDomain(length: 86400*21)
+            .chartScrollPosition(initialX: Date().modifyDays(days: -21))
+            .chartScrollTargetBehavior(.paging)
             .chartXSelection(value: $rawSelectedDate)
             .chartXAxis {
                 AxisMarks(preset: .aligned) {
@@ -499,7 +464,7 @@ struct SleepAnalytics: View {
             .padding(.leading, 6)
         }
         .overlay {
-            if hkManager.sleepData.isEmpty {
+            if chartData.isEmpty {
                 VStack {
                     Text("No sleep data to display.")
                         .calloutStyle()
@@ -524,9 +489,9 @@ struct SleepAnalytics: View {
         await hkManager.checkAuthorizationStatus()
         
         if hkManager.authorizationStatus != .notDetermined {
-            
             do {
                 try await hkManager.fetchSleepData()
+                chartData = hkManager.sleepData
                 hkManager.totalMindfulMinutesPerDay = try await hkManager.fetchDailyMindfulMinutesData()
                 
             } catch let error as HKError {
@@ -539,26 +504,16 @@ struct SleepAnalytics: View {
     }
     
     // Dynamically return red vs. green if the user won or lost money
-    private func calculateBarColor(healthMetric: SleepMetric) -> Color {
-        
-        // Filter sessions to find any that match the date of the health metric
+    private func calculateBarColor(for healthMetric: SleepMetric) -> Color {
         let date = Calendar.current.startOfDay(for: healthMetric.date)
-        let daysSessions = viewModel.allSessions.filter { session in
-            Calendar.current.isDate(session.date, inSameDayAs: date)
-        }
+        let profit = dailyProfits[date] ?? 0
         
-        // Calculate total profit for the day
-        let totalProfit = daysSessions.reduce(0) { (result, session) in
-            result + session.profit
-        }
-        
-        // Determine color based on profit
-        if totalProfit > 0 {
-            return Color.green
-        } else if totalProfit < 0 {
-            return Color.red
+        if profit > 0 {
+            return .green
+        } else if profit < 0 {
+            return .red
         } else {
-            return Color(.systemGray4).opacity(0.3)
+            return Color(.systemGray4).opacity(0.8)
         }
     }
     

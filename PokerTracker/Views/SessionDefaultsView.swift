@@ -759,6 +759,7 @@ struct SessionDefaultsView: View {
 
 enum CurrencyType: String, CaseIterable, Identifiable, Codable {
     case USD
+    case CAD
     case EUR
     case GBP
     case BRL
@@ -776,6 +777,7 @@ enum CurrencyType: String, CaseIterable, Identifiable, Codable {
     var name: String {
         switch self {
         case .USD: return "US Dollar"
+        case .CAD: return "Canadian Dollar"
         case .EUR: return "Euro"
         case .GBP: return "British Pound"
         case .BRL: return "Brazilian Real"
@@ -793,6 +795,7 @@ enum CurrencyType: String, CaseIterable, Identifiable, Codable {
     var symbol: String {
         switch self {
         case .USD: return "$"
+        case .CAD: return "C$"
         case .EUR: return "€"
         case .GBP: return "£"
         case .BRL: return "R$"
