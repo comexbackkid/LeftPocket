@@ -42,6 +42,7 @@ struct AddNewSessionView: View {
     @State var showCashRebuyField = false
     @State var showStakingPopover = false
     @State var showBountiesPopover = false
+    @Environment(\.dismiss) private var dismiss
     @FocusState private var focusedField: Field?
     @AppStorage("multipleBankrollsEnabled") var multipleBankrollsEnabled: Bool = false
     private var isZoomed: Bool {
@@ -1882,10 +1883,11 @@ struct AddNewSessionView: View {
             Button {
                 let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
-                newSession.savedButtonPressed(viewModel: vm)
+                newSession.savedButtonPressed(viewModel: vm) {
+                    dismiss()
+                }
                 audioConfirmation = true
                 timerViewModel.liveSessionStartTime = nil
-                isPresented = newSession.presentation ?? true
                 
             } label: {
                 PrimaryButton(title: "Save Session")
@@ -1895,7 +1897,7 @@ struct AddNewSessionView: View {
                 let impact = UIImpactFeedbackGenerator(style: .soft)
                 impact.impactOccurred()
                 audioConfirmation = false
-                isPresented = false
+                dismiss()
                 
             } label: {
                 Text("Cancel")

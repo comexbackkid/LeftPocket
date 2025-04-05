@@ -14,9 +14,7 @@ struct ContentView: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
     @Environment(\.colorScheme) var colorScheme
-    
     @AppStorage("hideBankroll") var hideBankroll: Bool = false
-    
     @State private var showMetricsAsSheet = false
     @State private var showSleepAnalyticsAsSheet = false
     @State private var showPaywall = false
@@ -62,26 +60,30 @@ struct ContentView: View {
             let recentSession = (viewModel.sessions + viewModel.bankrolls.flatMap(\.sessions)).sorted(by: { $0.date > $1.date }).first!
             switch sheet {
             case .productUpdates: ProductUpdates(activeSheet: $activeSheet)
-            case .recentSession: if isPad {
-                if #available(iOS 18.0, *) {
-                    SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
-                        .presentationSizing(.page)
-                } else {
-                    SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
-                }
+            case .recentSession:
+                if isPad {
+                    if #available(iOS 18.0, *) {
+                        SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
+                            .presentationSizing(.page)
+                    } else {
+                        SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
+                    }
             } else {
                 SessionDetailView(activeSheet: $activeSheet, pokerSession: recentSession)
                     .presentationDragIndicator(.visible)
             }
             case .healthAnalytics: SleepAnalytics(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
-            case .metricsAsSheet: if isPad {
-                if #available(iOS 18.0, *) {
-                    MetricsView(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
-                        .presentationSizing(.page)
+            case .metricsAsSheet:
+                if isPad {
+                    if #available(iOS 18.0, *) {
+                        MetricsView(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
+                            .presentationSizing(.page)
+                    } else {
+                        MetricsView(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
+                    }
                 } else {
                     MetricsView(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
                 }
-            } else { MetricsView(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge) }
             }
         }
     }
@@ -136,7 +138,6 @@ struct ContentView: View {
                 .frame(width: 80, height: 150)
                 .padding(.top, 20)
         }
-        
     }
     
     var lastSession: Int {
@@ -268,7 +269,7 @@ struct ContentView: View {
                     }
                     .foregroundStyle(Color.brandPrimary)
                     .popover(isPresented: $showBankrollPopup, arrowEdge: .top, content: {
-                        PopoverView(bodyText: "\"My Bankroll\" is your true bankroll ledger, including all transactions. \"Total Profit\" represents your poker winnings over time.")
+                        PopoverView(bodyText: "\"My Bankroll\" is your true bankroll ledger, including all bankrolls & transactions. \"Total Profit\" represents your poker winnings over time.")
                             .frame(maxWidth: .infinity)
                             .frame(height: 150)
                             .dynamicTypeSize(.medium...DynamicTypeSize.medium)

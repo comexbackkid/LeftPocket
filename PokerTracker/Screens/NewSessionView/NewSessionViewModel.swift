@@ -288,7 +288,7 @@ final class NewSessionViewModel: ObservableObject {
         showHandsPerHour = defaults.bool(forKey: "showHandsPerHourOnNewSessionView")
     }
     
-    func savedButtonPressed(viewModel: SessionsListViewModel) {
+    func savedButtonPressed(viewModel: SessionsListViewModel, dismiss: () -> Void) {
         
         guard self.validateForm() else { return }
         
@@ -327,12 +327,11 @@ final class NewSessionViewModel: ObservableObject {
         }
         
         Task {
-            // Counting how many times the user adds a Session. Will display Tip after they enter two
             await FilterSessionsTip.sessionCount.donate()
         }
         
         // Only after the form checks out will the presentation be set to false and the sheet will dismiss
-        self.presentation = false
+        dismiss()
         
         // Ping for a Review Request if they made money on this Session
         if Int(self.profit) ?? 0 > 0 {
