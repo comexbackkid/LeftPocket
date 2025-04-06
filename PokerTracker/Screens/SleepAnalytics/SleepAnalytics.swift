@@ -11,6 +11,7 @@ import HealthKitUI
 import Charts
 import RevenueCat
 import RevenueCatUI
+import TipKit
 
 struct SleepAnalytics: View {
     
@@ -69,6 +70,8 @@ struct SleepAnalytics: View {
                         instructions
                         
                         VStack (spacing: 22) {
+                            
+                            sleepTip
                             
                             recentSleepSession
                             
@@ -184,6 +187,16 @@ struct SleepAnalytics: View {
             })
         }
         .padding(.horizontal)
+    }
+    
+    var sleepTip: some View {
+        
+        VStack {
+            let sleepTip = SleepTip()
+            TipView(sleepTip)
+                .tipViewStyle(CustomTipViewStyle())
+                .padding(.bottom, 10)
+        }
     }
     
     var upgradeButton: some View {

@@ -624,7 +624,7 @@ struct EditSession: View {
                         .font(.callout)
                         .foregroundStyle(editSession.expenses.isEmpty ? .secondary.opacity(0.5) : Color.brandWhite)
                     
-                    TextField("Expenses (Meals, tips, etc.)", text: $editSession.expenses)
+                    TextField("Table Expenses (Rake, tips)", text: $editSession.expenses)
                         .font(.custom("Asap-Regular", size: 17))
                         .keyboardType(.numberPad)
                 }

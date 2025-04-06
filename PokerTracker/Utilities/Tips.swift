@@ -53,6 +53,21 @@ struct ShareTip: Tip {
     }
 }
 
+struct SleepTip: Tip {
+    
+    var title: Text {
+        Text("Start Tracking Sleep")
+    }
+    
+    var message: Text? {
+        Text("Once you enable health permissions your sleep data will automatically populate the chart. Look for patterns in your performance.")
+    }
+    
+    var image: Image? {
+        Image(systemName: "powersleep")
+    }
+}
+
 struct NewSessionViewTip: Tip {
     
     var title: Text {
