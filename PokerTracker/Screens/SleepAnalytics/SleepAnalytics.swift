@@ -445,8 +445,15 @@ struct SleepAnalytics: View {
             Chart {
                 ForEach(chartData) { sleep in
 //                ForEach(SleepMetric.MockData) { sleep in
+                    let day = Calendar.current.startOfDay(for: sleep.date)
                     BarMark(x: .value("Date", sleep.date, unit: .day), y: .value("Hours", sleep.value))
                         .foregroundStyle(calculateBarColor(for: sleep))
+//                        .annotation(position: .top, alignment: .center, spacing: 12) {
+//                            if dailyProfits[day] != nil {
+//                                Text("🚀")
+//                                    .font(.caption2)
+//                            }
+//                        }
                 }
             }
             .chartScrollableAxes(.horizontal)
