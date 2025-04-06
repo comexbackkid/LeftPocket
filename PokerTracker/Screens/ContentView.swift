@@ -141,7 +141,7 @@ struct ContentView: View {
     }
     
     var lastSession: Int {
-        return viewModel.sessions.first?.profit ?? 0
+        return viewModel.allSessions.first?.profit ?? 0
     }
     
     var productUpdatesIcon: some View {
@@ -284,7 +284,7 @@ struct ContentView: View {
                     .font(.custom("Asap-Bold", size: 60, relativeTo: .title2))
                     .opacity(0.85)
                 
-                if !viewModel.sessions.isEmpty {
+                if !viewModel.allSessions.isEmpty {
                     HStack {
                         
                         Image(systemName: "arrow.up.right")

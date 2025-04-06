@@ -56,6 +56,9 @@ class SessionsListViewModel: ObservableObject {
     
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector(fileAccessAvailable), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
+        if multipleBankrollsEnabled {
+            loadBankrolls()
+        }
         getNewSessions()
         getNewLocations()
         getTransactions()
@@ -63,10 +66,6 @@ class SessionsListViewModel: ObservableObject {
         getUserCurrency()
         getUserGameTypes()
         writeToWidget()
-        
-        if multipleBankrollsEnabled {
-            loadBankrolls()
-        }
     }
     
     // MARK: SAVING & LOADING APP DATA: SESSIONS, LOCATIONS, STAKES
@@ -127,7 +126,6 @@ class SessionsListViewModel: ObservableObject {
             let data = try Data(contentsOf: newSessionsPath)
             let savedSessions = try JSONDecoder().decode([PokerSession_v2].self, from: data)
             self.sessions = savedSessions
-            print("Successfully loaded \(self.sessions.count) sessions.")
             
         } catch {
             print("Failed to load sessions: \(error.localizedDescription)")
@@ -441,7 +439,7 @@ extension SessionsListViewModel {
     
     // Combining original session data, aka "Default Bankroll" and any newly created bankroll sessions
     var allSessions: [PokerSession_v2] {
-        sessions + bankrolls.flatMap(\.sessions)
+        (sessions + bankrolls.flatMap(\.sessions)).sorted(by: { $0.date > $1.date })
     }
     
     var allTransactions: [BankrollTransaction] {
