@@ -19,13 +19,11 @@ struct LeftPocketCustomTabBar: View {
     @AppStorage("isDarkMode") private var isDarkMode = true
     @AppStorage("systemThemeEnabled") private var systemThemeEnabled = false
     @AppStorage("pushNotificationsAllowed") private var notificationsAllowed: Bool?
-    
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var qaService: QAService
     @Environment(\.scenePhase) var scenePhase
     @StateObject var timerViewModel = TimerViewModel()
-    
     @State var selectedTab = 0
     @State var isPresented = false
     @State var showPaywall = false
@@ -74,7 +72,6 @@ struct LeftPocketCustomTabBar: View {
         }
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .onAppear {
-            
             // Handles matching the user's iPhone system display settings
             SystemThemeManager
                 .shared
@@ -103,7 +100,6 @@ struct LeftPocketCustomTabBar: View {
         HStack {
             
             ForEach(0..<5) { index in
-                
                 if index != 2 {
                     
                     Button {
@@ -112,141 +108,42 @@ struct LeftPocketCustomTabBar: View {
                         selectedTab = index
                         
                     } label: {
-                        
-                        Spacer()
-                        
-                        if index == 0 {
-                            Image("custom-house-icon")
-                                .font(.system(size: 26, weight: .black))
-                                .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
-                            
-                        } else {
-                            let tabBarImages = ["custom-house-icon", "list.bullet", "cross.fill", "chart.bar.fill", "gearshape.fill"]
-                            Image(systemName: tabBarImages[index])
-                                .font(.system(size: index == 2 ? 28 : 22, weight: .black))
-                                .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
-                        }
-                        
-                        
-                        Spacer()
+                        tabButton(for: index)
                     }
                     
                 } else if !isCounting {
-                    /// This is why this is structured using a Menu, and how it works.
-                    /// The Menu functionality provides the clean, one-click look that doesn't distort the button like a Context Menu
-                    /// Now, if there's no live session going on (isCounting), Tab bar displays the standard Plus button that brings up the options
-                    /// Below, the rendered Tab Bar view will show a stop button IF it detects that there's a live session in progress
-                    Menu {
-
-                        if !isCounting {
-                            
-                            // MARK: Add Completed Session Button
-                            
-                            Button {
-                                logCompletedSession()
-                                
-                            } label: {
-                                Text("Add Completed Session")
-                                Image(systemName: "calendar")
-                            }
-                            
-                            // MARK: Start Live Session Button
-                            
-                            Button {
-                                startLiveSession()
-                                
-                            } label: {
-                                Text("Start a Live Session")
-                                Image(systemName: "timer")
-                            }
-                            
-                            Divider()
-                            
-                            Button {
-                                let impact = UIImpactFeedbackGenerator(style: .soft)
-                                impact.impactOccurred()
-                                showNewTransaction = true
-                                
-                            } label: {
-                                Text("Enter Transaction")
-                                Image(systemName: "creditcard.fill")
-                            }
+                    plusMenuButton
+                        .onTapGesture {
+                            let impact = UIImpactFeedbackGenerator(style: .medium)
+                            impact.impactOccurred()
                         }
-
-                    } label: {
-                        Spacer()
-                        Image(systemName: isCounting ? "stop.fill" : "cross.fill")
-                            .font(.system(size: 28, weight: .medium))
-                            .foregroundColor(Color(.systemGray3))
-                        Spacer()
-                        
-                    }
-                    .sheet(isPresented: $showNewTransaction, onDismiss: {
-                        if audioConfirmation {
-                            playSound()
-                        }
-                     }, content: {
-                        AddNewTransaction(showNewTransaction: $showNewTransaction, audioConfirmation: $audioConfirmation)
-                             .presentationDragIndicator(.visible)
-                    })
-                    .onTapGesture {
-                        let impact = UIImpactFeedbackGenerator(style: .medium)
-                        impact.impactOccurred()
-                    }
-                    .sheet(isPresented: $showPaywall) {
-                        PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                            .dynamicTypeSize(.medium...DynamicTypeSize.large)
-                            .overlay {
-                                HStack {
-                                    Spacer()
-                                    VStack {
-                                        DismissButton()
-                                            .padding()
-                                            .onTapGesture {
-                                                showPaywall = false
-                                        }
+                        .sheet(isPresented: $showPaywall) {
+                            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                                .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                                .overlay {
+                                    HStack {
                                         Spacer()
+                                        VStack {
+                                            DismissButton()
+                                                .padding()
+                                                .onTapGesture {
+                                                    showPaywall = false
+                                                }
+                                            Spacer()
+                                        }
                                     }
                                 }
-                            }
-                    }
-                    .task {
-                        for await customerInfo in Purchases.shared.customerInfoStream {
-                            
-                            showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
-                            await subManager.checkSubscriptionStatus()
                         }
-                    }
+                        .task {
+                            for await customerInfo in Purchases.shared.customerInfoStream {
+                                
+                                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                                await subManager.checkSubscriptionStatus()
+                            }
+                        }
                     
                 } else {
-                    Button {
-                        let impact = UIImpactFeedbackGenerator(style: .heavy)
-                        impact.impactOccurred()
-                        showAlert = true
-                        
-                    } label: {
-                        Spacer()
-                        Image(systemName: "stop.fill")
-                            .font(.system(size: 30, weight: .black))
-                            .foregroundColor(Color(.systemGray3))
-                        Spacer()
-                        
-                    }
-                    .alert(Text("Are You Sure?"), isPresented: $showAlert) {
-                        
-                        Button("Yes", role: .destructive) {
-                            timerViewModel.stopTimer()
-                            LiveActivityManager.shared.endActivity()
-                            isPresented = true
-                        }
-                        
-                        Button("Cancel", role: .cancel) {
-                            print("User is resuming Live Session")
-                        }
-                        
-                    } message: {
-                        Text("If you're ready to end your Live Session, tap Yes & then input Session details on the next screen.")
-                    }
+                    stopLiveSessionButton
                 }
             }
         }
@@ -383,6 +280,111 @@ struct LeftPocketCustomTabBar: View {
         }
         
         qaService.action = nil
+    }
+    
+    @ViewBuilder
+    func tabButton(for index: Int) -> some View {
+        Spacer()
+        let tabBarImages = ["custom-house-icon", "list.bullet", "cross.fill", "chart.bar.fill", "gearshape.fill"]
+        if index == 0 {
+            Image("custom-house-icon")
+                .font(.system(size: 26, weight: .black))
+                .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
+            
+        } else {
+            Image(systemName: tabBarImages[index])
+                .font(.system(size: index == 2 ? 28 : 22, weight: .black))
+                .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
+        }
+        Spacer()
+    }
+    
+    @ViewBuilder
+    var plusMenuButton: some View {
+        Menu {
+            if !isCounting {
+                
+                // MARK: Add Completed Session Button
+                
+                Button {
+                    logCompletedSession()
+                    
+                } label: {
+                    Text("Add Completed Session")
+                    Image(systemName: "calendar")
+                }
+                
+                // MARK: Start Live Session Button
+                
+                Button {
+                    startLiveSession()
+                    
+                } label: {
+                    Text("Start a Live Session")
+                    Image(systemName: "timer")
+                }
+                
+                Divider()
+                
+                Button {
+                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                    impact.impactOccurred()
+                    showNewTransaction = true
+                    
+                } label: {
+                    Text("Enter Transaction")
+                    Image(systemName: "creditcard.fill")
+                }
+            }
+
+        } label: {
+            Spacer()
+            Image(systemName: isCounting ? "stop.fill" : "cross.fill")
+                .font(.system(size: 28, weight: .medium))
+                .foregroundColor(Color(.systemGray3))
+            Spacer()
+            
+        }
+        .sheet(isPresented: $showNewTransaction, onDismiss: {
+            if audioConfirmation {
+                playSound()
+            }
+        }, content: {
+            AddNewTransaction(showNewTransaction: $showNewTransaction, audioConfirmation: $audioConfirmation)
+                .presentationDragIndicator(.visible)
+        })
+    }
+    
+    @ViewBuilder
+    var stopLiveSessionButton: some View {
+        Button {
+            let impact = UIImpactFeedbackGenerator(style: .heavy)
+            impact.impactOccurred()
+            showAlert = true
+            
+        } label: {
+            Spacer()
+            Image(systemName: "stop.fill")
+                .font(.system(size: 30, weight: .black))
+                .foregroundColor(Color(.systemGray3))
+            Spacer()
+            
+        }
+        .alert(Text("Are You Sure?"), isPresented: $showAlert) {
+            
+            Button("Yes", role: .destructive) {
+                timerViewModel.stopTimer()
+                LiveActivityManager.shared.endActivity()
+                isPresented = true
+            }
+            
+            Button("Cancel", role: .cancel) {
+                print("User is resuming Live Session")
+            }
+            
+        } message: {
+            Text("If you're ready to end your Live Session, tap Yes & then input Session details on the next screen.")
+        }
     }
 }
 
