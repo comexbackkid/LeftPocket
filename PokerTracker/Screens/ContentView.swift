@@ -285,19 +285,26 @@ struct ContentView: View {
                     .opacity(0.85)
                 
                 if !viewModel.allSessions.isEmpty {
-                    HStack {
+                    HStack (spacing: 5) {
                         
                         Image(systemName: "arrow.up.right")
                             .resizable()
-                            .frame(width: 13, height: 13)
+                            .frame(width: 12, height: 12)
                             .fontWeight(.bold)
                             .metricsProfitColor(for: lastSession)
                             .rotationEffect(lastSession >= 0 ? .degrees(0) : .degrees(90))
                         
-                        Text(lastSession, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                            .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
-                            .fontWeight(.bold)
-                            .metricsProfitColor(for: lastSession)
+                        HStack(spacing: 0) {
+                            
+                            Text(lastSession, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                                .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+                                .fontWeight(.bold)
+                                .metricsProfitColor(for: lastSession)
+                            
+                            Text(" from \(viewModel.allSessions.first?.date.formatted(.dateTime.month().day()) ?? "last Session")")
+                                .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+                                .foregroundStyle(.secondary)
+                        }
                     }
                     .offset(y: -32)
                 }

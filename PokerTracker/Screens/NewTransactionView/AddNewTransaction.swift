@@ -92,7 +92,7 @@ struct AddNewTransaction: View {
         VStack (alignment: .leading, spacing: 20) {
             
             HStack {
-                Text("Enter any \"off-the-felt\" expenses like meals, travel, & memberships, or bankroll transactions. These do not affect your performance stats.")
+                Text("Enter any \"off-the-felt\" expenses like meals, travel, memberships, or bankroll transactions. These do not affect your performance stats.")
                     .bodyStyle()
                 
                 Spacer()
