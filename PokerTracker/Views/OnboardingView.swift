@@ -24,9 +24,7 @@ struct OnboardingView: View {
     
     private let players: [String: AVPlayer] = [
         "import-sessions": AVPlayer(url: Bundle.main.url(forResource: "import-sessions", withExtension: "mp4")!),
-        "logging-sessions-new": AVPlayer(url: Bundle.main.url(forResource: "logging-sessions-new", withExtension: "mp4")!),
         "metrics-screen": AVPlayer(url: Bundle.main.url(forResource: "metrics-screen", withExtension: "mp4")!),
-        "sharing": AVPlayer(url: Bundle.main.url(forResource: "sharing", withExtension: "mp4")!),
         "health-metrics": AVPlayer(url: Bundle.main.url(forResource: "health-metrics", withExtension: "mp4")!)
     ]
     private var isZoomed: Bool {
@@ -1027,7 +1025,7 @@ struct AllowNotifications: View {
                 
                 Spacer()
                 
-                Text("Turn on notifications to crush live sessions.")
+                Text("Enable notifications to crush Live Sessions.")
                     .signInTitleStyle()
                     .foregroundColor(.brandWhite)
                     .fontWeight(.black)
