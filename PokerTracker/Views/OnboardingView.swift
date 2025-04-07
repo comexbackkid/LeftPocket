@@ -144,6 +144,7 @@ struct OnboardingView: View {
                 
             } else {
                 PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                    .interactiveDismissDisabled()
                     .dynamicTypeSize(.medium...DynamicTypeSize.large)
                     .overlay {
                         HStack {
@@ -166,6 +167,7 @@ struct OnboardingView: View {
         }, content: {
             if let offering = offering {
                 PaywallView(offering: offering, fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                    .interactiveDismissDisabled()
                     .dynamicTypeSize(.medium...DynamicTypeSize.large)
                     .overlay {
                         HStack {
