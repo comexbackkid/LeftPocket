@@ -38,7 +38,10 @@ struct AddNewBankroll: View {
     private func saveBankroll(dismiss: () -> Void) {
         let trimmedName = bankrollName.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedName.isEmpty else { return }
-        
+        guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: startingBankroll)) else {
+            alertItem = AlertContext.invalidCharacter
+            return
+        }
         let startingAmount = Int(startingBankroll) ?? 0
         let startingTransaction = BankrollTransaction(
             date: Date(),
@@ -47,7 +50,6 @@ struct AddNewBankroll: View {
             notes: "Starting bankroll",
             tags: nil
         )
-        
         let newBankroll = Bankroll(name: trimmedName, sessions: [], transactions: startingTransaction.amount > 0 ? [startingTransaction] : [])
         guard !vm.bankrolls.contains(where: { $0.name == newBankroll.name }) else {
             alertItem = AlertContext.invalidBankrollAlreadyExists
@@ -100,11 +102,11 @@ struct AddNewBankroll: View {
                     .font(.headline).frame(width: 25)
                     .foregroundColor(.secondary)
                     .padding(.trailing, 10)
-                
+                    
                 TextField("Bankroll Name", text: $bankrollName)
                     .font(.custom("Asap-Regular", size: 17))
                     .submitLabel(.next)
-                
+                    
             }
             .padding(.bottom, 8)
             
@@ -119,7 +121,6 @@ struct AddNewBankroll: View {
                 TextField("Starting Amount", text: $startingBankroll)
                     .keyboardType(.numberPad)
                     .font(.custom("Asap-Regular", size: 17))
-                    .foregroundColor(startingBankroll.isEmpty ? .primary : .brandPrimary)
                 
                 Spacer()
                     
