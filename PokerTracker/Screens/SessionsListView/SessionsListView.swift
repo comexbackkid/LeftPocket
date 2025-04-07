@@ -32,15 +32,24 @@ struct SessionsListView: View {
     @State var selectedSession: PokerSession_v2?
     @State var tappedSession: PokerSession_v2?
     var filteredTransactions: [BankrollTransaction] {
-        let allTransactions = vm.transactions + vm.bankrolls.flatMap(\.transactions)
-            
+        let allTransactions: [BankrollTransaction]
+
+        switch bankrollFilter {
+        case .all:
+            allTransactions = vm.transactions + vm.bankrolls.flatMap(\.transactions)
+        case .default:
+            allTransactions = vm.transactions
+        case .custom(let id):
+            allTransactions = vm.bankrolls.first(where: { $0.id == id })?.transactions ?? []
+        }
+
         let filtered = allTransactions.filter { tx in
             if let tag = tagsFilter {
                 return tx.tags?.contains(tag) ?? false
             }
             return true
         }
-        
+
         return filtered.sorted(by: { $0.date > $1.date })
     }
     var filteredSessions: [PokerSession_v2] {
