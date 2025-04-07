@@ -150,12 +150,12 @@ struct MetricsView: View {
                 
             } else if viewModel.allSessions.count > 1 && viewModel.winStreak() < -2 {
                 ToolTipView(image: "snowflake",
-                            message: "You're on a slight downswing. Take a breather, & re-focus.",
+                            message: "You're on a slight downswing. Take a breather, and re-focus.",
                             color: .lightBlue)
                 
             } else {
                 ToolTipView(image: "lightbulb",
-                            message: "Track your performance from here. Tap & hold charts for more info.",
+                            message: "Track your performance from here. Tap and hold charts for more info.",
                             color: .yellow)
             }
         }

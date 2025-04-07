@@ -92,7 +92,7 @@ extension SessionsListViewModel {
 
     func bestSessionLength() -> String {
         var categoryTotals = [SessionLengthCategory: (totalHourlyRate: Int, count: Int)]()
-
+        
         for session in allSessions {
             let duration = session.endTime.timeIntervalSince(session.startTime) / 3600 // Duration in hours
             let category = sessionCategory(from: duration)
@@ -100,24 +100,24 @@ extension SessionsListViewModel {
             var current = categoryTotals[category, default: (totalHourlyRate: 0, count: 0)]
             current.totalHourlyRate += session.hourlyRate
             current.count += 1
-              categoryTotals[category] = current
-          }
-
-          // Calculating average hourly rates for each category
-          var maxAverage: Double = 0.0
-          var mostProfitableCategory: SessionLengthCategory?
-
-          for (category, data) in categoryTotals {
-              let averageRate = data.count > 0 ? Double(data.totalHourlyRate) / Double(data.count) : 0.0
-              if averageRate > maxAverage {
-                  maxAverage = averageRate
-                  mostProfitableCategory = category
-              }
-          }
-
-          // Return the most profitable category
-          return mostProfitableCategory?.rawValue ?? "... yikes. Keep at it!"
-      }
+            categoryTotals[category] = current
+        }
+        
+        // Calculating average hourly rates for each category
+        var maxAverage: Double = 0.0
+        var mostProfitableCategory: SessionLengthCategory?
+        
+        for (category, data) in categoryTotals {
+            let averageRate = data.count > 0 ? Double(data.totalHourlyRate) / Double(data.count) : 0.0
+            if averageRate > maxAverage {
+                maxAverage = averageRate
+                mostProfitableCategory = category
+            }
+        }
+        
+        // Return the most profitable category
+        return mostProfitableCategory?.rawValue ?? "... yikes. Keep at it!"
+    }
     
     // MARK: USER'S MOST PROFITABLE MONTH
     

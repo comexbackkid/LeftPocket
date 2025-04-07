@@ -71,6 +71,7 @@ final class NewSessionViewModel: ObservableObject {
     var computedProfit: Int {
         if sessionType == .cash {
             return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - (Int(cashRebuys) ?? 0)
+            
         } else {
             let cashOutAmount = Double(Int(cashOut) ?? 0)
             let bountiesAmount = Double(Int(bounties) ?? 0)
@@ -152,6 +153,7 @@ final class NewSessionViewModel: ObservableObject {
             let totalWinnings = (Double(cashOut) ?? 0) + (Double(bounties) ?? 0)
             let amountOwed = totalWinnings * totalPercentage
             return Int(amountOwed)
+            
         } else {
             return 0
         }
@@ -291,7 +293,6 @@ final class NewSessionViewModel: ObservableObject {
     func savedButtonPressed(viewModel: SessionsListViewModel, dismiss: () -> Void) {
         
         guard self.validateForm() else { return }
-        
         let newSession = PokerSession_v2(location: location,
                                          date: startTime,
                                          startTime: startTime,

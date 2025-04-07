@@ -60,7 +60,7 @@ struct SleepTip: Tip {
     }
     
     var message: Text? {
-        Text("Once you enable health permissions your sleep data will automatically populate the chart. Look for patterns in your performance.")
+        Text("Enable health permissions to see your sleep data. Swipe left or right on the chart to navigate.")
     }
     
     var image: Image? {

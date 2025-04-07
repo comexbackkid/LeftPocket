@@ -21,7 +21,6 @@ struct SleepAnalytics: View {
     @EnvironmentObject var subManager: SubscriptionManager
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
-    
     @State private var isShowingPermissionPrimingSheet = false
     @State private var trigger = false
     @State private var showError = false
@@ -71,13 +70,12 @@ struct SleepAnalytics: View {
                         
                         VStack (spacing: 22) {
                             
-                            sleepTip
-                            
                             recentSleepSession
                             
                             if !subManager.isSubscribed { upgradeButton }
 
                             sleepChart
+                                
                                                         
                             lowSleepToolTip
                             
@@ -187,16 +185,6 @@ struct SleepAnalytics: View {
             })
         }
         .padding(.horizontal)
-    }
-    
-    var sleepTip: some View {
-        
-        VStack {
-            let sleepTip = SleepTip()
-            TipView(sleepTip)
-                .tipViewStyle(CustomTipViewStyle())
-                .padding(.bottom, 10)
-        }
     }
     
     var upgradeButton: some View {
@@ -502,6 +490,8 @@ struct SleepAnalytics: View {
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+        .popoverTip(SleepTip(), arrowEdge: .bottom)
+        .tipViewStyle(CustomTipViewStyle())
     }
     
     private func handleAuthorizationChecksAndDataFetch() async {

@@ -48,6 +48,7 @@ class SessionsListViewModel: ObservableObject {
     @Published var bankrolls: [Bankroll] = [] {
         didSet {
             saveBankrolls()
+            writeToWidget()
         }
     }
     
