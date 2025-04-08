@@ -73,8 +73,9 @@ struct SessionDetailView: View {
         }
         .sheet(isPresented: $showEditSessionView) {
             EditSession(pokerSession: pokerSession)
+                .presentationDragIndicator(.visible)
         }
-        .onChange(of: vm.sessions) { _, _ in
+        .onChange(of: vm.allSessions) { _, _ in
             dismiss()
         }
     }

@@ -50,6 +50,7 @@ struct LineChartFullScreen: View {
         
         Button {
             dismiss.callAsFunction()
+            
         } label: {
             DismissButton()
         }

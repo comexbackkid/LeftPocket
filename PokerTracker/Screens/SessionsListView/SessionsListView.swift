@@ -12,10 +12,8 @@ import TipKit
 struct SessionsListView: View {
     
     @AppStorage("viewStyle") var viewStyle: ViewStyle = .standard
-    
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
-    
     @State var activeSheet: Sheet?
     @State var showEditScreen = false
     @State var showPaywall = false
@@ -26,88 +24,83 @@ struct SessionsListView: View {
     @State var gameTypeFilter: String?
     @State var tagsFilter: String?
     @State var stakesFilter: String?
-    @State var startDate: Date = Date()
-    @State var endDate: Date = .now
-    @State var datesInitialized = false
+    @State var bankrollFilter: BankrollSelection = .all
+    @State var startDate: Date? = nil
+    @State var endDate: Date? = nil
+    @State var showDeleteSessionWarning = false
+    @State var showDeleteTransactionWarning = false
+    @State var sessionToDelete: PokerSession_v2?
+    @State var transactionToDelete: BankrollTransaction?
     @State var listFilter: ListFilter = .sessions
     @State var selectedSession: PokerSession_v2?
     @State var tappedSession: PokerSession_v2?
-    
-    var firstSessionDate: Date {
-        vm.sessions.last?.date ?? Date().modifyDays(days: 15000)
-    }
-    var viewStyles: String {
-        switch viewStyle {
-        case .compact: "Compact View"
-        case .standard: "Standard View"
-        }
-    }
-    var sessionsTitle: String {
-        switch sessionFilter {
-        case .all: "All Sessions"
-        case .cash: "Cash Sessions"
-        case .tournaments: "Tournaments"
-        }
-    }
     var filteredTransactions: [BankrollTransaction] {
-        
-        var result = vm.transactions
-        
-        if let tagsFilter = tagsFilter {
-            result = result.filter { transaction in
-                transaction.tags?.contains(tagsFilter) ?? false
-            }
+        let allTransactions: [BankrollTransaction]
+
+        switch bankrollFilter {
+        case .all: allTransactions = vm.transactions + vm.bankrolls.flatMap(\.transactions)
+        case .default: allTransactions = vm.transactions
+        case .custom(let id): allTransactions = vm.bankrolls.first(where: { $0.id == id })?.transactions ?? []
         }
-        
-        return result
+
+        let filtered = allTransactions.filter { tx in
+            if let tag = tagsFilter {
+                return tx.tags?.contains(tag) ?? false
+            }
+            return true
+        }
+
+        return filtered.sorted(by: { $0.date > $1.date })
     }
     var filteredSessions: [PokerSession_v2] {
         
-        var result = vm.sessions
+        var result: [PokerSession_v2] = vm.sessions + vm.bankrolls.flatMap { $0.sessions }
         
-        // Apply Session type filter
-        switch sessionFilter {
-        case .all: break
-        case .cash: result = vm.allCashSessions()
-        case .tournaments: result = vm.allTournamentSessions()
+        switch bankrollFilter {
+        case .all: result = vm.sessions + vm.bankrolls.flatMap { $0.sessions }
+        case .default: result = vm.sessions
+        case .custom(let id): result = vm.bankrolls.first(where: { $0.id == id })?.sessions ?? []
         }
         
-        // Apply Location filter if selected
+        switch sessionFilter {
+        case .all: break
+        case .cash: result = result.filter { !$0.isTournament }
+        case .tournaments: result = result.filter { $0.isTournament }
+        }
+        
         if let locationFilter = locationFilter {
             result = result.filter { $0.location.name == locationFilter.name }
         }
         
-        // Apply Game Type filter
         if let gameTypeFilter = gameTypeFilter {
             result = result.filter { $0.game == gameTypeFilter }
         }
         
-        // Apply Stakes filter
         if let stakesFilter = stakesFilter {
             result = result.filter { $0.stakes == stakesFilter }
         }
         
-        // Apply Date Range filter
-        result = result.filter { session in
-            let sessionDate = session.date
-            return sessionDate >= startDate && sessionDate <= endDate
+        if let start = startDate, let end = endDate {
+            result = result.filter { $0.date >= start && $0.date <= end }
+        } else if let start = startDate {
+            result = result.filter { $0.date >= start }
+        } else if let end = endDate {
+            result = result.filter { $0.date <= end }
         }
         
-        // Apply Tags filter
         if let tagsFilter = tagsFilter {
             result = result.filter { session in
                 session.tags.contains(tagsFilter)
             }
         }
         
-        return result
+        return result.sorted(by: { $0.date > $1.date })
     }
-    
-    let editTip = SessionsListTip()
-    let filterTip = FilterSessionsTip()
     var isPad: Bool {
         UIDevice.current.userInterfaceIdiom == .pad
     }
+    let editTip = SessionsListTip()
+    let filterTip = FilterSessionsTip()
     
     var body: some View {
         
@@ -116,7 +109,7 @@ struct SessionsListView: View {
             ZStack {
                 switch listFilter {
                 case .sessions:
-                    if vm.sessions.isEmpty {
+                    if vm.allSessions.isEmpty {
                         VStack {
                             screenTitle
                             Spacer()
@@ -124,7 +117,6 @@ struct SessionsListView: View {
                         
                     } else {
                         List {
-                            
                             screenTitle
                             
                             ForEach(filteredSessions) { session in
@@ -136,10 +128,38 @@ struct SessionsListView: View {
                                         .tipViewStyle(CustomTipViewStyle())
                                 }
                                 .listRowBackground(Color.brandBackground)
-                                .listRowInsets(EdgeInsets(top: 3, leading: 12, bottom: 3, trailing: 12))
+                                .listRowInsets(EdgeInsets(top: 4, leading: 12, bottom: 4, trailing: 12))
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                    swipeActions(session)
+                                    Button {
+                                        let impact = UIImpactFeedbackGenerator(style: .soft)
+                                        impact.impactOccurred()
+                                        sessionToDelete = session
+                                        showDeleteSessionWarning = true
+                                        
+                                    } label: {
+                                        Image(systemName: "trash").tint(.red)
+                                    }
+                                    
+                                    Button {
+                                        let impact = UIImpactFeedbackGenerator(style: .soft)
+                                        impact.impactOccurred()
+                                        selectedSession = session
+                                        editTip.invalidate(reason: .actionPerformed)
+                                        
+                                    } label: {
+                                        Image(systemName: "pencil").tint(Color.donutChartOrange)
+                                    }
                                 }
+                            }
+                        }
+                        .confirmationDialog("Are you sure you want to delete?", isPresented: $showDeleteSessionWarning, titleVisibility: .visible) {
+                            Button("Delete Session", role: .destructive) {
+                                if let session = sessionToDelete {
+                                    withAnimation {
+                                        deleteSession(session)
+                                    }
+                                }
+                                sessionToDelete = nil
                             }
                         }
                         .sensoryFeedback(.impact, trigger: tappedSession)
@@ -153,7 +173,7 @@ struct SessionsListView: View {
                     }
                     
                 case .transactions:
-                    if vm.transactions.isEmpty {
+                    if vm.allTransactions.isEmpty && vm.bankrolls.flatMap({ $0.transactions }).isEmpty {
                         VStack {
                             screenTitle
                             Spacer()
@@ -163,14 +183,30 @@ struct SessionsListView: View {
                         List {
                             screenTitle
                             
-                            ForEach(filteredTransactions, id: \.self) { transaction in
+                            ForEach(filteredTransactions, id: \.id) { transaction in
                                 TransactionCellView(transaction: transaction, currency: vm.userCurrency)
                                     .listRowBackground(Color.brandBackground)
-                                    .listRowInsets(EdgeInsets(top: 3, leading: 12, bottom: 3, trailing: 12))
+                                    .listRowInsets(EdgeInsets(top: 4, leading: 12, bottom: 4, trailing: 12))
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                        Button {
+                                            transactionToDelete = transaction
+                                            showDeleteTransactionWarning = true
+                                            
+                                        } label: {
+                                            Image(systemName: "trash").tint(.red)
+                                        }
+                                    }
                             }
-                            .onDelete(perform: { indexSet in
-                                deleteTransaction(at: indexSet)
-                            })
+                        }
+                        .confirmationDialog("Are you sure you want to delete?", isPresented: $showDeleteTransactionWarning, titleVisibility: .visible) {
+                            Button("Delete Transaction", role: .destructive) {
+                                if let transaction = transactionToDelete {
+                                    withAnimation {
+                                        deleteTransaction(transaction)
+                                    }
+                                }
+                                transactionToDelete = nil
+                            }
                         }
                         .listStyle(.plain)
                         .padding(.bottom, 50)
@@ -216,47 +252,38 @@ struct SessionsListView: View {
                 }
             }
             
-            } detail: {
-                if let session = selectedSession {
-                    SessionDetailView(activeSheet: $activeSheet, pokerSession: session)
+        } detail: {
+            if let session = selectedSession {
+                SessionDetailView(activeSheet: $activeSheet, pokerSession: session)
+                
+            } else {
+                VStack {
+                    Image(systemName: "rectangle.on.rectangle.angled")
+                        .resizable()
+                        .frame(width: 80, height: 80)
+                        .foregroundColor(.secondary)
+                        .padding()
                     
-                } else {
-                    VStack {
-                        Image(systemName: "rectangle.on.rectangle.angled")
-                            .resizable()
-                            .frame(width: 80, height: 80)
-                            .foregroundColor(.secondary)
-                            .padding()
-
-                        Text("Select a session to view details")
-                            .bodyStyle()
-                            .foregroundColor(.secondary)
-                    }
+                    Text("Select a session to view details")
+                        .bodyStyle()
+                        .foregroundColor(.secondary)
                 }
             }
-            .accentColor(.brandPrimary)
-            .onAppear {
-                if vm.sessions.count > 1 {
-                    SessionsListTip.shouldShow = false
-                }
-                if !datesInitialized {
-                    startDate = firstSessionDate
-                    datesInitialized = true
+        }
+        .accentColor(.brandPrimary)
+        .onAppear {
+            if vm.sessions.count > 1 {
+                SessionsListTip.shouldShow = false
+            }
+        }
+        .overlay {
+            if !isPad {
+                switch listFilter {
+                case .sessions: if filteredSessions.isEmpty { startingScreen }
+                case .transactions: if filteredTransactions.isEmpty { startingScreen }
                 }
             }
-            .onChange(of: vm.sessions) { _ in
-                if datesInitialized {
-                    startDate = firstSessionDate
-                }
-            }
-            .overlay {
-                if !isPad {
-                    switch listFilter {
-                    case .sessions: if filteredSessions.isEmpty { startingScreen }
-                    case .transactions: if filteredTransactions.isEmpty { startingScreen }
-                    }
-                }
-            }
+        }
     }
     
     var toolbarFilter: some View {
@@ -268,24 +295,68 @@ struct SessionsListView: View {
                 }
             }
             
+            var availableSessionTypes: [SessionFilter] {
+                let allSessions = vm.sessions + vm.bankrolls.flatMap(\.sessions)
+                var types: Set<SessionFilter> = []
+                
+                for session in allSessions {
+                    if session.isTournament {
+                        types.insert(.tournaments)
+                    } else {
+                        types.insert(.cash)
+                    }
+                }
+                
+                // Always allow "All"
+                types.insert(.all)
+                
+                return SessionFilter.allCases.filter { types.contains($0) }
+            }
+            
             Menu {
                 Picker("Select Session Type", selection: $sessionFilter) {
-                    ForEach(SessionFilter.allCases, id: \.self) {
+                    ForEach(availableSessionTypes, id: \.self) {
                         Text($0.rawValue.capitalized).tag($0)
                     }
                 }
+                
             } label: {
                 Text("Session Type")
                 Image(systemName: "suit.club.fill")
             }
             
             Menu {
+                Picker("Select Bankroll", selection: $bankrollFilter) {
+                    Text("All").tag(BankrollSelection.all)
+                    Text("Default").tag(BankrollSelection.default)
+                    ForEach(vm.bankrolls) { bankroll in
+                        Text(bankroll.name).tag(BankrollSelection.custom(bankroll.id))
+                    }
+                }
+                
+            } label: {
+                HStack {
+                    Text("Bankroll")
+                    Image(systemName: "bag.fill")
+                }
+            }
+            
+            Menu {
+                let allLocations: [LocationModel_v2] = {
+                    let allSessions = vm.sessions + vm.bankrolls.flatMap(\.sessions)
+                    return allSessions
+                        .map { $0.location }
+                        .filter { !$0.name.isEmpty }
+                        .uniquedByName()
+                        .sorted(by: { $0.name.lowercased() < $1.name.lowercased() })
+                }()
                 Picker("Select Location", selection: $locationFilter) {
                     Text("All").tag(nil as LocationModel_v2?)
-                    ForEach(vm.sessions.map({ $0.location }).uniquedByName(), id: \.self) { location in
+                    ForEach(allLocations, id: \.self) { location in
                         Text(location.name).tag(location as LocationModel_v2?)
                     }
                 }
+                
             } label: {
                 HStack {
                     Text("Location")
@@ -293,13 +364,23 @@ struct SessionsListView: View {
                 }
             }
             
+            var allGameTypes: [String] {
+                let allSessions = vm.sessions + vm.bankrolls.flatMap(\.sessions)
+                return allSessions
+                    .map { $0.game }
+                    .filter { !$0.isEmpty }
+                    .uniqued()
+                    .sorted(by: { $0.lowercased() < $1.lowercased() })
+            }
+            
             Menu {
                 Picker("Select Game Type", selection: $gameTypeFilter) {
                     Text("All").tag(nil as String?)
-                    ForEach(vm.sessions.map { $0.game }.uniqued(), id: \.self) { game in
+                    ForEach(allGameTypes, id: \.self) { game in
                         Text(game).tag(game as String?)
                     }
                 }
+                
             } label: {
                 HStack {
                     Text("Game Type")
@@ -307,25 +388,52 @@ struct SessionsListView: View {
                 }
             }
             
+            var allStakes: [String] {
+                let allCashSessions = (vm.sessions + vm.bankrolls.flatMap(\.sessions))
+                    .filter { !$0.isTournament }
+                
+                return allCashSessions
+                    .map { $0.stakes }
+                    .filter { !$0.isEmpty }
+                    .uniqued()
+                    .sorted(by: { $0.lowercased() < $1.lowercased() })
+            }
+            
             Menu {
                 Picker("Select Stakes", selection: $stakesFilter) {
                     Text("All").tag(nil as String?)
-                    ForEach(vm.allCashSessions().map { $0.stakes }.uniqued(), id: \.self) { stakes in
+                    ForEach(allStakes, id: \.self) { stakes in
                         Text(stakes).tag(stakes as String?)
                     }
                 }
+                
             } label: {
                 Text("Stakes")
                 Image(systemName: "dollarsign.circle")
             }
             
             Menu {
+                let allTags: [String] = {
+                    let sessionTags = (vm.sessions + vm.bankrolls.flatMap(\.sessions))
+                        .compactMap { $0.tags }
+                        .flatMap { $0 }
+                    
+                    let transactionTags = (vm.transactions + vm.bankrolls.flatMap(\.transactions))
+                        .compactMap { $0.tags }
+                        .flatMap { $0 }
+                    
+                    return (sessionTags + transactionTags)
+                        .filter { !$0.isEmpty }
+                        .uniqued()
+                        .sorted(by: { $0.lowercased() < $1.lowercased() })
+                }()
                 Picker("Tags", selection: $tagsFilter) {
                     Text("None").tag(nil as String?)
-                    ForEach(vm.sessions.compactMap { $0.tags }.flatMap { $0 }.filter { !$0.isEmpty }.uniqued(), id: \.self) { tag in
+                    ForEach(allTags, id: \.self) { tag in
                         Text(tag).tag(tag as String?)
                     }
                 }
+                
             } label: {
                 HStack {
                     Text("Tags")
@@ -337,6 +445,7 @@ struct SessionsListView: View {
             
             Button {
                 showDateFilter = true
+                
             } label: {
                 Text("Date Range")
                 Image(systemName: "calendar")
@@ -346,6 +455,7 @@ struct SessionsListView: View {
             
             Button {
                 resetAllFilters()
+                
             } label: {
                 Text("Clear Filters")
                 Image(systemName: "x.circle")
@@ -353,7 +463,7 @@ struct SessionsListView: View {
             
         } label: {
             Image(systemName: "slider.horizontal.3")
-                
+            
         }
         .popoverTip(filterTip)
         .tipViewStyle(CustomTipViewStyle())
@@ -361,6 +471,7 @@ struct SessionsListView: View {
             DateFilter(startDate: $startDate, endDate: $endDate)
                 .presentationDetents([.height(350)])
                 .presentationBackground(.ultraThinMaterial)
+                .presentationDragIndicator(.visible)
         })
     }
     
@@ -386,7 +497,7 @@ struct SessionsListView: View {
     var screenTitle: some View {
         
         HStack (alignment: .center) {
-            Text(listFilter == .sessions ? sessionsTitle : "All Transactions")
+            Text(listFilter == .sessions ? sessionFilter.titleString : "All Transactions")
                 .titleStyle()
             
             Spacer()
@@ -399,15 +510,12 @@ struct SessionsListView: View {
                         .padding(.bottom)
                 }
             }
-            let today = Calendar.current.startOfDay(for: Date.now)
-            let normalizedEndDate = Calendar.current.startOfDay(for: endDate)
-            if !vm.sessions.isEmpty {
-                if startDate != firstSessionDate || normalizedEndDate != today {
-                    FilterTag(type: "Dates", filterName: "Custom")
-                        .truncationMode(.tail)
-                        .lineLimit(1)
-                        .padding(.bottom)
-                }
+            
+            if startDate != nil {
+                FilterTag(type: "Dates", filterName: "Custom")
+                    .truncationMode(.tail)
+                    .lineLimit(1)
+                    .padding(.bottom)
             }
         }
         .padding(.horizontal)
@@ -450,18 +558,39 @@ struct SessionsListView: View {
         gameTypeFilter = nil
         stakesFilter = nil
         tagsFilter = nil
-        startDate = firstSessionDate
-        endDate = Date.now
+        bankrollFilter = .all
+        startDate = nil
+        endDate = nil
     }
     
     private func deleteSession(_ session: PokerSession_v2) {
         if let index = vm.sessions.firstIndex(where: { $0.id == session.id }) {
             vm.sessions.remove(at: index)
+            return
+        }
+        
+        for i in vm.bankrolls.indices {
+            if let sessionIndex = vm.bankrolls[i].sessions.firstIndex(where: { $0.id == session.id }) {
+                vm.bankrolls[i].sessions.remove(at: sessionIndex)
+                return
+            }
         }
     }
     
-    private func deleteTransaction(at offsets: IndexSet) {
-        vm.transactions.remove(atOffsets: offsets)
+    private func deleteTransaction(_ transaction: BankrollTransaction) {
+        // First try to delete from default (legacy) transactions
+        if let legacyIndex = vm.transactions.firstIndex(where: { $0.id == transaction.id }) {
+            vm.transactions.remove(at: legacyIndex)
+            return
+        }
+        
+        // Otherwise, try to delete from any of the bankrolls
+        for i in vm.bankrolls.indices {
+            if let txIndex = vm.bankrolls[i].transactions.firstIndex(where: { $0.id == transaction.id }) {
+                vm.bankrolls[i].transactions.remove(at: txIndex)
+                return
+            }
+        }
     }
     
     private func binding(for session: PokerSession_v2) -> Binding<PokerSession_v2> {
@@ -474,6 +603,13 @@ struct SessionsListView: View {
 
 enum ViewStyle: String, CaseIterable {
     case standard, compact
+    
+    var titleString: String {
+        switch self {
+        case .standard: return "Standard View"
+        case .compact: return "Compact View"
+        }
+    }
 }
 
 enum SessionFilter: String, CaseIterable {
@@ -481,14 +617,25 @@ enum SessionFilter: String, CaseIterable {
     
     var description: String {
         switch self {
-        case .all:
-            return "All"
-        case .cash:
-            return "Cash"
-        case .tournaments:
-            return "Tournaments"
+        case .all: return "All"
+        case .cash: return "Cash"
+        case .tournaments: return "Tournaments"
         }
     }
+    
+    var titleString: String {
+        switch self {
+        case .all: return "All Sessions"
+        case .cash: return "Cash Sessions"
+        case .tournaments: return "Tournaments"
+        }
+    }
+}
+
+enum BankrollSelection: Hashable {
+    case all
+    case `default`
+    case custom(UUID)
 }
 
 enum ListFilter: String, CaseIterable {
@@ -496,10 +643,8 @@ enum ListFilter: String, CaseIterable {
     
     var description: String {
         switch self {
-        case .sessions:
-            return "All Sessions"
-        case .transactions:
-            return "All Transactions"
+        case .sessions: return "All Sessions"
+        case .transactions: return "All Transactions"
         }
     }
 }

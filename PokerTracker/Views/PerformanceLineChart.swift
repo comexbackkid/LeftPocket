@@ -208,28 +208,20 @@ struct PerformanceLineChart: View {
     }
     
     var valueAnnotation: Double? {
-        
-        guard let selectedMonth = selectedMonth else {
-            
-            return nil
-        }
-        
-        return valueByMonth(month: selectedMonth, data: viewModel.sessions.filter({ $0.isTournament != true }))
+        guard let selectedMonth = selectedMonth else { return nil }
+        return valueByMonth(month: selectedMonth, data: viewModel.allSessions.filter({ $0.isTournament != true }))
     }
     
     var sessionAverageHourlyRateByMonth: [(month: Date, averageHourlyRate: Int)] {
-        
-        sessionsAverageHourlyRateByMonth(sessions: viewModel.sessions, cashOnly: true)
+        sessionsAverageHourlyRateByMonth(sessions: viewModel.allSessions, cashOnly: true)
     }
     
     var sessionWinRateByMonthData: [(month: Date, winRate: Double)] {
-        
-        sessionsWinRateByMonth(sessions: viewModel.sessions, cashOnly: true)
+        sessionsWinRateByMonth(sessions: viewModel.allSessions, cashOnly: true)
     }
     
     var sessionBbWonByMonth: [(month: Date, bbWon: Double)] {
-        
-        sessionsBbWon(sessions: viewModel.sessions, cashOnly: true)
+        sessionsBbWon(sessions: viewModel.allSessions, cashOnly: true)
     }
 
     func sessionsAverageHourlyRateByMonth(sessions: [PokerSession_v2], cashOnly: Bool) -> [(month: Date, averageHourlyRate: Int)] {

@@ -25,6 +25,10 @@
 		7C15880828A2DDDA00B11F77 /* SimpleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C15880728A2DDDA00B11F77 /* SimpleEntry.swift */; };
 		7C15880E28A2E21F00B11F77 /* WidgetViewSmall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C15880D28A2E21F00B11F77 /* WidgetViewSmall.swift */; };
 		7C15DD39276D575600889FB2 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C15DD38276D575600889FB2 /* PlaceholderView.swift */; };
+		7C18FC122D9ACE0E00E837AE /* BankrollModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C18FC112D9ACE0E00E837AE /* BankrollModel.swift */; };
+		7C18FC152D9ADECF00E837AE /* ManageBankrolls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C18FC142D9ADECF00E837AE /* ManageBankrolls.swift */; };
+		7C18FC172D9AE2C800E837AE /* BankrollCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C18FC162D9AE2C800E837AE /* BankrollCellView.swift */; };
+		7C18FC192D9AF6FD00E837AE /* AddNewBankroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C18FC182D9AF6FD00E837AE /* AddNewBankroll.swift */; };
 		7C1941252BDAA33E00377364 /* BestTimeOfDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */; };
 		7C1DF2B52CC6D63100E3D69E /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1DF2B42CC6D63100E3D69E /* AudioManager.swift */; };
 		7C20CFB2271E2D1600739764 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20CFB1271E2D1600739764 /* OnboardingView.swift */; };
@@ -295,6 +299,10 @@
 		7C15880728A2DDDA00B11F77 /* SimpleEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleEntry.swift; sourceTree = "<group>"; };
 		7C15880D28A2E21F00B11F77 /* WidgetViewSmall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViewSmall.swift; sourceTree = "<group>"; };
 		7C15DD38276D575600889FB2 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
+		7C18FC112D9ACE0E00E837AE /* BankrollModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankrollModel.swift; sourceTree = "<group>"; };
+		7C18FC142D9ADECF00E837AE /* ManageBankrolls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageBankrolls.swift; sourceTree = "<group>"; };
+		7C18FC162D9AE2C800E837AE /* BankrollCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankrollCellView.swift; sourceTree = "<group>"; };
+		7C18FC182D9AF6FD00E837AE /* AddNewBankroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewBankroll.swift; sourceTree = "<group>"; };
 		7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestTimeOfDay.swift; sourceTree = "<group>"; };
 		7C1DF2B42CC6D63100E3D69E /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		7C20CFB1271E2D1600739764 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -560,6 +568,15 @@
 			path = LeftPocketWidget;
 			sourceTree = "<group>";
 		};
+		7C18FC132D9ADEB600E837AE /* ManageBankrolls */ = {
+			isa = PBXGroup;
+			children = (
+				7C18FC142D9ADECF00E837AE /* ManageBankrolls.swift */,
+				7C18FC182D9AF6FD00E837AE /* AddNewBankroll.swift */,
+			);
+			path = ManageBankrolls;
+			sourceTree = "<group>";
+		};
 		7C2614CA26D930BA00986183 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -606,9 +623,10 @@
 				7CA658522CA60A9E00A74CE4 /* Goals */,
 				7C6E75BC2BAA1DBD006173A4 /* LiveSessionCounter */,
 				7C897F172891BBFB00E42FDA /* LocationListView */,
-				7C91EE872D99878700FFFD63 /* NewGameTypeView */,
+				7C18FC132D9ADEB600E837AE /* ManageBankrolls */,
 				7C82E13126EFC83F00E3EB6F /* MetricsView */,
 				7C62F1EB2BD0349600F14483 /* NewStakesView */,
+				7C91EE872D99878700FFFD63 /* NewGameTypeView */,
 				7C65B186272C3A4300AFE796 /* NewLocationView */,
 				7C82E13326EFC86A00E3EB6F /* NewSessionView */,
 				7C85492C2C453D280038ADB4 /* NewTransactionView */,
@@ -660,6 +678,7 @@
 				7CB1EBD92950DF4800FA306B /* BestSessionView.swift */,
 				7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */,
 				7CB3EB9C26C3093D009E8DF3 /* CellView.swift */,
+				7C18FC162D9AE2C800E837AE /* BankrollCellView.swift */,
 				7C12A58A2CB1CABE00CA8922 /* DashboardConfig.swift */,
 				7C608EDE2CC19B5800527405 /* DayOfWeekChart.swift */,
 				7C25CB5227887D9200866511 /* CustomPicker.swift */,
@@ -696,6 +715,7 @@
 			children = (
 				7CD2EEC62BE8F0DB00AEE64E /* AppDelegate.swift */,
 				7C1DF2B42CC6D63100E3D69E /* AudioManager.swift */,
+				7C18FC112D9ACE0E00E837AE /* BankrollModel.swift */,
 				7C463C222B487B040095E6C6 /* CSVConversion.swift */,
 				7CA7F8172B6FFAA700F976EE /* CSVImport.swift */,
 				7C4CE7032773560D0070B16E /* DefaultLocations.swift */,
@@ -1277,6 +1297,7 @@
 				7CD2B1582C1BB5B300A90C79 /* PopoverView.swift in Sources */,
 				7CB3EB9D26C3093D009E8DF3 /* CellView.swift in Sources */,
 				7C3EF3E52C64E5D700835467 /* EditSession.swift in Sources */,
+				7C18FC152D9ADECF00E837AE /* ManageBankrolls.swift in Sources */,
 				7C5C79962B2780210088A841 /* UserSettings.swift in Sources */,
 				7CAB7EF92D452654008A84F9 /* EditSessionViewModel.swift in Sources */,
 				7C6394A926C14F6400939F40 /* SessionsListView.swift in Sources */,
@@ -1293,6 +1314,7 @@
 				7C85492E2C453D540038ADB4 /* AddNewTransaction.swift in Sources */,
 				7C91EE892D9987BB00FFFD63 /* NewGameType.swift in Sources */,
 				7CB8D3362D89F86600E08869 /* LiveSessionNote.swift in Sources */,
+				7C18FC172D9AE2C800E837AE /* BankrollCellView.swift in Sources */,
 				7C62F1EF2BD0493400F14483 /* NewStakesViewModel.swift in Sources */,
 				7CEB453F2BCEA90800AAF710 /* RingCharts.swift in Sources */,
 				7CE37EC72C304965002ACA81 /* ToolTipCalculations+Ext.swift in Sources */,
@@ -1306,6 +1328,7 @@
 				7C0B3FF62CC5454B00F446EA /* MeditationView.swift in Sources */,
 				7C2B3E6626F5488E00B84D52 /* PrimaryButton.swift in Sources */,
 				7C6769E22B8CD300006ACB7D /* BankrollProgressView.swift in Sources */,
+				7C18FC122D9ACE0E00E837AE /* BankrollModel.swift in Sources */,
 				7C4254A12784E25C00B5DA79 /* ProfitByYear.swift in Sources */,
 				7C8549342C47EDD40038ADB4 /* QuickActionTypes.swift in Sources */,
 				7CDB04812776141C008C5233 /* AppReviewRequest.swift in Sources */,
@@ -1352,6 +1375,7 @@
 				7CD010E92BF23FE300998FD5 /* LiveSessionRebuyModal.swift in Sources */,
 				7C68FE4126D709530019BA53 /* PlusButton.swift in Sources */,
 				7C15DD39276D575600889FB2 /* PlaceholderView.swift in Sources */,
+				7C18FC192D9AF6FD00E837AE /* AddNewBankroll.swift in Sources */,
 				7CC81FB8294CBAD400E849A9 /* BestLocationView.swift in Sources */,
 				7C9D32772B261FA700900C8C /* AdditionalMetricsCardView.swift in Sources */,
 				7C8647842B2A642700F48951 /* AddNewSessionView.swift in Sources */,

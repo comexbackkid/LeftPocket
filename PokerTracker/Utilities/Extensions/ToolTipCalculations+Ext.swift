@@ -44,19 +44,32 @@ extension SessionsListViewModel {
     
     // Called when Sessions is updated, will update the progress status for the stakes progress indicator
     func updateBankrollProgressRing() {
+        // Combine sessions from all sources
+        let allSessions = sessions + bankrolls.flatMap(\.sessions)
+        let allCashSessions = allSessions.filter({ $0.isTournament == false })
         
-        guard let targetBankroll = calculateTargetBankrollSize(from: sessions, riskTolerance: userRiskTolerance) else {
+        // Calculate target bankroll based on all sessions
+        guard let targetBankroll = calculateTargetBankrollSize(from: allCashSessions, riskTolerance: userRiskTolerance) else {
             return
         }
         
-        let allTransactions = transactions.map({ $0.amount }).reduce(0, +)
-        self.bankrollProgressRing = (Float(tallyBankroll(bankroll: .all)) + Float(allTransactions)) / Float(targetBankroll)
+        // Combine all transactions
+        let allTransactions = transactions + bankrolls.flatMap(\.transactions)
+        let transactionTotal = allTransactions.map(\.amount).reduce(0, +)
+        
+        // Sum all profits
+        let profitTotal = allCashSessions.map(\.profit).reduce(0, +)
+        
+        // Final progress ring value
+        self.bankrollProgressRing = (Float(profitTotal + transactionTotal) / Float(targetBankroll))
+        progressRingTrigger = UUID()
     }
+
     
     // MARK: BEST MONTH
     
     var bestMonth: String {
-        mostProfitableMonth(in: sessions)
+        mostProfitableMonth(in: allSessions)
     }
     
     // MARK: FUNCTIONS FOR FINDING USER'S IDEAL SESSION LENGTH
@@ -79,32 +92,32 @@ extension SessionsListViewModel {
 
     func bestSessionLength() -> String {
         var categoryTotals = [SessionLengthCategory: (totalHourlyRate: Int, count: Int)]()
-
-        for session in sessions {
+        
+        for session in allSessions {
             let duration = session.endTime.timeIntervalSince(session.startTime) / 3600 // Duration in hours
             let category = sessionCategory(from: duration)
             
             var current = categoryTotals[category, default: (totalHourlyRate: 0, count: 0)]
             current.totalHourlyRate += session.hourlyRate
             current.count += 1
-              categoryTotals[category] = current
-          }
-
-          // Calculating average hourly rates for each category
-          var maxAverage: Double = 0.0
-          var mostProfitableCategory: SessionLengthCategory?
-
-          for (category, data) in categoryTotals {
-              let averageRate = data.count > 0 ? Double(data.totalHourlyRate) / Double(data.count) : 0.0
-              if averageRate > maxAverage {
-                  maxAverage = averageRate
-                  mostProfitableCategory = category
-              }
-          }
-
-          // Return the most profitable category
-          return mostProfitableCategory?.rawValue ?? "... yikes. Keep at it!"
-      }
+            categoryTotals[category] = current
+        }
+        
+        // Calculating average hourly rates for each category
+        var maxAverage: Double = 0.0
+        var mostProfitableCategory: SessionLengthCategory?
+        
+        for (category, data) in categoryTotals {
+            let averageRate = data.count > 0 ? Double(data.totalHourlyRate) / Double(data.count) : 0.0
+            if averageRate > maxAverage {
+                maxAverage = averageRate
+                mostProfitableCategory = category
+            }
+        }
+        
+        // Return the most profitable category
+        return mostProfitableCategory?.rawValue ?? "... yikes. Keep at it!"
+    }
     
     // MARK: USER'S MOST PROFITABLE MONTH
     
@@ -146,7 +159,7 @@ extension SessionsListViewModel {
         var streak = 0
         
         // Iterate through sessions in reverse order (from most recent to oldest)
-        for session in sessions {
+        for session in allSessions {
             if session.profit > 0 {
                 // If on a win streak or neutral, increment the streak
                 if streak >= 0 {

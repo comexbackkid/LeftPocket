@@ -16,14 +16,13 @@ struct MetricsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
-    
     @State private var showPaywall = false
     @State private var progressIndicator: Float = 0.0
     @State private var minimizeLineChart = false
     @AppStorage("dateRangeSelection") private var statsRange: RangeSelection = .all
     @AppStorage("sessionFilter") private var sessionFilter: SessionFilter = .all
+    @State private var bankrollFilter: BankrollSelection = .default
     @Binding var activeSheet: Sheet?
-    
     private var isPad: Bool {
         UIDevice.current.userInterfaceIdiom == .pad
     }
@@ -36,7 +35,7 @@ struct MetricsView: View {
                 
                 VStack {
                     
-                    if !viewModel.sessions.isEmpty {
+                    if !viewModel.allSessions.isEmpty {
                         
                         ScrollView {
                             
@@ -64,7 +63,7 @@ struct MetricsView: View {
                                 
                                 performanceChart
                                 
-                                let barChartDateRange = viewModel.sessions.filter({ $0.date.getYear() == Date().getYear() })
+                                let barChartDateRange = viewModel.allSessions.filter({ $0.date.getYear() == Date().getYear() })
                                 
                                 BarChartWeeklySessionCount(showTitle: true, dateRange: barChartDateRange)
                                     .padding(20)
@@ -144,19 +143,19 @@ struct MetricsView: View {
     var winStreakToolTip: some View {
         
         Group {
-            if viewModel.sessions.count > 1 && viewModel.winStreak() > 2 {
+            if viewModel.allSessions.count > 1 && viewModel.winStreak() > 2 {
                 ToolTipView(image: "flame.fill",
                             message: "You're on a win streak! That's \(viewModel.winStreak()) in a row, well done.",
                             color: .yellow)
                 
-            } else if viewModel.sessions.count > 1 && viewModel.winStreak() < -2 {
+            } else if viewModel.allSessions.count > 1 && viewModel.winStreak() < -2 {
                 ToolTipView(image: "snowflake",
-                            message: "You're on a slight downswing. Take a breather, & re-focus.",
+                            message: "You're on a slight downswing. Take a breather, and re-focus.",
                             color: .lightBlue)
                 
             } else {
                 ToolTipView(image: "lightbulb",
-                            message: "Track your performance from here. Tap & hold charts for more info.",
+                            message: "Track your performance from here. Tap and hold charts for more info.",
                             color: .yellow)
             }
         }
@@ -209,12 +208,6 @@ struct MetricsView: View {
         Group {
             if !subManager.isSubscribed {
                 BankrollProgressView(progressIndicator: $progressIndicator, isSubscribed: subManager.isSubscribed)
-                    .onAppear(perform: {
-                        self.progressIndicator = viewModel.bankrollProgressRing
-                    })
-                    .onReceive(viewModel.$sessions, perform: { _ in
-                        self.progressIndicator = viewModel.bankrollProgressRing
-                    })
                     .cardShadow(colorScheme: colorScheme)
                     .overlay {
                         HStack {
@@ -235,11 +228,12 @@ struct MetricsView: View {
             } else {
                 BankrollProgressView(progressIndicator: $progressIndicator, isSubscribed: subManager.isSubscribed)
                     .onAppear(perform: {
+                        viewModel.updateBankrollProgressRing()
                         self.progressIndicator = viewModel.bankrollProgressRing
                     })
-                    .onReceive(viewModel.$sessions, perform: { _ in
+                    .onReceive(viewModel.$progressRingTrigger) { _ in
                         self.progressIndicator = viewModel.bankrollProgressRing
-                    })
+                    }
                     .cardShadow(colorScheme: colorScheme)
             }
         }
@@ -253,14 +247,12 @@ struct MetricsView: View {
     }
     
     var performanceChart: some View {
-        
         PerformanceLineChart()
             .cardStyle(colorScheme: colorScheme, height: 380)
             .cardShadow(colorScheme: colorScheme)
     }
     
     var dayOfWeekChart: some View {
-        
         HStack {
             DayOfWeekChart(sessions: viewModel.allCashSessions())
                 .padding(.leading, 7)
@@ -313,7 +305,23 @@ struct MetricsView: View {
                     Spacer()
 
                     Menu {
-                        Picker("", selection: $sessionFilter) {
+                        
+                        Menu {
+                            Picker("Bankroll Picker", selection: $bankrollFilter) {
+                                Text("All").tag(BankrollSelection.all)
+                                Text("Default").tag(BankrollSelection.default)
+                                ForEach(viewModel.bankrolls) { bankroll in
+                                    Text(bankroll.name).tag(BankrollSelection.custom(bankroll.id))
+                                }
+                            }
+                        } label: {
+                            HStack {
+                                Text("Bankrolls")
+                                Image(systemName: "bag.fill")
+                            }
+                        }
+                        
+                        Picker("Session Filter", selection: $sessionFilter) {
                             ForEach(SessionFilter.allCases, id: \.self) {
                                 Text($0.rawValue.capitalized).tag($0)
                                     
@@ -329,9 +337,9 @@ struct MetricsView: View {
                 .padding(.bottom)
                 
                 switch sessionFilter {
-                case .all: AllStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
-                case .cash: CashStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
-                case .tournaments: TournamentStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange)
+                case .all: AllStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange, bankroll: bankrollFilter)
+                case .cash: CashStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange, bankroll: bankrollFilter)
+                case .tournaments: TournamentStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange, bankroll: bankrollFilter)
                 }
                 
                 rangeSelector
@@ -373,22 +381,23 @@ struct AllStats: View {
     let sessionFilter: SessionFilter
     let viewModel: SessionsListViewModel
     let range: RangeSelection
+    let bankroll: BankrollSelection
     
     var body: some View {
         
         VStack {
             
             let currencyType = viewModel.userCurrency.rawValue
-            let totalBankroll = viewModel.tallyBankroll(range: range, bankroll: sessionFilter)
-            let hourlyRate = viewModel.hourlyRate(range: range, bankroll: sessionFilter)
-            let profitPerSession = viewModel.avgProfit(range: range, bankroll: sessionFilter)
-            let highHandBonus = viewModel.totalHighHands(range: range)
-            let avgDuration = viewModel.avgDuration(range: range, bankroll: sessionFilter)
-            let totalSessions = viewModel.countSessions(range: range, bankroll: sessionFilter)
-            let totalWinRate = viewModel.totalWinRate(range: range, bankroll: sessionFilter)
-            let totalHours = viewModel.totalHoursPlayed(range: range, bankroll: sessionFilter)
-            let avgROI = viewModel.avgROI(range: range)
-            let handsPlayed = viewModel.handsPlayed(range: range, bankroll: sessionFilter)
+            let totalBankroll = viewModel.tallyBankroll(bankroll: bankroll, type: sessionFilter, range: range)
+            let hourlyRate = viewModel.hourlyRate(bankroll: bankroll, type: sessionFilter, range: range)
+            let profitPerSession = viewModel.avgProfit(bankroll: bankroll, type: sessionFilter, range: range)
+            let highHandBonus = viewModel.totalHighHands(bankroll: bankroll, range: range)
+            let avgDuration = viewModel.avgDuration(bankroll: bankroll, type: sessionFilter, range: range)
+            let totalSessions = viewModel.countSessions(bankroll: bankroll, type: sessionFilter, range: range)
+            let totalWinRate = viewModel.totalWinRate(bankroll: bankroll, type: sessionFilter, range: range)
+            let totalHours = viewModel.totalHoursPlayed(bankroll: bankroll, type: sessionFilter, range: range)
+            let avgROI = viewModel.avgROI(bankroll: bankroll, range: range)
+            let handsPlayed = viewModel.handsPlayed(bankroll: bankroll, type: sessionFilter, range: range)
             let profitPer100 = viewModel.profitPer100(hands: handsPlayed, bankroll: totalBankroll)
             
             HStack {
@@ -556,22 +565,23 @@ struct CashStats: View {
     let sessionFilter: SessionFilter
     let viewModel: SessionsListViewModel
     let range: RangeSelection
+    let bankroll: BankrollSelection
     
     var body: some View {
         
         VStack {
             
             let currencyType = viewModel.userCurrency.rawValue
-            let cashBankroll = viewModel.tallyBankroll(range: range, bankroll: sessionFilter)
-            let hourlyRate = viewModel.hourlyRate(range: range, bankroll: sessionFilter)
-            let profitPerSession = viewModel.avgProfit(range: range, bankroll: sessionFilter)
-            let highHandBonus = viewModel.totalHighHands(range: range)
-            let avgDuration = viewModel.avgDuration(range: range, bankroll: sessionFilter)
-            let cashWinCount = viewModel.numOfCashes(range: range)
-            let totalSessions = viewModel.countSessions(range: range, bankroll: sessionFilter)
-            let cashWinRate = viewModel.totalWinRate(range: range, bankroll: sessionFilter)
-            let cashTotalHours = viewModel.totalHoursPlayed(range: range, bankroll: sessionFilter)
-            let handsPlayed = viewModel.handsPlayed(range: range, bankroll: sessionFilter)
+            let cashBankroll = viewModel.tallyBankroll(bankroll: bankroll, type: sessionFilter, range: range)
+            let hourlyRate = viewModel.hourlyRate(bankroll: bankroll, type: sessionFilter, range: range)
+            let profitPerSession = viewModel.avgProfit(bankroll: bankroll, type: sessionFilter, range: range)
+            let highHandBonus = viewModel.totalHighHands(bankroll: bankroll, range: range)
+            let avgDuration = viewModel.avgDuration(bankroll: bankroll, type: sessionFilter, range: range)
+            let cashWinCount = viewModel.numOfCashes(bankroll: bankroll, range: range)
+            let totalSessions = viewModel.countSessions(bankroll: bankroll, type: sessionFilter, range: range)
+            let cashWinRate = viewModel.totalWinRate(bankroll: bankroll, type: sessionFilter, range: range)
+            let cashTotalHours = viewModel.totalHoursPlayed(bankroll: bankroll, type: sessionFilter, range: range)
+            let handsPlayed = viewModel.handsPlayed(bankroll: bankroll, type: sessionFilter, range: range)
             let profitPer100 = viewModel.profitPer100(hands: handsPlayed, bankroll: cashBankroll)
             
             HStack {
@@ -752,23 +762,23 @@ struct TournamentStats: View {
     let sessionFilter: SessionFilter
     let viewModel: SessionsListViewModel
     let range: RangeSelection
+    let bankroll: BankrollSelection
     
     var body: some View {
         
         VStack {
             
-            let tournamentProfit = viewModel.tallyBankroll(range: range, bankroll: .tournaments)
-            let tournamentHourlyRate = viewModel.hourlyRate(range: range, bankroll: .tournaments)
-            let tournamentAvgDuration = viewModel.avgDuration(range: range, bankroll: .tournaments)
-            let avgTournamentBuyIn = viewModel.avgTournamentBuyIn(range: range)
-            let tournamentCount = viewModel.tournamentCount(range: range)
-//            let avgRebuyCount = viewModel.averageTournamentRebuys(range: range)
-            let itmRatio = viewModel.inTheMoneyRatio(range: range)
-            let tournamentROI = viewModel.tournamentReturnOnInvestment(range: range)
-            let tournamentHrsPlayed = viewModel.totalHoursPlayed(range: range, bankroll: .tournaments)
-            let handsPlayed = viewModel.handsPlayed(range: range, bankroll: .tournaments)
-            let bounties = viewModel.bountiesCollected(range: range)
-            let actionSold = viewModel.totalActionSold(range: range)
+            let tournamentProfit = viewModel.tallyBankroll(bankroll: bankroll, type: .tournaments, range: range)
+            let tournamentHourlyRate = viewModel.hourlyRate(bankroll: bankroll, type: .tournaments, range: range)
+            let tournamentAvgDuration = viewModel.avgDuration(bankroll: bankroll, type: .tournaments, range: range)
+            let avgTournamentBuyIn = viewModel.avgTournamentBuyIn(bankroll: bankroll, range: range)
+            let tournamentCount = viewModel.tournamentCount(bankroll: bankroll, range: range)
+            let itmRatio = viewModel.inTheMoneyRatio(bankroll: bankroll, range: range)
+            let tournamentROI = viewModel.tournamentReturnOnInvestment(bankroll: bankroll, range: range)
+            let tournamentHrsPlayed = viewModel.totalHoursPlayed(bankroll: bankroll, type: .tournaments, range: range)
+            let handsPlayed = viewModel.handsPlayed(bankroll: bankroll, type: .tournaments, range: range)
+            let bounties = viewModel.bountiesCollected(bankroll: bankroll, range: range)
+            let actionSold = viewModel.totalActionSold(bankroll: bankroll, range: range)
             
             HStack {
                 Text("Tournament Profit")

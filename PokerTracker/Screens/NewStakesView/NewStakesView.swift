@@ -9,7 +9,8 @@ import SwiftUI
 
 struct NewStakesView: View {
     
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var vm: SessionsListViewModel
     @StateObject var newStakesViewModel = NewStakesViewModel()
     @Binding var addStakesIsShowing: Bool
@@ -20,10 +21,7 @@ struct NewStakesView: View {
             
             title
             
-            Text("Use the sliders below to input your own stakes. Press Save Stakes & they'll be added to the list of available stakes when logging your cash game sessions.")
-                .bodyStyle()
-                .padding(.horizontal)
-                .padding(.bottom, 40)
+            description
             
             pickerWheels
             
@@ -34,6 +32,9 @@ struct NewStakesView: View {
         }
         .background(Color.brandBackground)
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
+        .alert(item: $newStakesViewModel.alertItem) { alertItem in
+            Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
+        }
     }
     
     var title: some View {
@@ -47,6 +48,14 @@ struct NewStakesView: View {
             Spacer()
         }
         
+    }
+    
+    var description: some View {
+        
+        Text("Use the sliders below to input your own stakes. Press Save Stakes & they'll be added to the list of available stakes when logging your cash sessions.")
+            .bodyStyle()
+            .padding(.horizontal)
+            .padding(.bottom, 40)
     }
     
     var pickerWheels: some View {
@@ -139,8 +148,9 @@ struct NewStakesView: View {
             Button {
                 let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
-                newStakesViewModel.saveStakes(viewModel: vm)
-                addStakesIsShowing = newStakesViewModel.presentation ?? true
+                newStakesViewModel.saveStakes(viewModel: vm) {
+                    dismiss()
+                }
                 
             } label: {
                 PrimaryButton(title: "Save Stakes")
@@ -150,7 +160,7 @@ struct NewStakesView: View {
             Button(role: .cancel) {
                 let impact = UIImpactFeedbackGenerator(style: .soft)
                 impact.impactOccurred()
-                addStakesIsShowing.toggle()
+                dismiss()
                 
             } label: {
                 Text("Cancel")

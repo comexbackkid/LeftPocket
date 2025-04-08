@@ -39,7 +39,7 @@ extension SessionsListViewModel {
             return []
         }
         
-        return sessions.filter { session in
+        return allSessions.filter { session in
             return session.date >= startOfYear
         }
     }
@@ -48,7 +48,7 @@ extension SessionsListViewModel {
         let calendar = Calendar.current
         let twelveMonthsAgo = calendar.date(byAdding: .month, value: -12, to: Date())
 
-        return sessions.filter { session in
+        return allSessions.filter { session in
             guard let twelveMonthsAgo = twelveMonthsAgo else { return false }
             return session.date >= twelveMonthsAgo
         }
@@ -58,7 +58,7 @@ extension SessionsListViewModel {
         let calendar = Calendar.current
         let sixMonthsAgo = calendar.date(byAdding: .month, value: -6, to: Date())
 
-        return sessions.filter { session in
+        return allSessions.filter { session in
             guard let sixMonthsAgo = sixMonthsAgo else { return false }
             return session.date >= sixMonthsAgo
         }
@@ -68,7 +68,7 @@ extension SessionsListViewModel {
         let calendar = Calendar.current
         let threeMonthsAgo = calendar.date(byAdding: .month, value: -3, to: Date())
         
-        return sessions.filter { session in
+        return allSessions.filter { session in
             guard let threeMonthsAgo = threeMonthsAgo else { return false }
             return session.date >= threeMonthsAgo
         }
@@ -78,7 +78,7 @@ extension SessionsListViewModel {
         let calendar = Calendar.current
         let oneMonthAgo = calendar.date(byAdding: .month, value: -1, to: Date())
 
-        return sessions.filter { session in
+        return allSessions.filter { session in
             guard let oneMonthAgo = oneMonthAgo else { return false }
             return session.date >= oneMonthAgo
         }

@@ -42,7 +42,6 @@ struct LocationGridView: View {
         .overlay {
             VStack {
                 if vm.locations.isEmpty {
-                    
                     emptyState
                 }
             }

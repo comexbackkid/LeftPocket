@@ -12,6 +12,7 @@ import TipKit
 
 final class NewSessionViewModel: ObservableObject {
     
+    @Published var selectedBankrollID: UUID?
     @Published var location: LocationModel_v2 = LocationModel_v2(name: "")
     @Published var game: String = ""
     @Published var stakes: String = ""
@@ -72,29 +73,32 @@ final class NewSessionViewModel: ObservableObject {
             return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0) - (Int(cashRebuys) ?? 0)
             
         } else {
-            let tournamentWinnings = (Int(cashOut) ?? 0) + (Int(bounties) ?? 0)
+            let cashOutAmount = Double(Int(cashOut) ?? 0)
+            let bountiesAmount = Double(Int(bounties) ?? 0)
+            let totalWinnings = cashOutAmount + bountiesAmount
             
-            // Calculate total staker percentage
-            let totalPercentageSold = stakerList.reduce(0.0) { $0 + $1.percentage }
+            let totalBuyIn = Double(Int(buyIn) ?? 0) + Double(tournamentRebuys)
             
-            // Corrected Player Buy-in Cost (subtract stakers' share of both buy-in and rebuys)
-            let totalBuyIn = (Int(buyIn) ?? 0) + tournamentRebuys
-            let stakersContribution = Double(totalBuyIn) * totalPercentageSold
-            let playerBuyInCost = totalBuyIn - Int(stakersContribution)
+            // How much player pays to stakers from prize money
+            let totalStakerPayout = stakerList.reduce(0.0) { $0 + (totalWinnings * $1.percentage) }
             
-            // Compute the total action sold (based on winnings split, NOT buy-in)
-            let totalActionSold = stakerList.reduce(0.0) { total, staker in
-                return total + (Double(tournamentWinnings) * staker.percentage)
-            }
+            // How much stakers contributed to entry
+            let stakerContribution = totalBuyIn * stakerList.reduce(0.0) { $0 + $1.percentage }
             
-            // Compute the markup earned (extra money from backers)
+            // Player's share of entry
+            let playerBuyInCost = totalBuyIn - stakerContribution
+            
+            // Markup: money player received from stakers beyond just their % of buy-in
             let markupEarned = stakerList.reduce(0.0) { total, staker in
-                let stakeCostWithoutMarkup = (Double(buyIn) ?? 0) * staker.percentage
-                let markupAmount = stakeCostWithoutMarkup * ((staker.markup ?? 1.0) - 1.0)
-                return total + markupAmount
+                let baseStake = Double(Int(buyIn) ?? 0) * staker.percentage
+                let markup = (staker.markup ?? 1.0)
+                return total + (baseStake * (markup - 1.0))
             }
             
-            return tournamentWinnings - playerBuyInCost + Int(markupEarned) - Int(totalActionSold)
+            // Final profit = winnings - stake paid - own entry + markup
+            let netProfit = totalWinnings - totalStakerPayout - playerBuyInCost + markupEarned
+            
+            return Int(netProfit.rounded())
         }
     }
     
@@ -106,25 +110,30 @@ final class NewSessionViewModel: ObservableObject {
     
     // If tournamentDays are greater than two, we'll compute an arbitrary end time for endTimeDayTwo to get an accurate time duration
     var adjustedEndTimeDayTwo: Date? {
-        guard self.tournamentDays > 2, let startTimeDayTwo = adjustedStartTimeDayTwo else { return endTimeDayTwo }
-        let totalHoursPlayed = calculateTotalPlayTimeFromMultiDayTournament()
-        return startTimeDayTwo.addingTimeInterval(TimeInterval(totalHoursPlayed * 3600))
+        guard tournamentDays > 2, let startTimeDayTwo = adjustedStartTimeDayTwo else { return endTimeDayTwo }
+        
+        let totalMinutesPlayed = calculateTotalPlayTimeFromMultiDayTournament()
+        return startTimeDayTwo.addingTimeInterval(TimeInterval(totalMinutesPlayed * 60))
     }
     
     // Computes total duration of all played sessions in hours
     private func calculateTotalPlayTimeFromMultiDayTournament() -> Int {
-        let dayDurations = [
-            Calendar.current.dateComponents([.hour], from: startTimeDayTwo, to: endTimeDayTwo).hour ?? 0,
-            Calendar.current.dateComponents([.hour], from: startTimeDayThree, to: endTimeDayThree).hour ?? 0,
-            Calendar.current.dateComponents([.hour], from: startTimeDayFour, to: endTimeDayFour).hour ?? 0,
-            Calendar.current.dateComponents([.hour], from: startTimeDayFive, to: endTimeDayFive).hour ?? 0,
-            Calendar.current.dateComponents([.hour], from: startTimeDaySix, to: endTimeDaySix).hour ?? 0,
-            Calendar.current.dateComponents([.hour], from: startTimeDaySeven, to: endTimeDaySeven).hour ?? 0,
-            Calendar.current.dateComponents([.hour], from: startTimeDayEight, to: endTimeDayEight).hour ?? 0
+        let dayPairs: [(Date, Date)] = [
+            (startTimeDayTwo, endTimeDayTwo),
+            (startTimeDayThree, endTimeDayThree),
+            (startTimeDayFour, endTimeDayFour),
+            (startTimeDayFive, endTimeDayFive),
+            (startTimeDaySix, endTimeDaySix),
+            (startTimeDaySeven, endTimeDaySeven),
+            (startTimeDayEight, endTimeDayEight)
         ]
- 
-        // Sum only the relevant days based on tournamentDays
-        return dayDurations.prefix(tournamentDays).reduce(0, +)
+        
+        let totalMinutes = dayPairs.prefix(tournamentDays).reduce(0) { sum, day in
+            let components = Calendar.current.dateComponents([.minute], from: day.0, to: day.1)
+            return sum + (components.minute ?? 0)
+        }
+        
+        return totalMinutes
     }
     
     // Adds up the total dollar amount of Tournament rebuys
@@ -144,6 +153,7 @@ final class NewSessionViewModel: ObservableObject {
             let totalWinnings = (Double(cashOut) ?? 0) + (Double(bounties) ?? 0)
             let amountOwed = totalWinnings * totalPercentage
             return Int(amountOwed)
+            
         } else {
             return 0
         }
@@ -280,43 +290,56 @@ final class NewSessionViewModel: ObservableObject {
         showHandsPerHour = defaults.bool(forKey: "showHandsPerHourOnNewSessionView")
     }
     
-    func savedButtonPressed(viewModel: SessionsListViewModel) {
+    func savedButtonPressed(viewModel: SessionsListViewModel, dismiss: () -> Void) {
         
         guard self.validateForm() else { return }
-        viewModel.addNewSession(location: location,
-                                date: startTime,
-                                startTime: startTime,
-                                endTime: endTime,
-                                game: game,
-                                stakes: stakes,
-                                buyIn: (Int(buyIn) ?? 0) + (sessionType == .cash ? (Int(self.cashRebuys) ?? 0) : 0),
-                                cashOut: Int(cashOut) ?? 0,
-                                profit: computedProfit,
-                                expenses: Int(expenses) ?? 0,
-                                notes: notes,
-                                tags: tags.isEmpty ? [] : [tags],
-                                highHandBonus: Int(highHandBonus) ?? 0,
-                                handsPerHour: handsPerHour,
-                                isTournament: sessionType == .tournament ? true : false,
-                                rebuyCount: Int(rebuyCount) ?? nil,
-                                bounties: Int(bounties) ?? nil,
-                                tournamentSize: !size.isEmpty ? size : nil,
-                                tournamentSpeed: !speed.isEmpty ? speed : nil,
-                                entrants: Int(entrants),
-                                finish: Int(finish),
-                                tournamentDays: sessionType == .tournament ? tournamentDays : nil,
-                                startTimeDayTwo: tournamentDays > 1 ? adjustedStartTimeDayTwo : nil,
-                                endTimeDayTwo: tournamentDays > 1 ? adjustedEndTimeDayTwo : nil,
-                                stakers: sessionType == .tournament && !stakerList.isEmpty ? stakerList : nil)
+        let newSession = PokerSession_v2(location: location,
+                                         date: startTime,
+                                         startTime: startTime,
+                                         endTime: endTime,
+                                         game: game,
+                                         stakes: stakes,
+                                         buyIn: (Int(buyIn) ?? 0) + (sessionType == .cash ? (Int(self.cashRebuys) ?? 0) : 0),
+                                         cashOut: Int(cashOut) ?? 0,
+                                         profit: computedProfit,
+                                         expenses: Int(expenses) ?? 0,
+                                         notes: notes,
+                                         tags: tags.isEmpty ? [] : [tags],
+                                         highHandBonus: Int(highHandBonus) ?? 0,
+                                         handsPerHour: handsPerHour,
+                                         isTournament: sessionType == .tournament ? true : false,
+                                         rebuyCount: Int(rebuyCount) ?? nil,
+                                         bounties: Int(bounties) ?? nil,
+                                         tournamentSize: !size.isEmpty ? size : nil,
+                                         tournamentSpeed: !speed.isEmpty ? speed : nil,
+                                         entrants: Int(entrants),
+                                         finish: Int(finish),
+                                         tournamentDays: sessionType == .tournament ? tournamentDays : nil,
+                                         startTimeDayTwo: tournamentDays > 1 ? adjustedStartTimeDayTwo : nil,
+                                         endTimeDayTwo: tournamentDays > 1 ? adjustedEndTimeDayTwo : nil,
+                                         stakers: sessionType == .tournament && !stakerList.isEmpty ? stakerList : nil)
+        
+        if let bankrollID = selectedBankrollID {
+            viewModel.addSession(newSession, to: bankrollID)
+            viewModel.updateBankrollProgressRing()
+            viewModel.saveBankrolls()
+            viewModel.writeToWidget()
+        } else {
+            viewModel.sessions.append(newSession)
+            viewModel.sessions.sort(by: { $0.date > $1.date })
+        }
         
         Task {
-            // Counting how many times the user adds a Session. Will display Tip after they enter two
             await FilterSessionsTip.sessionCount.donate()
         }
         
         // Only after the form checks out will the presentation be set to false and the sheet will dismiss
-        self.presentation = false
-        AppReviewRequest.requestReviewIfNeeded()
+        dismiss()
+        
+        // Ping for a Review Request if they made money on this Session
+        if Int(self.profit) ?? 0 > 0 {
+            AppReviewRequest.requestReviewIfNeeded()
+        }
     }
 }
 

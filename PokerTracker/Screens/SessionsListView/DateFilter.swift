@@ -12,8 +12,11 @@ struct DateFilter: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel: SessionsListViewModel
     
-    @Binding var startDate: Date
-    @Binding var endDate: Date
+    @Binding var startDate: Date?
+    @Binding var endDate: Date?
+    
+    @State private var localStartDate: Date = Date().modifyDays(days: -365)
+    @State private var localEndDate: Date = Date()
     
     var body: some View {
         
@@ -31,6 +34,11 @@ struct DateFilter: View {
         }
         .dynamicTypeSize(.medium)
         .ignoresSafeArea()
+        .onAppear {
+            let oldestSession = viewModel.allSessions.sorted(by: { $0.date < $1.date }).first?.date
+            localStartDate = startDate ?? oldestSession ?? Date().modifyDays(days: -365)
+            localEndDate = endDate ?? Date()
+        }
     }
     
     var title: some View {
@@ -73,7 +81,7 @@ struct DateFilter: View {
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30)
                 
-                DatePicker("Start Date", selection: $startDate, in: ...endDate, displayedComponents: [.date])
+                DatePicker("Start Date", selection: $localStartDate, in: ...localEndDate, displayedComponents: [.date])
                     .padding(.leading, 4)
                     .font(.custom("Asap-Regular", size: 18))
                     .datePickerStyle(.compact)
@@ -85,7 +93,7 @@ struct DateFilter: View {
                     .foregroundColor(Color(.systemGray3))
                     .frame(width: 30)
                 
-                DatePicker("End Date", selection: $endDate, in: startDate...Date.now, displayedComponents: [.date])
+                DatePicker("End Date", selection: $localEndDate, in: localStartDate...Date.now, displayedComponents: [.date])
                     .padding(.leading, 4)
                     .font(.custom("Asap-Regular", size: 18))
                     .datePickerStyle(.compact)
@@ -103,6 +111,8 @@ struct DateFilter: View {
             Button {
                 let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
+                startDate = localStartDate
+                endDate = localEndDate
                 dismiss()
                 
             } label: { PrimaryButton(title: "Submit") }
@@ -110,8 +120,8 @@ struct DateFilter: View {
             Button(role: .cancel) {
                 let impact = UIImpactFeedbackGenerator(style: .soft)
                 impact.impactOccurred()
-                startDate = viewModel.sessions.last?.date ?? Date().modifyDays(days: 1460)
-                endDate = Date.now
+                startDate = nil
+                endDate = nil
                 dismiss()
                 
             } label: {

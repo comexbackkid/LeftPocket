@@ -63,6 +63,7 @@ struct MindfulnessAnalytics: View {
         .navigationBarTitleDisplayMode(.inline)
         .sheet(item: $selectedSession) { session in
             SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: session)
+                .presentationDragIndicator(.visible)
         }
     }
     
@@ -231,7 +232,7 @@ struct MindfulnessAnalytics: View {
                 Spacer()
             }
             
-            let matchedSessions = viewModel.sessions.prefix(10).filter { session in
+            let matchedSessions = viewModel.allSessions.prefix(10).filter { session in
                 hkManager.totalMindfulMinutesPerDay.keys.contains { isSameDay($0, session.date) }
             }
             
@@ -466,7 +467,7 @@ struct MindfulnessAnalytics: View {
         var reasoning = ""
 
         // Iterate through poker sessions and categorize based on meditation
-        for session in viewModel.sessions.filter({ $0.date.getYear() == Date().getYear() }) {
+        for session in viewModel.allSessions.filter({ $0.date.getYear() == Date().getYear() }) {
             let sessionDate = Calendar.current.startOfDay(for: session.date)
 
             if meditationDates.contains(sessionDate) {

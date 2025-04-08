@@ -11,6 +11,8 @@ import SwiftUI
 final class EditSessionViewModel: ObservableObject {
     
     @Published var location: LocationModel_v2 = DefaultData.defaultLocation
+    @Published var selectedBankroll: BankrollSelection = .default
+    @Published var selectedBankrollID: UUID?
     @Published var date: Date = Date()
     @Published var stakes: String = ""
     @Published var game: String = ""
@@ -148,56 +150,79 @@ final class EditSessionViewModel: ObservableObject {
                 return (Int(cashOut) ?? 0) - (Int(buyIn) ?? 0)
                 
             } else {
-                let tournamentWinnings = (Int(cashOut) ?? 0) + (Int(bounties) ?? 0)
+                let cashOutAmount = Double(Int(cashOut) ?? 0)
+                let bountiesAmount = Double(Int(bounties) ?? 0)
+                let totalWinnings = cashOutAmount + bountiesAmount
                 
-                // Calculate total staker percentage
-                let totalPercentageSold = stakers.reduce(0.0) { $0 + $1.percentage }
+                let totalBuyIn = Double(Int(buyIn) ?? 0) + Double(tournamentRebuys)
                 
-                // Corrected Player Buy-in Cost (subtract stakers' share of both buy-in and rebuys)
-                let totalBuyIn = (Int(buyIn) ?? 0) + tournamentRebuys
-                let stakersContribution = Double(totalBuyIn) * totalPercentageSold
-                let playerBuyInCost = totalBuyIn - Int(stakersContribution)
+                // How much player pays to stakers from prize money
+                let totalStakerPayout = stakers.reduce(0.0) { $0 + (totalWinnings * $1.percentage) }
                 
-                // Compute the total action sold (based on winnings split, NOT buy-in)
-                let totalActionSold = stakers.reduce(0.0) { total, staker in
-                    return total + (Double(tournamentWinnings) * staker.percentage)
-                }
+                // How much stakers contributed to entry
+                let stakerContribution = totalBuyIn * stakers.reduce(0.0) { $0 + $1.percentage }
                 
-                // Compute the markup earned (extra money from backers)
+                // Player's share of entry
+                let playerBuyInCost = totalBuyIn - stakerContribution
+                
+                // Markup: money player received from stakers beyond just their % of buy-in
                 let markupEarned = stakers.reduce(0.0) { total, staker in
-                    let stakeCostWithoutMarkup = (Double(buyIn) ?? 0) * staker.percentage
-                    let markupAmount = stakeCostWithoutMarkup * ((staker.markup ?? 1.0) - 1.0)
-                    return total + markupAmount
+                    let baseStake = Double(Int(buyIn) ?? 0) * staker.percentage
+                    let markup = (staker.markup ?? 1.0)
+                    return total + (baseStake * (markup - 1.0))
                 }
+
+                // Final profit = winnings - stake paid - own entry + markup
+                let netProfit = totalWinnings - totalStakerPayout - playerBuyInCost + markupEarned
                 
-                return tournamentWinnings - playerBuyInCost + Int(markupEarned) - Int(totalActionSold)
+                return Int(netProfit.rounded())
             }
         }
 
-        viewModel.addNewSession(location: location,
-                                date: startTime,
-                                startTime: startTime,
-                                endTime: endTime,
-                                game: game,
-                                stakes: stakes,
-                                buyIn: Int(buyIn) ?? 0,
-                                cashOut: Int(cashOut) ?? 0,
-                                profit: computedProfit,
-                                expenses: Int(expenses) ?? 0,
-                                notes: notes,
-                                tags: tags.isEmpty ? [] : [tags],
-                                highHandBonus: Int(highHandBonus) ?? 0,
-                                handsPerHour: handsPerHour,
-                                isTournament: sessionType == .tournament ? true : false,
-                                rebuyCount: Int(rebuyCount),
-                                bounties: Int(bounties),
-                                tournamentSize: size,
-                                tournamentSpeed: speed,
-                                entrants: Int(entrants),
-                                finish: Int(finish),
-                                tournamentDays: Int(tournamentDays),
-                                startTimeDayTwo: startTimeDayTwo,
-                                endTimeDayTwo: endTimeDayTwo,
-                                stakers: sessionType == .tournament && !stakers.isEmpty ? stakers : nil)
+        let session = PokerSession_v2(location: location,
+                                      date: startTime,
+                                      startTime: startTime,
+                                      endTime: endTime,
+                                      game: game,
+                                      stakes: stakes,
+                                      buyIn: Int(buyIn) ?? 0,
+                                      cashOut: Int(cashOut) ?? 0,
+                                      profit: computedProfit,
+                                      expenses: Int(expenses) ?? 0,
+                                      notes: notes,
+                                      tags: tags.isEmpty ? [] : [tags],
+                                      highHandBonus: Int(highHandBonus) ?? 0,
+                                      handsPerHour: handsPerHour,
+                                      isTournament: sessionType == .tournament ? true : false,
+                                      rebuyCount: Int(rebuyCount),
+                                      bounties: Int(bounties),
+                                      tournamentSize: size,
+                                      tournamentSpeed: speed,
+                                      entrants: Int(entrants),
+                                      finish: Int(finish),
+                                      tournamentDays: Int(tournamentDays),
+                                      startTimeDayTwo: startTimeDayTwo,
+                                      endTimeDayTwo: endTimeDayTwo,
+                                      stakers: sessionType == .tournament && !stakers.isEmpty ? stakers : nil)
+        
+        // Save to the correct bankroll
+        switch selectedBankroll {
+        case .default:
+            viewModel.sessions.append(session)
+            viewModel.sessions.sort(by: { $0.date > $1.date })
+            
+        case .custom(let id):
+            viewModel.addSession(session, to: id)
+            
+        case .all:
+            break // shouldn't happen, but if it does, we might want to ignore it
+        }
+        
+        // Delete old session (wherever it came from)
+        if let existingID = viewModel.bankrollID(for: editedSession) {
+            viewModel.removeSession(editedSession, from: existingID)
+        } else {
+            viewModel.sessions.removeAll(where: { $0.id == editedSession.id })
+        }
     }
 }

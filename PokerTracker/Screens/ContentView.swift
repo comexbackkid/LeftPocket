@@ -14,9 +14,7 @@ struct ContentView: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
     @Environment(\.colorScheme) var colorScheme
-    
     @AppStorage("hideBankroll") var hideBankroll: Bool = false
-    
     @State private var showMetricsAsSheet = false
     @State private var showSleepAnalyticsAsSheet = false
     @State private var showPaywall = false
@@ -36,7 +34,7 @@ struct ContentView: View {
                 
                 if !hideBankroll { bankrollView }
                 
-                if viewModel.sessions.isEmpty {
+                if viewModel.allSessions.isEmpty {
                     
                     emptyState
                     
@@ -53,44 +51,66 @@ struct ContentView: View {
                     Spacer()
                 }
             }
+            .frame(maxWidth: .infinity)
             .padding(.horizontal, isPad ? 40 : 16)
             .padding(.bottom, 50)
         }
         .background { Color.brandBackground.ignoresSafeArea() }
         .sheet(item: $activeSheet) { sheet in
+            let recentSession = (viewModel.sessions + viewModel.bankrolls.flatMap(\.sessions)).sorted(by: { $0.date > $1.date }).first!
             switch sheet {
             case .productUpdates: ProductUpdates(activeSheet: $activeSheet)
-            case .recentSession: if isPad {
-                if #available(iOS 18.0, *) {
-                    SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
-                        .presentationSizing(.page)
-                } else {
-                    SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
-                }
+            case .recentSession:
+                if isPad {
+                    if #available(iOS 18.0, *) {
+                        SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
+                            .presentationSizing(.page)
+                    } else {
+                        SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
+                    }
             } else {
-                SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
+                SessionDetailView(activeSheet: $activeSheet, pokerSession: recentSession)
                     .presentationDragIndicator(.visible)
             }
             case .healthAnalytics: SleepAnalytics(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
-            case .metricsAsSheet: if isPad {
-                if #available(iOS 18.0, *) {
-                    MetricsView(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
-                        .presentationSizing(.page)
+            case .metricsAsSheet:
+                if isPad {
+                    if #available(iOS 18.0, *) {
+                        MetricsView(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
+                            .presentationSizing(.page)
+                    } else {
+                        MetricsView(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
+                    }
                 } else {
                     MetricsView(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
                 }
-            } else { MetricsView(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge) }
             }
         }
     }
     
     var bankroll: Int {
+        let legacyHighHands = viewModel.sessions.map(\.highHandBonus).reduce(0, +)
+        let legacyTransactions = viewModel.transactions.reduce(0) { total, tx in
+            switch tx.type {
+            case .deposit: return total + tx.amount
+            case .withdrawal, .expense: return total - tx.amount
+            }
+        }
+        let legacyProfit = viewModel.sessions.map(\.profit).reduce(0, +)
         
-        let highHandTotals = viewModel.sessions.map({ $0.highHandBonus}).reduce(0, +)
-        let transactions = viewModel.transactions.map({ $0.amount }).reduce(0, +)
-        let playerProfits = viewModel.tallyBankroll(bankroll: .all)
+        let customBankrollTotals = viewModel.bankrolls.reduce(0) { total, bankroll in
+            let profits = bankroll.sessions.map(\.profit).reduce(0, +)
+            let highHands = bankroll.sessions.map(\.highHandBonus).reduce(0, +)
+            let txTotal = bankroll.transactions.reduce(0) { subTotal, tx in
+                switch tx.type {
+                case .deposit: return subTotal + tx.amount
+                case .withdrawal, .expense: return subTotal - tx.amount
+                }
+            }
+            return total + profits + txTotal + highHands
+        }
         
-        return playerProfits + transactions + highHandTotals
+        return legacyProfit + legacyTransactions + legacyHighHands + customBankrollTotals
     }
     
     var emptyState: some View {
@@ -118,11 +138,10 @@ struct ContentView: View {
                 .frame(width: 80, height: 150)
                 .padding(.top, 20)
         }
-        
     }
     
     var lastSession: Int {
-        return viewModel.sessions.first?.profit ?? 0
+        return viewModel.allSessions.first?.profit ?? 0
     }
     
     var productUpdatesIcon: some View {
@@ -147,7 +166,6 @@ struct ContentView: View {
     }
     
     var quickMetricsBoxes: some View {
-        
         QuickMetricsBoxGrid(viewModel: viewModel)
             .padding(.top, hideBankroll ? 30 : 0)
     }
@@ -203,15 +221,18 @@ struct ContentView: View {
     
     var recentSessionCard: some View {
         
-        Button(action: {
-            let impact = UIImpactFeedbackGenerator(style: .medium)
-            impact.impactOccurred()
-            activeSheet = .recentSession
-            
-        }, label: {
-            RecentSessionCardView(pokerSession: viewModel.sessions.first!)
-        })
-        .buttonStyle(CardViewButtonStyle())
+        Group {
+            let recentSession = (viewModel.sessions + viewModel.bankrolls.flatMap(\.sessions)).sorted(by: { $0.date > $1.date }).first!
+            Button(action: {
+                let impact = UIImpactFeedbackGenerator(style: .medium)
+                impact.impactOccurred()
+                activeSheet = .recentSession
+                
+            }, label: {
+                RecentSessionCardView(pokerSession: recentSession)
+            })
+            .buttonStyle(CardViewButtonStyle())
+        }
     }
     
     var healthAnalyticsCard: some View {
@@ -248,7 +269,7 @@ struct ContentView: View {
                     }
                     .foregroundStyle(Color.brandPrimary)
                     .popover(isPresented: $showBankrollPopup, arrowEdge: .top, content: {
-                        PopoverView(bodyText: "\"My Bankroll\" is your true bankroll ledger, including all transactions. \"Total Profit\" represents your poker winnings over time.")
+                        PopoverView(bodyText: "\"My Bankroll\" is your true bankroll ledger, including all bankrolls & transactions. \"Total Profit\" represents your poker winnings over time.")
                             .frame(maxWidth: .infinity)
                             .frame(height: 150)
                             .dynamicTypeSize(.medium...DynamicTypeSize.medium)
@@ -263,26 +284,32 @@ struct ContentView: View {
                     .font(.custom("Asap-Bold", size: 60, relativeTo: .title2))
                     .opacity(0.85)
                 
-                if !viewModel.sessions.isEmpty {
-                    HStack {
+                if !viewModel.allSessions.isEmpty {
+                    HStack (spacing: 5) {
                         
                         Image(systemName: "arrow.up.right")
                             .resizable()
-                            .frame(width: 13, height: 13)
+                            .frame(width: 12, height: 12)
                             .fontWeight(.bold)
                             .metricsProfitColor(for: lastSession)
                             .rotationEffect(lastSession >= 0 ? .degrees(0) : .degrees(90))
                         
-                        Text(lastSession, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                            .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
-                            .fontWeight(.bold)
-                            .metricsProfitColor(for: lastSession)
+                        HStack(spacing: 0) {
+                            
+                            Text(lastSession, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                                .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+                                .fontWeight(.bold)
+                                .metricsProfitColor(for: lastSession)
+                            
+                            Text(" from \(viewModel.allSessions.first?.date.formatted(.dateTime.month().day()) ?? "last Session")")
+                                .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
+                                .foregroundStyle(.secondary)
+                        }
                     }
                     .offset(y: -32)
                 }
             }
         }
-        .frame(maxWidth: .infinity)
         .padding(.bottom, 10)
         .padding(.top, 20)
     }
@@ -332,47 +359,46 @@ struct QuickMetricsBoxGrid: View {
         // Stuck trying to figure out how to get a starting number, looking messy this way
         // Right now I think the previous year calculation is ONLY sessions that happened in that year, not the year's end value cumulatively
         LazyVGrid(columns: columns, spacing: 20) {
-            
-            let playerProfitNumber = viewModel.tallyBankroll(bankroll: .all).dashboardPlayerProfitShortHand(viewModel.userCurrency)
+            let playerProfitNumber = viewModel.tallyBankroll(type: .all).dashboardPlayerProfitShortHand(viewModel.userCurrency)
             let bbPerHrNumber = viewModel.bbPerHour()
-            let hourlyRateNumber = viewModel.hourlyRate(bankroll: .all).currencyShortHand(viewModel.userCurrency)
-            let profitPerSessionNumber = viewModel.avgProfit(bankroll: .all).currencyShortHand(viewModel.userCurrency)
-            let winRatioNumber = viewModel.totalWinRate(bankroll: .all)
+            let hourlyRateNumber = viewModel.hourlyRate(type: .all).currencyShortHand(viewModel.userCurrency)
+            let profitPerSessionNumber = viewModel.avgProfit(type: .all).currencyShortHand(viewModel.userCurrency)
+            let winRatioNumber = viewModel.totalWinRate(type: .all)
             let hoursPlayedNumber = viewModel.totalHoursPlayedHomeScreen()
             
             if playerProfit {
                 QuickMetricBox(title: "Total Profit",
                                metric: playerProfitNumber,
-                               percentageChange: percentChange(Double(viewModel.tallyBankroll(bankroll: .all)),
-                                                               Double(viewModel.tallyBankroll(yearExcluded: Date().getYear(), bankroll: .all))))
+                               percentageChange: percentChange(Double(viewModel.tallyBankroll(type: .all)),
+                                                               Double(viewModel.tallyBankroll(type: .all, excludingYear: Date().getYear()))))
             }
             
             if bbPerHr {
                 QuickMetricBox(title: "BB / Hr",
                                metric: String(format: "%.2f", bbPerHrNumber),
                                percentageChange: percentChange(bbPerHrNumber,
-                                                               viewModel.bbPerHour(yearExcluded: Date().getYear())))
+                                                               viewModel.bbPerHour(excludingYear: Date().getYear())))
             }
             
             if hourlyRate {
                 QuickMetricBox(title: "Hourly Rate",
                                metric: hourlyRateNumber,
-                               percentageChange: percentChange(Double(viewModel.hourlyRate(bankroll: .all)),
-                                                               Double(viewModel.hourlyRate(yearExcluded: Date().getYear(), bankroll: .all))))
+                               percentageChange: percentChange(Double(viewModel.hourlyRate(type: .all)),
+                                                               Double(viewModel.hourlyRate(type: .all, excludingYear: Date().getYear()))))
             }
             
             if profitPerSession {
                 QuickMetricBox(title: "Avg. Session Profit",
                                metric: profitPerSessionNumber,
-                               percentageChange: percentChange(Double(viewModel.avgProfit(bankroll: .all)),
-                                                               Double(viewModel.avgProfit(yearExcluded: Date().getYear(), bankroll: .all))))
+                               percentageChange: percentChange(Double(viewModel.avgProfit(type: .all)),
+                                                               Double(viewModel.avgProfit(type: .all, excludingYear: Date().getYear()))))
             }
             
             if winRatio {
                 QuickMetricBox(title: "Win Ratio",
                                metric: winRatioNumber.asPercent(),
                                percentageChange: percentChange(winRatioNumber,
-                                                               viewModel.totalWinRate(yearExcluded: Date().getYear(), bankroll: .all)))
+                                                               viewModel.totalWinRate(type: .all, excludingYear: Date().getYear())))
             }
             
             if hoursPlayed {
@@ -422,10 +448,10 @@ extension SessionsListViewModel {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         
-        guard !sessions.isEmpty else { return "0h" } // Return "0h" if there are no sessions
+        guard !allSessions.isEmpty else { return "0h" } // Return "0h" if there are no sessions
         
-        let totalHours = sessions.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
-        let totalMins = sessions.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
+        let totalHours = allSessions.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
+        let totalMins = allSessions.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
         let dateComponents = DateComponents(hour: totalHours, minute: totalMins)
         let totalTime = Int(dateComponents.durationInHours)
         let formattedTotalTime = formatter.string(from: NSNumber(value: totalTime)) ?? "0"

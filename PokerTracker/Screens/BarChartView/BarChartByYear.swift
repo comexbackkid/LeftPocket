@@ -14,6 +14,7 @@ struct BarChartByYear: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     @State private var selectedMonth: Date?
     @AppStorage("sessionFilter") private var chartSessionFilter: SessionFilter = .all
+    @State private var bankrollFilter: BankrollSelection = .default
     
     let showTitle: Bool
     let moreAxisMarks: Bool
@@ -137,11 +138,29 @@ struct BarChartByYear: View {
     var filterButton: some View {
         
         Menu {
-            Picker("", selection: $chartSessionFilter) {
+            
+            Menu {
+                Picker("Bankroll Picker", selection: $bankrollFilter) {
+                    Text("All").tag(BankrollSelection.all)
+                    Text("Default").tag(BankrollSelection.default)
+                    ForEach(viewModel.bankrolls) { bankroll in
+                        Text(bankroll.name).tag(BankrollSelection.custom(bankroll.id))
+                    }
+                }
+                
+            } label: {
+                HStack {
+                    Text("Bankrolls")
+                    Image(systemName: "bag.fill")
+                }
+            }
+            
+            Picker("Session Filter", selection: $chartSessionFilter) {
                 ForEach(SessionFilter.allCases, id: \.self) {
                     Text($0.rawValue.capitalized).tag($0)
                 }
             }
+            
         } label: {
             Text(chartSessionFilter.rawValue.capitalized + " ›")
                 .bodyStyle()
@@ -150,21 +169,23 @@ struct BarChartByYear: View {
         .transaction { transaction in
             transaction.animation = nil
         }
-        
     }
     
-    var profitAnnotation: Int? {
-        
-        guard let selectedMonth = selectedMonth else {
-            
-            return nil
+    var allSessions: [PokerSession_v2] {
+        switch bankrollFilter {
+        case .all: return viewModel.sessions + viewModel.bankrolls.flatMap(\.sessions)
+        case .default: return viewModel.sessions
+        case .custom(let id): return viewModel.bankrolls.first(where: { $0.id == id })?.sessions ?? []
         }
-        
-        return profitByMonth(month: selectedMonth, data: viewModel.sessions, sessionFilter: chartSessionFilter)
+    }
+  
+    var profitAnnotation: Int? {
+        guard let selectedMonth else { return nil }
+        return profitByMonth(month: selectedMonth, data: allSessions, sessionFilter: chartSessionFilter)
     }
     
     var sessionProfitByMonth: [(month: Date, profit: Int)] {
-        sessionsByMonth(sessions: viewModel.sessions, sessionFilter: chartSessionFilter)
+        sessionsByMonth(sessions: allSessions, sessionFilter: chartSessionFilter)
     }
     
     // Formats data so we have the profit totals of every month, i.e. only 12 total items in the array. Checks current year only

@@ -53,6 +53,21 @@ struct ShareTip: Tip {
     }
 }
 
+struct SleepTip: Tip {
+    
+    var title: Text {
+        Text("Start Tracking Sleep")
+    }
+    
+    var message: Text? {
+        Text("Enable health permissions to see your sleep data. Swipe left or right on the chart to navigate.")
+    }
+    
+    var image: Image? {
+        Image(systemName: "powersleep")
+    }
+}
+
 struct NewSessionViewTip: Tip {
     
     var title: Text {
@@ -87,6 +102,21 @@ struct MeditationTip: Tip {
     }
 }
 
+struct MultipleBankrolls: Tip {
+    
+    var title: Text {
+        Text("Multiple Bankrolls")
+    }
+    
+    var message: Text? {
+        Text("After you've enabled multiple bankrolls, press the \(Image(systemName: "plus.circle.fill")) button to add a new bankroll.")
+    }
+    
+    var image: Image? {
+        Image(systemName: "bag.fill")
+    }
+}
+
 struct SessionsListTip: Tip {
     
     @Parameter
@@ -97,7 +127,7 @@ struct SessionsListTip: Tip {
     }
     
     var message: Text? {
-        Text("Swipe left on a Session in the list to either modify or delete it.")
+        Text("Swipe left on a Session in the list to either make edits, or delete it.")
     }
     
     var image: Image? {

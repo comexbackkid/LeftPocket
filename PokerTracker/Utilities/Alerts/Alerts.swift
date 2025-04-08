@@ -111,4 +111,12 @@ struct AlertContext {
     static let invalidCustomGameAlreadyExists = AlertItem(title: Text("Invalid Form"),
                                                           message: Text("The Game Type you've entered already exists."),
                                                           dismissButton: .default(Text("OK")))
+    
+    static let invalidCustomStakesAlreadyExists = AlertItem(title: Text("Invalid Stakes"),
+                                                            message: Text("These stakes already exist."),
+                                                            dismissButton: .default(Text("OK")))
+    
+    static let invalidBankrollAlreadyExists = AlertItem(title: Text("Invalid Bankroll"),
+                                                        message: Text("A bankroll with this name already exists, please choose another."),
+                                                        dismissButton: .default(Text("OK")))
 }

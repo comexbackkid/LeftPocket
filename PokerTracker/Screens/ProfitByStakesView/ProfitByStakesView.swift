@@ -19,34 +19,22 @@ struct ProfitByStakesView: View {
     @State private var metricFilter = "Total"
     @State private var showPaywall = false
     @State private var showDateFilter = false
-    @State private var startDate: Date = Date()
-    @State private var endDate: Date = .now
-    @State private var showYearFilterTag: Bool = false
+    @State private var startDateFilter: Date? = nil
+    @State private var endDateFilter: Date? = nil
     
     var filteredSessions: [PokerSession_v2] {
+        let allCashSessions = viewModel.sessions + viewModel.bankrolls.flatMap(\.sessions)
+        let onlyCash = allCashSessions.filter { !$0.isTournament }
         
-        var result = viewModel.sessions.filter({ $0.isTournament != true })
-        
-        if let yearFilter = yearFilter {
-            result = result.filter({ $0.date.getYear() == yearFilter })
+        return onlyCash.filter { session in
+            let date = session.date
+            let startOK = startDateFilter.map { date >= $0 } ?? true
+            let endOK = endDateFilter.map { date <= $0 } ?? true
+            return startOK && endOK
         }
-        
-        result = result.filter { session in
-            let sessionDate = session.date
-            return sessionDate >= startDate && sessionDate <= endDate
-        }
-        
-        return result
     }
-    var showCustomDatesTag: Bool {
-        
-        var show: Bool = false
-        if startDate != viewModel.sessions.last?.date {
-            show = true
-        }
-        
-        return show
-    }
+
+    var showCustomDatesTag: Bool { startDateFilter != nil }
     
     var body: some View {
         
@@ -79,7 +67,6 @@ struct ProfitByStakesView: View {
                             color: Color.donutChartPurple).padding(.top)
                 
                 if subManager.isSubscribed {
-                    
                     stakesChart
                     
                 } else {
@@ -129,6 +116,7 @@ struct ProfitByStakesView: View {
                 ToolbarItem {
                     headerInfo
                 }
+                
                 ToolbarItem(placement: .principal) {
                     Text("Game Stakes")
                         .font(.custom("Asap-Bold", size: 18))
@@ -145,10 +133,6 @@ struct ProfitByStakesView: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarTitle(Text("Game Stakes"))
         .background(Color.brandBackground)
-        .onAppear {
-            startDate = viewModel.sessions.last?.date ?? Date().modifyDays(days: 150000)
-            endDate = Date()
-        }
     }
     
     var headerInfo: some View {
@@ -157,7 +141,7 @@ struct ProfitByStakesView: View {
             
             HStack {
                 
-                let allYears = viewModel.sessions.map({ $0.date.getYear() }).uniqued()
+                let allYears = viewModel.allSessions.map({ $0.date.getYear() }).uniqued()
                 
                 Menu {
                     
@@ -198,13 +182,11 @@ struct ProfitByStakesView: View {
             }
         }
         .sheet(isPresented: $showDateFilter, content: {
-            DateFilter(startDate: $startDate, endDate: $endDate)
+            DateFilter(startDate: $startDateFilter, endDate: $endDateFilter)
                 .presentationDetents([.height(350)])
                 .presentationBackground(.ultraThinMaterial)
+                .presentationDragIndicator(.visible)
         })
-        .onChange(of: startDate) { _ in
-            yearFilter = nil
-        }
     }
     
     var stakesTotals: some View {
@@ -282,7 +264,7 @@ struct ProfitByStakesView: View {
         
         VStack (spacing: 7) {
             
-            let bankrollTotalByFilter = bankrollByStakesFilters(sessions: filteredSessions)
+            let profitTotalByFilter = bankrollByStakesFilters(sessions: filteredSessions)
             
             HStack {
                 Image(systemName: "dollarsign")
@@ -293,8 +275,8 @@ struct ProfitByStakesView: View {
                 
                 Spacer()
                 
-                Text(bankrollTotalByFilter, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
-                    .profitColor(total: bankrollTotalByFilter)
+                Text(profitTotalByFilter, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
+                    .profitColor(total: profitTotalByFilter)
                     .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
             }
             
@@ -350,7 +332,6 @@ struct ProfitByStakesView: View {
     }
     
     var stakesChart: some View {
-        
         VStack {
             BarChartByStakes(viewModel: viewModel, showTitle: true, filteredSessions: filteredSessions)
                 .padding(.horizontal, 20)
@@ -438,8 +419,8 @@ struct ProfitByStakesView: View {
     
     private func resetAllFilters() {
         yearFilter = nil
-        startDate = viewModel.sessions.last?.date ?? Date().modifyDays(days: 150000)
-        endDate = Date.now
+        startDateFilter = nil
+        endDateFilter = nil
     }
     
     private func bankrollByStakesFilters(sessions: [PokerSession_v2]) -> Int {
@@ -456,7 +437,6 @@ struct ProfitByStakesView: View {
 
         return bankroll
     }
-    
 }
 
 extension SessionsListViewModel {

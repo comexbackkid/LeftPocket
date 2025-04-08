@@ -627,14 +627,14 @@ extension SessionsListViewModel {
     func bestSession(year: String? = nil, sessionFilter: SessionFilter) -> Int? {
         switch sessionFilter {
         case .all:
-            guard !sessions.isEmpty else { return 0 }
+            guard !allSessions.isEmpty else { return 0 }
             if let yearFilter = year {
                 let filteredSessions = sessions.filter({ $0.date.getYear() == yearFilter })
                 return filteredSessions.map({ $0.profit }).max(by: { $0 < $1 })
             }
             
             else {
-                let bestSession = sessions.map({ $0.profit }).max(by: { $0 < $1 })
+                let bestSession = allSessions.map({ $0.profit }).max(by: { $0 < $1 })
                 return bestSession
             }
         case .cash:

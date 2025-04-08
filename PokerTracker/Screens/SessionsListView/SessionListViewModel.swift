@@ -13,6 +13,7 @@ class SessionsListViewModel: ObservableObject {
     // I'm not sure I'm even using this alert... SHOULD probably use it for migration function in case of error
     @Published var alertMessage: String?
     @Published var bankrollProgressRing: Float = 0.0
+    @Published var progressRingTrigger = UUID()
     @Published var userStakes: [String] = ["1/2", "1/3", "2/5", "5/10"] {
         didSet {
             saveUserStakes()
@@ -44,10 +45,21 @@ class SessionsListViewModel: ObservableObject {
             saveTransactions()
         }
     }
+    @Published var bankrolls: [Bankroll] = [] {
+        didSet {
+            saveBankrolls()
+            writeToWidget()
+        }
+    }
+    
     @AppStorage("userRiskTolerance") var riskRaw: String = UserRiskTolerance.conservative.rawValue
+    @AppStorage("multipleBankrollsEnabled") var multipleBankrollsEnabled: Bool = false
     
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector(fileAccessAvailable), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
+        if multipleBankrollsEnabled {
+            loadBankrolls()
+        }
         getNewSessions()
         getNewLocations()
         getTransactions()
@@ -75,6 +87,29 @@ class SessionsListViewModel: ObservableObject {
     var stakesPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("stakes.json") }
     var gameTypePath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("gameTypes.json") }
     var transactionsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("transactions.json") }
+    var bankrollsPath: URL { FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("bankrolls.json") }
+    
+    func saveBankrolls() {
+        do {
+            let data = try JSONEncoder().encode(bankrolls)
+            try? FileManager.default.removeItem(at: bankrollsPath)
+            try data.write(to: bankrollsPath)
+            
+        } catch {
+            print("Failed to save bankrolls: \(error)")
+        }
+    }
+
+    func loadBankrolls() {
+        do {
+            let data = try Data(contentsOf: bankrollsPath)
+            let decoded = try JSONDecoder().decode([Bankroll].self, from: data)
+            self.bankrolls = decoded
+            
+        } catch {
+            print("Failed to load bankrolls: \(error)")
+        }
+    }
     
     func saveNewSessions() {
         do {
@@ -92,7 +127,6 @@ class SessionsListViewModel: ObservableObject {
             let data = try Data(contentsOf: newSessionsPath)
             let savedSessions = try JSONDecoder().decode([PokerSession_v2].self, from: data)
             self.sessions = savedSessions
-            print("Successfully loaded \(self.sessions.count) sessions.")
             
         } catch {
             print("Failed to load sessions: \(error.localizedDescription)")
@@ -231,12 +265,21 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
+    /// Helper function to filter Sessions based on a BankrollSelection filter
+    func sessions(for selection: BankrollSelection) -> [PokerSession_v2] {
+        switch selection {
+        case .all: return sessions + bankrolls.flatMap(\.sessions)
+        case .default: return sessions
+        case .custom(let id): return bankrolls.first(where: { $0.id == id })?.sessions ?? []
+        }
+    }
+    
     // MARK: CALCULATIONS & DATA PRESENTATION FOR CHARTS & METRICS VIEW
     
     // Simply counts how many sessions played each year
     func sessionsPerYear(year: String) -> Int {
-        guard !sessions.isEmpty else { return 0 }
-        return sessions.filter({ $0.date.getYear() == year }).count
+        guard !allSessions.isEmpty else { return 0 }
+        return allSessions.filter({ $0.date.getYear() == year }).count
     }
     
     // Returns percentage of winning sessions
@@ -252,11 +295,11 @@ class SessionsListViewModel: ObservableObject {
     func bankrollByYear(year: String, sessionFilter: SessionFilter) -> Int {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        guard !sessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
+        guard !allSessions.filter({ $0.date.getYear() == year }).isEmpty else { return 0 }
         
         var bankroll: Int {
             switch sessionFilter {
-            case .all: sessions.filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
+            case .all: allSessions.filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
             case .cash: allCashSessions().filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
             case .tournaments: allTournamentSessions().filter({ $0.date.getYear() == year }).map { Int($0.profit) }.reduce(0, +)
             }
@@ -274,7 +317,7 @@ class SessionsListViewModel: ObservableObject {
             
             // Start with zero as our initial data point so chart doesn't look goofy
             var originalDataPoint = [0]
-            let newDataPoints = calculateCumulativeProfit(sessions: self.sessions, sessionFilter: .all)
+            let newDataPoints = calculateCumulativeProfit(sessions: allSessions, sessionFilter: .all)
             originalDataPoint += newDataPoints
             return originalDataPoint
         }
@@ -309,16 +352,8 @@ class SessionsListViewModel: ObservableObject {
     
     // MARK: ADDITIONAL METRICS CARDS
     
-    func sessionsByMonth(_ month: String) -> [PokerSession_v2] {
-        sessions.filter({ $0.date.monthOfYear(month: $0.date) == month })
-    }
-    
-    func profitByMonth(_ month: String) -> Int {
-        return sessionsByMonth(month).reduce(0) { $0 + $1.profit }
-    }
-    
     func sessionsByStakes(_ stakes: String) -> [PokerSession_v2] {
-        sessions.filter({ $0.stakes == stakes })
+        allSessions.filter({ $0.stakes == stakes })
     }
     
     // Take in the stakes, and feed it which sessions to filter from
@@ -327,79 +362,27 @@ class SessionsListViewModel: ObservableObject {
     }
     
     // Adds a new Session to var sessions, only used in AddNewSessionView and EditSession
-    func addNewSession(
-        location: LocationModel_v2,
-        date: Date,
-        startTime: Date,
-        endTime: Date,
-        game: String,
-        stakes: String,
-        buyIn: Int,
-        cashOut: Int,
-        profit: Int,
-        expenses: Int,
-        notes: String,
-        tags: [String],
-        highHandBonus: Int,
-        handsPerHour: Int,
-        isTournament: Bool,
-        rebuyCount: Int?,
-        bounties: Int?,
-        tournamentSize: String?,
-        tournamentSpeed: String?,
-        entrants: Int?,
-        finish: Int?,
-        tournamentDays: Int?,
-        startTimeDayTwo: Date?,
-        endTimeDayTwo: Date?,
-        stakers: [Staker]?
-    ) {
+    func addSession(_ session: PokerSession_v2, to bankrollID: UUID) {
+        guard let index = bankrolls.firstIndex(where: { $0.id == bankrollID }) else { return }
         
-        let newSession = PokerSession_v2(
-            location: location,
-            date: date,
-            startTime: startTime,
-            endTime: endTime,
-            game: game,
-            stakes: stakes,
-            buyIn: buyIn,
-            cashOut: cashOut,
-            profit: profit,
-            expenses: expenses,
-            notes: notes,
-            tags: tags,
-            highHandBonus: highHandBonus,
-            handsPerHour: handsPerHour,
-            isTournament: isTournament,
-            rebuyCount: rebuyCount,
-            bounties: bounties,
-            tournamentSize: tournamentSize,
-            tournamentSpeed: tournamentSpeed,
-            entrants: entrants,
-            finish: finish,
-            tournamentDays: tournamentDays,
-            startTimeDayTwo: startTimeDayTwo,
-            endTimeDayTwo: endTimeDayTwo,
-            stakers: stakers
-        )
-        
-        sessions.append(newSession)
-        sessions.sort(by: { $0.date > $1.date })
+        bankrolls[index].sessions.append(session)
+        bankrolls[index].sessions.sort(by: { $0.date > $1.date })
     }
     
-    func addTransaction(date: Date, type: TransactionType, amount: Int, notes: String, tags: [String]?) {
-        
-        if type == .withdrawal || type == .expense {
-            let newAmount = -(amount)
-            let newTransaction = BankrollTransaction(date: date, type: type, amount: newAmount, notes: notes, tags: tags)
-            transactions.append(newTransaction)
-            
-        } else {
-            let newTransaction = BankrollTransaction(date: date, type: type, amount: amount, notes: notes, tags: tags)
-            transactions.append(newTransaction)
-        }
-        
-        transactions.sort(by: {$0.date > $1.date})
+    func removeSession(_ session: PokerSession_v2, from bankrollID: UUID) {
+        guard let index = bankrolls.firstIndex(where: { $0.id == bankrollID }) else { return }
+        bankrolls[index].sessions.removeAll(where: { $0.id == session.id })
+    }
+    
+    func createTransaction(date: Date, type: TransactionType, amount: Int, notes: String, tags: [String]?) -> BankrollTransaction {
+        let signedAmount = (type == .withdrawal || type == .expense) ? -amount : amount
+        return BankrollTransaction(date: date, type: type, amount: signedAmount, notes: notes, tags: tags)
+    }
+    
+    func addTransaction(_ transaction: BankrollTransaction, to bankrollID: UUID) {
+        guard let index = bankrolls.firstIndex(where: { $0.id == bankrollID }) else { return }
+        bankrolls[index].transactions.append(transaction)
+        bankrolls[index].transactions.sort(by: { $0.date > $1.date })
     }
     
     // MARK: WIDGET FUNCTIONS
@@ -407,7 +390,6 @@ class SessionsListViewModel: ObservableObject {
     /// Another potential crash point
     /// Added a safety check if the UserDefaults for the AppGroup fails
     func writeToWidget() {
-        
         guard let defaults = UserDefaults(suiteName: AppGroup.bankrollSuite) else {
             print("Error: App Group UserDefaults not found.")
             return
@@ -415,10 +397,10 @@ class SessionsListViewModel: ObservableObject {
         
         self.convertToLineChartData()
 
-        defaults.set(self.tallyBankroll(bankroll: .all), forKey: AppGroup.bankrollKey)
-        defaults.set(self.sessions.first?.profit ?? 0, forKey: AppGroup.lastSessionKey)
-        defaults.set(self.hourlyRate(bankroll: .all), forKey: AppGroup.hourlyKey)
-        defaults.set(self.sessions.count, forKey: AppGroup.totalSessionsKey)
+        defaults.set(self.tallyBankroll(bankroll: .all, type: .all, range: .all), forKey: AppGroup.bankrollKey)
+        defaults.set(self.allSessions.first?.profit ?? 0, forKey: AppGroup.lastSessionKey)
+        defaults.set(self.hourlyRate(bankroll: .all, type: .all, range: .all), forKey: AppGroup.hourlyKey)
+        defaults.set(self.allSessions.count, forKey: AppGroup.totalSessionsKey)
         defaults.set(self.userCurrency.rawValue, forKey: AppGroup.currencyKey)
         
         if let swiftChartData = try? JSONEncoder().encode(self.convertedLineChartData) {
@@ -449,18 +431,27 @@ class SessionsListViewModel: ObservableObject {
     
     // Returns false if the user tries to add a 6th session for the month
     func canLogNewSession() -> Bool {
-        let loggedThisMonth = sessionsLoggedThisMonth(sessions)
+        let loggedThisMonth = sessionsLoggedThisMonth(allSessions)
         return loggedThisMonth < 3
     }
 }
 
 extension SessionsListViewModel {
     
+    // Combining original session data, aka "Default Bankroll" and any newly created bankroll sessions
+    var allSessions: [PokerSession_v2] {
+        (sessions + bankrolls.flatMap(\.sessions)).sorted(by: { $0.date > $1.date })
+    }
+    
+    var allTransactions: [BankrollTransaction] {
+        transactions + bankrolls.flatMap({ $0.transactions }).sorted(by: { $0.date > $1.date })
+    }
+    
     func allTournamentSessions() -> [PokerSession_v2] {
-        return sessions.filter({ $0.isTournament == true })
+        return allSessions.filter({ $0.isTournament == true })
     }
     
     func allCashSessions() -> [PokerSession_v2] {
-        return sessions.filter({ $0.isTournament == false })
+        return allSessions.filter({ $0.isTournament == false })
     }
 }
