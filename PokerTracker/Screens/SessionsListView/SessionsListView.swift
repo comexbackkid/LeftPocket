@@ -131,6 +131,8 @@ struct SessionsListView: View {
                                 .listRowInsets(EdgeInsets(top: 4, leading: 12, bottom: 4, trailing: 12))
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                     Button {
+                                        let impact = UIImpactFeedbackGenerator(style: .soft)
+                                        impact.impactOccurred()
                                         sessionToDelete = session
                                         showDeleteSessionWarning = true
                                         

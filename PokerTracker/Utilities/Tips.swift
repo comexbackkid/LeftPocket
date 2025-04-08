@@ -112,7 +112,7 @@ struct SessionsListTip: Tip {
     }
     
     var message: Text? {
-        Text("Swipe left on a Session in the list to either modify or delete it.")
+        Text("Swipe left on a Session in the list to either make edits, or delete it.")
     }
     
     var image: Image? {
