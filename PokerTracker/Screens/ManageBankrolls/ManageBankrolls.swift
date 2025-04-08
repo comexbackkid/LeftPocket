@@ -15,6 +15,7 @@ struct ManageBankrolls: View {
     @State private var showAlert = false
     @State private var selectedBankroll: Bankroll? = nil
     @AppStorage("multipleBankrollsEnabled") var multipleBankrollsEnabled: Bool = false
+    let bankrollsTip = MultipleBankrolls()
     
     var body: some View {
         
@@ -72,12 +73,10 @@ struct ManageBankrolls: View {
                         Button("Cancel", role: .cancel) {
                             selectedBankroll = nil
                         }
-                    } message: { bankroll in
+                    } message: { _ in
                         Text("This action can't be undone, and you will lose all Sessions in this bankroll.")
                     }
-                    
-                    addBankrollButton
-                    
+                                        
                 } else {
                     
                     Group {
@@ -110,6 +109,11 @@ struct ManageBankrolls: View {
                     .presentationBackground(.ultraThinMaterial)
             }
         }
+        .toolbar {
+            addBankrollButton
+                .popoverTip(bankrollsTip)
+                .tipViewStyle(CustomTipViewStyle())
+        }
     }
     
     var title: some View {
@@ -139,12 +143,13 @@ struct ManageBankrolls: View {
             let impact = UIImpactFeedbackGenerator(style: .heavy)
             impact.impactOccurred()
             showAddNewBankroll = true
+            bankrollsTip.invalidate(reason: .actionPerformed)
             
         } label: {
-            PrimaryButton(title: "Add a Bankroll")
+            Image(systemName: "plus.circle.fill")
+                .tint(Color.brandPrimary)
+                .fontWeight(.black)
         }
-        .padding(.horizontal)
-        .padding(.bottom, 50)
     }
     
     private func deleteBankroll(_ bankroll: Bankroll) {
@@ -157,4 +162,5 @@ struct ManageBankrolls: View {
 #Preview {
     ManageBankrolls()
         .environmentObject(SessionsListViewModel())
+        .preferredColorScheme(.dark)
 }

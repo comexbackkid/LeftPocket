@@ -102,6 +102,21 @@ struct MeditationTip: Tip {
     }
 }
 
+struct MultipleBankrolls: Tip {
+    
+    var title: Text {
+        Text("Multiple Bankrolls")
+    }
+    
+    var message: Text? {
+        Text("After you've enabled multiple bankrolls, press the \(Image(systemName: "plus.circle.fill")) button to add a new bankroll.")
+    }
+    
+    var image: Image? {
+        Image(systemName: "bag.fill")
+    }
+}
+
 struct SessionsListTip: Tip {
     
     @Parameter
