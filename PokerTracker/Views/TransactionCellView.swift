@@ -58,6 +58,7 @@ struct TransactionCellView: View {
         .padding(.leading, 10)
         .padding(.vertical, 12)
         .background(Color.brandBackground)
+        .dynamicTypeSize(...DynamicTypeSize.large)
     }
 }
 

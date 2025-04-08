@@ -27,7 +27,10 @@ struct SessionsListView: View {
     @State var bankrollFilter: BankrollSelection = .all
     @State var startDate: Date? = nil
     @State var endDate: Date? = nil
-    @State var datesInitialized = false
+    @State var showDeleteSessionWarning = false
+    @State var showDeleteTransactionWarning = false
+    @State var sessionToDelete: PokerSession_v2?
+    @State var transactionToDelete: BankrollTransaction?
     @State var listFilter: ListFilter = .sessions
     @State var selectedSession: PokerSession_v2?
     @State var tappedSession: PokerSession_v2?
@@ -35,12 +38,9 @@ struct SessionsListView: View {
         let allTransactions: [BankrollTransaction]
 
         switch bankrollFilter {
-        case .all:
-            allTransactions = vm.transactions + vm.bankrolls.flatMap(\.transactions)
-        case .default:
-            allTransactions = vm.transactions
-        case .custom(let id):
-            allTransactions = vm.bankrolls.first(where: { $0.id == id })?.transactions ?? []
+        case .all: allTransactions = vm.transactions + vm.bankrolls.flatMap(\.transactions)
+        case .default: allTransactions = vm.transactions
+        case .custom(let id): allTransactions = vm.bankrolls.first(where: { $0.id == id })?.transactions ?? []
         }
 
         let filtered = allTransactions.filter { tx in
@@ -130,8 +130,34 @@ struct SessionsListView: View {
                                 .listRowBackground(Color.brandBackground)
                                 .listRowInsets(EdgeInsets(top: 4, leading: 12, bottom: 4, trailing: 12))
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                    swipeActions(session)
+                                    Button {
+                                        sessionToDelete = session
+                                        showDeleteSessionWarning = true
+                                        
+                                    } label: {
+                                        Image(systemName: "trash").tint(.red)
+                                    }
+                                    
+                                    Button {
+                                        let impact = UIImpactFeedbackGenerator(style: .soft)
+                                        impact.impactOccurred()
+                                        selectedSession = session
+                                        editTip.invalidate(reason: .actionPerformed)
+                                        
+                                    } label: {
+                                        Image(systemName: "pencil").tint(Color.donutChartOrange)
+                                    }
                                 }
+                            }
+                        }
+                        .confirmationDialog("Are you sure you want to delete?", isPresented: $showDeleteSessionWarning, titleVisibility: .visible) {
+                            Button("Delete Session", role: .destructive) {
+                                if let session = sessionToDelete {
+                                    withAnimation {
+                                        deleteSession(session)
+                                    }
+                                }
+                                sessionToDelete = nil
                             }
                         }
                         .sensoryFeedback(.impact, trigger: tappedSession)
@@ -159,8 +185,26 @@ struct SessionsListView: View {
                                 TransactionCellView(transaction: transaction, currency: vm.userCurrency)
                                     .listRowBackground(Color.brandBackground)
                                     .listRowInsets(EdgeInsets(top: 4, leading: 12, bottom: 4, trailing: 12))
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                        Button {
+                                            transactionToDelete = transaction
+                                            showDeleteTransactionWarning = true
+                                            
+                                        } label: {
+                                            Image(systemName: "trash").tint(.red)
+                                        }
+                                    }
                             }
-                            .onDelete(perform: deleteTransaction)
+                        }
+                        .confirmationDialog("Are you sure you want to delete?", isPresented: $showDeleteTransactionWarning, titleVisibility: .visible) {
+                            Button("Delete Transaction", role: .destructive) {
+                                if let transaction = transactionToDelete {
+                                    withAnimation {
+                                        deleteTransaction(transaction)
+                                    }
+                                }
+                                transactionToDelete = nil
+                            }
                         }
                         .listStyle(.plain)
                         .padding(.bottom, 50)
@@ -531,22 +575,18 @@ struct SessionsListView: View {
         }
     }
     
-    private func deleteTransaction(at offsets: IndexSet) {
-        for index in offsets {
-            let transactionToDelete = filteredTransactions[index]
-            
-            // First try to delete from default (legacy) transactions
-            if let legacyIndex = vm.transactions.firstIndex(where: { $0.id == transactionToDelete.id }) {
-                vm.transactions.remove(at: legacyIndex)
+    private func deleteTransaction(_ transaction: BankrollTransaction) {
+        // First try to delete from default (legacy) transactions
+        if let legacyIndex = vm.transactions.firstIndex(where: { $0.id == transaction.id }) {
+            vm.transactions.remove(at: legacyIndex)
+            return
+        }
+        
+        // Otherwise, try to delete from any of the bankrolls
+        for i in vm.bankrolls.indices {
+            if let txIndex = vm.bankrolls[i].transactions.firstIndex(where: { $0.id == transaction.id }) {
+                vm.bankrolls[i].transactions.remove(at: txIndex)
                 return
-            }
-            
-            // Otherwise try to find and delete from any bankroll
-            for i in vm.bankrolls.indices {
-                if let txIndex = vm.bankrolls[i].transactions.firstIndex(where: { $0.id == transactionToDelete.id }) {
-                    vm.bankrolls[i].transactions.remove(at: txIndex)
-                    return
-                }
             }
         }
     }

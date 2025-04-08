@@ -444,7 +444,7 @@ extension SessionsListViewModel {
     }
     
     var allTransactions: [BankrollTransaction] {
-        transactions + bankrolls.flatMap({ $0.transactions })
+        transactions + bankrolls.flatMap({ $0.transactions }).sorted(by: { $0.date > $1.date })
     }
     
     func allTournamentSessions() -> [PokerSession_v2] {
