@@ -207,25 +207,44 @@ class SessionsListViewModel: ObservableObject {
     }
     
     func saveUserGameTypes() {
+        let defaultGameTypes = ["NL Texas Hold Em", "Pot Limit Omaha", "Seven Card Stud", "Razz", "Mixed"]
+        
+        // Save only the user-added types (i.e., those not in the default list)
+        let userAdded = userGameTypes.filter { !defaultGameTypes.contains($0) }
+        
         do {
-            if let encodedData = try? JSONEncoder().encode(userGameTypes) {
-                try? FileManager.default.removeItem(at: gameTypePath)
-                try encodedData.write(to: gameTypePath)
+            let encodedData = try JSONEncoder().encode(userAdded)
+            
+            // Clean up old file before saving
+            if FileManager.default.fileExists(atPath: gameTypePath.path) {
+                try FileManager.default.removeItem(at: gameTypePath)
             }
+            
+            try encodedData.write(to: gameTypePath)
+            
         } catch {
-            print("Failed to save user's game types, \(error)")
+            print("Failed to save user's game types: \(error)")
+            alertMessage = error.localizedDescription
         }
     }
     
     func getUserGameTypes() {
+        let defaultGameTypes = ["NL Texas Hold Em", "Pot Limit Omaha", "Seven Card Stud", "Razz", "Mixed"]
+        
         do {
             let data = try Data(contentsOf: gameTypePath)
             let importedGameTypes = try JSONDecoder().decode([String].self, from: data)
-            self.userGameTypes = importedGameTypes
+            
+            // Merge without duplicates
+            let combined = (defaultGameTypes + importedGameTypes).uniqued()
+            self.userGameTypes = combined
             
         } catch {
-            print("Failed to load Stakes with error: \(error)")
+            print("Failed to load custom game types with error: \(error)")
             alertMessage = error.localizedDescription
+            
+            // Fallback to just defaults
+            self.userGameTypes = defaultGameTypes
         }
     }
     
