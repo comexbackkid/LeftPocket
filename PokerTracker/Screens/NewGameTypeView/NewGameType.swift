@@ -20,7 +20,7 @@ struct NewGameType: View {
             
             title
             
-            Text("Enter your custom game type below.")
+            Text("Enter your custom game type below and then tap the Save Game button.")
                 .bodyStyle()
                 .padding(.horizontal)
                 .padding(.bottom, 10)
@@ -55,6 +55,12 @@ struct NewGameType: View {
     var textField: some View {
         
         HStack {
+            Image(systemName: "dice")
+                .fontWeight(.bold)
+                .font(.headline).frame(width: 25)
+                .foregroundColor(.secondary)
+                .padding(.trailing, 10)
+            
             TextField("Game Type", text: $gameTypeName)
                 .font(.custom("Asap-Regular", size: 17))
         }
@@ -71,7 +77,7 @@ struct NewGameType: View {
             Button {
                 let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
-                saveGameType()
+//                saveGameType()
                 
             } label: {
                 PrimaryButton(title: "Save Game")
@@ -92,23 +98,23 @@ struct NewGameType: View {
         .padding(.horizontal)
     }
     
-    private func saveGameType() {
-        
-        guard !gameTypeName.isEmpty else {
-            alertItem = AlertContext.invalidCustomGame
-            return
-        }
-        
-        guard !vm.userGameTypes.contains(where: { name in
-            name.lowercased() == gameTypeName.lowercased()
-        }) else {
-            alertItem = AlertContext.invalidCustomGameAlreadyExists
-            return
-        }
-        
-        vm.userGameTypes.append(gameTypeName.capitalized)
-        dismiss()
-    }
+//    private func saveGameType() {
+//        
+//        guard !gameTypeName.isEmpty else {
+//            alertItem = AlertContext.invalidCustomGame
+//            return
+//        }
+//        
+//        guard !vm.userGameTypes.contains(where: { name in
+//            name.lowercased() == gameTypeName.lowercased()
+//        }) else {
+//            alertItem = AlertContext.invalidCustomGameAlreadyExists
+//            return
+//        }
+//        
+//        vm.userGameTypes.append(gameTypeName.capitalized)
+//        dismiss()
+//    }
 }
 
 #Preview {

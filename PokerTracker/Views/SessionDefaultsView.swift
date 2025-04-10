@@ -11,12 +11,9 @@ struct SessionDefaultsView: View {
     
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var vm: SessionsListViewModel
-    
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
-    
     @Binding var isPresentedAsSheet: Bool?
-    
     @State private var askEachTimePopover = false
     @State private var sessionType: SessionType?
     @State private var location = LocationModel_v2(name: "")
@@ -217,6 +214,7 @@ struct SessionDefaultsView: View {
                     
                     Button {
                         addLocationIsShowing.toggle()
+                        
                     } label: {
                         HStack {
                             Text("Add Location")
@@ -235,14 +233,12 @@ struct SessionDefaultsView: View {
                     })
                     
                 } label: {
-                    
                     if location.name.isEmpty {
                         Text("Please select ›")
                             .bodyStyle()
                             .lineLimit(1)
                         
                     } else {
-                        
                         Text(location.name)
                             .bodyStyle()
                             .lineLimit(1)
@@ -284,7 +280,7 @@ struct SessionDefaultsView: View {
                             }
                         }
                         
-                        Picker("Picker", selection: $stakes) {
+                        Picker("Stakes Picker", selection: $stakes) {
                             ForEach(vm.userStakes, id: \.self) {
                                 Text($0).tag($0)
                             }
@@ -332,9 +328,12 @@ struct SessionDefaultsView: View {
                 Menu {
                     
                     Picker("Game", selection: $game) {
-                        ForEach(vm.userGameTypes, id: \.self) {
-                            Text($0).tag($0)
-                        }
+                        Text("NL Texas Hold Em").tag("NL Texas Hold Em")
+                        Text("Pot Limit Omaha").tag("Pot Limit Omaha")
+                        Text("Seven Card Stud").tag("Seven Card Stud")
+                        Text("H.O.R.S.E.").tag("H.O.R.S.E.")
+                        Text("Razz").tag("Razz")
+                        Text("Mixed").tag("Mixed")
                     }
                     .onChange(of: game, perform: { value in
                         errorMessage = nil
@@ -346,8 +345,8 @@ struct SessionDefaultsView: View {
                         Text("Please select ›")
                             .bodyStyle()
                             .fixedSize()
-                    } else {
                         
+                    } else {
                         Text(game)
                             .bodyStyle()
                             .fixedSize()
@@ -810,7 +809,7 @@ enum CurrencyType: String, CaseIterable, Identifiable, Codable {
         }
     }
     
-    var symbolWidth: CGFloat {
+    var symbolWidth: Int {
         symbol.count > 1 ? 30 : 15
     }
 }

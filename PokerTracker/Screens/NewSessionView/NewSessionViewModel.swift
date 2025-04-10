@@ -63,6 +63,10 @@ final class NewSessionViewModel: ObservableObject {
     @Published var tournamentDays: Int = 1
     @Published var noMoreDays: Bool = false
     
+    init() {
+        loadUserDefaults()
+    }
+    
     private var isPad: Bool {
         UIDevice.current.userInterfaceIdiom == .pad
     }

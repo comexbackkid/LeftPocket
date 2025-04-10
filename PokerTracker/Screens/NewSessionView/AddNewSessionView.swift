@@ -27,10 +27,8 @@ enum Field {
 
 struct AddNewSessionView: View {
 
-    @ObservedObject var vm: SessionsListViewModel
-#if os(iOS)
+    @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
-#endif
     @StateObject var newSession = NewSessionViewModel()
     @ObservedObject var timerViewModel: TimerViewModel
     @Binding var isPresented: Bool
@@ -85,9 +83,7 @@ struct AddNewSessionView: View {
         .frame(maxHeight: .infinity)
         .background(Color.brandBackground)
         .onAppear {
-            newSession.loadUserDefaults()
             audioConfirmation = false
-            
             // Loading optional data if the user activated a live session
             if let liveSessionStartTime = timerViewModel.liveSessionStartTime {
                 newSession.startTime = liveSessionStartTime
@@ -251,7 +247,6 @@ struct AddNewSessionView: View {
             Spacer()
             
             Menu {
-                    
                 Picker("Bankroll Picker", selection: $newSession.selectedBankrollID) {
                     Text("Default").tag(UUID?.none)
                     ForEach(vm.bankrolls) { bankroll in
@@ -766,20 +761,23 @@ struct AddNewSessionView: View {
                 
                 Menu {
                     
-                    Button {
-                        addGameTypeIsShowing = true
-                        
-                    } label: {
-                        HStack {
-                            Text("Add Game")
-                            Image(systemName: "dice")
-                        }
-                    }
+//                    Button {
+//                        addGameTypeIsShowing = true
+//                        
+//                    } label: {
+//                        HStack {
+//                            Text("Add Game")
+//                            Image(systemName: "dice")
+//                        }
+//                    }
                     
                     Picker("Game", selection: $newSession.game) {
-                        ForEach(vm.userGameTypes, id: \.self) {
-                            Text($0).tag($0)
-                        }
+                        Text("NL Texas Hold Em").tag("NL Texas Hold Em")
+                        Text("Pot Limit Omaha").tag("Pot Limit Omaha")
+                        Text("Seven Card Stud").tag("Seven Card Stud")
+                        Text("H.O.R.S.E.").tag("H.O.R.S.E.")
+                        Text("Razz").tag("Razz")
+                        Text("Mixed").tag("Mixed")
                     }
                     
                 } label: {
@@ -801,10 +799,9 @@ struct AddNewSessionView: View {
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
-            .sheet(isPresented: $addGameTypeIsShowing) {
-                NewGameType()
-            }
-            
+//            .sheet(isPresented: $addGameTypeIsShowing) {
+//                NewGameType()
+//            }
         }
     }
     
@@ -1398,7 +1395,7 @@ struct AddNewSessionView: View {
                             .font(.callout)
                             .lineLimit(1)
                             .minimumScaleFactor(0.5)
-                            .frame(width: vm.userCurrency.symbolWidth)
+                            .frame(width: 15)
                             .foregroundColor(newSession.buyIn.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                         
                         TextField("Buy In", text: $newSession.buyIn)
@@ -1424,7 +1421,7 @@ struct AddNewSessionView: View {
                         .font(.callout)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
-                        .frame(width: vm.userCurrency.symbolWidth)
+                        .frame(width: 15)
                         .foregroundColor(newSession.cashOut.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField(newSession.sessionType == .tournament ? "Tournament Payout" : "Cash Out", text: $newSession.cashOut)
@@ -1449,7 +1446,7 @@ struct AddNewSessionView: View {
                         .font(.callout)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
-                        .frame(width: vm.userCurrency.symbolWidth)
+                        .frame(width: 15)
                         .foregroundColor(newSession.bounties.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("Bounties", text: $newSession.bounties)
@@ -1476,7 +1473,7 @@ struct AddNewSessionView: View {
                         .font(.callout)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
-                        .frame(width: vm.userCurrency.symbolWidth)
+                        .frame(width: 15)
                         .foregroundStyle(newSession.cashRebuys.isEmpty ? .secondary.opacity(0.5) : Color.brandWhite)
                     
                     TextField("Rebuys / Top Offs", text: $newSession.cashRebuys)
@@ -1505,7 +1502,7 @@ struct AddNewSessionView: View {
                         .font(.callout)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
-                        .frame(width: vm.userCurrency.symbolWidth)
+                        .frame(width: 15)
                         .foregroundColor(newSession.sessionType == .tournament && newSession.buyIn.isEmpty || newSession.sessionType == .cash && newSession.expenses.isEmpty || newSession.sessionType == nil && newSession.expenses.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField(newSession.sessionType == .tournament ? "Buy In" : "Table Expenses (Rake, tips)", text: newSession.sessionType == .tournament ? $newSession.buyIn : $newSession.expenses)
@@ -1527,7 +1524,7 @@ struct AddNewSessionView: View {
                     HStack {
                         Text("#")
                             .font(.callout)
-                            .frame(width: vm.userCurrency.symbolWidth)
+                            .frame(width: 15)
                             .foregroundColor(newSession.rebuyCount.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                         
                         TextField("Rebuys", text: $newSession.rebuyCount)
@@ -1553,7 +1550,7 @@ struct AddNewSessionView: View {
                     
                     Image(systemName: "person.fill")
                         .font(.callout)
-                        .frame(width: vm.userCurrency.symbolWidth)
+                        .frame(width: 15)
                         .foregroundColor(newSession.entrants.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("No. of Entrants", text: $newSession.entrants)
@@ -1572,7 +1569,7 @@ struct AddNewSessionView: View {
                     
                     Image(systemName: "trophy.fill")
                         .font(.callout)
-                        .frame(width: vm.userCurrency.symbolWidth)
+                        .frame(width: 15)
                         .foregroundColor(newSession.finish.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("Your Finish", text: $newSession.finish)
@@ -1623,7 +1620,7 @@ struct AddNewSessionView: View {
                         .font(.callout)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
-                        .frame(width: vm.userCurrency.symbolWidth)
+                        .frame(width: 15)
                         .foregroundColor(newSession.highHandBonus.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                     
                     TextField("High Hand Bonus (Optional)", text: $newSession.highHandBonus)
@@ -1647,7 +1644,7 @@ struct AddNewSessionView: View {
             HStack {
                 Image(systemName: "tag.fill")
                     .font(.caption2)
-                    .frame(width: vm.userCurrency.symbolWidth)
+                    .frame(width: 15)
                     .foregroundColor(newSession.tags.isEmpty ? .secondary.opacity(0.5) : .brandWhite)
                 
                 TextField("Tags (Optional)", text: $newSession.tags)
@@ -1944,7 +1941,7 @@ struct AddNewSessionView: View {
 
 struct AddNewSessionView_Previews: PreviewProvider {
     static var previews: some View {
-        AddNewSessionView(vm: SessionsListViewModel(), timerViewModel: TimerViewModel(), isPresented: .constant(true), audioConfirmation: .constant(false))
+        AddNewSessionView(timerViewModel: TimerViewModel(), isPresented: .constant(true), audioConfirmation: .constant(false))
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
             .environmentObject(TimerViewModel())

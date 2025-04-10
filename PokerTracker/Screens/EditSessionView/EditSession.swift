@@ -18,12 +18,9 @@ struct EditSession: View {
     @StateObject var editSession = EditSessionViewModel()
     private var selectedBankrollName: String {
         switch editSession.selectedBankroll {
-        case .default:
-            return "Default"
-        case .custom(let id):
-            return viewModel.bankrolls.first(where: { $0.id == id })?.name ?? "Unknown"
-        case .all:
-            return "All"
+        case .default: return "Default"
+        case .custom(let id): return viewModel.bankrolls.first(where: { $0.id == id })?.name ?? "Unknown"
+        case .all: return "All"
         }
     }
     
@@ -458,6 +455,8 @@ struct EditSession: View {
                         Text("NL Texas Hold Em").tag("NL Texas Hold Em")
                         Text("Pot Limit Omaha").tag("Pot Limit Omaha")
                         Text("Seven Card Stud").tag("Seven Card Stud")
+                        Text("H.O.R.S.E.").tag("H.O.R.S.E.")
+                        Text("Razz").tag("Razz")
                         Text("Mixed").tag("Mixed")
                     }
                 }

@@ -42,7 +42,7 @@ struct LeftPocketApp: App {
                 .environmentObject(qaService)
                 .onOpenURL(perform: { url in
                     handleDeepLinkURL(url: url)
-                    Branch.getInstance().handleDeepLink(url)
+//                    Branch.getInstance().handleDeepLink(url)
                 })
                 .onAppear {
                     migrateDataIfNeeded(viewModel: vm)
