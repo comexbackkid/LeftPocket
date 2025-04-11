@@ -30,54 +30,42 @@ struct AdditionalMetricsCardView: View {
         ZStack {
             
             HStack (alignment: .top) {
-                
-                Image(systemName: image)
-                    .resizable()
-                    .bold()
-                    .foregroundStyle(Color.black)
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 30, height: 30)
-                    .padding(12)
-                    .background(color)
-                    .cornerRadius(12)
-                    
-//                    .overlay(
-//                        RoundedRectangle(cornerRadius: 12)
-//                            .stroke(.primary, lineWidth: 1)
-//                    )
-//                    .opacity(0.4)
                     
                 VStack (alignment: .leading, spacing: 3) {
                     
+                    Image(systemName: image)
+                        .resizable()
+                        .bold()
+                        .foregroundStyle(color)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 20, height: 20)
+                        .padding(.bottom, 8)
+                    
                     HStack (alignment: .center, spacing: 5) {
                         Text(title)
-                            .headlineStyle()
+                            .font(.custom("Asap-Bold", size: 16))
                         
                         if premium == true {
                             Image(systemName: "lock.fill")
                                 .font(.footnote)
-                            
-                        } else {
-                            Text("›")
-                                .headlineStyle()
                         }
                     }
                     .lineLimit(1)
+                    .minimumScaleFactor(0.75)
                     
                     Text(description)
                         .captionStyle()
-                        .font(.caption)
                         .opacity(0.8)
-                        .lineLimit(3)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.75)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 8)
                 
                 Spacer()
             }
             .padding(18)
         }
-        .frame(width: 300, height: 100)
+        .frame(width: 190)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -86,7 +74,7 @@ struct AdditionalMetricsCardView: View {
 
 struct AdditionalMetricsCardView_Previews: PreviewProvider {
     static var previews: some View {
-        AdditionalMetricsCardView(title: "Annual Summary", description: "Review results from last year", image: "list.clipboard", color: .lightGreen)
-            .preferredColorScheme(.dark)
+        AdditionalMetricsCardView(title: "Tournament Report", description: "Advances stats", image: "person.2.fill", color: .red)
+//            .preferredColorScheme(.dark)
     }
 }
