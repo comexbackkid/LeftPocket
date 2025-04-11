@@ -452,12 +452,9 @@ struct EditSession: View {
                 
                 withAnimation {
                     Picker("Game", selection: $editSession.game) {
-                        Text("NL Texas Hold Em").tag("NL Texas Hold Em")
-                        Text("Pot Limit Omaha").tag("Pot Limit Omaha")
-                        Text("Seven Card Stud").tag("Seven Card Stud")
-                        Text("H.O.R.S.E.").tag("H.O.R.S.E.")
-                        Text("Razz").tag("Razz")
-                        Text("Mixed").tag("Mixed")
+                        ForEach(viewModel.userGameTypes, id: \.self) {
+                            Text($0).tag($0)
+                        }
                     }
                 }
                 

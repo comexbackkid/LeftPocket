@@ -110,9 +110,11 @@ struct ManageBankrolls: View {
             }
         }
         .toolbar {
-            addBankrollButton
-                .popoverTip(bankrollsTip)
-                .tipViewStyle(CustomTipViewStyle())
+            if multipleBankrollsEnabled {
+                addBankrollButton
+                    .popoverTip(bankrollsTip)
+                    .tipViewStyle(CustomTipViewStyle())
+            }
         }
     }
     

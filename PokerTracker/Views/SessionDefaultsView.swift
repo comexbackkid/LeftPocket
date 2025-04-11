@@ -27,6 +27,7 @@ struct SessionDefaultsView: View {
     @State private var errorMessage: String?
     @State private var showAlertModal = false
     @State private var addStakesIsShowing = false
+    @State private var addGameTypeIsShowing = false
     @State private var addLocationIsShowing = false
     @State private var askLiveSessionEachTime = false
     @State private var showHandsPerHourOnNewSessionView = false
@@ -327,13 +328,20 @@ struct SessionDefaultsView: View {
                 
                 Menu {
                     
+                    Button {
+                        addGameTypeIsShowing = true
+                        
+                    } label: {
+                        HStack {
+                            Text("Add Game")
+                            Image(systemName: "dice")
+                        }
+                    }
+                    
                     Picker("Game", selection: $game) {
-                        Text("NL Texas Hold Em").tag("NL Texas Hold Em")
-                        Text("Pot Limit Omaha").tag("Pot Limit Omaha")
-                        Text("Seven Card Stud").tag("Seven Card Stud")
-                        Text("H.O.R.S.E.").tag("H.O.R.S.E.")
-                        Text("Razz").tag("Razz")
-                        Text("Mixed").tag("Mixed")
+                        ForEach(vm.userGameTypes, id: \.self) {
+                            Text($0).tag($0)
+                        }
                     }
                     .onChange(of: game, perform: { value in
                         errorMessage = nil
@@ -360,6 +368,9 @@ struct SessionDefaultsView: View {
                 }
             }
             .padding(.bottom, 10)
+            .sheet(isPresented: $addGameTypeIsShowing) {
+                NewGameType()
+            }
             
             if sessionType == .tournament {
                 HStack {

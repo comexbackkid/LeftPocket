@@ -19,22 +19,7 @@ final class NewSessionViewModel: ObservableObject {
     @Published var profit: String = ""
     @Published var positiveNegative: String = "+"
     @Published var notes: String = ""
-    @Published var startTime: Date = Date().modifyTime(minutes: -300)
-    @Published var endTime: Date = Date()
-    @Published var startTimeDayTwo: Date = Date()
-    @Published var endTimeDayTwo: Date = Date()
-    @Published var startTimeDayThree: Date = Date()
-    @Published var endTimeDayThree: Date = Date()
-    @Published var startTimeDayFour: Date = Date()
-    @Published var endTimeDayFour: Date = Date()
-    @Published var startTimeDayFive: Date = Date()
-    @Published var endTimeDayFive: Date = Date()
-    @Published var startTimeDaySix: Date = Date()
-    @Published var endTimeDaySix: Date = Date()
-    @Published var startTimeDaySeven: Date = Date()
-    @Published var endTimeDaySeven: Date = Date()
-    @Published var startTimeDayEight: Date = Date()
-    @Published var endTimeDayEight: Date = Date()
+    @Published var times: [DateInterval] = [DateInterval(start: .now.addingTimeInterval(-3600 * 5), duration: 18000)]
     @Published var expenses: String = ""
     @Published var presentation: Bool?
     @Published var sessionType: SessionType?
@@ -60,7 +45,6 @@ final class NewSessionViewModel: ObservableObject {
     @Published var hasBounties: Bool = false
     @Published var multiDayToggle: Bool = false
     @Published var addDay: Bool = false
-    @Published var tournamentDays: Int = 1
     @Published var noMoreDays: Bool = false
     
     init() {
@@ -106,38 +90,20 @@ final class NewSessionViewModel: ObservableObject {
         }
     }
     
+    var tournamentDays: Int { times.count }
+    
     // Adjusted Start/End Time for Day Two, default to day two's start time if it's only a two-day tournament
     var adjustedStartTimeDayTwo: Date? {
-        guard self.tournamentDays > 2 else { return startTimeDayTwo }
-        return startTimeDayTwo
+        if times.count > 1 { return times[1].start }
+        return nil
     }
     
     // If tournamentDays are greater than two, we'll compute an arbitrary end time for endTimeDayTwo to get an accurate time duration
     var adjustedEndTimeDayTwo: Date? {
-        guard tournamentDays > 2, let startTimeDayTwo = adjustedStartTimeDayTwo else { return endTimeDayTwo }
+        guard let startTimeDayTwo = adjustedStartTimeDayTwo else { return nil }
         
-        let totalMinutesPlayed = calculateTotalPlayTimeFromMultiDayTournament()
-        return startTimeDayTwo.addingTimeInterval(TimeInterval(totalMinutesPlayed * 60))
-    }
-    
-    // Computes total duration of all played sessions in hours
-    private func calculateTotalPlayTimeFromMultiDayTournament() -> Int {
-        let dayPairs: [(Date, Date)] = [
-            (startTimeDayTwo, endTimeDayTwo),
-            (startTimeDayThree, endTimeDayThree),
-            (startTimeDayFour, endTimeDayFour),
-            (startTimeDayFive, endTimeDayFive),
-            (startTimeDaySix, endTimeDaySix),
-            (startTimeDaySeven, endTimeDaySeven),
-            (startTimeDayEight, endTimeDayEight)
-        ]
-        
-        let totalMinutes = dayPairs.prefix(tournamentDays).reduce(0) { sum, day in
-            let components = Calendar.current.dateComponents([.minute], from: day.0, to: day.1)
-            return sum + (components.minute ?? 0)
-        }
-        
-        return totalMinutes
+        let totalSecondsPlayed = times.dropFirst().reduce(0) { $0 + $1.duration }
+        return startTimeDayTwo.addingTimeInterval(totalSecondsPlayed)
     }
     
     // Adds up the total dollar amount of Tournament rebuys
@@ -211,9 +177,9 @@ final class NewSessionViewModel: ObservableObject {
 
         if game.isEmpty {
             error = AlertContext.inValidGame
-        } else if endTime <= startTime {
+        } else if times[0].end <= times[0].start {
             error = AlertContext.invalidEndTime
-        } else if endTime.timeIntervalSince(startTime) <= 60 {
+        } else if times[0].end.timeIntervalSince(times[0].start) <= 60 {
             error = AlertContext.invalidDuration
         }
         
@@ -295,12 +261,11 @@ final class NewSessionViewModel: ObservableObject {
     }
     
     func savedButtonPressed(viewModel: SessionsListViewModel, dismiss: () -> Void) {
-        
         guard self.validateForm() else { return }
         let newSession = PokerSession_v2(location: location,
-                                         date: startTime,
-                                         startTime: startTime,
-                                         endTime: endTime,
+                                         date: times[0].start,
+                                         startTime: times[0].start,
+                                         endTime: times[0].end,
                                          game: game,
                                          stakes: stakes,
                                          buyIn: (Int(buyIn) ?? 0) + (sessionType == .cash ? (Int(self.cashRebuys) ?? 0) : 0),
@@ -328,22 +293,16 @@ final class NewSessionViewModel: ObservableObject {
             viewModel.updateBankrollProgressRing()
             viewModel.saveBankrolls()
             viewModel.writeToWidget()
+            
         } else {
             viewModel.sessions.append(newSession)
             viewModel.sessions.sort(by: { $0.date > $1.date })
         }
         
-        Task {
-            await FilterSessionsTip.sessionCount.donate()
-        }
-        
-        // Only after the form checks out will the presentation be set to false and the sheet will dismiss
+        Task { await FilterSessionsTip.sessionCount.donate() }
         dismiss()
         
-        // Ping for a Review Request if they made money on this Session
-        if Int(self.profit) ?? 0 > 0 {
-            AppReviewRequest.requestReviewIfNeeded()
-        }
+        if Int(self.profit) ?? 0 > 0 { AppReviewRequest.requestReviewIfNeeded() }
     }
 }
 

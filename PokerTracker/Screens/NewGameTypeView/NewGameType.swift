@@ -23,7 +23,7 @@ struct NewGameType: View {
             Text("Enter your custom game type below and then tap the Save Game button.")
                 .bodyStyle()
                 .padding(.horizontal)
-                .padding(.bottom, 10)
+                .padding(.bottom, 30)
             
             textField
             
@@ -68,7 +68,7 @@ struct NewGameType: View {
         .background(.gray.opacity(0.2))
         .cornerRadius(15)
         .padding(.horizontal)
-        .padding(.bottom, 40)
+        .padding(.bottom, 30)
     }
    
     var buttons: some View {
@@ -77,7 +77,7 @@ struct NewGameType: View {
             Button {
                 let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
-//                saveGameType()
+                saveGameType()
                 
             } label: {
                 PrimaryButton(title: "Save Game")
@@ -98,23 +98,23 @@ struct NewGameType: View {
         .padding(.horizontal)
     }
     
-//    private func saveGameType() {
-//        
-//        guard !gameTypeName.isEmpty else {
-//            alertItem = AlertContext.invalidCustomGame
-//            return
-//        }
-//        
-//        guard !vm.userGameTypes.contains(where: { name in
-//            name.lowercased() == gameTypeName.lowercased()
-//        }) else {
-//            alertItem = AlertContext.invalidCustomGameAlreadyExists
-//            return
-//        }
-//        
-//        vm.userGameTypes.append(gameTypeName.capitalized)
-//        dismiss()
-//    }
+    private func saveGameType() {
+        
+        guard !gameTypeName.isEmpty else {
+            alertItem = AlertContext.invalidCustomGame
+            return
+        }
+        
+        guard !vm.userGameTypes.contains(where: { name in
+            name.lowercased() == gameTypeName.lowercased()
+        }) else {
+            alertItem = AlertContext.invalidCustomGameAlreadyExists
+            return
+        }
+        
+        vm.userGameTypes.append(gameTypeName.capitalized)
+        dismiss()
+    }
 }
 
 #Preview {

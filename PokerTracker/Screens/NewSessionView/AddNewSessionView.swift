@@ -31,7 +31,6 @@ struct AddNewSessionView: View {
     @EnvironmentObject var subManager: SubscriptionManager
     @StateObject var newSession = NewSessionViewModel()
     @ObservedObject var timerViewModel: TimerViewModel
-    @Binding var isPresented: Bool
     @Binding var audioConfirmation: Bool
     @State var addLocationIsShowing = false
     @State var addStakesIsShowing = false
@@ -43,9 +42,9 @@ struct AddNewSessionView: View {
     @Environment(\.dismiss) private var dismiss
     @FocusState private var focusedField: Field?
     @AppStorage("multipleBankrollsEnabled") var multipleBankrollsEnabled: Bool = false
-    private var isZoomed: Bool {
-        UIScreen.main.scale < UIScreen.main.nativeScale
-    }
+//    private var isZoomed: Bool {
+//        UIScreen.main.scale < UIScreen.main.nativeScale
+//    }
     private var selectedBankrollName: String {
         if let id = newSession.selectedBankrollID,
            let match = vm.bankrolls.first(where: { $0.id == id }) {
@@ -86,7 +85,7 @@ struct AddNewSessionView: View {
             audioConfirmation = false
             // Loading optional data if the user activated a live session
             if let liveSessionStartTime = timerViewModel.liveSessionStartTime {
-                newSession.startTime = liveSessionStartTime
+                newSession.times[0].start = liveSessionStartTime
                 newSession.buyIn = String(timerViewModel.totalBuyInForLiveSession - timerViewModel.rebuyTotalForSession)
                 newSession.cashRebuys = timerViewModel.rebuyTotalForSession == 0 ? "" : String(timerViewModel.rebuyTotalForSession)
                 newSession.rebuyCount = String(timerViewModel.totalRebuys.count)
@@ -358,6 +357,7 @@ struct AddNewSessionView: View {
                     
                     Button {
                         addStakesIsShowing = true
+                        
                     } label: {
                         HStack {
                             Text("Add Stakes")
@@ -375,6 +375,7 @@ struct AddNewSessionView: View {
                     if newSession.stakes.isEmpty {
                         Text("Please select ›")
                             .bodyStyle()
+                        
                     } else {
                         Text(newSession.stakes)
                             .bodyStyle()
@@ -581,7 +582,6 @@ struct AddNewSessionView: View {
                 
                 Spacer()
                 
-#if os(iOS)
                 if subManager.isSubscribed {
                     withAnimation {
                         Toggle(isOn: $newSession.hasBounties.animation()) {
@@ -597,7 +597,6 @@ struct AddNewSessionView: View {
                             showPaywall = true
                         }
                 }
-#endif
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
@@ -636,8 +635,6 @@ struct AddNewSessionView: View {
                 
                 Spacer()
                 
-#if os(iOS)
-                
                 if subManager.isSubscribed {
                     Toggle(isOn: $newSession.staking) {
                         // No Label Needed
@@ -651,8 +648,6 @@ struct AddNewSessionView: View {
                             showPaywall = true
                         }
                 }
-                
-#endif
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
@@ -717,8 +712,6 @@ struct AddNewSessionView: View {
                 
                 Spacer()
                 
-#if os(iOS)
-                
                 if subManager.isSubscribed {
                     Toggle(isOn: $newSession.multiDayToggle) {
                         // No Label Needed
@@ -733,8 +726,6 @@ struct AddNewSessionView: View {
                             showPaywall = true
                         }
                 }
-                
-#endif
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
@@ -761,23 +752,20 @@ struct AddNewSessionView: View {
                 
                 Menu {
                     
-//                    Button {
-//                        addGameTypeIsShowing = true
-//                        
-//                    } label: {
-//                        HStack {
-//                            Text("Add Game")
-//                            Image(systemName: "dice")
-//                        }
-//                    }
+                    Button {
+                        addGameTypeIsShowing = true
+                        
+                    } label: {
+                        HStack {
+                            Text("Add Game")
+                            Image(systemName: "dice")
+                        }
+                    }
                     
-                    Picker("Game", selection: $newSession.game) {
-                        Text("NL Texas Hold Em").tag("NL Texas Hold Em")
-                        Text("Pot Limit Omaha").tag("Pot Limit Omaha")
-                        Text("Seven Card Stud").tag("Seven Card Stud")
-                        Text("H.O.R.S.E.").tag("H.O.R.S.E.")
-                        Text("Razz").tag("Razz")
-                        Text("Mixed").tag("Mixed")
+                    Picker("Picker", selection: $newSession.game) {
+                        ForEach(vm.userGameTypes, id: \.self) {
+                            Text($0).tag($0)
+                        }
                     }
                     
                 } label: {
@@ -799,584 +787,8 @@ struct AddNewSessionView: View {
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
-//            .sheet(isPresented: $addGameTypeIsShowing) {
-//                NewGameType()
-//            }
-        }
-    }
-    
-    var gameTiming: some View {
-        
-        VStack {
-            
-            // MARK: DAY ONE
-            
-            Group {
-                if newSession.multiDayToggle {
-                    HStack {
-                        Rectangle().frame(height: 0.75)
-                            .opacity(0.1)
-                        Text("Day One")
-                            .captionStyle()
-                            .fixedSize()
-                            .opacity(0.33)
-                            .padding(.horizontal)
-                        Rectangle().frame(height: 0.75)
-                            .opacity(0.1)
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom)
-                    .transition(.scale)
-                }
-                
-                if isZoomed {
-                    HStack {
-                        Rectangle().frame(height: 0.75)
-                            .opacity(0.1)
-                        Text("Start & End Time")
-                            .captionStyle()
-                            .fixedSize()
-                            .opacity(0.33)
-                            .padding(.horizontal)
-                        Rectangle().frame(height: 0.75)
-                            .opacity(0.1)
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom)
-                }
-                
-                HStack {
-                    
-                    Image(systemName: "clock")
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(Color(.systemGray3))
-                        .frame(width: 30)
-                    
-                    DatePicker(!isZoomed ? "Start" : "", selection: $newSession.startTime, in: ...Date.now, displayedComponents: [.date, .hourAndMinute])
-                        .accentColor(.brandPrimary)
-                        .padding(.leading, 4)
-                        .font(.custom("Asap-Regular", size: 18))
-                        .datePickerStyle(.compact)
-                        .opacity(newSession.tournamentDays >= 2 ? 0.4 : 1)
-                }
-                .padding(.horizontal)
-                .padding(.bottom, 10)
-                .disabled(newSession.tournamentDays >= 2 ? true : false)
-                
-                
-                HStack {
-                    
-                    Image(systemName: "hourglass.tophalf.filled")
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(Color(.systemGray3))
-                        .frame(width: 30)
-                    
-                    DatePicker(!isZoomed ? "End" : "", selection: $newSession.endTime, in: newSession.startTime...Date.now, displayedComponents: [.date, .hourAndMinute])
-                        .accentColor(.brandPrimary)
-                        .padding(.leading, 4)
-                        .font(.custom("Asap-Regular", size: 18))
-                        .datePickerStyle(.compact)
-                        .opacity(newSession.tournamentDays >= 2 ? 0.4 : 1)
-                }
-                .padding(.horizontal)
-                .padding(.bottom, 16)
-                .disabled(newSession.tournamentDays >= 2 ? true : false)
-            }
-            
-            // MARK: DAY TWO
-            
-            if newSession.tournamentDays >= 2 {
-                HStack {
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                    Text("Day Two")
-                        .captionStyle()
-                        .opacity(0.33)
-                        .padding(.horizontal)
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                }
-                .padding(.horizontal)
-                .padding(.bottom)
-            }
-            
-            if newSession.tournamentDays >= 2 {
-
-                Group {
-                    HStack {
-                        
-                        Image(systemName: "clock")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(.systemGray3))
-                            .frame(width: 30)
-                        
-                        DatePicker(!isZoomed ? "Start" : "", selection: $newSession.startTimeDayTwo, in: newSession.endTime...Date.now, displayedComponents: [.date, .hourAndMinute])
-                        .accentColor(.brandPrimary)
-                        .padding(.leading, 4)
-                        .font(.custom("Asap-Regular", size: 18))
-                        .datePickerStyle(.compact)
-                        .opacity(newSession.noMoreDays || newSession.tournamentDays >= 3 ? 0.4 : 1)
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 10)
-                    .disabled(newSession.noMoreDays || newSession.tournamentDays >= 3 ? true : false)
-                    
-                    
-                    HStack {
-                        
-                        Image(systemName: "hourglass.tophalf.filled")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(.systemGray3))
-                            .frame(width: 30)
-                        
-                        DatePicker(!isZoomed ? "End" : "", selection: $newSession.endTimeDayTwo, in: newSession.startTimeDayTwo...Date.now, displayedComponents: [.date, .hourAndMinute])
-                        .accentColor(.brandPrimary)
-                        .padding(.leading, 4)
-                        .font(.custom("Asap-Regular", size: 18))
-                        .datePickerStyle(.compact)
-                        .opacity(newSession.noMoreDays || newSession.tournamentDays >= 3 ? 0.4 : 1)
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 16)
-                    .disabled(newSession.noMoreDays || newSession.tournamentDays >= 3 ? true : false)
-                    
-                }
-                .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom).combined(with: .move(edge: .top))).combined(with: .scale(scale: 0.5, anchor: .top)))
-            }
-            
-            // MARK: DAY THREE
-            
-            if newSession.tournamentDays >= 3 {
-                HStack {
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                    Text("Day Three")
-                        .captionStyle()
-                        .opacity(0.33)
-                        .padding(.horizontal)
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                }
-                .padding(.horizontal)
-                .padding(.bottom)
-            }
-            
-            if newSession.tournamentDays >= 3 {
-
-                Group {
-                    HStack {
-                        
-                        Image(systemName: "clock")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(.systemGray3))
-                            .frame(width: 30)
-                        
-                        DatePicker(!isZoomed ? "Start" : "", selection: $newSession.startTimeDayThree, in: newSession.endTimeDayTwo...Date.now, displayedComponents: [.date, .hourAndMinute])
-                        .accentColor(.brandPrimary)
-                        .padding(.leading, 4)
-                        .font(.custom("Asap-Regular", size: 18))
-                        .datePickerStyle(.compact)
-                        .opacity(newSession.noMoreDays || newSession.tournamentDays >= 4 ? 0.4 : 1)
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 10)
-                    .disabled(newSession.noMoreDays || newSession.tournamentDays >= 4 ? true : false)
-                    
-                    
-                    HStack {
-                        
-                        Image(systemName: "hourglass.tophalf.filled")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(.systemGray3))
-                            .frame(width: 30)
-                        
-                        DatePicker(!isZoomed ? "End" : "", selection: $newSession.endTimeDayThree, in: newSession.startTimeDayThree...Date.now, displayedComponents: [.date, .hourAndMinute])
-                        .accentColor(.brandPrimary)
-                        .padding(.leading, 4)
-                        .font(.custom("Asap-Regular", size: 18))
-                        .datePickerStyle(.compact)
-                        .opacity(newSession.noMoreDays || newSession.tournamentDays >= 4 ? 0.4 : 1)
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 16)
-                    .disabled(newSession.noMoreDays || newSession.tournamentDays >= 4 ? true : false)
-                    
-                }
-                .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom).combined(with: .move(edge: .top))).combined(with: .scale(scale: 0.5, anchor: .top)))
-            }
-            
-            // MARK: DAY FOUR
-            
-            if newSession.tournamentDays >= 4 {
-                HStack {
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                    Text("Day Four")
-                        .captionStyle()
-                        .opacity(0.33)
-                        .padding(.horizontal)
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                }
-                .padding(.horizontal)
-                .padding(.bottom)
-            }
-            
-            if newSession.tournamentDays >= 4 {
-
-                Group {
-                    HStack {
-                        
-                        Image(systemName: "clock")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(.systemGray3))
-                            .frame(width: 30)
-                        
-                        DatePicker(!isZoomed ? "Start" : "", selection: $newSession.startTimeDayFour, in: newSession.endTimeDayThree...Date.now, displayedComponents: [.date, .hourAndMinute])
-                        .accentColor(.brandPrimary)
-                        .padding(.leading, 4)
-                        .font(.custom("Asap-Regular", size: 18))
-                        .datePickerStyle(.compact)
-                        .opacity(newSession.noMoreDays || newSession.tournamentDays >= 5 ? 0.4 : 1)
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 10)
-                    .disabled(newSession.noMoreDays || newSession.tournamentDays >= 5 ? true : false)
-                    
-                    
-                    HStack {
-                        
-                        Image(systemName: "hourglass.tophalf.filled")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(.systemGray3))
-                            .frame(width: 30)
-                        
-                        DatePicker(!isZoomed ? "End" : "", selection: $newSession.endTimeDayFour, in: newSession.startTimeDayFour...Date.now, displayedComponents: [.date, .hourAndMinute])
-                        .accentColor(.brandPrimary)
-                        .padding(.leading, 4)
-                        .font(.custom("Asap-Regular", size: 18))
-                        .datePickerStyle(.compact)
-                        .opacity(newSession.noMoreDays || newSession.tournamentDays >= 5 ? 0.4 : 1)
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 16)
-                    .disabled(newSession.noMoreDays || newSession.tournamentDays >= 5 ? true : false)
-                    
-                }
-                .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom).combined(with: .move(edge: .top))).combined(with: .scale(scale: 0.5, anchor: .top)))
-            }
-            
-            // MARK: DAY FIVE
-            
-            if newSession.tournamentDays >= 5 {
-                HStack {
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                    Text("Day Five")
-                        .captionStyle()
-                        .opacity(0.33)
-                        .padding(.horizontal)
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                }
-                .padding(.horizontal)
-                .padding(.bottom)
-            }
-            
-            if newSession.tournamentDays >= 5 {
-
-                Group {
-                    HStack {
-                        
-                        Image(systemName: "clock")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(.systemGray3))
-                            .frame(width: 30)
-                        
-                        DatePicker(!isZoomed ? "Start" : "", selection: $newSession.startTimeDayFive, in: newSession.endTimeDayFour...Date.now, displayedComponents: [.date, .hourAndMinute])
-                        .accentColor(.brandPrimary)
-                        .padding(.leading, 4)
-                        .font(.custom("Asap-Regular", size: 18))
-                        .datePickerStyle(.compact)
-                        .opacity(newSession.noMoreDays || newSession.tournamentDays >= 6 ? 0.4 : 1)
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 10)
-                    .disabled(newSession.noMoreDays || newSession.tournamentDays >= 6 ? true : false)
-                    
-                    
-                    HStack {
-                        
-                        Image(systemName: "hourglass.tophalf.filled")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(.systemGray3))
-                            .frame(width: 30)
-                        
-                        DatePicker(!isZoomed ? "End" : "", selection: $newSession.endTimeDayFive, in: newSession.startTimeDayFive...Date.now, displayedComponents: [.date, .hourAndMinute])
-                        .accentColor(.brandPrimary)
-                        .padding(.leading, 4)
-                        .font(.custom("Asap-Regular", size: 18))
-                        .datePickerStyle(.compact)
-                        .opacity(newSession.noMoreDays || newSession.tournamentDays >= 6 ? 0.4 : 1)
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 16)
-                    .disabled(newSession.noMoreDays || newSession.tournamentDays >= 6 ? true : false)
-                    
-                }
-                .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom).combined(with: .move(edge: .top))).combined(with: .scale(scale: 0.5, anchor: .top)))
-            }
-            
-            // MARK: DAY SIX
-            
-            if newSession.tournamentDays >= 6 {
-                HStack {
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                    Text("Day Six")
-                        .captionStyle()
-                        .opacity(0.33)
-                        .padding(.horizontal)
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                }
-                .padding(.horizontal)
-                .padding(.bottom)
-            }
-            
-            if newSession.tournamentDays >= 6 {
-
-                Group {
-                    HStack {
-                        
-                        Image(systemName: "clock")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(.systemGray3))
-                            .frame(width: 30)
-                        
-                        DatePicker(!isZoomed ? "Start" : "", selection: $newSession.startTimeDaySix, in: newSession.endTimeDayFive...Date.now, displayedComponents: [.date, .hourAndMinute])
-                        .accentColor(.brandPrimary)
-                        .padding(.leading, 4)
-                        .font(.custom("Asap-Regular", size: 18))
-                        .datePickerStyle(.compact)
-                        .opacity(newSession.noMoreDays || newSession.tournamentDays >= 7 ? 0.4 : 1)
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 10)
-                    .disabled(newSession.noMoreDays || newSession.tournamentDays >= 7 ? true : false)
-                    
-                    
-                    HStack {
-                        
-                        Image(systemName: "hourglass.tophalf.filled")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(.systemGray3))
-                            .frame(width: 30)
-                        
-                        DatePicker(!isZoomed ? "End" : "", selection: $newSession.endTimeDaySix, in: newSession.startTimeDaySix...Date.now, displayedComponents: [.date, .hourAndMinute])
-                        .accentColor(.brandPrimary)
-                        .padding(.leading, 4)
-                        .font(.custom("Asap-Regular", size: 18))
-                        .datePickerStyle(.compact)
-                        .opacity(newSession.noMoreDays || newSession.tournamentDays >= 7 ? 0.4 : 1)
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 16)
-                    .disabled(newSession.noMoreDays || newSession.tournamentDays >= 7 ? true : false)
-                    
-                }
-                .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom).combined(with: .move(edge: .top))).combined(with: .scale(scale: 0.5, anchor: .top)))
-            }
-            
-            // MARK: DAY SEVEN
-            
-            if newSession.tournamentDays >= 7 {
-                HStack {
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                    Text("Day Seven")
-                        .captionStyle()
-                        .opacity(0.33)
-                        .padding(.horizontal)
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                }
-                .padding(.horizontal)
-                .padding(.bottom)
-            }
-            
-            if newSession.tournamentDays >= 7 {
-
-                Group {
-                    HStack {
-                        
-                        Image(systemName: "clock")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(.systemGray3))
-                            .frame(width: 30)
-                        
-                        DatePicker(!isZoomed ? "Start" : "", selection: $newSession.startTimeDaySeven, in: newSession.endTimeDaySix...Date.now, displayedComponents: [.date, .hourAndMinute])
-                        .accentColor(.brandPrimary)
-                        .padding(.leading, 4)
-                        .font(.custom("Asap-Regular", size: 18))
-                        .datePickerStyle(.compact)
-                        .opacity(newSession.noMoreDays || newSession.tournamentDays >= 8 ? 0.4 : 1)
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 10)
-                    .disabled(newSession.noMoreDays || newSession.tournamentDays >= 8 ? true : false)
-                    
-                    
-                    HStack {
-                        
-                        Image(systemName: "hourglass.tophalf.filled")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(.systemGray3))
-                            .frame(width: 30)
-                        
-                        DatePicker(!isZoomed ? "End" : "", selection: $newSession.endTimeDaySeven, in: newSession.startTimeDaySeven...Date.now, displayedComponents: [.date, .hourAndMinute])
-                        .accentColor(.brandPrimary)
-                        .padding(.leading, 4)
-                        .font(.custom("Asap-Regular", size: 18))
-                        .datePickerStyle(.compact)
-                        .opacity(newSession.noMoreDays || newSession.tournamentDays >= 8 ? 0.4 : 1)
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 16)
-                    .disabled(newSession.noMoreDays || newSession.tournamentDays >= 8 ? true : false)
-                    
-                }
-                .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom).combined(with: .move(edge: .top))).combined(with: .scale(scale: 0.5, anchor: .top)))
-            }
-            
-            // MARK: DAY EIGHT
-            
-            if newSession.tournamentDays >= 8 {
-                HStack {
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                    Text("Day Eight")
-                        .captionStyle()
-                        .opacity(0.33)
-                        .padding(.horizontal)
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                }
-                .padding(.horizontal)
-                .padding(.bottom)
-            }
-            
-            if newSession.tournamentDays >= 8 {
-
-                Group {
-                    HStack {
-                        
-                        Image(systemName: "clock")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(.systemGray3))
-                            .frame(width: 30)
-                        
-                        DatePicker(!isZoomed ? "Start" : "", selection: $newSession.startTimeDayEight, in: newSession.endTimeDaySeven...Date.now, displayedComponents: [.date, .hourAndMinute])
-                        .accentColor(.brandPrimary)
-                        .padding(.leading, 4)
-                        .font(.custom("Asap-Regular", size: 18))
-                        .datePickerStyle(.compact)
-                        .opacity(newSession.noMoreDays || newSession.tournamentDays >= 9 ? 0.4 : 1)
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 10)
-                    .disabled(newSession.noMoreDays || newSession.tournamentDays >= 9 ? true : false)
-                    
-                    
-                    HStack {
-                        
-                        Image(systemName: "hourglass.tophalf.filled")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(.systemGray3))
-                            .frame(width: 30)
-                        
-                        DatePicker(!isZoomed ? "End" : "", selection: $newSession.endTimeDayEight, in: newSession.startTimeDayEight...Date.now, displayedComponents: [.date, .hourAndMinute])
-                        .accentColor(.brandPrimary)
-                        .padding(.leading, 4)
-                        .font(.custom("Asap-Regular", size: 18))
-                        .datePickerStyle(.compact)
-                        .opacity(newSession.noMoreDays || newSession.tournamentDays >= 9 ? 0.4 : 1)
-                    }
-                    .padding(.horizontal)
-                    .padding(.bottom, 16)
-                    .disabled(newSession.noMoreDays || newSession.tournamentDays >= 9 ? true : false)
-                    
-                }
-                .transition(.asymmetric(insertion: .push(from: .top), removal: .push(from: .bottom).combined(with: .move(edge: .top))).combined(with: .scale(scale: 0.5, anchor: .top)))
-            }
-            
-            // MARK: DAY CONTROL BUTTONS
-            
-            if newSession.multiDayToggle {
-                HStack {
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                    
-                    Image(systemName: "x.square.fill")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .fontWeight(.black)
-                        .foregroundStyle(newSession.noMoreDays ? .gray : Color.red)
-                        .opacity(newSession.noMoreDays ? 0.5 : 1)
-                        .padding(.trailing)
-                        .padding(.leading, newSession.tournamentDays > 1 ? 16 : -30)
-                        .onTapGesture {
-                            let impact = UIImpactFeedbackGenerator(style: .soft)
-                            impact.impactOccurred()
-                            withAnimation {
-                                newSession.tournamentDays -= 1
-                            }
-                        }
-                        .opacity(newSession.tournamentDays > 1 ? 1 : 0)
-                        .animation(.snappy, value: newSession.tournamentDays)
-                        .allowsHitTesting(newSession.noMoreDays ? false : true)
-                    
-                    Image(systemName: "plus.circle.fill")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .fontWeight(.black)
-                        .foregroundStyle(newSession.noMoreDays || newSession.tournamentDays == 8 ? .gray : Color.brandPrimary)
-                        .opacity(newSession.noMoreDays || newSession.tournamentDays == 8 ? 0.5 : 1)
-                        .padding(.horizontal)
-                        .onTapGesture {
-                            let impact = UIImpactFeedbackGenerator(style: .soft)
-                            impact.impactOccurred()
-                            if newSession.tournamentDays < 8 {
-                                withAnimation {
-                                    newSession.tournamentDays += 1
-                                }
-                            }
-                        }
-                        .allowsHitTesting(newSession.noMoreDays ? false : true)
-                    
-                    Image(systemName: newSession.noMoreDays ? "pencil.circle.fill" : "checkmark.circle.fill")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .fontWeight(.black)
-                        .foregroundStyle(newSession.noMoreDays ? Color.yellow : Color.green)
-                        .padding(.leading)
-                        .padding(.trailing, newSession.tournamentDays > 1 ? 16 : -30)
-                        .onTapGesture {
-                            let impact = UIImpactFeedbackGenerator(style: .soft)
-                            impact.impactOccurred()
-                            newSession.noMoreDays.toggle()
-                        }
-                        .opacity(newSession.tournamentDays > 1 ? 1 : 0)
-                        .animation(.snappy, value: newSession.addDay)
-                        .transition(.scale)
-                        .symbolEffect(.bounce, value: newSession.noMoreDays)
-                    
-                    Rectangle().frame(height: 0.75)
-                        .opacity(0.1)
-                }
-                .padding(.horizontal)
-                .padding(.bottom)
-                .animation(.snappy, value: newSession.tournamentDays)
+            .sheet(isPresented: $addGameTypeIsShowing) {
+                NewGameType()
             }
         }
     }
@@ -1941,7 +1353,7 @@ struct AddNewSessionView: View {
 
 struct AddNewSessionView_Previews: PreviewProvider {
     static var previews: some View {
-        AddNewSessionView(timerViewModel: TimerViewModel(), isPresented: .constant(true), audioConfirmation: .constant(false))
+        AddNewSessionView(timerViewModel: TimerViewModel(), audioConfirmation: .constant(false))
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
             .environmentObject(TimerViewModel())

@@ -19,11 +19,11 @@ class SessionsListViewModel: ObservableObject {
             saveUserStakes()
         }
     }
-//    @Published var userGameTypes: [String] = ["NL Texas Hold Em", "Pot Limit Omaha", "Seven Card Stud", "Razz", "Mixed"] {
-//        didSet {
-//            saveUserGameTypes()
-//        }
-//    }
+    @Published var userGameTypes: [String] = ["NL Texas Hold Em", "Pot Limit Omaha", "Seven Card Stud", "Razz", "Mixed"] {
+        didSet {
+            saveUserGameTypes()
+        }
+    }
     @Published var userCurrency: CurrencyType = .USD
     @Published var lineChartFullScreen = false
     @Published var convertedLineChartData: [Int]?
@@ -65,7 +65,7 @@ class SessionsListViewModel: ObservableObject {
         getTransactions()
         getUserStakes()
         getUserCurrency()
-//        getUserGameTypes()
+        getUserGameTypes()
         writeToWidget()
     }
     
@@ -206,56 +206,35 @@ class SessionsListViewModel: ObservableObject {
         }
     }
     
-//    func saveUserGameTypes() {
-//        do {
-//            if let encodedData = try? JSONEncoder().encode(userGameTypes) {
-//                try? FileManager.default.removeItem(at: gameTypePath)
-//                try encodedData.write(to: gameTypePath)
-//            }
-//            
-//        } catch {
-//            print("Failed to save user's game types, \(error)")
-//            alertMessage = error.localizedDescription
-//        }
-//    }
+    func saveUserGameTypes() {
+        do {
+            if let encodedData = try? JSONEncoder().encode(userGameTypes) {
+                try? FileManager.default.removeItem(at: gameTypePath)
+                try encodedData.write(to: gameTypePath)
+            }
+            
+        } catch {
+            print("Failed to save user's game types, \(error)")
+            alertMessage = error.localizedDescription
+        }
+    }
     
-//    func saveUserGameTypes() {
-//        let defaultGameTypes = ["NL Texas Hold Em", "Pot Limit Omaha", "Seven Card Stud", "Razz", "Mixed"]
-//        
-//        // Save only the user-added types (i.e., those not in the default list)
-//        let userAdded = userGameTypes.filter { !defaultGameTypes.contains($0) }
-//        
-//        do {
-//            let encodedData = try JSONEncoder().encode(userAdded)
-//            
-//            if FileManager.default.fileExists(atPath: gameTypePath.path) {
-//                try FileManager.default.removeItem(at: gameTypePath)
-//            }
-//            
-//            try encodedData.write(to: gameTypePath)
-//            
-//        } catch {
-//            print("⚠️ Failed to save user's game types: \(error)")
-//            alertMessage = error.localizedDescription
-//        }
-//    }
-    
-//    func getUserGameTypes() {
-//        let defaultGameTypes = ["NL Texas Hold Em", "Pot Limit Omaha", "Seven Card Stud", "Razz", "Mixed"]
-//        
-//        do {
-//            let data = try Data(contentsOf: gameTypePath)
-//            let importedGameTypes = try JSONDecoder().decode([String].self, from: data)
-//            
-//            let combined = (defaultGameTypes + importedGameTypes).uniqued()
-//            self.userGameTypes = combined
-//            
-//        } catch {
-//            print("⚠️ Failed to load user game types with error: \(error)")
-//            alertMessage = error.localizedDescription
-//            self.userGameTypes = defaultGameTypes
-//        }
-//    }
+    func getUserGameTypes() {
+        let defaultGameTypes = ["NL Texas Hold Em", "Pot Limit Omaha", "Seven Card Stud", "Razz", "Mixed"]
+        
+        do {
+            let data = try Data(contentsOf: gameTypePath)
+            let importedGameTypes = try JSONDecoder().decode([String].self, from: data)
+            
+            let combined = (defaultGameTypes + importedGameTypes).uniqued()
+            self.userGameTypes = combined
+            
+        } catch {
+            print("Failed to load user game types with error: \(error)")
+            alertMessage = error.localizedDescription
+            self.userGameTypes = defaultGameTypes
+        }
+    }
     
     func getUserStakes() {
         do {

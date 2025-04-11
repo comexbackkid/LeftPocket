@@ -196,7 +196,6 @@ struct MetricsView: View {
     }
     
     var bankrollChart: some View {
-        
         BankrollLineChart(minimizeLineChart: $minimizeLineChart, showTitle: true, showYAxis: true, showRangeSelector: true, showPatternBackground: false, overlayAnnotation: false, showToggleAndFilter: true)
             .padding(.bottom, 5)
             .cardStyle(colorScheme: colorScheme, height: minimizeLineChart ? 250 : 475)
@@ -240,7 +239,6 @@ struct MetricsView: View {
     }
     
     var barChart: some View {
-        
         BarChartByYear(showTitle: true, moreAxisMarks: true)
             .cardStyle(colorScheme: colorScheme, height: 380)
             .cardShadow(colorScheme: colorScheme)
@@ -265,7 +263,6 @@ struct MetricsView: View {
     }
     
     var donutChart: some View {
-        
         HStack {
             BestTimeOfDay()
                 .padding()
@@ -314,6 +311,7 @@ struct MetricsView: View {
                                     Text(bankroll.name).tag(BankrollSelection.custom(bankroll.id))
                                 }
                             }
+                            
                         } label: {
                             HStack {
                                 Text("Bankrolls")
@@ -324,14 +322,15 @@ struct MetricsView: View {
                         Picker("Session Filter", selection: $sessionFilter) {
                             ForEach(SessionFilter.allCases, id: \.self) {
                                 Text($0.rawValue.capitalized).tag($0)
-                                    
                             }
                         }
                         
                     } label: {
                         Text(sessionFilter.rawValue.capitalized + " ›")
                             .bodyStyle()
-                            .animation(nil, value: sessionFilter)
+                    }
+                    .transaction { transaction in
+                        transaction.animation = nil
                     }
                 }
                 .padding(.bottom)
@@ -347,6 +346,7 @@ struct MetricsView: View {
         }
         .cardStyle(colorScheme: colorScheme)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+        .animation(.default, value: minimizeLineChart)
     }
     
     var rangeSelector: some View {

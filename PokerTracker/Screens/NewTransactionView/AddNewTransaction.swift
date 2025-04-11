@@ -56,7 +56,6 @@ struct AddNewTransaction: View {
                         selections
                         
                         inputFields
-                        
                     }
                     .padding(.horizontal, 24)
                     
@@ -410,6 +409,7 @@ struct AddNewTransaction: View {
 
         if let bankrollID = selectedBankrollID {
             vm.addTransaction(newTransaction, to: bankrollID)
+            
         } else {
             vm.transactions.append(newTransaction)
             vm.transactions.sort(by: { $0.date > $1.date })

@@ -42,13 +42,13 @@ struct PokerSession: Hashable, Codable, Identifiable {
     
     // Individual Session duration
     var sessionDuration: DateComponents {
-
+        
         let dayOneDuration = Calendar.current.dateComponents([.hour, .minute], from: self.startTime, to: self.endTime)
         
         // Check if it's a Multi-Day Tournament
         if let tournamentDays = self.tournamentDays, tournamentDays > 1 {
             if let startTimeDayTwo = self.startTimeDayTwo, let endTimeDayTwo = self.endTimeDayTwo {
-
+                
                 let dayTwoDuration = Calendar.current.dateComponents([.hour, .minute], from: startTimeDayTwo, to: endTimeDayTwo)
                 
                 // Sum the durations from day one and day two
@@ -132,13 +132,13 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     
     // Individual Session duration
     var sessionDuration: DateComponents {
-
+        
         let dayOneDuration = Calendar.current.dateComponents([.hour, .minute], from: self.startTime, to: self.endTime)
         
         // Check if it's a Multi-Day Tournament, might want to re-label some variables here given new functionality in NewSessionViewModel
         if let tournamentDays = self.tournamentDays, tournamentDays > 1 {
             if let startTimeDayTwo = self.startTimeDayTwo, let endTimeDayTwo = self.endTimeDayTwo {
-
+                
                 let dayTwoDuration = Calendar.current.dateComponents([.hour, .minute], from: startTimeDayTwo, to: endTimeDayTwo)
                 
                 // Sum the durations from day one and day two

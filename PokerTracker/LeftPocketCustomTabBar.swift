@@ -158,13 +158,13 @@ struct LeftPocketCustomTabBar: View {
         }, content: {
             if isPad {
                 if #available(iOS 18.0, *) {
-                    AddNewSessionView(timerViewModel: timerViewModel, isPresented: $isPresented, audioConfirmation: $audioConfirmation)
+                    AddNewSessionView(timerViewModel: timerViewModel, audioConfirmation: $audioConfirmation)
                         .presentationSizing(.page)
                 } else {
-                    AddNewSessionView(timerViewModel: timerViewModel, isPresented: $isPresented, audioConfirmation: $audioConfirmation)
+                    AddNewSessionView(timerViewModel: timerViewModel, audioConfirmation: $audioConfirmation)
                 }
             } else {
-                AddNewSessionView(timerViewModel: timerViewModel, isPresented: $isPresented, audioConfirmation: $audioConfirmation)
+                AddNewSessionView(timerViewModel: timerViewModel, audioConfirmation: $audioConfirmation)
                     .presentationDragIndicator(.visible)
             }
         })

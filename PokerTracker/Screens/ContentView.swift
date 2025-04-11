@@ -90,12 +90,7 @@ struct ContentView: View {
     
     var bankroll: Int {
         let legacyHighHands = viewModel.sessions.map(\.highHandBonus).reduce(0, +)
-        let legacyTransactions = viewModel.transactions.reduce(0) { total, tx in
-            switch tx.type {
-            case .deposit: return total + tx.amount
-            case .withdrawal, .expense: return total - tx.amount
-            }
-        }
+        let legacyTransactions = viewModel.transactions.map({ $0.amount }).reduce(0, +)
         let legacyProfit = viewModel.sessions.map(\.profit).reduce(0, +)
         
         let customBankrollTotals = viewModel.bankrolls.reduce(0) { total, bankroll in
