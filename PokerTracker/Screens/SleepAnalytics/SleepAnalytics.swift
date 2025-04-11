@@ -75,7 +75,6 @@ struct SleepAnalytics: View {
                             if !subManager.isSubscribed { upgradeButton }
 
                             sleepChart
-                                
                                                         
                             lowSleepToolTip
                             
@@ -93,6 +92,7 @@ struct SleepAnalytics: View {
                         .padding(.horizontal)
                         .padding(.bottom, activeSheet == .healthAnalytics ? 0 : 40)
                     }
+                    .frame(maxWidth: .infinity)
                 }
                 .background(Color.brandBackground)
                 
@@ -295,9 +295,12 @@ struct SleepAnalytics: View {
                         .foregroundStyle(.secondary)
                         .font(.custom("Asap-Regular", size: 14, relativeTo: .callout))
                 }
-                .frame(width: 90)
+                
+                Spacer()
                 
                 Divider()
+                
+                Spacer()
                 
                 VStack (spacing: 2) {
                     
@@ -313,9 +316,12 @@ struct SleepAnalytics: View {
                         .foregroundStyle(.secondary)
                         .font(.custom("Asap-Regular", size: 14, relativeTo: .callout))
                 }
-                .frame(width: 90)
+                
+                Spacer()
                 
                 Divider()
+                
+                Spacer()
                 
                 VStack (spacing: 2) {
                     
@@ -331,7 +337,6 @@ struct SleepAnalytics: View {
                         .foregroundStyle(.secondary)
                         .font(.custom("Asap-Regular", size: 14, relativeTo: .callout))
                 }
-                .frame(width: 90)
                 
                 Spacer()
             }
@@ -377,17 +382,13 @@ struct SleepAnalytics: View {
         }
         .foregroundStyle(.white)
         .padding(20)
-//        .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(
             Image("nightsky")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .clipped()
+                .centerCropped()
                 .overlay {
                     LinearGradient(colors: [.black, .clear], startPoint: .bottom, endPoint: .top)
                         .opacity(0.75)
                 }
-//                .blur(radius: 22, opaque: true)
         )
         .cornerRadius(12)
     }

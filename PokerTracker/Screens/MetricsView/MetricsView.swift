@@ -291,85 +291,7 @@ struct MetricsView: View {
     }
     
     var playerStats: some View {
-        
-        VStack {
-            VStack (alignment: .leading, spacing: 10) {
-                
-                HStack {
-                    Text("Player Stats")
-                        .cardTitleStyle()
-                    
-                    Spacer()
-
-                    Menu {
-                        
-                        Menu {
-                            Picker("Bankroll Picker", selection: $bankrollFilter) {
-                                Text("All").tag(BankrollSelection.all)
-                                Text("Default").tag(BankrollSelection.default)
-                                ForEach(viewModel.bankrolls) { bankroll in
-                                    Text(bankroll.name).tag(BankrollSelection.custom(bankroll.id))
-                                }
-                            }
-                            
-                        } label: {
-                            HStack {
-                                Text("Bankrolls")
-                                Image(systemName: "bag.fill")
-                            }
-                        }
-                        
-                        Picker("Session Filter", selection: $sessionFilter) {
-                            ForEach(SessionFilter.allCases, id: \.self) {
-                                Text($0.rawValue.capitalized).tag($0)
-                            }
-                        }
-                        
-                    } label: {
-                        Text(sessionFilter.rawValue.capitalized + " ›")
-                            .bodyStyle()
-                    }
-                    .transaction { transaction in
-                        transaction.animation = nil
-                    }
-                }
-                .padding(.bottom)
-                
-                switch sessionFilter {
-                case .all: AllStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange, bankroll: bankrollFilter)
-                case .cash: CashStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange, bankroll: bankrollFilter)
-                case .tournaments: TournamentStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange, bankroll: bankrollFilter)
-                }
-                
-                rangeSelector
-            }
-        }
-        .cardStyle(colorScheme: colorScheme)
-        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
-        .animation(.default, value: minimizeLineChart)
-    }
-    
-    var rangeSelector: some View {
-        
-        HStack (spacing: 10) {
-            
-            ForEach(RangeSelection.allCases, id: \.self) { range in
-                Button {
-                    let impact = UIImpactFeedbackGenerator(style: .soft)
-                    impact.impactOccurred()
-                    statsRange = range
-                    
-                } label: {
-                    Text("\(range.displayName)")
-                        .bodyStyle()
-                        .fontWeight(statsRange == range ? .black : .regular)
-                }
-                .tint(statsRange == range ? .primary : .brandPrimary)
-            }
-            
-            Spacer()
-        }
-        .padding(.top, 20)
+        PlayerStatsCard(viewModel: viewModel, bankrollFilter: $bankrollFilter, sessionFilter: $sessionFilter, statsRange: $statsRange)
     }
 }
 
@@ -943,6 +865,106 @@ struct ToolTipView: View {
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+    }
+}
+
+struct PlayerStatsCard: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    @ObservedObject var viewModel: SessionsListViewModel
+    @Binding var bankrollFilter: BankrollSelection
+    @Binding var sessionFilter: SessionFilter
+    @Binding var statsRange: RangeSelection
+    
+    var body: some View {
+        
+        VStack {
+            
+            VStack (alignment: .leading, spacing: 10) {
+                
+                HStack {
+                    Text("Player Stats")
+                        .cardTitleStyle()
+                    
+                    Spacer()
+
+                    Menu {
+                        
+                        Menu {
+                            Picker("Bankroll Picker", selection: $bankrollFilter) {
+                                Text("All").tag(BankrollSelection.all)
+                                Text("Default").tag(BankrollSelection.default)
+                                ForEach(viewModel.bankrolls) { bankroll in
+                                    Text(bankroll.name).tag(BankrollSelection.custom(bankroll.id))
+                                }
+                            }
+                            
+                        } label: {
+                            HStack {
+                                Text("Bankrolls")
+                                Image(systemName: "bag.fill")
+                            }
+                        }
+                        
+                        Picker("Session Filter", selection: $sessionFilter) {
+                            ForEach(SessionFilter.allCases, id: \.self) {
+                                Text($0.rawValue.capitalized).tag($0)
+                            }
+                        }
+                        
+                    } label: {
+                        NonAnimatedMenuLabel(text: sessionFilter.rawValue.capitalized + " ›")
+                    }
+                }
+                .padding(.bottom)
+                
+                switch sessionFilter {
+                case .all: AllStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange, bankroll: bankrollFilter)
+                case .cash: CashStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange, bankroll: bankrollFilter)
+                case .tournaments: TournamentStats(sessionFilter: sessionFilter, viewModel: viewModel, range: statsRange, bankroll: bankrollFilter)
+                }
+                
+                rangeSelector
+            }
+        }
+        .cardStyle(colorScheme: colorScheme)
+        .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+    }
+    
+    var rangeSelector: some View {
+        
+        HStack (spacing: 10) {
+            
+            ForEach(RangeSelection.allCases, id: \.self) { range in
+                Button {
+                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                    impact.impactOccurred()
+                    statsRange = range
+                    
+                } label: {
+                    Text("\(range.displayName)")
+                        .bodyStyle()
+                        .fontWeight(statsRange == range ? .black : .regular)
+                }
+                .tint(statsRange == range ? .primary : .brandPrimary)
+            }
+            
+            Spacer()
+        }
+        .padding(.top, 20)
+    }
+}
+
+struct NonAnimatedMenuLabel: View {
+    let text: String
+    
+    var body: some View {
+        Text(text)
+            .bodyStyle()
+            .fixedSize(horizontal: true, vertical: false)
+            .transaction { transaction in
+                transaction.animation = nil
+            }
     }
 }
 

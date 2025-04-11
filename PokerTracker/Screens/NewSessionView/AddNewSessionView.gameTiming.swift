@@ -9,6 +9,10 @@ import SwiftUI
 
 extension AddNewSessionView {
     
+    private var isZoomed: Bool {
+        UIScreen.main.scale < UIScreen.main.nativeScale
+    }
+    
     var gameTiming: some View {
         
         VStack {
@@ -33,7 +37,7 @@ extension AddNewSessionView {
                             .frame(width: 30)
                         
                         let range: ClosedRange<Date> = (index > 0) ? newSession.times[index - 1].end...Date.now : Date.distantPast...Date.now
-                        DatePicker("Start", selection: $newSession.times[index].start, in: range, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker(isZoomed ? "" : "Start", selection: $newSession.times[index].start, in: range, displayedComponents: [.date, .hourAndMinute])
                     }
                     .padding(.bottom, 10)
                     
@@ -43,7 +47,7 @@ extension AddNewSessionView {
                             .foregroundColor(Color(.systemGray3))
                             .frame(width: 30)
                         
-                        DatePicker("End", selection: $newSession.times[index].end, in: newSession.times[index].start...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker(isZoomed ? "" : "End", selection: $newSession.times[index].end, in: newSession.times[index].start...Date.now, displayedComponents: [.date, .hourAndMinute])
                     }
                 }
                 .padding(.horizontal)
@@ -139,6 +143,7 @@ extension AddNewSessionView {
                         .opacity(0.1)
                 }
                 .padding(.horizontal)
+                .padding(.horizontal, 8)
                 .padding(.bottom)
                 .animation(.snappy, value: newSession.tournamentDays)
             }

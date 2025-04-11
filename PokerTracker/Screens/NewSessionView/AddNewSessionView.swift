@@ -42,9 +42,6 @@ struct AddNewSessionView: View {
     @Environment(\.dismiss) private var dismiss
     @FocusState private var focusedField: Field?
     @AppStorage("multipleBankrollsEnabled") var multipleBankrollsEnabled: Bool = false
-//    private var isZoomed: Bool {
-//        UIScreen.main.scale < UIScreen.main.nativeScale
-//    }
     private var selectedBankrollName: String {
         if let id = newSession.selectedBankrollID,
            let match = vm.bankrolls.first(where: { $0.id == id }) {

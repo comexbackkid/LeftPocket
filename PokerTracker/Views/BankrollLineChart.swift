@@ -305,7 +305,7 @@ struct BankrollLineChart: View {
             
             if viewModel.lineChartFullScreen == false {
                 Button {
-                    withAnimation {
+                    withAnimation(.easeInOut(duration: 0.35)) {
                         let impact = UIImpactFeedbackGenerator(style: .soft)
                         impact.impactOccurred()
                         minimizeLineChart.toggle()

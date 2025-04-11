@@ -20,10 +20,7 @@ struct SleepCardView: View {
          
                 VStack {
                     Image("nightsky")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .clipped()
-                        .frame(maxHeight: 250)
+                        .centerCropped()
                 }
                 
                 HStack {
