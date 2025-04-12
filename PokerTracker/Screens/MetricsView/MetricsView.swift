@@ -125,6 +125,9 @@ struct MetricsView: View {
             }
         }
         .accentColor(.brandPrimary)
+        .task {
+            await subManager.checkTrialStatus()
+        }
     }
     
     var title: some View {

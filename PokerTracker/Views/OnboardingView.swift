@@ -197,9 +197,11 @@ struct OnboardingView: View {
                     showPaywall = false
                     offering = nil
                     shouldShowOnboarding = false
+                    await subManager.checkTrialStatus()
                 }
                 
                 await subManager.checkSubscriptionStatus()
+                
             }
         }
     }

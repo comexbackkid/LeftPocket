@@ -15,14 +15,11 @@ struct UserSettings: View {
     
     @Binding var isDarkMode: Bool
     @Binding var systemThemeEnabled: Bool
-    
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
     @StateObject var exportUtility = CSVConversion()
-    
     @AppStorage("exportCounter") var exportCounter: Int = 1
     @AppStorage("hideBankroll") var hideBankroll: Bool = false
-    
     @State private var showError: Bool = false
     @State private var showPaywall = false
     @State private var notificationsAllowed = false
@@ -763,5 +760,6 @@ struct UserSettings_Previews: PreviewProvider {
         UserSettings(isDarkMode: .constant(false), systemThemeEnabled: .constant(true))
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
+            .preferredColorScheme(.dark)
     }
 }

@@ -53,6 +53,51 @@ class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
         }
     }
     
+    // Check if the user is currently enrolled in a free trial so we can remind them about cancellation
+    func checkTrialStatus() async {
+        do {
+            let customerInfo = try await Purchases.shared.customerInfo()
+            if let premiumEntitlement = customerInfo.entitlements["premium"] {
+                if premiumEntitlement.periodType == .trial {
+                    if let trialEndDate = premiumEntitlement.expirationDate {
+                        scheduleTrialExpirationNotification(expirationDate: trialEndDate)
+                        print("User's free trial end date is: \(String(describing: trialEndDate))")
+                    }
+                    
+                } else {
+                    print("ERROR: Can't determine if user is in a free trial.")
+                }
+            }
+            
+        } catch {
+            print("ERROR: Problem checking customer entitlement info for trial status.")
+        }
+    }
+    
+    // Notification reminder for free trial end date
+    func scheduleTrialExpirationNotification(expirationDate: Date) {
+        let daysBeforeNotification = 2
+        let notificationTime = expirationDate.addingTimeInterval(TimeInterval(-daysBeforeNotification * 24 * 60 * 60))
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Your Trial is Ending Soon"
+        content.body = "You still have \(daysBeforeNotification) days until your trial ends, but we hope you consider sticking around to build your bankroll!"
+        content.sound = UNNotificationSound.default
+        
+        let triggerDateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: notificationTime)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDateComponents, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: "trialExpirationNotification", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Error scheduling notification: \(error.localizedDescription)")
+            } else {
+                print("Trial expiration push notification scheduled for \(notificationTime)")
+            }
+        }
+    }
+    
     // This listener should be able to handle whenever an Offer Code is redeemed
     func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) {
         // Handle the updated CustomerInfo
