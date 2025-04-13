@@ -30,16 +30,22 @@ struct AdvancedTournamentReport: View {
         
         ScrollView {
                 
-            monthlyTotals
+            VStack {
+                
+                monthlyTotals
+                
+                yearTotals
             
-            yearTotals
-        
-            tournamentChart
-            
-            HStack {
-                Spacer()
+                tournamentChart
+                
             }
+            .padding(.horizontal)
         }
+        .frame(maxWidth: .infinity)
+        .background(Color.brandBackground)
+        .dynamicTypeSize(.xSmall...DynamicTypeSize.large)
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitle(Text("Tournament Report"))
         .toolbar {
             ToolbarItem {
                 headerInfo
@@ -50,34 +56,41 @@ struct AdvancedTournamentReport: View {
                     .font(.custom("Asap-Bold", size: 18))
             }
         }
-        .background(Color.brandBackground)
-        .dynamicTypeSize(.xSmall...DynamicTypeSize.large)
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarTitle(Text("Tournament Report"))
     }
     
     var headerInfo: some View {
         
         VStack {
             
-            let allYears = vm.allSessions.map({ $0.date.getYear() }).uniqued()
-            
-            HStack {
-                
+            Menu {
+                let allYears = vm.allSessions.map({ $0.date.getYear() }).uniqued()
                 Menu {
                     Picker("", selection: $yearFilter) {
                         ForEach(allYears, id: \.self) {
-                            Text($0)
+                            Text($0).tag($0)
                         }
                     }
+                    
                 } label: {
-                    Text(yearFilter + " ›")
-                        .bodyStyle()
+                    Text("Filter by Year")
                 }
-                .accentColor(Color.brandPrimary)
-                .transaction { transaction in
-                    transaction.animation = nil
+                
+                Divider()
+                
+                Button {
+                    yearFilter = Date().getYear()
+                    
+                } label: {
+                    Text("Clear Filters")
+                    Image(systemName: "x.circle")
                 }
+                
+            } label: {
+                Image(systemName: "slider.horizontal.3")
+            }
+            .accentColor(Color.brandPrimary)
+            .transaction { transaction in
+                transaction.animation = nil
             }
         }
     }
@@ -140,7 +153,6 @@ struct AdvancedTournamentReport: View {
             }
         }
         .padding(20)
-        .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -259,7 +271,6 @@ struct AdvancedTournamentReport: View {
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
         .padding(.horizontal, 20)
         .padding(.vertical, 20)
-        .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
@@ -318,7 +329,6 @@ struct AdvancedTournamentReport: View {
         .padding(.top, 20)
         .padding(.bottom, 30)
         .padding(.horizontal, 20)
-        .frame(width: UIScreen.main.bounds.width * 0.9, height: 400)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)

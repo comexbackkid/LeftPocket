@@ -259,9 +259,8 @@ extension MetricsView {
                                 })
                             .buttonStyle(PlainButtonStyle())
                         }
-                        .padding(.leading)
-                        .padding(.trailing)
-                        .frame(height: 150)
+                        .padding(.horizontal)
+                        .padding(.bottom)
                     })
                     .scrollTargetLayout()
                     .scrollTargetBehavior(.viewAligned)

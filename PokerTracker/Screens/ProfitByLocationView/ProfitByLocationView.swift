@@ -205,16 +205,16 @@ struct ProfitByLocationView: View {
                     let hourlyRate = hourlyByLocation(location: location, sessions: filteredSessions)
                     let hoursPlayed = viewModel.hoursAbbreviated(filteredSessions.filter({ $0.location.name == location }))
                     
-                    Text(total.axisShortHand(viewModel.userCurrency))
+                    Text(total == 0 ? "-" : total.axisShortHand(viewModel.userCurrency))
                         .profitColor(total: total)
                         .frame(width: 62, alignment: .trailing)
                     
                     
-                    Text(hourlyRate.axisShortHand(viewModel.userCurrency))
+                    Text(hourlyRate == 0 ? "-" : hourlyRate.axisShortHand(viewModel.userCurrency))
                         .profitColor(total: hourlyRate)
                         .frame(width: 62, alignment: .trailing)
                     
-                    Text(hoursPlayed)
+                    Text(hoursPlayed == "0h" ? "-" : hoursPlayed)
                         .frame(width: 62, alignment: .trailing)
                     
                 }

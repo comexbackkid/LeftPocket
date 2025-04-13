@@ -85,12 +85,11 @@ struct BarChartByYear: View {
                     
                     BarMark(x: .value("Month", monthlyTotal.month, unit: .month), y: .value("Profit", monthlyTotal.profit))
                         .cornerRadius(3)
-                        .foregroundStyle(monthlyTotal.profit > 0 ? Color.lightGreen.gradient : Color.donutChartRed.gradient)
+                        .foregroundStyle(monthlyTotal.profit > 0 ? Color.lightGreen.gradient : Color.pink.gradient)
                         .opacity(selectedMonth == nil || selectedMonth?.getMonth() == monthlyTotal.month.getMonth() ? 1 : 0.4)
                 }
                 
                 if let selectedMonth {
-                    
                     RuleMark(x: .value("Selected Date", selectedMonth, unit: .month))
                         .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, dash: [6]))
                         .foregroundStyle(.gray.opacity(0.33))
@@ -101,7 +100,7 @@ struct BarChartByYear: View {
             .chartXSelection(value: $selectedMonth.animation(.easeInOut.speed(2.0)))
             .chartXScale(domain: [firstDay, lastDay])
             .chartYAxis {
-                AxisMarks(position: .leading, values: .automatic(desiredCount: moreAxisMarks ? 4 : 3)) { value in
+                AxisMarks(position: .leading, values: .automatic(desiredCount: moreAxisMarks ? 5 : 3)) { value in
                     AxisGridLine()
                         .foregroundStyle(.gray.opacity(0.33))
                     AxisValueLabel() {
@@ -117,7 +116,7 @@ struct BarChartByYear: View {
                 AxisMarks {
 //                    AxisGridLine(stroke: StrokeStyle(lineWidth: 1, dash: [2, 8]))
 //                        .foregroundStyle(.gray.opacity(0.33))
-                    AxisValueLabel(format: .dateTime.month(.abbreviated),
+                    AxisValueLabel(format: .dateTime.month(.abbreviated).year(.twoDigits),
                                    horizontalSpacing: sessionProfitByMonth.isEmpty ? 25 : 0,
                                    verticalSpacing: 15).font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
                 }

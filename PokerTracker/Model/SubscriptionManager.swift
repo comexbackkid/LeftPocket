@@ -61,7 +61,7 @@ class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
                 if premiumEntitlement.periodType == .trial {
                     if let trialEndDate = premiumEntitlement.expirationDate {
                         scheduleTrialExpirationNotification(expirationDate: trialEndDate)
-                        print("User's free trial end date is: \(String(describing: trialEndDate))")
+                        print("User's free trial end date is: \(trialEndDate)")
                     }
                     
                 } else {
@@ -86,7 +86,6 @@ class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
         
         let triggerDateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: notificationTime)
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDateComponents, repeats: false)
-        
         let request = UNNotificationRequest(identifier: "trialExpirationNotification", content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request) { error in

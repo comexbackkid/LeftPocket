@@ -23,6 +23,7 @@ struct ProfitByStakesView: View {
     @State private var endDateFilter: Date? = nil
     
     var filteredSessions: [PokerSession_v2] {
+
         let allCashSessions = viewModel.sessions + viewModel.bankrolls.flatMap(\.sessions)
         let onlyCash = allCashSessions.filter { !$0.isTournament }
         
@@ -30,10 +31,11 @@ struct ProfitByStakesView: View {
             let date = session.date
             let startOK = startDateFilter.map { date >= $0 } ?? true
             let endOK = endDateFilter.map { date <= $0 } ?? true
-            return startOK && endOK
+            // Only check for matching year if yearFilter is not nil.
+            let yearMatches = yearFilter.map { session.date.getYear() == $0 } ?? true
+            return startOK && endOK && yearMatches
         }
     }
-
     var showCustomDatesTag: Bool { startDateFilter != nil }
     
     var body: some View {
@@ -67,6 +69,7 @@ struct ProfitByStakesView: View {
                             color: Color.donutChartPurple).padding(.top)
                 
                 if subManager.isSubscribed {
+                    
                     stakesChart
                     
                 } else {
@@ -139,46 +142,43 @@ struct ProfitByStakesView: View {
         
         VStack {
             
-            HStack {
-                
+            Menu {
                 let allYears = viewModel.allSessions.map({ $0.date.getYear() }).uniqued()
-                
                 Menu {
-                    
-                    Menu {
-                        Picker("", selection: $yearFilter) {
-                            ForEach(allYears, id: \.self) {
-                                Text($0).tag($0)
-                            }
+                    Picker("", selection: $yearFilter) {
+                        ForEach(allYears, id: \.self) {
+                            Text($0).tag($0)
                         }
-                    } label: {
-                        Text("Filter by Year")
                     }
-                    
-                    Button {
-                        showDateFilter = true
-                    } label: {
-                        Text("Date Range")
-                        Image(systemName: "calendar")
-                    }
-                    
-                    Divider()
-                    
-                    Button {
-                        resetAllFilters()
-                    } label: {
-                        Text("Clear Filters")
-                        Image(systemName: "x.circle")
-                    }
-
                     
                 } label: {
-                    Image(systemName: "slider.horizontal.3")
+                    Text("Filter by Year")
                 }
-                .accentColor(Color.brandPrimary)
-                .transaction { transaction in
-                    transaction.animation = nil
+                
+                Button {
+                    showDateFilter = true
+                    
+                } label: {
+                    Text("Date Range")
+                    Image(systemName: "calendar")
                 }
+                
+                Divider()
+                
+                Button {
+                    resetAllFilters()
+                    
+                } label: {
+                    Text("Clear Filters")
+                    Image(systemName: "x.circle")
+                }
+                
+            } label: {
+                Image(systemName: "slider.horizontal.3")
+            }
+            .accentColor(Color.brandPrimary)
+            .transaction { transaction in
+                transaction.animation = nil
             }
         }
         .sheet(isPresented: $showDateFilter, content: {
@@ -236,18 +236,18 @@ struct ProfitByStakesView: View {
                     let hoursPlayed = viewModel.hoursAbbreviated(filteredSessions.filter({ $0.stakes == stakes }))
                     let bbPerHr = bbPerHourByStakes(stakes: stakes, sessions: filteredSessions.filter({ $0.stakes == stakes }))
                     
-                    Text(total.axisShortHand(viewModel.userCurrency))
+                    Text(total == 0 ? "-" : total.axisShortHand(viewModel.userCurrency))
                         .profitColor(total: total)
                         .frame(width: 57, alignment: .trailing)
                     
-                    Text(hourlyRate.axisShortHand(viewModel.userCurrency))
+                    Text(hourlyRate == 0 ? "-" : hourlyRate.axisShortHand(viewModel.userCurrency))
                         .profitColor(total: hourlyRate)
                         .frame(width: 57, alignment: .trailing)
                     
-                    Text("\(bbPerHr, format: .number.precision(.fractionLength(2)))")
+                    Text(bbPerHr == 0 ? "-" : "\(bbPerHr, format: .number.precision(.fractionLength(2)))")
                         .frame(width: 57, alignment: .trailing)
                     
-                    Text(hoursPlayed)
+                    Text(hoursPlayed == "0h" ? "-" : hoursPlayed)
                         .frame(width: 57, alignment: .trailing)
                     
                 }
