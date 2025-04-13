@@ -214,6 +214,9 @@
 		7CB3EB9F26C310F5009E8DF3 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EB9E26C310F5009E8DF3 /* SessionDetailView.swift */; };
 		7CB3EBA126C345A1009E8DF3 /* MetricsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA026C345A1009E8DF3 /* MetricsCardView.swift */; };
 		7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB3EBA426C352C6009E8DF3 /* Model.swift */; };
+		7CB4BFB32DAC5E2800876D5C /* MetricsView.additionalMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB4BFB22DAC5E2200876D5C /* MetricsView.additionalMetrics.swift */; };
+		7CB4BFB52DAC5E9900876D5C /* MericsView.playerStatsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB4BFB42DAC5E8F00876D5C /* MericsView.playerStatsCard.swift */; };
+		7CB4BFB72DAC5EF900876D5C /* ToolTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB4BFB62DAC5EF900876D5C /* ToolTip.swift */; };
 		7CB587322D426AF500BCE642 /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB587312D426AF500BCE642 /* TransactionModel.swift */; };
 		7CB587342D4275C200BCE642 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB587332D4275C200BCE642 /* MockData.swift */; };
 		7CB587362D4287C600BCE642 /* MigrationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB587352D4287C600BCE642 /* MigrationHandler.swift */; };
@@ -449,6 +452,9 @@
 		7CB3EB9E26C310F5009E8DF3 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
 		7CB3EBA026C345A1009E8DF3 /* MetricsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsCardView.swift; sourceTree = "<group>"; };
 		7CB3EBA426C352C6009E8DF3 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		7CB4BFB22DAC5E2200876D5C /* MetricsView.additionalMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsView.additionalMetrics.swift; sourceTree = "<group>"; };
+		7CB4BFB42DAC5E8F00876D5C /* MericsView.playerStatsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MericsView.playerStatsCard.swift; sourceTree = "<group>"; };
+		7CB4BFB62DAC5EF900876D5C /* ToolTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolTip.swift; sourceTree = "<group>"; };
 		7CB587312D426AF500BCE642 /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
 		7CB587332D4275C200BCE642 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		7CB587352D4287C600BCE642 /* MigrationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationHandler.swift; sourceTree = "<group>"; };
@@ -706,6 +712,7 @@
 				7CDE9FC62B78F6CC00B4AA33 /* SessionDefaultsView.swift */,
 				7C757F022C1F2A9F00AD71EE /* ShareButton.swift */,
 				7C71AB112D0B3C7700487AB5 /* SystemSounds.swift */,
+				7CB4BFB62DAC5EF900876D5C /* ToolTip.swift */,
 				7C85492F2C46C4BE0038ADB4 /* TransactionCellView.swift */,
 				7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */,
 			);
@@ -930,6 +937,8 @@
 			isa = PBXGroup;
 			children = (
 				7C6394A626C14F5600939F40 /* MetricsView.swift */,
+				7CB4BFB42DAC5E8F00876D5C /* MericsView.playerStatsCard.swift */,
+				7CB4BFB22DAC5E2200876D5C /* MetricsView.additionalMetrics.swift */,
 			);
 			path = MetricsView;
 			sourceTree = "<group>";
@@ -1291,6 +1300,7 @@
 				7C63FC342B35D08B00FE731C /* View+Ext.swift in Sources */,
 				7C23A4C328A3DEE100FB5604 /* AppGroup.swift in Sources */,
 				7CBEB52E2C2A1EF00099C7CF /* DeepLlinking.swift in Sources */,
+				7CB4BFB32DAC5E2800876D5C /* MetricsView.additionalMetrics.swift in Sources */,
 				7C7B78E22C3DD11900855723 /* SystemThemeManager.swift in Sources */,
 				7CC26E6C2CDEA7C500095D4C /* PerformanceLineChart.swift in Sources */,
 				7CE37EC92C3055D0002ACA81 /* QuickMetricBox.swift in Sources */,
@@ -1337,6 +1347,7 @@
 				7CDB04812776141C008C5233 /* AppReviewRequest.swift in Sources */,
 				7C7B2F8B26D5A2A90069F9C5 /* SessionListViewModel.swift in Sources */,
 				7C8549322C47ED830038ADB4 /* SceneDelegate.swift in Sources */,
+				7CB4BFB72DAC5EF900876D5C /* ToolTip.swift in Sources */,
 				7CED6EA827517D7F00E18053 /* Array+Ext.swift in Sources */,
 				7C2E6BF92B711C89002C01C9 /* ImportView.swift in Sources */,
 				7C0208DB26F24B4900AC6151 /* Date+Ext.swift in Sources */,
@@ -1380,6 +1391,7 @@
 				7C68FE4126D709530019BA53 /* PlusButton.swift in Sources */,
 				7C15DD39276D575600889FB2 /* PlaceholderView.swift in Sources */,
 				7C18FC192D9AF6FD00E837AE /* AddNewBankroll.swift in Sources */,
+				7CB4BFB52DAC5E9900876D5C /* MericsView.playerStatsCard.swift in Sources */,
 				7CC81FB8294CBAD400E849A9 /* BestLocationView.swift in Sources */,
 				7C9D32772B261FA700900C8C /* AdditionalMetricsCardView.swift in Sources */,
 				7C8647842B2A642700F48951 /* AddNewSessionView.swift in Sources */,
