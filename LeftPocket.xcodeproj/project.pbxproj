@@ -217,6 +217,10 @@
 		7CB4BFB32DAC5E2800876D5C /* MetricsView.additionalMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB4BFB22DAC5E2200876D5C /* MetricsView.additionalMetrics.swift */; };
 		7CB4BFB52DAC5E9900876D5C /* MericsView.playerStatsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB4BFB42DAC5E8F00876D5C /* MericsView.playerStatsCard.swift */; };
 		7CB4BFB72DAC5EF900876D5C /* ToolTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB4BFB62DAC5EF900876D5C /* ToolTip.swift */; };
+		7CB4BFBA2DAC61D700876D5C /* OnboardingView.skipScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB4BFB92DAC61D700876D5C /* OnboardingView.skipScreen.swift */; };
+		7CB4BFBC2DAC62A500876D5C /* OnboardingView.personalizedExperience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB4BFBB2DAC629C00876D5C /* OnboardingView.personalizedExperience.swift */; };
+		7CB4BFBE2DAC62E500876D5C /* OnboardingView.reviewScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB4BFBD2DAC62DE00876D5C /* OnboardingView.reviewScreen.swift */; };
+		7CB4BFC02DAC633300876D5C /* Onboarding.progressAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB4BFBF2DAC632900876D5C /* Onboarding.progressAnimation.swift */; };
 		7CB587322D426AF500BCE642 /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB587312D426AF500BCE642 /* TransactionModel.swift */; };
 		7CB587342D4275C200BCE642 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB587332D4275C200BCE642 /* MockData.swift */; };
 		7CB587362D4287C600BCE642 /* MigrationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB587352D4287C600BCE642 /* MigrationHandler.swift */; };
@@ -455,6 +459,10 @@
 		7CB4BFB22DAC5E2200876D5C /* MetricsView.additionalMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsView.additionalMetrics.swift; sourceTree = "<group>"; };
 		7CB4BFB42DAC5E8F00876D5C /* MericsView.playerStatsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MericsView.playerStatsCard.swift; sourceTree = "<group>"; };
 		7CB4BFB62DAC5EF900876D5C /* ToolTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolTip.swift; sourceTree = "<group>"; };
+		7CB4BFB92DAC61D700876D5C /* OnboardingView.skipScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.skipScreen.swift; sourceTree = "<group>"; };
+		7CB4BFBB2DAC629C00876D5C /* OnboardingView.personalizedExperience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.personalizedExperience.swift; sourceTree = "<group>"; };
+		7CB4BFBD2DAC62DE00876D5C /* OnboardingView.reviewScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.reviewScreen.swift; sourceTree = "<group>"; };
+		7CB4BFBF2DAC632900876D5C /* Onboarding.progressAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.progressAnimation.swift; sourceTree = "<group>"; };
 		7CB587312D426AF500BCE642 /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
 		7CB587332D4275C200BCE642 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		7CB587352D4287C600BCE642 /* MigrationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationHandler.swift; sourceTree = "<group>"; };
@@ -638,6 +646,7 @@
 				7C65B186272C3A4300AFE796 /* NewLocationView */,
 				7C82E13326EFC86A00E3EB6F /* NewSessionView */,
 				7C85492C2C453D280038ADB4 /* NewTransactionView */,
+				7CB4BFB82DAC617000876D5C /* Onboarding */,
 				7C2FC655273EF1CE00E3BE0B /* ProfitByStakesView */,
 				7C7F4F6C270E60F3002ECF6D /* ProfitByLocationView */,
 				7C8134BE2729F1A8004E1CE1 /* ProfitByMonth */,
@@ -700,7 +709,6 @@
 				7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */,
 				7C0B3FF52CC5454B00F446EA /* MeditationView.swift */,
 				7CF39C912BE6DBB4003B4C00 /* NotificationsView.swift */,
-				7C20CFB1271E2D1600739764 /* OnboardingView.swift */,
 				7CC26E6B2CDEA7C500095D4C /* PerformanceLineChart.swift */,
 				7C15DD38276D575600889FB2 /* PlaceholderView.swift */,
 				7C68FE4026D709530019BA53 /* PlusButton.swift */,
@@ -1069,6 +1077,18 @@
 			path = Asap;
 			sourceTree = "<group>";
 		};
+		7CB4BFB82DAC617000876D5C /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				7C20CFB1271E2D1600739764 /* OnboardingView.swift */,
+				7CB4BFBF2DAC632900876D5C /* Onboarding.progressAnimation.swift */,
+				7CB4BFBB2DAC629C00876D5C /* OnboardingView.personalizedExperience.swift */,
+				7CB4BFBD2DAC62DE00876D5C /* OnboardingView.reviewScreen.swift */,
+				7CB4BFB92DAC61D700876D5C /* OnboardingView.skipScreen.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1303,6 +1323,7 @@
 				7CB4BFB32DAC5E2800876D5C /* MetricsView.additionalMetrics.swift in Sources */,
 				7C7B78E22C3DD11900855723 /* SystemThemeManager.swift in Sources */,
 				7CC26E6C2CDEA7C500095D4C /* PerformanceLineChart.swift in Sources */,
+				7CB4BFBE2DAC62E500876D5C /* OnboardingView.reviewScreen.swift in Sources */,
 				7CE37EC92C3055D0002ACA81 /* QuickMetricBox.swift in Sources */,
 				7C72E0A62BC05B6100C411F2 /* UsingLeftPocket.swift in Sources */,
 				7CB587362D4287C600BCE642 /* MigrationHandler.swift in Sources */,
@@ -1354,12 +1375,14 @@
 				7C3F43AA27284CD800A9C842 /* NumberFormatter.swift in Sources */,
 				7CA7F8182B6FFAA700F976EE /* CSVImport.swift in Sources */,
 				7CBBA3B72BF40CA700733D53 /* SleepCardView.swift in Sources */,
+				7CB4BFC02DAC633300876D5C /* Onboarding.progressAnimation.swift in Sources */,
 				7C9094312DA863F00027F564 /* AddNewSessionView.gameTiming.swift in Sources */,
 				7C5D5D332BE2B6A8003DC94D /* HealthKitManager.swift in Sources */,
 				7C6E75BB2BAA16BE006173A4 /* LiveSessionCounter.swift in Sources */,
 				7C6394A726C14F5600939F40 /* MetricsView.swift in Sources */,
 				7CB587322D426AF500BCE642 /* TransactionModel.swift in Sources */,
 				7C6E75BE2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift in Sources */,
+				7CB4BFBA2DAC61D700876D5C /* OnboardingView.skipScreen.swift in Sources */,
 				7C9A0D9E2CBDEAA70070EBA3 /* FilterTag.swift in Sources */,
 				7C9FEC7E2C1F68B70062208B /* ImageSaver.swift in Sources */,
 				7C028F9A2C36B5960098CA8C /* AdvancedTournamentReport.swift in Sources */,
@@ -1413,6 +1436,7 @@
 				7C2B3E6926F565B200B84D52 /* EmptyState.swift in Sources */,
 				7CAFE0602B2DE52B00B7338D /* LocationGridView.swift in Sources */,
 				7C62F1ED2BD034B200F14483 /* NewStakesView.swift in Sources */,
+				7CB4BFBC2DAC62A500876D5C /* OnboardingView.personalizedExperience.swift in Sources */,
 				7CA658502CA60A5A00A74CE4 /* MyGoals.swift in Sources */,
 				7CFF1BFF2BD9AA81000D56BC /* HeatMap.swift in Sources */,
 				7C757F032C1F2A9F00AD71EE /* ShareButton.swift in Sources */,
