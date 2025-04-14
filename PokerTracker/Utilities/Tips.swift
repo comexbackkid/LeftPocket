@@ -29,8 +29,11 @@ struct MonthlyReportTip: Tip {
         Text("Using This Table")
     }
     
+//    var message: Text? {
+//        Text("From left to right is your Net Profit \(Image(systemName: "dollarsign")), Hourly Rate \(Image(systemName: "gauge.high")), & Total Hours \(Image(systemName: "clock")) for each month.")
+//    }
     var message: Text? {
-        Text("From left to right is your Net Profit \(Image(systemName: "dollarsign")), Hourly Rate \(Image(systemName: "gauge.high")), & Total Hours \(Image(systemName: "clock")) for each month.")
+        Text("The three columns below represent your net profit, hourly rate, and total hours for each month.")
     }
     
     var image: Image? {

@@ -135,16 +135,16 @@ struct AdvancedTournamentReport: View {
                     let grossProfit = filteredMonths.filter({ $0.date.getMonth() == month }).map { $0.profit }.reduce(0, +) + totalBuyIns
                     let netProfit = grossProfit - totalBuyIns
                     
-                    Text(grossProfit.currencyShortHand(vm.userCurrency))
+                    Text(grossProfit == 0 ? "-" : grossProfit.currencyShortHand(vm.userCurrency))
                         .profitColor(total: grossProfit)
                         .frame(width: 62, alignment: .trailing)
                     
                     // Necessary because the stystem doesn't know this value is technically a "negative"
-                    Text(totalBuyIns != 0 ? "-\(totalBuyIns.currencyShortHand(vm.userCurrency))" : "$0")
+                    Text(totalBuyIns != 0 ? "-\(totalBuyIns.currencyShortHand(vm.userCurrency))" : "-")
                         .foregroundStyle(totalBuyIns != 0 ? .red : .secondary)
                         .frame(width: 62, alignment: .trailing)
                     
-                    Text(netProfit.currencyShortHand(vm.userCurrency))
+                    Text(netProfit == 0 ? "-" : netProfit.currencyShortHand(vm.userCurrency))
                         .foregroundStyle(netProfit > 0 ? Color.lightGreen : netProfit < 0 ? .red : .secondary)
                         .frame(width: 62, alignment: .trailing)
                     
