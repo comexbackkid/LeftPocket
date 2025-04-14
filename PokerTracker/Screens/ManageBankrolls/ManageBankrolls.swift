@@ -93,10 +93,11 @@ struct ManageBankrolls: View {
                     .sheet(isPresented: $showSuccessModal) {
                         multipleBankrollsEnabled = true
                     } content: {
-                        AlertModal(message: "You've enabled multiple bankrolls.")
+                        AlertModal(message: "You've enabled multiple bankrolls.", image: "checkmark.circle", imageColor: .green)
                             .dynamicTypeSize(.medium)
-                            .presentationDetents([.height(210)])
+                            .presentationDetents([.height(280)])
                             .presentationBackground(.ultraThinMaterial)
+                            .presentationDragIndicator(.visible)
                     }
                 }
                 

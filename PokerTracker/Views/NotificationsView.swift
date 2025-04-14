@@ -45,10 +45,10 @@ struct NotificationsView: View {
                 }
             })
             .sheet(isPresented: $showSuccessAlert, content: {
-                AlertModal(message: "Notifications have been successfully enabled.")
-                    .presentationDetents([.height(210)])
+                AlertModal(message: "Notifications successfully enabled.", image: "checkmark.circle", imageColor: .green)
+                    .presentationDetents([.height(280)])
                     .presentationBackground(.ultraThinMaterial)
-                
+                    .presentationDragIndicator(.visible)
             })
         }
         .background(Color.brandBackground)

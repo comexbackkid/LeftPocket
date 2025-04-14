@@ -188,10 +188,10 @@ struct DashboardConfig: View {
             loadDashboardConfig()
         }
         .sheet(isPresented: $showAlertModal, content: {
-            AlertModal(message: "Dashboard layout saved successfully.")
-                .presentationDetents([.height(210)])
+            AlertModal(message: "Dashboard layout saved successfully.", image: "checkmark.circle", imageColor: .green)
+                .presentationDetents([.height(280)])
                 .presentationBackground(.ultraThinMaterial)
-            
+                .presentationDragIndicator(.visible)
         })
     }
     

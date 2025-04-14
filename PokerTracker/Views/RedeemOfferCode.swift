@@ -44,10 +44,10 @@ struct RedeemOfferCode: View {
             }
         }
         .sheet(isPresented: $showAlertModal, content: {
-            AlertModal(message: message)
-                .presentationDetents([.height(220)])
+            AlertModal(message: message, image: "checkmark.circle", imageColor: .green)
+                .presentationDetents([.height(280)])
                 .presentationBackground(.ultraThinMaterial)
-            
+                .presentationDragIndicator(.visible)
         })
     }
     

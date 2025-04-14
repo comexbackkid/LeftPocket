@@ -83,9 +83,10 @@ struct SessionDefaultsView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { resetDefaultsButton }
             .sheet(isPresented: $showAlertModal, onDismiss: { if isPresentedAsSheet == true { dismiss() } }, content: {
-                AlertModal(message: resultMessage)
-                    .presentationDetents([.height(210)])
+                AlertModal(message: resultMessage, image: "checkmark.circle", imageColor: Color.green)
+                    .presentationDetents([.height(280)])
                     .presentationBackground(.ultraThinMaterial)
+                    .presentationDragIndicator(.visible)
             })
             .overlay {
                 if isPresentedAsSheet == true {

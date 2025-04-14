@@ -10,8 +10,17 @@ import SwiftUI
 struct AlertModal: View {
     
     @Environment(\.dismiss) private var dismiss
+    @State private var isAnimating = false
     
     let message: String
+    let image: String?
+    let imageColor: Color?
+    
+    init(message: String, image: String? = nil, imageColor: Color? = nil) {
+        self.message = message
+        self.image = image
+        self.imageColor = imageColor
+    }
     
     var body: some View {
         
@@ -19,7 +28,25 @@ struct AlertModal: View {
             
             title
             
+            if let image = image, let imageColor = imageColor {
+                Image(systemName: image)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .symbolEffect(.bounce, value: isAnimating)
+                    .frame(width: 60, height: 60)
+                    .foregroundStyle(imageColor)
+                    .padding(.top)
+                    .padding(.bottom, 5)
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
+                            isAnimating = true
+                        })
+                    }
+            }
+            
             messageBody
+            
+            Spacer()
             
             Button {
                 let impact = UIImpactFeedbackGenerator(style: .soft)
@@ -30,8 +57,9 @@ struct AlertModal: View {
                 PrimaryButton(title: "OK")
             }
             .padding(.horizontal)
+            .padding(.bottom, 25)
             
-            Spacer()
+//            Spacer()
         }
         .dynamicTypeSize(.medium...DynamicTypeSize.large)
         .ignoresSafeArea()
@@ -46,10 +74,9 @@ struct AlertModal: View {
             Text("Success!")
                 .font(.custom("Asap-Black", size: 30))
                 .bold()
-                .padding(.bottom, 25)
-                .padding(.top, 20)
+                .padding(.bottom, 5)
+                .padding(.top, 25)
                 .padding(.horizontal)
-                .padding(.bottom, -20)
             
             Spacer()
         }
@@ -73,5 +100,6 @@ struct AlertModal: View {
 }
 
 #Preview {
-    AlertModal(message: "Enter alert message here.")
+    AlertModal(message: "Enter alert message here.", image: "checkmark.circle", imageColor: Color.green)
+        .frame(height: 300)
 }

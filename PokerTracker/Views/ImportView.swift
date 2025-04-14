@@ -863,9 +863,10 @@ struct LeftPocketImportView: View {
                 .lineSpacing(5)
                 .padding(.vertical, 20)
                 .sheet(isPresented: $showAlertModal) {
-                    AlertModal(message: showSuccessMessage)
-                        .presentationDetents([.height(210)])
+                    AlertModal(message: showSuccessMessage, image: "checkmark.circle", imageColor: .green)
+                        .presentationDetents([.height(280)])
                         .presentationBackground(.ultraThinMaterial)
+                        .presentationDragIndicator(.visible)
                 }
             }
             .padding(.horizontal)
@@ -1032,9 +1033,10 @@ struct PokerAnalyticsImportView: View {
                 .lineSpacing(5)
                 .padding(.vertical, 20)
                 .sheet(isPresented: $showAlertModal) {
-                    AlertModal(message: showSuccessMessage)
-                        .presentationDetents([.height(210)])
+                    AlertModal(message: showSuccessMessage, image: "checkmark.circle.fill", imageColor: .green)
+                        .presentationDetents([.height(280)])
                         .presentationBackground(.ultraThinMaterial)
+                        .presentationDragIndicator(.visible)
                 }
             }
             .padding(.horizontal)
