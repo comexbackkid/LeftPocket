@@ -227,7 +227,8 @@ struct ProfitByStakesView: View {
                 
                 HStack {
                     Text(stakes)
-                        .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
+                        .lineLimit(1)
+                        .bold()
                     
                     Spacer()
                     

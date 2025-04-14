@@ -197,6 +197,7 @@ struct ProfitByLocationView: View {
                 HStack {
                     Text(location)
                         .lineLimit(1)
+                        .bold()
                         .truncationMode(.tail)
                     
                     Spacer()

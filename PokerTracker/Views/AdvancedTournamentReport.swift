@@ -125,6 +125,8 @@ struct AdvancedTournamentReport: View {
             ForEach(vm.months, id: \.self) { month in
                 HStack {
                     Text(month)
+                        .lineLimit(1)
+                        .bold()
                     
                     Spacer()
                     

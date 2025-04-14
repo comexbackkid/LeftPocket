@@ -123,6 +123,7 @@ struct ProfitByMonth: View {
                 HStack {
                     Text(month)
                         .lineLimit(1)
+                        .bold()
                     
                     Spacer()
                     
