@@ -62,14 +62,10 @@ struct AlertModal: View {
             
             HStack {
                 
-                Spacer()
-                
                 Text(message)
                     .bodyStyle()
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
-                
-                Spacer()
             }
         }
         .padding(.horizontal)

@@ -9,7 +9,7 @@ import SwiftUI
 import RevenueCatUI
 import RevenueCat
 import AVKit
-import Lottie
+import UserNotifications
 
 struct OnboardingView: View {
     
@@ -197,7 +197,7 @@ struct OnboardingView: View {
                     showPaywall = false
                     offering = nil
                     shouldShowOnboarding = false
-                    await subManager.checkTrialStatus()
+//                    await subManager.checkTrialStatus()
                 }
                 
                 await subManager.checkSubscriptionStatus()
@@ -710,9 +710,11 @@ struct AllowNotifications: View {
                     if success {
                         pushNotificationsAllowed = true
                         nextAction()
+                        
                     } else if let error {
                         print("There was an error: \(error.localizedDescription)")
                         nextAction()
+                        
                     } else {
                         nextAction()
                     }

@@ -9,6 +9,7 @@ import Foundation
 import RevenueCat
 import SwiftUI
 import AdSupport
+import UserNotifications
 
 class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
     
@@ -76,12 +77,15 @@ class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
     
     // Notification reminder for free trial end date
     func scheduleTrialExpirationNotification(expirationDate: Date) {
+        /// Left Pocket Pro $9.99/mo is 7 Day Free Trial
+        /// Left Pocket Pro $79.99/year is 14 Day Free Trial
+        /// Left Pocket Pro $2.99/wk is 3 Day Free Trial
         let daysBeforeNotification = 2
         let notificationTime = expirationDate.addingTimeInterval(TimeInterval(-daysBeforeNotification * 24 * 60 * 60))
         
         let content = UNMutableNotificationContent()
-        content.title = "Your Trial is Ending Soon"
-        content.body = "You still have \(daysBeforeNotification) days until your trial ends, but we hope you consider sticking around to build your bankroll!"
+        content.title = "Free Trial Ending Soon"
+        content.body = "This is a reminder that you still have \(daysBeforeNotification) days until your trial ends."
         content.sound = UNNotificationSound.default
         
         let triggerDateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: notificationTime)
