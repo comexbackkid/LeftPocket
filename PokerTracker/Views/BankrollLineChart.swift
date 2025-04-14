@@ -211,7 +211,8 @@ struct BankrollLineChart: View {
                         if showYAxis {
                             if let intValue = value.as(Int.self) {
                                 Text(intValue.axisShortHand(viewModel.userCurrency))
-                                    .captionStyle()
+//                                    .captionStyle()
+                                    .font(.custom("AsapCondensed-Bold", size: 12, relativeTo: .caption2))
                                     .padding(.leading, 12)
                             }
                         }

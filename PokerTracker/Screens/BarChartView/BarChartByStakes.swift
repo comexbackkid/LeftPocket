@@ -57,7 +57,8 @@ struct BarChartByStakes: View {
             .chartYAxis {
                 AxisMarks(position: .leading) { value in
                     AxisValueLabel(centered: true, anchor: .trailing, horizontalSpacing: 15, verticalSpacing: 20)
-                        .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
+//                        .font(.custom("Asap-Regular", size: 12, relativeTo: .caption2))
+                        .font(.custom("AsapCondensed-Bold", size: 12, relativeTo: .caption2))
                 }
             }
             .chartXAxis {
@@ -65,7 +66,8 @@ struct BarChartByStakes: View {
                     AxisValueLabel() {
                         if let intValue = value.as(Int.self) {
                             Text(intValue.axisShortHand(viewModel.userCurrency))
-                                .captionStyle()
+//                                .captionStyle()
+                                .font(.custom("AsapCondensed-Bold", size: 12, relativeTo: .caption2))
                         }
                     }
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 1, dash: [0]))
