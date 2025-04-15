@@ -66,6 +66,7 @@
 		7C4CE70227729E4D0070B16E /* UIWindow+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4CE70127729E4D0070B16E /* UIWindow+Ext.swift */; };
 		7C4CE7042773560D0070B16E /* DefaultLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4CE7032773560D0070B16E /* DefaultLocations.swift */; };
 		7C4CE7062773B2330070B16E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C4CE7052773B2330070B16E /* LaunchScreen.storyboard */; };
+		7C51873D2DADC4C30067E7D2 /* ProfitByWeekDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C51873C2DADC4C30067E7D2 /* ProfitByWeekDay.swift */; };
 		7C5997AB27872FCF00966764 /* AnnualReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5997AA27872FCF00966764 /* AnnualReportViewModel.swift */; };
 		7C59B30A2D8ED81E002C5B18 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 7C59B3092D8ED81E002C5B18 /* Lottie */; };
 		7C5B0C882BBF201E00A5014B /* LineChartFullScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */; };
@@ -347,6 +348,7 @@
 		7C4CE70127729E4D0070B16E /* UIWindow+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Ext.swift"; sourceTree = "<group>"; };
 		7C4CE7032773560D0070B16E /* DefaultLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLocations.swift; sourceTree = "<group>"; };
 		7C4CE7052773B2330070B16E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		7C51873C2DADC4C30067E7D2 /* ProfitByWeekDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByWeekDay.swift; sourceTree = "<group>"; };
 		7C5997AA27872FCF00966764 /* AnnualReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnualReportViewModel.swift; sourceTree = "<group>"; };
 		7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartFullScreen.swift; sourceTree = "<group>"; };
 		7C5C79952B2780210088A841 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
@@ -649,6 +651,7 @@
 				7CB4BFB82DAC617000876D5C /* Onboarding */,
 				7C2FC655273EF1CE00E3BE0B /* ProfitByStakesView */,
 				7C7F4F6C270E60F3002ECF6D /* ProfitByLocationView */,
+				7C51873B2DADC4810067E7D2 /* ProfitByWeekDay */,
 				7C8134BE2729F1A8004E1CE1 /* ProfitByMonth */,
 				7C42549F2784E21C00B5DA79 /* ProfitByYear */,
 				7C82E13226EFC84E00E3EB6F /* SessionDetailView */,
@@ -802,6 +805,14 @@
 				7C3FFA852BC894C500EABD49 /* BarChartByStakes.swift */,
 			);
 			path = BarChartView;
+			sourceTree = "<group>";
+		};
+		7C51873B2DADC4810067E7D2 /* ProfitByWeekDay */ = {
+			isa = PBXGroup;
+			children = (
+				7C51873C2DADC4C30067E7D2 /* ProfitByWeekDay.swift */,
+			);
+			path = ProfitByWeekDay;
 			sourceTree = "<group>";
 		};
 		7C62F1EB2BD0349600F14483 /* NewStakesView */ = {
@@ -1419,6 +1430,7 @@
 				7C9D32772B261FA700900C8C /* AdditionalMetricsCardView.swift in Sources */,
 				7C8647842B2A642700F48951 /* AddNewSessionView.swift in Sources */,
 				7C7F4F6E270E610E002ECF6D /* ProfitByLocationView.swift in Sources */,
+				7C51873D2DADC4C30067E7D2 /* ProfitByWeekDay.swift in Sources */,
 				7C4CE7042773560D0070B16E /* DefaultLocations.swift in Sources */,
 				7C8549302C46C4BF0038ADB4 /* TransactionCellView.swift in Sources */,
 				7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */,

@@ -18,11 +18,10 @@ extension Date {
     }
     
     // Returns just the day of the week from a Date in String format
-    func dayOfWeek(day: Date) -> String {
+    func getWeekday() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE"
-        let weekDay = dateFormatter.string(from: day)
-        return weekDay
+        dateFormatter.dateFormat = "EEEE" // returns full weekday names, e.g., "Monday"
+        return dateFormatter.string(from: self)
     }
     
     // Returns just the month from a Date in String format

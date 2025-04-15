@@ -161,6 +161,24 @@ extension MetricsView {
                         .frame(maxWidth: .infinity)
                         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                         .cornerRadius(12)
+                        
+                        HStack(spacing: 0) {
+                            Text("View your ")
+                                .bodyStyle()
+                            
+                            NavigationLink {
+                                ProfitByWeekDay(vm: viewModel)
+                            } label: {
+                                Text("__Weekday Statistics__ \(Image(systemName: "arrow.turn.up.right"))")
+                                    .bodyStyle()
+                            }
+                            
+                            Spacer()
+                        }
+                        .padding(12)
+                        .frame(maxWidth: .infinity)
+                        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                        .cornerRadius(12)
 
                         HStack(spacing: 0) {
                             Text("View your ")
@@ -246,6 +264,16 @@ extension MetricsView {
                                                               description: "Individual stakes stats",
                                                               image: "dollarsign.circle",
                                                               color: .donutChartPurple)
+                                })
+                            .buttonStyle(PlainButtonStyle())
+                            
+                            NavigationLink(
+                                destination: ProfitByWeekDay(vm: viewModel),
+                                label: {
+                                    AdditionalMetricsCardView(title: "Weekday Profits",
+                                                              description: "Results by day",
+                                                              image: "sun.max.fill",
+                                                              color: .orange)
                                 })
                             .buttonStyle(PlainButtonStyle())
                             
