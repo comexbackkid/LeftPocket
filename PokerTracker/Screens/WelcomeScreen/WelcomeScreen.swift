@@ -110,7 +110,43 @@ struct WelcomeScreen: View {
             .padding()
             .multilineTextAlignment(.center)
             .padding(.horizontal)
-            .padding(.bottom, 30)
+            .padding(.bottom, 10)
+    }
+    
+    var avgUserRating: some View {
+        
+        VStack {
+            
+            HStack {
+                Spacer()
+                Image(systemName: "laurel.leading")
+                    .imageScale(.large)
+                    .fontWeight(.black)
+                Text("4.7")
+                    .font(.custom("Asap-Black", size: 42))
+                    .bold()
+                Image(systemName: "laurel.trailing")
+                    .imageScale(.large)
+                    .fontWeight(.black)
+                Spacer()
+            }
+            
+            Text("Avg. Customer Rating")
+                .captionStyle()
+            
+            HStack (spacing: 2) {
+                Image(systemName: "star.fill")
+                Image(systemName: "star.fill")
+                Image(systemName: "star.fill")
+                Image(systemName: "star.fill")
+                Image(systemName: "star.fill")
+            }
+            .imageScale(.medium)
+            .fontWeight(.black)
+            .foregroundStyle(.orange)
+            .padding(.top, 1)
+        }
+        .padding(.bottom, 35)
     }
 }
 

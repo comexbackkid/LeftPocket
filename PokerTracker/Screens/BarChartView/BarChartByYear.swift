@@ -83,7 +83,7 @@ struct BarChartByYear: View {
             Chart {
                 ForEach(sessionProfitByMonth, id: \.month) { monthlyTotal in
                     
-                    BarMark(x: .value("Month", monthlyTotal.month, unit: .month), y: .value("Profit", monthlyTotal.profit))
+                    BarMark(x: .value("Month", monthlyTotal.month, unit: .month), y: .value("Profit", monthlyTotal.profit), width: .fixed(15))
                         .cornerRadius(3)
                         .foregroundStyle(monthlyTotal.profit > 0 ? Color.lightGreen.gradient : Color.pink.gradient)
                         .opacity(selectedMonth == nil || selectedMonth?.getMonth() == monthlyTotal.month.getMonth() ? 1 : 0.4)
@@ -108,7 +108,7 @@ struct BarChartByYear: View {
                             Text(intValue.axisShortHand(viewModel.userCurrency))
 //                                .captionStyle()
                                 .font(.custom("AsapCondensed-Bold", size: 12, relativeTo: .caption2))
-                                .padding(.trailing, 15)
+                                .padding(.trailing, 20)
                         }
                     }
                 }
