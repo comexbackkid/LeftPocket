@@ -22,16 +22,14 @@ struct ProfitByWeekDay: View {
                 weekdayTotals
                 
                 toolTip
-                
-//                yearTotal
-                
+                                
             }
             .padding(.horizontal)
         }
         .background(Color.brandBackground)
         .dynamicTypeSize(.xSmall...DynamicTypeSize.large)
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarTitle("Weekday Profits")
+        .navigationBarTitle("Weekday Statistics")
         .frame(maxWidth: .infinity)
         .toolbar {
             ToolbarItem {
@@ -39,7 +37,7 @@ struct ProfitByWeekDay: View {
             }
             
             ToolbarItem(placement: .principal) {
-                Text("Weekday Profits")
+                Text("Weekday Statistics")
                     .font(.custom("Asap-Bold", size: 18))
             }
         }
@@ -155,8 +153,12 @@ struct ProfitByWeekDay: View {
         Group {
             let filteredSessions = vm.allSessions.filter { $0.date.getYear() == yearFilter }
             if let bestDay = bestWeekdayComparison(from: filteredSessions) {
-                ToolTipView(image: "chart.xyaxis.line", message: "Stick to \(bestDay.day)s, you perform \(Int(round(bestDay.improvementPercentage)))% better compared to other days.", color: .purple)
-                    .padding(.top)
+                ToolTipView(
+                    image: "chart.xyaxis.line",
+                    message: "Stick to \(bestDay.day)s, you perform \(Int(round(bestDay.improvementPercentage)))% better compared to other days.",
+                    color: .purple
+                )
+                .padding(.top)
                 
             } else {
                 ToolTipView(image: "chart.xyaxis.line", message: "Not enough data yet to provide day-to-day analysis.", color: .purple)
@@ -186,17 +188,15 @@ struct ProfitByWeekDay: View {
         }
     }
     
-    private func bestWeekdayComparison(from sessions: [PokerSession_v2]) -> (day: String, improvementPercentage: Double)? {
+    func bestWeekdayComparison(from sessions: [PokerSession_v2]) -> (day: String, improvementPercentage: Double)? {
         // Exclude tournament sessions
         let nonTournamentSessions = sessions.filter { !$0.isTournament }
         guard !nonTournamentSessions.isEmpty else { return nil }
         
-        // Group sessions by weekday. (Assumes you have a Date extension method getWeekday() that returns weekday names like "Monday".)
-        let groupedByWeekday = Dictionary(grouping: nonTournamentSessions) { session in
-            session.date.getWeekday()
-        }
+        // Group sessions by weekday.
+        let groupedByWeekday = Dictionary(grouping: nonTournamentSessions, by: { $0.date.getWeekday() })
         
-        // Compute the average hourly rate for each weekday using the session's hourlyRate property.
+        // Compute the average hourly rate for each weekday.
         let averages: [String: Double] = groupedByWeekday.mapValues { sessions in
             let totalHourlyRate = sessions.reduce(0) { $0 + $1.hourlyRate }
             return Double(totalHourlyRate) / Double(sessions.count)
@@ -210,15 +210,17 @@ struct ProfitByWeekDay: View {
         let bestDay = bestEntry.key
         let bestAvg = bestEntry.value
         
-        // Compute the average hourly rate for all weekdays except the best day.
+        // Compute the average for all days except the best day.
         let otherDaysAverages = averages.filter { $0.key != bestDay }
         let combinedOtherAverage = otherDaysAverages.values.reduce(0, +) / Double(otherDaysAverages.count)
         
-        // Guard against division by zero.
-        guard combinedOtherAverage > 0 else { return nil }
+        // If combinedOtherAverage is exactly 0, we cannot compute a percentage improvement.
+        if combinedOtherAverage == 0 {
+            return nil
+        }
         
-        // Calculate the percentage improvement relative to the average of the other days.
-        let improvementPercentage = ((bestAvg - combinedOtherAverage) / combinedOtherAverage) * 100
+        // Calculate the percentage improvement relative to the absolute value of the other days' average.
+        let improvementPercentage = ((bestAvg - combinedOtherAverage) / abs(combinedOtherAverage)) * 100
         return (day: bestDay, improvementPercentage: improvementPercentage)
     }
 }
