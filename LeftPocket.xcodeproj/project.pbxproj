@@ -66,6 +66,7 @@
 		7C4CE70227729E4D0070B16E /* UIWindow+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4CE70127729E4D0070B16E /* UIWindow+Ext.swift */; };
 		7C4CE7042773560D0070B16E /* DefaultLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4CE7032773560D0070B16E /* DefaultLocations.swift */; };
 		7C4CE7062773B2330070B16E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C4CE7052773B2330070B16E /* LaunchScreen.storyboard */; };
+		7C508A7B2DAF2B69002CDBF9 /* BarChartByWeekDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C508A7A2DAF2B62002CDBF9 /* BarChartByWeekDay.swift */; };
 		7C51873D2DADC4C30067E7D2 /* ProfitByWeekDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C51873C2DADC4C30067E7D2 /* ProfitByWeekDay.swift */; };
 		7C5997AB27872FCF00966764 /* AnnualReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5997AA27872FCF00966764 /* AnnualReportViewModel.swift */; };
 		7C59B30A2D8ED81E002C5B18 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 7C59B3092D8ED81E002C5B18 /* Lottie */; };
@@ -348,6 +349,7 @@
 		7C4CE70127729E4D0070B16E /* UIWindow+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Ext.swift"; sourceTree = "<group>"; };
 		7C4CE7032773560D0070B16E /* DefaultLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLocations.swift; sourceTree = "<group>"; };
 		7C4CE7052773B2330070B16E /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		7C508A7A2DAF2B62002CDBF9 /* BarChartByWeekDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartByWeekDay.swift; sourceTree = "<group>"; };
 		7C51873C2DADC4C30067E7D2 /* ProfitByWeekDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByWeekDay.swift; sourceTree = "<group>"; };
 		7C5997AA27872FCF00966764 /* AnnualReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnualReportViewModel.swift; sourceTree = "<group>"; };
 		7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartFullScreen.swift; sourceTree = "<group>"; };
@@ -800,6 +802,7 @@
 		7C45B06B29428EEB00587078 /* BarChartView */ = {
 			isa = PBXGroup;
 			children = (
+				7C508A7A2DAF2B62002CDBF9 /* BarChartByWeekDay.swift */,
 				7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */,
 				7C3738362BC4838900699819 /* BarChartWeeklyCount.swift */,
 				7C3FFA852BC894C500EABD49 /* BarChartByStakes.swift */,
@@ -1439,6 +1442,7 @@
 				7C7A019E2D1DD13900EC30D4 /* TagReport.swift in Sources */,
 				7CA940F92BECF8E3009B54BA /* SleepAnalytics.swift in Sources */,
 				7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */,
+				7C508A7B2DAF2B69002CDBF9 /* BarChartByWeekDay.swift in Sources */,
 				7C608EDF2CC19B5800527405 /* DayOfWeekChart.swift in Sources */,
 				7CC1D0462C2703E500791847 /* LiveActivityManager.swift in Sources */,
 				7C67DDB52BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift in Sources */,

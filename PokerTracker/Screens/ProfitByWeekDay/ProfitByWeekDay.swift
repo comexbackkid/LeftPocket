@@ -22,9 +22,12 @@ struct ProfitByWeekDay: View {
                 weekdayTotals
                 
                 toolTip
+                
+                dayOfWeekChart
                                 
             }
             .padding(.horizontal)
+            .padding(.bottom, 60)
         }
         .background(Color.brandBackground)
         .dynamicTypeSize(.xSmall...DynamicTypeSize.large)
@@ -152,10 +155,10 @@ struct ProfitByWeekDay: View {
         
         Group {
             let filteredSessions = vm.allSessions.filter { $0.date.getYear() == yearFilter }
-            if let bestDay = bestWeekdayComparison(from: filteredSessions) {
+            if let bestDay = bestWeekdayComparisonUsingHourlyFunction(from: filteredSessions) {
                 ToolTipView(
                     image: "chart.xyaxis.line",
-                    message: "Stick to \(bestDay.day)s, you perform \(Int(round(bestDay.improvementPercentage)))% better compared to other days.",
+                    message: "Stick to \(bestDay.bestDay)s, you perform \(Int(round(bestDay.improvementPercentage)))% better compared to other days.",
                     color: .purple
                 )
                 .padding(.top)
@@ -165,6 +168,18 @@ struct ProfitByWeekDay: View {
                     .padding(.top)
             }
         }
+    }
+    
+    private var dayOfWeekChart: some View {
+        BarChartByWeekDay(showTitle: true, dateRange: vm.allSessions.filter({ $0.date.getYear() == yearFilter && $0.isTournament == false }))
+            .padding(.horizontal, 20)
+            .padding(.vertical, 20)
+            .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+            .cornerRadius(12)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+            .frame(height: 250)
+            .padding(.top, 15)
+        
     }
 
     private func hourlyByWeekday(weekday: String, sessions: [PokerSession_v2]) -> Int {
@@ -188,40 +203,36 @@ struct ProfitByWeekDay: View {
         }
     }
     
-    func bestWeekdayComparison(from sessions: [PokerSession_v2]) -> (day: String, improvementPercentage: Double)? {
-        // Exclude tournament sessions
-        let nonTournamentSessions = sessions.filter { !$0.isTournament }
-        guard !nonTournamentSessions.isEmpty else { return nil }
+    private func bestWeekdayComparisonUsingHourlyFunction(from sessions: [PokerSession_v2]) -> (bestDay: String, improvementPercentage: Double)? {
+
+        let weekdays = Calendar.current.weekdaySymbols
         
-        // Group sessions by weekday.
-        let groupedByWeekday = Dictionary(grouping: nonTournamentSessions, by: { $0.date.getWeekday() })
-        
-        // Compute the average hourly rate for each weekday.
-        let averages: [String: Double] = groupedByWeekday.mapValues { sessions in
-            let totalHourlyRate = sessions.reduce(0) { $0 + $1.hourlyRate }
-            return Double(totalHourlyRate) / Double(sessions.count)
+        var dayRates: [(day: String, rate: Int)] = []
+        for day in weekdays {
+            let rate = hourlyByWeekday(weekday: day, sessions: sessions)
+            dayRates.append((day: day, rate: rate))
         }
         
-        // Need at least two weekdays to compare performance.
-        guard averages.count > 1, let bestEntry = averages.max(by: { $0.value < $1.value }) else {
+        // Ensure that there is at least one day with a non-zero rate.
+        guard let bestEntry = dayRates.max(by: { $0.rate < $1.rate }), bestEntry.rate > 0 else {
             return nil
         }
         
-        let bestDay = bestEntry.key
-        let bestAvg = bestEntry.value
+        let bestDay = bestEntry.day
+        let bestRate = Double(bestEntry.rate)
         
-        // Compute the average for all days except the best day.
-        let otherDaysAverages = averages.filter { $0.key != bestDay }
-        let combinedOtherAverage = otherDaysAverages.values.reduce(0, +) / Double(otherDaysAverages.count)
+        let otherDays = dayRates.filter { $0.day != bestDay }
+        guard !otherDays.isEmpty else { return nil }
         
-        // If combinedOtherAverage is exactly 0, we cannot compute a percentage improvement.
-        if combinedOtherAverage == 0 {
-            return nil
-        }
+        let validOtherDays = otherDays.filter { $0.rate > 0 }
+        guard !validOtherDays.isEmpty else { return nil }
+        let averageOtherRate = Double(validOtherDays.map { $0.rate }.reduce(0, +)) / Double(validOtherDays.count)
         
-        // Calculate the percentage improvement relative to the absolute value of the other days' average.
-        let improvementPercentage = ((bestAvg - combinedOtherAverage) / abs(combinedOtherAverage)) * 100
-        return (day: bestDay, improvementPercentage: improvementPercentage)
+        let denominator = (bestRate + averageOtherRate) / 2
+        guard denominator != 0 else { return nil }
+        
+        let improvementPercentage = ((bestRate - averageOtherRate) / denominator) * 100
+        return (bestDay, improvementPercentage)
     }
 }
 
