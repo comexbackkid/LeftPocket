@@ -81,6 +81,7 @@ struct BarChartByWeekDay: View {
                     .foregroundStyle(.blue.gradient)
                 }
             }
+            .animation(.bouncy.speed(1.0), value: dateRange)
             .chartXAxis {
                 AxisMarks(values: .automatic) { value in
                     AxisValueLabel() {

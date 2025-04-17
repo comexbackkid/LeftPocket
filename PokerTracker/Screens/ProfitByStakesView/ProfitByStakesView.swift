@@ -444,17 +444,17 @@ extension SessionsListViewModel {
     
     func hoursAbbreviated(_ sessions: [PokerSession_v2]) -> String {
         
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
+        guard !sessions.isEmpty else { return "0h" }
         
-        guard !sessions.isEmpty else { return "0h" } // Return "0h" if there are no sessions
+        let totalMinutes = sessions.reduce(0) { sum, session in
+            let h = (session.sessionDuration.hour ?? 0) * 60
+            let m = (session.sessionDuration.minute ?? 0)
+            return sum + h + m
+        }
         
-        let totalHours = sessions.map { $0.sessionDuration.hour ?? 0 }.reduce(0, +)
-        let totalMins = sessions.map { $0.sessionDuration.minute ?? 0 }.reduce(0, +)
-        let dateComponents = DateComponents(hour: totalHours, minute: totalMins)
-        let totalTime = Int(dateComponents.durationInHours)
-        let formattedTotalTime = formatter.string(from: NSNumber(value: totalTime)) ?? "0"
-        return "\(formattedTotalTime)h"
+        let hours = totalMinutes / 60
+        
+        return "\(hours)h"
     }
 }
 

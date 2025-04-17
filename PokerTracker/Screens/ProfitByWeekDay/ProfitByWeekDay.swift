@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import TipKit
 
 struct ProfitByWeekDay: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @State private var yearFilter: String = Date().getYear()
+    @State private var yearFilter: String? = nil
     @ObservedObject var vm: SessionsListViewModel
     
     var body: some View {
@@ -18,6 +19,8 @@ struct ProfitByWeekDay: View {
         ScrollView {
             
             VStack {
+                
+                weekdaysTip
                 
                 weekdayTotals
                 
@@ -48,39 +51,39 @@ struct ProfitByWeekDay: View {
     
     private var headerInfo: some View {
         
-        VStack {
+        Menu {
+            let allYears = vm.allSessions.map { $0.date.getYear() }.uniqued().sorted()
             
             Menu {
-                let allYears = vm.allSessions.map({ $0.date.getYear() }).uniqued()
-                Menu {
+                withAnimation {
                     Picker("", selection: $yearFilter) {
-                        ForEach(allYears, id: \.self) {
-                            Text($0).tag($0)
+
+                        Text("All").tag(String?.none)
+                        
+                        ForEach(allYears, id: \.self) { year in
+                            Text(year).tag(String?.some(year))
                         }
                     }
-                    
-                } label: {
-                    Text("Filter by Year")
-                }
-                
-                Divider()
-                
-                Button {
-                    yearFilter = Date().getYear()
-                    
-                } label: {
-                    Text("Clear Filters")
-                    Image(systemName: "x.circle")
                 }
                 
             } label: {
-                Image(systemName: "slider.horizontal.3")
+                Text("Filter by Year")
             }
-            .accentColor(Color.brandPrimary)
-            .transaction { transaction in
-                transaction.animation = nil
+            
+            Divider()
+            
+            Button {
+                yearFilter = nil
+                
+            } label: {
+                Text("Clear Filters")
+                Image(systemName: "x.circle")
             }
+        } label: {
+            Image(systemName: "slider.horizontal.3")
         }
+        .accentColor(Color.brandPrimary)
+        .transaction { $0.animation = nil }
     }
     
     private var weekdays: [String] {
@@ -89,7 +92,13 @@ struct ProfitByWeekDay: View {
     
     private var weekdayTotals: some View {
         
-        VStack(spacing: 10) {
+        let filteredSessions = vm.allSessions
+            .filter { session in
+                (yearFilter == nil || session.date.getYear() == yearFilter!)
+                && session.isTournament == false
+            }
+        
+        return VStack(spacing: 10) {
             
             HStack {
                 
@@ -99,35 +108,34 @@ struct ProfitByWeekDay: View {
                     .foregroundColor(Color(.systemGray))
                     .frame(width: 60, alignment: .trailing)
                     .fontWeight(.bold)
-
+                
                 Image(systemName: "gauge.high")
                     .foregroundColor(Color(.systemGray))
                     .frame(width: 60, alignment: .trailing)
                     .fontWeight(.bold)
-
+                
                 Image(systemName: "clock")
                     .foregroundColor(Color(.systemGray))
                     .frame(width: 60, alignment: .trailing)
                     .fontWeight(.bold)
             }
             .padding(.bottom, 10)
-
+            
             Divider()
                 .padding(.bottom, 10)
-
-            // Iterate through weekdays instead of months
+            
             ForEach(weekdays, id: \.self) { day in
                 HStack {
                     Text(day)
                         .lineLimit(1)
                         .bold()
-
+                    
                     Spacer()
-
-                    let filteredSessions = vm.allSessions.filter { $0.date.getYear() == yearFilter }
-                    let total = filteredSessions.filter { $0.date.getWeekday() == day }.map { $0.profit }.reduce(0, +)
-                    let hourlyRate = hourlyByWeekday(weekday: day, sessions: filteredSessions)
-                    let hoursPlayed = vm.hoursAbbreviated(filteredSessions.filter { $0.date.getWeekday() == day })
+                    
+                    let daySessions = filteredSessions.filter { $0.date.getWeekday() == day }
+                    let total = daySessions.map(\.profit).reduce(0,+)
+                    let hourlyRate = hourlyByWeekday(weekday: day, sessions: daySessions)
+                    let hoursPlayed = vm.hoursAbbreviated(daySessions)
                     
                     Text(total == 0 ? "-" : total.axisShortHand(vm.userCurrency))
                         .profitColor(total: total)
@@ -151,10 +159,21 @@ struct ProfitByWeekDay: View {
         .padding(.top)
     }
     
+    private var weekdaysTip: some View {
+        
+        Group {
+            let weekdaysTip = WeekdaysTip()
+            TipView(weekdaysTip)
+                .tipViewStyle(CustomTipViewStyle())
+                .padding(.top)
+        }
+    }
+    
     private var toolTip: some View {
         
         Group {
-            let filteredSessions = vm.allSessions.filter { $0.date.getYear() == yearFilter }
+            let filteredSessions = vm.allSessions.filter {( yearFilter == nil || $0.date.getYear() == yearFilter!) && !$0.isTournament }
+            
             if let bestDay = bestWeekdayComparisonUsingHourlyFunction(from: filteredSessions) {
                 ToolTipView(
                     image: "chart.xyaxis.line",
@@ -171,7 +190,10 @@ struct ProfitByWeekDay: View {
     }
     
     private var dayOfWeekChart: some View {
-        BarChartByWeekDay(showTitle: true, dateRange: vm.allSessions.filter({ $0.date.getYear() == yearFilter && $0.isTournament == false }))
+        
+        let chartData = vm.allSessions.filter {( yearFilter == nil || $0.date.getYear() == yearFilter!) && !$0.isTournament }
+        
+        return BarChartByWeekDay(showTitle: true, dateRange: chartData)
             .padding(.horizontal, 20)
             .padding(.vertical, 20)
             .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)

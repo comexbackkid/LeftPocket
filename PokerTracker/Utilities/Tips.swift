@@ -29,9 +29,6 @@ struct MonthlyReportTip: Tip {
         Text("Using This Table")
     }
     
-//    var message: Text? {
-//        Text("From left to right is your Net Profit \(Image(systemName: "dollarsign")), Hourly Rate \(Image(systemName: "gauge.high")), & Total Hours \(Image(systemName: "clock")) for each month.")
-//    }
     var message: Text? {
         Text("The three columns below represent your net profit, hourly rate, and total hours for each month.")
     }
@@ -216,6 +213,21 @@ struct SettingsTip: Tip {
     
     var image: Image? {
         Image(systemName: "text.magnifyingglass")
+    }
+}
+
+struct WeekdaysTip: Tip {
+    
+    var title: Text {
+        Text("Your Weekday Data")
+    }
+    
+    var message: Text? {
+        Text("Because of the variance in tournaments, only your cash session data is compiled and used in this view.")
+    }
+    
+    var image: Image? {
+        Image(systemName: "info.circle.fill")
     }
 }
 
