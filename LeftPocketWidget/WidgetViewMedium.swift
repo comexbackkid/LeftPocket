@@ -158,18 +158,14 @@ struct WidgetViewMedium: View {
             VStack {
                 HStack {
                     Spacer()
-                    Image(systemName: "suit.club.fill")
+                    Image("logo-tiny")
                         .resizable()
-                        .frame(width: 18, height: 18)
-                        .foregroundColor(.white)
-                        .background(
-                            Circle()
-                                .foregroundColor(.brandPrimary)
-                                .frame(width: 34, height: 34, alignment: .center)
-                    )
+                        .frame(width: 34, height: 34)
+                        .clipShape(.circle)
                 }
+                
             }
-            .padding(20)
+            .padding(13)
             Spacer()
         }
     }
