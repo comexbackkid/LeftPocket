@@ -194,15 +194,15 @@ struct MindfulnessAnalytics: View {
         .fullScreenCover(item: $selectedMeditation) { meditation in
             MeditationView(passedMeditation: $selectedMeditation, meditation: meditation)
         }
-        .sheet(isPresented: $showPaywall, content: {
+        .fullScreenCover(isPresented: $showPaywall, content: {
             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                .dynamicTypeSize(.large)
                 .overlay {
                     HStack {
                         Spacer()
                         VStack {
                             DismissButton()
-                                .padding()
+                                .padding(.horizontal)
                                 .onTapGesture {
                                     showPaywall = false
                             }

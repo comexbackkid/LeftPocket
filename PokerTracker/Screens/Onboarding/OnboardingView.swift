@@ -87,7 +87,7 @@ struct OnboardingView: View {
                 showPaywall = true
             }
         })
-        .sheet(isPresented: $showPaywall, onDismiss: {
+        .fullScreenCover(isPresented: $showPaywall, onDismiss: {
             /// After first paywall is closed, check the subscription status. If they didn't subscribe, hit user with Last Chance Offer
             Task {
                 if !subManager.isSubscribed {
@@ -138,17 +138,16 @@ struct OnboardingView: View {
                 
             } else {
                 PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                    .interactiveDismissDisabled()
-                    .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                    .dynamicTypeSize(.large)
                     .overlay {
                         HStack {
                             Spacer()
                             VStack {
                                 DismissButton()
-                                    .padding()
+                                    .padding(.horizontal)
                                     .onTapGesture {
                                         showPaywall = false
-                                    }
+                                }
                                 Spacer()
                             }
                         }
@@ -191,7 +190,7 @@ struct OnboardingView: View {
                     showPaywall = false
                     offering = nil
                     shouldShowOnboarding = false
-//                    await subManager.checkTrialStatus()
+                    await subManager.checkTrialStatus()
                 }
                 
                 await subManager.checkSubscriptionStatus()

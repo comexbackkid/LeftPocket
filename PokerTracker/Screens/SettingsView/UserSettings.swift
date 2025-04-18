@@ -277,15 +277,15 @@ struct UserSettings: View {
             howToGuide
             
         }
-        .sheet(isPresented: $showPaywall) {
+        .fullScreenCover(isPresented: $showPaywall, content: {
             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                .dynamicTypeSize(.large)
                 .overlay {
                     HStack {
                         Spacer()
                         VStack {
                             DismissButton()
-                                .padding()
+                                .padding(.horizontal)
                                 .onTapGesture {
                                     showPaywall = false
                             }
@@ -293,7 +293,7 @@ struct UserSettings: View {
                         }
                     }
                 }
-        }
+        })
         .task {
             for await customerInfo in Purchases.shared.customerInfoStream {
                 showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty

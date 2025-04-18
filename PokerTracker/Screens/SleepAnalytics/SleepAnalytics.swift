@@ -107,15 +107,15 @@ struct SleepAnalytics: View {
                       message: Text(hkManager.errorMsg ?? "An unknown error occurred."),
                       dismissButton: .default(Text("Ok")))
             }
-            .sheet(isPresented: $showPaywall, content: {
+            .fullScreenCover(isPresented: $showPaywall, content: {
                 PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                    .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                    .dynamicTypeSize(.large)
                     .overlay {
                         HStack {
                             Spacer()
                             VStack {
                                 DismissButton()
-                                    .padding()
+                                    .padding(.horizontal)
                                     .onTapGesture {
                                         showPaywall = false
                                 }

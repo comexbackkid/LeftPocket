@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/BranchMetrics/ios-branch-deep-linking",
       "state" : {
-        "revision" : "89dea0c8559182f1135f3e9c130256933da7f517",
-        "version" : "3.4.1"
+        "revision" : "ab9c9d675f946eb43bef11886a9d96cd5bef32a8",
+        "version" : "3.10.0"
       }
     },
     {
@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/RevenueCat/purchases-ios.git",
       "state" : {
-        "revision" : "fa7959128ab37802b04a77939185bf630bb98605",
-        "version" : "4.29.0"
+        "revision" : "96545bf014ca3d5a2b0ffd2c8de7105ca0705a19",
+        "version" : "5.22.0"
       }
     },
     {
@@ -42,17 +42,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-algorithms.git",
       "state" : {
-        "revision" : "b14b7f4c528c942f121c8b860b9410b2bf57825e",
-        "version" : "1.0.0"
+        "revision" : "87e50f483c54e6efd60e885f7f5aa946cee68023",
+        "version" : "1.2.1"
       }
     },
     {
       "identity" : "swift-numerics",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-numerics",
+      "location" : "https://github.com/apple/swift-numerics.git",
       "state" : {
-        "revision" : "0a5bc04095a675662cf24757cc0640aa2204253b",
-        "version" : "1.0.2"
+        "revision" : "e0ec0f5f3af6f3e4d5e7a19d2af26b481acb6ba8",
+        "version" : "1.0.3"
       }
     },
     {

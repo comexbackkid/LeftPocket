@@ -117,23 +117,23 @@ struct LeftPocketCustomTabBar: View {
                             let impact = UIImpactFeedbackGenerator(style: .medium)
                             impact.impactOccurred()
                         }
-                        .sheet(isPresented: $showPaywall) {
+                        .fullScreenCover(isPresented: $showPaywall, content: {
                             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                                .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                                .dynamicTypeSize(.large)
                                 .overlay {
                                     HStack {
                                         Spacer()
                                         VStack {
                                             DismissButton()
-                                                .padding()
+                                                .padding(.horizontal)
                                                 .onTapGesture {
                                                     showPaywall = false
-                                                }
+                                            }
                                             Spacer()
                                         }
                                     }
                                 }
-                        }
+                        })
                         .task {
                             for await customerInfo in Purchases.shared.customerInfoStream {
                                 

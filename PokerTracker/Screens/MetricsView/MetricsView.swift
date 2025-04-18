@@ -67,15 +67,15 @@ struct MetricsView: View {
                             AdditionalMetricsView()
                                 .padding(.bottom, activeSheet == .metricsAsSheet ? 0 : 50)
                         }
-                        .sheet(isPresented: $showPaywall, content: {
+                        .fullScreenCover(isPresented: $showPaywall, content: {
                             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                                .dynamicTypeSize(.medium...DynamicTypeSize.large)
+                                .dynamicTypeSize(.large)
                                 .overlay {
                                     HStack {
                                         Spacer()
                                         VStack {
                                             DismissButton()
-                                                .padding()
+                                                .padding(.horizontal)
                                                 .onTapGesture {
                                                     showPaywall = false
                                             }
