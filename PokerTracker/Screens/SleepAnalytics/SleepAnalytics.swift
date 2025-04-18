@@ -225,7 +225,7 @@ struct SleepAnalytics: View {
                 
             } else {
                 ToolTipView(image: "bed.double.fill",
-                            message: "In the last month, you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 || countLowSleepSessions() < 1  ? "s" : "") under-rested.",
+                            message: "In the last two months you've played \(countLowSleepSessions()) session\(countLowSleepSessions() > 1 || countLowSleepSessions() < 1  ? "s" : "") under-rested.",
                             color: .donutChartOrange,
                             premium: false)
             }
@@ -377,8 +377,6 @@ struct SleepAnalytics: View {
                     .bold()
                     .foregroundStyle(Color.white)
             }
-            
-            
         }
         .foregroundStyle(.white)
         .padding(20)
@@ -532,7 +530,7 @@ struct SleepAnalytics: View {
     private func countLowSleepSessions() -> Int {
         
         // Calculate the date 30 days ago
-        let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date())!
+        let sixtyDaysAgo = Calendar.current.date(byAdding: .day, value: -60, to: Date())!
         
         // Filter sessions where you've slept under 6 hours
         let sessions = viewModel.allSessions.filter {
@@ -541,7 +539,7 @@ struct SleepAnalytics: View {
         }
         
         // Further filter sessions that occurred in the last 30 days
-        return sessions.filter { $0.date >= thirtyDaysAgo }.count
+        return sessions.filter { $0.date >= sixtyDaysAgo }.count
     }
     
     // Calculates your hourly rate when you get at least 6 hours of sleep

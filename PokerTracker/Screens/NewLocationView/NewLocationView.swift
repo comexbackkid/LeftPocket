@@ -13,9 +13,7 @@ struct NewLocationView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var vm: SessionsListViewModel
     @StateObject var newLocationViewModel = NewLocationViewModel()
-    
     @Binding var addLocationIsShowing: Bool
-    
     @State private var photoPickerItem: PhotosPickerItem?
     @State private var photoError: Error?
     

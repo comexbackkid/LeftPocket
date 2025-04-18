@@ -39,6 +39,7 @@ struct AddNewSessionView: View {
     @State var showCashRebuyField = false
     @State var showStakingPopover = false
     @State var showBountiesPopover = false
+    @State var locationsBefore = 0
     @Environment(\.dismiss) private var dismiss
     @FocusState private var focusedField: Field?
     @AppStorage("multipleBankrollsEnabled") var multipleBankrollsEnabled: Bool = false
@@ -327,8 +328,17 @@ struct AddNewSessionView: View {
         }
         .padding(.horizontal)
         .padding(.bottom, 10)
-        .sheet(isPresented: $addLocationIsShowing, content: {
+        .sheet(isPresented: $addLocationIsShowing, onDismiss: {
+            if vm.locations.count > locationsBefore {
+                if let newLocation = vm.locations.last {
+                    newSession.location = newLocation
+                }
+            }
+        }, content: {
             NewLocationView(addLocationIsShowing: $addLocationIsShowing)
+                .onAppear {
+                    locationsBefore = vm.locations.count
+                }
         })
         .animation(nil, value: newSession.location)
     }
