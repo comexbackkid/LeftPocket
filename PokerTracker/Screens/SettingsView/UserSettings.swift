@@ -64,7 +64,7 @@ struct UserSettings: View {
                         Spacer()
                     }
                     .padding(.horizontal, isPad ? 40 : 16)
-                    .padding(.bottom, 50)
+                    .padding(.bottom, 60)
                 }
             }
             .background(Color.brandBackground)

@@ -66,7 +66,7 @@ struct NewLocationView: View {
                                 .foregroundColor(newLocationViewModel.importedImage != nil ? .green : .secondary)
                                 .padding(.trailing, 10)
                             
-                            PhotosPicker(newLocationViewModel.importedImage != nil ? "Image Added!" : "Add Image", selection: $photoPickerItem)
+                            PhotosPicker(newLocationViewModel.importedImage != nil ? "Image Added!" : "Tap to Add Image", selection: $photoPickerItem)
                                 .font(.custom("Asap-Regular", size: 17))
                                 .foregroundColor(newLocationViewModel.importedImage != nil ? .primary : .brandPrimary)
                             

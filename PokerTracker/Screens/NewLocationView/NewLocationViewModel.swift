@@ -31,18 +31,20 @@ final class NewLocationViewModel: ObservableObject {
             return
         }
         
+        let capitalizedName = locationName.capitalized
         var imagePath: String?
         
         if let importedImage {
             do {
                 imagePath = try FileManager.saveImage(importedImage, withName: UUID().uuidString)
+                
             } catch {
                 alertItem = AlertItem(title: Text("Error"), message: Text("Failed to save image."), dismissButton: .default(Text("OK")))
                 return
             }
         }
         
-        viewModel.addNewLocation(name: locationName, importedImage: imagePath)
+        viewModel.addNewLocation(name: capitalizedName, importedImage: imagePath)
         self.presentation = false
     }
 }

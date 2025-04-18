@@ -819,7 +819,7 @@ struct TransferableImage: Transferable {
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
         
-        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleTournament)
+        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
             .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
     }
