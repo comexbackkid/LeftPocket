@@ -14,7 +14,7 @@ struct ProfitByLocationView: View {
     
     @Environment(\.colorScheme) var colorScheme
     
-    @State private var yearFilter: String?
+    @State private var yearFilter: String? = nil
     @State private var metricFilter = "Total"
     @State private var showPaywall = false
     
@@ -129,16 +129,20 @@ struct ProfitByLocationView: View {
             
             HStack {
                 
-                let allYears = viewModel.allSessions.map({ $0.date.getYear() }).uniqued()
+                let allYears = viewModel.allSessions.map({ $0.date.getYear() }).uniqued().sorted()
                 
                 Menu {
                     
                     Menu {
-                        Picker("", selection: $yearFilter) {
+                        Picker("Year Filter", selection: $yearFilter) {
+                            
+                            Text("All").tag(String?.none)
+                            
                             ForEach(allYears, id: \.self) {
                                 Text($0).tag($0)
                             }
                         }
+                        
                     } label: {
                         Text("Filter by Year")
                     }

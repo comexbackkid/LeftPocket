@@ -56,7 +56,7 @@ struct ProfitByWeekDay: View {
             
             Menu {
                 withAnimation {
-                    Picker("", selection: $yearFilter) {
+                    Picker("Year Filter", selection: $yearFilter) {
 
                         Text("All").tag(String?.none)
                         
