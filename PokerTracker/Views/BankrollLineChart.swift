@@ -12,7 +12,6 @@ struct BankrollLineChart: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
     @Environment(\.colorScheme) var colorScheme
-    
     @State private var selectedIndex: Int?
     @State private var animationProgress: CGFloat = 0.0
     @State private var showChart: Bool = false
@@ -148,9 +147,7 @@ struct BankrollLineChart: View {
             let areaGradient = LinearGradient(colors: [chartSessionFilter != .tournaments ? Color("lightBlue").opacity(0.85) : .donutChartOrange, chartSessionFilter != .tournaments ? Color("lightBlue").opacity(0.25) : .donutChartOrange.opacity(0.25), .clear, .clear], startPoint: .top, endPoint: .bottom)
             
             Chart {
-                
                 ForEach(Array(convertedData.enumerated()), id: \.offset) { index, total in
-                    
                     LineMark(x: .value("Time", index), y: .value("Profit", total))
                         .opacity(showChart ? 1.0 : 0.0)
                         .foregroundStyle(lineGradient)
@@ -161,10 +158,10 @@ struct BankrollLineChart: View {
                     
                     
                     if let selectedIndex {
-                        
                         PointMark(x: .value("Point", selectedIndex), y: .value("Profit", profitAnnotation ?? 0))
                             .foregroundStyle(colorScheme == .dark ? Color.brandWhite : Color.black)
                             .symbolSize(100)
+                        
                         PointMark(x: .value("Point", selectedIndex), y: .value("Profit", profitAnnotation ?? 0))
                             .foregroundStyle(colorScheme == .dark ? Color.black : .white)
                             .symbolSize(40)
@@ -174,7 +171,6 @@ struct BankrollLineChart: View {
                 .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
                 
                 if let selectedIndex {
-                    
                     RuleMark(x: .value("Selected Date", selectedIndex))
                         .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, dash: [6]))
                         .foregroundStyle(.gray.opacity(0.33))
@@ -211,7 +207,6 @@ struct BankrollLineChart: View {
                         if showYAxis {
                             if let intValue = value.as(Int.self) {
                                 Text(intValue.axisShortHand(viewModel.userCurrency))
-//                                    .captionStyle()
                                     .font(.custom("AsapCondensed-Bold", size: 12, relativeTo: .caption2))
                                     .padding(.leading, 12)
                             }

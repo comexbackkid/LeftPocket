@@ -91,18 +91,18 @@ struct UserSettings: View {
                         } label: {
                             HStack {
                                 Spacer()
-                                VStack (spacing: 3) {
-                                    Text("⚡️ Try Left Pocket Pro ⚡️")
+                                VStack {
+                                    Text("✨  Try Left Pocket Pro  ✨")
                                         .subtitleStyle()
                                         .environment(\.sizeCategory, .small)
                                     
-                                    Text("Tap here to unlock access")
-                                        .captionStyle()
-                                        .opacity(0.75)
+//                                    Text("Tap here to unlock access")
+//                                        .captionStyle()
+//                                        .opacity(0.75)
                                 }
                                 Spacer()
                             }
-                            .frame(height: 75)
+                            .padding(.vertical, 20)
                             .background(.ultraThinMaterial)
                             .clipShape(.rect(cornerRadius: 15))
                             .padding(.bottom, 25)
@@ -170,7 +170,7 @@ struct UserSettings: View {
                         hideBankroll.toggle()
                     })
                     
-                    Text("Minimal Dashboard view to conceal sensitive bankroll numbers.")
+                    Text("Hide your bankroll in your Dasbhoard to conceal sensitive information.")
                         .calloutStyle()
                         .opacity(0.8)
                         .padding(.top, 1)
