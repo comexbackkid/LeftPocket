@@ -321,7 +321,7 @@ struct UserSettings: View {
                                 .font(.title2)
                         }
                         
-                        Text("Add your own venue, casino, platform, or home game. If you want to delete a Location, tap & hold its thumbnail.")
+                        Text("Add your own venue, casino, platform, or home game. If you want to delete a Location, tap and hold its thumbnail.")
                             .calloutStyle()
                             .opacity(0.8)
                             .padding(.top, 1)
