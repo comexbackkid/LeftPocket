@@ -309,7 +309,6 @@ struct AddNewSessionView: View {
                 }
                 
             } label: {
-                
                 if newSession.location.name.isEmpty {
                     Text("Please select ›")
                         .bodyStyle()

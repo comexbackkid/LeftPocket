@@ -70,7 +70,7 @@ struct BarChartByYear: View {
                             }
                             
                         } else {
-                            Text("\(month)")  // Show only the month if amount is nil
+                            Text("\(month)")
                                 .font(.custom("Asap-Medium", size: 17))
                                 .foregroundStyle(.secondary)
                         }
@@ -83,7 +83,7 @@ struct BarChartByYear: View {
             Chart {
                 ForEach(sessionProfitByMonth, id: \.month) { monthlyTotal in
                     
-                    BarMark(x: .value("Month", monthlyTotal.month, unit: .month), y: .value("Profit", monthlyTotal.profit), width: .fixed(15))
+                    BarMark(x: .value("Month", monthlyTotal.month, unit: .month), y: .value("Profit", monthlyTotal.profit), width: .fixed(14))
                         .cornerRadius(3)
                         .foregroundStyle(monthlyTotal.profit > 0 ? Color.lightGreen.gradient : Color.pink.gradient)
                         .opacity(selectedMonth == nil || selectedMonth?.getMonth() == monthlyTotal.month.getMonth() ? 1 : 0.4)
@@ -106,7 +106,6 @@ struct BarChartByYear: View {
                     AxisValueLabel() {
                         if let intValue = value.as(Int.self) {
                             Text(intValue.axisShortHand(viewModel.userCurrency))
-//                                .captionStyle()
                                 .font(.custom("AsapCondensed-Bold", size: 12, relativeTo: .caption2))
                                 .padding(.trailing, 20)
                         }
@@ -115,8 +114,6 @@ struct BarChartByYear: View {
             }
             .chartXAxis {
                 AxisMarks {
-//                    AxisGridLine(stroke: StrokeStyle(lineWidth: 1, dash: [2, 8]))
-//                        .foregroundStyle(.gray.opacity(0.33))
                     AxisValueLabel(format: .dateTime.month(.abbreviated).year(.twoDigits),
                                    horizontalSpacing: sessionProfitByMonth.isEmpty ? 25 : 0,
                                    verticalSpacing: 15).font(.custom("AsapCondensed-Bold", size: 12, relativeTo: .caption2))
