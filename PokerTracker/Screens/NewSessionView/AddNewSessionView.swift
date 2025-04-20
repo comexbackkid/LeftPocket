@@ -39,6 +39,7 @@ struct AddNewSessionView: View {
     @State var showCashRebuyField = false
     @State var showStakingPopover = false
     @State var showBountiesPopover = false
+    @State var showCustomMarkup = false
     @State var locationsBefore = 0
     @Environment(\.dismiss) private var dismiss
     @FocusState private var focusedField: Field?
@@ -671,7 +672,6 @@ struct AddNewSessionView: View {
                         .bodyStyle()
                         .padding(.leading, 4)
                     
-                    
                     Spacer()
                     
                     Menu {
@@ -686,8 +686,12 @@ struct AddNewSessionView: View {
                             }
                         }
                         
+                        Button("Custom Amount") {
+                            showCustomMarkup = true
+                        }
+                        
                     } label: {
-                        Text("\(newSession.markup.formatted(.number.precision(.fractionLength(1))))")
+                        Text("\(newSession.markup.formatted(.number.precision(.fractionLength(2))))")
                             .bodyStyle()
                             .fixedSize()
                             .lineLimit(1)
@@ -701,6 +705,12 @@ struct AddNewSessionView: View {
                 .padding(.horizontal)
                 .padding(.bottom, 10)
                 .animation(.easeInOut, value: newSession.staking)
+                .sheet(isPresented: $showCustomMarkup) {
+                    CustomMarkupAmount(markup: $newSession.markup)
+                        .presentationDetents([.height(360), .large])
+                        .presentationDragIndicator(.visible)
+                        .presentationBackground(.ultraThinMaterial)
+                }
             }
             
             // MARK: TOURNAMENT MULTI-DAY TOGGLE

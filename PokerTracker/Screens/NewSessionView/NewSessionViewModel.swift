@@ -64,7 +64,6 @@ final class NewSessionViewModel: ObservableObject {
             let cashOutAmount = Double(Int(cashOut) ?? 0)
             let bountiesAmount = Double(Int(bounties) ?? 0)
             let totalWinnings = cashOutAmount + bountiesAmount
-            
             let totalBuyIn = Double(Int(buyIn) ?? 0) + Double(tournamentRebuys)
             
             // How much player pays to stakers from prize money
