@@ -58,6 +58,11 @@
 		7C3F43AC2728512700A9C842 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43AB2728512700A9C842 /* LocationModel.swift */; };
 		7C3FFA862BC894C500EABD49 /* BarChartByStakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3FFA852BC894C500EABD49 /* BarChartByStakes.swift */; };
 		7C4254A12784E25C00B5DA79 /* ProfitByYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4254A02784E25C00B5DA79 /* ProfitByYear.swift */; };
+		7C441B3E2DB52D26001F0115 /* ImportView.binkPoker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C441B3D2DB52D21001F0115 /* ImportView.binkPoker.swift */; };
+		7C441B402DB52D71001F0115 /* ImportView.pokerBankrollTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C441B3F2DB52D6B001F0115 /* ImportView.pokerBankrollTracker.swift */; };
+		7C441B422DB52D98001F0115 /* ImportView.pokerbase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C441B412DB52D92001F0115 /* ImportView.pokerbase.swift */; };
+		7C441B442DB52DAE001F0115 /* ImportView.leftPocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C441B432DB52DA9001F0115 /* ImportView.leftPocket.swift */; };
+		7C441B462DB52DC6001F0115 /* ImportView.pokerAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C441B452DB52DC0001F0115 /* ImportView.pokerAnalytics.swift */; };
 		7C44A68B2C2EEA5B00110359 /* RangeFilter+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C44A68A2C2EEA5B00110359 /* RangeFilter+Ext.swift */; };
 		7C44A68D2C2F3D0100110359 /* MetricsCalculations+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C44A68C2C2F3D0100110359 /* MetricsCalculations+Ext.swift */; };
 		7C455DF02C98CD50008C1446 /* LiveSessionInitialBuyIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C455DEF2C98CD50008C1446 /* LiveSessionInitialBuyIn.swift */; };
@@ -346,6 +351,11 @@
 		7C3F43AB2728512700A9C842 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
 		7C3FFA852BC894C500EABD49 /* BarChartByStakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartByStakes.swift; sourceTree = "<group>"; };
 		7C4254A02784E25C00B5DA79 /* ProfitByYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByYear.swift; sourceTree = "<group>"; };
+		7C441B3D2DB52D21001F0115 /* ImportView.binkPoker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportView.binkPoker.swift; sourceTree = "<group>"; };
+		7C441B3F2DB52D6B001F0115 /* ImportView.pokerBankrollTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportView.pokerBankrollTracker.swift; sourceTree = "<group>"; };
+		7C441B412DB52D92001F0115 /* ImportView.pokerbase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportView.pokerbase.swift; sourceTree = "<group>"; };
+		7C441B432DB52DA9001F0115 /* ImportView.leftPocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportView.leftPocket.swift; sourceTree = "<group>"; };
+		7C441B452DB52DC0001F0115 /* ImportView.pokerAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportView.pokerAnalytics.swift; sourceTree = "<group>"; };
 		7C44A68A2C2EEA5B00110359 /* RangeFilter+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RangeFilter+Ext.swift"; sourceTree = "<group>"; };
 		7C44A68C2C2F3D0100110359 /* MetricsCalculations+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetricsCalculations+Ext.swift"; sourceTree = "<group>"; };
 		7C455DEF2C98CD50008C1446 /* LiveSessionInitialBuyIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionInitialBuyIn.swift; sourceTree = "<group>"; };
@@ -651,6 +661,7 @@
 				7C3EF3E32C64E5BF00835467 /* EditSessionView */,
 				7C2B3E6726F5659600B84D52 /* EmptyStates */,
 				7CA658522CA60A9E00A74CE4 /* Goals */,
+				7C441B3C2DB52CEC001F0115 /* ImportView */,
 				7C6E75BC2BAA1DBD006173A4 /* LiveSessionCounter */,
 				7C897F172891BBFB00E42FDA /* LocationListView */,
 				7C18FC132D9ADEB600E837AE /* ManageBankrolls */,
@@ -720,7 +731,6 @@
 				7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */,
 				7C9A0D9D2CBDEAA70070EBA3 /* FilterTag.swift */,
 				7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */,
-				7C2E6BF82B711C89002C01C9 /* ImportView.swift */,
 				7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */,
 				7C0B3FF52CC5454B00F446EA /* MeditationView.swift */,
 				7CF39C912BE6DBB4003B4C00 /* NotificationsView.swift */,
@@ -807,6 +817,19 @@
 				7C5997AA27872FCF00966764 /* AnnualReportViewModel.swift */,
 			);
 			path = ProfitByYear;
+			sourceTree = "<group>";
+		};
+		7C441B3C2DB52CEC001F0115 /* ImportView */ = {
+			isa = PBXGroup;
+			children = (
+				7C441B412DB52D92001F0115 /* ImportView.pokerbase.swift */,
+				7C441B3F2DB52D6B001F0115 /* ImportView.pokerBankrollTracker.swift */,
+				7C441B3D2DB52D21001F0115 /* ImportView.binkPoker.swift */,
+				7C2E6BF82B711C89002C01C9 /* ImportView.swift */,
+				7C441B452DB52DC0001F0115 /* ImportView.pokerAnalytics.swift */,
+				7C441B432DB52DA9001F0115 /* ImportView.leftPocket.swift */,
+			);
+			path = ImportView;
 			sourceTree = "<group>";
 		};
 		7C45B06B29428EEB00587078 /* BarChartView */ = {
@@ -1399,6 +1422,7 @@
 				7C7B2F8B26D5A2A90069F9C5 /* SessionListViewModel.swift in Sources */,
 				7C8549322C47ED830038ADB4 /* SceneDelegate.swift in Sources */,
 				7CB4BFB72DAC5EF900876D5C /* ToolTip.swift in Sources */,
+				7C441B3E2DB52D26001F0115 /* ImportView.binkPoker.swift in Sources */,
 				7CED6EA827517D7F00E18053 /* Array+Ext.swift in Sources */,
 				7C2E6BF92B711C89002C01C9 /* ImportView.swift in Sources */,
 				7C0208DB26F24B4900AC6151 /* Date+Ext.swift in Sources */,
@@ -1436,6 +1460,7 @@
 				7CB3EB9F26C310F5009E8DF3 /* SessionDetailView.swift in Sources */,
 				7C71AB122D0B3C7700487AB5 /* SystemSounds.swift in Sources */,
 				7C4C7BA728A4684700DBC886 /* Text+Ext.swift in Sources */,
+				7C441B442DB52DAE001F0115 /* ImportView.leftPocket.swift in Sources */,
 				7C3FFA862BC894C500EABD49 /* BarChartByStakes.swift in Sources */,
 				7C4CE70227729E4D0070B16E /* UIWindow+Ext.swift in Sources */,
 				7C6E7D8F2C2CC67300D178E2 /* DateFilter.swift in Sources */,
@@ -1446,6 +1471,7 @@
 				7CD010E92BF23FE300998FD5 /* LiveSessionRebuyModal.swift in Sources */,
 				7C68FE4126D709530019BA53 /* PlusButton.swift in Sources */,
 				7C15DD39276D575600889FB2 /* PlaceholderView.swift in Sources */,
+				7C441B462DB52DC6001F0115 /* ImportView.pokerAnalytics.swift in Sources */,
 				7C18FC192D9AF6FD00E837AE /* AddNewBankroll.swift in Sources */,
 				7CB4BFB52DAC5E9900876D5C /* MericsView.playerStatsCard.swift in Sources */,
 				7CC81FB8294CBAD400E849A9 /* BestLocationView.swift in Sources */,
@@ -1463,11 +1489,13 @@
 				7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */,
 				7C508A7B2DAF2B69002CDBF9 /* BarChartByWeekDay.swift in Sources */,
 				7C608EDF2CC19B5800527405 /* DayOfWeekChart.swift in Sources */,
+				7C441B402DB52D71001F0115 /* ImportView.pokerBankrollTracker.swift in Sources */,
 				7CC1D0462C2703E500791847 /* LiveActivityManager.swift in Sources */,
 				7C67DDB52BAB0C6C008C7029 /* LiveSessionWidgetAttributes.swift in Sources */,
 				7C25CB5327887D9200866511 /* CustomPicker.swift in Sources */,
 				7C1DF2B52CC6D63100E3D69E /* AudioManager.swift in Sources */,
 				7CD7468A28A6CA8F00D5A2D0 /* Images+Ext.swift in Sources */,
+				7C441B422DB52D98001F0115 /* ImportView.pokerbase.swift in Sources */,
 				7C2B3E6926F565B200B84D52 /* EmptyState.swift in Sources */,
 				7CAFE0602B2DE52B00B7338D /* LocationGridView.swift in Sources */,
 				7C62F1ED2BD034B200F14483 /* NewStakesView.swift in Sources */,
