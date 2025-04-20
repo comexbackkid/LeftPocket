@@ -41,7 +41,7 @@ struct LeftPocketImportView: View {
                             .foregroundColor(Color.brandPrimary)
                         
                         Text("If you're importing a CSV that contains Sessions with notes, you'll need to either remove all commas from the notes column, or just delete the cell contents.")
-                            .bodyStyle()
+                            .calloutStyle()
                             .padding(.leading, 6)
                     }
                     
@@ -54,7 +54,7 @@ struct LeftPocketImportView: View {
                             .foregroundColor(Color.brandPrimary)
                         
                         Text("Save or upload the CSV file to your iCloud Drive in UTF-8 format.")
-                            .bodyStyle()
+                            .calloutStyle()
                             .padding(.leading, 6)
                     }
                     
@@ -67,7 +67,7 @@ struct LeftPocketImportView: View {
                             .foregroundColor(Color.brandPrimary)
                         
                         Text("Tap the Import CSV Data button below.")
-                            .bodyStyle()
+                            .calloutStyle()
                             .padding(.leading, 6)
                     }
 
