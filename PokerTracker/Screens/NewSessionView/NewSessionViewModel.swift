@@ -301,7 +301,7 @@ final class NewSessionViewModel: ObservableObject {
         Task { await FilterSessionsTip.sessionCount.donate() }
         dismiss()
         
-        if Int(self.profit) ?? 0 > 0 { AppReviewRequest.requestReviewIfNeeded() }
+        if computedProfit > 0 { AppReviewRequest.requestReviewIfNeeded() }
     }
 }
 
