@@ -76,21 +76,21 @@ struct RecentSessionCardView: View {
                 ZStack {
                     if let localImage = pokerSession.location.localImage {
                         Image(localImage)
-                            .overlay(.thinMaterial)
+                            .overlay(colorScheme == .dark ? .thinMaterial : .ultraThinMaterial)
                         
                     } else if let importedImagePath = pokerSession.location.importedImage {
                         if let uiImage = loadImage(from: importedImagePath) {
                             Image(uiImage: uiImage)
-                                .overlay(.thinMaterial)
+                                .overlay(colorScheme == .dark ? .thinMaterial : .ultraThinMaterial)
                             
                         } else {
                             Image("defaultlocation-header")
-                                .overlay(.thinMaterial)
+                                .overlay(colorScheme == .dark ? .thinMaterial : .ultraThinMaterial)
                         }
                         
                     } else {
                         Image("defaultlocation-header")
-                            .overlay(.thinMaterial)
+                            .overlay(colorScheme == .dark ? .thinMaterial : .ultraThinMaterial)
                     }
                 }
             )

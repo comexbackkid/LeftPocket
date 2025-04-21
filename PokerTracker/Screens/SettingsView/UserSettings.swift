@@ -18,16 +18,11 @@ struct UserSettings: View {
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
     @StateObject var exportUtility = CSVConversion()
-    @AppStorage("exportCounter") var exportCounter: Int = 1
     @AppStorage("hideBankroll") var hideBankroll: Bool = false
-    @State private var showError: Bool = false
     @State private var showPaywall = false
     @State private var notificationsAllowed = false
     @State private var showAlertModal = false
-    
-    private var isPad: Bool {
-        UIDevice.current.userInterfaceIdiom == .pad
-    }
+    private var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
     
     var body: some View {
 
@@ -216,10 +211,6 @@ struct UserSettings: View {
             
             dashboardConfig
             
-            importData
-            
-            exportData
-            
             Group {
                 if subManager.isSubscribed {
                     NavigationLink(
@@ -244,7 +235,7 @@ struct UserSettings: View {
                                 Spacer()
                             }
                         })
-                    .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(.plain)
                     
                 } else {
                     Button {
@@ -273,6 +264,29 @@ struct UserSettings: View {
                     .buttonStyle(PlainButtonStyle())
                 }
             }
+            
+            NavigationLink(
+                destination: ManageData()) {
+                    HStack {
+                        
+                        VStack (alignment: .leading) {
+                            
+                            HStack {
+                                Text("Manage Data")
+                                    .subtitleStyle()
+                                    .bold()
+                                
+                                Spacer()
+                                
+                                Text("›")
+                                    .font(.title2)
+                            }
+                        }
+                        
+                        Spacer()
+                    }
+                }
+                .buttonStyle(.plain)
             
             howToGuide
             
@@ -474,168 +488,6 @@ struct UserSettings: View {
                 }
             })
             .buttonStyle(PlainButtonStyle())
-        }
-    }
-    
-    var exportButtonContent: some View {
-        
-        HStack {
-            Text("Export Sessions")
-                .subtitleStyle()
-                .bold()
-            
-            Spacer()
-            
-            Text("›")
-                .font(.title2)
-        }
-    }
-    
-    var exportData: some View {
-
-        VStack (spacing: 40) {
-            
-            // MARK: EXPORT SESSIONS
-            HStack {
-                
-                VStack (alignment: .leading) {
-                    
-                    if let sessionsFileURL = try? CSVConversion.exportCSV(from: vm.allSessions) {
-                        ShareLink(item: sessionsFileURL) {
-                            exportButtonContent
-                                
-                        }
-                        .buttonStyle(.plain)
-                        
-                    } else {
-                        Button {
-                            exportUtility.errorMsg = "Export failed. No Session data was found."
-                            showError = true
-                            
-                        } label: {
-                            exportButtonContent
-                        }
-                        .buttonStyle(.plain)
-                        .alert(isPresented: $showError) {
-                            Alert(title: Text("Uh oh!"),
-                                  message: Text(exportUtility.errorMsg ?? "Export failed. No Session data was found."),
-                                  dismissButton: .default(Text("OK")))
-                        }
-                    }
-                }
-                
-                Spacer()
-            }
-            .sheet(isPresented: $showAlertModal, content: {
-                AlertModal(message: "Your data was exported successfully.")
-                    .presentationDetents([.height(210)])
-                    .presentationBackground(.ultraThinMaterial)
-            })
-            
-            // MARK: EXPORT TRANSACTIONS
-            if subManager.isSubscribed {
-                HStack {
-                    
-                    if let transactionsFileURL = try? CSVConversion.exportTransactionsCSV(from: vm.allTransactions) {
-                        ShareLink(item: transactionsFileURL) {
-                            HStack {
-                                HStack {
-                                    Text("Export Transactions")
-                                        .subtitleStyle()
-                                        .bold()
-                                    
-                                    Spacer()
-                                    
-                                    Text("›")
-                                        .font(.title2)
-                                }
-                            }
-                                
-                        }
-                        .buttonStyle(.plain)
-                        
-                    } else {
-                        Button {
-                            exportUtility.errorMsg = "Export failed. No Transactions data was found."
-                            showError = true
-                            
-                        } label: {
-                            HStack {
-                                HStack {
-                                    Text("Export Transactions")
-                                        .subtitleStyle()
-                                        .bold()
-                                    
-                                    Spacer()
-                                    
-                                    Text("›")
-                                        .font(.title2)
-                                }
-                            }
-                        }
-                        .buttonStyle(.plain)
-                        .alert(isPresented: $showError) {
-                            Alert(title: Text("Uh oh!"),
-                                  message: Text(exportUtility.errorMsg ?? "Export failed. No Transactions data was found."),
-                                  dismissButton: .default(Text("OK")))
-                        }
-                    }
-                    
-                    Spacer()
-                }
-                
-            } else {
-                HStack {
-                    
-                    Button {
-                        showPaywall = true
-                        
-                    } label: {
-                        HStack {
-                            HStack {
-                                Text("Export Transactions")
-                                    .subtitleStyle()
-                                    .bold()
-                                
-                                Spacer()
-                                
-                                Image(systemName: "lock.fill")
-                                    .font(.title2)
-                            }
-                        }
-                    }
-                    .buttonStyle(.plain)
-                    
-                    Spacer()
-                }
-            }
-        }
-    }
-    
-    var importData: some View {
-        
-        HStack {
-            NavigationLink(
-                destination: ImportView()) {
-                    HStack {
-                        VStack (alignment: .leading) {
-                            HStack {
-                                
-                                Text("Import Data")
-                                    .subtitleStyle()
-                                    .bold()
-                                
-                                Spacer()
-                                
-                                Text("›")
-                                    .font(.title2)
-                            }
-                        }
-                        
-                        Spacer()
-                    }
-                }
-                .buttonStyle(PlainButtonStyle())
         }
     }
     

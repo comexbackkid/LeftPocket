@@ -19,7 +19,6 @@ extension Text {
     
     func signInTitleStyle() -> some View {
         self.font(.custom("Asap-Black", size: 30))
-            
     }
     
     func cardTitleStyle() -> some View {

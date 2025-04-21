@@ -50,7 +50,7 @@ struct ImportView: View {
         
         VStack (alignment: .leading) {
             
-            Text("Left Pocket supports data in CSV format from various bankroll trackers. These apps all handle their data differently, and you'll need to lightly modify the contents of their exported file on your computer before import.")
+            Text("Choose from the list below. Each app handles their data differently, and you'll need to lightly modify the contents of their exported file before importing.")
                 .bodyStyle()
         }
         .padding(.horizontal)

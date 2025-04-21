@@ -79,6 +79,7 @@
 		7C5B0C882BBF201E00A5014B /* LineChartFullScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */; };
 		7C5C79962B2780210088A841 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5C79952B2780210088A841 /* UserSettings.swift */; };
 		7C5D5D332BE2B6A8003DC94D /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5D5D322BE2B6A8003DC94D /* HealthKitManager.swift */; };
+		7C6007252DB70292003A9D93 /* ManageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6007242DB70292003A9D93 /* ManageData.swift */; };
 		7C6039772C245BAA00CEE12C /* LiveSessionCounterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6E75BD2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift */; };
 		7C608EDF2CC19B5800527405 /* DayOfWeekChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C608EDE2CC19B5800527405 /* DayOfWeekChart.swift */; };
 		7C62F1ED2BD034B200F14483 /* NewStakesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C62F1EC2BD034B200F14483 /* NewStakesView.swift */; };
@@ -371,6 +372,7 @@
 		7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartFullScreen.swift; sourceTree = "<group>"; };
 		7C5C79952B2780210088A841 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		7C5D5D322BE2B6A8003DC94D /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		7C6007242DB70292003A9D93 /* ManageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageData.swift; sourceTree = "<group>"; };
 		7C608EDE2CC19B5800527405 /* DayOfWeekChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeekChart.swift; sourceTree = "<group>"; };
 		7C62F1EC2BD034B200F14483 /* NewStakesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStakesView.swift; sourceTree = "<group>"; };
 		7C62F1EE2BD0493400F14483 /* NewStakesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStakesViewModel.swift; sourceTree = "<group>"; };
@@ -1020,6 +1022,7 @@
 		7C82E13426EFC87D00E3EB6F /* SettingsView */ = {
 			isa = PBXGroup;
 			children = (
+				7C6007242DB70292003A9D93 /* ManageData.swift */,
 				7C5C79952B2780210088A841 /* UserSettings.swift */,
 			);
 			path = SettingsView;
@@ -1412,6 +1415,7 @@
 				7CB3EBA126C345A1009E8DF3 /* MetricsCardView.swift in Sources */,
 				7C0B3FFA2CC6989A00F446EA /* MeditationModel.swift in Sources */,
 				7C9BBF1E2DB4443600B13638 /* OnboardingView.poll.swift in Sources */,
+				7C6007252DB70292003A9D93 /* ManageData.swift in Sources */,
 				7C0B3FF62CC5454B00F446EA /* MeditationView.swift in Sources */,
 				7C2B3E6626F5488E00B84D52 /* PrimaryButton.swift in Sources */,
 				7C6769E22B8CD300006ACB7D /* BankrollProgressView.swift in Sources */,
@@ -1534,7 +1538,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1569,7 +1573,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1725,7 +1729,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1757,7 +1761,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;

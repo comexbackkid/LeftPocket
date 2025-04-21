@@ -1,0 +1,235 @@
+//
+//  ManageData.swift
+//  LeftPocket
+//
+//  Created by Christian Nachtrieb on 4/21/25.
+//
+
+import SwiftUI
+
+struct ManageData: View {
+    
+    @State private var showError: Bool = false
+    @State private var showPaywall = false
+    @State private var notificationsAllowed = false
+    @State private var showAlertModal = false
+    @EnvironmentObject var vm: SessionsListViewModel
+    @EnvironmentObject var subManager: SubscriptionManager
+    @StateObject var exportUtility = CSVConversion()
+    private var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
+    
+    var body: some View {
+        
+        NavigationStack {
+            
+            ScrollView(.vertical) {
+                
+                VStack {
+                    
+                    VStack(alignment: .leading) {
+                        
+                        HStack {
+                            Text("Manage Data")
+                                .titleStyle()
+                                .padding(.horizontal)
+                            
+                            Spacer()
+                        }
+                        
+                        HStack {
+                            Text("Manage all your data from this screen. To bring in data from another tracker, tap Import Data below.")
+                                .bodyStyle()
+                            
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        .padding(.bottom, 25)
+                    }
+                    
+                    VStack (spacing: 40) {
+                        
+                        importData
+                        
+                        exportData
+                        
+                        Spacer()
+                    }
+                    .padding(.horizontal, isPad ? 40 : 16)
+                    .padding(.bottom, 60)
+                }
+            }
+            .background(Color.brandBackground)
+        }
+        .accentColor(.brandPrimary)
+        .dynamicTypeSize(...DynamicTypeSize.large)
+    }
+    
+    var exportButtonContent: some View {
+        
+        HStack {
+            Text("Export Sessions")
+                .subtitleStyle()
+                .bold()
+            
+            Spacer()
+            
+            Text("›")
+                .font(.title2)
+        }
+    }
+    
+    var exportData: some View {
+
+        VStack (spacing: 40) {
+            
+            // MARK: EXPORT SESSIONS
+            HStack {
+                
+                VStack (alignment: .leading) {
+                    
+                    if let sessionsFileURL = try? CSVConversion.exportCSV(from: vm.allSessions) {
+                        ShareLink(item: sessionsFileURL) {
+                            exportButtonContent
+                                
+                        }
+                        .buttonStyle(.plain)
+                        
+                    } else {
+                        Button {
+                            exportUtility.errorMsg = "Export failed. No Session data was found."
+                            showError = true
+                            
+                        } label: {
+                            exportButtonContent
+                        }
+                        .buttonStyle(.plain)
+                        .alert(isPresented: $showError) {
+                            Alert(title: Text("Uh oh!"),
+                                  message: Text(exportUtility.errorMsg ?? "Export failed. No Session data was found."),
+                                  dismissButton: .default(Text("OK")))
+                        }
+                    }
+                }
+                
+                Spacer()
+            }
+            .sheet(isPresented: $showAlertModal, content: {
+                AlertModal(message: "Your data was exported successfully.")
+                    .presentationDetents([.height(210)])
+                    .presentationBackground(.ultraThinMaterial)
+            })
+            
+            // MARK: EXPORT TRANSACTIONS
+            if subManager.isSubscribed {
+                HStack {
+                    
+                    if let transactionsFileURL = try? CSVConversion.exportTransactionsCSV(from: vm.allTransactions) {
+                        ShareLink(item: transactionsFileURL) {
+                            HStack {
+                                HStack {
+                                    Text("Export Transactions")
+                                        .subtitleStyle()
+                                        .bold()
+                                    
+                                    Spacer()
+                                    
+                                    Text("›")
+                                        .font(.title2)
+                                }
+                            }
+                                
+                        }
+                        .buttonStyle(.plain)
+                        
+                    } else {
+                        Button {
+                            exportUtility.errorMsg = "Export failed. No Transactions data was found."
+                            showError = true
+                            
+                        } label: {
+                            HStack {
+                                HStack {
+                                    Text("Export Transactions")
+                                        .subtitleStyle()
+                                        .bold()
+                                    
+                                    Spacer()
+                                    
+                                    Text("›")
+                                        .font(.title2)
+                                }
+                            }
+                        }
+                        .buttonStyle(.plain)
+                        .alert(isPresented: $showError) {
+                            Alert(title: Text("Uh oh!"),
+                                  message: Text(exportUtility.errorMsg ?? "Export failed. No Transactions data was found."),
+                                  dismissButton: .default(Text("OK")))
+                        }
+                    }
+                    
+                    Spacer()
+                }
+                
+            } else {
+                HStack {
+                    
+                    Button {
+                        showPaywall = true
+                        
+                    } label: {
+                        HStack {
+                            HStack {
+                                Text("Export Transactions")
+                                    .subtitleStyle()
+                                    .bold()
+                                
+                                Spacer()
+                                
+                                Image(systemName: "lock.fill")
+                                    .font(.title2)
+                            }
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    
+                    Spacer()
+                }
+            }
+        }
+    }
+    
+    var importData: some View {
+        
+        HStack {
+            NavigationLink(
+                destination: ImportView()) {
+                    HStack {
+                        VStack (alignment: .leading) {
+                            HStack {
+                                
+                                Text("Import Data")
+                                    .subtitleStyle()
+                                    .bold()
+                                
+                                Spacer()
+                                
+                                Text("›")
+                                    .font(.title2)
+                            }
+                        }
+                        
+                        Spacer()
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
+        }
+    }
+}
+
+#Preview {
+    ManageData()
+        .preferredColorScheme(.dark)
+        .environmentObject(SessionsListViewModel())
+        .environmentObject(SubscriptionManager())
+}

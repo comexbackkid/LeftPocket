@@ -15,6 +15,7 @@ extension Color {
     static let lightGreen = Color("lightGreen")
     static let onboardingBG = Color("onboardingBG")
     static let widgetBackground = Color("widgetBackground")
+    static let titleColor = Color("titleColor")
     static let chartBase = Color("chartBase")
     static let chartAccent = Color("chartAccent")
     static let chartBaseTournament = Color("chartBaseTournament")

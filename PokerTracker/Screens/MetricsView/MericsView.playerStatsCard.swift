@@ -486,16 +486,6 @@ extension MetricsView {
                         .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
                 }
                 
-    //            Divider()
-    //
-    //            HStack {
-    //                Text("Avg. No. of Rebuys")
-    //                    .foregroundColor(.secondary)
-    //                Spacer()
-    //                Text("\(avgRebuyCount, specifier: "%.1f")")
-    //                    .font(.custom("Asap-Black", size: 20, relativeTo: .callout))
-    //            }
-                
                 Divider()
                 
                 HStack {

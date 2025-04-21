@@ -277,6 +277,7 @@ struct ContentView: View {
                 
                 Text(bankroll, format: .currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0)))
                     .font(.custom("Asap-Bold", size: 60, relativeTo: .title2))
+                    .foregroundStyle(Color.titleColor)
                     .opacity(0.85)
                     .contentTransition(.numericText())
                     .animation(.default, value: bankroll)

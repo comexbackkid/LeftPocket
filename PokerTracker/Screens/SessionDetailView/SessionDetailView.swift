@@ -30,7 +30,7 @@ struct SessionDetailView: View {
                 scrollViewContent
                 
             }
-            .background(.regularMaterial)
+            .background(colorScheme == .dark ? .regularMaterial : .thickMaterial)
             .background(locationBackground())
             .ignoresSafeArea()
             
@@ -755,7 +755,7 @@ struct SessionDetailView: View {
     
     @MainActor func takeScreenshot() -> Image {
         let content = scrollViewContent
-            .background(.regularMaterial)
+            .background(colorScheme == .dark ? .regularMaterial : .thickMaterial)
             .background(locationBackground().aspectRatio(contentMode: .fill))
             .environment(\.colorScheme, UITraitCollection.current.userInterfaceStyle == .dark ? .dark : .light)
         let renderer = ImageRenderer(content: content)
@@ -820,7 +820,7 @@ struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
         
         SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
-            .preferredColorScheme(.dark)
+//            .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
     }
 }
