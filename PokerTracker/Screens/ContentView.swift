@@ -20,11 +20,8 @@ struct ContentView: View {
     @State private var showPaywall = false
     @State private var showBankrollPopup = false
     @State var activeSheet: Sheet?
-    
     let lastSeenVersionKey = "LastSeenAppVersion"
-    var isPad: Bool {
-        UIDevice.current.userInterfaceIdiom == .pad
-    }
+    var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
     
     var body: some View {
         
@@ -135,9 +132,7 @@ struct ContentView: View {
         }
     }
     
-    var lastSession: Int {
-        return viewModel.allSessions.first?.profit ?? 0
-    }
+    var lastSession: Int { return viewModel.allSessions.first?.profit ?? 0 }
     
     var productUpdatesIcon: some View {
         

@@ -95,7 +95,7 @@ struct PokerBankrollTrackerImportView: View {
                     .frame(width: 25, height: 25, alignment: .top)
                     .foregroundColor(Color.brandPrimary)
                 
-                Text("Open the CSV on your computer. In the notes column, __delete each cell__ containing any text of any kind.")
+                Text("Open the file as a spreadsheet on your computer or iPhone. In the notes column, delete all cells that contain any text.")
                     .calloutStyle()
                     .padding(.leading, 6)
             }

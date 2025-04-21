@@ -95,7 +95,7 @@ struct PokerAnalyticsImportView: View {
                     .frame(width: 25, height: 25, alignment: .top)
                     .foregroundColor(Color.brandPrimary)
                 
-                Text("Open the CSV on your computer. In the Comment column, __delete each cell__ containing any text of any kind.")
+                Text("Open the spreadsheet on your computer or iPhone and under the Comment column, delete any text in these cells.")
                     .calloutStyle()
                     .padding(.leading, 6)
             }

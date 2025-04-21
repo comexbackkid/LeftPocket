@@ -83,7 +83,7 @@ struct BinkPokerImportView: View {
                     .frame(width: 25, height: 25, alignment: .top)
                     .foregroundColor(Color.brandPrimary)
                 
-                Text("After you've exported your CSV, begin by making sure the Notes column is cleared of any text.")
+                Text("From Bink, navigate to Settings and tap User. Then, tap Export Sessions (CSV).")
                     .calloutStyle()
                     .padding(.leading, 6)
             }
@@ -96,7 +96,7 @@ struct BinkPokerImportView: View {
                     .frame(width: 25, height: 25, alignment: .top)
                     .foregroundColor(Color.brandPrimary)
                 
-                Text("Save & upload the CSV file to your iCloud Drive in UTF-8 format.")
+                Text("Open the spreadsheet on your computer, or from your iPhone in the Numbers app. Make sure the notes column is completely empty. There should be a total of 14 columns in all.")
                     .calloutStyle()
                     .padding(.leading, 6)
             }
@@ -104,6 +104,19 @@ struct BinkPokerImportView: View {
             HStack {
                 
                 Image(systemName: "3.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 25, height: 25, alignment: .top)
+                    .foregroundColor(Color.brandPrimary)
+                
+                Text("Save & upload the CSV file to your iCloud Drive in UTF-8 format.")
+                    .calloutStyle()
+                    .padding(.leading, 6)
+            }
+            
+            HStack {
+                
+                Image(systemName: "4.circle.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 25, height: 25, alignment: .top)
