@@ -25,7 +25,7 @@ struct SessionDefaultsView: View {
     @State private var handsPerHour: Int = 25
     @State private var resultMessage: String = ""
     @State private var errorMessage: String?
-    @State private var showAlertModal = false
+    @State private var showAlertModal = true
     @State private var addStakesIsShowing = false
     @State private var addGameTypeIsShowing = false
     @State private var addLocationIsShowing = false
@@ -85,7 +85,7 @@ struct SessionDefaultsView: View {
             .sheet(isPresented: $showAlertModal, onDismiss: { if isPresentedAsSheet == true { dismiss() } }, content: {
                 AlertModal(message: resultMessage, image: "checkmark.circle", imageColor: Color.green)
                     .presentationDetents([.height(280)])
-                    .presentationBackground(.ultraThinMaterial)
+                    .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                     .presentationDragIndicator(.visible)
             })
             .overlay {

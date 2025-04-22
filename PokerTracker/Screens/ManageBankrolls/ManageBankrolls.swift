@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ManageBankrolls: View {
     
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var vm: SessionsListViewModel
     @State private var showAddNewBankroll = false
     @State private var showSuccessModal = false
@@ -96,7 +97,7 @@ struct ManageBankrolls: View {
                         AlertModal(message: "You've enabled multiple bankrolls.", image: "checkmark.circle", imageColor: .green)
                             .dynamicTypeSize(.medium)
                             .presentationDetents([.height(280)])
-                            .presentationBackground(.ultraThinMaterial)
+                            .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                             .presentationDragIndicator(.visible)
                     }
                 }

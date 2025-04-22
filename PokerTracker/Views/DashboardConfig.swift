@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DashboardConfig: View {
     
+    @Environment(\.colorScheme) var colorScheme
     @State private var playerProfit: Bool = false
     @State private var bbPerHr: Bool = false
     @State private var hourlyRate: Bool = false
@@ -190,7 +191,7 @@ struct DashboardConfig: View {
         .sheet(isPresented: $showAlertModal, content: {
             AlertModal(message: "Dashboard layout saved successfully.", image: "checkmark.circle", imageColor: .green)
                 .presentationDetents([.height(280)])
-                .presentationBackground(.ultraThinMaterial)
+                .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                 .presentationDragIndicator(.visible)
         })
     }

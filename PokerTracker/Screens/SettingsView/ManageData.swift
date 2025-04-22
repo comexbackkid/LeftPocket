@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ManageData: View {
     
+    @Environment(\.colorScheme) var colorScheme
     @State private var showError: Bool = false
     @State private var showDeleteWarning = false
     @State private var showPaywall = false
@@ -124,7 +125,7 @@ struct ManageData: View {
             .sheet(isPresented: $showAlertModal, content: {
                 AlertModal(message: "Your data was exported successfully.", image: "checkmark.circle", imageColor: .green)
                     .presentationDetents([.height(280)])
-                    .presentationBackground(.ultraThinMaterial)
+                    .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                     .presentationDragIndicator(.visible)
             })
             
@@ -279,7 +280,7 @@ struct ManageData: View {
         .sheet(isPresented: $showAlertModal, content: {
             AlertModal(message: "Your data was deleted successfully.", image: "checkmark.circle", imageColor: .green)
                 .presentationDetents([.height(280)])
-                .presentationBackground(.ultraThinMaterial)
+                .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                 .presentationDragIndicator(.visible)
         })
     }

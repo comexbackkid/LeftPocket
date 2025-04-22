@@ -11,6 +11,7 @@ import RevenueCat
 
 struct RedeemOfferCode: View {
     
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var subManager: SubscriptionManager
     @State private var message: String = ""
     @State private var showAlertModal = false
@@ -46,7 +47,7 @@ struct RedeemOfferCode: View {
         .sheet(isPresented: $showAlertModal, content: {
             AlertModal(message: message, image: "checkmark.circle", imageColor: .green)
                 .presentationDetents([.height(280)])
-                .presentationBackground(.ultraThinMaterial)
+                .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                 .presentationDragIndicator(.visible)
         })
     }

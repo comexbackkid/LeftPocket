@@ -10,6 +10,7 @@ import UserNotifications
 
 struct NotificationsView: View {
     
+    @Environment(\.colorScheme) var colorScheme
     @State private var showAlert = false
     @State private var showSuccessAlert = false
     @AppStorage("pushNotificationsAllowed") private var notificationsAllowed: Bool?
@@ -47,7 +48,7 @@ struct NotificationsView: View {
             .sheet(isPresented: $showSuccessAlert, content: {
                 AlertModal(message: "Notifications successfully enabled.", image: "checkmark.circle", imageColor: .green)
                     .presentationDetents([.height(280)])
-                    .presentationBackground(.ultraThinMaterial)
+                    .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                     .presentationDragIndicator(.visible)
             })
         }

@@ -10,6 +10,7 @@ import Lottie
 
 struct PokerBankrollTrackerImportView: View {
     
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var vm: SessionsListViewModel
     @State private var showFileImporter = false
     @State private var showAlertModal = false
@@ -144,7 +145,7 @@ struct PokerBankrollTrackerImportView: View {
         .sheet(isPresented: $showAlertModal) {
             AlertModal(message: showSuccessMessage, image: "checkmark.circle", imageColor: .green)
                 .presentationDetents([.height(280)])
-                .presentationBackground(.ultraThinMaterial)
+                .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                 .presentationDragIndicator(.visible)
         }
     }
