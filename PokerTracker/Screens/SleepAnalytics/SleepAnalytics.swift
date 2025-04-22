@@ -283,13 +283,8 @@ struct SleepAnalytics: View {
                 
                 VStack (spacing: 2) {
                     
-                    if subManager.isSubscribed {
-                        Text(mostRecentSessionMatch?.sleep.dayNoYear ?? "None")
-                            .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
-                    } else {
-                        Image(systemName: "lock.fill")
-                            .font(.title2)
-                    }
+                    Text(mostRecentSessionMatch?.sleep.dayNoYear ?? "None")
+                        .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
 
                     Text("Date")
                         .foregroundStyle(.secondary)
@@ -304,12 +299,12 @@ struct SleepAnalytics: View {
                 
                 VStack (spacing: 2) {
                     
-                    if subManager.isSubscribed {
-                        Text("\(mostRecentSessionMatch?.sleep.value ?? 0, format: .number.rounded(increment: 0.1)) hrs")
+                    if let sleep = mostRecentSessionMatch?.sleep.value {
+                        Text("\(sleep, format: .number.rounded(increment: 0.1)) hrs")
                             .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
                     } else {
-                        Image(systemName: "lock.fill")
-                            .font(.title2)
+                        Text("N/A")
+                            .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
                     }
                     
                     Text("Sleep")
@@ -325,13 +320,8 @@ struct SleepAnalytics: View {
                 
                 VStack (spacing: 2) {
                     
-                    if subManager.isSubscribed {
-                        Text(mostRecentSessionMatch?.session.hourlyRate.axisShortHand(viewModel.userCurrency) ?? "\(viewModel.userCurrency.symbol)0")
-                            .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
-                    } else {
-                        Image(systemName: "lock.fill")
-                            .font(.title2)
-                    }
+                    Text(mostRecentSessionMatch?.session.hourlyRate.axisShortHand(viewModel.userCurrency) ?? "\(viewModel.userCurrency.symbol)0")
+                        .font(.custom("Asap-Regular", size: 18, relativeTo: .callout))
                     
                     Text("Hourly")
                         .foregroundStyle(.secondary)

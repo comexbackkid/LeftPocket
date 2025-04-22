@@ -79,6 +79,7 @@ struct ContentView: View {
                     }
                 } else {
                     SleepAnalytics(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
+                        .presentationDragIndicator(.visible)
                 }
             case .metricsAsSheet:
                 if isPad {
@@ -90,6 +91,7 @@ struct ContentView: View {
                     }
                 } else {
                     MetricsView(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
+                        .presentationDragIndicator(.visible)
                 }
             }
         }

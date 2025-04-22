@@ -26,12 +26,14 @@ final class NewLocationViewModel: ObservableObject {
     }
     
     func saveUserLocation(viewModel: SessionsListViewModel) {
-        guard !locationName.isEmpty else {
+        let trimmedName = locationName.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        guard !trimmedName.isEmpty else {
             alertItem = AlertContext.inValidLocationName
             return
         }
         
-        let capitalizedName = locationName.capitalized
+        let capitalizedName = trimmedName.capitalized
         var imagePath: String?
         
         if let importedImage {
