@@ -69,7 +69,17 @@ struct ContentView: View {
                 SessionDetailView(activeSheet: $activeSheet, pokerSession: recentSession)
                     .presentationDragIndicator(.visible)
             }
-            case .healthAnalytics: SleepAnalytics(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
+            case .healthAnalytics:
+                if isPad {
+                    if #available(iOS 18.0, *) {
+                        SleepAnalytics(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
+                            .presentationSizing(.page)
+                    } else {
+                        SleepAnalytics(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
+                    }
+                } else {
+                    SleepAnalytics(activeSheet: $activeSheet).dynamicTypeSize(...DynamicTypeSize.xLarge)
+                }
             case .metricsAsSheet:
                 if isPad {
                     if #available(iOS 18.0, *) {

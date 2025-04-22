@@ -90,10 +90,6 @@ struct UserSettings: View {
                                     Text("✨  Try Left Pocket Pro  ✨")
                                         .subtitleStyle()
                                         .environment(\.sizeCategory, .small)
-                                    
-//                                    Text("Tap here to unlock access")
-//                                        .captionStyle()
-//                                        .opacity(0.75)
                                 }
                                 Spacer()
                             }
