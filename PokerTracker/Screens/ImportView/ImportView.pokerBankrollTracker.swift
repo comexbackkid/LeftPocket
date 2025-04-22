@@ -28,7 +28,7 @@ struct PokerBankrollTrackerImportView: View {
                     .bold()
                     .padding(.top, 10)
                 
-                Text("Please be sure to follow each step and read carefully. Poker Bankroll Tracker allows for exporting of session notes, and you'll need to remove them from the CSV file prior to import.")
+                Text("Please be sure to follow each step and read carefully. Poker Bankroll Tracker allows for exporting of session notes. You'll need to remove them from the CSV file prior to import.")
                     .bodyStyle()
                     .padding(.top, 1)
                 
@@ -108,7 +108,7 @@ struct PokerBankrollTrackerImportView: View {
                     .frame(width: 25, height: 25, alignment: .top)
                     .foregroundColor(Color.brandPrimary)
                 
-                Text("Export this new file, & save it to your iCloud Drive, using UTF-8 encoding.")
+                Text("Choose File > Export To… > CSV…")
                     .calloutStyle()
                     .padding(.leading, 6)
             }
@@ -116,6 +116,19 @@ struct PokerBankrollTrackerImportView: View {
             HStack {
                 
                 Image(systemName: "4.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 25, height: 25, alignment: .top)
+                    .foregroundColor(Color.brandPrimary)
+                
+                Text("Under \"Text Encoding,\" choose Unicode (UTF-8) from the menu.")
+                    .calloutStyle()
+                    .padding(.leading, 6)
+            }
+            
+            HStack {
+                
+                Image(systemName: "5.circle.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 25, height: 25, alignment: .top)

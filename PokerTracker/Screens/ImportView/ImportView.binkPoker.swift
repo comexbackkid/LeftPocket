@@ -109,7 +109,7 @@ struct BinkPokerImportView: View {
                     .frame(width: 25, height: 25, alignment: .top)
                     .foregroundColor(Color.brandPrimary)
                 
-                Text("Save & upload the CSV file to your iCloud Drive in UTF-8 format.")
+                Text("Choose File > Export To… > CSV…")
                     .calloutStyle()
                     .padding(.leading, 6)
             }
@@ -117,6 +117,32 @@ struct BinkPokerImportView: View {
             HStack {
                 
                 Image(systemName: "4.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 25, height: 25, alignment: .top)
+                    .foregroundColor(Color.brandPrimary)
+                
+                Text("Under \"Text Encoding,\" choose Unicode (UTF-8) from the menu.")
+                    .calloutStyle()
+                    .padding(.leading, 6)
+            }
+            
+            HStack {
+                
+                Image(systemName: "5.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 25, height: 25, alignment: .top)
+                    .foregroundColor(Color.brandPrimary)
+                
+                Text("Save this CSV file on your iCloud Drive.")
+                    .calloutStyle()
+                    .padding(.leading, 6)
+            }
+            
+            HStack {
+                
+                Image(systemName: "6.circle.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 25, height: 25, alignment: .top)
