@@ -10,6 +10,7 @@ import SwiftUI
 struct ManageData: View {
     
     @State private var showError: Bool = false
+    @State private var showDeleteWarning = false
     @State private var showPaywall = false
     @State private var notificationsAllowed = false
     @State private var showAlertModal = false
@@ -26,31 +27,15 @@ struct ManageData: View {
                 
                 VStack {
                     
-                    VStack(alignment: .leading) {
-                        
-                        HStack {
-                            Text("Manage Data")
-                                .titleStyle()
-                                .padding(.horizontal)
-                            
-                            Spacer()
-                        }
-                        
-                        HStack {
-                            Text("Manage all your data from this screen. To bring in data from another tracker, tap Import Data below.")
-                                .bodyStyle()
-                            
-                            Spacer()
-                        }
-                        .padding(.horizontal)
-                        .padding(.bottom, 25)
-                    }
+                    titleInstructions
                     
                     VStack (spacing: 40) {
                         
                         importData
                         
                         exportData
+                        
+                        deleteData
                         
                         Spacer()
                     }
@@ -62,6 +47,29 @@ struct ManageData: View {
         }
         .accentColor(.brandPrimary)
         .dynamicTypeSize(...DynamicTypeSize.large)
+    }
+    
+    var titleInstructions: some View {
+        
+        VStack(alignment: .leading) {
+            
+            HStack {
+                Text("Manage Data")
+                    .titleStyle()
+                    .padding(.horizontal)
+                
+                Spacer()
+            }
+            
+            HStack {
+                Text("Manage all your data from this screen. To bring in data from another tracker, tap Import Data below.")
+                    .bodyStyle()
+                
+                Spacer()
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 25)
+        }
     }
     
     var exportButtonContent: some View {
@@ -114,9 +122,10 @@ struct ManageData: View {
                 Spacer()
             }
             .sheet(isPresented: $showAlertModal, content: {
-                AlertModal(message: "Your data was exported successfully.")
-                    .presentationDetents([.height(210)])
+                AlertModal(message: "Your data was exported successfully.", image: "checkmark.circle", imageColor: .green)
+                    .presentationDetents([.height(280)])
                     .presentationBackground(.ultraThinMaterial)
+                    .presentationDragIndicator(.visible)
             })
             
             // MARK: EXPORT TRANSACTIONS
@@ -222,14 +231,82 @@ struct ManageData: View {
                         Spacer()
                     }
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.plain)
+        }
+    }
+    
+    var deleteData: some View {
+        
+        HStack {
+            VStack (alignment: .leading) {
+                
+                Button {
+                    let impact = UIImpactFeedbackGenerator(style: .heavy)
+                    impact.impactOccurred()
+                    showDeleteWarning = true
+                    
+                } label: {
+                    HStack {
+                        
+                        Text("Erase All Data")
+                            .subtitleStyle()
+                            .bold()
+                        
+                        Spacer()
+                        
+                        Text("›")
+                            .font(.title2)
+                    }
+                }
+                .tint(.red)
+                .alert(Text("Wait! Are You Sure?"), isPresented: $showDeleteWarning) {
+                    
+                    Button("Yes", role: .destructive) {
+                        deleteUserData()
+                    }
+                    
+                    Button("Cancel", role: .cancel) {
+                        print("User cancelled data deletion.")
+                    }
+                    
+                } message: {
+                    Text("Pressing Yes below will delete all your saved Session data and Transactions. This action can't be undone.")
+                }
+            }
+            
+            Spacer()
+        }
+        .sheet(isPresented: $showAlertModal, content: {
+            AlertModal(message: "Your data was deleted successfully.", image: "checkmark.circle", imageColor: .green)
+                .presentationDetents([.height(280)])
+                .presentationBackground(.ultraThinMaterial)
+                .presentationDragIndicator(.visible)
+        })
+    }
+    
+    private func deleteUserData() {
+        vm.sessions = []
+        vm.transactions = []
+        vm.bankrolls = []
+        vm.saveNewSessions()
+        
+        do {
+            if let encodedData = try? JSONEncoder().encode(vm.sessions) {
+                try? FileManager.default.removeItem(at: vm.newSessionsPath)
+                try encodedData.write(to: vm.newSessionsPath)
+                showAlertModal = true
+            }
+            
+        } catch {
+            print("Delete Left Pocket data: \(error)")
+            showError = true
         }
     }
 }
 
 #Preview {
     ManageData()
-        .preferredColorScheme(.dark)
         .environmentObject(SessionsListViewModel())
         .environmentObject(SubscriptionManager())
+        .preferredColorScheme(.dark)
 }
