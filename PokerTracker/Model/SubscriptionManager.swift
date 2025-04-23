@@ -84,8 +84,8 @@ class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
         let notificationTime = expirationDate.addingTimeInterval(TimeInterval(-daysBeforeNotification * 24 * 60 * 60))
         
         let content = UNMutableNotificationContent()
-        content.title = "Free Trial Ending Soon"
-        content.body = "This is a reminder that you still have \(daysBeforeNotification) days until your trial ends."
+        content.title = "Trial Ending Soon"
+        content.body = "You still have \(daysBeforeNotification) days until your trial ends. How sweet is this app, though?"
         content.sound = UNNotificationSound.default
         
         let triggerDateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: notificationTime)
@@ -102,12 +102,32 @@ class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
     }
     
     // This listener should be able to handle whenever an Offer Code is redeemed
+//    func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) {
+//        // Handle the updated CustomerInfo
+//        Task {
+//            await MainActor.run {
+//                self.isSubscribed = customerInfo.entitlements["premium"]?.isActive == true
+//            }
+//        }
+//    }
+    
     func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) {
-        // Handle the updated CustomerInfo
         Task {
-            await MainActor.run {
-                self.isSubscribed = customerInfo.entitlements["premium"]?.isActive == true
-            }
+            await handleCustomerInfo(customerInfo)
+        }
+    }
+    
+    @MainActor
+    private func handleCustomerInfo(_ customerInfo: CustomerInfo) {
+        
+        self.isSubscribed = customerInfo.entitlements["premium"]?.isActive == true
+        
+        UNUserNotificationCenter
+            .current()
+            .removePendingNotificationRequests(withIdentifiers: ["trialExpirationNotification"])
+        
+        if let premiumEntitlement = customerInfo.entitlements["premium"], premiumEntitlement.periodType == .trial, let trialEnd = premiumEntitlement.expirationDate {
+            scheduleTrialExpirationNotification(expirationDate: trialEnd)
         }
     }
 }

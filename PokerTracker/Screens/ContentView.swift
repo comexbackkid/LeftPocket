@@ -23,6 +23,7 @@ struct ContentView: View {
     @State private var showBankrollPopup = false
     @State private var selectedMeditation: Meditation?
     @State var activeSheet: Sheet?
+    @Namespace var sessionAnimation
     let lastSeenVersionKey = "LastSeenAppVersion"
     var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
     
@@ -74,8 +75,14 @@ struct ContentView: View {
                         SessionDetailView(activeSheet: $activeSheet, pokerSession: viewModel.sessions.first!)
                     }
             } else {
-                SessionDetailView(activeSheet: $activeSheet, pokerSession: recentSession)
-                    .presentationDragIndicator(.visible)
+                if #available(iOS 18.0, *) {
+                    SessionDetailView(activeSheet: $activeSheet, pokerSession: recentSession)
+                        .presentationDragIndicator(.visible)
+                        .navigationTransition(.zoom(sourceID: recentSession.id, in: sessionAnimation))
+                } else {
+                    SessionDetailView(activeSheet: $activeSheet, pokerSession: recentSession)
+                        .presentationDragIndicator(.visible)
+                }
             }
             case .healthAnalytics:
                 if isPad {
@@ -255,7 +262,12 @@ struct ContentView: View {
                 activeSheet = .recentSession
                 
             }, label: {
-                RecentSessionCardView(pokerSession: recentSession)
+                if #available(iOS 18.0, *) {
+                    RecentSessionCardView(pokerSession: recentSession)
+                        .matchedTransitionSource(id: recentSession.id, in: sessionAnimation)
+                } else {
+                    RecentSessionCardView(pokerSession: recentSession)
+                }
             })
         }
     }
