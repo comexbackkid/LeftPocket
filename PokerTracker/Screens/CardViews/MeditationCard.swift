@@ -55,6 +55,7 @@ struct MeditationCard: View {
             .background(
                 ZStack {
                     Image("meditation-forest")
+                        .blur(radius: 20)
                         .overlay(colorScheme == .dark ? .thinMaterial : .ultraThinMaterial)
                 }
             )
@@ -76,7 +77,7 @@ struct MeditationCard: View {
             .padding()
                 
         }
-        .frame(height: 360)
+        .frame(height: 300)
         .background(Color(.systemBackground))
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)

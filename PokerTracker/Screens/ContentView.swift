@@ -13,12 +13,14 @@ struct ContentView: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
+    @EnvironmentObject var hkManager: HealthKitManager
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("hideBankroll") var hideBankroll: Bool = false
     @State private var showMetricsAsSheet = false
     @State private var showSleepAnalyticsAsSheet = false
     @State private var showPaywall = false
     @State private var showBankrollPopup = false
+    @State private var selectedMeditation: Meditation?
     @State var activeSheet: Sheet?
     let lastSeenVersionKey = "LastSeenAppVersion"
     var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
@@ -54,6 +56,14 @@ struct ContentView: View {
             .padding(.horizontal, isPad ? 40 : 16)
             .padding(.bottom, 50)
         }
+        .fullScreenCover(item: $selectedMeditation) { meditation in
+            MeditationView(passedMeditation: $selectedMeditation, meditation: meditation)
+        }
+//        .fullScreenCover(item: $selectedMeditation, onDismiss: {
+//            selectedMeditation = nil
+//        }, content: { meditation in
+//            MeditationView(passedMeditation: $selectedMeditation, meditation: meditation)
+//        })
         .background { Color.brandBackground.ignoresSafeArea() }
         .sheet(item: $activeSheet) { sheet in
             let recentSession = (viewModel.sessions + viewModel.bankrolls.flatMap(\.sessions)).sorted(by: { $0.date > $1.date }).first!
@@ -225,7 +235,17 @@ struct ContentView: View {
     
     var meditationCard: some View {
         
-        MeditationCard()
+        Group {
+            Button(action: {
+                let impact = UIImpactFeedbackGenerator(style: .medium)
+                impact.impactOccurred()
+                selectedMeditation = Meditation.forest
+                
+            }, label: {
+                MeditationCard()
+            })
+//            .buttonStyle(CardViewButtonStyle())
+        }
     }
     
     var recentSessionCard: some View {
@@ -240,7 +260,7 @@ struct ContentView: View {
             }, label: {
                 RecentSessionCardView(pokerSession: recentSession)
             })
-            .buttonStyle(CardViewButtonStyle())
+//            .buttonStyle(CardViewButtonStyle())
         }
     }
     
@@ -485,6 +505,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
+            .environmentObject(HealthKitManager())
             .preferredColorScheme(.dark)
     }
 }
