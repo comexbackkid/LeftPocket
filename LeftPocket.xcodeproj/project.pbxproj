@@ -268,9 +268,12 @@
 		7CEB453F2BCEA90800AAF710 /* RingCharts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEB453E2BCEA90800AAF710 /* RingCharts.swift */; };
 		7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEB761E26D9A77E006170EF /* Alerts.swift */; };
 		7CED6EA827517D7F00E18053 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CED6EA727517D7F00E18053 /* Array+Ext.swift */; };
+		7CEDC87E2DB9076A008117C3 /* MeditationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEDC87D2DB9076A008117C3 /* MeditationCard.swift */; };
 		7CF39C922BE6DBB4003B4C00 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CF39C912BE6DBB4003B4C00 /* NotificationsView.swift */; };
 		7CFB683A2B7CFC92005AB81F /* BarChartByYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */; };
 		7CFBCB6E2D491FC1006C3175 /* metrics-screen.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7CFBCB6D2D491FC1006C3175 /* metrics-screen.mp4 */; };
+		7CFCBAC52DB8187C00BA9A9D /* CurrencyCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFCBAC42DB8187C00BA9A9D /* CurrencyCodes.swift */; };
+		7CFCBAC82DB818FC00BA9A9D /* SessionDefaultsView.functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFCBAC72DB818F400BA9A9D /* SessionDefaultsView.functions.swift */; };
 		7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */; };
 		7CFD78A92B34DF2D00C1A9F6 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 7CFD78A82B34DF2D00C1A9F6 /* RevenueCat */; };
 		7CFD78AB2B34DF2D00C1A9F6 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7CFD78AA2B34DF2D00C1A9F6 /* RevenueCatUI */; };
@@ -520,9 +523,12 @@
 		7CEB453E2BCEA90800AAF710 /* RingCharts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingCharts.swift; sourceTree = "<group>"; };
 		7CEB761E26D9A77E006170EF /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		7CED6EA727517D7F00E18053 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
+		7CEDC87D2DB9076A008117C3 /* MeditationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationCard.swift; sourceTree = "<group>"; };
 		7CF39C912BE6DBB4003B4C00 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		7CFB68392B7CFC92005AB81F /* BarChartByYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartByYear.swift; sourceTree = "<group>"; };
 		7CFBCB6D2D491FC1006C3175 /* metrics-screen.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "metrics-screen.mp4"; sourceTree = "<group>"; };
+		7CFCBAC42DB8187C00BA9A9D /* CurrencyCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCodes.swift; sourceTree = "<group>"; };
+		7CFCBAC72DB818F400BA9A9D /* SessionDefaultsView.functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDefaultsView.functions.swift; sourceTree = "<group>"; };
 		7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
 		7CFD78AC2B34E46100C1A9F6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMap.swift; sourceTree = "<group>"; };
@@ -626,6 +632,7 @@
 				7C27D8D226F9176E001C43B4 /* Alerts */,
 				7C2614CB26D930C100986183 /* Extensions */,
 				7C23A4C228A3DEE100FB5604 /* AppGroup.swift */,
+				7CFCBAC42DB8187C00BA9A9D /* CurrencyCodes.swift */,
 				7CBEB52D2C2A1EF00099C7CF /* DeepLlinking.swift */,
 				7C9FEC7D2C1F68B70062208B /* ImageSaver.swift */,
 				7CAB7EF62D4416B4008A84F9 /* ImageHandler.swift */,
@@ -679,6 +686,7 @@
 				7C51873B2DADC4810067E7D2 /* ProfitByWeekDay */,
 				7C8134BE2729F1A8004E1CE1 /* ProfitByMonth */,
 				7C42549F2784E21C00B5DA79 /* ProfitByYear */,
+				7CFCBAC62DB818B000BA9A9D /* SessionDefaults */,
 				7C82E13226EFC84E00E3EB6F /* SessionDetailView */,
 				7C2614CE26D9313E00986183 /* SessionsListView */,
 				7C82E13426EFC87D00E3EB6F /* SettingsView */,
@@ -698,6 +706,7 @@
 				7CB3EBA026C345A1009E8DF3 /* MetricsCardView.swift */,
 				7C68FE4226D7CEA40019BA53 /* RecentSessionCardView.swift */,
 				7CBBA3B62BF40CA700733D53 /* SleepCardView.swift */,
+				7CEDC87D2DB9076A008117C3 /* MeditationCard.swift */,
 			);
 			path = CardViews;
 			sourceTree = "<group>";
@@ -715,6 +724,7 @@
 		7C2614CF26D9315F00986183 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7CFCBAC92DB819F900BA9A9D /* Buttons */,
 				7C028F992C36B5960098CA8C /* AdvancedTournamentReport.swift */,
 				7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */,
 				7CE7DC1928FE1AA8009F4CE9 /* BankrollLineChart.swift */,
@@ -726,26 +736,18 @@
 				7C18FC162D9AE2C800E837AE /* BankrollCellView.swift */,
 				7C12A58A2CB1CABE00CA8922 /* DashboardConfig.swift */,
 				7C608EDE2CC19B5800527405 /* DayOfWeekChart.swift */,
-				7C25CB5227887D9200866511 /* CustomPicker.swift */,
-				7CAFDFF22B2C884100B7338D /* CustomToggle.swift */,
 				7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */,
-				7C91EE8A2D99B6AB00FFFD63 /* EditButton.swift */,
 				7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */,
-				7C9A0D9D2CBDEAA70070EBA3 /* FilterTag.swift */,
 				7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */,
 				7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */,
 				7C0B3FF52CC5454B00F446EA /* MeditationView.swift */,
 				7CF39C912BE6DBB4003B4C00 /* NotificationsView.swift */,
 				7CC26E6B2CDEA7C500095D4C /* PerformanceLineChart.swift */,
 				7C15DD38276D575600889FB2 /* PlaceholderView.swift */,
-				7C68FE4026D709530019BA53 /* PlusButton.swift */,
 				7CD2B1572C1BB5B300A90C79 /* PopoverView.swift */,
-				7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */,
 				7C944D552BBDA26E009E6EC5 /* ProductUpdates.swift */,
 				7C028F972C3587FC0098CA8C /* RedeemOfferCode.swift */,
 				7CEB453E2BCEA90800AAF710 /* RingCharts.swift */,
-				7CDE9FC62B78F6CC00B4AA33 /* SessionDefaultsView.swift */,
-				7C757F022C1F2A9F00AD71EE /* ShareButton.swift */,
 				7C71AB112D0B3C7700487AB5 /* SystemSounds.swift */,
 				7CB4BFB62DAC5EF900876D5C /* ToolTip.swift */,
 				7C85492F2C46C4BE0038ADB4 /* TransactionCellView.swift */,
@@ -1144,6 +1146,29 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
+		7CFCBAC62DB818B000BA9A9D /* SessionDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				7CDE9FC62B78F6CC00B4AA33 /* SessionDefaultsView.swift */,
+				7CFCBAC72DB818F400BA9A9D /* SessionDefaultsView.functions.swift */,
+			);
+			path = SessionDefaults;
+			sourceTree = "<group>";
+		};
+		7CFCBAC92DB819F900BA9A9D /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				7C91EE8A2D99B6AB00FFFD63 /* EditButton.swift */,
+				7C68FE4026D709530019BA53 /* PlusButton.swift */,
+				7C757F022C1F2A9F00AD71EE /* ShareButton.swift */,
+				7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */,
+				7C25CB5227887D9200866511 /* CustomPicker.swift */,
+				7CAFDFF22B2C884100B7338D /* CustomToggle.swift */,
+				7C9A0D9D2CBDEAA70070EBA3 /* FilterTag.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1398,6 +1423,7 @@
 				7C8834102735BB5D0093B201 /* NewLocationViewModel.swift in Sources */,
 				7C2FC657273EF1E600E3BE0B /* ProfitByStakesView.swift in Sources */,
 				7CAFDFF32B2C884100B7338D /* CustomToggle.swift in Sources */,
+				7CFCBAC52DB8187C00BA9A9D /* CurrencyCodes.swift in Sources */,
 				7C65B188272C3A5A00AFE796 /* NewLocationView.swift in Sources */,
 				7C91EE8B2D99B6AB00FFFD63 /* EditButton.swift in Sources */,
 				7C85492E2C453D540038ADB4 /* AddNewTransaction.swift in Sources */,
@@ -1452,6 +1478,7 @@
 				7CAB7EF72D4416B4008A84F9 /* ImageHandler.swift in Sources */,
 				7CB1EBDA2950DF4800FA306B /* BestSessionView.swift in Sources */,
 				7C028F982C3587FC0098CA8C /* RedeemOfferCode.swift in Sources */,
+				7CFCBAC82DB818FC00BA9A9D /* SessionDefaultsView.functions.swift in Sources */,
 				7C63949626C14E8300939F40 /* LeftPocketApp.swift in Sources */,
 				7C9BBF1C2DB443E200B13638 /* OnboardingView.startingBankroll.swift in Sources */,
 				7C3F43AC2728512700A9C842 /* LocationModel.swift in Sources */,
@@ -1480,6 +1507,7 @@
 				7CB4BFB52DAC5E9900876D5C /* MericsView.playerStatsCard.swift in Sources */,
 				7CC81FB8294CBAD400E849A9 /* BestLocationView.swift in Sources */,
 				7C9D32772B261FA700900C8C /* AdditionalMetricsCardView.swift in Sources */,
+				7CEDC87E2DB9076A008117C3 /* MeditationCard.swift in Sources */,
 				7C8647842B2A642700F48951 /* AddNewSessionView.swift in Sources */,
 				7C7F4F6E270E610E002ECF6D /* ProfitByLocationView.swift in Sources */,
 				7C51873D2DADC4C30067E7D2 /* ProfitByWeekDay.swift in Sources */,

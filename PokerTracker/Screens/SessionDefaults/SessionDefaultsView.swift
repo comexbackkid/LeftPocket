@@ -14,23 +14,23 @@ struct SessionDefaultsView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @Binding var isPresentedAsSheet: Bool?
-    @State private var askEachTimePopover = false
-    @State private var sessionType: SessionType?
-    @State private var location = LocationModel_v2(name: "")
-    @State private var stakes = ""
-    @State private var game = ""
-    @State private var speed = ""
-    @State private var size = ""
-    @State private var currency: CurrencyType = .USD
-    @State private var handsPerHour: Int = 25
-    @State private var resultMessage: String = ""
-    @State private var errorMessage: String?
-    @State private var showAlertModal = true
-    @State private var addStakesIsShowing = false
-    @State private var addGameTypeIsShowing = false
-    @State private var addLocationIsShowing = false
-    @State private var askLiveSessionEachTime = false
-    @State private var showHandsPerHourOnNewSessionView = false
+    @State var askEachTimePopover = false
+    @State var sessionType: SessionType?
+    @State var location = LocationModel_v2(name: "")
+    @State var stakes = ""
+    @State var game = ""
+    @State var speed = ""
+    @State var size = ""
+    @State var currency: CurrencyType = .USD
+    @State var handsPerHour: Int = 25
+    @State var resultMessage: String = ""
+    @State var errorMessage: String?
+    @State var showAlertModal = false
+    @State var addStakesIsShowing = false
+    @State var addGameTypeIsShowing = false
+    @State var addLocationIsShowing = false
+    @State var askLiveSessionEachTime = false
+    @State var showHandsPerHourOnNewSessionView = false
     
     var body: some View {
             
@@ -651,179 +651,6 @@ struct SessionDefaultsView: View {
         .foregroundColor(.brandPrimary)
     }
     
-    private func resetUserDefaults() {
-        
-        sessionType = nil
-        location = LocationModel_v2(name: "")
-        stakes = ""
-        game = ""
-        size = ""
-        speed = ""
-        currency = .USD
-        askLiveSessionEachTime = false
-        showHandsPerHourOnNewSessionView = false
-        handsPerHour = 25
-        
-        let defaults = UserDefaults.standard
-        let resetResult = Result {
-            
-            defaults.removeObject(forKey: "sessionTypeDefault")
-            defaults.removeObject(forKey: "locationDefault")
-            defaults.removeObject(forKey: "stakesDefault")
-            defaults.removeObject(forKey: "gameDefault")
-            defaults.removeObject(forKey: "currencyDefault")
-            defaults.removeObject(forKey: "tournamentSizeDefault")
-            defaults.removeObject(forKey: "tournamentSpeedDefault")
-            defaults.removeObject(forKey: "askLiveSessionEachTime")
-            defaults.removeObject(forKey: "showHandsPerHourOnNewSessionView")
-            defaults.removeObject(forKey: "handsPerHourDefault")
-        }
-        
-        switch resetResult {
-        case .success:
-            resultMessage = "Session Defaults reset."
-        case .failure(let error):
-            resultMessage = "\(error.localizedDescription)"
-        }
-    }
-    
-    private func saveToUserDefaults() {
-        
-        let defaults = UserDefaults.standard
-        let saveResult = Result {
-            
-            if let encodedSessionType = try? JSONEncoder().encode(sessionType) {
-                defaults.set(encodedSessionType, forKey: "sessionTypeDefault")
-            }
-            
-            if let encodedLocation = try? JSONEncoder().encode(location) {
-                defaults.set(encodedLocation, forKey: "locationDefault")
-            }
-            
-            if let encodedCurrency = try? JSONEncoder().encode(currency) {
-                defaults.set(encodedCurrency, forKey: "currencyDefault")
-            }
-            
-            defaults.set(stakes, forKey: "stakesDefault")
-            defaults.set(game, forKey: "gameDefault")
-            defaults.set(size, forKey: "tournamentSizeDefault")
-            defaults.set(speed, forKey: "tournamentSpeedDefault")
-            defaults.set(askLiveSessionEachTime, forKey: "askLiveSessionEachTime")
-            defaults.set(showHandsPerHourOnNewSessionView, forKey: "showHandsPerHourOnNewSessionView")
-            defaults.set(handsPerHour, forKey: "handsPerHourDefault")
-            vm.getUserCurrency()
-        }
-        
-        switch saveResult {
-        case .success:
-            resultMessage = "Session Defaults have been saved."
-            showAlertModal = true
-            
-        case .failure(let error):
-            errorMessage = "\(error.localizedDescription)"
-        }
-    }
-    
-    private func loadUserDefaults() {
-        
-        let defaults = UserDefaults.standard
-        
-        // Load Currency
-        if let encodedCurrency = defaults.object(forKey: "currencyDefault") as? Data,
-           let decodedCurrency = try? JSONDecoder().decode(CurrencyType.self, from: encodedCurrency) {
-            currency = decodedCurrency
-        } else {
-            currency = .USD // Provide a default value if missing
-        }
-        
-        // Load Session Type
-        if let encodedSessionType = defaults.object(forKey: "sessionTypeDefault") as? Data,
-           let decodedSessionType = try? JSONDecoder().decode(SessionType.self, from: encodedSessionType) {
-            sessionType = decodedSessionType
-        } else {
-            sessionType = nil
-        }
-        
-        // Load Location
-        if let encodedLocation = defaults.object(forKey: "locationDefault") as? Data,
-           let decodedLocation = try? JSONDecoder().decode(LocationModel_v2.self, from: encodedLocation) {
-            location = decodedLocation
-        } else {
-            location = LocationModel_v2(name: "")
-        }
-        
-        if let handsPerHour = defaults.object(forKey: "handsPerHourDefault") as? Int {
-            self.handsPerHour = handsPerHour
-        } else {
-            handsPerHour = 25
-        }
-        
-        // Load Stakes, Game, & Tournament Defaults
-        stakes = defaults.string(forKey: "stakesDefault") ?? ""
-        game = defaults.string(forKey: "gameDefault") ?? ""
-        size = defaults.string(forKey: "tournamentSizeDefault") ?? ""
-        speed = defaults.string(forKey: "tournamentSpeedDefault") ?? ""
-        askLiveSessionEachTime = defaults.bool(forKey: "askLiveSessionEachTime")
-        showHandsPerHourOnNewSessionView = defaults.bool(forKey: "showHandsPerHourOnNewSessionView")
-    }
-}
-
-enum CurrencyType: String, CaseIterable, Identifiable, Codable {
-    case USD
-    case CAD
-    case EUR
-    case GBP
-    case BRL
-    case SGD
-    case MXN
-    case CNY
-    case JPY
-    case PHP
-    case SEK
-    case INR
-    case THB
-    
-    var id: String { self.rawValue }
-    
-    var name: String {
-        switch self {
-        case .USD: return "US Dollar"
-        case .CAD: return "Canadian Dollar"
-        case .EUR: return "Euro"
-        case .GBP: return "British Pound"
-        case .BRL: return "Brazilian Real"
-        case .SGD: return "Singapore Dollar"
-        case .MXN: return "Mexican Peso"
-        case .CNY: return "Chinese Yuan"
-        case .JPY: return "Japanese Yen"
-        case .PHP: return "Philippines Peso"
-        case .SEK: return "Swedish Krona"
-        case .INR: return "Indian Rupee"
-        case .THB: return "Thai Baht"
-        }
-    }
-    
-    var symbol: String {
-        switch self {
-        case .USD: return "$"
-        case .CAD: return "C$"
-        case .EUR: return "€"
-        case .GBP: return "£"
-        case .BRL: return "R$"
-        case .SGD: return "S$"
-        case .MXN: return "MX$"
-        case .CNY: return "¥"
-        case .JPY: return "¥"
-        case .PHP: return "₱"
-        case .SEK: return "kr"
-        case .INR: return "₹"
-        case .THB: return "฿"
-        }
-    }
-    
-    var symbolWidth: Int {
-        symbol.count > 1 ? 30 : 15
-    }
 }
 
 #Preview {
