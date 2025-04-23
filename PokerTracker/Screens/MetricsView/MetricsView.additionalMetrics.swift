@@ -53,15 +53,17 @@ extension MetricsView {
                 }
                 
                 if showReportsAsList {
+                    
                     VStack (alignment: .leading, spacing: 8) {
-                        HStack (spacing: 0) {
+                        
+                        HStack(spacing: 0) {
                             Text("View your ")
                                 .bodyStyle()
                             
                             NavigationLink {
-                                ProfitByYear()
+                                SleepAnalytics(activeSheet: .constant(.none))
                             } label: {
-                                Text("__Annual Report__ \(Image(systemName: "arrow.turn.up.right"))")
+                                Text("__Health Analytics__ \(Image(systemName: "arrow.turn.up.right"))")
                                     .bodyStyle()
                             }
                             
@@ -71,15 +73,15 @@ extension MetricsView {
                         .frame(maxWidth: .infinity)
                         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
                         .cornerRadius(12)
-
-                        HStack(spacing: 0) {
+                        
+                        HStack (spacing: 0) {
                             Text("View your ")
                                 .bodyStyle()
                             
                             NavigationLink {
-                                SleepAnalytics(activeSheet: .constant(.none))
+                                ProfitByYear()
                             } label: {
-                                Text("__Health Analytics__ \(Image(systemName: "arrow.turn.up.right"))")
+                                Text("__Annual Report__ \(Image(systemName: "arrow.turn.up.right"))")
                                     .bodyStyle()
                             }
                             
@@ -207,16 +209,6 @@ extension MetricsView {
                         HStack (spacing: 12) {
                             
                             NavigationLink(
-                                destination: ProfitByYear(),
-                                label: {
-                                    AdditionalMetricsCardView(title: "Annual Report",
-                                                              description: "Year-over-year results",
-                                                              image: "list.clipboard.fill",
-                                                              color: .donutChartDarkBlue)
-                                })
-                            .buttonStyle(PlainButtonStyle())
-                            
-                            NavigationLink(
                                 destination: SleepAnalytics(activeSheet: .constant(.none)),
                                 label: {
                                     AdditionalMetricsCardView(title: "Health Analytics",
@@ -227,6 +219,16 @@ extension MetricsView {
                                 })
                             .buttonStyle(PlainButtonStyle())
                             
+                            NavigationLink(
+                                destination: ProfitByYear(),
+                                label: {
+                                    AdditionalMetricsCardView(title: "Annual Report",
+                                                              description: "Year-over-year results",
+                                                              image: "list.clipboard.fill",
+                                                              color: .donutChartDarkBlue)
+                                })
+                            .buttonStyle(PlainButtonStyle())
+                        
                             NavigationLink(
                                 destination: ProfitByMonth(vm: viewModel),
                                 label: {

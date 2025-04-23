@@ -30,7 +30,7 @@ struct MeditationCard: View {
                     
                     VStack (alignment: .leading, spacing: 5) {
                         
-                        Text("Your Mind is a Weapon")
+                        Text("Clear Your Mind")
                             .headlineStyle()
                             .lineLimit(1)
                             .foregroundStyle(.white)

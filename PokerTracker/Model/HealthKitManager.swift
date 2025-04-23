@@ -22,6 +22,11 @@ class HealthKitManager: ObservableObject {
     @Published var authorizationStatus: HKAuthorizationStatus = .notDetermined
     @Published var errorMsg: String?
     
+    var isMindfulnessAuthorized: Bool {
+        let type = HKObjectType.categoryType(forIdentifier: .mindfulSession)!
+        return store.authorizationStatus(for: type) == .sharingAuthorized
+    }
+    
     func checkAuthorizationStatus() async {
         guard HKHealthStore.isHealthDataAvailable() else {
             DispatchQueue.main.async {

@@ -16,6 +16,7 @@ struct MetricsView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
+    @EnvironmentObject var hkManager: HealthKitManager
     @State private var showPaywall = false
     @State private var progressIndicator: Float = 0.0
     @State private var minimizeLineChart = false
@@ -46,6 +47,8 @@ struct MetricsView: View {
                                 winStreakToolTip
                                                                 
                                 bankrollChart
+                                
+                                meditationToolTip
                                 
                                 playerStats
                                 
@@ -89,6 +92,9 @@ struct MetricsView: View {
                                 showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
                                 await subManager.checkSubscriptionStatus()
                             }
+                        }
+                        .task {
+                            await handleAuthorizationChecksAndDataFetch()
                         }
                         
                     } else {
@@ -138,6 +144,22 @@ struct MetricsView: View {
                             color: .yellow)
             }
         }
+    }
+    
+    @ViewBuilder
+    var meditationToolTip: some View {
+        
+        let message = "You've logged about \(totalMindfulMinutes()) mindfulness minutes the last 30 days."
+        let altMessage = "Allow access to health data from Settings to track mindfulness minutes."
+        
+        NavigationLink {
+            MindfulnessAnalytics()
+        } label: {
+            ToolTipView(image: "figure.mind.and.body",
+                        message: hkManager.isMindfulnessAuthorized ? message : altMessage,
+                        color: .mint)
+        }
+        .buttonStyle(.plain)
     }
     
     var sessionLengthToolTip: some View {
@@ -301,6 +323,27 @@ struct MetricsView: View {
     var playerStats: some View {
         PlayerStatsCard(viewModel: viewModel, bankrollFilter: $bankrollFilter, sessionFilter: $sessionFilter, statsRange: $statsRange)
     }
+    
+    private func totalMindfulMinutes() -> Int {
+        Int(round(hkManager.totalMindfulMinutesPerDay.values.reduce(0, +)))
+    }
+    
+    private func handleAuthorizationChecksAndDataFetch() async {
+        
+        await hkManager.checkAuthorizationStatus()
+        
+        if hkManager.authorizationStatus != .notDetermined {
+            do {
+                hkManager.totalMindfulMinutesPerDay = try await hkManager.fetchDailyMindfulMinutesData()
+                
+            } catch let error as HKError {
+                hkManager.errorMsg = error.description
+                
+            } catch {
+                hkManager.errorMsg = HKError.unableToCompleteRequest.description
+            }
+        }
+    }
 }
 
 struct NonAnimatedMenuLabel: View {
@@ -322,6 +365,7 @@ struct MetricsView_Previews: PreviewProvider {
         MetricsView(activeSheet: .constant(nil))
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
+            .environmentObject(HealthKitManager())
             .preferredColorScheme(.dark)
     }
 }

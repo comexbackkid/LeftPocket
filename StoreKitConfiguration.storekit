@@ -14,13 +14,27 @@
 
   ],
   "products" : [
-
+    {
+      "displayPrice" : "149.99",
+      "familyShareable" : false,
+      "internalID" : "6744752433",
+      "localizations" : [
+        {
+          "description" : "Unlimited lifetime access to Left Pocket",
+          "displayName" : "Left Pocket Pro (Lifetime)",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "lp_14999_life",
+      "referenceName" : "Lifetime $149.99",
+      "type" : "NonConsumable"
+    }
   ],
   "settings" : {
     "_applicationInternalID" : "1601858981",
     "_developerTeamID" : "J3YC22CPKU",
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 764254426.04644799,
+    "_lastSynchronizedDate" : 767107598.45013297,
     "_locale" : "en_US",
     "_storefront" : "USA",
     "_storeKitErrors" : [
@@ -90,7 +104,12 @@
           "familyShareable" : false,
           "groupNumber" : 4,
           "internalID" : "6742271565",
-          "introductoryOffer" : null,
+          "introductoryOffer" : {
+            "internalID" : "9B7992EF",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P2W"
+          },
           "localizations" : [
             {
               "description" : "Unlimited access to Left Pocket",
@@ -114,11 +133,11 @@
           "codeOffers" : [
             {
               "eligibility" : [
-                "existing",
+                "expired",
                 "new",
-                "expired"
+                "existing"
               ],
-              "internalID" : "820DED2A",
+              "internalID" : "94F5F986",
               "isStackable" : false,
               "numberOfPeriods" : 1,
               "paymentMode" : "free",
@@ -127,11 +146,11 @@
             },
             {
               "eligibility" : [
-                "expired",
                 "new",
+                "expired",
                 "existing"
               ],
-              "internalID" : "ED11E535",
+              "internalID" : "F6D0EE27",
               "isStackable" : true,
               "numberOfPeriods" : 1,
               "paymentMode" : "free",
@@ -144,7 +163,7 @@
           "groupNumber" : 1,
           "internalID" : "6741366983",
           "introductoryOffer" : {
-            "internalID" : "1D59896A",
+            "internalID" : "0D8C6FF5",
             "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P2W"
@@ -170,13 +189,59 @@
 
           ],
           "codeOffers" : [
+
+          ],
+          "displayPrice" : "6.99",
+          "familyShareable" : false,
+          "groupNumber" : 5,
+          "internalID" : "6744874049",
+          "introductoryOffer" : {
+            "internalID" : "044B9042",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
+          "localizations" : [
+            {
+              "description" : "Unlimited access to Left Pocket",
+              "displayName" : "Left Pocket Pro",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "lp_699_1m",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Monthly $6.99",
+          "subscriptionGroupID" : "21629539",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
             {
               "eligibility" : [
-                "new",
+                "existing",
                 "expired",
-                "existing"
+                "new"
               ],
-              "internalID" : "C269045E",
+              "internalID" : "B38CDC8C",
+              "isStackable" : true,
+              "numberOfPeriods" : 1,
+              "paymentMode" : "free",
+              "referenceName" : "Affiliate Marketers",
+              "subscriptionPeriod" : "P3M"
+            },
+            {
+              "eligibility" : [
+                "expired",
+                "existing",
+                "new"
+              ],
+              "internalID" : "F4C8ABA3",
               "isStackable" : true,
               "numberOfPeriods" : 1,
               "paymentMode" : "free",
@@ -189,7 +254,7 @@
           "groupNumber" : 2,
           "internalID" : "6741367590",
           "introductoryOffer" : {
-            "internalID" : "7BB7DBA2",
+            "internalID" : "AEA0F60B",
             "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P1W"
@@ -222,7 +287,7 @@
           "groupNumber" : 3,
           "internalID" : "6741367210",
           "introductoryOffer" : {
-            "internalID" : "2AA4EEB3",
+            "internalID" : "B1FAB9FC",
             "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P3D"
@@ -259,11 +324,11 @@
           "codeOffers" : [
             {
               "eligibility" : [
-                "existing",
                 "new",
+                "existing",
                 "expired"
               ],
-              "internalID" : "97138740",
+              "internalID" : "00A11FAE",
               "isStackable" : true,
               "numberOfPeriods" : 1,
               "paymentMode" : "free",
@@ -276,7 +341,7 @@
           "groupNumber" : 1,
           "internalID" : "6474787836",
           "introductoryOffer" : {
-            "internalID" : "8AC7036B",
+            "internalID" : "5B759E2C",
             "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P2W"
@@ -304,11 +369,11 @@
           "codeOffers" : [
             {
               "eligibility" : [
-                "new",
                 "existing",
-                "expired"
+                "expired",
+                "new"
               ],
-              "internalID" : "8425A6A5",
+              "internalID" : "0B0EA6CE",
               "isStackable" : true,
               "numberOfPeriods" : 1,
               "paymentMode" : "free",
@@ -317,11 +382,11 @@
             },
             {
               "eligibility" : [
+                "existing",
                 "new",
-                "expired",
-                "existing"
+                "expired"
               ],
-              "internalID" : "2B05DB8C",
+              "internalID" : "3411A92F",
               "isStackable" : true,
               "numberOfPeriods" : 1,
               "paymentMode" : "free",
@@ -334,7 +399,7 @@
           "groupNumber" : 2,
           "internalID" : "6474787947",
           "introductoryOffer" : {
-            "internalID" : "6D229A5F",
+            "internalID" : "DEB6FE97",
             "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P1W"
@@ -367,7 +432,7 @@
           "groupNumber" : 3,
           "internalID" : "6740544105",
           "introductoryOffer" : {
-            "internalID" : "D79B1FD3",
+            "internalID" : "679D1B49",
             "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P3D"
