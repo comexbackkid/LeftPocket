@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import RevenueCat
+import RevenueCatUI
 
 struct ManageData: View {
     
@@ -48,6 +50,23 @@ struct ManageData: View {
         }
         .accentColor(.brandPrimary)
         .dynamicTypeSize(...DynamicTypeSize.large)
+        .fullScreenCover(isPresented: $showPaywall, content: {
+            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                .dynamicTypeSize(.large)
+                .overlay {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            DismissButton()
+                                .padding(.horizontal)
+                                .onTapGesture {
+                                    showPaywall = false
+                            }
+                            Spacer()
+                        }
+                    }
+                }
+        })
     }
     
     var titleInstructions: some View {
