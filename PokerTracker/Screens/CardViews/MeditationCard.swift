@@ -20,6 +20,10 @@ struct MeditationCard: View {
                 VStack {
                     Image("meditation-forest")
                         .centerCropped()
+                        .overlay {
+                            LinearGradient(colors: [.black, .clear], startPoint: .topLeading, endPoint: .bottomTrailing)
+                                .opacity(0.2)
+                        }
                 }
                 .frame(maxHeight: 250)
                 .clipped()
