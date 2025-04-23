@@ -16,6 +16,7 @@ struct ContentView: View {
     @EnvironmentObject var hkManager: HealthKitManager
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("hideBankroll") var hideBankroll: Bool = false
+    @AppStorage("dashboardMeditationCard") var showMeditationCard: Bool = true
     @State private var showMetricsAsSheet = false
     @State private var showSleepAnalyticsAsSheet = false
     @State private var showPaywall = false
@@ -59,11 +60,6 @@ struct ContentView: View {
         .fullScreenCover(item: $selectedMeditation) { meditation in
             MeditationView(passedMeditation: $selectedMeditation, meditation: meditation)
         }
-//        .fullScreenCover(item: $selectedMeditation, onDismiss: {
-//            selectedMeditation = nil
-//        }, content: { meditation in
-//            MeditationView(passedMeditation: $selectedMeditation, meditation: meditation)
-//        })
         .background { Color.brandBackground.ignoresSafeArea() }
         .sheet(item: $activeSheet) { sheet in
             let recentSession = (viewModel.sessions + viewModel.bankrolls.flatMap(\.sessions)).sorted(by: { $0.date > $1.date }).first!
@@ -236,15 +232,16 @@ struct ContentView: View {
     var meditationCard: some View {
         
         Group {
-            Button(action: {
-                let impact = UIImpactFeedbackGenerator(style: .medium)
-                impact.impactOccurred()
-                selectedMeditation = Meditation.forest
-                
-            }, label: {
-                MeditationCard()
-            })
-//            .buttonStyle(CardViewButtonStyle())
+            if showMeditationCard {
+                Button(action: {
+                    let impact = UIImpactFeedbackGenerator(style: .medium)
+                    impact.impactOccurred()
+                    selectedMeditation = Meditation.forest
+                    
+                }, label: {
+                    MeditationCard()
+                })
+            }
         }
     }
     
@@ -260,7 +257,6 @@ struct ContentView: View {
             }, label: {
                 RecentSessionCardView(pokerSession: recentSession)
             })
-//            .buttonStyle(CardViewButtonStyle())
         }
     }
     
@@ -274,7 +270,6 @@ struct ContentView: View {
         }, label: {
             SleepCardView()
         })
-        .buttonStyle(CardViewButtonStyle())
     }
     
     var bankrollView: some View {

@@ -51,6 +51,7 @@ struct SleepCardView: View {
                     Image("nightsky")
                         .resizable()
                         .clipped()
+                        .blur(radius: 20)
                         .overlay(.ultraThinMaterial)
                 )
             }

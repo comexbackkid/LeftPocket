@@ -16,6 +16,7 @@ struct DashboardConfig: View {
     @State private var profitPerSession: Bool = false
     @State private var hoursPlayed: Bool = false
     @State private var winRatio: Bool = false
+    @State private var meditationCard: Bool = false
     @State private var showAlertModal = false
 
     var body: some View {
@@ -60,7 +61,7 @@ struct DashboardConfig: View {
         VStack (alignment: .leading) {
             
             HStack {
-                Text("Choose which of your important player metrics you'd like pinned to your Dashboard. The percentage change for each metric reflects the increase or decrease from the previous year.")
+                Text("Customize the layout of your Dashboard. Note: The percentage change displayed for each metric reflects the increase or decrease from the previous year.")
                     .bodyStyle()
                 
                 Spacer()
@@ -179,6 +180,24 @@ struct DashboardConfig: View {
                         .symbolEffect(.bounce, value: winRatio)
                 }
             }
+            
+            Divider()
+            
+            HStack {
+                Text("Meditation Card")
+                Spacer()
+                Button {
+                    meditationCard.toggle()
+                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                    impact.impactOccurred()
+                } label: {
+                    Image(systemName: "checkmark.circle.fill")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                        .foregroundStyle(meditationCard ? .green : .secondary)
+                        .symbolEffect(.bounce, value: meditationCard)
+                }
+            }
         }
         .font(.custom("Asap-Regular", size: 18, relativeTo: .body))
         .background(Color.brandBackground)
@@ -205,6 +224,7 @@ struct DashboardConfig: View {
         defaults.set(profitPerSession, forKey: "dashboardProfitPerSession")
         defaults.set(winRatio, forKey: "dashboardWinRatio")
         defaults.set(hoursPlayed, forKey: "dashboardHoursPlayed")
+        defaults.set(meditationCard, forKey: "dashboardMeditationCard")
         
         showAlertModal = true
     }
@@ -223,6 +243,12 @@ struct DashboardConfig: View {
         self.hourlyRate = defaults.bool(forKey: "dashboardHourlyRate")
         self.profitPerSession = defaults.bool(forKey: "dashboardProfitPerSession")
         self.winRatio = defaults.bool(forKey: "dashboardWinRatio")
+        
+        if defaults.object(forKey: "dashboardMeditationCard") == nil {
+            self.meditationCard = true
+        } else {
+            self.meditationCard = defaults.bool(forKey: "dashboardMeditationCard")
+        }
         
         if defaults.object(forKey: "dashboardHoursPlayed") == nil {
             self.hoursPlayed = true
