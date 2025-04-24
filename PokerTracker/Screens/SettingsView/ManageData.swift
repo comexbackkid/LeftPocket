@@ -297,7 +297,7 @@ struct ManageData: View {
             Spacer()
         }
         .sheet(isPresented: $showAlertModal, content: {
-            AlertModal(message: "Your data was deleted successfully.", image: "checkmark.circle", imageColor: .green)
+            AlertModal(message: "You successfully deleted your data.", image: "checkmark.circle", imageColor: .green)
                 .presentationDetents([.height(280)])
                 .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                 .presentationDragIndicator(.visible)
