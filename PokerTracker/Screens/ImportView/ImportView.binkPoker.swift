@@ -11,6 +11,7 @@ import Lottie
 struct BinkPokerImportView: View {
     
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.openURL) private var openURL
     @EnvironmentObject var vm: SessionsListViewModel
     @State private var showFileImporter = false
     @State private var showAlertModal = false
@@ -32,29 +33,28 @@ struct BinkPokerImportView: View {
                 Text("Bink exports currently do not contain specific start & end times. For that reason, all Sessions will default to 12:00pm and end according to their duration.")
                     .bodyStyle()
                     .padding(.top, 1)
+                    .padding(.bottom, 10)
+                
+                helpButton
                 
                 instructions
+                
+                importButton
+                
+                if let errorMessage {
+                    VStack {
+                        Text("Uh oh! There was a problem.")
+                        Text(errorMessage)
+                        Image(systemName: "x.circle")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .padding(.top, 1)
+                            .foregroundColor(.red)
+                    }
+                    .padding(.horizontal)
+                }
             }
             .padding(.horizontal)
-            
-            importButton
-            
-            if let errorMessage {
-                VStack {
-                    Text("Uh oh! There was a problem.")
-                    Text(errorMessage)
-                    Image(systemName: "x.circle")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .padding(.top, 1)
-                        .foregroundColor(.red)
-                }
-                .padding(.horizontal)
-            }
-            
-            HStack {
-                Spacer()
-            }
         }
         .background(Color.brandBackground)
         .overlay {
@@ -68,8 +68,29 @@ struct BinkPokerImportView: View {
                 Spacer()
             }
             .offset(y: -160)
+            .allowsHitTesting(false)
         }
         .sensoryFeedback(.success, trigger: showAlertModal)
+    }
+    
+    var helpButton: some View {
+        Button {
+            guard let url = URL(string: "https://iridescent-cheetah-aae.notion.site/Bink-Poker-1dc9452cf3e580918544f6758028f21a") else {
+                return
+            }
+            
+            openURL(url)
+            
+        } label: {
+            HStack(spacing: 6) {
+                Image(systemName: "play.tv.fill")
+                Text("Tap for Video Tutorial")
+                    .bodyStyle()
+            }
+            .font(.callout.weight(.semibold))
+            .foregroundColor(Color.brandPrimary)
+            .underline()
+        }
     }
     
     var instructions: some View {
@@ -156,7 +177,7 @@ struct BinkPokerImportView: View {
 
         }
         .lineSpacing(5)
-        .padding(.vertical, 20)
+        .padding(.vertical, 30)
         .sheet(isPresented: $showAlertModal) {
             AlertModal(message: showSuccessMessage, image: "checkmark.circle", imageColor: .green)
                 .presentationDetents([.height(280)])
@@ -176,7 +197,6 @@ struct BinkPokerImportView: View {
             PrimaryButton(title: "Import CSV Data")
         }
         .padding(.bottom, 20)
-        .padding(.horizontal)
         .fileImporter(isPresented: $showFileImporter,
                       allowedContentTypes: [.plainText, .commaSeparatedText],
                       onCompletion: { result in

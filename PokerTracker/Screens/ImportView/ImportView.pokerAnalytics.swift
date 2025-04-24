@@ -11,6 +11,7 @@ import Lottie
 struct PokerAnalyticsImportView: View {
     
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.openURL) private var openURL
     @EnvironmentObject var vm: SessionsListViewModel
     @State private var showFileImporter = false
     @State private var showAlertModal = false
@@ -32,28 +33,27 @@ struct PokerAnalyticsImportView: View {
                 Text("Please be sure to follow each step and read carefully. Poker Analytics allows for exporting of session comments and you will need to account for how the text is formatted.")
                     .bodyStyle()
                     .padding(.top, 1)
+                    .padding(.bottom, 10)
+                
+                helpButton
                 
                 instructions
-            }
-            .padding(.horizontal)
-            
-            importButton
-            
-            if let errorMessage {
-                VStack {
-                    Text("Uh oh! There was a problem.")
-                    Text(errorMessage)
-                    Image(systemName: "x.circle")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .padding(.top, 1)
-                        .foregroundColor(.red)
+                
+                importButton
+                
+                if let errorMessage {
+                    VStack {
+                        Text("Uh oh! There was a problem.")
+                        Text(errorMessage)
+                        Image(systemName: "x.circle")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .padding(.top, 1)
+                            .foregroundColor(.red)
+                    }
                 }
             }
-            
-            HStack {
-                Spacer()
-            }
+            .padding(.horizontal)
         }
         .background(Color.brandBackground)
         .overlay {
@@ -67,6 +67,7 @@ struct PokerAnalyticsImportView: View {
                 Spacer()
             }
             .offset(y: -160)
+            .allowsHitTesting(false)
         }
         .sensoryFeedback(.success, trigger: showAlertModal)
     }
@@ -90,26 +91,13 @@ struct PokerAnalyticsImportView: View {
             
             HStack {
                 
-                Image(systemName: "2.circle.fill")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 25, height: 25, alignment: .top)
-                    .foregroundColor(Color.brandPrimary)
-                
-                Text("Open the spreadsheet on your computer or iPhone and under the Comment column, delete any text in these cells.")
-                    .calloutStyle()
-                    .padding(.leading, 6)
-            }
-            
-            HStack {
-                
                 Image(systemName: "3.circle.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 25, height: 25, alignment: .top)
                     .foregroundColor(Color.brandPrimary)
                 
-                Text("Export this new file to a folder in your iCloud Drive, using UTF-8 encoding.")
+                Text("Save this new file to a folder in your iCloud Drive.")
                     .calloutStyle()
                     .padding(.leading, 6)
             }
@@ -128,12 +116,32 @@ struct PokerAnalyticsImportView: View {
             }
         }
         .lineSpacing(5)
-        .padding(.vertical, 20)
+        .padding(.vertical, 30)
         .sheet(isPresented: $showAlertModal) {
             AlertModal(message: showSuccessMessage, image: "checkmark.circle", imageColor: .green)
                 .presentationDetents([.height(280)])
                 .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                 .presentationDragIndicator(.visible)
+        }
+    }
+    
+    var helpButton: some View {
+        Button {
+            guard let url = URL(string: "https://iridescent-cheetah-aae.notion.site/Poker-Analytics-1dc9452cf3e580a5b5daca1a018b023b") else {
+                return
+            }
+            
+            openURL(url)
+            
+        } label: {
+            HStack(spacing: 6) {
+                Image(systemName: "play.tv.fill")
+                Text("Tap for Video Tutorial")
+                    .bodyStyle()
+            }
+            .font(.callout.weight(.semibold))
+            .foregroundColor(Color.brandPrimary)
+            .underline()
         }
     }
     
@@ -147,7 +155,6 @@ struct PokerAnalyticsImportView: View {
         } label: {
             PrimaryButton(title: "Import CSV Data")
         }
-        .padding(.horizontal)
         .padding(.bottom, 20)
         .fileImporter(isPresented: $showFileImporter,
                       allowedContentTypes: [.plainText, .commaSeparatedText],
