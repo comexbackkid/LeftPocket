@@ -33,7 +33,6 @@ final class NewLocationViewModel: ObservableObject {
             return
         }
         
-        let capitalizedName = trimmedName.capitalized
         var imagePath: String?
         
         if let importedImage {
@@ -46,7 +45,7 @@ final class NewLocationViewModel: ObservableObject {
             }
         }
         
-        viewModel.addNewLocation(name: capitalizedName, importedImage: imagePath)
+        viewModel.addNewLocation(name: trimmedName, importedImage: imagePath)
         self.presentation = false
     }
 }
