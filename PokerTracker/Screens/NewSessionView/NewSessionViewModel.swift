@@ -51,9 +51,7 @@ final class NewSessionViewModel: ObservableObject {
         loadUserDefaults()
     }
     
-    private var isPad: Bool {
-        UIDevice.current.userInterfaceIdiom == .pad
-    }
+    private var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
     
     // Making sure to include rebuys in profit calculation
     var computedProfit: Int {
@@ -261,6 +259,7 @@ final class NewSessionViewModel: ObservableObject {
     
     func savedButtonPressed(viewModel: SessionsListViewModel, dismiss: () -> Void) {
         guard self.validateForm() else { return }
+        
         let newSession = PokerSession_v2(location: location,
                                          date: times[0].start,
                                          startTime: times[0].start,

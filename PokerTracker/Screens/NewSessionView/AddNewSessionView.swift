@@ -82,7 +82,6 @@ struct AddNewSessionView: View {
         .background(Color.brandBackground)
         .onAppear {
             audioConfirmation = false
-            newSession.times[0].end = .now
             if let liveSessionStartTime = timerViewModel.liveSessionStartTime {
                 newSession.times[0].start = liveSessionStartTime
                 newSession.buyIn = String(timerViewModel.totalBuyInForLiveSession - timerViewModel.rebuyTotalForSession)
