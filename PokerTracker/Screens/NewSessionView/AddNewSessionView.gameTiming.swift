@@ -9,8 +9,57 @@ import SwiftUI
 
 extension AddNewSessionView {
     
-    private var isZoomed: Bool {
-        UIScreen.main.scale < UIScreen.main.nativeScale
+    struct StartEndTimeView: View {
+        
+        @Binding var dateInterval: DateInterval
+        @State var localEnd: Date
+        
+        init(dateInterval: Binding<DateInterval>, previousTime: DateInterval?) {
+            self._dateInterval = dateInterval
+            self.localEnd = dateInterval.wrappedValue.end
+            self.previousTime = previousTime
+        }
+        
+        let previousTime: DateInterval?
+        private var isZoomed: Bool { UIScreen.main.scale < UIScreen.main.nativeScale }
+        
+        var body: some View {
+            
+            VStack {
+                HStack {
+                    Image(systemName: "clock")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(Color(.systemGray3))
+                        .frame(width: 30)
+                    
+                    let range: ClosedRange<Date> = (previousTime != nil) ? previousTime!.end...Date.now : Date.distantPast...Date.now
+                    DatePicker(isZoomed ? "" : "Start", selection: $dateInterval.start, in: range, displayedComponents: [.date, .hourAndMinute])
+                        .onChange(of: dateInterval.start) {
+                            dateInterval.end = localEnd
+                        }
+                }
+                .padding(.bottom, 10)
+                
+                HStack {
+                    Image(systemName: "hourglass.tophalf.filled")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(Color(.systemGray3))
+                        .frame(width: 30)
+                    
+                    DatePicker(isZoomed ? "" : "End", selection: $localEnd, in: dateInterval.start...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        .onChange(of: localEnd) {
+                            dateInterval.end = localEnd
+                        }
+                }
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 16)
+            .padding(.leading, 4)
+            .accentColor(.brandPrimary)
+            .font(.custom("Asap-Regular", size: 18))
+            .datePickerStyle(.compact)
+            .transition(.asymmetric(insertion: .scale(scale: 0.2, anchor: .top), removal: .opacity.combined(with: .scale(scale: 0.0, anchor: .top))))
+        }
     }
     
     var gameTiming: some View {
@@ -20,45 +69,17 @@ extension AddNewSessionView {
             // MARK: DATE PICKER
             ForEach(newSession.times.indices, id: \.self) { index in
                 let disabled = index < (newSession.tournamentDays - 1 ) || newSession.noMoreDays
-                VStack {
-                    
-                    if newSession.multiDayToggle && index == 0 {
-                        TournamentDayHeaderView(dayNumber: 1)
-                    }
-                    
-                    else if index > 0 {
-                        TournamentDayHeaderView(dayNumber: index + 1)
-                    }
-                    
-                    HStack {
-                        Image(systemName: "clock")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(.systemGray3))
-                            .frame(width: 30)
-                        
-                        let range: ClosedRange<Date> = (index > 0) ? newSession.times[index - 1].end...Date.now : Date.distantPast...Date.now
-                        DatePicker(isZoomed ? "" : "Start", selection: $newSession.times[index].start, in: range, displayedComponents: [.date, .hourAndMinute])
-                    }
-                    .padding(.bottom, 10)
-                    
-                    HStack {
-                        Image(systemName: "hourglass.tophalf.filled")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(Color(.systemGray3))
-                            .frame(width: 30)
-                        
-                        DatePicker(isZoomed ? "" : "End", selection: $newSession.times[index].end, in: newSession.times[index].start...Date.now, displayedComponents: [.date, .hourAndMinute])
-                    }
+                if newSession.multiDayToggle && index == 0 {
+                    TournamentDayHeaderView(dayNumber: 1)
                 }
-                .padding(.horizontal)
-                .padding(.bottom, 16)
-                .padding(.leading, 4)
-                .accentColor(.brandPrimary)
-                .font(.custom("Asap-Regular", size: 18))
-                .datePickerStyle(.compact)
-                .disabled(disabled)
-                .opacity(disabled ? 0.5 : 1)
-                .transition(.asymmetric(insertion: .scale(scale: 0.2, anchor: .top), removal: .opacity.combined(with: .scale(scale: 0.0, anchor: .top))))
+                
+                else if index > 0 {
+                    TournamentDayHeaderView(dayNumber: index + 1)
+                }
+                
+                StartEndTimeView(dateInterval: $newSession.times[index], previousTime: index > 0 ? newSession.times[index - 1] : nil)
+                    .disabled(disabled)
+                    .opacity(disabled ? 0.5 : 1)
             }
             
             // MARK: CONTROL BUTTONS

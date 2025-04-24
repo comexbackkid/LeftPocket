@@ -19,7 +19,7 @@ final class NewSessionViewModel: ObservableObject {
     @Published var profit: String = ""
     @Published var positiveNegative: String = "+"
     @Published var notes: String = ""
-    @Published var times: [DateInterval] = [DateInterval(start: .now.addingTimeInterval(-3600 * 5), duration: 18000)]
+    @Published var times: [DateInterval] = [DateInterval(start: .now.addingTimeInterval(-3600 * 5), end: .now)]
     @Published var expenses: String = ""
     @Published var presentation: Bool?
     @Published var sessionType: SessionType?
