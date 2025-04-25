@@ -60,6 +60,7 @@ struct ContentView: View {
         }
         .fullScreenCover(item: $selectedMeditation) { meditation in
             MeditationView(passedMeditation: $selectedMeditation, meditation: meditation)
+                .dynamicTypeSize(...DynamicTypeSize.large)
         }
         .background { Color.brandBackground.ignoresSafeArea() }
         .sheet(item: $activeSheet) { sheet in

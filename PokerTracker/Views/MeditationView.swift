@@ -14,9 +14,7 @@ struct MeditationView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var hkManager: HealthKitManager
-    
     @Binding var passedMeditation: Meditation?
-    
     @State private var player: AVAudioPlayer?
     @State private var value: Double = 0.0
     @State private var isPlaying = false
@@ -24,12 +22,9 @@ struct MeditationView: View {
     @State private var isLooping = false
     @State private var isPressed = false
     @State private var isSessionCompleted = false
-    
     let audioManager = AudioManager()
     let meditation: Meditation
-    let timer = Timer
-        .publish(every: 0.5, on: .main, in: .common)
-        .autoconnect()
+    let timer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
     
     var body: some View {
         
@@ -120,6 +115,13 @@ struct MeditationView: View {
         
         VStack {
             
+            if !hkManager.isMindfulnessAuthorized {
+                Text("Health permissions denied. Update from iOS Settings.")
+                    .captionStyle()
+                    .padding(.bottom)
+                    .padding(.horizontal, 30)
+            }
+            
             HStack {
                 
                 Image(systemName: "repeat")
@@ -139,19 +141,20 @@ struct MeditationView: View {
                     let impact = UIImpactFeedbackGenerator(style: .soft)
                     impact.impactOccurred()
                     seek(by: -15)
+                    
                 } label: {
                     Image(systemName: "gobackward.15")
                         .resizable()
                         .frame(width: 25, height: 25)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(hkManager.isMindfulnessAuthorized ? .white : .gray.opacity(0.8))
                 }
+                .allowsHitTesting(hkManager.isMindfulnessAuthorized ? true : false)
                 
                 Spacer()
                 
                 Button {
                     let impact = UIImpactFeedbackGenerator(style: .medium)
                     impact.impactOccurred()
-                    
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0.5)) {
                         isPressed = true
                     }
@@ -161,16 +164,18 @@ struct MeditationView: View {
                             isPressed = false
                         }
                     }
+                    
                     togglePlayPause()
                     
                 } label: {
                     Image(systemName: isPlaying ? "pause.fill" : "play.fill")
                         .resizable()
                         .frame(width: 35, height: 35)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(hkManager.isMindfulnessAuthorized ? .white : .gray.opacity(0.8))
                         .scaleEffect(isPressed ? 0.7 : 1.0)
                         .animation(.none, value: isPlaying)
                 }
+                .allowsHitTesting(hkManager.isMindfulnessAuthorized ? true : false)
                 
                 Spacer()
                 
@@ -178,21 +183,23 @@ struct MeditationView: View {
                     let impact = UIImpactFeedbackGenerator(style: .soft)
                     impact.impactOccurred()
                     seek(by: 15)
+                    
                 } label: {
                     Image(systemName: "goforward.15")
                         .resizable()
                         .frame(width: 25, height: 25)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(hkManager.isMindfulnessAuthorized ? .white : .gray.opacity(0.8))
                 }
+                .allowsHitTesting(hkManager.isMindfulnessAuthorized ? true : false)
 
                 Spacer()
                 
                 Button {
                     let impact = UIImpactFeedbackGenerator(style: .medium)
                     impact.impactOccurred()
-//                    if isSessionCompleted { hkManager.saveMindfulMinutes(Int(meditation.duration)) }
                     stopPlaybackAndReset()
                     dismiss()
+                    
                 } label: {
                     Image(systemName: "stop.fill")
                         .resizable()

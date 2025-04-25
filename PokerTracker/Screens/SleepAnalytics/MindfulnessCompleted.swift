@@ -72,7 +72,7 @@ struct MindfulnessCompleted: View {
         }
         .background(Color.brandBackground)
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 playConfirmationSound()
             }
         }
