@@ -25,6 +25,8 @@ struct ProfitByMonth: View {
                 monthlyTotals
                     
                 yearTotal
+                
+                monthlyChart
             }
             .padding(.horizontal)
         }
@@ -205,12 +207,26 @@ struct ProfitByMonth: View {
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
         .padding(20)
-//        .frame(width: UIScreen.main.bounds.width * 0.9)
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         .padding(.top, 15)
-        .padding(.bottom, 60)
+    }
+    
+    @ViewBuilder
+    private var monthlyChart: some View {
+        
+        let firstDay = Date.from(year: Int(yearFilter) ?? 2024, month: 1, day: 1)
+        let lastDay = Date.from(year: Int(yearFilter) ?? 2024, month: 12, day: 31)
+        BarChartByYear(showTitle: true, moreAxisMarks: false, firstDay: firstDay, lastDay: lastDay)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 20)
+            .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+            .cornerRadius(12)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+            .frame(height: 300)
+            .padding(.top, 15)
+            .padding(.bottom, 60)
     }
     
     private func hourlyByMonth(month: String, sessions: [PokerSession_v2]) -> Int {

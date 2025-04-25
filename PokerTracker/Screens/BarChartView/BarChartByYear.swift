@@ -18,8 +18,24 @@ struct BarChartByYear: View {
     
     let showTitle: Bool
     let moreAxisMarks: Bool
-    let firstDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 1, day: 1)
-    let lastDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 12, day: 31)
+    let firstDay: Date
+    let lastDay: Date
+//    let firstDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 1, day: 1)
+//    let lastDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 12, day: 31)
+    
+    init(showTitle: Bool = true, moreAxisMarks: Bool = false, firstDay: Date? = nil, lastDay: Date? = nil) {
+        self.showTitle = showTitle
+        self.moreAxisMarks = moreAxisMarks
+        
+        // compute defaults for the current calendar year
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: Date())
+        let defaultStart = Date.from(year: year, month: 1, day: 1)
+        let defaultEnd   = Date.from(year: year, month: 12, day: 31)
+
+        self.firstDay = firstDay ?? defaultStart
+        self.lastDay  = lastDay  ?? defaultEnd
+    }
     
     var body: some View {
         
@@ -98,7 +114,7 @@ struct BarChartByYear: View {
             }
             .sensoryFeedback(.selection, trigger: profitAnnotation)
             .chartXSelection(value: $selectedMonth.animation(.easeInOut.speed(2.0)))
-            .chartXScale(domain: [firstDay, lastDay])
+            .chartXScale(domain: firstDay...lastDay)
             .chartYAxis {
                 AxisMarks(position: .leading, values: .automatic(desiredCount: moreAxisMarks ? 5 : 3)) { value in
                     AxisGridLine()
@@ -182,53 +198,45 @@ struct BarChartByYear: View {
     }
     
     var sessionProfitByMonth: [(month: Date, profit: Int)] {
-        sessionsByMonth(sessions: allSessions, sessionFilter: chartSessionFilter)
+      sessionsByMonth(sessions: allSessions,
+                      sessionFilter: chartSessionFilter,
+                      startDate: firstDay,
+                      endDate: lastDay)
     }
     
     // Formats data so we have the profit totals of every month, i.e. only 12 total items in the array. Checks current year only
-    func sessionsByMonth(sessions: [PokerSession_v2], sessionFilter: SessionFilter, year: Date? = nil) -> [(month: Date, profit: Int)] {
+    func sessionsByMonth(sessions: [PokerSession_v2], sessionFilter: SessionFilter, startDate: Date, endDate: Date) -> [(month: Date, profit: Int)] {
+      
+      let calendar = Calendar.current
+      // build every month boundary in [startDate…endDate]
+      var months: [Date] = []
+      var cursor = calendar.startOfMonth(for: startDate)
+      let lastMonth = calendar.startOfMonth(for: endDate)
         
-        var monthlyProfits: [Date: Int] = [:]
-        let currentYear = Calendar.current.component(.year, from: year ?? Date())
-        
-        switch sessionFilter {
-        case .all:
-            for session in sessions {
-                let yearOfSession = Calendar.current.component(.year, from: session.date)
-
-                if yearOfSession == currentYear {
-                    let month = Calendar.current.startOfMonth(for: session.date)
-                    monthlyProfits[month, default: 0] += session.profit
-                }
-            }
-        case .cash:
-            let cashSessions = sessions.filter({ $0.isTournament == false })
-            
-            for session in cashSessions {
-                let yearOfSession = Calendar.current.component(.year, from: session.date)
-                
-                if yearOfSession == currentYear {
-                    let month = Calendar.current.startOfMonth(for: session.date)
-                    monthlyProfits[month, default: 0] += session.profit
-                }
-            }
-        case .tournaments:
-            let tournamentSessions = sessions.filter({ $0.isTournament == true })
-            
-            for session in tournamentSessions {
-                let yearOfSession = Calendar.current.component(.year, from: session.date)
-                
-                if yearOfSession == currentYear {
-                    let month = Calendar.current.startOfMonth(for: session.date)
-                    monthlyProfits[month, default: 0] += session.profit
-                }
-            }
+        while cursor <= lastMonth {
+            months.append(cursor)
+            cursor = calendar.date(byAdding: .month, value: 1, to: cursor)!
         }
-        
-        // Convert the dictionary to an array of tuples
-        let result = monthlyProfits.map { (month: $0.key, profit: $0.value) }
-        
-        return result
+      
+        // bucket profits
+        var bucket: [Date: Int] = months.reduce(into: [:]) { $0[$1] = 0 }
+        for session in sessions {
+            
+            guard session.date >= startDate, session.date <= endDate else { continue }
+            switch sessionFilter {
+            case .cash
+                where session.isTournament: continue
+            case .tournaments
+                where !session.isTournament: continue
+            default: break
+            }
+            
+            let monthStart = calendar.startOfMonth(for: session.date)
+            bucket[monthStart, default: 0] += session.profit
+        }
+      
+        // map back into an array in chronological order
+        return months.map { ($0, bucket[$0]!) }
     }
     
     // Calculates annoations value
