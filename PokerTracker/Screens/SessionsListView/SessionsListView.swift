@@ -167,6 +167,7 @@ struct SessionsListView: View {
                         .padding(.bottom, 50)
                         .sheet(item: $selectedSession) { session in
                             EditSession(pokerSession: session)
+                                .presentationDragIndicator(.visible)
                         }
                         .navigationBarTitleDisplayMode(.inline)
                         .background(Color.brandBackground)

@@ -55,6 +55,7 @@ struct BinkPokerImportView: View {
                 }
             }
             .padding(.horizontal)
+            .padding(.bottom, 50)
         }
         .background(Color.brandBackground)
         .overlay {

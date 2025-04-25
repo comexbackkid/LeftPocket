@@ -81,6 +81,11 @@ struct MeditationView: View {
                 }
             }
             .overlay {
+                if !MeditationTip().shouldDisplay {
+                    dismissButton
+                }
+            }
+            .overlay {
                 let meditationTip = MeditationTip()
                 
                 VStack {
@@ -236,6 +241,22 @@ struct MeditationView: View {
         let minutes = Int(meditation.duration) / 60
         let seconds = Int(meditation.duration) % 60
         return String(format: "%d:%02d", minutes, seconds)
+    }
+    
+    var dismissButton: some View {
+        
+        VStack {
+            HStack {
+                Spacer()
+                DismissButton()
+                    .padding(.trailing, 10)
+                    .padding(.top, 10)
+                    .onTapGesture {
+                        dismiss()
+                    }
+            }
+            Spacer()
+        }
     }
     
     private func togglePlayPause() {

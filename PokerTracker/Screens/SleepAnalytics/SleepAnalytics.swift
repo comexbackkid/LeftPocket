@@ -390,7 +390,7 @@ struct SleepAnalytics: View {
                 Spacer()
                 
                 DismissButton()
-                    .padding(.trailing, 20)
+                    .padding(.trailing, 10)
                     .padding(.top, 20)
                     .onTapGesture {
                         dismiss()

@@ -53,6 +53,7 @@ struct PokerAnalyticsImportView: View {
                     }
                 }
             }
+            .padding(.bottom, 50)
             .padding(.horizontal)
         }
         .background(Color.brandBackground)
