@@ -32,9 +32,13 @@ extension AddNewSessionView {
                         .foregroundColor(Color(.systemGray3))
                         .frame(width: 30)
                     
+                    // MARK: START TIME
                     let range: ClosedRange<Date> = (previousTime != nil) ? previousTime!.end...Date.now : Date.distantPast...Date.now
                     DatePicker(isZoomed ? "" : "Start", selection: $dateInterval.start, in: range, displayedComponents: [.date, .hourAndMinute])
-                        .onChange(of: dateInterval.start) {
+                        .onChange(of: dateInterval.start) { newStart in
+                            if localEnd < newStart {
+                                localEnd = newStart
+                            }
                             dateInterval.end = localEnd
                         }
                 }
@@ -46,6 +50,7 @@ extension AddNewSessionView {
                         .foregroundColor(Color(.systemGray3))
                         .frame(width: 30)
                     
+                    // MARK: END TIME
                     DatePicker(isZoomed ? "" : "End", selection: $localEnd, in: dateInterval.start...Date.now, displayedComponents: [.date, .hourAndMinute])
                         .onChange(of: localEnd) {
                             dateInterval.end = localEnd
