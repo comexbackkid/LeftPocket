@@ -17,6 +17,8 @@ struct ManageData: View {
     @State private var showPaywall = false
     @State private var notificationsAllowed = false
     @State private var showAlertModal = false
+    @State private var showDeleteSuccessAlertModal = false
+    @State private var showExportSuccessAlertModal = false
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
     @StateObject var exportUtility = CSVConversion()
@@ -141,7 +143,7 @@ struct ManageData: View {
                 
                 Spacer()
             }
-            .sheet(isPresented: $showAlertModal, content: {
+            .sheet(isPresented: $showExportSuccessAlertModal, content: {
                 AlertModal(message: "Your data was exported successfully.", image: "checkmark.circle", imageColor: .green)
                     .presentationDetents([.height(280)])
                     .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
@@ -296,7 +298,7 @@ struct ManageData: View {
             
             Spacer()
         }
-        .sheet(isPresented: $showAlertModal, content: {
+        .sheet(isPresented: $showDeleteSuccessAlertModal, content: {
             AlertModal(message: "You successfully deleted your data.", image: "checkmark.circle", imageColor: .green)
                 .presentationDetents([.height(280)])
                 .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
@@ -314,7 +316,7 @@ struct ManageData: View {
             if let encodedData = try? JSONEncoder().encode(vm.sessions) {
                 try? FileManager.default.removeItem(at: vm.newSessionsPath)
                 try encodedData.write(to: vm.newSessionsPath)
-                showAlertModal = true
+                showDeleteSuccessAlertModal = true
             }
             
         } catch {
