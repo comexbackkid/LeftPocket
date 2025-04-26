@@ -167,6 +167,7 @@ struct BackupsView: View {
             let newSessions = decodedSessions.filter { !existingIDs.contains($0.id) }
             
             viewModel.sessions += newSessions
+            viewModel.sessions.sort { $0.date < $1.date }
             showRestoreSuccessAlertModal = true
             print("Restored \(newSessions.count) new sessions from backup.")
             

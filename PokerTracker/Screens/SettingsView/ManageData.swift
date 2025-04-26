@@ -40,6 +40,8 @@ struct ManageData: View {
                         
                         exportData
                         
+                        restoreData
+                        
                         deleteData
                         
                         Spacer()
@@ -228,6 +230,36 @@ struct ManageData: View {
                 }
             }
         }
+    }
+    
+    var restoreData: some View {
+        
+        NavigationLink(
+            destination: BackupsView(),
+            label: {
+                HStack {
+                    VStack (alignment: .leading) {
+                        HStack {
+                            
+                            Text("Restore Data")
+                                .subtitleStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                        
+                        Text("Automatic backups of your sessions are generated every thirty days. If you need to restore your data, tap here to browse your backed up files.")
+                            .calloutStyle()
+                            .opacity(0.8)
+                            .padding(.top, 1)
+                    }
+                    Spacer()
+                }
+            })
+        .buttonStyle(PlainButtonStyle())
     }
     
     var importData: some View {
