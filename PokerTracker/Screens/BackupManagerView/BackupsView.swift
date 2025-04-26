@@ -87,6 +87,7 @@ struct BackupsView: View {
                                 
                             } label: {
                                 Image(systemName: "ellipsis")
+                                    .bold()
                             }
                         }
                         .padding(.bottom)
