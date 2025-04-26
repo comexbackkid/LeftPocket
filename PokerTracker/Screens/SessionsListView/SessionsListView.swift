@@ -96,9 +96,7 @@ struct SessionsListView: View {
         
         return result.sorted(by: { $0.date > $1.date })
     }
-    var isPad: Bool {
-        UIDevice.current.userInterfaceIdiom == .pad
-    }
+    var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
     let editTip = SessionsListTip()
     let filterTip = FilterSessionsTip()
     

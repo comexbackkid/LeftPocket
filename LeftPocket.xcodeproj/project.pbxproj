@@ -11,6 +11,8 @@
 		7C0208DB26F24B4900AC6151 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0208DA26F24B4900AC6151 /* Date+Ext.swift */; };
 		7C028F982C3587FC0098CA8C /* RedeemOfferCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C028F972C3587FC0098CA8C /* RedeemOfferCode.swift */; };
 		7C028F9A2C36B5960098CA8C /* AdvancedTournamentReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C028F992C36B5960098CA8C /* AdvancedTournamentReport.swift */; };
+		7C030BF22DBC82B70097E47B /* BackupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C030BF12DBC82B70097E47B /* BackupManager.swift */; };
+		7C030BF52DBC84F20097E47B /* BackupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C030BF42DBC84F20097E47B /* BackupsView.swift */; };
 		7C0866752D25B25D006B5D39 /* InterfaceOrientation in Frameworks */ = {isa = PBXBuildFile; productRef = 7C0866742D25B25D006B5D39 /* InterfaceOrientation */; };
 		7C0B3FF62CC5454B00F446EA /* MeditationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B3FF52CC5454B00F446EA /* MeditationView.swift */; };
 		7C0B3FFA2CC6989A00F446EA /* MeditationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0B3FF92CC6989A00F446EA /* MeditationModel.swift */; };
@@ -309,6 +311,8 @@
 		7C0208DA26F24B4900AC6151 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		7C028F972C3587FC0098CA8C /* RedeemOfferCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemOfferCode.swift; sourceTree = "<group>"; };
 		7C028F992C36B5960098CA8C /* AdvancedTournamentReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedTournamentReport.swift; sourceTree = "<group>"; };
+		7C030BF12DBC82B70097E47B /* BackupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupManager.swift; sourceTree = "<group>"; };
+		7C030BF42DBC84F20097E47B /* BackupsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupsView.swift; sourceTree = "<group>"; };
 		7C0B3FF52CC5454B00F446EA /* MeditationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationView.swift; sourceTree = "<group>"; };
 		7C0B3FF92CC6989A00F446EA /* MeditationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeditationModel.swift; sourceTree = "<group>"; };
 		7C12A58A2CB1CABE00CA8922 /* DashboardConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardConfig.swift; sourceTree = "<group>"; };
@@ -569,6 +573,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7C030BF32DBC84DA0097E47B /* BackupManagerView */ = {
+			isa = PBXGroup;
+			children = (
+				7C030BF42DBC84F20097E47B /* BackupsView.swift */,
+			);
+			path = BackupManagerView;
+			sourceTree = "<group>";
+		};
 		7C0B3FFB2CC6D4EE00F446EA /* Meditations */ = {
 			isa = PBXGroup;
 			children = (
@@ -639,6 +651,7 @@
 				7CB587352D4287C600BCE642 /* MigrationHandler.swift */,
 				7C7B78E12C3DD11900855723 /* SystemThemeManager.swift */,
 				7CA7F8142B6FF5FB00F976EE /* Tips.swift */,
+				7C030BF12DBC82B70097E47B /* BackupManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -665,6 +678,7 @@
 		7C2614CC26D930D900986183 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				7C030BF32DBC84DA0097E47B /* BackupManagerView */,
 				7C45B06B29428EEB00587078 /* BarChartView */,
 				7C2614CD26D9310E00986183 /* CardViews */,
 				7C3EF3E32C64E5BF00835467 /* EditSessionView */,
@@ -1516,6 +1530,7 @@
 				7CB3EBA526C352C6009E8DF3 /* Model.swift in Sources */,
 				7C44A68D2C2F3D0100110359 /* MetricsCalculations+Ext.swift in Sources */,
 				7CCE17D526D9A07300B9F6CC /* NewSessionViewModel.swift in Sources */,
+				7C030BF52DBC84F20097E47B /* BackupsView.swift in Sources */,
 				7C7A019E2D1DD13900EC30D4 /* TagReport.swift in Sources */,
 				7CA940F92BECF8E3009B54BA /* SleepAnalytics.swift in Sources */,
 				7C483256270E3F32005AAFA1 /* FilterCardView.swift in Sources */,
@@ -1542,6 +1557,7 @@
 				7C9BBF1A2DB443AC00B13638 /* OnboardingView.riskTolerance.swift in Sources */,
 				7C8647812B29277900F48951 /* WelcomeScreen.swift in Sources */,
 				7CD2EEC72BE8F0DB00AEE64E /* AppDelegate.swift in Sources */,
+				7C030BF22DBC82B70097E47B /* BackupManager.swift in Sources */,
 				7CF39C922BE6DBB4003B4C00 /* NotificationsView.swift in Sources */,
 				7CA940FB2BECF925009B54BA /* HealthMetricModel.swift in Sources */,
 			);
