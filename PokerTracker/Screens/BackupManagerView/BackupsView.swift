@@ -9,8 +9,13 @@ import SwiftUI
 
 struct BackupsView: View {
     
+    @EnvironmentObject var viewModel: SessionsListViewModel
+    @Environment(\.colorScheme) var colorScheme
     @State private var backupFiles: [URL] = []
     @State private var useDummyData = true
+    @State private var showRestoreWarning = false
+    @State private var showRestoreSuccessAlertModal = false
+    @State private var selectedBackup: URL?
     
     var body: some View {
         
@@ -46,7 +51,10 @@ struct BackupsView: View {
                         
                         Menu {
                             Button("Restore from Backup") {
-                                //
+                                let impact = UIImpactFeedbackGenerator(style: .soft)
+                                impact.impactOccurred()
+                                selectedBackup = file
+                                showRestoreWarning = true
                             }
                             
                         } label: {
@@ -70,6 +78,27 @@ struct BackupsView: View {
                     fetchBackupFiles()
                 }
             }
+            .alert(Text("Are You Sure?"), isPresented: $showRestoreWarning) {
+                
+                Button("Yes", role: .destructive) {
+                    if let fileURL = selectedBackup {
+                        restoreBackup(fileURL)
+                    }
+                }
+                
+                Button("Cancel", role: .cancel) {
+                    selectedBackup = nil
+                }
+                
+            } message: {
+                Text("Pressing Yes below will restore your data from the selected backup and merge with your current session data.")
+            }
+            .sheet(isPresented: $showRestoreSuccessAlertModal, content: {
+                AlertModal(message: "You successfully restored your data.", image: "checkmark.circle", imageColor: .green)
+                    .presentationDetents([.height(280)])
+                    .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
+                    .presentationDragIndicator(.visible)
+            })
         }
         .background(Color.brandBackground)
     }
@@ -84,7 +113,7 @@ struct BackupsView: View {
         do {
             let allFiles = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
             backupFiles = allFiles.filter { $0.lastPathComponent.hasPrefix("sessions_backup_") }
-                .sorted(by: { $0.lastPathComponent > $1.lastPathComponent }) // Newest first
+                .sorted(by: { $0.lastPathComponent > $1.lastPathComponent })
             
         } catch {
             print("Failed to fetch backup files: \(error.localizedDescription)")
@@ -128,6 +157,24 @@ struct BackupsView: View {
         }
     }
     
+    private func restoreBackup(_ file: URL) {
+        
+        do {
+            let data = try Data(contentsOf: file)
+            let decodedSessions = try JSONDecoder().decode([PokerSession_v2].self, from: data)
+            
+            let existingIDs = Set(viewModel.sessions.map { $0.id })
+            let newSessions = decodedSessions.filter { !existingIDs.contains($0.id) }
+            
+            viewModel.sessions += newSessions
+            showRestoreSuccessAlertModal = true
+            print("Restored \(newSessions.count) new sessions from backup.")
+            
+        } catch {
+            print("Failed to load sessions: \(error.localizedDescription)")
+        }
+    }
+    
     var screenTitle: some View {
         
         HStack (alignment: .center) {
@@ -147,5 +194,6 @@ struct BackupsView: View {
 
 #Preview {
     BackupsView()
+        .environmentObject(SessionsListViewModel())
         .preferredColorScheme(.dark)
 }
