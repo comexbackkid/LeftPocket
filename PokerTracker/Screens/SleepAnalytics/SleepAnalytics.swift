@@ -423,19 +423,24 @@ struct SleepAnalytics: View {
                 ForEach(chartData) { sleep in
 //                ForEach(SleepMetric.MockData) { sleep in
                     let day = Calendar.current.startOfDay(for: sleep.date)
-                    BarMark(x: .value("Date", sleep.date, unit: .day), y: .value("Hours", sleep.value))
+                    BarMark(x: .value("Date", sleep.date, unit: .day), y: .value("Hours", sleep.value), width: .fixed(20))
                         .foregroundStyle(calculateBarColor(for: sleep))
-//                        .annotation(position: .top, alignment: .center, spacing: 12) {
-//                            if dailyProfits[day] != nil {
-//                                Text("🚀")
-//                                    .font(.caption2)
-//                            }
-//                        }
+                        .cornerRadius(3)
+                    
+                    RuleMark(y: .value("Average", 7))
+                        .lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))
+                        .foregroundStyle(Color.donutChartOrange)
+                        .annotation(position: .top, alignment: .trailing) {
+                            Text("Avg \(avgSleep())")
+                                .font(.caption)
+                                .foregroundStyle(Color.donutChartOrange)
+                                .padding(.bottom, 10)
+                        }
                 }
             }
             .chartScrollableAxes(.horizontal)
-            .chartXVisibleDomain(length: 86400*21)
-            .chartScrollPosition(initialX: Date().modifyDays(days: -21))
+            .chartXVisibleDomain(length: 86400*7)
+            .chartScrollPosition(initialX: Date().modifyDays(days: -1))
             .chartScrollTargetBehavior(.paging)
             .chartXSelection(value: $rawSelectedDate)
             .chartXAxis {
@@ -445,7 +450,7 @@ struct SleepAnalytics: View {
                 }
             }
             .chartYAxis {
-                AxisMarks { value in
+                AxisMarks() { value in
                     AxisGridLine()
                         .foregroundStyle(Color.secondary.opacity(0.33))
                     
@@ -512,7 +517,7 @@ struct SleepAnalytics: View {
         } else if profit < 0 {
             return .red
         } else {
-            return Color(.systemGray4).opacity(0.8)
+            return Color(.systemGray4).opacity(0.7)
         }
     }
     
