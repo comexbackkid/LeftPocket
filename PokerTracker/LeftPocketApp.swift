@@ -46,6 +46,7 @@ struct LeftPocketApp: App {
                 })
                 .onAppear {
                     migrateDataIfNeeded(viewModel: vm)
+                    BackupManager.shared.performMonthlyBackupIfNeeded()
                 }
         }
     }

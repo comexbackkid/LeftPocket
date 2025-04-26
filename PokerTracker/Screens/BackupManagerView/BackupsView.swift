@@ -12,7 +12,7 @@ struct BackupsView: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     @Environment(\.colorScheme) var colorScheme
     @State private var backupFiles: [URL] = []
-    @State private var useDummyData = true
+    @State private var useDummyData = false
     @State private var showRestoreWarning = false
     @State private var showRestoreSuccessAlertModal = false
     @State private var selectedBackup: URL?
@@ -22,84 +22,107 @@ struct BackupsView: View {
         NavigationStack {
             
             if backupFiles.isEmpty {
-                screenTitle
-            }
-            
-            List {
-                
-                screenTitle
-                
-                ForEach(backupFiles, id: \.self) { file in
-                    HStack {
-                        
+                VStack {
+                    
+                    screenTitle
+                    
+                    Spacer()
+                }
+                .overlay {
+                    VStack {
                         Image(systemName: "doc.text")
-                            .foregroundColor(.brandPrimary)
-                            .padding(.trailing, 12)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 50)
+                            .foregroundStyle(.secondary)
                         
-                        VStack (alignment: .leading) {
+                        Text("No backups generated yet")
+                            .cardTitleStyle()
+                            .bold()
+                            .multilineTextAlignment(.center)
+                            .padding(.top)
+                            .padding(.bottom, 5)
+                        
+                        Text("Automatic backups of your session data are generated every month. After 30 days you will see your backups on this screen.")
+                            .foregroundColor(.secondary)
+                            .subHeadlineStyle()
+                            .multilineTextAlignment(.center)
+                            .lineSpacing(3)
+                    }
+                    .padding(.horizontal, 20)
+                }
+                
+            } else {
+                List {
+                    
+                    screenTitle
+                    
+                    ForEach(backupFiles, id: \.self) { file in
+                        HStack {
                             
-                            Text("\(monthAndYear(for: file))")
-                                .bodyStyle()
+                            Image(systemName: "doc.text")
+                                .foregroundColor(.brandPrimary)
+                                .padding(.trailing, 12)
                             
-                            Text(file.lastPathComponent)
-                                .captionStyle()
-                                .lineLimit(1)
-                                .truncationMode(.middle)
-                        }
-                        
-                        Spacer()
-                        
-                        Menu {
-                            Button("Restore from Backup") {
-                                let impact = UIImpactFeedbackGenerator(style: .soft)
-                                impact.impactOccurred()
-                                selectedBackup = file
-                                showRestoreWarning = true
+                            VStack (alignment: .leading) {
+                                
+                                Text("\(monthAndYear(for: file))")
+                                    .bodyStyle()
+                                
+                                Text(file.lastPathComponent)
+                                    .captionStyle()
+                                    .lineLimit(1)
+                                    .truncationMode(.middle)
                             }
                             
-                        } label: {
-                            Image(systemName: "ellipsis")
+                            Spacer()
+                            
+                            Menu {
+                                Button("Restore from Backup") {
+                                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                                    impact.impactOccurred()
+                                    selectedBackup = file
+                                    showRestoreWarning = true
+                                }
+                                
+                            } label: {
+                                Image(systemName: "ellipsis")
+                            }
+                        }
+                        .padding(.bottom)
+                        .listRowBackground(Color.brandBackground)
+                        .listRowInsets(EdgeInsets(top: 4, leading: 20, bottom: 4, trailing: 20))
+                    }
+                }
+                .listRowSpacing(10)
+                .listStyle(.plain)
+                .navigationBarTitleDisplayMode(.inline)
+                .background(Color.brandBackground)
+                .accentColor(.brandPrimary)
+                .alert(Text("Are You Sure?"), isPresented: $showRestoreWarning) {
+                    
+                    Button("Yes", role: .destructive) {
+                        if let fileURL = selectedBackup {
+                            restoreBackup(fileURL)
                         }
                     }
-                    .padding(.bottom)
-                    .listRowBackground(Color.brandBackground)
-                    .listRowInsets(EdgeInsets(top: 4, leading: 20, bottom: 4, trailing: 20))
-                }
-            }
-            .listRowSpacing(10)
-            .listStyle(.plain)
-            .navigationBarTitleDisplayMode(.inline)
-            .background(Color.brandBackground)
-            .accentColor(.brandPrimary)
-            .onAppear {
-                if useDummyData {
-                    generateDummyBackups()
-                } else {
-                    fetchBackupFiles()
-                }
-            }
-            .alert(Text("Are You Sure?"), isPresented: $showRestoreWarning) {
-                
-                Button("Yes", role: .destructive) {
-                    if let fileURL = selectedBackup {
-                        restoreBackup(fileURL)
+                    
+                    Button("Cancel", role: .cancel) {
+                        selectedBackup = nil
                     }
+                    
+                } message: {
+                    Text("Pressing Yes below will restore your data from the selected backup and merge with your current session data.")
                 }
-                
-                Button("Cancel", role: .cancel) {
-                    selectedBackup = nil
-                }
-                
-            } message: {
-                Text("Pressing Yes below will restore your data from the selected backup and merge with your current session data.")
+                .sheet(isPresented: $showRestoreSuccessAlertModal, content: {
+                    AlertModal(message: "You successfully restored your data.", image: "checkmark.circle", imageColor: .green)
+                        .presentationDetents([.height(280)])
+                        .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
+                        .presentationDragIndicator(.visible)
+                })
             }
-            .sheet(isPresented: $showRestoreSuccessAlertModal, content: {
-                AlertModal(message: "You successfully restored your data.", image: "checkmark.circle", imageColor: .green)
-                    .presentationDetents([.height(280)])
-                    .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
-                    .presentationDragIndicator(.visible)
-            })
         }
+        .onAppear { fetchBackupFiles() }
         .background(Color.brandBackground)
     }
     

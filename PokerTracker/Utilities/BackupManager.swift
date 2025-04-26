@@ -42,6 +42,20 @@ final class BackupManager {
             return // No sessions file to back up
         }
         
+        do {
+            let data = try Data(contentsOf: sessionsFile)
+            let decodedSessions = try JSONDecoder().decode([PokerSession_v2].self, from: data)
+            
+            guard !decodedSessions.isEmpty else {
+                print("Backup skipped: sessions_v2.json is empty.")
+                return
+            }
+            
+        } catch {
+            print("Backup skipped: failed to decode sessions: \(error.localizedDescription)")
+            return
+        }
+        
         // Create backup file name
         let dateString = dateFormatter.string(from: now)
         let backupFileName = "sessions_backup_\(dateString).json"
