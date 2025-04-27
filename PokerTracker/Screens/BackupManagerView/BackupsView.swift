@@ -29,27 +29,8 @@ struct BackupsView: View {
                     Spacer()
                 }
                 .overlay {
-                    VStack {
-                        Image(systemName: "doc.text")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 50)
-                            .foregroundStyle(.secondary)
-                        
-                        Text("No backups generated yet")
-                            .cardTitleStyle()
-                            .bold()
-                            .multilineTextAlignment(.center)
-                            .padding(.top)
-                            .padding(.bottom, 5)
-                        
-                        Text("Automatic backups of your session data are generated every month. After 30 days you will see your backups on this screen.")
-                            .foregroundColor(.secondary)
-                            .subHeadlineStyle()
-                            .multilineTextAlignment(.center)
-                            .lineSpacing(3)
-                    }
-                    .padding(.horizontal, 20)
+                    
+                    emptyView
                 }
                 
             } else {
@@ -125,6 +106,31 @@ struct BackupsView: View {
         }
         .onAppear { fetchBackupFiles() }
         .background(Color.brandBackground)
+    }
+    
+    var emptyView: some View {
+        
+        VStack {
+            Image(systemName: "doc.text")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 50)
+                .foregroundStyle(.secondary)
+            
+            Text("No backups generated yet")
+                .cardTitleStyle()
+                .bold()
+                .multilineTextAlignment(.center)
+                .padding(.top)
+                .padding(.bottom, 5)
+            
+            Text("Automatic backups of your session data are generated every month. After 30 days you will see your backups on this screen.")
+                .foregroundColor(.secondary)
+                .subHeadlineStyle()
+                .multilineTextAlignment(.center)
+                .lineSpacing(3)
+        }
+        .padding(.horizontal, 20)
     }
     
     private func fetchBackupFiles() {

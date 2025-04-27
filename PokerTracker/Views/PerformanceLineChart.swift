@@ -104,21 +104,18 @@ struct PerformanceLineChart: View {
                         case .hourly:
                             if let intValue = value.as(Int.self) {
                                 Text(intValue.axisShortHand(viewModel.userCurrency))
-//                                    .captionStyle()
                                     .font(.custom("AsapCondensed-Bold", size: 12, relativeTo: .caption2))
                                     .padding(.trailing, 15)
                             }
                         case .winRate:
                             if let doubleValue = value.as(Double.self) {
                                 Text(doubleValue.asPercent())
-//                                    .captionStyle()
                                     .font(.custom("AsapCondensed-Bold", size: 12, relativeTo: .caption2))
                                     .padding(.trailing, 15)
                             }
                         case .bbRate:
                             if let doubleValue = value.as(Double.self) {
                                 Text("\(doubleValue, specifier: "%.0f")")
-//                                    .captionStyle()
                                     .font(.custom("AsapCondensed-Bold", size: 12, relativeTo: .caption2))
                                     .padding(.trailing, 15)
                             }
@@ -129,7 +126,7 @@ struct PerformanceLineChart: View {
             .chartXAxis {
                 AxisMarks {
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 1, dash: [2, 4]))
-                        .foregroundStyle(.gray.opacity(0.33))
+                        .foregroundStyle(.gray.opacity(chartData.isEmpty ? 0.0 : 0.33))
                     AxisValueLabel(format: .dateTime.month(.abbreviated),
                                    horizontalSpacing: 0,
                                    verticalSpacing: 15).font(.custom("AsapCondensed-Bold", size: 12, relativeTo: .caption2))
