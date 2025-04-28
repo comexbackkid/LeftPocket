@@ -50,6 +50,7 @@ class TimerViewModel: ObservableObject {
         startUpdatingTimer()
         initialBuyInAmount = UserDefaults.standard.string(forKey: "initialBuyInAmount") ?? ""
         totalRebuys = UserDefaults.standard.array(forKey: "totalRebuys") as? [Int] ?? []
+        notes = UserDefaults.standard.stringArray(forKey: "liveSessionNotes") ?? []
     }
     
     @objc func fileAccessAvailable() {
