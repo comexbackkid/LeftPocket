@@ -422,12 +422,12 @@ struct SleepAnalytics: View {
             Chart {
                 ForEach(chartData) { sleep in
 //                ForEach(SleepMetric.MockData) { sleep in
-                    let day = Calendar.current.startOfDay(for: sleep.date)
+//                    let day = Calendar.current.startOfDay(for: sleep.date)
                     BarMark(x: .value("Date", sleep.date, unit: .day), y: .value("Hours", sleep.value), width: .fixed(20))
                         .foregroundStyle(calculateBarColor(for: sleep))
                         .cornerRadius(3)
                     
-                    RuleMark(y: .value("Average", 7))
+                    RuleMark(y: .value("Average", Double(avgSleep()) ?? 0))
                         .lineStyle(StrokeStyle(lineWidth: 1, dash: [5]))
                         .foregroundStyle(Color.donutChartOrange)
                         .annotation(position: .top, alignment: .trailing) {

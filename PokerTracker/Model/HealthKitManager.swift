@@ -74,83 +74,54 @@ class HealthKitManager: ObservableObject {
     
     @MainActor
     func fetchSleepData() async throws {
-        guard store.authorizationStatus(for: HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!) != .sharingAuthorized else {
+        let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
+        guard store.authorizationStatus(for: sleepType) != .sharingAuthorized else {
             throw HKError.authNotDetermined
         }
         
-        let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
         let endDate = Date()
         let startDate = Calendar.current.date(byAdding: .day, value: -60, to: endDate)!
-//        let startOfYear = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: endDate))!
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
-        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
+        let sort = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
         
         return try await withCheckedThrowingContinuation { continuation in
-            let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sortDescriptor]) { [weak self] (query, result, error) in
-                if error != nil {
-                    continuation.resume(throwing: HKError.unableToQuerySleepData)
+            let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: [sort]) { [weak self] _, results, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
                     return
                 }
                 
-                var asleepSleepMetrics: [SleepMetric] = []
-                var inBedSleepMetrics: [SleepMetric] = []
+                let calendar = Calendar.current
+                var asleepTimes: [Date: Double] = [:]
+                var inBedTimes: [Date: Double] = [:]
                 
-                if let result = result {
-                    let calendar = Calendar.current
+                for case let sample as HKCategorySample in (results ?? []) {
+                    let groupDate = self?.adjustedDateForGrouping(date: sample.startDate, calendar: calendar) ?? sample.startDate
+                    let nextDay = calendar.date(byAdding: .day, value: 1, to: groupDate)!
+                    let hours = sample.endDate.timeIntervalSince(sample.startDate) / 3600
                     
-                    var dailyAsleepTimes: [Date: Double] = [:]
-                    var dailyInBedTimes: [Date: Double] = [:]
-                    
-                    for sample in result {
-                        if let categorySample = sample as? HKCategorySample {
-                            let adjustedStartDate = self?.adjustedDateForGrouping(date: categorySample.startDate, calendar: calendar) ?? categorySample.startDate
-                            let sleepTime = categorySample.endDate.timeIntervalSince(categorySample.startDate) / 3600
-                            
-                            // Add sleep time to the next day
-                            let nextDay = calendar.date(byAdding: .day, value: 1, to: adjustedStartDate)!
-                            
-                            // We're checking if the user has actual sleep data. If no, we default to using "In Bed" numbers generated from the Health App.
-                            if HKCategoryValueSleepAnalysis.allAsleepValues.map({ $0.rawValue }).contains(categorySample.value) {
-                                if let existingSleepTime = dailyAsleepTimes[nextDay] {
-                                    dailyAsleepTimes[nextDay] = existingSleepTime + sleepTime
-                                } else {
-                                    dailyAsleepTimes[nextDay] = sleepTime
-                                }
-                            } else if categorySample.value == HKCategoryValueSleepAnalysis.inBed.rawValue {
-                                if let existingSleepTime = dailyInBedTimes[nextDay] {
-                                    dailyInBedTimes[nextDay] = existingSleepTime + sleepTime
-                                } else {
-                                    dailyInBedTimes[nextDay] = sleepTime
-                                }
-                            }
-                        }
-                    }
-                    
-                    // Combine asleep and inBed data
-                    for (date, inBedTime) in dailyInBedTimes {
-                        if dailyAsleepTimes[date] == nil {
-                            dailyAsleepTimes[date] = inBedTime
-                        }
-                    }
-                    
-                    for (date, totalSleepTime) in dailyAsleepTimes {
-                        let sleepMetric = SleepMetric(date: date, value: totalSleepTime)
-                        asleepSleepMetrics.append(sleepMetric)
+                    if HKCategoryValueSleepAnalysis.allAsleepValues.map(\.rawValue).contains(sample.value) {
+                        asleepTimes[nextDay, default: 0] += hours
+                        
+                    } else if sample.value == HKCategoryValueSleepAnalysis.inBed.rawValue {
+                        inBedTimes[nextDay, default: 0] += hours
                     }
                 }
                 
-                var finalSleepMetrics = asleepSleepMetrics.isEmpty ? inBedSleepMetrics : asleepSleepMetrics
-                finalSleepMetrics.sort { $0.date < $1.date }
-                
-                // Filter out the first day
-                if finalSleepMetrics.count > 1 {
-                    finalSleepMetrics.removeFirst()
+                // Combine: prefer actual asleep, otherwise inBed
+                var combined: [Date: Double] = asleepTimes
+                for (date, inBed) in inBedTimes {
+                    if combined[date] == nil {
+                        combined[date] = inBed
+                    }
                 }
                 
+                // Turn into sorted SleepMetric array
+                var metrics = combined.map { SleepMetric(date: $0.key, value: $0.value) }
+                metrics.sort { $0.date < $1.date }
                 DispatchQueue.main.async {
-                    self?.sleepData = finalSleepMetrics
+                    self?.sleepData = metrics
                 }
-                
                 continuation.resume()
             }
             

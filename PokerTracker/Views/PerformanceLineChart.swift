@@ -18,10 +18,8 @@ struct PerformanceLineChart: View {
     @State private var selectedMonth: Date?
     @State private var metricFilter: MetricFilter = .hourly
     @State private var showPaywall = false
-    
     let firstDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 1, day: 1)
     let lastDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 12, day: 31)
-    
     var chartData: [(Date, Double)] {
         switch metricFilter {
         case .hourly: return sessionAverageHourlyRateByMonth.map { ($0.month, Double($0.averageHourlyRate)) }
