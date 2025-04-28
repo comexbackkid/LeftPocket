@@ -107,7 +107,7 @@ struct LiveSessionNote: View {
             Button {
                 let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
-                saveNote()
+                timerViewModel.addNote(noteText)
                 dismiss()
                 noteConfirmationSound = true
                 
@@ -129,16 +129,6 @@ struct LiveSessionNote: View {
         .padding(.bottom, 10)
         .padding(.horizontal)
         .padding(.horizontal, 8)
-    }
-    
-    private func saveNote() {
-        
-        if !timerViewModel.notes.isEmpty {
-            timerViewModel.notes.append("\n" + noteText)
-        } else {
-            timerViewModel.notes.append(noteText)
-        }
-        print(noteText)
     }
 }
 

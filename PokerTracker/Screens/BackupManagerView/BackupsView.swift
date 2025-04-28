@@ -67,8 +67,8 @@ struct BackupsView: View {
                                 }
                                 
                             } label: {
-                                Image(systemName: "ellipsis")
-                                    .bold()
+                                Image(systemName: "ellipsis.circle")
+                                    .imageScale(.large)
                             }
                         }
                         .padding(.bottom)
@@ -104,7 +104,7 @@ struct BackupsView: View {
                 })
             }
         }
-        .onAppear { fetchBackupFiles() }
+        .onAppear { if useDummyData { generateDummyBackups() } else { fetchBackupFiles() } }
         .background(Color.brandBackground)
     }
     

@@ -155,6 +155,15 @@ class TimerViewModel: ObservableObject {
         reBuyAmount = ""
     }
     
+    func addNote(_ note: String) {
+        if !notes.isEmpty {
+            notes.append("\n" + note)
+        } else {
+            notes.append(note)
+        }
+        UserDefaults.standard.setValue(notes, forKey: "liveSessionNotes")
+    }
+    
     // Called when the app enters the foreground
     @objc private func appDidResume() {
         updateElapsedTime()
