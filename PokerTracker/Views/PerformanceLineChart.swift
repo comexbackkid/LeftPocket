@@ -223,31 +223,25 @@ struct PerformanceLineChart: View {
     }
 
     func sessionsAverageHourlyRateByMonth(sessions: [PokerSession_v2], cashOnly: Bool) -> [(month: Date, averageHourlyRate: Int)] {
-        
-        var monthlyHourlyRates: [Date: [Int]] = [:]
         let currentYear = Calendar.current.component(.year, from: Date())
-        
-        let filteredSessions = cashOnly ? sessions.filter { $0.isTournament != true } : sessions
-        
-        for session in filteredSessions {
-            let yearOfSession = Calendar.current.component(.year, from: session.date)
-            
-            // Check if the session is from the current year
-            if yearOfSession == currentYear {
-                let month = Calendar.current.startOfMonth(for: session.date)
-                
-                // Append the hourly rate for the session to the month's array
-                monthlyHourlyRates[month, default: []].append(session.hourlyRate)
+        let filtered = (cashOnly ? sessions.filter { !$0.isTournament } : sessions).filter { Calendar.current.component(.year, from: $0.date) == currentYear }
+        let grouped = Dictionary(grouping: filtered) { Calendar.current.startOfMonth(for: $0.date) }
+        let results = grouped.map { month, monthSessions -> (Date, Int) in
+            let totalHours = monthSessions.reduce(0.0) { runningTotal, session in
+                let h = Double(session.sessionDuration.hour ?? 0)
+                let m = Double(session.sessionDuration.minute ?? 0)
+                return runningTotal + h + (m / 60)
             }
+            
+            let totalEarnings = monthSessions.reduce(0.0) { runningTotal, session in
+                runningTotal + Double(session.profit)
+            }
+            
+            let averageRate = totalHours > 0 ? Int(round(totalEarnings / totalHours)) : 0
+            return (month, averageRate)
         }
         
-        // Calculate the average hourly rate for each month
-        return monthlyHourlyRates.map { month, rates in
-            let totalRates = rates.reduce(0, +)
-            let averageHourlyRate = rates.isEmpty ? 0 : totalRates / rates.count
-            return (month, averageHourlyRate)
-        }
-        .sorted { $0.0 < $1.0 }
+        return results.sorted { $0.0 < $1.0 }
     }
     
     func sessionsWinRateByMonth(sessions: [PokerSession_v2], cashOnly: Bool) -> [(month: Date, winRate: Double)] {
@@ -269,7 +263,6 @@ struct PerformanceLineChart: View {
                 
                 monthlyWinRates[month, default: (0,0)].total += 1
             }
-            
         }
         
         // Calculate the win rate for each month
@@ -306,27 +299,53 @@ struct PerformanceLineChart: View {
         .sorted { $0.0 < $1.0 }
     }
     
+    /// Helper function just for annotation
+    func averageHourlyRateForAnnotation(for month: Date, sessions: [PokerSession_v2], cashOnly: Bool) -> Double {
+        let monthSessions = (cashOnly ? sessions.filter { !$0.isTournament } : sessions)
+            .filter { Calendar.current.startOfMonth(for: $0.date) == month }
+        let totalHours = monthSessions.reduce(0.0) { total, session in
+            total
+              + Double(session.sessionDuration.hour ?? 0)
+              + (Double(session.sessionDuration.minute ?? 0) / 60)
+        }
+        let totalEarnings = monthSessions.reduce(0.0) { total, session in
+            total + Double(session.profit)
+        }
+        guard totalHours > 0 else { return 0 }
+        return totalEarnings / totalHours
+    }
+    
+    /// Switches between spitting out Double values depending on the metric switcher in the chart
     func valueByMonth(month: Date, data: [PokerSession_v2]) -> Double {
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: Date())
         
-        let currentYear = Calendar.current.component(.year, from: Date())
-        let filteredSessions = data.filter({ $0.date.getMonth() == month.getMonth() && Int($0.date.getYear()) == currentYear })
+        // 1) Filter down to sessions in the same year & same month as `month`
+        let filteredSessions = data.filter {
+            calendar.component(.year,  from: $0.date) == currentYear
+            && calendar.isDate($0.date, equalTo: month, toGranularity: .month)
+        }
         
-        // Calculate the average hourly rate for the month
-        let averageHourly = Double(filteredSessions.map({ $0.hourlyRate }).reduce(0, +)) / Double(filteredSessions.count)
+        // 2) Compute total time in hours
+        let totalHours = filteredSessions.reduce(0.0) { running, session in
+            let h = Double(session.sessionDuration.hour ?? 0)
+            let m = Double(session.sessionDuration.minute ?? 0) / 60
+            return running + h + m
+        }
         
-        // Calculate the win rate for the month
-        let winRate = Double(filteredSessions.filter({ $0.profit > 0 }).count) / Double(filteredSessions.count)
+        // 3) Compute total earnings
+        let totalEarnings = filteredSessions.reduce(0.0) { running, session in
+            running + Double(session.profit)
+        }
         
-        // Calculate No. of BB's won for the month
-        let bbWon = filteredSessions.isEmpty ? Double.nan : Double(filteredSessions.map { $0.bigBlindsWon }.reduce(0, +))
+        let averageHourly = totalHours > 0 ? totalEarnings / totalHours : 0
+        let winRate = filteredSessions.isEmpty ? 0 : Double(filteredSessions.filter { $0.profit > 0 }.count) / Double(filteredSessions.count)
+        let bbWon = filteredSessions.isEmpty ? Double.nan : filteredSessions.reduce(0.0) { $0 + Double($1.bigBlindsWon) }
         
         switch metricFilter {
-        case .hourly:
-            return averageHourly
-        case .winRate:
-            return winRate
-        case .bbRate:
-            return bbWon
+        case .hourly:  return averageHourly
+        case .winRate: return winRate
+        case .bbRate:  return bbWon
         }
     }
     

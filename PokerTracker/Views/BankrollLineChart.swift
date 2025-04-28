@@ -141,10 +141,14 @@ struct BankrollLineChart: View {
             
             let cumulativeProfitArray = viewModel.calculateCumulativeProfit(sessions: customDateRange != nil ? customDateRange! : dateRange,
                                                                             sessionFilter: chartSessionFilter)
-            let lineGradient = LinearGradient(colors: [chartSessionFilter != .tournaments ? .chartAccent : .donutChartOrange,
-                                                   chartSessionFilter != .tournaments ? .chartBase : .orange],
-                                          startPoint: .topTrailing, endPoint: .bottomLeading)
-            let areaGradient = LinearGradient(colors: [chartSessionFilter != .tournaments ? Color("lightBlue").opacity(0.85) : .donutChartOrange, chartSessionFilter != .tournaments ? Color("lightBlue").opacity(0.25) : .donutChartOrange.opacity(0.25), .clear, .clear], startPoint: .top, endPoint: .bottom)
+            
+            let lineGradient = LinearGradient(gradient: Gradient(colors: chartSessionFilter.lineChartColors),
+                                              startPoint: .topTrailing,
+                                              endPoint: .bottomLeading)
+            
+            let areaGradient = LinearGradient(gradient: Gradient(colors: chartSessionFilter.lineChartAreaColors),
+                                              startPoint: .top,
+                                              endPoint: .bottom)
             
             Chart {
                 ForEach(Array(convertedData.enumerated()), id: \.offset) { index, total in

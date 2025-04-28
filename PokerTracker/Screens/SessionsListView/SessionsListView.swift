@@ -629,6 +629,28 @@ enum SessionFilter: String, CaseIterable {
         case .tournaments: return "Tournaments"
         }
     }
+    
+    var lineChartColors: [Color] {
+        switch self {
+        case .tournaments: return [.donutChartOrange, .orange]
+        default: return [.chartAccent, .chartBase]
+        }
+    }
+    
+    var lineChartAreaColors: [Color] {
+        switch self {
+        case .tournaments:
+            return [.donutChartOrange,
+                    .donutChartOrange.opacity(0.25),
+                    .clear,
+                    .clear]
+        default:
+            return [Color("lightBlue").opacity(0.85),
+                    Color("lightBlue").opacity(0.25),
+                    .clear,
+                    .clear]
+        }
+    }
 }
 
 enum BankrollSelection: Hashable {
