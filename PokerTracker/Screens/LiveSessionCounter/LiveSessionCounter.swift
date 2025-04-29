@@ -37,9 +37,11 @@ struct LiveSessionCounter: View {
                 .font(.custom("Asap-Regular", size: 26))
             
             Image(systemName: "dollarsign.arrow.circlepath")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
                 .foregroundColor(.brandPrimary)
                 .fontWeight(.medium)
-                .font(.title)
+                .frame(width: 24, height: 24)
                 .onTapGesture {
                     let impact = UIImpactFeedbackGenerator(style: .soft)
                     impact.impactOccurred()
@@ -47,7 +49,7 @@ struct LiveSessionCounter: View {
                 }
         }
         .dynamicTypeSize(.medium)
-        .padding(12)
+        .padding(10)
         .background(.ultraThinMaterial)
         .cornerRadius(16)
         .sheet(isPresented: $showNewNoteView, onDismiss: {
@@ -135,7 +137,7 @@ struct LiveSessionCounter: View {
                     Image(localImage)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 40, height: 40)
+                        .frame(width: 40, height: 39)
                         .clipShape(.rect(cornerRadius: 7))
                     
                 } else if let importedImagePath = location.importedImage {
@@ -143,14 +145,14 @@ struct LiveSessionCounter: View {
                         Image(uiImage: uiImage)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 40, height: 40)
+                            .frame(width: 39, height: 39)
                             .clipShape(.rect(cornerRadius: 7))
                         
                     } else {
                         Image("defaultlocation-header")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 40, height: 40)
+                            .frame(width: 39, height: 39)
                             .clipShape(.rect(cornerRadius: 7))
                     }
                     
@@ -158,7 +160,7 @@ struct LiveSessionCounter: View {
                     Image("defaultlocation-header")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 40, height: 40)
+                        .frame(width: 39, height: 39)
                         .clipShape(.rect(cornerRadius: 7))
                 }
 
@@ -166,7 +168,7 @@ struct LiveSessionCounter: View {
                 Image("defaultlocation-header")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 40, height: 40)
+                    .frame(width: 39, height: 39)
                     .clipShape(.rect(cornerRadius: 7))
             }
         }
