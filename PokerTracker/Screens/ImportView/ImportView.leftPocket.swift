@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Lottie
 
 struct LeftPocketImportView: View {
     
@@ -15,6 +16,7 @@ struct LeftPocketImportView: View {
     @State private var showAlertModal = false
     @State private var errorMessage: String?
     @State private var showSuccessMessage: String = ""
+    @State private var playbackMode = LottiePlaybackMode.paused(at: .progress(0))
     
     var body: some View {
         
@@ -31,56 +33,8 @@ struct LeftPocketImportView: View {
                     .bodyStyle()
                     .padding(.top, 1)
                 
-                VStack (alignment: .leading, spacing: 20) {
-                    
-                    HStack {
-                        
-                        Image(systemName: "1.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 25, height: 25, alignment: .top)
-                            .foregroundColor(Color.brandPrimary)
-                        
-                        Text("If you're importing a CSV that contains Sessions with notes, you'll need to either remove all commas from the notes column, or just delete the cell contents.")
-                            .calloutStyle()
-                            .padding(.leading, 6)
-                    }
-                    
-                    HStack {
-                        
-                        Image(systemName: "2.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 25, height: 25, alignment: .top)
-                            .foregroundColor(Color.brandPrimary)
-                        
-                        Text("Save or upload the CSV file to your iCloud Drive in UTF-8 format.")
-                            .calloutStyle()
-                            .padding(.leading, 6)
-                    }
-                    
-                    HStack {
-                        
-                        Image(systemName: "3.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 25, height: 25, alignment: .top)
-                            .foregroundColor(Color.brandPrimary)
-                        
-                        Text("Tap the Import CSV Data button below.")
-                            .calloutStyle()
-                            .padding(.leading, 6)
-                    }
-
-                }
-                .lineSpacing(5)
-                .padding(.vertical, 20)
-                .sheet(isPresented: $showAlertModal) {
-                    AlertModal(message: showSuccessMessage, image: "checkmark.circle", imageColor: .green)
-                        .presentationDetents([.height(280)])
-                        .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
-                        .presentationDragIndicator(.visible)
-                }
+                instructions
+                
             }
             .padding(.horizontal)
             
@@ -104,6 +58,74 @@ struct LeftPocketImportView: View {
             }
         }
         .background(Color.brandBackground)
+        .overlay {
+            VStack {
+                LottieView(animation: .named("Lottie-Confetti"))
+                    .playbackMode(playbackMode)
+                    .animationDidFinish { _ in
+                        playbackMode = .paused
+                    }
+                
+                Spacer()
+            }
+            .offset(y: -160)
+            .allowsHitTesting(false)
+        }
+        .sensoryFeedback(.success, trigger: showAlertModal)
+    }
+    
+    var instructions: some View {
+        
+        VStack (alignment: .leading, spacing: 20) {
+            
+            HStack {
+                
+                Image(systemName: "1.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 25, height: 25, alignment: .top)
+                    .foregroundColor(Color.brandPrimary)
+                
+                Text("If you're importing a CSV that contains Sessions with notes, you'll need to either remove all commas from the notes column, or just delete the cell contents.")
+                    .calloutStyle()
+                    .padding(.leading, 6)
+            }
+            
+            HStack {
+                
+                Image(systemName: "2.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 25, height: 25, alignment: .top)
+                    .foregroundColor(Color.brandPrimary)
+                
+                Text("Save or upload the CSV file to your iCloud Drive in UTF-8 format.")
+                    .calloutStyle()
+                    .padding(.leading, 6)
+            }
+            
+            HStack {
+                
+                Image(systemName: "3.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 25, height: 25, alignment: .top)
+                    .foregroundColor(Color.brandPrimary)
+                
+                Text("Tap the Import CSV Data button below.")
+                    .calloutStyle()
+                    .padding(.leading, 6)
+            }
+
+        }
+        .lineSpacing(5)
+        .padding(.vertical, 20)
+        .sheet(isPresented: $showAlertModal) {
+            AlertModal(message: showSuccessMessage, image: "checkmark.circle", imageColor: .green)
+                .presentationDetents([.height(280)])
+                .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
+                .presentationDragIndicator(.visible)
+        }
     }
     
     var importButton: some View {
@@ -135,6 +157,7 @@ struct LeftPocketImportView: View {
                     vm.sessions.sort(by: {$0.date > $1.date})
                     showSuccessMessage = "All sessions imported successfully."
                     showAlertModal = true
+                    playbackMode = .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce))
                 }
                 
                 selectedURL.stopAccessingSecurityScopedResource()
@@ -160,5 +183,12 @@ struct LeftPocketImportView: View {
                 print("Error importing file: \(error)")
             }
         })
+    }
+}
+
+struct LeftPocketImportView_Preview: PreviewProvider {
+    static var previews: some View {
+        LeftPocketImportView()
+            .preferredColorScheme(.dark)
     }
 }

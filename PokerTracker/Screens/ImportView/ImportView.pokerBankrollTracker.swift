@@ -34,6 +34,7 @@ struct PokerBankrollTrackerImportView: View {
                     .padding(.top, 1)
                 
                 instructions
+                
             }
             .padding(.horizontal)
             
@@ -67,6 +68,7 @@ struct PokerBankrollTrackerImportView: View {
                 Spacer()
             }
             .offset(y: -160)
+            .allowsHitTesting(false)
         }
         .sensoryFeedback(.success, trigger: showAlertModal)
     }
@@ -96,7 +98,7 @@ struct PokerBankrollTrackerImportView: View {
                     .frame(width: 25, height: 25, alignment: .top)
                     .foregroundColor(Color.brandPrimary)
                 
-                Text("Open the file as a spreadsheet on your computer or iPhone. In the notes column, delete all cells that contain any text.")
+                Text("Open the file as a spreadsheet on your computer or iPhone. The following columns must be cleared of data in order to process the file: sessionnote, notes, chipgraph, and updatetimes.")
                     .calloutStyle()
                     .padding(.leading, 6)
             }
