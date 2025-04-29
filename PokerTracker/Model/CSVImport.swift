@@ -168,27 +168,30 @@ class CSVImporter {
             let row = rows[rowIndex]
             let columns = row.components(separatedBy: ",")
             
-            if columns.count == 44 {
+            if columns.count == 46 {
                 
                 // Extract only relevant data and create a PokerSession object
-                let limit = columns[6].trimmingCharacters(in: .init(charactersIn: "\""))
-                let game = limit + " " + columns[5].trimmingCharacters(in: .init(charactersIn: "\""))
-                let location = LocationModel_v2(name: columns[7].trimmingCharacters(in: .init(charactersIn: "\"")))
-                let stakesPart1 = columns[20]
-                let stakesPart2 = columns[21]
+                let date = convertToDate(columns[1].trimmingCharacters(in: .init(charactersIn: "\""))) ?? Date()
+                let startTime = convertToDate(columns[1].trimmingCharacters(in: .init(charactersIn: "\""))) ?? Date().modifyTime(minutes: -180)
+                let endTime = convertToDate(columns[2].trimmingCharacters(in: .init(charactersIn: "\""))) ?? Date()
+                let limit = columns[7].trimmingCharacters(in: .init(charactersIn: "\""))
+                let game = limit + " " + columns[6].trimmingCharacters(in: .init(charactersIn: "\""))
+                let location = LocationModel_v2(name: columns[9].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let buyIn = Int(columns[13]) ?? 0
+                let cashOut = Int(columns[14]) ?? 0
+                let profit = Int(columns[15]) ?? 0
+                let cashRebuyAmount = Int(columns[18]) ?? 0
+                let stakesPart1 = Int(columns[22]) ?? 0
+                let stakesPart2 = Int(columns[23]) ?? 0
                 let stakes = "\(stakesPart1)/\(stakesPart2)"
-                let date = convertToDate(columns[0].trimmingCharacters(in: .init(charactersIn: "\""))) ?? Date()
-                let profit = Int(columns[11]) ?? 0
-                let startTime = convertToDate(columns[0].trimmingCharacters(in: .init(charactersIn: "\""))) ?? Date().modifyTime(minutes: -180)
-                let endTime = convertToDate(columns[1].trimmingCharacters(in: .init(charactersIn: "\""))) ?? Date()
                 let expenses = Int(columns[27]) ?? 0
-                let buyIn = Int(columns[9]) ?? 0
-                let cashOut = Int(columns[10]) ?? 0
+                let handsPerHour = Int(columns[28]) ?? 25
+                let bounties = Int(columns[20]) ?? 0
                 
                 // Tournament Data
-                let sessionType = columns[4].trimmingCharacters(in: .init(charactersIn: "\""))
-                let finish = Int(columns[30])
-                let entrants = Int(columns[31])
+                let sessionType = columns[5].trimmingCharacters(in: .init(charactersIn: "\""))
+                let finish = Int(columns[29]) ?? 0
+                let entrants = Int(columns[30]) ?? 0
                 
                 // Need to figure out how to handle the buyIn being the same as expenses
                 
@@ -198,17 +201,17 @@ class CSVImporter {
                                               endTime: endTime,
                                               game: game,
                                               stakes: stakes,
-                                              buyIn: buyIn,
+                                              buyIn: buyIn + cashRebuyAmount,
                                               cashOut: cashOut,
                                               profit: profit,
                                               expenses: expenses,
                                               notes: "",
                                               tags: [],
                                               highHandBonus: 0,
-                                              handsPerHour: 25,
+                                              handsPerHour: handsPerHour,
                                               isTournament: sessionType == "Tournament" ? true : false,
                                               rebuyCount: nil,
-                                              bounties: nil,
+                                              bounties: bounties,
                                               tournamentSize: sessionType == "Tournament" ? "MTT" : nil,
                                               tournamentSpeed: sessionType == "Tournament" ? "Standard" : nil,
                                               entrants: sessionType == "Tournament" ? entrants : nil,

@@ -70,7 +70,7 @@ struct CellView: View {
                                 }
                             }
                             
-                            if pokerSession.bounties != nil {
+                            if let bounties = pokerSession.bounties, bounties > 0 {
                                 
                                 HStack (spacing: 0) {
                                     Text(" • ")
