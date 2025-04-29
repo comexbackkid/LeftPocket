@@ -24,7 +24,7 @@ struct DayOfWeekChart: View {
                 BarMark(
                     x: .value("Proportion", 1.0),
                     y: .value("Day", dayProfit.day),
-                    height: 10.0
+                    height: 9.0
                 )
                 .foregroundStyle(Color(.systemGray6))
                 .cornerRadius(15)
@@ -44,7 +44,7 @@ struct DayOfWeekChart: View {
                     .border(Color.clear, width: 0)
             }
             .chartXScale(domain: 0...1)
-            .padding(.leading, 30)
+            .padding(.leading, 25)
             .padding()
             
             // Colored Bar
@@ -53,7 +53,7 @@ struct DayOfWeekChart: View {
                 BarMark(
                     x: .value("Proportion", max(dayProfit.proportion, 0)),
                     y: .value("Day", dayProfit.day),
-                    height: 10.0
+                    height: 9.0
                 )
                 .foregroundStyle(.linearGradient(colors: [.teal, .mint], startPoint: .leading, endPoint: .trailing))
                 .cornerRadius(15)
@@ -73,14 +73,14 @@ struct DayOfWeekChart: View {
                     .border(Color.clear, width: 0)
             }
             .chartXScale(domain: 0...1)
-            .padding(.leading, 30)
+            .padding(.leading, 25)
             .padding()
         }
         .padding(.trailing, 5)
     }
 }
 
-func calculateProportions(sessions: [PokerSession_v2]) -> [DayOfWeekProfit] {
+private func calculateProportions(sessions: [PokerSession_v2]) -> [DayOfWeekProfit] {
     let calendar = Calendar.current
     
     // Define custom abbreviations for each weekday
@@ -121,5 +121,5 @@ struct DayOfWeekProfit: Identifiable {
 
 #Preview {
     DayOfWeekChart(sessions: MockData.allSessions)
-        .frame(height: 280)
+        .frame(width: 190, height: 190)
 }
