@@ -46,6 +46,7 @@
 		7C31E26A2BB6E7FB00D90F44 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C31E2692BB6E7FB00D90F44 /* PrivacyInfo.xcprivacy */; };
 		7C31E26B2BB6E7FB00D90F44 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7C31E2692BB6E7FB00D90F44 /* PrivacyInfo.xcprivacy */; };
 		7C3738372BC4838900699819 /* BarChartWeeklyCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3738362BC4838900699819 /* BarChartWeeklyCount.swift */; };
+		7C3BB9832DC2B72700932F75 /* LocationGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3BB9822DC2B72700932F75 /* LocationGridItem.swift */; };
 		7C3E8E002BC9E5EC005A8992 /* BranchSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 7C3E8DFF2BC9E5EC005A8992 /* BranchSDK */; };
 		7C3E8E022BC9E819005A8992 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C3E8E012BC9E819005A8992 /* CoreServices.framework */; };
 		7C3E8E042BC9E82E005A8992 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C3E8E032BC9E82E005A8992 /* SystemConfiguration.framework */; };
@@ -346,6 +347,7 @@
 		7C2FC656273EF1E600E3BE0B /* ProfitByStakesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByStakesView.swift; sourceTree = "<group>"; };
 		7C31E2692BB6E7FB00D90F44 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		7C3738362BC4838900699819 /* BarChartWeeklyCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartWeeklyCount.swift; sourceTree = "<group>"; };
+		7C3BB9822DC2B72700932F75 /* LocationGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationGridItem.swift; sourceTree = "<group>"; };
 		7C3E8E012BC9E819005A8992 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		7C3E8E032BC9E82E005A8992 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		7C3E8E052BC9E83E005A8992 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -1064,6 +1066,7 @@
 			isa = PBXGroup;
 			children = (
 				7CAFE05F2B2DE52B00B7338D /* LocationGridView.swift */,
+				7C3BB9822DC2B72700932F75 /* LocationGridItem.swift */,
 			);
 			path = LocationListView;
 			sourceTree = "<group>";
@@ -1475,6 +1478,7 @@
 				7C1536EE2DB46D1B00753101 /* CustomMarkupAmount.swift in Sources */,
 				7CBBA3B72BF40CA700733D53 /* SleepCardView.swift in Sources */,
 				7CB4BFC02DAC633300876D5C /* OnboardingView.progressAnimation.swift in Sources */,
+				7C3BB9832DC2B72700932F75 /* LocationGridItem.swift in Sources */,
 				7C9094312DA863F00027F564 /* AddNewSessionView.gameTiming.swift in Sources */,
 				7C5D5D332BE2B6A8003DC94D /* HealthKitManager.swift in Sources */,
 				7C6E75BB2BAA16BE006173A4 /* LiveSessionCounter.swift in Sources */,
@@ -1582,7 +1586,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1617,7 +1621,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1773,7 +1777,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1805,7 +1809,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1906,7 +1910,7 @@
 			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.16.0;
+				minimumVersion = 5.9.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

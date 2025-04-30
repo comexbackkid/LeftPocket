@@ -335,6 +335,7 @@ struct AddNewSessionView: View {
             }
         }, content: {
             NewLocationView(addLocationIsShowing: $addLocationIsShowing)
+                .presentationDragIndicator(.visible)
                 .onAppear {
                     locationsBefore = vm.locations.count
                 }
