@@ -17,9 +17,7 @@ struct PollView: View {
     @State private var selectedButton: UserGameImprovement?
     @Binding var shouldShowOnboarding: Bool
     @AppStorage("userGameImprovementSelection") var userGameImprovementSelection = UserGameImprovement.bankroll.rawValue
-    private var isZoomed: Bool {
-        UIScreen.main.scale < UIScreen.main.nativeScale
-    }
+    private var isZoomed: Bool { UIScreen.main.scale < UIScreen.main.nativeScale }
     
     var body: some View {
         

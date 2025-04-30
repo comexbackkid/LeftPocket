@@ -74,6 +74,7 @@ struct OnboardingView: View {
                      subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours and mindful minutes in our Health Analytics page, and integrate these numbers measured by other devices."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],
+                     skipAction: { fetchCurrentOffer() },
                      nextAction: { hkManager.requestAuthorization() },
                      shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(7)
         }
@@ -244,14 +245,30 @@ struct PageView: View {
     let videoURL: String
     let showDismissButton: Bool
     let player: AVPlayer?
+    let skipAction: (() -> Void)?
     var nextAction: () -> Void
     
     @Binding var shouldShowOnboarding: Bool
-    private var isZoomed: Bool {
-        UIScreen.main.scale < UIScreen.main.nativeScale
-    }
-    var isPad: Bool {
-        UIDevice.current.userInterfaceIdiom == .pad
+    private var isZoomed: Bool { UIScreen.main.scale < UIScreen.main.nativeScale }
+    var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
+    
+    init(title: String,
+         subtitle: Text,
+         videoURL: String,
+         showDismissButton: Bool,
+         player: AVPlayer? = nil,
+         skipAction: (() -> Void)? = nil,
+         nextAction: @escaping () -> Void,
+         shouldShowOnboarding: Binding<Bool>) {
+        
+        self.title = title
+        self.subtitle = subtitle
+        self.videoURL = videoURL
+        self.showDismissButton = showDismissButton
+        self.player = player
+        self.skipAction = skipAction
+        self.nextAction = nextAction
+        self._shouldShowOnboarding = shouldShowOnboarding
     }
     
     var body: some View {
@@ -275,6 +292,21 @@ struct PageView: View {
                 .padding(.horizontal, isPad ? 80 : 30)
             
             Spacer()
+            
+            if let skip = skipAction {
+                Button {
+                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                    impact.impactOccurred()
+                    skip()
+                    
+                } label: {
+                    Text("No, thank you")
+                        .subHeadlineStyle()
+                        .buttonStyle(.plain)
+                }
+                .buttonStyle(.plain)
+                .padding(.bottom, 12)
+            }
             
             nextButton
         }

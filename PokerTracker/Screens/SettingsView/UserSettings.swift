@@ -19,6 +19,7 @@ struct UserSettings: View {
     @EnvironmentObject var subManager: SubscriptionManager
     @StateObject var exportUtility = CSVConversion()
     @AppStorage("hideBankroll") var hideBankroll: Bool = false
+    @AppStorage("userRiskTolerance") private var selectedRiskTolerance: String = UserRiskTolerance.moderate.rawValue
     @State private var showPaywall = false
     @State private var notificationsAllowed = false
     @State private var showAlertModal = false
@@ -284,8 +285,33 @@ struct UserSettings: View {
                 }
                 .buttonStyle(.plain)
             
-            howToGuide
-            
+            VStack {
+                HStack {
+                    Menu {
+                        Picker("Risk Tolerance", selection: $selectedRiskTolerance) {
+                            ForEach(UserRiskTolerance.allCases, id: \.self) { tolerance in
+                                Text(tolerance.rawValue).tag(tolerance.rawValue)
+                            }
+                        }
+                        
+                    } label: {
+                        HStack {
+                            Text("Risk Tolerance")
+                                .subtitleStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    
+                    Spacer()
+                }
+            }
+
         }
         .fullScreenCover(isPresented: $showPaywall, content: {
             PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
@@ -434,6 +460,8 @@ struct UserSettings: View {
     var bottomSection: some View {
         
         VStack(spacing: 40) {
+            
+            howToGuide
             
             redeemOfferCode
             
