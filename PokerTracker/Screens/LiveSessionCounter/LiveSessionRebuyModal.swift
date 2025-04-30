@@ -95,7 +95,7 @@ struct LiveSessionRebuyModal: View {
         VStack (alignment: .leading) {
             
             HStack {
-                Text("Enter your rebuy amount and then tap Add Rebuy. You can top off multiple times if you need to.")
+                Text("Enter your rebuy amount, then press Add Rebuy. Tournament rebuys must equal your initial buy in amount.")
                     .bodyStyle()
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.leading)

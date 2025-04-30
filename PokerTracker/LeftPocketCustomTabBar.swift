@@ -23,6 +23,7 @@ struct LeftPocketCustomTabBar: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var qaService: QAService
     @Environment(\.scenePhase) var scenePhase
+    @Environment(\.colorScheme) var colorScheme
     @StateObject var timerViewModel = TimerViewModel()
     @State var selectedTab = 0
     @State var isPresented = false
@@ -178,8 +179,8 @@ struct LeftPocketCustomTabBar: View {
             }
         }, content: {
             LiveSessionInitialBuyIn(timerViewModel: timerViewModel, buyInConfirmationSound: $buyInConfirmationSound)
-                .presentationDetents([.height(355), .large])
-                .presentationBackground(.ultraThinMaterial)
+                .presentationDetents([.height(320), .large])
+                .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                 .interactiveDismissDisabled()
         })
         .sheet(isPresented: $showSessionDefaultsView) {

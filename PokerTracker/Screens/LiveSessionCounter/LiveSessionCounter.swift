@@ -116,7 +116,7 @@ struct LiveSessionCounter: View {
         }, content: {
             LiveSessionRebuyModal(timerViewModel: timerViewModel, rebuyConfirmationSound: $rebuyConfirmationSound)
                 .presentationDetents([.height(360), .large])
-                .presentationBackground(.ultraThinMaterial)
+                .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
         })
         .padding(.horizontal)
         .onAppear { loadUserDefaults() }

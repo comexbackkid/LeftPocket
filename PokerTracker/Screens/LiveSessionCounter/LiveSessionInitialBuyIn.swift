@@ -67,7 +67,7 @@ struct LiveSessionInitialBuyIn: View {
         VStack (alignment: .leading) {
             
             HStack {
-                Text("Add rebuys later by tapping & holding on the Live Session indicator bar. Tournament rebuys must equal your initial buy in amount.")
+                Text("Enter your starting stack below. You can add rebuys and top-offs later.")
                     .bodyStyle()
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.leading)
