@@ -93,7 +93,7 @@ struct OnboardingView: View {
         .fullScreenCover(item: $paywallOffering, onDismiss: {
             Task {
                 if !subManager.isSubscribed {
-                    fetchLastChanceOffer()
+                    await fetchLastChanceOffer()
                     
                 } else {
                     /// If they did subscribe, kill the onboarding flow
@@ -222,18 +222,16 @@ struct OnboardingView: View {
         }
     }
     
-    private func fetchLastChanceOffer() {
-        Task {
-            do {
-                let fetchedOffering = try await Purchases.shared.offerings().offering(identifier: "Last Chance Offer")
-                await MainActor.run {
-                    self.offering = fetchedOffering
-                    self.shouldShowLastChance = true
-                }
-                
-            } catch {
-                print("ERROR: No Offering Found.")
-            }
+    @MainActor
+    private func fetchLastChanceOffer() async {
+        do {
+            offering = try await Purchases.shared.offerings().offering(identifier: "Last Chance Offer")
+            shouldShowLastChance = (offering != nil)
+            
+        } catch {
+            print("ERROR fetching offering:", error)
+            shouldShowLastChance = false
+            shouldShowOnboarding = false
         }
     }
 }
