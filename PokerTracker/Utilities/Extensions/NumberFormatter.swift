@@ -112,7 +112,7 @@ extension Double {
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = .percent
         numFormatter.maximumFractionDigits = 0
-        return numFormatter.string(from: NSNumber(value: self)) ?? "%0"
+        return numFormatter.string(from: NSNumber(value: self)) ?? "0%"
     }
 }
 
@@ -122,6 +122,6 @@ extension Float {
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = .percent
         numFormatter.maximumFractionDigits = 0
-        return numFormatter.string(from: NSNumber(value: self)) ?? "%0"
+        return numFormatter.string(from: NSNumber(value: self)) ?? "0%"
     }
 }

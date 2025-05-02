@@ -283,7 +283,7 @@ struct ProfitByMonth: View {
             let profit = filteredSessions.map { $0.profit }.reduce(0, +).dashboardPlayerProfitShortHand(vm.userCurrency)
             let hourly = hourlyByMonth(month: monthNames[monthFilter-1], sessions: filteredSessions).currencyShortHand(vm.userCurrency)
             let totalHours = vm.hoursAbbreviated(filteredSessions)
-            let winRatio = Double(filteredSessions.filter { $0.profit > 0 }.count) / Double(filteredSessions.count)
+            let winRatio = winRatioByMonth(sessions: filteredSessions)
             
             LazyVGrid(columns: columns, spacing: 20) {
                 QuickMetricBox(title: "Total Profit", metric: profit, percentageChange: 0.0)
@@ -315,7 +315,7 @@ struct ProfitByMonth: View {
                 QuickMetricBox(title: "Hours Played", metric: totalHours, percentageChange: 0.0)
                     .padding(.top, 15)
                 
-                QuickMetricBox(title: "Win Ratio", metric: winRatio.asPercent(), percentageChange: 0.0)
+                QuickMetricBox(title: "Win Ratio", metric: winRatio, percentageChange: 0.0)
                     .padding(.top, 15)
             }
             .padding(.bottom, 60)
@@ -337,6 +337,14 @@ struct ProfitByMonth: View {
         } else {
             return Int(round(Float(totalEarnings) / totalTime))
         }
+    }
+    
+    private func winRatioByMonth(sessions: [PokerSession_v2]) -> String {
+        guard !sessions.isEmpty else { return "0%" }
+        let profitableSessions = Double(sessions.filter { $0.profit > 0 }.count)
+        let total = Double(sessions.count)
+        let ratio = profitableSessions / total
+        return ratio.asPercent()
     }
 }
 
