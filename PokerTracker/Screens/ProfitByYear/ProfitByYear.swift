@@ -88,7 +88,7 @@ struct ProfitByYear: View {
                 .padding(.vertical)
                 
             } else {
-                BankrollLineChart(minimizeLineChart: .constant(false), customDateRange: year, showTitle: false, showYAxis: true, showRangeSelector: false, showPatternBackground: false, overlayAnnotation: true, showToggleAndFilter: false)
+                BankrollLineChart(minimizeLineChart: .constant(false), customDateRange: year, showTitle: false, showYAxis: true, showRangeSelector: false, overlayAnnotation: true, showToggleAndFilter: false)
                     .animation(nil, value: year)
                     .padding(.horizontal, 30)
                     .frame(height: 250)

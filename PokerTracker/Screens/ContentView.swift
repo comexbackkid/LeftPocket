@@ -210,7 +210,7 @@ struct ContentView: View {
         VStack {
             
             HStack {
-                BankrollLineChart(minimizeLineChart: .constant(false), showTitle: false, showYAxis: false, showRangeSelector: false, showPatternBackground: false, overlayAnnotation: false, showToggleAndFilter: false)
+                BankrollLineChart(minimizeLineChart: .constant(false), showTitle: false, showYAxis: false, showRangeSelector: false, overlayAnnotation: false, showToggleAndFilter: false)
                     .frame(width: 80, height: 50)
                 
                 VStack (alignment: .leading, spacing: 5) {

@@ -197,7 +197,7 @@ struct MetricsView: View {
     }
     
     var bankrollChart: some View {
-        BankrollLineChart(minimizeLineChart: $minimizeLineChart, showTitle: true, showYAxis: true, showRangeSelector: true, showPatternBackground: false, overlayAnnotation: false, showToggleAndFilter: true)
+        BankrollLineChart(minimizeLineChart: $minimizeLineChart, showTitle: true, showYAxis: true, showRangeSelector: true, overlayAnnotation: false, showToggleAndFilter: true)
             .padding(.bottom, 5)
             .cardStyle(colorScheme: colorScheme, height: minimizeLineChart ? 250 : 475)
             .cardShadow(colorScheme: colorScheme)

@@ -268,7 +268,6 @@ struct ProfitByMonth: View {
                               showTitle: true,
                               showYAxis: true,
                               showRangeSelector: false,
-                              showPatternBackground: false,
                               overlayAnnotation: false,
                               showToggleAndFilter: false)
             .padding(.horizontal, 20)

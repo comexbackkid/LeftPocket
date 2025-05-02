@@ -24,7 +24,6 @@ struct LineChartFullScreen: View {
                               showTitle: false,
                               showYAxis: true,
                               showRangeSelector: true,
-                              showPatternBackground: false,
                               overlayAnnotation: true,
                               showToggleAndFilter: false)
         }

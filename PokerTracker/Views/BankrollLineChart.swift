@@ -45,12 +45,9 @@ struct BankrollLineChart: View {
         }()
         
         switch chartSessionFilter {
-        case .all:
-            return sessionsByDate
-        case .cash:
-            return sessionsByDate.filter { !$0.isTournament }
-        case .tournaments:
-            return sessionsByDate.filter { $0.isTournament }
+        case .all: return sessionsByDate
+        case .cash: return sessionsByDate.filter { !$0.isTournament }
+        case .tournaments: return sessionsByDate.filter { $0.isTournament }
         }
     }
     var profitAnnotation: Int? {
@@ -66,7 +63,6 @@ struct BankrollLineChart: View {
     let showTitle: Bool
     let showYAxis: Bool
     let showRangeSelector: Bool
-    let showPatternBackground: Bool
     let overlayAnnotation: Bool
     let showToggleAndFilter: Bool
 
@@ -185,19 +181,6 @@ struct BankrollLineChart: View {
                     showChart = true
                 }
             }
-            .overlay(
-                PatternView()
-                    .opacity(showChart && showPatternBackground ? 0.33 : 0.0)
-                    .allowsHitTesting(false)
-                    .mask(
-                        Chart {
-                            ForEach(Array(convertedData.enumerated()), id: \.offset) { index, total in
-                                AreaMark(x: .value("Time", index), y: .value("Profit", total))
-                            }
-                            .interpolationMethod(.catmullRom)
-                        }
-                    )
-            )
             .animation(.easeIn(duration: 1.2), value: showChart)
             .sensoryFeedback(.selection, trigger: selectedIndex)
             .chartXSelection(value: $selectedIndex)
@@ -320,7 +303,7 @@ struct BankrollLineChart: View {
         .padding(.top, 20)
     }
     
-    func getProfitForIndex(index: Int, cumulativeProfits: [Int]) -> Int? {
+    private func getProfitForIndex(index: Int, cumulativeProfits: [Int]) -> Int? {
         
         guard index >= 0, index < cumulativeProfits.count else {
             
@@ -330,45 +313,12 @@ struct BankrollLineChart: View {
 
         return cumulativeProfits[index]
     }
-    
-    private func calculatePercentChange(from oldValue: Int, to newValue: Int) -> String {
-        
-        guard oldValue != 0 else {
-            return "N/A"
-        }
-        
-        let change = (Double(newValue) - Double(oldValue)) / Double(oldValue) * 100
-        return String(format: "%.2f%%", change)
-    }
-    
-    struct PatternView: View {
-        
-        var body: some View {
-            
-            GeometryReader { geometry in
-                let patternSize: CGFloat = 3 // Size of individual dots
-                let spacing: CGFloat = 10 // Spacing between dots
-                let dotColor: Color = Color("lightBlue").opacity(0.1)
-
-                Canvas { context, size in
-                    for y in stride(from: 0, to: size.height, by: patternSize + spacing) {
-                        for x in stride(from: 0, to: size.width, by: patternSize + spacing) {
-                            context.fill(
-                                Path(ellipseIn: CGRect(x: x, y: y, width: patternSize, height: patternSize)),
-                                with: .color(dotColor)
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
 
 struct SwiftChartsPractice_Previews: PreviewProvider {
     
     static var previews: some View {
-        BankrollLineChart(minimizeLineChart: .constant(false), showTitle: true, showYAxis: true, showRangeSelector: true, showPatternBackground: false, overlayAnnotation: true, showToggleAndFilter: true)
+        BankrollLineChart(minimizeLineChart: .constant(false), showTitle: true, showYAxis: true, showRangeSelector: true, overlayAnnotation: true, showToggleAndFilter: true)
             .environmentObject(SessionsListViewModel())
             .preferredColorScheme(.dark)
             .frame(height: 400)
