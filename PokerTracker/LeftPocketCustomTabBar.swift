@@ -178,7 +178,7 @@ struct LeftPocketCustomTabBar: View {
         .padding(.top)
         .background(.thickMaterial)
         .onChange(of: viewModel.allSessions.count) { oldValue, newValue in
-            if oldValue == 0 {
+            if oldValue == 0 && newValue == 1 {
                 showFirstSessionSuccessModal = true
             }
         }
