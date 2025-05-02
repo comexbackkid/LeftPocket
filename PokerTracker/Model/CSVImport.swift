@@ -473,7 +473,7 @@ class CSVImporter {
                 let location = LocationModel_v2(name: columns[15].trimmingCharacters(in: .init(charactersIn: "\"")))
                 let stakes = columns[19].trimmingCharacters(in: .init(charactersIn: "\""))
                 let date = convertToDateFromPokerAnalytics(columns[0].trimmingCharacters(in: .init(charactersIn: "\""))) ?? Date()
-                let profit = Int(columns[9].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
+                let profit = Int((Double(columns[9].trimmingCharacters(in: CharacterSet(charactersIn: "\""))) ?? 0).rounded())
                 let startTime = convertToDateFromPokerAnalytics(columns[0].trimmingCharacters(in: .init(charactersIn: "\""))) ?? Date().modifyTime(minutes: -180)
                 let endTime = convertToDateFromPokerAnalytics(columns[1].trimmingCharacters(in: .init(charactersIn: "\""))) ?? Date()
                 let expenses = Int(columns[10].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
@@ -483,8 +483,8 @@ class CSVImporter {
                 let entrants = Int(columns[23].trimmingCharacters(in: .init(charactersIn: "\"")))
                 let size = columns[21].trimmingCharacters(in: .init(charactersIn: "\""))
                 let finish = Int(columns[25].trimmingCharacters(in: .init(charactersIn: "\"")))
-                let buyIn = Int(columns[6].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
-                let cashOut = Int(columns[7].trimmingCharacters(in: .init(charactersIn: "\""))) ?? 0
+                let buyIn = Int((Double(columns[6].trimmingCharacters(in: CharacterSet(charactersIn: "\""))) ?? 0).rounded())
+                let cashOut = Int((Double(columns[7].trimmingCharacters(in: CharacterSet(charactersIn: "\""))) ?? 0).rounded())
                 
                 let session = PokerSession_v2(location: location,
                                               date: date,
@@ -686,17 +686,19 @@ class CSVImporter {
     
     // Poker Analytics date conversion
     func convertToDateFromPokerAnalytics(_ rawDate: String) -> Date? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy HH:mm:ss" // Updated format to match input string
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // Ensures the date format is interpreted correctly
-        dateFormatter.timeZone = TimeZone.current // Adjusts for the device's current timezone
-
-        if let date = dateFormatter.date(from: rawDate) {
-            return date
-        } else {
-            print("Error: Unable to convert string to Date.")
-            return nil
+        let formats = ["M/d/yyyy H:mm:ss", "M/d/yyyy H:mm"]
+        let formatter = DateFormatter()
+        formatter.locale    = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone  = .current
+        for fmt in formats {
+            formatter.dateFormat = fmt
+            if let d = formatter.date(from: rawDate) {
+                return d
+            }
         }
+        
+        print("ERROR: couldn’t parse “\(rawDate)”")
+        return nil
     }
     
     // MARK: HELPER FUNCTIONS

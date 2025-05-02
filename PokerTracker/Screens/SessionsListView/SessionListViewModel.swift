@@ -27,7 +27,6 @@ class SessionsListViewModel: ObservableObject {
     @Published var userCurrency: CurrencyType = .USD
     @Published var lineChartFullScreen = false
     @Published var convertedLineChartData: [Int]?
-    @Published var bankrollLineChartData: [Int] = []
     @Published var locations: [LocationModel_v2] = [] {
         didSet {
             saveNewLocations()
@@ -52,11 +51,6 @@ class SessionsListViewModel: ObservableObject {
             writeToWidget()
         }
     }
-    
-    func updateChartData(sessions: [PokerSession_v2], filter: SessionFilter) {
-        let profits = calculateCumulativeProfit(sessions: sessions, sessionFilter: filter)
-        self.bankrollLineChartData = [0] + profits
-      }
     
     @AppStorage("userRiskTolerance") var riskRaw: String = UserRiskTolerance.conservative.rawValue
     @AppStorage("multipleBankrollsEnabled") var multipleBankrollsEnabled: Bool = false
