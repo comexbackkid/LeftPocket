@@ -55,7 +55,7 @@ struct QuickMetricBox: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
         .padding(.vertical, 2)
-        .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.5 : 1.0))
+        .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         .dynamicTypeSize(.small)

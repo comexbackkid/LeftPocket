@@ -111,7 +111,7 @@ struct LeftPocketCustomTabBar: View {
             NotificationCenter.default.removeObserver(self, name: .openMetricsView, object: nil)
         }
         .sheet(isPresented: $showFirstSessionSuccessModal) {
-            FirstSessionCompleteModal(message: "You logged your first session! Don't forget to share your progress from time to time. Accountability is key to success!", image: "trophy", imageColor: .yellow)
+            FirstSessionCompleteModal(message: "First session in the books! Don't forget to share your progress from time to time. Accountability is key to success!", image: "trophy", imageColor: .yellow)
                 .presentationDragIndicator(.visible)
                 .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                 .presentationDetents([.height(360)])

@@ -45,6 +45,7 @@ struct FirstSessionCompleteModal: View {
                                 isAnimating = true
                             })
                         }
+                    
                 } else {
                     Image(systemName: image)
                         .resizable()
