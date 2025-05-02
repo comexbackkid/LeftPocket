@@ -22,7 +22,6 @@ struct BarChartByWeekDay: View {
         }
         return full
     }
-    
     var hoursByDay: [(day: String, totalHours: Double)] {
         let calendar = Calendar.current
         let weekdayOrder = calendar.weekdaySymbols  // ["Sunday", "Monday", "Tuesday", ...]

@@ -12,7 +12,13 @@ struct ProfitByMonth: View {
     
     @Environment(\.colorScheme) var colorScheme
     @State private var yearFilter: String = Date().getYear()
+    @State private var monthFilter: Int = Calendar.current.component(.month, from: Date())
     @ObservedObject var vm: SessionsListViewModel
+    private let monthNames: [String] = {
+            var formatter = DateFormatter()
+            formatter.locale = .current
+            return formatter.monthSymbols
+        }()
     
     var body: some View {
         
@@ -27,6 +33,8 @@ struct ProfitByMonth: View {
                 yearTotal
                 
                 monthlyChart
+                
+                perMonthBreakdown
             }
             .padding(.horizontal)
         }
@@ -226,7 +234,92 @@ struct ProfitByMonth: View {
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             .frame(height: 300)
             .padding(.top, 15)
+    }
+    
+    private var perMonthBreakdown: some View {
+        
+        VStack {
+            
+            HStack {
+                VStack (alignment: .center, spacing: 3) {
+                    Text("Results for")
+                        .signInTitleStyle()
+                    
+                    Menu {
+                        Picker("Month Picker", selection: $monthFilter) {
+                            ForEach(1...12, id: \.self) { month in
+                                Text(monthNames[month-1]).tag(month)
+                            }
+                        }
+                        
+                    } label: {
+                        Text(monthNames[monthFilter-1] + " \(yearFilter)" + " ›")
+                            .bodyStyle()
+                            .tint(.brandPrimary)
+                    }
+                }
+            }
+            .padding(.vertical, 20)
+            
+            let filteredSessions = vm.allSessions.filter { Calendar.current.component(.month, from: $0.date) == monthFilter && $0.date.getYear() == yearFilter}
+            
+            BankrollLineChart(minimizeLineChart: .constant(true),
+                              customDateRange: filteredSessions,
+                              showTitle: true,
+                              showYAxis: true,
+                              showRangeSelector: false,
+                              showPatternBackground: false,
+                              overlayAnnotation: false,
+                              showToggleAndFilter: false)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 20)
+            .padding(.bottom)
+            .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+            .cornerRadius(12)
+            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+            .frame(height: 200)
+            
+            let columns = [GridItem(spacing: 10), GridItem()]
+            let profit = filteredSessions.map { $0.profit }.reduce(0, +).dashboardPlayerProfitShortHand(vm.userCurrency)
+            let hourly = hourlyByMonth(month: monthNames[monthFilter-1], sessions: filteredSessions).currencyShortHand(vm.userCurrency)
+            let totalHours = vm.hoursAbbreviated(filteredSessions)
+            let winRatio = Double(filteredSessions.filter { $0.profit > 0 }.count) / Double(filteredSessions.count)
+            
+            LazyVGrid(columns: columns, spacing: 20) {
+                QuickMetricBox(title: "Total Profit", metric: profit, percentageChange: 0.0)
+                    .padding(.top, 15)
+                
+                QuickMetricBox(title: "Hourly Rate", metric: hourly, percentageChange: 0.0)
+                    .padding(.top, 15)
+            }
+            
+            BarChartDailyCount(showTitle: true, dateRange: filteredSessions)
+                .padding(20)
+                .frame(height: 160)
+                .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                .cornerRadius(12)
+                .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+                .padding(.top, 15)
+                .overlay {
+                    if filteredSessions.isEmpty {
+                        VStack {
+                            Text("No chart data to display.")
+                                .calloutStyle()
+                                .foregroundStyle(.secondary)
+                        }
+                        .offset(y: 20)
+                    }
+                }
+            
+            LazyVGrid(columns: columns, spacing: 20) {
+                QuickMetricBox(title: "Hours Played", metric: totalHours, percentageChange: 0.0)
+                    .padding(.top, 15)
+                
+                QuickMetricBox(title: "Win Ratio", metric: winRatio.asPercent(), percentageChange: 0.0)
+                    .padding(.top, 15)
+            }
             .padding(.bottom, 60)
+        }
     }
     
     private func hourlyByMonth(month: String, sessions: [PokerSession_v2]) -> Int {

@@ -51,7 +51,6 @@ struct QuickMetricBox: View {
                     }
                 }
             }
-            
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)

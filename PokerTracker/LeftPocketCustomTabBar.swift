@@ -38,12 +38,8 @@ struct LeftPocketCustomTabBar: View {
     @State private var showSessionDefaultsView = false
     
     let addSessionTip = AddSessionTip()
-    var isCounting: Bool {
-        timerViewModel.isCounting
-    }
-    var isPad: Bool {
-        UIDevice.current.userInterfaceIdiom == .pad
-    }
+    var isCounting: Bool { timerViewModel.isCounting }
+    var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
     
     var body: some View {
         
