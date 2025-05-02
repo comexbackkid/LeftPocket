@@ -1,13 +1,13 @@
 //
-//  AlertModal.swift
+//  FirstSessionCompleteModal.swift
 //  LeftPocket
 //
-//  Created by Christian Nachtrieb on 5/15/24.
+//  Created by Christian Nachtrieb on 5/2/25.
 //
 
 import SwiftUI
 
-struct AlertModal: View {
+struct FirstSessionCompleteModal: View {
     
     @Environment(\.dismiss) private var dismiss
     @State private var isAnimating = false
@@ -28,20 +28,38 @@ struct AlertModal: View {
             
             title
             
+            Spacer()
+            
             if let image = image, let imageColor = imageColor {
-                Image(systemName: image)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .symbolEffect(.bounce, value: isAnimating)
-                    .frame(width: 60, height: 60)
-                    .foregroundStyle(imageColor)
-                    .padding(.top)
-                    .padding(.bottom, 5)
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
-                            isAnimating = true
-                        })
-                    }
+                if #available(iOS 18.0, *) {
+                    Image(systemName: image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .symbolEffect(.breathe, options: .repeat(3), value: isAnimating)
+                        .frame(width: 60, height: 60)
+                        .foregroundStyle(imageColor.gradient)
+                        .padding(.top)
+                        .padding(.bottom)
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
+                                isAnimating = true
+                            })
+                        }
+                } else {
+                    Image(systemName: image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .symbolEffect(.bounce, value: isAnimating)
+                        .frame(width: 60, height: 60)
+                        .foregroundStyle(imageColor.gradient)
+                        .padding(.top)
+                        .padding(.bottom)
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
+                                isAnimating = true
+                            })
+                        }
+                }
             }
             
             messageBody
@@ -70,7 +88,7 @@ struct AlertModal: View {
             
             Spacer()
             
-            Text("Success!")
+            Text("Congratulations!")
                 .font(.custom("Asap-Black", size: 30))
                 .bold()
                 .padding(.bottom, 5)
@@ -99,6 +117,6 @@ struct AlertModal: View {
 }
 
 #Preview {
-    AlertModal(message: "Enter alert message here.", image: "checkmark.circle", imageColor: Color.green)
-        .frame(height: 300)
+    FirstSessionCompleteModal(message: "You've completed your first session! Let the world know and share your progress, accountability helps us grow.", image: "trophy", imageColor: .yellow)
+        .frame(height: 400)
 }

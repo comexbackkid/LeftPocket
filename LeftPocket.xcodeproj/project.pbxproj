@@ -137,6 +137,8 @@
 		7C944D562BBDA26E009E6EC5 /* ProductUpdates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C944D552BBDA26E009E6EC5 /* ProductUpdates.swift */; };
 		7C947AB42CCBE04E009CF5BB /* MindfulnessCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C947AB32CCBE04E009CF5BB /* MindfulnessCompleted.swift */; };
 		7C96E69B2DC43C82003317AF /* BarChartDailyCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C96E69A2DC43C82003317AF /* BarChartDailyCount.swift */; };
+		7C96E69D2DC4F2F8003317AF /* FirstSessionCompleteModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C96E69C2DC4F2F8003317AF /* FirstSessionCompleteModal.swift */; };
+		7C96E69F2DC4FBC4003317AF /* Lottie-Confetti-Congrats.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C96E69E2DC4FBC4003317AF /* Lottie-Confetti-Congrats.json */; };
 		7C9A0D9E2CBDEAA70070EBA3 /* FilterTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9A0D9D2CBDEAA70070EBA3 /* FilterTag.swift */; };
 		7C9BBF182DB4437200B13638 /* OnboardingView.allowNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9BBF172DB4436900B13638 /* OnboardingView.allowNotifications.swift */; };
 		7C9BBF1A2DB443AC00B13638 /* OnboardingView.riskTolerance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9BBF192DB443A500B13638 /* OnboardingView.riskTolerance.swift */; };
@@ -144,7 +146,6 @@
 		7C9BBF1E2DB4443600B13638 /* OnboardingView.poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9BBF1D2DB4442B00B13638 /* OnboardingView.poll.swift */; };
 		7C9D32772B261FA700900C8C /* AdditionalMetricsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */; };
 		7C9FEC7E2C1F68B70062208B /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9FEC7D2C1F68B70062208B /* ImageSaver.swift */; };
-		7CA658502CA60A5A00A74CE4 /* MyGoals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA6584F2CA60A5A00A74CE4 /* MyGoals.swift */; };
 		7CA7F8152B6FF5FB00F976EE /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7F8142B6FF5FB00F976EE /* Tips.swift */; };
 		7CA7F8162B6FF5FB00F976EE /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7F8142B6FF5FB00F976EE /* Tips.swift */; };
 		7CA7F8182B6FFAA700F976EE /* CSVImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7F8172B6FFAA700F976EE /* CSVImport.swift */; };
@@ -435,6 +436,8 @@
 		7C944D552BBDA26E009E6EC5 /* ProductUpdates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductUpdates.swift; sourceTree = "<group>"; };
 		7C947AB32CCBE04E009CF5BB /* MindfulnessCompleted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindfulnessCompleted.swift; sourceTree = "<group>"; };
 		7C96E69A2DC43C82003317AF /* BarChartDailyCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartDailyCount.swift; sourceTree = "<group>"; };
+		7C96E69C2DC4F2F8003317AF /* FirstSessionCompleteModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstSessionCompleteModal.swift; sourceTree = "<group>"; };
+		7C96E69E2DC4FBC4003317AF /* Lottie-Confetti-Congrats.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Lottie-Confetti-Congrats.json"; sourceTree = "<group>"; };
 		7C9A0D9D2CBDEAA70070EBA3 /* FilterTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTag.swift; sourceTree = "<group>"; };
 		7C9BBF172DB4436900B13638 /* OnboardingView.allowNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.allowNotifications.swift; sourceTree = "<group>"; };
 		7C9BBF192DB443A500B13638 /* OnboardingView.riskTolerance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.riskTolerance.swift; sourceTree = "<group>"; };
@@ -442,7 +445,6 @@
 		7C9BBF1D2DB4442B00B13638 /* OnboardingView.poll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.poll.swift; sourceTree = "<group>"; };
 		7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalMetricsCardView.swift; sourceTree = "<group>"; };
 		7C9FEC7D2C1F68B70062208B /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
-		7CA6584F2CA60A5A00A74CE4 /* MyGoals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGoals.swift; sourceTree = "<group>"; };
 		7CA7F8142B6FF5FB00F976EE /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
 		7CA7F8172B6FFAA700F976EE /* CSVImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVImport.swift; sourceTree = "<group>"; };
 		7CA940F82BECF8E3009B54BA /* SleepAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepAnalytics.swift; sourceTree = "<group>"; };
@@ -687,7 +689,6 @@
 				7C2614CD26D9310E00986183 /* CardViews */,
 				7C3EF3E32C64E5BF00835467 /* EditSessionView */,
 				7C2B3E6726F5659600B84D52 /* EmptyStates */,
-				7CA658522CA60A9E00A74CE4 /* Goals */,
 				7C441B3C2DB52CEC001F0115 /* ImportView */,
 				7C6E75BC2BAA1DBD006173A4 /* LiveSessionCounter */,
 				7C897F172891BBFB00E42FDA /* LocationListView */,
@@ -756,6 +757,7 @@
 				7C608EDE2CC19B5800527405 /* DayOfWeekChart.swift */,
 				7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */,
 				7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */,
+				7C96E69C2DC4F2F8003317AF /* FirstSessionCompleteModal.swift */,
 				7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */,
 				7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */,
 				7C0B3FF52CC5454B00F446EA /* MeditationView.swift */,
@@ -922,6 +924,7 @@
 				7C63949B26C14E8400939F40 /* Preview Content */,
 				7C63949926C14E8400939F40 /* Assets.xcassets */,
 				7C64FB7B2D8ED54F00264C05 /* Lottie-Confetti.json */,
+				7C96E69E2DC4FBC4003317AF /* Lottie-Confetti-Congrats.json */,
 				7C31E2692BB6E7FB00D90F44 /* PrivacyInfo.xcprivacy */,
 				7CAFE0282B2CAC1B00B7338D /* Asap */,
 				7CAFDFF42B2CA9E300B7338D /* Asap_Condensed */,
@@ -1080,14 +1083,6 @@
 				7C91EE882D9987BB00FFFD63 /* NewGameType.swift */,
 			);
 			path = NewGameTypeView;
-			sourceTree = "<group>";
-		};
-		7CA658522CA60A9E00A74CE4 /* Goals */ = {
-			isa = PBXGroup;
-			children = (
-				7CA6584F2CA60A5A00A74CE4 /* MyGoals.swift */,
-			);
-			path = Goals;
 			sourceTree = "<group>";
 		};
 		7CA940F72BECF8C5009B54BA /* SleepAnalytics */ = {
@@ -1348,6 +1343,7 @@
 				7CAFE0512B2CAC1B00B7338D /* Asap-SemiBoldItalic.ttf in Resources */,
 				7CAFE0472B2CAC1B00B7338D /* Asap-BlackItalic.ttf in Resources */,
 				7CAFE0552B2CAC1B00B7338D /* Asap-SemiBold.ttf in Resources */,
+				7C96E69F2DC4FBC4003317AF /* Lottie-Confetti-Congrats.json in Resources */,
 				7CAFE0102B2CA9E300B7338D /* AsapCondensed-SemiBoldItalic.ttf in Resources */,
 				7C4CE7062773B2330070B16E /* LaunchScreen.storyboard in Resources */,
 				7C31E26A2BB6E7FB00D90F44 /* PrivacyInfo.xcprivacy in Resources */,
@@ -1446,6 +1442,7 @@
 				7CFCBAC52DB8187C00BA9A9D /* CurrencyCodes.swift in Sources */,
 				7C65B188272C3A5A00AFE796 /* NewLocationView.swift in Sources */,
 				7C91EE8B2D99B6AB00FFFD63 /* EditButton.swift in Sources */,
+				7C96E69D2DC4F2F8003317AF /* FirstSessionCompleteModal.swift in Sources */,
 				7C85492E2C453D540038ADB4 /* AddNewTransaction.swift in Sources */,
 				7C91EE892D9987BB00FFFD63 /* NewGameType.swift in Sources */,
 				7CB8D3362D89F86600E08869 /* LiveSessionNote.swift in Sources */,
@@ -1555,7 +1552,6 @@
 				7CAFE0602B2DE52B00B7338D /* LocationGridView.swift in Sources */,
 				7C62F1ED2BD034B200F14483 /* NewStakesView.swift in Sources */,
 				7CB4BFBC2DAC62A500876D5C /* OnboardingView.personalizedExperience.swift in Sources */,
-				7CA658502CA60A5A00A74CE4 /* MyGoals.swift in Sources */,
 				7CFF1BFF2BD9AA81000D56BC /* HeatMap.swift in Sources */,
 				7C757F032C1F2A9F00AD71EE /* ShareButton.swift in Sources */,
 				7CFB683A2B7CFC92005AB81F /* BarChartByYear.swift in Sources */,

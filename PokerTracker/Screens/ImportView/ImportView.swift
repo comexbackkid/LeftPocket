@@ -133,7 +133,7 @@ struct ImportView: View {
                                 .padding(.trailing, 5)
                                 .foregroundColor(.secondary)
                             
-                            Text("Poker Analytics")
+                            Text("Poker Analytics 6")
                                 .bodyStyle()
                                 .bold()
                             

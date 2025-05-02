@@ -25,7 +25,7 @@ struct PokerAnalyticsImportView: View {
             
             VStack (alignment: .leading) {
                 
-                Text("Poker Analytics Import")
+                Text("Poker Analytics 6 Import")
                     .subtitleStyle()
                     .bold()
                     .padding(.top, 10)
@@ -92,7 +92,7 @@ struct PokerAnalyticsImportView: View {
             
             HStack {
                 
-                Image(systemName: "3.circle.fill")
+                Image(systemName: "2.circle.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 25, height: 25, alignment: .top)
@@ -105,7 +105,7 @@ struct PokerAnalyticsImportView: View {
             
             HStack {
                 
-                Image(systemName: "4.circle.fill")
+                Image(systemName: "3.circle.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 25, height: 25, alignment: .top)

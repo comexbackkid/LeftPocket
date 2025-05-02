@@ -184,7 +184,7 @@ struct FilterSessionsTip: Tip {
     }
     
     var message: Text? {
-        Text("Tap \(Image(systemName: "slider.horizontal.3")) to filter by location, game type, stakes, etc. View transactions by pressing the \(Image(systemName: "creditcard.fill")) button.")
+        Text("Tap \(Image(systemName: "slider.horizontal.3")) to filter by location, game type, stakes, date range, etc.")
     }
     
     var image: Image? {

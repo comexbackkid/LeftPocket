@@ -34,7 +34,7 @@
     "_applicationInternalID" : "1601858981",
     "_developerTeamID" : "J3YC22CPKU",
     "_failTransactionsEnabled" : false,
-    "_lastSynchronizedDate" : 767792926.02124703,
+    "_lastSynchronizedDate" : 767881216.57411003,
     "_locale" : "en_US",
     "_storefront" : "USA",
     "_storeKitErrors" : [
@@ -105,10 +105,10 @@
           "groupNumber" : 4,
           "internalID" : "6742271565",
           "introductoryOffer" : {
-            "internalID" : "99C08AC1",
+            "internalID" : "9C087B39",
             "numberOfPeriods" : 1,
             "paymentMode" : "free",
-            "subscriptionPeriod" : "P2W"
+            "subscriptionPeriod" : "P1W"
           },
           "localizations" : [
             {
@@ -133,11 +133,11 @@
           "codeOffers" : [
             {
               "eligibility" : [
-                "new",
                 "existing",
-                "expired"
+                "expired",
+                "new"
               ],
-              "internalID" : "8569416B",
+              "internalID" : "B4AC31B6",
               "isStackable" : false,
               "numberOfPeriods" : 1,
               "paymentMode" : "free",
@@ -146,11 +146,11 @@
             },
             {
               "eligibility" : [
+                "expired",
                 "new",
-                "existing",
-                "expired"
+                "existing"
               ],
-              "internalID" : "F2FEDBBC",
+              "internalID" : "BA439607",
               "isStackable" : true,
               "numberOfPeriods" : 1,
               "paymentMode" : "free",
@@ -163,7 +163,7 @@
           "groupNumber" : 1,
           "internalID" : "6741366983",
           "introductoryOffer" : {
-            "internalID" : "9EFB29E4",
+            "internalID" : "0F7593BF",
             "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P2W"
@@ -189,14 +189,24 @@
 
           ],
           "codeOffers" : [
-
+            {
+              "eligibility" : [
+                "new"
+              ],
+              "internalID" : "A6995CF9",
+              "isStackable" : false,
+              "numberOfPeriods" : 1,
+              "paymentMode" : "free",
+              "referenceName" : "Affiliates",
+              "subscriptionPeriod" : "P3M"
+            }
           ],
           "displayPrice" : "6.99",
           "familyShareable" : false,
           "groupNumber" : 5,
           "internalID" : "6744874049",
           "introductoryOffer" : {
-            "internalID" : "EEB29111",
+            "internalID" : "5F84C9E0",
             "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P1W"
@@ -216,7 +226,7 @@
           "winbackOffers" : [
             {
               "displayPrice" : "3.99",
-              "internalID" : "A2974354",
+              "internalID" : "4907CC73",
               "isEligible" : true,
               "numberOfPeriods" : 12,
               "offerID" : "winbackoffer_399_1m",
@@ -233,11 +243,11 @@
           "codeOffers" : [
             {
               "eligibility" : [
-                "existing",
                 "new",
+                "existing",
                 "expired"
               ],
-              "internalID" : "7B88EA72",
+              "internalID" : "A95124F0",
               "isStackable" : true,
               "numberOfPeriods" : 1,
               "paymentMode" : "free",
@@ -247,10 +257,10 @@
             {
               "eligibility" : [
                 "new",
-                "expired",
-                "existing"
+                "existing",
+                "expired"
               ],
-              "internalID" : "45558F5B",
+              "internalID" : "CD45CEA0",
               "isStackable" : true,
               "numberOfPeriods" : 1,
               "paymentMode" : "free",
@@ -263,7 +273,7 @@
           "groupNumber" : 2,
           "internalID" : "6741367590",
           "introductoryOffer" : {
-            "internalID" : "480FF6FD",
+            "internalID" : "F4C2CA3A",
             "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P1W"
@@ -283,7 +293,7 @@
           "winbackOffers" : [
             {
               "displayPrice" : "4.99",
-              "internalID" : "6990F41E",
+              "internalID" : "2391614F",
               "isEligible" : true,
               "numberOfPeriods" : 12,
               "offerID" : "winbackoffer_499",
@@ -305,7 +315,7 @@
           "groupNumber" : 3,
           "internalID" : "6741367210",
           "introductoryOffer" : {
-            "internalID" : "0703325A",
+            "internalID" : "A296E5B9",
             "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P3D"
@@ -346,7 +356,7 @@
                 "new",
                 "existing"
               ],
-              "internalID" : "F5A29ED0",
+              "internalID" : "95A80109",
               "isStackable" : true,
               "numberOfPeriods" : 1,
               "paymentMode" : "free",
@@ -359,7 +369,7 @@
           "groupNumber" : 1,
           "internalID" : "6474787836",
           "introductoryOffer" : {
-            "internalID" : "38F30480",
+            "internalID" : "07FE484B",
             "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P2W"
@@ -387,11 +397,11 @@
           "codeOffers" : [
             {
               "eligibility" : [
-                "expired",
                 "existing",
-                "new"
+                "new",
+                "expired"
               ],
-              "internalID" : "DB0E6BDB",
+              "internalID" : "742E116D",
               "isStackable" : true,
               "numberOfPeriods" : 1,
               "paymentMode" : "free",
@@ -400,11 +410,11 @@
             },
             {
               "eligibility" : [
-                "new",
                 "existing",
+                "new",
                 "expired"
               ],
-              "internalID" : "CB8B6132",
+              "internalID" : "264FFAD6",
               "isStackable" : true,
               "numberOfPeriods" : 1,
               "paymentMode" : "free",
@@ -417,7 +427,7 @@
           "groupNumber" : 2,
           "internalID" : "6474787947",
           "introductoryOffer" : {
-            "internalID" : "C8F6FE24",
+            "internalID" : "2B25A72F",
             "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P1W"
@@ -450,7 +460,7 @@
           "groupNumber" : 3,
           "internalID" : "6740544105",
           "introductoryOffer" : {
-            "internalID" : "C8E86FCD",
+            "internalID" : "AB3D1F05",
             "numberOfPeriods" : 1,
             "paymentMode" : "free",
             "subscriptionPeriod" : "P3D"

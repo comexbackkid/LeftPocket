@@ -13,6 +13,7 @@ import ActivityKit
 import AVKit
 import UserNotifications
 import NotificationCenter
+import Lottie
 
 struct LeftPocketCustomTabBar: View {
     
@@ -32,10 +33,13 @@ struct LeftPocketCustomTabBar: View {
     @State private var audioPlayer: AVAudioPlayer?
     @State private var audioConfirmation = false
     @State private var showAlert = false
+    @State private var showFirstSessionSuccessModal = false
     @State private var showBuyInScreen = false
     @State private var activity: Activity<LiveSessionWidgetAttributes>?
     @State private var buyInConfirmationSound = false
     @State private var showSessionDefaultsView = false
+    @State private var playbackMode = LottiePlaybackMode.paused(at: .progress(0))
+    @State private var isAnimating = false
     
     let addSessionTip = AddSessionTip()
     var isCounting: Bool { timerViewModel.isCounting }
@@ -67,6 +71,22 @@ struct LeftPocketCustomTabBar: View {
                 tabBar
             }
         }
+        .overlay {
+            if isAnimating {
+                VStack {
+                    LottieView(animation: .named("Lottie-Confetti-Congrats"))
+                        .playbackMode(playbackMode)
+                        .animationDidFinish { _ in
+                            playbackMode = .paused(at: .progress(0))
+                            isAnimating = false
+                        }
+                    
+                    Spacer()
+                }
+                .offset(y: -160)
+                .allowsHitTesting(false)
+            }
+        }
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .onAppear {
             // Handles matching the user's iPhone system display settings
@@ -89,6 +109,16 @@ struct LeftPocketCustomTabBar: View {
         }
         .onDisappear {
             NotificationCenter.default.removeObserver(self, name: .openMetricsView, object: nil)
+        }
+        .sheet(isPresented: $showFirstSessionSuccessModal) {
+            FirstSessionCompleteModal(message: "You logged your first session! Don't forget to share your progress from time to time. Accountability is key to success!", image: "trophy", imageColor: .yellow)
+                .presentationDragIndicator(.visible)
+                .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
+                .presentationDetents([.height(360)])
+                .onAppear {
+                    playbackMode = .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce))
+                    isAnimating = true
+                }
         }
     }
     
@@ -147,6 +177,11 @@ struct LeftPocketCustomTabBar: View {
         .frame(maxWidth: .infinity)
         .padding(.top)
         .background(.thickMaterial)
+        .onChange(of: viewModel.allSessions.count) { oldValue, newValue in
+            if oldValue == 0 {
+                showFirstSessionSuccessModal = true
+            }
+        }
         .sheet(isPresented: $isPresented, onDismiss: {
             timerViewModel.resetTimer()
             if audioConfirmation {
@@ -391,6 +426,6 @@ struct LeftPocketCustomTabBar_Previews: PreviewProvider {
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
             .environmentObject(QAService())
-            .preferredColorScheme(.dark)
+//            .preferredColorScheme(.dark)
     }
 }
