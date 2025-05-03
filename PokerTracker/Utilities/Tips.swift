@@ -45,7 +45,7 @@ struct ShareTip: Tip {
     }
     
     var message: Text? {
-        Text("Tap the paper airplane button to share this Session with your friends or study group.")
+        Text("Tap the paper airplane button to share this Session with friends or on social media.")
     }
     
     var image: Image? {

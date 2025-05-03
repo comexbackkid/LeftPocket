@@ -33,7 +33,7 @@ struct LeftPocketCustomTabBar: View {
     @State private var audioPlayer: AVAudioPlayer?
     @State private var audioConfirmation = false
     @State private var showAlert = false
-    @State private var showFirstSessionSuccessModal = true
+    @State private var showFirstSessionSuccessModal = false
     @State private var showBuyInScreen = false
     @State private var activity: Activity<LiveSessionWidgetAttributes>?
     @State private var buyInConfirmationSound = false
@@ -177,7 +177,9 @@ struct LeftPocketCustomTabBar: View {
         .background(.thickMaterial)
         .onChange(of: viewModel.allSessions.count) { oldValue, newValue in
             if oldValue == 0 && newValue == 1 {
-                showFirstSessionSuccessModal = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                    showFirstSessionSuccessModal = true
+                }
             }
         }
         .sheet(isPresented: $isPresented, onDismiss: {

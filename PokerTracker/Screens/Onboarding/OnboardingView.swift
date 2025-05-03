@@ -20,7 +20,7 @@ struct OnboardingView: View {
     @State private var selectedPage: Int = 0
     @State private var showPaywall = false
     @State private var shouldShowLastChance = false
-    @State private var offering: Offering?
+    @State private var lastChanceOffer: Offering?
     @State private var paywallOffering: Offering?
     private let players: [String: AVPlayer] = [
         "import-sessions": AVPlayer(url: Bundle.main.url(forResource: "import-sessions", withExtension: "mp4")!),
@@ -156,11 +156,10 @@ struct OnboardingView: View {
                     }
             }
         })
-        .sheet(isPresented: $shouldShowLastChance, onDismiss: {
+        .sheet(item: $lastChanceOffer, onDismiss: {
             /// When the Last Chance Offer is dismissed, kill the onboarding flow
             shouldShowOnboarding = false
-        }, content: {
-            if let offering = offering {
+        }, content: { offering in
                 PaywallView(offering: offering, fonts: CustomPaywallFontProvider(fontName: "Asap"))
                     .interactiveDismissDisabled()
                     .dynamicTypeSize(.medium...DynamicTypeSize.large)
@@ -172,16 +171,12 @@ struct OnboardingView: View {
                                     .padding()
                                     .onTapGesture {
                                         shouldShowLastChance = false
-                                        self.offering = nil
+                                        self.lastChanceOffer = nil
                                     }
                                 Spacer()
                             }
                         }
                     }
-                
-            } else {
-                ProgressView("Loading paywall...")
-            }
         })
         .task {
             for await customerInfo in Purchases.shared.customerInfoStream {
@@ -190,7 +185,7 @@ struct OnboardingView: View {
                 /// If at any point they subscribe, dismiss any and all paywalls, kill the onboarding flow, and proceed to the app
                 if isSubscribed {
                     showPaywall = false
-                    offering = nil
+                    lastChanceOffer = nil
                     shouldShowOnboarding = false
                 }
                 
@@ -211,6 +206,7 @@ struct OnboardingView: View {
         }
     }
     
+    /// First, grab the current paywall offering
     private func fetchCurrentOffer() {
         Task {
             do {
@@ -222,11 +218,13 @@ struct OnboardingView: View {
         }
     }
     
+    /// This grabs our LastChanceOffer and when the offer is fetched, the paywall appears
+    /// If there's a problem, the catch will just dismiss onboarding and user doesn't know anything
     @MainActor
     private func fetchLastChanceOffer() async {
         do {
-            offering = try await Purchases.shared.offerings().offering(identifier: "Last Chance Offer")
-            shouldShowLastChance = (offering != nil)
+            lastChanceOffer = try await Purchases.shared.offerings().offering(identifier: "Last Chance Offer")
+            shouldShowLastChance = (lastChanceOffer != nil)
             
         } catch {
             print("ERROR fetching offering:", error)

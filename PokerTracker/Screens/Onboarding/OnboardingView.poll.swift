@@ -82,14 +82,17 @@ struct PollView: View {
                 let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
                 userGameImprovementSelection = selectedButton?.rawValue ?? "bankroll"
-                Purchases.shared.attribution.setAttributes(["user-game-improvement-selection" : userGameImprovementSelection])
-                Purchases.shared.syncAttributesAndOfferingsIfNeeded { _, error in
-                    if error == nil {
-                        nextAction()
-                    } else {
-                        nextAction()
+                Task.detached(priority: .background) {
+                        do {
+                            await Purchases.shared.attribution.setAttributes(["user-game-improvement-selection" : userGameImprovementSelection])
+                            _ = try await Purchases.shared.syncAttributesAndOfferingsIfNeeded()
+                            
+                        } catch {
+                            print("RevenueCat sync error:", error)
+                        }
                     }
-                }
+                
+                nextAction()
                 
             } label: {
                 Text(showDismissButton ? "Let's Do It" : "Continue")

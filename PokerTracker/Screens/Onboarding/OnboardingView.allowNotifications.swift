@@ -34,14 +34,12 @@ struct AllowNotifications: View {
                 Text("We've got your back! Get subtle reminders to stretch, hydrate, and avoid tilt.")
                     .calloutStyle()
                     .opacity(0.7)
-                    .padding(.bottom, 30)
+                    .padding(.bottom, 40)
                 
                 HStack {
-                    Spacer()
-                    Image("squigleArrow")
+                    Image("notifications-onboarding-screenshot")
                         .resizable()
-                        .frame(width: 80, height: 150)
-                    Spacer()
+                        .aspectRatio(contentMode: .fit)
                 }
                 
                 Spacer()
