@@ -69,7 +69,6 @@ struct ProfitByYear: View {
         VStack {
             
             let year = vm.chartRange(timeline: vm.pickerSelection, sessionFilter: sessionFilter)
-            
             if year.isEmpty {
                 
                 VStack {
@@ -88,7 +87,7 @@ struct ProfitByYear: View {
                 .padding(.vertical)
                 
             } else {
-                BankrollLineChart(minimizeLineChart: .constant(false), customDateRange: year, showTitle: false, showYAxis: true, showRangeSelector: false, overlayAnnotation: true, showToggleAndFilter: false)
+                BankrollLineChartSimple(sessions: year)
                     .animation(nil, value: year)
                     .padding(.horizontal, 30)
                     .frame(height: 250)

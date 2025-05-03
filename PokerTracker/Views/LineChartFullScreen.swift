@@ -13,8 +13,6 @@ struct LineChartFullScreen: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(\.verticalSizeClass) var verticalSizeClass
-    
-    @State private var statsRange: RangeSelection = .all
     @Binding var lineChartFullScreen: Bool
     
     var body: some View {

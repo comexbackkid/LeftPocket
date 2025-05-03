@@ -139,6 +139,7 @@
 		7C96E69B2DC43C82003317AF /* BarChartDailyCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C96E69A2DC43C82003317AF /* BarChartDailyCount.swift */; };
 		7C96E69D2DC4F2F8003317AF /* FirstSessionCompleteModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C96E69C2DC4F2F8003317AF /* FirstSessionCompleteModal.swift */; };
 		7C96E69F2DC4FBC4003317AF /* Lottie-Confetti-Congrats.json in Resources */ = {isa = PBXBuildFile; fileRef = 7C96E69E2DC4FBC4003317AF /* Lottie-Confetti-Congrats.json */; };
+		7C96E6A12DC5622B003317AF /* BankrollLineChartSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C96E6A02DC5622B003317AF /* BankrollLineChartSimple.swift */; };
 		7C9A0D9E2CBDEAA70070EBA3 /* FilterTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9A0D9D2CBDEAA70070EBA3 /* FilterTag.swift */; };
 		7C9BBF182DB4437200B13638 /* OnboardingView.allowNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9BBF172DB4436900B13638 /* OnboardingView.allowNotifications.swift */; };
 		7C9BBF1A2DB443AC00B13638 /* OnboardingView.riskTolerance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9BBF192DB443A500B13638 /* OnboardingView.riskTolerance.swift */; };
@@ -438,6 +439,7 @@
 		7C96E69A2DC43C82003317AF /* BarChartDailyCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartDailyCount.swift; sourceTree = "<group>"; };
 		7C96E69C2DC4F2F8003317AF /* FirstSessionCompleteModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstSessionCompleteModal.swift; sourceTree = "<group>"; };
 		7C96E69E2DC4FBC4003317AF /* Lottie-Confetti-Congrats.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Lottie-Confetti-Congrats.json"; sourceTree = "<group>"; };
+		7C96E6A02DC5622B003317AF /* BankrollLineChartSimple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankrollLineChartSimple.swift; sourceTree = "<group>"; };
 		7C9A0D9D2CBDEAA70070EBA3 /* FilterTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTag.swift; sourceTree = "<group>"; };
 		7C9BBF172DB4436900B13638 /* OnboardingView.allowNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.allowNotifications.swift; sourceTree = "<group>"; };
 		7C9BBF192DB443A500B13638 /* OnboardingView.riskTolerance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.riskTolerance.swift; sourceTree = "<group>"; };
@@ -747,6 +749,7 @@
 				7C028F992C36B5960098CA8C /* AdvancedTournamentReport.swift */,
 				7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */,
 				7CE7DC1928FE1AA8009F4CE9 /* BankrollLineChart.swift */,
+				7C96E6A02DC5622B003317AF /* BankrollLineChartSimple.swift */,
 				7C6769E12B8CD300006ACB7D /* BankrollProgressView.swift */,
 				7CC81FB7294CBAD400E849A9 /* BestLocationView.swift */,
 				7CB1EBD92950DF4800FA306B /* BestSessionView.swift */,
@@ -1500,6 +1503,7 @@
 				7CFCBAC82DB818FC00BA9A9D /* SessionDefaultsView.functions.swift in Sources */,
 				7C63949626C14E8300939F40 /* LeftPocketApp.swift in Sources */,
 				7C9BBF1C2DB443E200B13638 /* OnboardingView.startingBankroll.swift in Sources */,
+				7C96E6A12DC5622B003317AF /* BankrollLineChartSimple.swift in Sources */,
 				7C3F43AC2728512700A9C842 /* LocationModel.swift in Sources */,
 				7CA7F8152B6FF5FB00F976EE /* Tips.swift in Sources */,
 				7C6350042C1A4E5B00407E17 /* Bundle+Ext.swift in Sources */,

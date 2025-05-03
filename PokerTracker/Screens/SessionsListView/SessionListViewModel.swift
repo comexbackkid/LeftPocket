@@ -27,6 +27,8 @@ class SessionsListViewModel: ObservableObject {
     @Published var userCurrency: CurrencyType = .USD
     @Published var lineChartFullScreen = false
     @Published var convertedLineChartData: [Int]?
+    @Published private(set) var filteredSessions: [PokerSession_v2] = []
+    @Published private(set) var bankrollLineChartData: [Int] = [0]
     @Published var locations: [LocationModel_v2] = [] {
         didSet {
             saveNewLocations()
@@ -331,6 +333,55 @@ class SessionsListViewModel: ObservableObject {
         
         self.convertedLineChartData = convertedData
     }
+    
+    func refreshFiltered(bankroll: BankrollSelection, range: RangeSelection, session: SessionFilter) {
+        // Build your “all sessions” one time
+        let all: [PokerSession_v2] = {
+            switch bankroll {
+            case .all:return sessions + bankrolls.flatMap(\.sessions)
+            case .default:return sessions
+            case .custom(let id):return bankrolls.first(where: { $0.id == id })?.sessions ?? []
+            }
+        }()
+        
+        // Compute your date‐cutoff constants once
+        let now = Date()
+        let cal = Calendar.current
+        let oneMonth = cal.date(byAdding: .month, value: -1, to: now)!
+        let threeMo = cal.date(byAdding: .month, value: -3, to: now)!
+        let sixMo = cal.date(byAdding: .month, value: -6, to: now)!
+        let oneYr = cal.date(byAdding: .year,  value: -1, to: now)!
+        let ytdStart = cal.date(from: cal.dateComponents([.year], from: now))!
+        
+        // Run your date‐filter exactly once
+        let byDate: [PokerSession_v2] = {
+            switch range {
+            case .all: return all
+            case .oneMonth:  return all.filter { $0.date >= oneMonth }
+            case .threeMonth: return all.filter { $0.date >= threeMo }
+            case .sixMonth: return all.filter { $0.date >= sixMo }
+            case .oneYear: return all.filter { $0.date >= oneYr }
+            case .ytd: return all.filter { $0.date >= ytdStart }
+            }
+        }()
+        
+        // Split cash vs. tournaments exactly once
+        let computedArray: [PokerSession_v2] = {
+            switch session {
+            case .all: return byDate
+            case .cash: return byDate.filter { !$0.isTournament }
+            case .tournaments: return byDate.filter { $0.isTournament }
+            }
+        }()
+        
+        // Assign your filtered sessions
+        self.filteredSessions = computedArray
+        
+        // Turn those sessions into your `[Int]` for the chart, once
+        let profits = calculateCumulativeProfit(sessions: computedArray, sessionFilter: session)
+        self.bankrollLineChartData = [0] + profits
+    }
+
     
     // Chart function used to sum up a cumulative array of Integers for Swift Charts X-Axis
     func calculateCumulativeProfit(sessions: [PokerSession_v2], sessionFilter: SessionFilter) -> [Int] {

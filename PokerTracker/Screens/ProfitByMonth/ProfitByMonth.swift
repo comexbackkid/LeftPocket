@@ -19,6 +19,7 @@ struct ProfitByMonth: View {
             formatter.locale = .current
             return formatter.monthSymbols
         }()
+    private var selectedYear: Int { Int(yearFilter) ?? Calendar.current.component(.year, from: Date()) }
     
     var body: some View {
         
@@ -262,21 +263,13 @@ struct ProfitByMonth: View {
             .padding(.vertical, 20)
             
             let filteredSessions = vm.allSessions.filter { Calendar.current.component(.month, from: $0.date) == monthFilter && $0.date.getYear() == yearFilter}
-            
-            BankrollLineChart(minimizeLineChart: .constant(true),
-                              customDateRange: filteredSessions,
-                              showTitle: true,
-                              showYAxis: true,
-                              showRangeSelector: false,
-                              overlayAnnotation: false,
-                              showToggleAndFilter: false)
-            .padding(.horizontal, 20)
-            .padding(.vertical, 20)
-            .padding(.bottom)
-            .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
-            .cornerRadius(12)
-            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
-            .frame(height: 200)
+            BankrollLineChartSimple(sessions: filteredSessions)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 20)
+                .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                .cornerRadius(12)
+                .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+                .frame(height: 200)
             
             let columns = [GridItem(spacing: 10), GridItem()]
             let profit = filteredSessions.map { $0.profit }.reduce(0, +).dashboardPlayerProfitShortHand(vm.userCurrency)
@@ -284,11 +277,14 @@ struct ProfitByMonth: View {
             let totalHours = vm.hoursAbbreviated(filteredSessions)
             let winRatio = winRatioByMonth(sessions: filteredSessions)
             
+            let profitChange = profitPercentageChange(for: monthFilter, year: selectedYear, in: vm.allSessions)
+            let hourlyChange = hourlyRatePercentageChange(for: monthFilter, year: selectedYear, in: vm.allSessions)
+
             LazyVGrid(columns: columns, spacing: 20) {
-                QuickMetricBox(title: "Total Profit", metric: profit, percentageChange: 0.0)
+                QuickMetricBox(title: "Monthly Profit", metric: profit, percentageChange: profitChange)
                     .padding(.top, 15)
                 
-                QuickMetricBox(title: "Hourly Rate", metric: hourly, percentageChange: 0.0)
+                QuickMetricBox(title: "Hourly Rate", metric: hourly, percentageChange: hourlyChange)
                     .padding(.top, 15)
             }
             
@@ -317,8 +313,59 @@ struct ProfitByMonth: View {
                 QuickMetricBox(title: "Win Ratio", metric: winRatio, percentageChange: 0.0)
                     .padding(.top, 15)
             }
-            .padding(.bottom, 60)
+            .padding(.bottom, 70)
         }
+    }
+    
+    private func profitPercentageChange(for month: Int, year: Int, in sessions: [PokerSession_v2]) -> Double {
+        let cal = Calendar.current
+
+        func totalProfit(month m: Int, year y: Int) -> Double {
+            let filtered = sessions.filter {
+                cal.component(.month, from: $0.date) == m &&
+                cal.component(.year,  from: $0.date) == y
+            }
+            return Double(filtered.map(\.profit).reduce(0, +))
+        }
+
+        let current = totalProfit(month: month, year: year)
+        let (prevM, prevY) = month == 1 ? (12, year - 1) : (month - 1, year)
+        let previous = totalProfit(month: prevM, year: prevY)
+
+        guard previous != 0 else {
+            return 0
+        }
+
+        return ((current - previous) / abs(previous))
+    }
+    
+    func totalHourlyRate(month m: Int, year y: Int, sessions: [PokerSession_v2]) -> Double {
+        let cal = Calendar.current
+        // gather all the sessions in that month/year
+        let filtered = sessions.filter {
+            cal.component(.month, from: $0.date) == m &&
+            cal.component(.year,  from: $0.date) == y
+        }
+        // sum hours & minutes
+        let totalMinutes = filtered
+            .map {
+                ($0.sessionDuration.hour ?? 0) * 60 +
+                ($0.sessionDuration.minute ?? 0)
+            }
+            .reduce(0, +)
+        guard totalMinutes > 0 else { return 0 }
+        // sum profits
+        let totalProfit = filtered.map(\.profit).reduce(0,+)
+        // profit-per-hour in dollars
+        return Double(totalProfit) / (Double(totalMinutes)/60.0)
+    }
+
+    func hourlyRatePercentageChange(for month: Int, year: Int, in sessions: [PokerSession_v2]) -> Double {
+        let current = totalHourlyRate(month: month, year: year, sessions: sessions)
+        let (pM, pY) = month == 1 ? (12, year-1) : (month-1, year)
+        let previous = totalHourlyRate(month: pM, year: pY, sessions: sessions)
+        guard previous != 0 else { return 0 }
+        return ((current - previous) / abs(previous))
     }
     
     private func hourlyByMonth(month: String, sessions: [PokerSession_v2]) -> Int {

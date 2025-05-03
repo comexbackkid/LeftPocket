@@ -20,8 +20,6 @@ struct BarChartByYear: View {
     let moreAxisMarks: Bool
     let firstDay: Date
     let lastDay: Date
-//    let firstDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 1, day: 1)
-//    let lastDay: Date = Date.from(year: Int(Date().getYear()) ?? 2024, month: 12, day: 31)
     
     init(showTitle: Bool = true, moreAxisMarks: Bool = false, firstDay: Date? = nil, lastDay: Date? = nil) {
         self.showTitle = showTitle
@@ -198,10 +196,7 @@ struct BarChartByYear: View {
     }
     
     var sessionProfitByMonth: [(month: Date, profit: Int)] {
-      sessionsByMonth(sessions: allSessions,
-                      sessionFilter: chartSessionFilter,
-                      startDate: firstDay,
-                      endDate: lastDay)
+        sessionsByMonth(sessions: allSessions, sessionFilter: chartSessionFilter, startDate: firstDay, endDate: lastDay)                   
     }
     
     // Formats data so we have the profit totals of every month, i.e. only 12 total items in the array. Checks current year only
@@ -242,22 +237,24 @@ struct BarChartByYear: View {
     // Calculates annoations value
     func profitByMonth(month: Date, data: [PokerSession_v2], sessionFilter: SessionFilter) -> Int {
         
-        let currentYear = Calendar.current.component(.year, from: Date())
-        var filteredSessions: [PokerSession_v2] = []
+        let calendar = Calendar.current
+        let monthComponent = calendar.component(.month, from: month)
+        let yearComponent  = calendar.component(.year,  from: month)
         
-        switch sessionFilter {
-        case .all:
-            filteredSessions = data.filter({ $0.date.getMonth() == month.getMonth() && Int($0.date.getYear()) == currentYear })
-        case .cash:
-            let cashSessions = data.filter({ $0.isTournament == false })
-            filteredSessions = cashSessions.filter({ $0.date.getMonth() == month.getMonth() && Int($0.date.getYear()) == currentYear })
-        case .tournaments:
-            let tournamentSessions = data.filter({ $0.isTournament == true })
-            filteredSessions = tournamentSessions.filter({ $0.date.getMonth() == month.getMonth() && Int($0.date.getYear()) == currentYear })
+        let filtered = data.filter { session in
+            let month = calendar.component(.month, from: session.date)
+            let year = calendar.component(.year,  from: session.date)
+            
+            guard month == monthComponent, year == yearComponent else { return false }
+            
+            switch sessionFilter {
+            case .all: return true
+            case .cash: return !session.isTournament
+            case .tournaments: return session.isTournament
+            }
         }
-
-        let formattedSessions = filteredSessions.map({ $0.profit }).reduce(0, +)
-        return formattedSessions
+        
+        return filtered.map(\.profit).reduce(0, +)
     }
 }
 

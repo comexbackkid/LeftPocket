@@ -14,7 +14,6 @@ struct BankrollLineChart: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var selectedIndex: Int?
     @State private var animationProgress: CGFloat = 0.0
-    @State private var showChart: Bool = false
     @Binding var minimizeLineChart: Bool
     @AppStorage("sessionFilter") private var chartSessionFilter: SessionFilter = .all
     @AppStorage("dateRangeSelection") private var chartRange: RangeSelection = .all
@@ -22,42 +21,10 @@ struct BankrollLineChart: View {
     
     // Optional year selector, only used in Annual Report View. Overrides dateRange if used
     var customDateRange: [PokerSession_v2]?
-    var dateRange: [PokerSession_v2] {
-        let allSessions: [PokerSession_v2] = {
-            switch bankrollFilter {
-            case .all: return viewModel.sessions + viewModel.bankrolls.flatMap(\.sessions)
-            case .default: return viewModel.sessions
-            case .custom(let id): return viewModel.bankrolls.first(where: { $0.id == id })?.sessions ?? []
-            }
-        }()
-        
-        let sessionsByDate: [PokerSession_v2] = {
-            switch chartRange {
-            case .all: return allSessions
-            case .oneMonth: return allSessions.filter { $0.date >= Calendar.current.date(byAdding: .month, value: -1, to: Date())! }
-            case .threeMonth: return allSessions.filter { $0.date >= Calendar.current.date(byAdding: .month, value: -3, to: Date())! }
-            case .sixMonth: return allSessions.filter { $0.date >= Calendar.current.date(byAdding: .month, value: -6, to: Date())! }
-            case .oneYear: return allSessions.filter { $0.date >= Calendar.current.date(byAdding: .year, value: -1, to: Date())! }
-            case .ytd:
-                let startOfYear = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: Date()))!
-                return allSessions.filter { $0.date >= startOfYear }
-            }
-        }()
-        
-        switch chartSessionFilter {
-        case .all: return sessionsByDate
-        case .cash: return sessionsByDate.filter { !$0.isTournament }
-        case .tournaments: return sessionsByDate.filter { $0.isTournament }
-        }
-    }
-    var profitAnnotation: Int? {
-        getProfitForIndex(index: selectedIndex ?? 0, cumulativeProfits: convertedData)
-    }
-    var convertedData: [Int] {
-        var originalDataPoint = [0]
-        let newDataPoints = viewModel.calculateCumulativeProfit(sessions: customDateRange ?? dateRange, sessionFilter: chartSessionFilter)
-        originalDataPoint += newDataPoints
-        return originalDataPoint
+    private var data: [Int] { viewModel.bankrollLineChartData }
+    private var annotationProfit: Int? {
+        guard let i = selectedIndex, data.indices.contains(i) else { return nil }
+        return data[i]
     }
     
     let showTitle: Bool
@@ -70,74 +37,20 @@ struct BankrollLineChart: View {
         
         VStack {
             
-            if showTitle {
-                
-                HStack (alignment: .top) {
-                    
-                    VStack (alignment: .leading, spacing: 3) {
-                        Text("Player Profit")
-                            .cardTitleStyle()
-                        
-                        let amountText: Int? = profitAnnotation
-                        var defaultProfit: Int {
-                            if selectedIndex == 0 {
-                                return convertedData.first!
-                                
-                            } else {
-                                return convertedData.last!
-                            }
-                        }
-                        
-                        Group {
-                            if let amountText {
-                                HStack (alignment: .firstTextBaseline, spacing: 5) {
-                                    
-                                    if selectedIndex != 0 && !dateRange.isEmpty {
-                                        Image(systemName: "arrow.up.right")
-                                            .chartIntProfitColor(amountText: amountText, defaultProfit: defaultProfit)
-                                            .rotationEffect(.degrees(amountText > 0 ? 0 : amountText < 0 ? 90 : defaultProfit > 0 ? 0 : 90))
-                                            .animation(.default.speed(2), value: amountText)
-                                    }
-                                    
-                                    Text(amountText == 0 ? "\(abs(defaultProfit).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))" : "\(abs(amountText).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))")
-                                        .font(.custom("Asap-Medium", size: 17))
-                                        .chartIntProfitColor(amountText: amountText, defaultProfit: defaultProfit)
-                                    
-                                }
-                            }
-                        }
-                        .animation(nil, value: selectedIndex)
-                    }
-                    
-                    Spacer()
-                    
-                    if showToggleAndFilter {
-                        
-                        fullScreenToggleButton
-                        
-                        filterButton
-                    }
-                }
-                .padding(.bottom, 6)
-                .fullScreenCover(isPresented: $viewModel.lineChartFullScreen, content: {
-                    LineChartFullScreen(lineChartFullScreen: $viewModel.lineChartFullScreen)
-                        .interfaceOrientations(.allButUpsideDown)
-                })
-            }
-      
+            if showTitle { header }
+
             lineChart
 
             if showRangeSelector { rangeSelector }
+        }
+        .onAppear {
+            viewModel.refreshFiltered(bankroll: bankrollFilter, range: chartRange, session: chartSessionFilter)
         }
     }
     
     var lineChart: some View {
         
         VStack {
-            
-            let cumulativeProfitArray = viewModel.calculateCumulativeProfit(sessions: customDateRange != nil ? customDateRange! : dateRange,
-                                                                            sessionFilter: chartSessionFilter)
-            
             let lineGradient = LinearGradient(gradient: Gradient(colors: chartSessionFilter.lineChartColors),
                                               startPoint: .topTrailing,
                                               endPoint: .bottomLeading)
@@ -147,45 +60,38 @@ struct BankrollLineChart: View {
                                               endPoint: .bottom)
             
             Chart {
-                ForEach(Array(convertedData.enumerated()), id: \.offset) { index, total in
+                ForEach(Array(viewModel.bankrollLineChartData.enumerated()), id: \.offset) { index, total in
                     LineMark(x: .value("Time", index), y: .value("Profit", total))
-                        .opacity(showChart ? 1.0 : 0.0)
                         .foregroundStyle(lineGradient)
                     
                     AreaMark(x: .value("Time", index), y: .value("Profit", total))
                         .foregroundStyle(areaGradient)
-                        .opacity(showChart ? 0.25 : 0.0)
+                        .opacity(0.25)
                     
-                    
-                    if let selectedIndex {
-                        PointMark(x: .value("Point", selectedIndex), y: .value("Profit", profitAnnotation ?? 0))
-                            .foregroundStyle(colorScheme == .dark ? Color.brandWhite : Color.black)
-                            .symbolSize(100)
+                    if let profit = annotationProfit, selectedIndex == index {
                         
-                        PointMark(x: .value("Point", selectedIndex), y: .value("Profit", profitAnnotation ?? 0))
-                            .foregroundStyle(colorScheme == .dark ? Color.black : .white)
+                        PointMark(x: .value("Time", index), y: .value("Profit", profit))
+                            .symbolSize(100)
+                            .foregroundStyle(colorScheme == .dark ? Color.brandWhite : .black)
+                            
+                        PointMark(x: .value("Time", index), y: .value("Profit", profit))
                             .symbolSize(40)
+                            .foregroundStyle(colorScheme == .dark ? .black : .white)
                     }
                 }
                 .interpolationMethod(.catmullRom)
                 .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
                 
-                if let selectedIndex {
-                    RuleMark(x: .value("Selected Date", selectedIndex))
+                if let idx = selectedIndex {
+                    RuleMark(x: .value("Selected Date", idx))
                         .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, dash: [6]))
                         .foregroundStyle(.gray.opacity(0.33))
                 }
             }
-            .onAppear {
-                withAnimation {
-                    showChart = true
-                }
-            }
-            .animation(.easeIn(duration: 1.2), value: showChart)
             .sensoryFeedback(.selection, trigger: selectedIndex)
             .chartXSelection(value: $selectedIndex)
             .chartXAxis(.hidden)
-            .chartYScale(domain: [convertedData.min()!, convertedData.max()!])
+            .chartYScale(domain: [data.min()!, data.max()!])
             .chartYAxis {
                 AxisMarks(position: .trailing, values: .automatic(desiredCount: minimizeLineChart ? 3 : 4)) { value in
                     AxisGridLine()
@@ -202,7 +108,7 @@ struct BankrollLineChart: View {
                 }
             }
             .overlay {
-                if cumulativeProfitArray.isEmpty {
+                if data.count == 1 {
                     VStack {
                         Text("No chart data to display.")
                             .calloutStyle()
@@ -212,7 +118,16 @@ struct BankrollLineChart: View {
                     }
                 }
             }
-            .allowsHitTesting(cumulativeProfitArray.isEmpty ? false : true)
+            .allowsHitTesting(viewModel.bankrollLineChartData.isEmpty ? false : true)
+        }
+        .onChange(of: chartRange) { newRange in
+            viewModel.refreshFiltered(bankroll: bankrollFilter, range: newRange, session: chartSessionFilter)
+        }
+        .onChange(of: bankrollFilter) { newBankroll in
+            viewModel.refreshFiltered(bankroll: newBankroll, range: chartRange, session: chartSessionFilter)
+        }
+        .onChange(of: chartSessionFilter) { newSessionFilter in
+            viewModel.refreshFiltered(bankroll: bankrollFilter, range: chartRange, session: newSessionFilter)
         }
     }
     
@@ -276,6 +191,12 @@ struct BankrollLineChart: View {
                     impact.impactOccurred()
                     chartRange = range
                     
+                    viewModel.refreshFiltered(
+                        bankroll: bankrollFilter,
+                        range:   chartRange,
+                        session: chartSessionFilter
+                    )
+                    
                 } label: {
                     Text("\(range.displayName)")
                         .bodyStyle()
@@ -302,16 +223,55 @@ struct BankrollLineChart: View {
         }
         .padding(.top, 20)
     }
-    
-    private func getProfitForIndex(index: Int, cumulativeProfits: [Int]) -> Int? {
-        
-        guard index >= 0, index < cumulativeProfits.count else {
-            
-            // Index out of bounds
-            return nil
-        }
 
-        return cumulativeProfits[index]
+    var header: some View {
+        
+        HStack(alignment: .top) {
+            VStack(alignment: .leading, spacing: 3) {
+                Text("Player Profit").cardTitleStyle()
+                
+                HStack(alignment: .firstTextBaseline, spacing: 5) {
+                    let defaultProfit = data.last ?? 0
+                    
+                    if let profit = annotationProfit {
+                        if selectedIndex != 0 {
+                            Image(systemName: profit >= 0 ? "arrow.up.right" : "arrow.down.right")
+                                .chartIntProfitColor(amountText: profit,
+                                                     defaultProfit: defaultProfit)
+                                .animation(.default.speed(2), value: profit)
+                        }
+                        Text(
+                            "\(abs(profit).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))"
+                        )
+                        .font(.custom("Asap-Medium", size: 17))
+                        .chartIntProfitColor(amountText: profit,
+                                             defaultProfit: defaultProfit)
+                        
+                    } else {
+                        // fallback: show last data point
+                        Text(
+                            "\(abs(defaultProfit).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))"
+                        )
+                        .font(.custom("Asap-Medium", size: 17))
+                        .chartIntProfitColor(amountText: defaultProfit,
+                                             defaultProfit: defaultProfit)
+                    }
+                }
+                .animation(nil, value: selectedIndex)
+            }
+            
+            Spacer()
+            
+            if showToggleAndFilter {
+                fullScreenToggleButton
+                filterButton
+            }
+        }
+        .padding(.bottom, 6)
+        .fullScreenCover(isPresented: $viewModel.lineChartFullScreen) {
+            LineChartFullScreen(lineChartFullScreen: $viewModel.lineChartFullScreen)
+                .interfaceOrientations(.allButUpsideDown)
+        }
     }
 }
 
