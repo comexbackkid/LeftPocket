@@ -33,7 +33,7 @@ struct LeftPocketCustomTabBar: View {
     @State private var audioPlayer: AVAudioPlayer?
     @State private var audioConfirmation = false
     @State private var showAlert = false
-    @State private var showFirstSessionSuccessModal = false
+    @State private var showFirstSessionSuccessModal = true
     @State private var showBuyInScreen = false
     @State private var activity: Activity<LiveSessionWidgetAttributes>?
     @State private var buyInConfirmationSound = false
@@ -80,10 +80,8 @@ struct LeftPocketCustomTabBar: View {
                             playbackMode = .paused(at: .progress(0))
                             isAnimating = false
                         }
-                    
-                    Spacer()
                 }
-                .offset(y: -160)
+                .ignoresSafeArea()
                 .allowsHitTesting(false)
             }
         }
@@ -111,7 +109,7 @@ struct LeftPocketCustomTabBar: View {
             NotificationCenter.default.removeObserver(self, name: .openMetricsView, object: nil)
         }
         .sheet(isPresented: $showFirstSessionSuccessModal) {
-            FirstSessionCompleteModal(message: "First session in the books! Don't forget to share your progress from time to time. Accountability is key to success!", image: "trophy", imageColor: .yellow)
+            FirstSessionCompleteModal(message: "First session in the books! Consider sharing your progress with friends – accountability increases our chance of success by 65%!", image: "trophy", imageColor: .yellow)
                 .presentationDragIndicator(.visible)
                 .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                 .presentationDetents([.height(360)])
