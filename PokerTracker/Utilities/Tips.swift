@@ -15,7 +15,7 @@ struct DeleteLocationTip: Tip {
     }
     
     var message: Text? {
-        Text("To add a location, press the \(Image(systemName: "plus.circle.fill")) above. Tap & hold a thumbnail to delete. If you've imported data, be sure location names match.")
+        Text("To add a location, press \(Image(systemName: "plus.circle.fill")) above. Tap & hold a thumbnail to delete. If you imported data, be sure names match exactly.")
     }
     
     var image: Image? {

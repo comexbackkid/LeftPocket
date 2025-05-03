@@ -35,7 +35,7 @@ struct FirstSessionCompleteModal: View {
                     Image(systemName: image)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .symbolEffect(.breathe, options: .repeat(3), value: isAnimating)
+                        .symbolEffect(.breathe, options: .repeat(5), value: isAnimating)
                         .frame(width: 60, height: 60)
                         .foregroundStyle(imageColor.gradient)
                         .padding(.top)
