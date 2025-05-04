@@ -119,8 +119,10 @@ struct MultipleBankrolls: Tip {
 
 struct SessionsListTip: Tip {
     
-    @Parameter
-    static var shouldShow: Bool = true
+//    @Parameter
+//    static var shouldShow: Bool = true
+    
+    static let sessionCount = Event(id: "addedSecondSession")
     
     var title: Text {
         Text("Edit Sessions")
@@ -136,8 +138,8 @@ struct SessionsListTip: Tip {
     
     var rules: [Rule] {
         
-        #Rule(Self.$shouldShow) {
-            $0 == true
+        #Rule(Self.sessionCount) { event in
+            event.donations.count == 2
         }
     }
 }
@@ -196,7 +198,7 @@ struct FilterSessionsTip: Tip {
     var rules: [Rule] {
         
         #Rule(Self.sessionCount) { event in
-            event.donations.count >= 4
+            event.donations.count == 4
         }
     }
 }

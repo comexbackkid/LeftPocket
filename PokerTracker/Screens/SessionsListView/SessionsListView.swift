@@ -270,11 +270,6 @@ struct SessionsListView: View {
             }
         }
         .accentColor(.brandPrimary)
-        .onAppear {
-            if vm.sessions.count > 1 {
-                SessionsListTip.shouldShow = false
-            }
-        }
         .overlay {
             if !isPad {
                 switch listFilter {

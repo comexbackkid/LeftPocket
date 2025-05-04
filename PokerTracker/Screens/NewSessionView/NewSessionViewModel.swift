@@ -297,7 +297,11 @@ final class NewSessionViewModel: ObservableObject {
             viewModel.sessions.sort(by: { $0.date > $1.date })
         }
         
-        Task { await FilterSessionsTip.sessionCount.donate() }
+        Task {
+            await FilterSessionsTip.sessionCount.donate()
+            await SessionsListTip.sessionCount.donate()
+        }
+        
         dismiss()
         
         if computedProfit > 0 { AppReviewRequest.requestReviewIfNeeded() }
