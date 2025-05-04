@@ -23,6 +23,8 @@ struct WelcomeScreen: View {
                 
                 Spacer()
                 
+                avgUserRating
+                
                 bodyText
                 
                 getStartedButton
@@ -50,7 +52,7 @@ struct WelcomeScreen: View {
                     .overlay(
                         LinearGradient(gradient: Gradient(stops: [
                             Gradient.Stop(color: Color(white: 0, opacity: 0.0), location: 0.4),
-                            Gradient.Stop(color: Color(white: 0, opacity: 0.7), location: 0.9),
+                            Gradient.Stop(color: Color(white: 0, opacity: 0.6), location: 0.7),
                         ]), startPoint: .top, endPoint: .bottom)
                     )
                     .frame(width: geometry.size.width, height: UIScreen.main.bounds.height)
@@ -62,12 +64,13 @@ struct WelcomeScreen: View {
     
     var bodyText: some View {
         
-        VStack (spacing: 10) {
+        VStack (spacing: 7) {
             
             Text("WELCOME TO LEFT POCKET")
                 .foregroundColor(.white)
                 .font(.caption)
                 .fontWeight(.light)
+                .opacity(0.85)
             
             Text("Bankroll management for aspiring players.")
                 .signInTitleStyle()
@@ -115,19 +118,26 @@ struct WelcomeScreen: View {
     
     var avgUserRating: some View {
         
-        VStack {
+        VStack (spacing: 0) {
             
             HStack {
+                
                 Spacer()
+                
                 Image(systemName: "laurel.leading")
                     .imageScale(.large)
                     .fontWeight(.black)
+                    .opacity(0.6)
+                
                 Text("4.7")
                     .font(.custom("Asap-Black", size: 42))
                     .bold()
+                
                 Image(systemName: "laurel.trailing")
                     .imageScale(.large)
                     .fontWeight(.black)
+                    .opacity(0.6)
+                
                 Spacer()
             }
             
@@ -143,10 +153,10 @@ struct WelcomeScreen: View {
             }
             .imageScale(.medium)
             .fontWeight(.black)
-            .foregroundStyle(.orange)
-            .padding(.top, 1)
+            .foregroundStyle(.orange.gradient.opacity(0.85))
+            .padding(.top, 5)
         }
-        .padding(.bottom, 35)
+        .padding(.bottom, 25)
     }
 }
 

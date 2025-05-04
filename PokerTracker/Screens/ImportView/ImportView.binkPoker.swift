@@ -23,21 +23,26 @@ struct BinkPokerImportView: View {
         
         ScrollView (.vertical) {
             
-            VStack (alignment: .leading) {
+            VStack {
                 
-                Text("Bink Poker Import")
-                    .subtitleStyle()
-                    .bold()
-                    .padding(.top, 10)
-                
-                Text("Bink exports currently do not contain specific start & end times. For that reason, all Sessions will default to 12:00pm and end according to their duration.")
-                    .bodyStyle()
-                    .padding(.top, 1)
-                    .padding(.bottom, 10)
-                
-                helpButton
-                
-                instructions
+                VStack (alignment: .leading) {
+                    
+                    Text("Bink Poker Import")
+                        .subtitleStyle()
+                        .bold()
+                        .padding(.top, 10)
+                    
+                    Text("Bink exports currently do not contain specific start & end times. For that reason, all Sessions will default to 12:00pm and end according to their duration.")
+                        .bodyStyle()
+                        .padding(.top, 1)
+                        .padding(.bottom, 10)
+                    
+                    helpButton
+                    
+                    instructions
+                    
+                }
+                .padding(.horizontal)
                 
                 importButton
                 
@@ -54,8 +59,7 @@ struct BinkPokerImportView: View {
                     .padding(.horizontal)
                 }
             }
-            .padding(.horizontal)
-            .padding(.bottom, 50)
+            .padding(.bottom, 80)
         }
         .background(Color.brandBackground)
         .overlay {
@@ -198,6 +202,7 @@ struct BinkPokerImportView: View {
             PrimaryButton(title: "Import CSV Data")
         }
         .padding(.bottom, 20)
+        .padding(.horizontal)
         .fileImporter(isPresented: $showFileImporter,
                       allowedContentTypes: [.plainText, .commaSeparatedText],
                       onCompletion: { result in

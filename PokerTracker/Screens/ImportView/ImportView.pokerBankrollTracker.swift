@@ -23,42 +23,46 @@ struct PokerBankrollTrackerImportView: View {
         
         ScrollView (.vertical) {
             
-            VStack (alignment: .leading) {
+            VStack {
                 
-                Text("Poker Bankroll Tracker Import")
-                    .subtitleStyle()
-                    .bold()
-                    .padding(.top, 10)
-                
-                Text("Please be sure to follow each step and read carefully. You'll need to lightly modify your file before import.")
-                    .bodyStyle()
-                    .padding(.top, 1)
-                    .padding(.bottom, 10)
-                
-                helpButton
-                
-                instructions
-                
-            }
-            .padding(.horizontal)
-            
-            importButton
-            
-            if let errorMessage {
-                VStack {
-                    Text("Uh oh! There was a problem.")
-                    Text(errorMessage)
-                    Image(systemName: "x.circle")
-                        .resizable()
-                        .frame(width: 50, height: 50)
+                VStack (alignment: .leading) {
+                    
+                    Text("Poker Bankroll Tracker Import")
+                        .subtitleStyle()
+                        .bold()
+                        .padding(.top, 10)
+                    
+                    Text("Please be sure to follow each step and read carefully. You'll need to lightly modify your file before import.")
+                        .bodyStyle()
                         .padding(.top, 1)
-                        .foregroundColor(.red)
+                        .padding(.bottom, 10)
+                    
+                    helpButton
+                    
+                    instructions
+                    
+                }
+                .padding(.horizontal)
+                
+                importButton
+                
+                if let errorMessage {
+                    VStack {
+                        Text("Uh oh! There was a problem.")
+                        Text(errorMessage)
+                        Image(systemName: "x.circle")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .padding(.top, 1)
+                            .foregroundColor(.red)
+                    }
+                }
+                
+                HStack {
+                    Spacer()
                 }
             }
-            
-            HStack {
-                Spacer()
-            }
+            .padding(.bottom, 80)
         }
         .background(Color.brandBackground)
         .overlay {

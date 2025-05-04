@@ -23,21 +23,26 @@ struct PokerAnalyticsImportView: View {
         
         ScrollView (.vertical) {
             
-            VStack (alignment: .leading) {
+            VStack {
                 
-                Text("Poker Analytics 6 Import")
-                    .subtitleStyle()
-                    .bold()
-                    .padding(.top, 10)
-                
-                Text("Please be sure to follow each step and read carefully. Poker Analytics allows for exporting of session comments and you will need to account for how the text is formatted.")
-                    .bodyStyle()
-                    .padding(.top, 1)
-                    .padding(.bottom, 10)
-                
-                helpButton
-                
-                instructions
+                VStack (alignment: .leading) {
+                    
+                    Text("Poker Analytics 6 Import")
+                        .subtitleStyle()
+                        .bold()
+                        .padding(.top, 10)
+                    
+                    Text("Please be sure to follow each step and read carefully. Poker Analytics allows for exporting of session comments and you will need to account for how the text is formatted.")
+                        .bodyStyle()
+                        .padding(.top, 1)
+                        .padding(.bottom, 10)
+                    
+                    helpButton
+                    
+                    instructions
+                    
+                }
+                .padding(.horizontal)
                 
                 importButton
                 
@@ -53,8 +58,7 @@ struct PokerAnalyticsImportView: View {
                     }
                 }
             }
-            .padding(.bottom, 50)
-            .padding(.horizontal)
+            .padding(.bottom)
         }
         .background(Color.brandBackground)
         .overlay {
@@ -157,6 +161,7 @@ struct PokerAnalyticsImportView: View {
             PrimaryButton(title: "Import CSV Data")
         }
         .padding(.bottom, 20)
+        .padding(.horizontal)
         .fileImporter(isPresented: $showFileImporter,
                       allowedContentTypes: [.plainText, .commaSeparatedText],
                       onCompletion: { result in
