@@ -11,6 +11,7 @@ import Lottie
 struct PokerBankrollTrackerImportView: View {
     
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.openURL) var openURL
     @EnvironmentObject var vm: SessionsListViewModel
     @State private var showFileImporter = false
     @State private var showAlertModal = false
@@ -29,9 +30,12 @@ struct PokerBankrollTrackerImportView: View {
                     .bold()
                     .padding(.top, 10)
                 
-                Text("Please be sure to follow each step and read carefully. Poker Bankroll Tracker allows for exporting of session notes. You'll need to remove them from the CSV file prior to import.")
+                Text("Please be sure to follow each step and read carefully. You'll need to lightly modify your file before import.")
                     .bodyStyle()
                     .padding(.top, 1)
+                    .padding(.bottom, 10)
+                
+                helpButton
                 
                 instructions
                 
@@ -73,6 +77,26 @@ struct PokerBankrollTrackerImportView: View {
         .sensoryFeedback(.success, trigger: showAlertModal)
     }
     
+    var helpButton: some View {
+        Button {
+            guard let url = URL(string: "https://iridescent-cheetah-aae.notion.site/Poker-Bankroll-Tracker-1dc9452cf3e580f9969aedbf22a31a42") else {
+                return
+            }
+            
+            openURL(url)
+            
+        } label: {
+            HStack(spacing: 6) {
+                Image(systemName: "play.tv.fill")
+                Text("Tap for Video Tutorial")
+                    .bodyStyle()
+            }
+            .font(.callout.weight(.semibold))
+            .foregroundColor(Color.brandPrimary)
+            .underline()
+        }
+    }
+    
     var instructions: some View {
         
         VStack (alignment: .leading, spacing: 20) {
@@ -98,7 +122,7 @@ struct PokerBankrollTrackerImportView: View {
                     .frame(width: 25, height: 25, alignment: .top)
                     .foregroundColor(Color.brandPrimary)
                 
-                Text("Open the file as a spreadsheet on your computer or iPhone. The following columns must be cleared of data in order to process the file: sessionnote, notes, chipgraph, and updatetimes.")
+                Text("Open the file as a spreadsheet on your computer or iPhone. The following columns must be cleared of data in order to process the file: sessionnote, notes, chipgraph, and updatetimes. DO NOT remove the columns entirely, just the contents in the cells.")
                     .calloutStyle()
                     .padding(.leading, 6)
             }
@@ -143,7 +167,7 @@ struct PokerBankrollTrackerImportView: View {
             }
         }
         .lineSpacing(5)
-        .padding(.vertical, 20)
+        .padding(.vertical, 30)
         .sheet(isPresented: $showAlertModal) {
             AlertModal(message: showSuccessMessage, image: "checkmark.circle", imageColor: .green)
                 .presentationDetents([.height(280)])
