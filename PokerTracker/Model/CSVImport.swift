@@ -177,16 +177,18 @@ class CSVImporter {
                 let limit = columns[7].trimmingCharacters(in: .init(charactersIn: "\""))
                 let game = limit + " " + columns[6].trimmingCharacters(in: .init(charactersIn: "\""))
                 let location = LocationModel_v2(name: columns[9].trimmingCharacters(in: .init(charactersIn: "\"")))
-                let buyIn = Int(columns[13]) ?? 0
-                let cashOut = Int(columns[14]) ?? 0
-                let profit = Int(columns[15]) ?? 0
-                let cashRebuyAmount = Int(columns[18]) ?? 0
-                let stakesPart1 = Int(columns[22]) ?? 0
-                let stakesPart2 = Int(columns[23]) ?? 0
-                let stakes = "\(stakesPart1)/\(stakesPart2)"
+                let buyIn = Int((Double(columns[13].trimmingCharacters(in: CharacterSet(charactersIn: "\""))) ?? 0).rounded())
+                let cashRebuyAmount = Int((Double(columns[18].trimmingCharacters(in: CharacterSet(charactersIn: "\""))) ?? 0).rounded())
+                let cashGameTotalBuyin = buyIn + cashRebuyAmount
+                let cashOut = Int((Double(columns[14].trimmingCharacters(in: CharacterSet(charactersIn: "\""))) ?? 0).rounded())
+                let profit = Int((Double(columns[15].trimmingCharacters(in: CharacterSet(charactersIn: "\""))) ?? 0).rounded())
+                let stakesPart1 = Double(columns[22].trimmingCharacters(in: CharacterSet(charactersIn: "\""))) ?? 0
+                let stakesPart2 = Double(columns[23].trimmingCharacters(in: CharacterSet(charactersIn: "\""))) ?? 0
+                let stakes = "\(stakesPart1.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(stakesPart1)) : String(stakesPart1))/\(stakesPart2.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(stakesPart2)) : String(stakesPart2))"
                 let expenses = Int(columns[27]) ?? 0
                 let handsPerHour = Int(columns[28]) ?? 25
                 let bounties = Int(columns[20]) ?? 0
+                let tournamentRebuyCount = Int(columns[17]) ?? 0
                 
                 // Tournament Data
                 let sessionType = columns[5].trimmingCharacters(in: .init(charactersIn: "\""))
@@ -200,8 +202,8 @@ class CSVImporter {
                                               startTime: startTime,
                                               endTime: endTime,
                                               game: game,
-                                              stakes: stakes,
-                                              buyIn: buyIn + cashRebuyAmount,
+                                              stakes: sessionType == "Tournament" ? "" : stakes,
+                                              buyIn: sessionType == "Tournament" ? buyIn : cashGameTotalBuyin,
                                               cashOut: cashOut,
                                               profit: profit,
                                               expenses: expenses,
@@ -210,7 +212,7 @@ class CSVImporter {
                                               highHandBonus: 0,
                                               handsPerHour: handsPerHour,
                                               isTournament: sessionType == "Tournament" ? true : false,
-                                              rebuyCount: nil,
+                                              rebuyCount: sessionType == "Tournament" ? tournamentRebuyCount : nil,
                                               bounties: bounties,
                                               tournamentSize: sessionType == "Tournament" ? "MTT" : nil,
                                               tournamentSpeed: sessionType == "Tournament" ? "Standard" : nil,
