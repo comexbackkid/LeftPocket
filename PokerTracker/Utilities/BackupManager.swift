@@ -11,86 +11,128 @@ final class BackupManager {
     
     static let shared = BackupManager()
     private init() {}
-    
+
+    // MARK: – Paths & Constants
+
     private let fileManager = FileManager.default
     private let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMMdd"
-        return formatter
+        let date = DateFormatter()
+        date.dateFormat = "yyyyMMdd"
+        return date
     }()
-    
-    private let maxBackups = 12
-    private let sessionsFileName = "sessions_v2.json"
     private let lastBackupKey = "lastBackupDate"
-    
+    private let maxBackups = 12
+    private var docs: URL { fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0] }
+    private var sessionsURL: URL { docs.appendingPathComponent("sessions_v2.json") }
+    private var bankrollsURL: URL { docs.appendingPathComponent("bankrolls.json") }
+
+    private struct CombinedBackup: Codable {
+        let sessions: [PokerSession_v2]
+        let bankrolls: [Bankroll]
+    }
+
+    // MARK: – Backup
+
     func performMonthlyBackupIfNeeded() {
-        guard let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            return
-        }
-        
         let now = Date()
-        let lastBackup = UserDefaults.standard.object(forKey: lastBackupKey) as? Date
         let oneMonthAgo = Calendar.current.date(byAdding: .month, value: -1, to: now)!
         
-        if let lastBackup = lastBackup, lastBackup > oneMonthAgo {
-            return // Skip — backup already performed this month
-        }
-        
-        let sessionsFile = documentsURL.appendingPathComponent(sessionsFileName)
-        
-        guard fileManager.fileExists(atPath: sessionsFile.path) else {
-            return // No sessions file to back up
-        }
-        
-        do {
-            let data = try Data(contentsOf: sessionsFile)
-            let decodedSessions = try JSONDecoder().decode([PokerSession_v2].self, from: data)
-            
-            guard !decodedSessions.isEmpty else {
-                print("Backup skipped: sessions_v2.json is empty.")
-                return
-            }
-            
-        } catch {
-            print("Backup skipped: failed to decode sessions: \(error.localizedDescription)")
+        if let last = UserDefaults.standard.object(forKey: lastBackupKey) as? Date, last > oneMonthAgo {
             return
         }
         
-        // Create backup file name
-        let dateString = dateFormatter.string(from: now)
-        let backupFileName = "sessions_backup_\(dateString).json"
-        let backupFileURL = documentsURL.appendingPathComponent(backupFileName)
-        
-        do {
-            try fileManager.copyItem(at: sessionsFile, to: backupFileURL)
-            print("Backup created: \(backupFileURL.lastPathComponent)")
-            UserDefaults.standard.set(now, forKey: lastBackupKey)
-            
-        } catch {
-            print("Failed to create backup: \(error.localizedDescription)")
-        }
-        
-        enforceBackupLimit(in: documentsURL)
-    }
-    
-    private func enforceBackupLimit(in directory: URL) {
-        do {
-            let allFiles = try fileManager.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)
-            let backupFiles = allFiles.filter { $0.lastPathComponent.hasPrefix("sessions_backup_") }
-            
-            if backupFiles.count > maxBackups {
-                let sorted = backupFiles.sorted(by: {
-                    $0.lastPathComponent < $1.lastPathComponent // oldest first
-                })
-                let filesToDelete = sorted.prefix(backupFiles.count - maxBackups)
+        // 1) Load your live data
+        guard
+            let sessionData = try? Data(contentsOf: sessionsURL),
+            let sessions = try? JSONDecoder().decode([PokerSession_v2].self, from: sessionData),
+            let bankrollData = try? Data(contentsOf: bankrollsURL),
+            let bankrolls = try? JSONDecoder().decode([Bankroll].self, from: bankrollData)
                 
-                for file in filesToDelete {
-                    try? fileManager.removeItem(at: file)
-                    print("Deleted old backup: \(file.lastPathComponent)")
-                }
-            }
-        } catch {
-            print("Failed to prune old backups: \(error.localizedDescription)")
+        else {
+            print("Backup failed: couldn’t decode one of the files.")
+            return
         }
+        
+        // 2) Create combined struct
+        let combined = CombinedBackup(sessions: sessions, bankrolls: bankrolls)
+        guard let backupData = try? JSONEncoder().encode(combined) else {
+            print("Backup failed: couldn’t encode combined backup.")
+            return
+        }
+        
+        // 3) Write it out
+        let stamp = dateFormatter.string(from: now)
+        let backupName = "data_backup_\(stamp).json"
+        let backupURL = docs.appendingPathComponent(backupName)
+        do {
+            try backupData.write(to: backupURL)
+            UserDefaults.standard.set(now, forKey: lastBackupKey)
+            print("Created backup: \(backupName)")
+            
+        } catch {
+            print("Backup failed to write file: \(error)")
+            return
+        }
+        
+        pruneOldBackups()
+    }
+
+    private func pruneOldBackups() {
+        guard let files = try? fileManager.contentsOfDirectory(at: docs, includingPropertiesForKeys: nil)
+        else { return }
+
+        let backups = files.filter { $0.lastPathComponent.hasPrefix("data_backup_") && $0.pathExtension == "json" }
+
+        guard backups.count > maxBackups else { return }
+
+        let toDelete = backups.sorted { $0.lastPathComponent < $1.lastPathComponent }.prefix(backups.count - maxBackups)
+        for url in toDelete {
+            try? fileManager.removeItem(at: url)
+            print("Deleted old backup: \(url.lastPathComponent)")
+        }
+    }
+
+    // MARK: – Restore
+
+    func restoreBackup(from file: URL, into viewModel: SessionsListViewModel) throws {
+        let data = try Data(contentsOf: file)
+        let combined = try JSONDecoder().decode(CombinedBackup.self, from: data)
+
+        // 1) Merge top-level sessions without duplicates
+        let existingSessionIDs = Set(viewModel.sessions.map { $0.id })
+        let newSessions = combined.sessions.filter { !existingSessionIDs.contains($0.id) }
+        viewModel.sessions.append(contentsOf: newSessions)
+        viewModel.sessions.sort { $0.date > $1.date }
+        print("Restored \(newSessions.count) new sessions.")
+
+        // 2) Merge bankrolls
+        var updated = viewModel.bankrolls
+
+        for backupBankroll in combined.bankrolls {
+            if let idx = updated.firstIndex(where: { $0.id == backupBankroll.id }) {
+                // Merge sessions for that existing bankroll
+                let existingBRSessionIDs = Set(updated[idx].sessions.map { $0.id })
+                let toAddSessions = backupBankroll.sessions.filter { !existingBRSessionIDs.contains($0.id) }
+                updated[idx].sessions.append(contentsOf: toAddSessions)
+                updated[idx].sessions.sort { $0.date > $1.date }
+
+                // Merge transactions (assuming BankrollTransaction has `id`)
+                let existingTxnIDs = Set(updated[idx].transactions.map { $0.id })
+                let toAddTxns = backupBankroll.transactions.filter { !existingTxnIDs.contains($0.id) }
+                updated[idx].transactions.append(contentsOf: toAddTxns)
+
+                print("Merged \(toAddSessions.count) sessions and \(toAddTxns.count) transactions into bankroll “\(backupBankroll.name)”.")
+                
+            } else {
+                // Create new bankroll
+                updated.append(backupBankroll)
+                print("Added new bankroll “\(backupBankroll.name)” with \(backupBankroll.sessions.count) sessions.")
+            }
+        }
+
+        viewModel.bankrolls = updated
+        viewModel.saveNewSessions()
+        viewModel.saveBankrolls()
+        viewModel.writeToWidget()
     }
 }

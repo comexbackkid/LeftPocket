@@ -339,22 +339,17 @@ struct ManageData: View {
     }
     
     private func deleteUserData() {
-        vm.sessions = []
-        vm.transactions = []
-        vm.bankrolls = []
+        vm.sessions.removeAll()
+        vm.transactions.removeAll()
         vm.saveNewSessions()
-        
-        do {
-            if let encodedData = try? JSONEncoder().encode(vm.sessions) {
-                try? FileManager.default.removeItem(at: vm.newSessionsPath)
-                try encodedData.write(to: vm.newSessionsPath)
-                showDeleteSuccessAlertModal = true
-            }
-            
-        } catch {
-            print("Delete Left Pocket data: \(error)")
-            showError = true
+        vm.bankrolls = vm.bankrolls.map { old in
+            var bankroll = old
+            bankroll.sessions.removeAll()
+            bankroll.transactions.removeAll()
+            return bankroll
         }
+        
+        showDeleteSuccessAlertModal = true
     }
 }
 

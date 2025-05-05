@@ -18,7 +18,6 @@ struct BankrollLineChart: View {
     @AppStorage("sessionFilter") private var chartSessionFilter: SessionFilter = .all
     @AppStorage("dateRangeSelection") private var chartRange: RangeSelection = .all
     @AppStorage("chartBankrollFilter") private var bankrollFilter: BankrollSelection = .default
-//    @State private var bankrollFilter: BankrollSelection = .default
     
     // Optional year selector, only used in Annual Report View. Overrides dateRange if used
     var customDateRange: [PokerSession_v2]?

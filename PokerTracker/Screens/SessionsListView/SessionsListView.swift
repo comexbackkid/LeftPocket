@@ -648,12 +648,6 @@ enum SessionFilter: String, CaseIterable {
     }
 }
 
-//enum BankrollSelection: Hashable {
-//    case all
-//    case `default`
-//    case custom(UUID)
-//}
-
 enum BankrollSelection: Hashable, RawRepresentable {
     case all
     case `default`

@@ -22,7 +22,7 @@ struct MetricsView: View {
     @State private var minimizeLineChart = false
     @AppStorage("dateRangeSelection") private var statsRange: RangeSelection = .all
     @AppStorage("sessionFilter") private var sessionFilter: SessionFilter = .all
-    @State private var bankrollFilter: BankrollSelection = .default
+    @AppStorage("chartBankrollFilter") private var bankrollFilter: BankrollSelection = .default
     @Binding var activeSheet: Sheet?
     private var isPad: Bool {
         UIDevice.current.userInterfaceIdiom == .pad

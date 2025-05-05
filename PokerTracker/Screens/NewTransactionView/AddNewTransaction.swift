@@ -17,7 +17,6 @@ struct AddNewTransaction: View {
     @AppStorage("multipleBankrollsEnabled") var multipleBankrollsEnabled: Bool = false
     @Binding var showNewTransaction: Bool
     @Binding var audioConfirmation: Bool
-    
     @State private var type: TransactionType?
     @State private var selectedBankrollID: UUID?
     @State private var amount: String = ""
@@ -35,9 +34,7 @@ struct AddNewTransaction: View {
             return "Default"
         }
     }
-    private var isPad: Bool {
-        UIDevice.current.userInterfaceIdiom == .pad
-    }
+    private var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
     
     var body: some View {
         

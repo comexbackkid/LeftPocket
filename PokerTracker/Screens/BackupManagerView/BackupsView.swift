@@ -14,6 +14,7 @@ struct BackupsView: View {
     @State private var backupFiles: [URL] = []
     @State private var useDummyData = false
     @State private var showRestoreWarning = false
+    @State private var showErrorAlert = true
     @State private var showRestoreSuccessAlertModal = false
     @State private var selectedBackup: URL?
     
@@ -22,6 +23,7 @@ struct BackupsView: View {
         NavigationStack {
             
             if backupFiles.isEmpty {
+                
                 VStack {
                     
                     screenTitle
@@ -29,7 +31,6 @@ struct BackupsView: View {
                     Spacer()
                 }
                 .overlay {
-                    
                     emptyView
                 }
                 
@@ -82,10 +83,16 @@ struct BackupsView: View {
                 .background(Color.brandBackground)
                 .accentColor(.brandPrimary)
                 .alert(Text("Are You Sure?"), isPresented: $showRestoreWarning) {
-                    
                     Button("Yes", role: .destructive) {
                         if let fileURL = selectedBackup {
-                            restoreBackup(fileURL)
+                            do {
+                                try BackupManager.shared.restoreBackup(from: fileURL, into: viewModel)
+                                showRestoreSuccessAlertModal = true
+                                
+                            } catch {
+                                print("Failed to load sessions: \(error.localizedDescription)")
+                                showErrorAlert = true
+                            }
                         }
                     }
                     
@@ -102,6 +109,14 @@ struct BackupsView: View {
                         .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                         .presentationDragIndicator(.visible)
                 })
+                .alert(Text("Uh Oh!"), isPresented: $showErrorAlert) {
+                    Button("OK", role: .cancel) {
+                        showErrorAlert = false
+                    }
+                    
+                } message: {
+                    Text("An error occurred while restoring your backup. Contact support for assistance.")
+                }
             }
         }
         .onAppear { if useDummyData { generateDummyBackups() } else { fetchBackupFiles() } }
@@ -134,16 +149,14 @@ struct BackupsView: View {
     }
     
     private func fetchBackupFiles() {
-        
         let fileManager = FileManager.default
-        guard let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            return
-        }
+        guard let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
         
         do {
             let allFiles = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
-            backupFiles = allFiles.filter { $0.lastPathComponent.hasPrefix("sessions_backup_") }
-                .sorted(by: { $0.lastPathComponent > $1.lastPathComponent })
+            backupFiles = allFiles
+                .filter { $0.lastPathComponent.hasPrefix("data_backup_") && $0.pathExtension == "json" }
+                .sorted { $0.lastPathComponent > $1.lastPathComponent }
             
         } catch {
             print("Failed to fetch backup files: \(error.localizedDescription)")
@@ -163,47 +176,24 @@ struct BackupsView: View {
     }
     
     private func monthAndYear(for file: URL) -> String {
-        let filename = file.lastPathComponent
+        let base  = file.deletingPathExtension().lastPathComponent
+        let parts = base.split(separator: "_")
         
-        // Expected format: "sessions_backup_YYYYMMDD.json"
-        let yearStartIndex = filename.index(filename.startIndex, offsetBy: 16)
-        let yearEndIndex = filename.index(yearStartIndex, offsetBy: 4)
-        let monthStartIndex = yearEndIndex
-        let monthEndIndex = filename.index(monthStartIndex, offsetBy: 2)
-        
-        let yearSubstring = filename[yearStartIndex..<yearEndIndex]
-        let monthSubstring = filename[monthStartIndex..<monthEndIndex]
-        
-        if let monthNumber = Int(monthSubstring),
-           let yearNumber = Int(yearSubstring),
-           (1...12).contains(monthNumber) {
-            
-            let formatter = DateFormatter()
-            let monthName = formatter.monthSymbols[monthNumber - 1]
-            
-            return "\(monthName) \(yearNumber)"
-        } else {
+        guard let stamp = parts.last, stamp.count == 8 else {
             return "Unknown Date"
         }
-    }
-    
-    private func restoreBackup(_ file: URL) {
         
-        do {
-            let data = try Data(contentsOf: file)
-            let decodedSessions = try JSONDecoder().decode([PokerSession_v2].self, from: data)
-            
-            let existingIDs = Set(viewModel.sessions.map { $0.id })
-            let newSessions = decodedSessions.filter { !existingIDs.contains($0.id) }
-            
-            viewModel.sessions += newSessions
-            viewModel.sessions.sort { $0.date < $1.date }
-            showRestoreSuccessAlertModal = true
-            print("Restored \(newSessions.count) new sessions from backup.")
-            
-        } catch {
-            print("Failed to load sessions: \(error.localizedDescription)")
+        let yearStr  = String(stamp.prefix(4))
+        let monthStr = String(stamp.dropFirst(4).prefix(2))
+        
+        guard let year  = Int(yearStr), let month = Int(monthStr), (1...12).contains(month) else {
+            return "Unknown Date"
         }
+        
+        let formatter = DateFormatter()
+        let monthName = formatter.monthSymbols[month - 1]
+        
+        return "\(monthName) \(year)"
     }
     
     var screenTitle: some View {

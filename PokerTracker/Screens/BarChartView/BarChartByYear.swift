@@ -14,7 +14,7 @@ struct BarChartByYear: View {
     @EnvironmentObject var viewModel: SessionsListViewModel
     @State private var selectedMonth: Date?
     @AppStorage("sessionFilter") private var chartSessionFilter: SessionFilter = .all
-    @State private var bankrollFilter: BankrollSelection = .default
+    @AppStorage("chartBankrollFilter") private var bankrollFilter: BankrollSelection = .default
     
     let showTitle: Bool
     let moreAxisMarks: Bool
