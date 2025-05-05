@@ -17,7 +17,8 @@ struct BankrollLineChart: View {
     @Binding var minimizeLineChart: Bool
     @AppStorage("sessionFilter") private var chartSessionFilter: SessionFilter = .all
     @AppStorage("dateRangeSelection") private var chartRange: RangeSelection = .all
-    @State private var bankrollFilter: BankrollSelection = .default
+    @AppStorage("chartBankrollFilter") private var bankrollFilter: BankrollSelection = .default
+//    @State private var bankrollFilter: BankrollSelection = .default
     
     // Optional year selector, only used in Annual Report View. Overrides dateRange if used
     var customDateRange: [PokerSession_v2]?
@@ -153,11 +154,12 @@ struct BankrollLineChart: View {
             Menu {
                 Picker("Bankroll Picker", selection: $bankrollFilter) {
                     Text("All").tag(BankrollSelection.all)
-                    Text("Default").tag(BankrollSelection.default)
+                    Text("Default").tag(BankrollSelection.`default`)
                     ForEach(viewModel.bankrolls) { bankroll in
                         Text(bankroll.name).tag(BankrollSelection.custom(bankroll.id))
                     }
                 }
+                
             } label: {
                 HStack {
                     Text("Bankrolls")
@@ -170,6 +172,7 @@ struct BankrollLineChart: View {
                     Text($0.rawValue.capitalized).tag($0)
                 }
             }
+            
         } label: {
             Text(chartSessionFilter.rawValue.capitalized + " ›")
                 .bodyStyle()
@@ -178,7 +181,6 @@ struct BankrollLineChart: View {
         .transaction { transaction in
             transaction.animation = nil
         }
-        
     }
     
     var rangeSelector: some View {

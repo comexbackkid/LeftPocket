@@ -16,6 +16,7 @@ struct SessionDefaultsView: View {
     @Binding var isPresentedAsSheet: Bool?
     @State var askEachTimePopover = false
     @State var sessionType: SessionType?
+    @State var selectedBankrollID: UUID?
     @State var location = LocationModel_v2(name: "")
     @State var stakes = ""
     @State var game = ""
@@ -31,6 +32,15 @@ struct SessionDefaultsView: View {
     @State var addLocationIsShowing = false
     @State var askLiveSessionEachTime = false
     @State var showHandsPerHourOnNewSessionView = false
+    @AppStorage("multipleBankrollsEnabled") var multipleBankrollsEnabled: Bool = false
+    private var selectedBankrollName: String {
+        if let id = selectedBankrollID,
+           let match = vm.bankrolls.first(where: { $0.id == id }) {
+            return match.name
+        } else {
+            return "Default"
+        }
+    }
     
     var body: some View {
             
@@ -142,6 +152,7 @@ struct SessionDefaultsView: View {
         
         VStack {
             
+            // MARK: SESSION TYPE
             HStack {
                 
                 Image(systemName: "suit.club.fill")
@@ -198,6 +209,42 @@ struct SessionDefaultsView: View {
             .padding(.bottom, 10)
             .padding(.top, 10)
             
+            // MARK: DEFAULT BANKROLL
+            HStack {
+                
+                Image(systemName: "bag.fill")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(Color(.systemGray3))
+                    .frame(width: 30, height: 30)
+                
+                Text("Bankroll")
+                    .bodyStyle()
+                    .padding(.leading, 4)
+                
+                Spacer()
+                
+                Menu {
+                    Picker("Bankroll Picker", selection: $selectedBankrollID) {
+                        Text("Default").tag(UUID?.none)
+                        ForEach(vm.bankrolls) { bankroll in
+                            Text(bankroll.name).tag(Optional(bankroll.id))
+                        }
+                    }
+       
+                } label: {
+                    Text(selectedBankrollName)
+                        .bodyStyle()
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                        .animation(nil, value: selectedBankrollID)
+                }
+                .foregroundColor(.brandWhite)
+                .buttonStyle(PlainButtonStyle())
+                .animation(.none, value: selectedBankrollID)
+            }
+            .padding(.bottom, 10)
+            
+            // MARK: LOCATION
             HStack {
                 
                 Image(systemName: "mappin.and.ellipse")
@@ -259,6 +306,8 @@ struct SessionDefaultsView: View {
             })
             
             if sessionType != .tournament {
+                
+                // MARK: STAKES
                 HStack {
                     Image(systemName: "dollarsign.circle")
                         .font(.system(size: 24, weight: .bold))
@@ -314,6 +363,7 @@ struct SessionDefaultsView: View {
                 })
             }
             
+            // MARK: GAME TYPE
             HStack {
                 
                 Image(systemName: "dice")
@@ -374,6 +424,8 @@ struct SessionDefaultsView: View {
             }
             
             if sessionType == .tournament {
+                
+                // MARK: TOUNRAMENT SPEED
                 HStack {
                     
                     Image(systemName: "stopwatch")
@@ -423,6 +475,7 @@ struct SessionDefaultsView: View {
                 }
                 .padding(.bottom, 10)
                 
+                // MARK: TOURNAMENT SIZE
                 HStack {
                     
                     Image(systemName: "person.2.fill")
@@ -472,6 +525,8 @@ struct SessionDefaultsView: View {
                 .padding(.bottom, 10)
             }
             
+            
+            // MARK: CURRENCY
             HStack {
                 
                 Image(systemName: "banknote.fill")
@@ -513,6 +568,7 @@ struct SessionDefaultsView: View {
             }
             .padding(.bottom, 10)
             
+            // MARK: HANDS PER HOUR
             HStack {
                 
                 Image(systemName: "hare.fill")
@@ -563,6 +619,7 @@ struct SessionDefaultsView: View {
             }
             .padding(.bottom, 10)
             
+            // MARK: DISPLAY HANDS PER HOUR?
             HStack {
                 
                 Image(systemName: "questionmark.bubble.fill")
@@ -581,6 +638,7 @@ struct SessionDefaultsView: View {
             }
             .padding(.bottom, 10)
             
+            // MARK: ASK FOR DEFAULTS EACH TIME?
             HStack {
                 
                 Image(systemName: "questionmark.bubble.fill")

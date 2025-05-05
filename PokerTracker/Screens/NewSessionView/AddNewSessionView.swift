@@ -81,6 +81,7 @@ struct AddNewSessionView: View {
         .frame(maxHeight: .infinity)
         .background(Color.brandBackground)
         .onAppear {
+            newSession.loadUserDefaults(bankrolls: vm.bankrolls)
             audioConfirmation = false
             if let liveSessionStartTime = timerViewModel.liveSessionStartTime {
                 newSession.times[0].start = liveSessionStartTime

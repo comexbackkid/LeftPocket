@@ -12,6 +12,7 @@ extension SessionDefaultsView {
     func resetUserDefaults() {
         
         sessionType = nil
+        selectedBankrollID = nil
         location = LocationModel_v2(name: "")
         stakes = ""
         game = ""
@@ -26,6 +27,7 @@ extension SessionDefaultsView {
         let resetResult = Result {
             
             defaults.removeObject(forKey: "sessionTypeDefault")
+            defaults.removeObject(forKey: "bankrollDefault")
             defaults.removeObject(forKey: "locationDefault")
             defaults.removeObject(forKey: "stakesDefault")
             defaults.removeObject(forKey: "gameDefault")
@@ -52,6 +54,10 @@ extension SessionDefaultsView {
             
             if let encodedSessionType = try? JSONEncoder().encode(sessionType) {
                 defaults.set(encodedSessionType, forKey: "sessionTypeDefault")
+            }
+            
+            if let encodedBankroll = try? JSONEncoder().encode(selectedBankrollID) {
+                defaults.set(encodedBankroll, forKey: "bankrollDefault")
             }
             
             if let encodedLocation = try? JSONEncoder().encode(location) {
@@ -100,6 +106,21 @@ extension SessionDefaultsView {
             sessionType = decodedSessionType
         } else {
             sessionType = nil
+        }
+        
+        // Load Bankroll
+        if let encodedBankroll = defaults.data(forKey: "bankrollDefault"), let savedID = try? JSONDecoder().decode(UUID.self, from: encodedBankroll) {
+            // 2) Check that it still exists in your live bankroll array
+            if vm.bankrolls.contains(where: { $0.id == savedID }) {
+                selectedBankrollID = savedID
+                
+            } else {
+                defaults.removeObject(forKey: "bankrollDefault")
+                selectedBankrollID = nil
+            }
+            
+        } else {
+            selectedBankrollID = nil
         }
         
         // Load Location

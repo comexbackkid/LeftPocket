@@ -47,10 +47,6 @@ final class NewSessionViewModel: ObservableObject {
     @Published var addDay: Bool = false
     @Published var noMoreDays: Bool = false
     
-    init() {
-        loadUserDefaults()
-    }
-    
     private var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
     
     // Making sure to include rebuys in profit calculation
@@ -138,7 +134,6 @@ final class NewSessionViewModel: ObservableObject {
         stakerList.removeAll { $0.id == staker.id }
     }
     
-    // Testing new form validation method
     func validateForm() -> Bool {
         var error: AlertItem? = nil
 
@@ -230,7 +225,7 @@ final class NewSessionViewModel: ObservableObject {
         return true
     }
     
-    func loadUserDefaults() {
+    func loadUserDefaults(bankrolls: [Bankroll]) {
         
         let defaults = UserDefaults.standard
         
@@ -239,6 +234,20 @@ final class NewSessionViewModel: ObservableObject {
             sessionType = decodedSessionType
         } else {
             sessionType = nil
+        }
+        
+        if let encodedBankroll = defaults.data(forKey: "bankrollDefault"), let savedID = try? JSONDecoder().decode(UUID.self, from: encodedBankroll) {
+            // Check and make sure the bankroll actually exists before choosing it
+            if bankrolls.contains(where: { $0.id == savedID }) {
+                selectedBankrollID = savedID
+                
+            } else {
+                defaults.removeObject(forKey: "bankrollDefault")
+                selectedBankrollID = nil
+            }
+            
+        } else {
+            selectedBankrollID = nil
         }
         
         // Load Location

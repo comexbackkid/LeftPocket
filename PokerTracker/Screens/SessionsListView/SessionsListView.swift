@@ -648,10 +648,40 @@ enum SessionFilter: String, CaseIterable {
     }
 }
 
-enum BankrollSelection: Hashable {
+//enum BankrollSelection: Hashable {
+//    case all
+//    case `default`
+//    case custom(UUID)
+//}
+
+enum BankrollSelection: Hashable, RawRepresentable {
     case all
     case `default`
     case custom(UUID)
+    
+    // 1) Define RawValue as String
+    typealias RawValue = String
+    
+    // 2) Initialize from the raw string
+    init?(rawValue: String) {
+        switch rawValue {
+        case "all": self = .all
+        case "default": self = .default
+        default:
+            guard let uuid = UUID(uuidString: rawValue)
+            else { return nil }
+            self = .custom(uuid)
+        }
+    }
+    
+    // 3) Serialize each case to a string
+    var rawValue: String {
+        switch self {
+        case .all: return "all"
+        case .`default`: return "default"
+        case .custom(let uuid): return uuid.uuidString
+        }
+    }
 }
 
 enum ListFilter: String, CaseIterable {
