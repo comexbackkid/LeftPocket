@@ -14,7 +14,7 @@ struct BackupsView: View {
     @State private var backupFiles: [URL] = []
     @State private var useDummyData = false
     @State private var showRestoreWarning = false
-    @State private var showErrorAlert = true
+    @State private var showErrorAlert = false
     @State private var showRestoreSuccessAlertModal = false
     @State private var selectedBackup: URL?
     
