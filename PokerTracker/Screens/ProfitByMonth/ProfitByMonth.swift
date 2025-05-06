@@ -263,7 +263,7 @@ struct ProfitByMonth: View {
             .padding(.vertical, 20)
             
             let filteredSessions = vm.allSessions.filter { Calendar.current.component(.month, from: $0.date) == monthFilter && $0.date.getYear() == yearFilter}
-            BankrollLineChartSimple(sessions: filteredSessions)
+            BankrollLineChartSimple(sessions: filteredSessions, showTitle: false)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 20)
                 .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
@@ -276,7 +276,6 @@ struct ProfitByMonth: View {
             let hourly = hourlyByMonth(month: monthNames[monthFilter-1], sessions: filteredSessions).currencyShortHand(vm.userCurrency)
             let totalHours = vm.hoursAbbreviated(filteredSessions)
             let winRatio = winRatioByMonth(sessions: filteredSessions)
-            
             let profitChange = profitPercentageChange(for: monthFilter, year: selectedYear, in: vm.allSessions)
             let hourlyChange = hourlyRatePercentageChange(for: monthFilter, year: selectedYear, in: vm.allSessions)
 

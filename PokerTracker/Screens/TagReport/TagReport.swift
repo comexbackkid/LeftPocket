@@ -326,7 +326,7 @@ struct TagReport: View {
     }
     
     var lineChart: some View {
-        BankrollLineChartSimple(sessions: taggedSessions)
+        BankrollLineChartSimple(sessions: taggedSessions, showTitle: true)
             .padding(20)
             .padding(.bottom)
             .frame(width: UIScreen.main.bounds.width * 0.9, height: 360)

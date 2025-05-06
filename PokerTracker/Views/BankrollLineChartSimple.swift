@@ -12,6 +12,7 @@ struct BankrollLineChartSimple: View {
     
     @EnvironmentObject var viewModel: SessionsListViewModel
     let sessions: [PokerSession_v2]
+    let showTitle: Bool
     private var chartData: [Int] {
         guard !sessions.isEmpty else {
             return [0]
@@ -21,6 +22,39 @@ struct BankrollLineChartSimple: View {
     }
     
     var body: some View {
+        
+        VStack {
+            
+            if showTitle { header }
+            
+            chart
+        }
+    }
+    
+    var header: some View {
+        
+        HStack(alignment: .top) {
+            
+            VStack(alignment: .leading, spacing: 3) {
+                
+                Text("Player Profit").cardTitleStyle()
+                
+                HStack(alignment: .firstTextBaseline, spacing: 5) {
+                    
+                    let defaultProfit = chartData.last ?? 0
+                    Text("\(abs(defaultProfit).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))")
+                    .font(.custom("Asap-Medium", size: 17))
+                    .chartIntProfitColor(amountText: defaultProfit, defaultProfit: defaultProfit)
+                }
+            }
+            
+            Spacer()
+            
+        }
+        .padding(.bottom, 6)
+    }
+    
+    var chart: some View {
         
         Group {
             
@@ -78,7 +112,9 @@ struct BankrollLineChartSimple: View {
 }
 
 #Preview {
-    BankrollLineChartSimple(sessions: MockData.allSessions)
+    BankrollLineChartSimple(sessions: MockData.allSessions, showTitle: true)
         .environmentObject(SessionsListViewModel())
         .frame(height: 200)
+        .padding()
+        .preferredColorScheme(.dark)
 }
