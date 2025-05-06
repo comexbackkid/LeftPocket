@@ -6,19 +6,30 @@
 //
 
 import SwiftUI
+import HealthKit
 
 struct LiveSessionInitialBuyIn: View {
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vm: SessionsListViewModel
+    @EnvironmentObject var hkManager: HealthKitManager
     @ObservedObject var timerViewModel: TimerViewModel
     @State private var alertItem: AlertItem?
     @State private var initialBuyInField: String = ""
+    @State private var selectedMood: HKStateOfMind.Label?
+    @State private var selectedValence: Double?
+    @State private var animateEmoji = false
     @Binding var buyInConfirmationSound: Bool
-    
     private var isPad: Bool {
         UIDevice.current.userInterfaceIdiom == .pad
     }
+    private let moodChoices: [(label: HKStateOfMind.Label, imageName: String, valence: Double)] = [
+        (.angry, "mood_angry", -0.9),
+        (.discouraged,   "mood_unsure",  -0.6),
+        (.drained,    "mood_tired",  -0.3),
+        (.joyful,   "mood_happy",   0.6),
+        (.excited,   "mood_elated",  0.9)
+    ]
     
     var body: some View {
         
@@ -26,45 +37,11 @@ struct LiveSessionInitialBuyIn: View {
             
             title
             
-            VStack (spacing: 10) {
-                
-                instructions
-            }
+            instructions
             
             inputFields
             
-            VStack {
-                Button("How's Your Mood?") {
-                    // TBD
-                }
-                .foregroundStyle(.secondary)
-                .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
-                .padding(.top)
-                
-                HStack {
-                    Image("mood_angry")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 32, height: 32)
-                    Image("mood_unsure")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 32, height: 32)
-                    Image("mood_tired")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 32, height: 32)
-                    Image("mood_happy")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 32, height: 32)
-                    Image("mood_elated")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 32, height: 32)
-                }
-            }
-            .padding(.bottom, 6)
+            moodSelection
             
             saveButton
             
@@ -129,6 +106,41 @@ struct LiveSessionInitialBuyIn: View {
         .padding(.horizontal)
     }
     
+    var moodSelection: some View {
+        
+        VStack {
+            Text("How's Your Mood?")
+                .foregroundStyle(.secondary)
+                .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
+                .padding(.top)
+            
+            HStack(spacing: 16) {
+                ForEach(moodChoices, id: \.label) { choice in
+                    Button {
+                        selectedMood = choice.label
+                        selectedValence = choice.valence
+                        animateEmoji.toggle()
+                        
+                    } label: {
+                        Image(choice.imageName)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 32, height: 32)
+                            .opacity(selectedMood == choice.label ? 1.0 : 0.5)
+                            .phaseAnimator(MoodAnimationPhase.allCases, trigger: selectedMood) { content, phase in
+                                content
+                                    .scaleEffect(selectedMood == choice.label ? phase.scaleAmount : 1.0)
+                            } animation: { phase in
+                                phase.animation
+                            }
+                    }
+                    .sensoryFeedback(.selection, trigger: selectedMood)
+                }
+            }
+            .padding(.bottom, 6)
+        }
+    }
+    
     var saveButton: some View {
         
         Button {
@@ -159,16 +171,64 @@ struct LiveSessionInitialBuyIn: View {
     
     private func saveButtonPressed() {
         guard isValidForm else { return }
+        
+        Task {
+            if let mood = selectedMood, let valence = selectedValence {
+                let sample = HKStateOfMind(date: Date(), kind: .momentaryEmotion, valence: valence, labels: [mood], associations: [])
+                do {
+                    try await hkManager.saveStateOfMindSample(sample)
+                    print("State of mind saved! (Mood: \(mood), Valence: \(valence))")
+                    
+                } catch {
+                    print("Failed saving mood: ",error)
+                }
+            }
+            
+        }
+        
         timerViewModel.addInitialBuyIn(initialBuyInField)
         dismiss()
     }
 }
 
-#Preview {
-    LiveSessionInitialBuyIn(timerViewModel: TimerViewModel(), buyInConfirmationSound: .constant(false))
-        .environmentObject(SessionsListViewModel())
-        .frame(height: 400)
-        .preferredColorScheme(.dark)
-        .background(.ultraThinMaterial)
-        .clipShape(.rect(cornerRadius: 20))
+extension HealthKitManager {
+    func saveStateOfMindSample(_ sample: HKStateOfMind) async throws {
+        try await store.save(sample)
+    }
 }
+
+enum MoodAnimationPhase: CaseIterable {
+    case start, expand, contract, overshoot, settle
+
+    var scaleAmount: CGFloat {
+        switch self {
+        case .start:      return 1.0
+        case .expand:     return 1.3
+        case .contract:   return 0.8
+        case .overshoot:  return 1.1
+        case .settle:     return 1.0
+        }
+    }
+
+    var animation: Animation {
+        switch self {
+        case .start:      return .smooth
+        case .expand:     return .easeOut(duration: 0.2)
+        case .contract:   return .easeInOut(duration: 0.1)
+        case .overshoot:  return .easeIn(duration: 0.1)
+        case .settle:     return .easeOut(duration: 0.1)
+        }
+    }
+}
+
+#Preview {
+        LiveSessionInitialBuyIn(timerViewModel: TimerViewModel(), buyInConfirmationSound: .constant(false))
+            .environmentObject(SessionsListViewModel())
+            .environmentObject(HealthKitManager())
+            .frame(height: 400)
+            .preferredColorScheme(.dark)
+            .background(.ultraThinMaterial)
+            .clipShape(.rect(cornerRadius: 20))
+}
+
+

@@ -12,8 +12,22 @@ import HealthKit
 class HealthKitManager: ObservableObject {
     
     let store = HKHealthStore()
-    let types: Set = [HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!, HKObjectType.categoryType(forIdentifier: .mindfulSession)!]
-    let typesToShare: Set = [HKObjectType.categoryType(forIdentifier: .mindfulSession)!]
+//    let types: Set = [HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!, HKObjectType.categoryType(forIdentifier: .mindfulSession)!]
+//    let stateOfMindType = HKObjectType.stateOfMindType()
+//    let typesToShare: Set = [HKObjectType.categoryType(forIdentifier: .mindfulSession)!]
+
+    private let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
+    private let mindfulSessionType = HKObjectType.categoryType(forIdentifier: .mindfulSession)!
+    private let stateOfMindType = HKObjectType.stateOfMindType()
+    
+    private var typesToRead: Set<HKObjectType> {
+        [sleepType, mindfulSessionType, stateOfMindType]
+    }
+    
+    // MARK: – Types to Share (Write)
+    private var typesToShare: Set<HKSampleType> {
+        [mindfulSessionType, stateOfMindType]
+    }
     
     @Published var sleepData: [SleepMetric] = []
     @Published var mindfulMinutes: Double = 0.0
@@ -27,6 +41,10 @@ class HealthKitManager: ObservableObject {
         return store.authorizationStatus(for: type) == .sharingAuthorized
     }
     
+    var isStateOfMindAuthorized: Bool {
+        store.authorizationStatus(for: stateOfMindType) == .sharingAuthorized
+    }
+    
     func checkAuthorizationStatus() async {
         guard HKHealthStore.isHealthDataAvailable() else {
             DispatchQueue.main.async {
@@ -37,7 +55,7 @@ class HealthKitManager: ObservableObject {
         }
         
         await withCheckedContinuation { continuation in
-            store.getRequestStatusForAuthorization(toShare: typesToShare, read: types) { (status, error) in
+            store.getRequestStatusForAuthorization(toShare: typesToShare, read: typesToRead) { (status, error) in
                 DispatchQueue.main.async {
                     
                     if error != nil {
@@ -61,7 +79,7 @@ class HealthKitManager: ObservableObject {
     }
     
     func requestAuthorization() {
-        store.requestAuthorization(toShare: typesToShare, read: types) { (success, error) in
+        store.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
             DispatchQueue.main.async {
                 if success {
                     self.authorizationStatus = .sharingAuthorized
