@@ -334,6 +334,7 @@ struct AdvancedTournamentReport: View {
         .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
         .cornerRadius(12)
         .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+        .frame(height: 300)
         .padding(.top, 15)
         .padding(.bottom, 60)
     }
