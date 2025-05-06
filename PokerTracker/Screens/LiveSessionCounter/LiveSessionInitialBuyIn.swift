@@ -33,6 +33,39 @@ struct LiveSessionInitialBuyIn: View {
             
             inputFields
             
+            VStack {
+                Button("How's Your Mood?") {
+                    // TBD
+                }
+                .foregroundStyle(.secondary)
+                .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
+                .padding(.top)
+                
+                HStack {
+                    Image("mood_angry")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 32, height: 32)
+                    Image("mood_unsure")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 32, height: 32)
+                    Image("mood_tired")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 32, height: 32)
+                    Image("mood_happy")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 32, height: 32)
+                    Image("mood_elated")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 32, height: 32)
+                }
+            }
+            .padding(.bottom, 6)
+            
             saveButton
             
             Spacer()
@@ -134,4 +167,8 @@ struct LiveSessionInitialBuyIn: View {
 #Preview {
     LiveSessionInitialBuyIn(timerViewModel: TimerViewModel(), buyInConfirmationSound: .constant(false))
         .environmentObject(SessionsListViewModel())
+        .frame(height: 400)
+        .preferredColorScheme(.dark)
+        .background(.ultraThinMaterial)
+        .clipShape(.rect(cornerRadius: 20))
 }
