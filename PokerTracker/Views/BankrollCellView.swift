@@ -25,7 +25,7 @@ struct BankrollCellView: View {
                 .foregroundColor(.brandBackground)
                 .background(
                     Circle()
-                        .foregroundColor(.lightGreen)
+                        .foregroundColor(colorScheme == .dark ? .lightGreen : .green)
                         .frame(width: 33, height: 33, alignment: .center)
                 )
                 .padding(.trailing, 15)
@@ -52,15 +52,14 @@ struct BankrollCellView: View {
         
         let txTotal = bankroll.transactions.reduce(0) { total, tx in
             switch tx.type {
-            case .deposit:
-                return total + tx.amount
-            case .withdrawal, .expense:
-                return total - tx.amount
+            case .deposit: return total + tx.amount
+            case .withdrawal, .expense: return total - tx.amount
             }
         }
         
         return sessionTotal + txTotal
-       }
+        
+    }
 }
 
 #Preview {

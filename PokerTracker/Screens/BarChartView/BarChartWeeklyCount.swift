@@ -14,7 +14,6 @@ struct BarChartWeeklySessionCount: View {
     
     let showTitle: Bool
     var dateRange: [PokerSession_v2]
-    
     var hoursByWeek: [(weekOfYear: Int, totalHours: Double)] {
         let calendar = Calendar.current
         
@@ -33,7 +32,7 @@ struct BarChartWeeklySessionCount: View {
             }
             return (weekOfYear, totalHours)
         }
-            .sorted { $0.0 < $1.0 }
+        .sorted { $0.0 < $1.0 }
         
         return hoursByWeek
     }
