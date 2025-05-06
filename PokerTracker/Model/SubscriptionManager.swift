@@ -55,6 +55,7 @@ class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
     }
     
     // Check if the user is currently enrolled in a free trial so we can remind them about cancellation
+    // Currently not needed, delete eventually it's handled in handleCustomerInfo()
     func checkTrialStatus() async {
         do {
             let customerInfo = try await Purchases.shared.customerInfo()
@@ -77,10 +78,7 @@ class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
     
     // Notification reminder for free trial end date
     func scheduleTrialExpirationNotification(expirationDate: Date) {
-        /// Left Pocket Pro $9.99/mo is 7 Day Free Trial
-        /// Left Pocket Pro $79.99/year is 14 Day Free Trial
-        /// Left Pocket Pro $2.99/wk is 3 Day Free Trial
-        let daysBeforeNotification = 2
+        let daysBeforeNotification = 1
         let notificationTime = expirationDate.addingTimeInterval(TimeInterval(-daysBeforeNotification * 24 * 60 * 60))
         
         let content = UNMutableNotificationContent()
@@ -100,16 +98,6 @@ class SubscriptionManager: NSObject, ObservableObject, PurchasesDelegate {
             }
         }
     }
-    
-    // This listener should be able to handle whenever an Offer Code is redeemed
-//    func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) {
-//        // Handle the updated CustomerInfo
-//        Task {
-//            await MainActor.run {
-//                self.isSubscribed = customerInfo.entitlements["premium"]?.isActive == true
-//            }
-//        }
-//    }
     
     func purchases(_ purchases: Purchases, receivedUpdated customerInfo: CustomerInfo) {
         Task {
