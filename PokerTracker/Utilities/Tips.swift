@@ -160,7 +160,7 @@ struct AddSessionTip: Tip {
     }
     
     var image: Image? {
-        Image(systemName: "suit.club.fill")
+        Image(systemName: "cross.fill")
     }
     
     // Show this tip when the user has never pressed the Add Session Button.

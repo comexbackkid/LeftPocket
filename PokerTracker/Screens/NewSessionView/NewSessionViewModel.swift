@@ -313,7 +313,11 @@ final class NewSessionViewModel: ObservableObject {
         
         dismiss()
         
-        if computedProfit > 0 { AppReviewRequest.requestReviewIfNeeded() }
+        if computedProfit > 0 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                AppReviewRequest.requestReviewIfNeeded()
+            }
+        }
     }
 }
 
