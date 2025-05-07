@@ -20,6 +20,9 @@ class TimerViewModel: ObservableObject {
     @Published var initialBuyInAmount: String = ""
     @Published var totalRebuys: [Int] = []
     @Published var notes: [String] = []
+    @Published var isPaused: Bool = false
+    @Published var pauseStartTime: Date?
+    @Published var totalPausedTime: TimeInterval = 0
     
     var totalBuyInForLiveSession: Int {
         (Int(initialBuyInAmount) ?? 0) + rebuyTotalForSession
@@ -39,15 +42,27 @@ class TimerViewModel: ObservableObject {
     }
     
     func loadTimerData() {
-        // Attempt to recover liveSessionStartTime from UserDefaults
         guard let startTime = UserDefaults.standard.object(forKey: "liveSessionStartTime") as? Date else {
             print("No Live Session start time found.")
             return
         }
         
         liveSessionStartTime = startTime
+        totalPausedTime = UserDefaults.standard.double(forKey: "totalPausedTime")
+        isPaused = UserDefaults.standard.bool(forKey: "isPaused")
+        
+        if isPaused {
+            if let pauseStart = UserDefaults.standard.object(forKey: "pauseStartTime") as? Date {
+                pauseStartTime = pauseStart
+            }
+        }
+        
         updateElapsedTime()
-        startUpdatingTimer()
+        
+        if !isPaused {
+            startUpdatingTimer()
+        }
+        
         initialBuyInAmount = UserDefaults.standard.string(forKey: "initialBuyInAmount") ?? ""
         totalRebuys = UserDefaults.standard.array(forKey: "totalRebuys") as? [Int] ?? []
         notes = UserDefaults.standard.stringArray(forKey: "liveSessionNotes") ?? []
@@ -93,7 +108,13 @@ class TimerViewModel: ObservableObject {
     func startSession() {
         let now = Date()
         liveSessionStartTime = now
+        isPaused = false
+        totalPausedTime = 0
+        pauseStartTime = nil
         UserDefaults.standard.set(now, forKey: "liveSessionStartTime")
+        UserDefaults.standard.set(false, forKey: "isPaused")
+        UserDefaults.standard.set(0, forKey: "totalPausedTime")
+        UserDefaults.standard.set(nil, forKey: "pauseStartTime")
         UserDefaults.standard.set(initialBuyInAmount, forKey: "initialBuyInAmount")
         UserDefaults.standard.set(totalRebuys, forKey: "totalRebuys")
         UserDefaults.standard.set(notes, forKey: "liveSessionNotes")
@@ -114,9 +135,29 @@ class TimerViewModel: ObservableObject {
             print("Error retrieving Live Session Start Time.")
             return
         }
-        let elapsedTime = Date().timeIntervalSince(startTime)
-        liveSessionTimer = formatTimeInterval(elapsedTime)
         
+        let currentPauseTime = pauseStartTime != nil ? Date().timeIntervalSince(pauseStartTime!) : 0
+        let totalPaused = totalPausedTime + currentPauseTime
+        let elapsedTime = Date().timeIntervalSince(startTime) - totalPaused
+        
+        liveSessionTimer = formatTimeInterval(elapsedTime)
+    }
+    
+    func togglePause() {
+        if isPaused {
+            if let pauseStart = pauseStartTime {
+                totalPausedTime += Date().timeIntervalSince(pauseStart)
+                pauseStartTime = nil
+            }
+            
+            isPaused = false
+            startUpdatingTimer()
+            
+        } else {
+            pauseStartTime = Date()
+            isPaused = true
+            timer?.invalidate()
+        }
     }
     
     func stopTimer() {
@@ -125,6 +166,9 @@ class TimerViewModel: ObservableObject {
         UserDefaults.standard.removeObject(forKey: "initialBuyInAmount")
         UserDefaults.standard.removeObject(forKey: "totalRebuys")
         UserDefaults.standard.removeObject(forKey: "liveSessionNotes")
+        UserDefaults.standard.removeObject(forKey: "isPaused")
+        UserDefaults.standard.removeObject(forKey: "totalPausedTime")
+        UserDefaults.standard.removeObject(forKey: "pauseStartTime")
         cancelUserNotifications()
     }
     
@@ -167,12 +211,21 @@ class TimerViewModel: ObservableObject {
     
     // Called when the app enters the foreground
     @objc private func appDidResume() {
-        updateElapsedTime()
+        if !isPaused {
+            updateElapsedTime()
+        }
     }
     
     // Called when the app is about to become inactive
     @objc private func appWillResignActive() {
-        // This method would be useful if you need to handle app becoming inactive
+        if isPaused {
+            // Save the current pause state
+            UserDefaults.standard.set(isPaused, forKey: "isPaused")
+            UserDefaults.standard.set(totalPausedTime, forKey: "totalPausedTime")
+            if let pauseStart = pauseStartTime {
+                UserDefaults.standard.set(pauseStart, forKey: "pauseStartTime")
+            }
+        }
     }
     
     private func formatTimeInterval(_ interval: TimeInterval) -> String {

@@ -25,7 +25,7 @@ struct LiveSessionCounter: View {
     
     var body: some View {
         
-        HStack (spacing: 10) {
+        HStack (spacing: 11) {
             
             locationImage
             
@@ -35,6 +35,18 @@ struct LiveSessionCounter: View {
             
             Text(timerViewModel.liveSessionTimer)
                 .font(.custom("Asap-Regular", size: 26))
+            
+            Image(systemName: timerViewModel.isPaused ? "play.fill" : "pause.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .foregroundColor(.brandPrimary)
+                .frame(width: 18, height: 18)
+                .onTapGesture {
+                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                    impact.impactOccurred()
+                    timerViewModel.togglePause()
+                }
+                .symbolEffect(.bounce, value: timerViewModel.isPaused)
             
             Image(systemName: "dollarsign.arrow.circlepath")
                 .resizable()
