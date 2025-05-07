@@ -19,15 +19,8 @@ class HealthKitManager: ObservableObject {
     private let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
     private let mindfulSessionType = HKObjectType.categoryType(forIdentifier: .mindfulSession)!
     private let stateOfMindType = HKObjectType.stateOfMindType()
-    
-    private var typesToRead: Set<HKObjectType> {
-        [sleepType, mindfulSessionType, stateOfMindType]
-    }
-    
-    // MARK: – Types to Share (Write)
-    private var typesToShare: Set<HKSampleType> {
-        [mindfulSessionType, stateOfMindType]
-    }
+    private var typesToRead: Set<HKObjectType> { [sleepType, mindfulSessionType, stateOfMindType] }
+    private var typesToShare: Set<HKSampleType> { [mindfulSessionType, stateOfMindType] }
     
     @Published var sleepData: [SleepMetric] = []
     @Published var mindfulMinutes: Double = 0.0

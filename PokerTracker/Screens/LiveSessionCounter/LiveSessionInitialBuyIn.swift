@@ -86,7 +86,7 @@ struct LiveSessionInitialBuyIn: View {
             }
         }
         .padding(.horizontal)
-        .padding(.bottom, 30)
+        .padding(.bottom, 20)
     }
     
     var inputFields: some View {
@@ -109,7 +109,7 @@ struct LiveSessionInitialBuyIn: View {
     var moodSelection: some View {
         
         VStack {
-            Text("How's Your Mood?")
+            Text("How Do You Feel?")
                 .foregroundStyle(.secondary)
                 .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
                 .padding(.top)
@@ -139,6 +139,7 @@ struct LiveSessionInitialBuyIn: View {
             }
             .padding(.bottom, 6)
         }
+        .padding(.top, 10)
     }
     
     var saveButton: some View {
@@ -183,7 +184,6 @@ struct LiveSessionInitialBuyIn: View {
                     print("Failed saving mood: ",error)
                 }
             }
-            
         }
         
         timerViewModel.addInitialBuyIn(initialBuyInField)
