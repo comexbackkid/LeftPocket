@@ -42,7 +42,9 @@ struct LeftPocketCustomTabBar: View {
     @State private var isAnimating = false
     
     let addSessionTip = AddSessionTip()
-    var isCounting: Bool { timerViewModel.isCounting }
+    var isCounting: Bool {
+        timerViewModel.isCounting
+    }
     var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
     
     var body: some View {
@@ -66,8 +68,10 @@ struct LeftPocketCustomTabBar: View {
                                 
                 tips
                 
-                if isCounting {
+                ZStack {
                     LiveSessionCounter(timerViewModel: timerViewModel)
+                        .offset(y: isCounting ? 0 : 100)
+                        .animation(.spring(duration: 0.5), value: isCounting)
                 }
                 
                 tabBar
@@ -377,6 +381,7 @@ struct LeftPocketCustomTabBar: View {
             Image(systemName: isCounting ? "stop.fill" : "cross.fill")
                 .font(.system(size: 28, weight: .medium))
                 .foregroundColor(Color(.systemGray3))
+                .frame(height: 28)
             Spacer()
             
         }
@@ -400,8 +405,9 @@ struct LeftPocketCustomTabBar: View {
         } label: {
             Spacer()
             Image(systemName: "stop.fill")
-                .font(.system(size: 30, weight: .black))
+                .font(.system(size: 28, weight: .medium))
                 .foregroundColor(Color(.systemGray3))
+                .frame(height: 28)
             Spacer()
             
         }
