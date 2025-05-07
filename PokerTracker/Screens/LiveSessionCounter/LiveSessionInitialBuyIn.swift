@@ -172,12 +172,14 @@ struct LiveSessionInitialBuyIn: View {
     
     private func saveButtonPressed() {
         guard isValidForm else { return }
-        
+        let moodRaw = selectedMood?.rawValue
         Task {
             if let mood = selectedMood, let valence = selectedValence {
                 let sample = HKStateOfMind(date: Date(), kind: .momentaryEmotion, valence: valence, labels: [mood], associations: [])
+                
                 do {
                     try await hkManager.saveStateOfMindSample(sample)
+                    
                     print("State of mind saved! (Mood: \(mood), Valence: \(valence))")
                     
                 } catch {
@@ -186,7 +188,7 @@ struct LiveSessionInitialBuyIn: View {
             }
         }
         
-        timerViewModel.addInitialBuyIn(initialBuyInField)
+        timerViewModel.addInitialBuyIn(initialBuyInField, mood: moodRaw)
         dismiss()
     }
 }

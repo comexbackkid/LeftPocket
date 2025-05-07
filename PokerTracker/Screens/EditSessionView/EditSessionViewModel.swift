@@ -194,6 +194,7 @@ final class EditSessionViewModel: ObservableObject {
                                       highHandBonus: Int(highHandBonus) ?? 0,
                                       handsPerHour: handsPerHour,
                                       totalPausedTime: nil,
+                                      moodLabelRaw: nil,
                                       isTournament: sessionType == .tournament ? true : false,
                                       rebuyCount: Int(rebuyCount),
                                       bounties: Int(bounties),

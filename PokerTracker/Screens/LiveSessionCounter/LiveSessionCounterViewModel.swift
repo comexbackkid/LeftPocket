@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 import UserNotifications
 import Combine
+import HealthKit
 
 class TimerViewModel: ObservableObject {
     
@@ -23,6 +24,7 @@ class TimerViewModel: ObservableObject {
     @Published var isPaused: Bool = false
     @Published var pauseStartTime: Date?
     @Published var totalPausedTime: TimeInterval = 0
+    @Published var moodLabelRaw: Int?
     
     var totalBuyInForLiveSession: Int {
         (Int(initialBuyInAmount) ?? 0) + rebuyTotalForSession
@@ -182,6 +184,7 @@ class TimerViewModel: ObservableObject {
         isPaused = false
         pauseStartTime = nil
         notes = []
+        moodLabelRaw = nil
         totalRebuys.removeAll()
         UserDefaults.standard.removeObject(forKey: "liveSessionStartTime")
         UserDefaults.standard.removeObject(forKey: "initialBuyInAmount")
@@ -189,9 +192,12 @@ class TimerViewModel: ObservableObject {
         UserDefaults.standard.removeObject(forKey: "liveSessionNotes")
     }
     
-    func addInitialBuyIn(_ amount: String) {
+    func addInitialBuyIn(_ amount: String, mood: Int? = nil) {
         initialBuyInAmount = amount
         UserDefaults.standard.setValue(initialBuyInAmount, forKey: "initialBuyInAmount")
+        if let mood = mood {
+            moodLabelRaw = mood
+        }
     }
     
     func addRebuy() {
@@ -250,6 +256,9 @@ class TimerViewModel: ObservableObject {
         initialBuyInAmount = ""
         reBuyAmount = ""
         notes = []
+        isPaused = false
+        pauseStartTime = nil
+        moodLabelRaw = nil
         totalRebuys.removeAll()
     }
 }

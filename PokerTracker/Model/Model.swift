@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import HealthKit
 
 // MARK: OLD POKERSESSION MODEL
 
@@ -117,6 +118,7 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     let highHandBonus: Int
     let handsPerHour: Int?
     let totalPausedTime: TimeInterval?
+    let moodLabelRaw: Int?
     
     // Tournament Handling
     let isTournament: Bool
@@ -178,72 +180,6 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
         return DateComponents(hour: hours, minute: minutes)
     }
     
-    
-    
-    
-//    var sessionDuration: DateComponents {
-//        
-//        let dayOneDuration = Calendar.current.dateComponents([.hour, .minute], from: self.startTime, to: self.endTime)
-//        
-//        // Check if it's a Multi-Day Tournament, might want to re-label some variables here given new functionality in NewSessionViewModel
-//        if let tournamentDays = self.tournamentDays, tournamentDays > 1 {
-//            if let startTimeDayTwo = self.startTimeDayTwo, let endTimeDayTwo = self.endTimeDayTwo {
-//                
-//                let dayTwoDuration = Calendar.current.dateComponents([.hour, .minute], from: startTimeDayTwo, to: endTimeDayTwo)
-//                
-//                // Sum the durations from day one and day two
-//                let totalMinutes = (dayOneDuration.minute ?? 0) + (dayTwoDuration.minute ?? 0)
-//                let totalHours = (dayOneDuration.hour ?? 0) + (dayTwoDuration.hour ?? 0) + (totalMinutes / 60)
-//                let remainingMinutes = totalMinutes % 60
-//                
-//                return DateComponents(hour: totalHours, minute: remainingMinutes)
-//                
-//            } else {
-//                return dayOneDuration
-//            }
-//        } else {
-//            return dayOneDuration
-//        }
-//    }
-    
-    
-    
-    
-    
-//    var sessionDuration: DateComponents {
-//        
-//        let dayOneDuration = Calendar.current.dateComponents([.hour, .minute], from: self.startTime, to: self.endTime)
-//        
-//        var adjustedDuration = dayOneDuration
-//        if let pausedTime = totalPausedTime {
-//            let pausedComponents = Calendar.current.dateComponents([.hour, .minute], from: Date(timeIntervalSinceReferenceDate: 0), to: Date(timeIntervalSinceReferenceDate: pausedTime))
-//            let totalMinutes = (dayOneDuration.minute ?? 0) - (pausedComponents.minute ?? 0)
-//            let totalHours = (dayOneDuration.hour ?? 0) - (pausedComponents.hour ?? 0) + (totalMinutes / 60)
-//            let remainingMinutes = totalMinutes % 60
-//            adjustedDuration = DateComponents(hour: totalHours, minute: remainingMinutes)
-//        }
-//        
-//        // Check if it's a Multi-Day Tournament, might want to re-label some variables here given new functionality in NewSessionViewModel
-//        if let tournamentDays = self.tournamentDays, tournamentDays > 1 {
-//            if let startTimeDayTwo = self.startTimeDayTwo, let endTimeDayTwo = self.endTimeDayTwo {
-//                
-//                let dayTwoDuration = Calendar.current.dateComponents([.hour, .minute], from: startTimeDayTwo, to: endTimeDayTwo)
-//                
-//                // Sum the durations from day one and day two
-//                let totalMinutes = (adjustedDuration.minute ?? 0) + (dayTwoDuration.minute ?? 0)
-//                let totalHours = (adjustedDuration.hour ?? 0) + (dayTwoDuration.hour ?? 0) + (totalMinutes / 60)
-//                let remainingMinutes = totalMinutes % 60
-//                
-//                return DateComponents(hour: totalHours, minute: remainingMinutes)
-//                
-//            } else {
-//                return adjustedDuration
-//            }
-//        } else {
-//            return adjustedDuration
-//        }
-//    }
-    
     // Individual Session playing time formatted for Session Detail View
     var playingTIme: String {
         return sessionDuration.durationShortHand()
@@ -278,6 +214,23 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
         let totalHours = sessionDuration.durationInHours == 0 ? 1 : sessionDuration.durationInHours
         let bigBlindWin = Float(self.profit) / Float(bigBlind)
         return Double(bigBlindWin) / Double(totalHours)
+    }
+    
+    // Convenience:
+    var moodLabel: HKStateOfMind.Label? {
+        guard let val = moodLabelRaw else { return nil }
+        return HKStateOfMind.Label(rawValue: val)
+    }
+    
+    var moodImageName: String? {
+        switch moodLabel {
+        case .angry:       return "mood_angry"
+        case .discouraged: return "mood_unsure"
+        case .drained:     return "mood_tired"
+        case .joyful:      return "mood_happy"
+        case .excited:     return "mood_elated"
+        default:           return nil
+        }
     }
 }
 

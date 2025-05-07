@@ -9,6 +9,7 @@ import SwiftUI
 import RevenueCat
 import RevenueCatUI
 import TipKit
+import HealthKit
 
 final class NewSessionViewModel: ObservableObject {
     
@@ -47,6 +48,7 @@ final class NewSessionViewModel: ObservableObject {
     @Published var multiDayToggle: Bool = false
     @Published var addDay: Bool = false
     @Published var noMoreDays: Bool = false
+    @Published var moodLabelRaw: Int?
     
     private var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
     
@@ -285,6 +287,7 @@ final class NewSessionViewModel: ObservableObject {
                                          highHandBonus: Int(highHandBonus) ?? 0,
                                          handsPerHour: handsPerHour,
                                          totalPausedTime: totalPausedTime != 0 ? totalPausedTime : nil,
+                                         moodLabelRaw: moodLabelRaw,
                                          isTournament: sessionType == .tournament ? true : false,
                                          rebuyCount: Int(rebuyCount) ?? nil,
                                          bounties: Int(bounties) ?? nil,
