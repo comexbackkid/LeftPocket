@@ -60,8 +60,7 @@ extension AddNewSessionView {
                 }
             }
             .padding(.horizontal)
-            .padding(.bottom, 16)
-            
+            .padding(.bottom, 10)
             .accentColor(.brandPrimary)
             .font(.custom("Asap-Regular", size: 18))
             .datePickerStyle(.compact)
@@ -87,6 +86,25 @@ extension AddNewSessionView {
                 StartEndTimeView(dateInterval: $newSession.times[index], previousTime: index > 0 ? newSession.times[index - 1] : nil)
                     .disabled(disabled)
                     .opacity(disabled ? 0.5 : 1)
+            }
+            
+            if newSession.totalPausedTime > 0 {
+                HStack {
+                    Image(systemName: "pause.circle")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(Color(.systemGray3))
+                        .frame(width: 30)
+                    
+                    Text("Breaks")
+                        .padding(.leading, 4)
+                    
+                    Spacer()
+                    
+                    Text(newSession.totalPausedTime.abbreviatedTime)
+                        .bodyStyle()
+                }
+                .padding(.horizontal)
+                .padding(.bottom)
             }
             
             // MARK: CONTROL BUTTONS

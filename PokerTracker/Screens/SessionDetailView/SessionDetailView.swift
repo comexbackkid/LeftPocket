@@ -51,7 +51,7 @@ struct SessionDetailView: View {
         .accentColor(.brandPrimary)
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .toolbar {
-            ShareLink(item: takeScreenshot(), preview: SharePreview("Share My Session", image: Image("appicon-tiny"))) {
+            ShareLink(item: takeScreenshot(), preview: SharePreview("Shared Session from \(pokerSession.location.name)", image: Image("appicon-tiny"))) {
                 Image(systemName: "paperplane.fill")
                     .fontWeight(.medium)
                     .tint(.brandPrimary)
@@ -663,7 +663,7 @@ struct SessionDetailView: View {
             
             Spacer()
             
-            ShareLink(item: takeScreenshot(), preview: SharePreview("Share My Session", image: Image("appicon-tiny"))) {
+            ShareLink(item: takeScreenshot(), preview: SharePreview("Shared Session from \(pokerSession.location.name)", image: Image("appicon-tiny"))) {
                 ShareButton()
                     .padding(.trailing, 10)
                     .popoverTip(shareTip)
