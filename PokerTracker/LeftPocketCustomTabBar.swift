@@ -329,12 +329,12 @@ struct LeftPocketCustomTabBar: View {
         let tabBarImages = ["custom-house-icon", "list.bullet", "cross.fill", "chart.bar.fill", "gearshape.fill"]
         if index == 0 {
             Image("custom-house-icon")
-                .font(.system(size: 28, weight: .medium))
+                .font(.system(size: 26, weight: .black))
                 .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
             
         } else {
             Image(systemName: tabBarImages[index])
-                .font(.system(size: index == 2 ? 28 : 22, weight: .medium))
+                .font(.system(size: index == 2 ? 28 : 22, weight: .black))
                 .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
         }
         
@@ -407,7 +407,7 @@ struct LeftPocketCustomTabBar: View {
         } label: {
             Spacer()
             Image(systemName: "stop.fill")
-                .font(.system(size: 28, weight: .medium))
+                .font(.system(size: 30, weight: .black))
                 .foregroundColor(Color(.systemGray3))
             Spacer()
             
