@@ -42,7 +42,11 @@ struct LeftPocketCustomTabBar: View {
     @State private var isAnimating = false
     
     let addSessionTip = AddSessionTip()
-    var isCounting: Bool { timerViewModel.isCounting }
+    var isCounting: Bool { true
+//        withAnimation {
+//            timerViewModel.isCounting
+//        }
+    }
     var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
     
     var body: some View {
@@ -66,7 +70,12 @@ struct LeftPocketCustomTabBar: View {
                                 
                 tips
                 
-                if isCounting { LiveSessionCounter(timerViewModel: timerViewModel) }
+//                ZStack {
+//                    LiveSessionCounter(timerViewModel: timerViewModel)
+//                        .offset(y: isCounting ? 0 : 200)
+//                        .opacity(isCounting ? 1 : 0)
+//                        .animation(.interpolatingSpring(stiffness: 200, damping: 20), value: isCounting)
+//                }
                 
                 tabBar
             }
@@ -320,14 +329,15 @@ struct LeftPocketCustomTabBar: View {
         let tabBarImages = ["custom-house-icon", "list.bullet", "cross.fill", "chart.bar.fill", "gearshape.fill"]
         if index == 0 {
             Image("custom-house-icon")
-                .font(.system(size: 26, weight: .black))
+                .font(.system(size: 28, weight: .medium))
                 .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
             
         } else {
             Image(systemName: tabBarImages[index])
-                .font(.system(size: index == 2 ? 28 : 22, weight: .black))
+                .font(.system(size: index == 2 ? 28 : 22, weight: .medium))
                 .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
         }
+        
         Spacer()
     }
     
@@ -397,7 +407,7 @@ struct LeftPocketCustomTabBar: View {
         } label: {
             Spacer()
             Image(systemName: "stop.fill")
-                .font(.system(size: 30, weight: .black))
+                .font(.system(size: 28, weight: .medium))
                 .foregroundColor(Color(.systemGray3))
             Spacer()
             

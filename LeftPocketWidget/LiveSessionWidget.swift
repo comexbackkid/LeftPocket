@@ -132,28 +132,63 @@ struct LiveSessionTimerView: View {
 
                 VStack (alignment: .leading, spacing: 1) {
                     
-                    Text("Left Pocket")
-                        .font(.custom("Asap-Bold", size: 22, relativeTo: .subheadline))
+                    Text("\(state.startTime.formatted(date: .omitted, time: .shortened))")
+                        .font(.custom("Asap-Bold", size: 23, relativeTo: .subheadline))
                     
-                    
-                    Text("Session Started " + "\(state.startTime.formatted(date: .omitted, time: .shortened))")
+                    Text("Session Start")
                         .opacity(0.5)
                         .font(.custom("Asap-Regular", size: 13, relativeTo: .caption))
                         .padding(.bottom, 6)
                     
                     Text(state.startTime, style: .relative)
-                        .font(.custom("Asap-Bold", size: 22, relativeTo: .title2))
+                        .font(.custom("Asap-Bold", size: 20, relativeTo: .title2))
                         .monospacedDigit()
+                    
+                    Text("Total Elapsed Time")
+                        .opacity(0.5)
+                        .font(.custom("Asap-Regular", size: 13, relativeTo: .caption))
                 }
                 
                 Image("logo-tiny")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .clipShape(Circle())
-                    .frame(width: 75)
+                    .clipShape(.rect(cornerRadius: 18, style: .circular))
+                    .frame(width: 90)
             }
             .foregroundColor(.white)
             .padding()
+            
+//            HStack {
+//
+//                VStack (alignment: .leading, spacing: 1) {
+//                    
+//                    Text("Left Pocket")
+//                        .font(.custom("Asap-Bold", size: 22, relativeTo: .subheadline))
+//                    
+//                    
+//                    Text("Session started " + "\(state.startTime.formatted(date: .omitted, time: .shortened))")
+//                        .opacity(0.5)
+//                        .font(.custom("Asap-Regular", size: 16, relativeTo: .caption))
+//                        .padding(.bottom, 6)
+//                    
+//                    Text(state.startTime, style: .relative)
+//                        .font(.custom("Asap-Bold", size: 20, relativeTo: .title2))
+//                        .monospacedDigit()
+//                    
+//                    Text("Since you sat down")
+//                        .opacity(0.5)
+//                        .font(.custom("Asap-Regular", size: 12, relativeTo: .caption))
+//                        .padding(.bottom, 6)
+//                }
+//                
+//                Image("logo-tiny")
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fit)
+//                    .clipShape(.rect(cornerRadius: 18, style: .circular))
+//                    .frame(width: 90)
+//            }
+//            .foregroundColor(.white)
+//            .padding()
         }
     }
     
@@ -169,7 +204,7 @@ struct LocationActivityView_Previews: PreviewProvider {
     
     static var previews: some View {
         LiveSessionWidgetAttributes(eventDescription: "Live Session")
-            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .dynamicIsland(.expanded))
-//            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .content)
+//            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .dynamicIsland(.expanded))
+            .previewContext(LiveSessionWidgetAttributes.ContentState(startTime: Date(), elapsedTime: "00:55"), viewKind: .content)
     }
 }

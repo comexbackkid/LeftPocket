@@ -32,16 +32,7 @@ struct LiveSessionCounter: View {
             
             Spacer()
             
-            Text(timerViewModel.liveSessionTimer)
-                .font(.custom("Asap-Regular", size: 26))
-                .contentTransition(.numericText())
-                .phaseAnimator([timerViewModel.isPaused, false]) { content, phase in
-                    content
-                        .opacity(phase ? 0.2 : 1.0)
-                        .animation(.easeInOut(duration: 1.0), value: phase)
-                }
-                
-            buttons
+            timerElements
             
         }
         .dynamicTypeSize(.medium)
@@ -80,7 +71,7 @@ struct LiveSessionCounter: View {
                     Image(localImage)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 40, height: 39)
+                        .frame(width: 38, height: 38)
                         .clipShape(.rect(cornerRadius: 7))
                     
                 } else if let importedImagePath = location.importedImage {
@@ -88,14 +79,14 @@ struct LiveSessionCounter: View {
                         Image(uiImage: uiImage)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 39, height: 39)
+                            .frame(width: 38, height: 38)
                             .clipShape(.rect(cornerRadius: 7))
                         
                     } else {
                         Image("defaultlocation-header")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 39, height: 39)
+                            .frame(width: 38, height: 38)
                             .clipShape(.rect(cornerRadius: 7))
                     }
                     
@@ -103,7 +94,7 @@ struct LiveSessionCounter: View {
                     Image("defaultlocation-header")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 39, height: 39)
+                        .frame(width: 38, height: 38)
                         .clipShape(.rect(cornerRadius: 7))
                 }
 
@@ -111,7 +102,7 @@ struct LiveSessionCounter: View {
                 Image("defaultlocation-header")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 39, height: 39)
+                    .frame(width: 38, height: 38)
                     .clipShape(.rect(cornerRadius: 7))
             }
         }
@@ -155,9 +146,24 @@ struct LiveSessionCounter: View {
         }
     }
     
-    var buttons: some View {
+    var timerText: some View {
         
-        Group {
+        Text(timerViewModel.liveSessionTimer)
+            .font(.custom("Asap-Regular", size: 26))
+            .contentTransition(.numericText())
+            .phaseAnimator([timerViewModel.isPaused, false]) { content, phase in
+                content
+                    .opacity(phase ? 0.2 : 1.0)
+                    .animation(.easeInOut(duration: 1.0), value: phase)
+            }
+    }
+    
+    var timerElements: some View {
+        
+        HStack {
+            
+            timerText
+            
             Image(systemName: timerViewModel.isPaused ? "play.fill" : "pause.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
