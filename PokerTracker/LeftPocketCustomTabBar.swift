@@ -205,6 +205,8 @@ struct LeftPocketCustomTabBar: View {
         }
         
         .sheet(isPresented: $showBuyInScreen, onDismiss: {
+            timerViewModel.startSession()
+            LiveActivityManager.shared.startActivity(startTime: Date(), elapsedTime: timerViewModel.liveSessionTimer)
             if buyInConfirmationSound {
                 playBuyInCashSound()
             }
@@ -271,8 +273,6 @@ struct LeftPocketCustomTabBar: View {
             showPaywall = true
             
         } else {
-            timerViewModel.startSession()
-            LiveActivityManager.shared.startActivity(startTime: Date(), elapsedTime: timerViewModel.liveSessionTimer)
             showBuyInScreen = true
         }
     }

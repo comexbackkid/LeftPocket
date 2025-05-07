@@ -35,9 +35,10 @@ struct LiveSessionCounter: View {
             
             Text(timerViewModel.liveSessionTimer)
                 .font(.custom("Asap-Regular", size: 26))
-                .transaction { transaction in
-                    transaction.animation = nil
-                }
+//                .transaction { transaction in
+//                    transaction.animation = .none
+//                }
+                .contentTransition(.numericText())
                 .phaseAnimator([timerViewModel.isPaused, false]) { content, phase in
                     content
                         .opacity(phase ? 0.2 : 1.0)
