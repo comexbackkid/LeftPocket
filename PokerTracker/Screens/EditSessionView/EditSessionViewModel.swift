@@ -193,6 +193,7 @@ final class EditSessionViewModel: ObservableObject {
                                       tags: tags.isEmpty ? [] : [tags],
                                       highHandBonus: Int(highHandBonus) ?? 0,
                                       handsPerHour: handsPerHour,
+                                      totalPausedTime: nil,
                                       isTournament: sessionType == .tournament ? true : false,
                                       rebuyCount: Int(rebuyCount),
                                       bounties: Int(bounties),

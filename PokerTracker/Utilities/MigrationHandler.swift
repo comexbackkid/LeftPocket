@@ -38,6 +38,7 @@ class MigrationHandler {
                                 tags: oldSession.tags ?? [],
                                 highHandBonus: oldSession.highHandBonus ?? 0,
                                 handsPerHour: 25,
+                                totalPausedTime: nil,
                                 
                                 // Tournament Specific Data
                                 isTournament: oldSession.isTournament ?? false,

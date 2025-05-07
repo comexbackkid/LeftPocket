@@ -110,7 +110,7 @@ struct LiveSessionInitialBuyIn: View {
         
         VStack {
             Text("How Do You Feel?")
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.primary)
                 .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
                 .padding(.top)
             
@@ -230,5 +230,3 @@ enum MoodAnimationPhase: CaseIterable {
             .background(.ultraThinMaterial)
             .clipShape(.rect(cornerRadius: 20))
 }
-
-

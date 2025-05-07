@@ -116,6 +116,7 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     let tags: [String]
     let highHandBonus: Int
     let handsPerHour: Int?
+    let totalPausedTime: TimeInterval?
     
     // Tournament Handling
     let isTournament: Bool
@@ -132,29 +133,116 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     
     // Individual Session duration
     var sessionDuration: DateComponents {
+        // Calculate raw duration (including any paused time)
+        let rawDayOneDuration = Calendar.current.dateComponents([.hour, .minute, .second],
+                                                              from: self.startTime,
+                                                              to: self.endTime)
         
-        let dayOneDuration = Calendar.current.dateComponents([.hour, .minute], from: self.startTime, to: self.endTime)
+        // Convert raw duration to seconds
+        let rawDayOneSeconds = (rawDayOneDuration.hour ?? 0) * 3600 +
+                              (rawDayOneDuration.minute ?? 0) * 60 +
+                              (rawDayOneDuration.second ?? 0)
         
-        // Check if it's a Multi-Day Tournament, might want to re-label some variables here given new functionality in NewSessionViewModel
-        if let tournamentDays = self.tournamentDays, tournamentDays > 1 {
-            if let startTimeDayTwo = self.startTimeDayTwo, let endTimeDayTwo = self.endTimeDayTwo {
-                
-                let dayTwoDuration = Calendar.current.dateComponents([.hour, .minute], from: startTimeDayTwo, to: endTimeDayTwo)
-                
-                // Sum the durations from day one and day two
-                let totalMinutes = (dayOneDuration.minute ?? 0) + (dayTwoDuration.minute ?? 0)
-                let totalHours = (dayOneDuration.hour ?? 0) + (dayTwoDuration.hour ?? 0) + (totalMinutes / 60)
-                let remainingMinutes = totalMinutes % 60
-                
-                return DateComponents(hour: totalHours, minute: remainingMinutes)
-                
-            } else {
-                return dayOneDuration
-            }
+        // Adjust for paused time if available
+        let adjustedDayOneSeconds: Int
+        if let pausedTime = totalPausedTime, pausedTime > 0 {
+            adjustedDayOneSeconds = max(0, rawDayOneSeconds - Int(pausedTime))
         } else {
-            return dayOneDuration
+            adjustedDayOneSeconds = rawDayOneSeconds
         }
+        
+        // Handle multi-day tournaments
+        guard let tournamentDays = self.tournamentDays, tournamentDays > 1,
+              let startTimeDayTwo = self.startTimeDayTwo,
+              let endTimeDayTwo = self.endTimeDayTwo else {
+            // Single day session - return adjusted duration
+            let hours = adjustedDayOneSeconds / 3600
+            let minutes = (adjustedDayOneSeconds % 3600) / 60
+            return DateComponents(hour: hours, minute: minutes)
+        }
+        
+        // Multi-day tournament - calculate day two duration
+        let rawDayTwoDuration = Calendar.current.dateComponents([.hour, .minute, .second],
+                                                              from: startTimeDayTwo,
+                                                              to: endTimeDayTwo)
+        
+        let rawDayTwoSeconds = (rawDayTwoDuration.hour ?? 0) * 3600 +
+                             (rawDayTwoDuration.minute ?? 0) * 60 +
+                             (rawDayTwoDuration.second ?? 0)
+        
+        // Sum adjusted durations from both days
+        let totalSeconds = adjustedDayOneSeconds + rawDayTwoSeconds
+        let hours = totalSeconds / 3600
+        let minutes = (totalSeconds % 3600) / 60
+        
+        return DateComponents(hour: hours, minute: minutes)
     }
+    
+    
+    
+    
+//    var sessionDuration: DateComponents {
+//        
+//        let dayOneDuration = Calendar.current.dateComponents([.hour, .minute], from: self.startTime, to: self.endTime)
+//        
+//        // Check if it's a Multi-Day Tournament, might want to re-label some variables here given new functionality in NewSessionViewModel
+//        if let tournamentDays = self.tournamentDays, tournamentDays > 1 {
+//            if let startTimeDayTwo = self.startTimeDayTwo, let endTimeDayTwo = self.endTimeDayTwo {
+//                
+//                let dayTwoDuration = Calendar.current.dateComponents([.hour, .minute], from: startTimeDayTwo, to: endTimeDayTwo)
+//                
+//                // Sum the durations from day one and day two
+//                let totalMinutes = (dayOneDuration.minute ?? 0) + (dayTwoDuration.minute ?? 0)
+//                let totalHours = (dayOneDuration.hour ?? 0) + (dayTwoDuration.hour ?? 0) + (totalMinutes / 60)
+//                let remainingMinutes = totalMinutes % 60
+//                
+//                return DateComponents(hour: totalHours, minute: remainingMinutes)
+//                
+//            } else {
+//                return dayOneDuration
+//            }
+//        } else {
+//            return dayOneDuration
+//        }
+//    }
+    
+    
+    
+    
+    
+//    var sessionDuration: DateComponents {
+//        
+//        let dayOneDuration = Calendar.current.dateComponents([.hour, .minute], from: self.startTime, to: self.endTime)
+//        
+//        var adjustedDuration = dayOneDuration
+//        if let pausedTime = totalPausedTime {
+//            let pausedComponents = Calendar.current.dateComponents([.hour, .minute], from: Date(timeIntervalSinceReferenceDate: 0), to: Date(timeIntervalSinceReferenceDate: pausedTime))
+//            let totalMinutes = (dayOneDuration.minute ?? 0) - (pausedComponents.minute ?? 0)
+//            let totalHours = (dayOneDuration.hour ?? 0) - (pausedComponents.hour ?? 0) + (totalMinutes / 60)
+//            let remainingMinutes = totalMinutes % 60
+//            adjustedDuration = DateComponents(hour: totalHours, minute: remainingMinutes)
+//        }
+//        
+//        // Check if it's a Multi-Day Tournament, might want to re-label some variables here given new functionality in NewSessionViewModel
+//        if let tournamentDays = self.tournamentDays, tournamentDays > 1 {
+//            if let startTimeDayTwo = self.startTimeDayTwo, let endTimeDayTwo = self.endTimeDayTwo {
+//                
+//                let dayTwoDuration = Calendar.current.dateComponents([.hour, .minute], from: startTimeDayTwo, to: endTimeDayTwo)
+//                
+//                // Sum the durations from day one and day two
+//                let totalMinutes = (adjustedDuration.minute ?? 0) + (dayTwoDuration.minute ?? 0)
+//                let totalHours = (adjustedDuration.hour ?? 0) + (dayTwoDuration.hour ?? 0) + (totalMinutes / 60)
+//                let remainingMinutes = totalMinutes % 60
+//                
+//                return DateComponents(hour: totalHours, minute: remainingMinutes)
+//                
+//            } else {
+//                return adjustedDuration
+//            }
+//        } else {
+//            return adjustedDuration
+//        }
+//    }
     
     // Individual Session playing time formatted for Session Detail View
     var playingTIme: String {

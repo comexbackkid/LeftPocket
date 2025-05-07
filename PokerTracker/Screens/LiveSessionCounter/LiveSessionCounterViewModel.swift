@@ -179,6 +179,8 @@ class TimerViewModel: ObservableObject {
         cancelUserNotifications()
         initialBuyInAmount = ""
         reBuyAmount = ""
+        isPaused = false
+        pauseStartTime = nil
         notes = []
         totalRebuys.removeAll()
         UserDefaults.standard.removeObject(forKey: "liveSessionStartTime")
