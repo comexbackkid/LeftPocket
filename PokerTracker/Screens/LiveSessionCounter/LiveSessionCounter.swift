@@ -12,7 +12,6 @@ struct LiveSessionCounter: View {
     
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var timerViewModel: TimerViewModel
-    
     @State private var showRebuyModal = false
     @State private var showSessionDefaultsView = false
     @State private var showNewNoteView = false
@@ -35,9 +34,6 @@ struct LiveSessionCounter: View {
             
             Text(timerViewModel.liveSessionTimer)
                 .font(.custom("Asap-Regular", size: 26))
-//                .transaction { transaction in
-//                    transaction.animation = .none
-//                }
                 .contentTransition(.numericText())
                 .phaseAnimator([timerViewModel.isPaused, false]) { content, phase in
                     content
@@ -164,9 +160,9 @@ struct LiveSessionCounter: View {
         Group {
             Image(systemName: timerViewModel.isPaused ? "play.fill" : "pause.fill")
                 .resizable()
-                .aspectRatio(contentMode: .fill)
+                .aspectRatio(contentMode: .fit)
                 .foregroundColor(.brandPrimary)
-                .frame(width: 18, height: 18)
+                .frame(width: 22, height: 22)
                 .onTapGesture {
                     let impact = UIImpactFeedbackGenerator(style: .soft)
                     impact.impactOccurred()

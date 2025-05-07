@@ -72,7 +72,7 @@ class TimerViewModel: ObservableObject {
         loadTimerData()
     }
     
-    func scheduleUserNotification() {
+    func scheduleStandardUserNotifications() {
         // First Push Notification to be sent after two hours of playing
         let contentAfterTwoHours = UNMutableNotificationContent()
         contentAfterTwoHours.title = UserNotificationContext.twoHours.msgTitle
@@ -119,7 +119,7 @@ class TimerViewModel: ObservableObject {
         UserDefaults.standard.set(totalRebuys, forKey: "totalRebuys")
         UserDefaults.standard.set(notes, forKey: "liveSessionNotes")
         startUpdatingTimer()
-        scheduleUserNotification()
+        scheduleStandardUserNotifications()
     }
     
     func startUpdatingTimer() {

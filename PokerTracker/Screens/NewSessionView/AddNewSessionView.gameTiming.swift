@@ -35,6 +35,7 @@ extension AddNewSessionView {
                     // MARK: START TIME
                     let range: ClosedRange<Date> = (previousTime != nil) ? previousTime!.end...Date.now : Date.distantPast...Date.now
                     DatePicker(isZoomed ? "" : "Start", selection: $dateInterval.start, in: range, displayedComponents: [.date, .hourAndMinute])
+                        .padding(.leading, 4)
                         .onChange(of: dateInterval.start) { newStart in
                             if localEnd < newStart {
                                 localEnd = newStart
@@ -52,6 +53,7 @@ extension AddNewSessionView {
                     
                     // MARK: END TIME
                     DatePicker(isZoomed ? "" : "End", selection: $localEnd, in: dateInterval.start...Date.now, displayedComponents: [.date, .hourAndMinute])
+                        .padding(.leading, 4)
                         .onChange(of: localEnd) {
                             dateInterval.end = localEnd
                         }
@@ -59,7 +61,7 @@ extension AddNewSessionView {
             }
             .padding(.horizontal)
             .padding(.bottom, 16)
-            .padding(.leading, 4)
+            
             .accentColor(.brandPrimary)
             .font(.custom("Asap-Regular", size: 18))
             .datePickerStyle(.compact)
