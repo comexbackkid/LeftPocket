@@ -71,7 +71,7 @@ struct OnboardingView: View {
                      shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(6)
             
             PageView(title: "Boost Your Mental Game",
-                     subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours and mindful minutes in our Health Analytics page, and integrate these numbers measured by other devices."),
+                     subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours, mindful minutes, and mood in our Health Analytics page, and integrate these numbers measured by other devices."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],
                      skipAction: { fetchCurrentOffer() },
