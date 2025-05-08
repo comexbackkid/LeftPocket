@@ -114,12 +114,24 @@ struct LiveSessionInitialBuyIn: View {
                 .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
                 .padding(.top)
             
+            if !hkManager.isStateOfMindAuthorized {
+                Text("Health permissions denied. Update from iOS Settings.")
+                    .captionStyle()
+                    .padding(.horizontal, 30)
+                    .foregroundStyle(.secondary)
+            }
+            
             HStack(spacing: 16) {
                 ForEach(moodChoices, id: \.label) { choice in
                     Button {
-                        selectedMood = choice.label
-                        selectedValence = choice.valence
-                        animateEmoji.toggle()
+                        if hkManager.isStateOfMindAuthorized {
+                            selectedMood = choice.label
+                            selectedValence = choice.valence
+                            animateEmoji.toggle()
+                            
+                        } else {
+                            hkManager.requestAuthorization()
+                        }
                         
                     } label: {
                         Image(choice.imageName)

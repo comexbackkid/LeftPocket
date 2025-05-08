@@ -66,9 +66,10 @@ struct LeftPocketCustomTabBar: View {
                 
                 Spacer()
                                 
-                tips
+                
                 
                 ZStack {
+                    tips
                     LiveSessionCounter(timerViewModel: timerViewModel)
                         .offset(y: isCounting ? 0 : 100)
                         .animation(.spring(duration: 0.5), value: isCounting)
