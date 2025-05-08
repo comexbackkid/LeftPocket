@@ -33,6 +33,7 @@
 		7C18FC172D9AE2C800E837AE /* BankrollCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C18FC162D9AE2C800E837AE /* BankrollCellView.swift */; };
 		7C18FC192D9AF6FD00E837AE /* AddNewBankroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C18FC182D9AF6FD00E837AE /* AddNewBankroll.swift */; };
 		7C1941252BDAA33E00377364 /* BestTimeOfDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */; };
+		7C1C14DF2DCD1C9A0079EAA3 /* HealthKitErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1C14DE2DCD1C9A0079EAA3 /* HealthKitErrors.swift */; };
 		7C1DF2B52CC6D63100E3D69E /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1DF2B42CC6D63100E3D69E /* AudioManager.swift */; };
 		7C20CFB2271E2D1600739764 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20CFB1271E2D1600739764 /* OnboardingView.swift */; };
 		7C23A4C328A3DEE100FB5604 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C23A4C228A3DEE100FB5604 /* AppGroup.swift */; };
@@ -337,6 +338,7 @@
 		7C18FC162D9AE2C800E837AE /* BankrollCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankrollCellView.swift; sourceTree = "<group>"; };
 		7C18FC182D9AF6FD00E837AE /* AddNewBankroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewBankroll.swift; sourceTree = "<group>"; };
 		7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestTimeOfDay.swift; sourceTree = "<group>"; };
+		7C1C14DE2DCD1C9A0079EAA3 /* HealthKitErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitErrors.swift; sourceTree = "<group>"; };
 		7C1DF2B42CC6D63100E3D69E /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		7C20CFB1271E2D1600739764 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		7C23A4C028A3DB3600FB5604 /* LeftPocket.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LeftPocket.entitlements; sourceTree = "<group>"; };
@@ -645,6 +647,32 @@
 			path = ManageBankrolls;
 			sourceTree = "<group>";
 		};
+		7C1C14DC2DCD1A080079EAA3 /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				7CE7DC1928FE1AA8009F4CE9 /* BankrollLineChart.swift */,
+				7C96E6A02DC5622B003317AF /* BankrollLineChartSimple.swift */,
+				7C6769E12B8CD300006ACB7D /* BankrollProgressView.swift */,
+				7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */,
+				7C608EDE2CC19B5800527405 /* DayOfWeekChart.swift */,
+				7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */,
+				7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */,
+				7CC26E6B2CDEA7C500095D4C /* PerformanceLineChart.swift */,
+				7CEB453E2BCEA90800AAF710 /* RingCharts.swift */,
+			);
+			path = Charts;
+			sourceTree = "<group>";
+		};
+		7C1C14DD2DCD1C2B0079EAA3 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				7CB3EB9C26C3093D009E8DF3 /* CellView.swift */,
+				7C18FC162D9AE2C800E837AE /* BankrollCellView.swift */,
+				7C85492F2C46C4BE0038ADB4 /* TransactionCellView.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		7C2614CA26D930BA00986183 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -745,35 +773,24 @@
 		7C2614CF26D9315F00986183 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7C1C14DD2DCD1C2B0079EAA3 /* Cells */,
+				7C1C14DC2DCD1A080079EAA3 /* Charts */,
 				7CFCBAC92DB819F900BA9A9D /* Buttons */,
 				7C028F992C36B5960098CA8C /* AdvancedTournamentReport.swift */,
 				7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */,
-				7CE7DC1928FE1AA8009F4CE9 /* BankrollLineChart.swift */,
-				7C96E6A02DC5622B003317AF /* BankrollLineChartSimple.swift */,
-				7C6769E12B8CD300006ACB7D /* BankrollProgressView.swift */,
 				7CC81FB7294CBAD400E849A9 /* BestLocationView.swift */,
 				7CB1EBD92950DF4800FA306B /* BestSessionView.swift */,
-				7C1941242BDAA33E00377364 /* BestTimeOfDay.swift */,
-				7CB3EB9C26C3093D009E8DF3 /* CellView.swift */,
-				7C18FC162D9AE2C800E837AE /* BankrollCellView.swift */,
 				7C12A58A2CB1CABE00CA8922 /* DashboardConfig.swift */,
-				7C608EDE2CC19B5800527405 /* DayOfWeekChart.swift */,
-				7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */,
 				7CD7468B28A6CFA200D5A2D0 /* FailureView.swift */,
 				7C96E69C2DC4F2F8003317AF /* FirstSessionCompleteModal.swift */,
-				7CFF1BFE2BD9AA81000D56BC /* HeatMap.swift */,
-				7C5B0C872BBF201E00A5014B /* LineChartFullScreen.swift */,
 				7C0B3FF52CC5454B00F446EA /* MeditationView.swift */,
 				7CF39C912BE6DBB4003B4C00 /* NotificationsView.swift */,
-				7CC26E6B2CDEA7C500095D4C /* PerformanceLineChart.swift */,
 				7C15DD38276D575600889FB2 /* PlaceholderView.swift */,
 				7CD2B1572C1BB5B300A90C79 /* PopoverView.swift */,
 				7C944D552BBDA26E009E6EC5 /* ProductUpdates.swift */,
 				7C028F972C3587FC0098CA8C /* RedeemOfferCode.swift */,
-				7CEB453E2BCEA90800AAF710 /* RingCharts.swift */,
 				7C71AB112D0B3C7700487AB5 /* SystemSounds.swift */,
 				7CB4BFB62DAC5EF900876D5C /* ToolTip.swift */,
-				7C85492F2C46C4BE0038ADB4 /* TransactionCellView.swift */,
 				7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */,
 			);
 			path = Views;
@@ -1095,6 +1112,7 @@
 				7CA940F82BECF8E3009B54BA /* SleepAnalytics.swift */,
 				7CA9900D2CC2E5D400446D66 /* MindfulnessAnalytics.swift */,
 				7C947AB32CCBE04E009CF5BB /* MindfulnessCompleted.swift */,
+				7C1C14DE2DCD1C9A0079EAA3 /* HealthKitErrors.swift */,
 			);
 			path = SleepAnalytics;
 			sourceTree = "<group>";
@@ -1176,13 +1194,14 @@
 		7CFCBAC92DB819F900BA9A9D /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				7C91EE8A2D99B6AB00FFFD63 /* EditButton.swift */,
-				7C68FE4026D709530019BA53 /* PlusButton.swift */,
-				7C757F022C1F2A9F00AD71EE /* ShareButton.swift */,
-				7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */,
 				7C25CB5227887D9200866511 /* CustomPicker.swift */,
 				7CAFDFF22B2C884100B7338D /* CustomToggle.swift */,
+				7CFD0D7A26ECD8AA000C7C0E /* DismissButton.swift */,
+				7C91EE8A2D99B6AB00FFFD63 /* EditButton.swift */,
 				7C9A0D9D2CBDEAA70070EBA3 /* FilterTag.swift */,
+				7C68FE4026D709530019BA53 /* PlusButton.swift */,
+				7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */,
+				7C757F022C1F2A9F00AD71EE /* ShareButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -1516,6 +1535,7 @@
 				7C4C7BA728A4684700DBC886 /* Text+Ext.swift in Sources */,
 				7C441B442DB52DAE001F0115 /* ImportView.leftPocket.swift in Sources */,
 				7C3FFA862BC894C500EABD49 /* BarChartByStakes.swift in Sources */,
+				7C1C14DF2DCD1C9A0079EAA3 /* HealthKitErrors.swift in Sources */,
 				7C4CE70227729E4D0070B16E /* UIWindow+Ext.swift in Sources */,
 				7C6E7D8F2C2CC67300D178E2 /* DateFilter.swift in Sources */,
 				7CFD0D7B26ECD8AA000C7C0E /* DismissButton.swift in Sources */,

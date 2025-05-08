@@ -66,7 +66,7 @@ struct BankrollLineChart: View {
                     
                     AreaMark(x: .value("Time", index), y: .value("Profit", total))
                         .foregroundStyle(areaGradient)
-                        .opacity(0.25)
+                        .opacity(0.35)
                     
                     if let profit = annotationProfit, selectedIndex == index {
                         
