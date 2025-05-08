@@ -399,6 +399,21 @@ struct SessionDetailView: View {
             
             Divider()
             
+            if let breakTime = pokerSession.totalPausedTime {
+                HStack {
+                    Text("Breaks")
+                        .bodyStyle()
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
+                    
+                    Text(breakTime.abbreviatedTime)
+                        .bodyStyle()
+                }
+                
+                Divider()
+            }
+            
             if pokerSession.isTournament == true {
                 
                 if let size = pokerSession.tournamentSize {

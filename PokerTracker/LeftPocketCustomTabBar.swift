@@ -218,7 +218,7 @@ struct LeftPocketCustomTabBar: View {
             }
         }, content: {
             LiveSessionInitialBuyIn(timerViewModel: timerViewModel, buyInConfirmationSound: $buyInConfirmationSound)
-                .presentationDetents([.height(400), .large])
+                .presentationDetents([.height(390), .large])
                 .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                 .interactiveDismissDisabled()
         })
