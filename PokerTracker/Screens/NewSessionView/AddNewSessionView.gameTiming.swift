@@ -41,6 +41,7 @@ extension AddNewSessionView {
                             }
                             dateInterval.end = localEnd
                         }
+                        .padding(.leading, 4)
                 }
                 .padding(.bottom, 10)
                 
@@ -55,11 +56,12 @@ extension AddNewSessionView {
                         .onChange(of: localEnd) {
                             dateInterval.end = localEnd
                         }
+                        .padding(.leading, 4)
                 }
             }
             .padding(.horizontal)
             .padding(.bottom, 16)
-            .padding(.leading, 4)
+            
             .accentColor(.brandPrimary)
             .font(.custom("Asap-Regular", size: 18))
             .datePickerStyle(.compact)
