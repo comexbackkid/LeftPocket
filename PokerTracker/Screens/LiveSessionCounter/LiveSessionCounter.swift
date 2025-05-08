@@ -149,7 +149,7 @@ struct LiveSessionCounter: View {
     var timerText: some View {
         
         Text(timerViewModel.liveSessionTimer)
-            .font(.custom("Asap-Regular", size: 26))
+            .font(.custom("Asap-Light", size: 26))
             .contentTransition(.numericText())
             .phaseAnimator([timerViewModel.isPaused, false]) { content, phase in
                 content
@@ -160,7 +160,7 @@ struct LiveSessionCounter: View {
     
     var timerElements: some View {
         
-        HStack {
+        HStack (spacing: 10) {
             
             timerText
             

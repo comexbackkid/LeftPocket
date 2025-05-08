@@ -12,9 +12,6 @@ import HealthKit
 class HealthKitManager: ObservableObject {
     
     let store = HKHealthStore()
-//    let types: Set = [HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!, HKObjectType.categoryType(forIdentifier: .mindfulSession)!]
-//    let stateOfMindType = HKObjectType.stateOfMindType()
-//    let typesToShare: Set = [HKObjectType.categoryType(forIdentifier: .mindfulSession)!]
 
     private let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
     private let mindfulSessionType = HKObjectType.categoryType(forIdentifier: .mindfulSession)!
@@ -220,7 +217,7 @@ class HealthKitManager: ObservableObject {
 
 extension HKCategoryValueSleepAnalysis {
     static var allAsleepValues: Set<HKCategoryValueSleepAnalysis> {
-        return [.asleepUnspecified, .asleepCore, .asleepDeep, .asleepREM]
+        return [.asleepUnspecified, .asleepCore, .asleepDeep, .asleepREM, .inBed]
     }
     
     static func predicateForSamples(equalTo values: Set<HKCategoryValueSleepAnalysis>) -> NSPredicate {
