@@ -257,7 +257,7 @@ struct CustomTipViewStyle: TipViewStyle {
                 .foregroundColor(.brandPrimary)
             
             VStack (alignment: .leading, spacing: 5) {
-                configuration.title.font(.headline)
+                configuration.title.font(.headline).tint(.primary)
                 configuration.message.font(.subheadline).foregroundColor(.secondary)
                 
                 if !configuration.actions.isEmpty {

@@ -44,6 +44,10 @@ struct MindfulnessAnalytics: View {
                     
                     meditationPerformanceToolTip
                     
+                    ToolTipView(image: "brain",
+                                message: "\(moodPerformanceComparison())",
+                                color: .donutChartPurple)
+                    
                     meditationClasses
                                         
                     recentMeditations
@@ -422,17 +426,13 @@ struct MindfulnessAnalytics: View {
         }
     }
     
-    private func totalMindfulMinutes() -> Int {
-        Int(round(hkManager.totalMindfulMinutesPerDay.values.reduce(0, +)))
-    }
+    private func totalMindfulMinutes() -> Int { Int(round(hkManager.totalMindfulMinutesPerDay.values.reduce(0, +))) }
 
-    private func sortedMindfulData() -> [(key: Date, value: Double)] {
-        return hkManager.totalMindfulMinutesPerDay.sorted { $0.key < $1.key }
-    }
+    private func sortedMindfulData() -> [(key: Date, value: Double)] { return hkManager.totalMindfulMinutesPerDay.sorted { $0.key < $1.key } }
     
     private func dateFormatted(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d"  // e.g., "Oct 15"
+        formatter.dateFormat = "MMM d"
         return formatter.string(from: date)
     }
     
@@ -441,9 +441,7 @@ struct MindfulnessAnalytics: View {
         return calendar.isDate(date1, inSameDayAs: date2)
     }
     
-    private func startDate() -> Date {
-        Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date()
-    }
+    private func startDate() -> Date { Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date() }
     
     private func averageMeditationTime() -> String {
         guard !hkManager.totalMindfulMinutesPerDay.isEmpty else { return "0.00" }
@@ -504,6 +502,55 @@ struct MindfulnessAnalytics: View {
         } else {
             
             return "No sessions logged on non-meditation days. More data is needed."
+        }
+    }
+    
+    private func moodPerformanceComparison() -> String {
+        var profitOnGoodMoodDays = 0
+        var sessionsOnGoodMoodDays = 0
+        
+        var profitOnBadMoodDays = 0
+        var sessionsOnBadMoodDays = 0
+        var reasoning = ""
+        
+        for session in viewModel.allSessions.filter({ $0.date.getYear() == Date().getYear() }) {
+            let mood = session.moodLabel
+            let isBadMood = (mood == .angry || mood == .drained)
+            
+            if isBadMood {
+                profitOnBadMoodDays += session.profit
+                sessionsOnBadMoodDays += 1
+                
+            } else {
+                // If mood is nil or not angry/drained, count as "good mood"
+                profitOnGoodMoodDays += session.profit
+                sessionsOnGoodMoodDays += 1
+            }
+        }
+        
+        if sessionsOnGoodMoodDays == 0 {
+            if sessionsOnBadMoodDays == 0 {
+                return "No mood data is available to compare performances yet."
+            }
+            
+            return "More mood data is needed to compare results across your poker sessions.."
+        }
+        
+        let avgProfitGood = Double(profitOnGoodMoodDays) / Double(sessionsOnGoodMoodDays)
+        let avgProfitBad  = sessionsOnBadMoodDays > 0 ? Double(profitOnBadMoodDays) / Double(sessionsOnBadMoodDays) : 0
+        
+        if avgProfitBad != 0 {
+            let diff = avgProfitGood - avgProfitBad
+            let pct = (diff / abs(avgProfitBad)) * 100
+            
+            if pct < 0 {
+                reasoning = "This could be due to a small sample size or variance."
+            }
+            
+            return "You're making \(pct.formatted(.number.precision(.fractionLength(0))))% \(pct > 0 ? "more" : "less") per session on days you’re not angry or tired. \(reasoning)"
+            
+        } else {
+            return "More mood data is needed to compare results across your poker sessions."
         }
     }
     

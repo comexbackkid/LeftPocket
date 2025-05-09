@@ -136,27 +136,22 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     // Individual Session duration
     var sessionDuration: DateComponents {
         // Calculate raw duration (including any paused time)
-        let rawDayOneDuration = Calendar.current.dateComponents([.hour, .minute, .second],
-                                                              from: self.startTime,
-                                                              to: self.endTime)
+        let rawDayOneDuration = Calendar.current.dateComponents([.hour, .minute, .second], from: self.startTime, to: self.endTime)
         
         // Convert raw duration to seconds
-        let rawDayOneSeconds = (rawDayOneDuration.hour ?? 0) * 3600 +
-                              (rawDayOneDuration.minute ?? 0) * 60 +
-                              (rawDayOneDuration.second ?? 0)
+        let rawDayOneSeconds = (rawDayOneDuration.hour ?? 0) * 3600 + (rawDayOneDuration.minute ?? 0) * 60 + (rawDayOneDuration.second ?? 0)
         
         // Adjust for paused time if available
         let adjustedDayOneSeconds: Int
         if let pausedTime = totalPausedTime, pausedTime > 0 {
             adjustedDayOneSeconds = max(0, rawDayOneSeconds - Int(pausedTime))
+            
         } else {
             adjustedDayOneSeconds = rawDayOneSeconds
         }
         
         // Handle multi-day tournaments
-        guard let tournamentDays = self.tournamentDays, tournamentDays > 1,
-              let startTimeDayTwo = self.startTimeDayTwo,
-              let endTimeDayTwo = self.endTimeDayTwo else {
+        guard let tournamentDays = self.tournamentDays, tournamentDays > 1, let startTimeDayTwo = self.startTimeDayTwo, let endTimeDayTwo = self.endTimeDayTwo else {
             // Single day session - return adjusted duration
             let hours = adjustedDayOneSeconds / 3600
             let minutes = (adjustedDayOneSeconds % 3600) / 60
@@ -164,13 +159,11 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
         }
         
         // Multi-day tournament - calculate day two duration
-        let rawDayTwoDuration = Calendar.current.dateComponents([.hour, .minute, .second],
-                                                              from: startTimeDayTwo,
-                                                              to: endTimeDayTwo)
+        let rawDayTwoDuration = Calendar.current.dateComponents([.hour, .minute, .second], from: startTimeDayTwo, to: endTimeDayTwo)
         
         let rawDayTwoSeconds = (rawDayTwoDuration.hour ?? 0) * 3600 +
-                             (rawDayTwoDuration.minute ?? 0) * 60 +
-                             (rawDayTwoDuration.second ?? 0)
+        (rawDayTwoDuration.minute ?? 0) * 60 +
+        (rawDayTwoDuration.second ?? 0)
         
         // Sum adjusted durations from both days
         let totalSeconds = adjustedDayOneSeconds + rawDayTwoSeconds
@@ -224,12 +217,12 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     
     var moodImageName: String? {
         switch moodLabel {
-        case .angry:       return "mood_angry"
+        case .angry: return "mood_angry"
         case .discouraged: return "mood_unsure"
-        case .drained:     return "mood_tired"
-        case .joyful:      return "mood_happy"
-        case .excited:     return "mood_elated"
-        default:           return nil
+        case .drained: return "mood_tired"
+        case .joyful: return "mood_happy"
+        case .excited: return "mood_elated"
+        default: return nil
         }
     }
 }
