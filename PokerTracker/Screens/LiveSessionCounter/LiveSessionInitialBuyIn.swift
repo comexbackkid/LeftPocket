@@ -46,6 +46,7 @@ struct LiveSessionInitialBuyIn: View {
             saveButton
             
             Spacer()
+            
         }
         .dynamicTypeSize(.medium)
         .ignoresSafeArea()
@@ -115,10 +116,11 @@ struct LiveSessionInitialBuyIn: View {
                 .padding(.top)
             
             if !hkManager.isStateOfMindAuthorized {
-                Text("Health permissions denied. Update from iOS Settings.")
+                Text("Check health permissions from iOS Settings.")
                     .captionStyle()
                     .padding(.horizontal, 30)
                     .foregroundStyle(.secondary)
+                    .padding(.bottom, 4)
             }
             
             HStack(spacing: 16) {
@@ -151,7 +153,7 @@ struct LiveSessionInitialBuyIn: View {
             }
             .padding(.bottom, 6)
         }
-        .padding(.top, 10)
+        .padding(.top, 4)
     }
     
     var saveButton: some View {
@@ -239,7 +241,7 @@ enum MoodAnimationPhase: CaseIterable {
         LiveSessionInitialBuyIn(timerViewModel: TimerViewModel(), buyInConfirmationSound: .constant(false))
             .environmentObject(SessionsListViewModel())
             .environmentObject(HealthKitManager())
-            .frame(height: 400)
+            .frame(height: 420)
             .preferredColorScheme(.dark)
             .background(.ultraThinMaterial)
             .clipShape(.rect(cornerRadius: 20))

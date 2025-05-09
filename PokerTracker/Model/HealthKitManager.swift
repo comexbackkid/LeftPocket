@@ -217,7 +217,7 @@ class HealthKitManager: ObservableObject {
 
 extension HKCategoryValueSleepAnalysis {
     static var allAsleepValues: Set<HKCategoryValueSleepAnalysis> {
-        return [.asleepUnspecified, .asleepCore, .asleepDeep, .asleepREM, .inBed]
+        return [.asleepUnspecified, .asleepCore, .asleepDeep, .asleepREM]
     }
     
     static func predicateForSamples(equalTo values: Set<HKCategoryValueSleepAnalysis>) -> NSPredicate {
