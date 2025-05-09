@@ -17,6 +17,7 @@ final class EditSessionViewModel: ObservableObject {
     @Published var stakes: String = ""
     @Published var game: String = ""
     @Published var startTime: Date = Date().modifyTime(minutes: -360)
+    @Published var totalPausedTime: TimeInterval = 0
     @Published var endTime: Date = Date()
     @Published var buyIn: String = ""
     @Published var cashOut: String = ""
@@ -39,6 +40,7 @@ final class EditSessionViewModel: ObservableObject {
     @Published var startTimeDayTwo: Date = Date()
     @Published var endTimeDayTwo: Date = Date()
     @Published var stakers: [Staker] = []
+    @Published var moodLabelRaw: Int?
     
     private var isPad: Bool {
         UIDevice.current.userInterfaceIdiom == .pad
@@ -193,8 +195,8 @@ final class EditSessionViewModel: ObservableObject {
                                       tags: tags.isEmpty ? [] : [tags],
                                       highHandBonus: Int(highHandBonus) ?? 0,
                                       handsPerHour: handsPerHour,
-                                      totalPausedTime: nil,
-                                      moodLabelRaw: nil,
+                                      totalPausedTime: totalPausedTime != 0 ? totalPausedTime : nil,
+                                      moodLabelRaw: moodLabelRaw,
                                       isTournament: sessionType == .tournament ? true : false,
                                       rebuyCount: Int(rebuyCount),
                                       bounties: Int(bounties),

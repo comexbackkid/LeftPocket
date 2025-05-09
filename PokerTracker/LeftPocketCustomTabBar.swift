@@ -42,9 +42,7 @@ struct LeftPocketCustomTabBar: View {
     @State private var isAnimating = false
     
     let addSessionTip = AddSessionTip()
-    var isCounting: Bool {
-        timerViewModel.isCounting
-    }
+    var isCounting: Bool { timerViewModel.isCounting }
     var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
     
     var body: some View {
@@ -65,13 +63,12 @@ struct LeftPocketCustomTabBar: View {
             VStack {
                 
                 Spacer()
-                                
-                
-                
+
                 ZStack {
                     tips
+                    
                     LiveSessionCounter(timerViewModel: timerViewModel)
-                        .offset(y: isCounting ? 0 : 100)
+                        .offset(y: isCounting ? 0 : 120)
                         .animation(.spring(duration: 0.5), value: isCounting)
                 }
                 
