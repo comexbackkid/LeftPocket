@@ -42,9 +42,7 @@ final class EditSessionViewModel: ObservableObject {
     @Published var stakers: [Staker] = []
     @Published var moodLabelRaw: Int?
     
-    private var isPad: Bool {
-        UIDevice.current.userInterfaceIdiom == .pad
-    }
+    private var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
     
     var isValidForm: Bool {
         

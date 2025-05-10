@@ -209,7 +209,7 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
         return Double(bigBlindWin) / Double(totalHours)
     }
     
-    // Convenience:
+    // Mood Convenience:
     var moodLabel: HKStateOfMind.Label? {
         guard let val = moodLabelRaw else { return nil }
         return HKStateOfMind.Label(rawValue: val)

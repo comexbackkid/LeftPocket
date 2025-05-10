@@ -13,8 +13,93 @@ import HealthKit
 
 class TimerViewModel: ObservableObject {
     
+    struct NotificationPlan {
+        let identifier: String
+        let timeInterval: TimeInterval
+        let title: String
+        let body: String
+    }
+    
+    private enum NotificationPlanProvider {
+        static func plans(for mood: HKStateOfMind.Label?) -> [NotificationPlan] {
+            guard let mood = mood else {
+                return defaultPlans()
+            }
+            
+            switch mood {
+            case .drained:
+                return [
+                    NotificationPlan(
+                        identifier: "tiredAfter1Hour",
+                        timeInterval: 1 * 3600,
+                        title: "Are You Still Tired?",
+                        body:  "You’ve been playing an hour. Maybe grab a breath of fresh air?"
+                    ),
+                    NotificationPlan(
+                        identifier: "tiredAfter3Hours",
+                        timeInterval: 3 * 3600,
+                        title: "Checking In",
+                        body:  "Three hours down... how’s your focus, still good?"
+                    ),
+                    NotificationPlan(
+                        identifier: "tiredAfter4Hours",
+                        timeInterval: 4 * 3600,
+                        title: "Time to Evaluate",
+                        body:  "You started this session feeling tired. Consider if it's +EV to keep playing."
+                    )
+                ]
+                
+            case .angry:
+                return [
+                    NotificationPlan(
+                        identifier: "angryAfter1Hour",
+                        timeInterval: 1 * 3600,
+                        title: "How’s Your Mood?",
+                        body:  "It's been an hour, how are you feeling at the moment?"
+                    ),
+                    NotificationPlan(
+                        identifier: "angryAfter3Hours",
+                        timeInterval: 3 * 3600,
+                        title: "It's Been 3 Hours",
+                        body:  "Things must be going well. Remember, you can only control what you can control."
+                    ),
+                    NotificationPlan(
+                        identifier: "angryAfter6Hours",
+                        timeInterval: 6 * 3600,
+                        title: "Time to Evaluate",
+                        body:  "How's your mood now after 4 hours? Maybe a short break can help if you plan to continue."
+                    )
+                ]
+                
+            default:
+                return defaultPlans()
+            }
+        }
+        
+        private static func defaultPlans() -> [NotificationPlan] {
+            [NotificationPlan(
+                identifier: "afterTwoHours",
+                timeInterval: 2 * 3600,
+                title: UserNotificationContext.twoHours.msgTitle,
+                body:  UserNotificationContext.twoHours.msgBody
+            ),
+             NotificationPlan(
+                identifier: "afterFiveHours",
+                timeInterval: 5 * 3600,
+                title: UserNotificationContext.fiveHours.msgTitle,
+                body:  UserNotificationContext.fiveHours.msgBody
+             ),
+             NotificationPlan(
+                identifier: "afterEightHours",
+                timeInterval: 8 * 3600,
+                title: UserNotificationContext.eightHours.msgTitle,
+                body:  UserNotificationContext.eightHours.msgBody
+             )]
+        }
+    }
+    
     private var timer: Timer?
-
+    
     @Published var liveSessionStartTime: Date?
     @Published var liveSessionTimer: String = "00:00"
     @Published var reBuyAmount: String = ""
@@ -26,15 +111,14 @@ class TimerViewModel: ObservableObject {
     @Published var totalPausedTime: TimeInterval = 0
     @Published var moodLabelRaw: Int?
     
-    var totalBuyInForLiveSession: Int {
-        (Int(initialBuyInAmount) ?? 0) + rebuyTotalForSession
+    var moodLabel: HKStateOfMind.Label? {
+        guard let raw = moodLabelRaw else { return nil }
+        return HKStateOfMind.Label(rawValue: raw)
     }
-    var rebuyTotalForSession: Int {
-        return totalRebuys.reduce(0,+)
-    }
-    var isCounting: Bool {
-        UserDefaults.standard.object(forKey: "liveSessionStartTime") != nil
-    }
+    
+    var totalBuyInForLiveSession: Int { (Int(initialBuyInAmount) ?? 0) + rebuyTotalForSession }
+    var rebuyTotalForSession: Int { return totalRebuys.reduce(0,+) }
+    var isCounting: Bool { UserDefaults.standard.object(forKey: "liveSessionStartTime") != nil }
     
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector(fileAccessAvailable), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
@@ -75,36 +159,36 @@ class TimerViewModel: ObservableObject {
     }
     
     func scheduleStandardUserNotifications() {
-        // First Push Notification to be sent after two hours of playing
-        let contentAfterTwoHours = UNMutableNotificationContent()
-        contentAfterTwoHours.title = UserNotificationContext.twoHours.msgTitle
-        contentAfterTwoHours.body = UserNotificationContext.twoHours.msgBody
-        contentAfterTwoHours.sound = UNNotificationSound.default
-        let triggerAfterTwoHours = UNTimeIntervalNotificationTrigger(timeInterval: 7200, repeats: false)
-        let requestAfterTwoHours = UNNotificationRequest(identifier: "liveSessionNotificationAfterTwoHours", content: contentAfterTwoHours, trigger: triggerAfterTwoHours)
-        UNUserNotificationCenter.current().add(requestAfterTwoHours)
         
-        // Second Push Notification after five hours of playing
-        let contentAfterFiveHours = UNMutableNotificationContent()
-        contentAfterFiveHours.title = UserNotificationContext.fiveHours.msgTitle
-        contentAfterFiveHours.body = UserNotificationContext.fiveHours.msgBody
-        contentAfterFiveHours.sound = UNNotificationSound.default
-        let triggerAfterFiveHours = UNTimeIntervalNotificationTrigger(timeInterval: 18000, repeats: false)
-        let requestAfterFiveHours = UNNotificationRequest(identifier: "liveSessionNotificationAfterFiveHours", content: contentAfterFiveHours, trigger: triggerAfterFiveHours)
-        UNUserNotificationCenter.current().add(requestAfterFiveHours)
+        let plans = NotificationPlanProvider.plans(for: moodLabel)
         
-        // Second Push Notification after eight hours of playing
-        let contentAfterEightHours = UNMutableNotificationContent()
-        contentAfterEightHours.title = UserNotificationContext.fiveHours.msgTitle
-        contentAfterEightHours.body = UserNotificationContext.fiveHours.msgBody
-        contentAfterEightHours.sound = UNNotificationSound.default
-        let triggerAfterEightHours = UNTimeIntervalNotificationTrigger(timeInterval: 28800, repeats: false)
-        let requestAfterEightHours = UNNotificationRequest(identifier: "liveSessionNotificationAfterEightHours", content: contentAfterEightHours, trigger: triggerAfterEightHours)
-        UNUserNotificationCenter.current().add(requestAfterEightHours)
+        plans.forEach { plan in
+            let content = UNMutableNotificationContent()
+            content.title = plan.title
+            content.body  = plan.body
+            content.sound = .default
+            
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: plan.timeInterval, repeats: false)
+            let request = UNNotificationRequest(identifier: plan.identifier, content: content, trigger: trigger)
+            
+            UNUserNotificationCenter.current().add(request)
+        }
     }
     
     func cancelUserNotifications() {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["liveSessionNotificationAfterTwoHours", "liveSessionNotificationAfterFiveHours", "liveSessionNotificationAfterEightHours"])
+        UNUserNotificationCenter.current()
+            .removePendingNotificationRequests(withIdentifiers: [
+                "afterTwoHours",
+                "afterFiveHours",
+                "afterEightHours",
+                "tiredAfter1Hour",
+                "tiredAfter3Hours",
+                "tiredAfter4Hours",
+                "angryAfter1Hour",
+                "angryAfter3Hours",
+                "angryAfter6Hours"
+                ]
+            )
     }
     
     func startSession() {
@@ -155,10 +239,18 @@ class TimerViewModel: ObservableObject {
             isPaused = false
             startUpdatingTimer()
             
+            UserDefaults.standard.set(false, forKey: "isPaused")
+            UserDefaults.standard.set(totalPausedTime, forKey: "totalPausedTime")
+            UserDefaults.standard.removeObject(forKey: "pauseStartTime")
+            
         } else {
             pauseStartTime = Date()
             isPaused = true
             timer?.invalidate()
+            
+            UserDefaults.standard.set(true, forKey: "isPaused")
+            UserDefaults.standard.set(totalPausedTime, forKey: "totalPausedTime")
+            UserDefaults.standard.set(pauseStartTime, forKey: "pauseStartTime")
         }
     }
     
@@ -268,23 +360,17 @@ enum UserNotificationContext: String {
     
     var msgTitle: String {
         switch self {
-        case .twoHours:
-            "How's Your Session?"
-        case .fiveHours:
-            "Just Checking In"
-        case .eightHours:
-            "This is a Long Session"
+        case .twoHours: "How's Your Session?"
+        case .fiveHours: "Just Checking In"
+        case .eightHours: "This is a Long Session"
         }
     }
     
     var msgBody: String {
         switch self {
-        case .twoHours:
-            "Maybe stretch your legs, have some water, & consider if the game's still good."
-        case .fiveHours:
-            "You've been playing 5 hours, how do you feel? Take a break if you need it."
-        case .eightHours:
-            "You've been playing awhile, should you keep going? Ensure you're in the right heaadspace."
+        case .twoHours: "Maybe stretch your legs, have some water, & consider if the game's still good."
+        case .fiveHours: "You've been playing 5 hours, how do you feel? Take a break if you need it."
+        case .eightHours: "You've been playing awhile, should you keep going? Ensure you're in the right heaadspace."
         }
     }
 }

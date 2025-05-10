@@ -154,6 +154,7 @@ struct MetricsView: View {
         
         NavigationLink {
             MindfulnessAnalytics()
+            
         } label: {
             ToolTipView(image: "figure.mind.and.body",
                         message: hkManager.isMindfulnessAuthorized ? message : altMessage,

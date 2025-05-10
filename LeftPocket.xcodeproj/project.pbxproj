@@ -116,6 +116,8 @@
 		7C71AB122D0B3C7700487AB5 /* SystemSounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C71AB112D0B3C7700487AB5 /* SystemSounds.swift */; };
 		7C72E0A62BC05B6100C411F2 /* UsingLeftPocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */; };
 		7C757F032C1F2A9F00AD71EE /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C757F022C1F2A9F00AD71EE /* ShareButton.swift */; };
+		7C79447E2DCFD82200643BFD /* ArrowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C79447D2DCFD82200643BFD /* ArrowButton.swift */; };
+		7C7944822DCFDCA700643BFD /* LiveSessionNotificationPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7944812DCFDCA700643BFD /* LiveSessionNotificationPlan.swift */; };
 		7C7A019E2D1DD13900EC30D4 /* TagReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7A019D2D1DD13900EC30D4 /* TagReport.swift */; };
 		7C7B2F8B26D5A2A90069F9C5 /* SessionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B2F8A26D5A2A90069F9C5 /* SessionListViewModel.swift */; };
 		7C7B78E22C3DD11900855723 /* SystemThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7B78E12C3DD11900855723 /* SystemThemeManager.swift */; };
@@ -417,6 +419,8 @@
 		7C71AB112D0B3C7700487AB5 /* SystemSounds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSounds.swift; sourceTree = "<group>"; };
 		7C72E0A52BC05B6100C411F2 /* UsingLeftPocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsingLeftPocket.swift; sourceTree = "<group>"; };
 		7C757F022C1F2A9F00AD71EE /* ShareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButton.swift; sourceTree = "<group>"; };
+		7C79447D2DCFD82200643BFD /* ArrowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowButton.swift; sourceTree = "<group>"; };
+		7C7944812DCFDCA700643BFD /* LiveSessionNotificationPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSessionNotificationPlan.swift; sourceTree = "<group>"; };
 		7C7A019D2D1DD13900EC30D4 /* TagReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagReport.swift; sourceTree = "<group>"; };
 		7C7B2F8A26D5A2A90069F9C5 /* SessionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListViewModel.swift; sourceTree = "<group>"; };
 		7C7B78E12C3DD11900855723 /* SystemThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemThemeManager.swift; sourceTree = "<group>"; };
@@ -988,6 +992,7 @@
 				7CD010E82BF23FE300998FD5 /* LiveSessionRebuyModal.swift */,
 				7C455DEF2C98CD50008C1446 /* LiveSessionInitialBuyIn.swift */,
 				7CB8D3352D89F86600E08869 /* LiveSessionNote.swift */,
+				7C7944812DCFDCA700643BFD /* LiveSessionNotificationPlan.swift */,
 			);
 			path = LiveSessionCounter;
 			sourceTree = "<group>";
@@ -1202,6 +1207,7 @@
 				7C68FE4026D709530019BA53 /* PlusButton.swift */,
 				7C2B3E6526F5488E00B84D52 /* PrimaryButton.swift */,
 				7C757F022C1F2A9F00AD71EE /* ShareButton.swift */,
+				7C79447D2DCFD82200643BFD /* ArrowButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -1531,6 +1537,7 @@
 				7C455DF02C98CD50008C1446 /* LiveSessionInitialBuyIn.swift in Sources */,
 				7C1941252BDAA33E00377364 /* BestTimeOfDay.swift in Sources */,
 				7CB3EB9F26C310F5009E8DF3 /* SessionDetailView.swift in Sources */,
+				7C79447E2DCFD82200643BFD /* ArrowButton.swift in Sources */,
 				7C71AB122D0B3C7700487AB5 /* SystemSounds.swift in Sources */,
 				7C4C7BA728A4684700DBC886 /* Text+Ext.swift in Sources */,
 				7C441B442DB52DAE001F0115 /* ImportView.leftPocket.swift in Sources */,
@@ -1575,6 +1582,7 @@
 				7C2B3E6926F565B200B84D52 /* EmptyState.swift in Sources */,
 				7CAFE0602B2DE52B00B7338D /* LocationGridView.swift in Sources */,
 				7C62F1ED2BD034B200F14483 /* NewStakesView.swift in Sources */,
+				7C7944822DCFDCA700643BFD /* LiveSessionNotificationPlan.swift in Sources */,
 				7CB4BFBC2DAC62A500876D5C /* OnboardingView.personalizedExperience.swift in Sources */,
 				7CFF1BFF2BD9AA81000D56BC /* HeatMap.swift in Sources */,
 				7C757F032C1F2A9F00AD71EE /* ShareButton.swift in Sources */,
@@ -1610,7 +1618,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1645,7 +1653,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = LeftPocketWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = J3YC22CPKU;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1801,7 +1809,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
@@ -1833,7 +1841,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = LeftPocket.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PokerTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = J3YC22CPKU;
