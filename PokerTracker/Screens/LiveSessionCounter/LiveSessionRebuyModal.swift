@@ -12,7 +12,7 @@ struct LiveSessionRebuyModal: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vm: SessionsListViewModel
     @ObservedObject var timerViewModel: TimerViewModel
-    
+    @FocusState var isFocused: Bool
     @State private var alertItem: AlertItem?
     @State private var sessionType: SessionType?
     @Binding var rebuyConfirmationSound: Bool
@@ -61,18 +61,23 @@ struct LiveSessionRebuyModal: View {
            
             Spacer()
         }
-        .onAppear(perform: {
+        .onAppear {
             rebuyConfirmationSound = false
             loadUserDefaults()
-        })
+        }
         .dynamicTypeSize(.medium)
         .ignoresSafeArea()
         .alert(item: $alertItem) { alert in
             Alert(title: alert.title, message: alert.message, dismissButton: alert.dismissButton)
         }
-        .onDisappear(perform: {
-            timerViewModel.reBuyAmount = ""
-        })
+        .onDisappear(perform: { timerViewModel.reBuyAmount = "" })
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Button("Done") {
+                    isFocused = false
+                }
+            }
+        }
     }
     
     var title: some View {
@@ -116,6 +121,7 @@ struct LiveSessionRebuyModal: View {
             TextField("Rebuy / Top Off", text: $timerViewModel.reBuyAmount)
                 .font(.custom("Asap-Regular", size: 17))
                 .keyboardType(.numberPad)
+                .focused($isFocused, equals: true)
         }
         .padding(18)
         .background(.gray.opacity(0.2))
