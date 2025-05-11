@@ -150,7 +150,7 @@ struct MetricsView: View {
     var meditationToolTip: some View {
         
         let message = "You've logged about \(totalMindfulMinutes()) mindfulness minutes the last 30 days."
-        let altMessage = "Allow access to health data from Settings to track mindfulness minutes."
+        let altMessage = "Allow access to health data from iOS Settings to track mindfulness."
         
         NavigationLink {
             MindfulnessAnalytics()
