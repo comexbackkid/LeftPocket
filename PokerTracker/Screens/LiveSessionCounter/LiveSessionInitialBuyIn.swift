@@ -116,7 +116,7 @@ struct LiveSessionInitialBuyIn: View {
                 .padding(.top)
             
             if !hkManager.isStateOfMindAuthorized {
-                Text("Check health permissions from iOS Settings.")
+                Text("Enable health permissions from iOS Settings.")
                     .captionStyle()
                     .padding(.horizontal, 30)
                     .foregroundStyle(.secondary)
