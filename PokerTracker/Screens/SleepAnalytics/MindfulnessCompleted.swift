@@ -22,9 +22,8 @@ struct MindfulnessCompleted: View {
             ZStack {
                 
                 Image("nightsky")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .ignoresSafeArea()
+                    .centerCropped()
+                    .ignoresSafeArea(edges: .top)
                 
                 VStack {
                     
@@ -76,6 +75,7 @@ struct MindfulnessCompleted: View {
                 playConfirmationSound()
             }
         }
+        .frame(maxWidth: .infinity)
     }
     
     private func playConfirmationSound() {

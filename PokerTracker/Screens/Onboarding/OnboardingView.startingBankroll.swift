@@ -16,9 +16,7 @@ struct StartingBankroll: View {
     @State private var startingBankrollTextField: String = ""
     @Binding var shouldShowOnboarding: Bool
     @FocusState var isFocused: Bool
-    private var isZoomed: Bool {
-        UIScreen.main.scale < UIScreen.main.nativeScale
-    }
+    private var isZoomed: Bool { UIScreen.main.scale < UIScreen.main.nativeScale }
     
     var body: some View {
         

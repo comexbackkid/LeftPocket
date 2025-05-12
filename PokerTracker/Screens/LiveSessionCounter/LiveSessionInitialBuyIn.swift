@@ -20,6 +20,7 @@ struct LiveSessionInitialBuyIn: View {
     @State private var selectedValence: Double?
     @State private var animateEmoji = false
     @Binding var buyInConfirmationSound: Bool
+    @FocusState var isFocused: Bool
     private var isPad: Bool {
         UIDevice.current.userInterfaceIdiom == .pad
     }
@@ -56,6 +57,10 @@ struct LiveSessionInitialBuyIn: View {
         .onAppear(perform: {
             buyInConfirmationSound = false
         })
+        .scrollDismissesKeyboard(.immediately)
+        .onTapGesture {
+            isFocused = false
+        }
     }
     
     var title: some View {
@@ -100,6 +105,7 @@ struct LiveSessionInitialBuyIn: View {
             TextField("Initial Buy In", text: $initialBuyInField)
                 .font(.custom("Asap-Regular", size: 17))
                 .keyboardType(.numberPad)
+                .focused($isFocused, equals: true)
         }
         .padding(18)
         .background(.gray.opacity(0.2))
