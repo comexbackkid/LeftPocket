@@ -255,6 +255,10 @@ class TimerViewModel: ObservableObject {
     }
     
     func stopTimer() {
+        if isPaused, let pauseStart = pauseStartTime {
+            totalPausedTime += Date().timeIntervalSince(pauseStart)
+        }
+        
         timer?.invalidate()
         UserDefaults.standard.removeObject(forKey: "liveSessionStartTime")
         UserDefaults.standard.removeObject(forKey: "initialBuyInAmount")
