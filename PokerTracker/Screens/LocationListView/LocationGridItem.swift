@@ -22,6 +22,10 @@ struct LocationGridItem: View {
                 Image(localImage)
                     .locationGridThumbnail(colorScheme: colorScheme)
                     .contextMenu {
+                        Button {
+                            //
+                        } label: { Label("Edit", systemImage: "pencil") }
+                        
                         Button(role: .destructive) {
                             delete()
                         } label: { Label("Delete Location", systemImage: "trash") }
@@ -32,6 +36,10 @@ struct LocationGridItem: View {
                     Image(uiImage: uiImage)
                         .locationGridThumbnail(colorScheme: colorScheme)
                         .contextMenu {
+                            Button {
+                                //
+                            } label: { Label("Edit", systemImage: "pencil") }
+                            
                             Button(role: .destructive) {
                                 delete()
                             } label: { Label("Delete Location", systemImage: "trash") }
@@ -41,6 +49,10 @@ struct LocationGridItem: View {
                     Image("defaultlocation-header")
                         .locationGridThumbnail(colorScheme: colorScheme)
                         .contextMenu {
+                            Button {
+                                //
+                            } label: { Label("Edit", systemImage: "pencil") }
+                            
                             Button(role: .destructive) {
                                 delete()
                             } label: { Label("Delete Location", systemImage: "trash") }
@@ -51,6 +63,10 @@ struct LocationGridItem: View {
                 Image("defaultlocation-header")
                     .locationGridThumbnail(colorScheme: colorScheme)
                     .contextMenu {
+                        Button {
+                            //
+                        } label: { Label("Edit", systemImage: "pencil") }
+                        
                         Button(role: .destructive) {
                             delete()
                         } label: { Label("Delete Location", systemImage: "trash") }
