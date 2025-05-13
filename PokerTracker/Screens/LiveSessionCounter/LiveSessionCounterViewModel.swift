@@ -32,20 +32,20 @@ class TimerViewModel: ObservableObject {
                     NotificationPlan(
                         identifier: "tiredAfter1Hour",
                         timeInterval: 1 * 3600,
-                        title: "Are You Still Tired?",
-                        body:  "You’ve been playing an hour. Maybe grab a breath of fresh air?"
+                        title: UserNotificationContext.tiredAfter1Hour.msgTitle,
+                        body:  UserNotificationContext.tiredAfter1Hour.msgBody
                     ),
                     NotificationPlan(
                         identifier: "tiredAfter3Hours",
                         timeInterval: 3 * 3600,
-                        title: "Checking In",
-                        body:  "Three hours down... how’s your focus, still good?"
+                        title: UserNotificationContext.tiredAfter3Hour.msgTitle,
+                        body:  UserNotificationContext.tiredAfter3Hour.msgBody
                     ),
                     NotificationPlan(
                         identifier: "tiredAfter4Hours",
                         timeInterval: 4 * 3600,
-                        title: "Time to Evaluate",
-                        body:  "You started this session feeling tired. Consider if it's wise to keep playing."
+                        title: UserNotificationContext.tiredAfter4Hour.msgTitle,
+                        body:  UserNotificationContext.tiredAfter4Hour.msgBody
                     )
                 ]
                 
@@ -54,20 +54,20 @@ class TimerViewModel: ObservableObject {
                     NotificationPlan(
                         identifier: "angryAfter1Hour",
                         timeInterval: 1 * 3600,
-                        title: "Take a Walk",
-                        body:  "It's proven that taking regular walks can help with stress reduction and enhanced mood."
+                        title: UserNotificationContext.angryAfter1Hour.msgTitle,
+                        body:  UserNotificationContext.angryAfter1Hour.msgBody
                     ),
                     NotificationPlan(
                         identifier: "angryAfter3Hours",
                         timeInterval: 3 * 3600,
-                        title: "How's Your Mood?",
-                        body:  "Things must be going well. Remember, you can only control what you can control."
+                        title: UserNotificationContext.angryAfter3Hour.msgTitle,
+                        body:  UserNotificationContext.angryAfter3Hour.msgBody
                     ),
                     NotificationPlan(
                         identifier: "angryAfter6Hours",
                         timeInterval: 6 * 3600,
-                        title: "Time to Evaluate",
-                        body:  "How's your mood now after 4 hours? Maybe a short break can help if you plan to continue."
+                        title: UserNotificationContext.angryAfter6Hour.msgTitle,
+                        body:  UserNotificationContext.angryAfter6Hour.msgBody
                     )
                 ]
                 
@@ -360,13 +360,19 @@ class TimerViewModel: ObservableObject {
 }
 
 enum UserNotificationContext: String {
-    case twoHours, fiveHours, eightHours
+    case twoHours, fiveHours, eightHours, tiredAfter1Hour, tiredAfter3Hour, tiredAfter4Hour, angryAfter1Hour, angryAfter3Hour, angryAfter6Hour
     
     var msgTitle: String {
         switch self {
         case .twoHours: "How's Your Session?"
         case .fiveHours: "Just Checking In"
         case .eightHours: "This is a Long Session"
+        case .tiredAfter1Hour: "Are You Still Tired?"
+        case .tiredAfter3Hour: "Checking In"
+        case .tiredAfter4Hour: "Time to Evaluate"
+        case .angryAfter1Hour: "Take a Walk"
+        case .angryAfter3Hour: "How's Your Mood?"
+        case .angryAfter6Hour: "Time to Evaluate"
         }
     }
     
@@ -375,6 +381,12 @@ enum UserNotificationContext: String {
         case .twoHours: "Maybe stretch your legs, have some water, & consider if the game's still good."
         case .fiveHours: "You've been playing 5 hours, how do you feel? Take a break if you need it."
         case .eightHours: "You've been playing awhile, should you keep going? Ensure you're in the right heaadspace."
+        case .tiredAfter1Hour: "You’ve been playing an hour. Maybe grab a breath of fresh air?"
+        case .tiredAfter3Hour: "Three hours down... how’s your focus, still good?"
+        case .tiredAfter4Hour: "You started this session feeling tired. Consider if it's wise to keep playing."
+        case .angryAfter1Hour: "It's proven that taking regular walks can help with stress reduction and enhanced mood."
+        case .angryAfter3Hour: "Things must be going well. Remember, you can only control what you can control."
+        case .angryAfter6Hour: "How's your mood now after 4 hours? Maybe a short break can help if you plan to continue."
         }
     }
 }
