@@ -21,14 +21,12 @@ struct LiveSessionInitialBuyIn: View {
     @State private var animateEmoji = false
     @Binding var buyInConfirmationSound: Bool
     @FocusState var isFocused: Bool
-    private var isPad: Bool {
-        UIDevice.current.userInterfaceIdiom == .pad
-    }
+    private var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
     private let moodChoices: [(label: HKStateOfMind.Label, imageName: String, valence: Double)] = [
         (.angry, "mood_angry", -0.9),
-        (.discouraged,   "mood_unsure",  -0.6),
+        (.indifferent,   "mood_unsure",  -0.6),
         (.drained,    "mood_tired",  -0.3),
-        (.joyful,   "mood_happy",   0.6),
+        (.happy,   "mood_happy",   0.6),
         (.excited,   "mood_elated",  0.9)
     ]
     
@@ -193,6 +191,7 @@ struct LiveSessionInitialBuyIn: View {
     private func saveButtonPressed() {
         guard isValidForm else { return }
         let moodRaw = selectedMood?.rawValue
+        
         Task {
             if let mood = selectedMood, let valence = selectedValence {
                 let sample = HKStateOfMind(date: Date(), kind: .momentaryEmotion, valence: valence, labels: [mood], associations: [])

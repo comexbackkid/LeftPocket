@@ -45,7 +45,7 @@ class TimerViewModel: ObservableObject {
                         identifier: "tiredAfter4Hours",
                         timeInterval: 4 * 3600,
                         title: "Time to Evaluate",
-                        body:  "You started this session feeling tired. Consider if it's +EV to keep playing."
+                        body:  "You started this session feeling tired. Consider if it's wise to keep playing."
                     )
                 ]
                 
@@ -54,13 +54,13 @@ class TimerViewModel: ObservableObject {
                     NotificationPlan(
                         identifier: "angryAfter1Hour",
                         timeInterval: 1 * 3600,
-                        title: "How’s Your Mood?",
-                        body:  "It's been an hour, how are you feeling at the moment?"
+                        title: "Take a Walk",
+                        body:  "It's proven that taking regular walks can help with stress reduction and enhanced mood."
                     ),
                     NotificationPlan(
                         identifier: "angryAfter3Hours",
                         timeInterval: 3 * 3600,
-                        title: "It's Been 3 Hours",
+                        title: "How's Your Mood?",
                         body:  "Things must be going well. Remember, you can only control what you can control."
                     ),
                     NotificationPlan(
