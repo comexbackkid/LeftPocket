@@ -7,18 +7,22 @@
 
 import SwiftUI
 import HealthKit
+import RevenueCat
+import RevenueCatUI
 
 struct LiveSessionInitialBuyIn: View {
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var hkManager: HealthKitManager
+    @EnvironmentObject var subManager: SubscriptionManager
     @ObservedObject var timerViewModel: TimerViewModel
     @State private var alertItem: AlertItem?
     @State private var initialBuyInField: String = ""
     @State private var selectedMood: HKStateOfMind.Label?
     @State private var selectedValence: Double?
     @State private var animateEmoji = false
+    @State private var showPaywall = false
     @Binding var buyInConfirmationSound: Bool
     @FocusState var isFocused: Bool
     private var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
@@ -130,13 +134,16 @@ struct LiveSessionInitialBuyIn: View {
             HStack(spacing: 16) {
                 ForEach(moodChoices, id: \.label) { choice in
                     Button {
-                        if hkManager.isStateOfMindAuthorized {
+                        if hkManager.isStateOfMindAuthorized && subManager.isSubscribed {
                             selectedMood = choice.label
                             selectedValence = choice.valence
                             animateEmoji.toggle()
                             
-                        } else {
+                        } else if !hkManager.isStateOfMindAuthorized && subManager.isSubscribed {
                             hkManager.requestAuthorization()
+                            
+                        } else if !subManager.isSubscribed {
+                            showPaywall = true
                         }
                         
                     } label: {
@@ -158,6 +165,29 @@ struct LiveSessionInitialBuyIn: View {
             .padding(.bottom, 6)
         }
         .padding(.top, 4)
+        .fullScreenCover(isPresented: $showPaywall, content: {
+            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                .dynamicTypeSize(.large)
+                .overlay {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            DismissButton()
+                                .padding(.horizontal)
+                                .onTapGesture {
+                                    showPaywall = false
+                            }
+                            Spacer()
+                        }
+                    }
+                }
+        })
+        .task {
+            for await customerInfo in Purchases.shared.customerInfoStream {
+                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                await subManager.checkSubscriptionStatus()
+            }
+        }
     }
     
     var saveButton: some View {
@@ -246,6 +276,7 @@ enum MoodAnimationPhase: CaseIterable {
         LiveSessionInitialBuyIn(timerViewModel: TimerViewModel(), buyInConfirmationSound: .constant(false))
             .environmentObject(SessionsListViewModel())
             .environmentObject(HealthKitManager())
+            .environmentObject(SubscriptionManager())
             .frame(height: 420)
             .preferredColorScheme(.dark)
             .background(.ultraThinMaterial)

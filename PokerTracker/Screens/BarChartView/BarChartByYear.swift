@@ -120,7 +120,7 @@ struct BarChartByYear: View {
                     AxisValueLabel() {
                         if let intValue = value.as(Int.self) {
                             Text(intValue.axisShortHand(viewModel.userCurrency))
-                                .font(.custom("AsapCondensed-Bold", size: 12, relativeTo: .caption2))
+                                .font(.custom("AsapCondensed-Light", size: 12, relativeTo: .caption2))
                                 .padding(.trailing, 20)
                         }
                     }
@@ -130,7 +130,7 @@ struct BarChartByYear: View {
                 AxisMarks {
                     AxisValueLabel(format: .dateTime.month(.abbreviated).year(.twoDigits),
                                    horizontalSpacing: sessionProfitByMonth.isEmpty ? 25 : 0,
-                                   verticalSpacing: 15).font(.custom("AsapCondensed-Bold", size: 12, relativeTo: .caption2))
+                                   verticalSpacing: 15).font(.custom("AsapCondensed-Light", size: 12, relativeTo: .caption2))
                 }
             }
             .overlay {
