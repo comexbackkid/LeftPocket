@@ -51,6 +51,7 @@ struct LiveSessionInitialBuyIn: View {
             Spacer()
             
         }
+        .sensoryFeedback(.selection, trigger: selectedMood)
         .dynamicTypeSize(.medium)
         .ignoresSafeArea()
         .alert(item: $alertItem) { alert in
@@ -159,7 +160,6 @@ struct LiveSessionInitialBuyIn: View {
                                 phase.animation
                             }
                     }
-                    .sensoryFeedback(.selection, trigger: selectedMood)
                 }
             }
             .padding(.bottom, 6)
@@ -253,21 +253,21 @@ enum MoodAnimationPhase: CaseIterable {
 
     var scaleAmount: CGFloat {
         switch self {
-        case .start:      return 1.0
-        case .expand:     return 1.3
-        case .contract:   return 0.8
-        case .overshoot:  return 1.1
-        case .settle:     return 1.0
+        case .start: return 1.0
+        case .expand: return 1.3
+        case .contract: return 0.8
+        case .overshoot: return 1.1
+        case .settle: return 1.0
         }
     }
 
     var animation: Animation {
         switch self {
-        case .start:      return .smooth
-        case .expand:     return .easeOut(duration: 0.2)
-        case .contract:   return .easeInOut(duration: 0.1)
-        case .overshoot:  return .easeIn(duration: 0.1)
-        case .settle:     return .easeOut(duration: 0.1)
+        case .start: return .smooth
+        case .expand: return .easeOut(duration: 0.2)
+        case .contract: return .easeInOut(duration: 0.1)
+        case .overshoot: return .easeIn(duration: 0.1)
+        case .settle: return .easeOut(duration: 0.1)
         }
     }
 }

@@ -27,12 +27,8 @@ struct OnboardingView: View {
         "metrics-screen": AVPlayer(url: Bundle.main.url(forResource: "metrics-screen", withExtension: "mp4")!),
         "health-metrics": AVPlayer(url: Bundle.main.url(forResource: "health-metrics", withExtension: "mp4")!)
     ]
-    private var isZoomed: Bool {
-        UIScreen.main.scale < UIScreen.main.nativeScale
-    }
-    var isPad: Bool {
-        UIDevice.current.userInterfaceIdiom == .pad
-    }
+    private var isZoomed: Bool { UIScreen.main.scale < UIScreen.main.nativeScale }
+    var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
     
     var body: some View {
         
@@ -91,15 +87,16 @@ struct OnboardingView: View {
             }
         })
         .fullScreenCover(item: $paywallOffering, onDismiss: {
-            Task {
-                if !subManager.isSubscribed {
-                    await fetchLastChanceOffer()
-                    
-                } else {
-                    /// If they did subscribe, kill the onboarding flow
-                    shouldShowOnboarding = false
-                }
-            }
+            shouldShowOnboarding = false
+//            Task {
+//                if !subManager.isSubscribed {
+//                    await fetchLastChanceOffer()
+//
+//                } else {
+//                    /// If they did subscribe, kill the onboarding flow
+//                    shouldShowOnboarding = false
+//                }
+//            }
         }, content: { offering in
             if isPad {
                 if #available(iOS 18.0, *) {
@@ -156,28 +153,28 @@ struct OnboardingView: View {
                     }
             }
         })
-        .sheet(item: $lastChanceOffer, onDismiss: {
-            /// When the Last Chance Offer is dismissed, kill the onboarding flow
-            shouldShowOnboarding = false
-        }, content: { offering in
-                PaywallView(offering: offering, fonts: CustomPaywallFontProvider(fontName: "Asap"))
-                    .interactiveDismissDisabled()
-                    .dynamicTypeSize(.medium...DynamicTypeSize.large)
-                    .overlay {
-                        HStack {
-                            Spacer()
-                            VStack {
-                                DismissButton()
-                                    .padding()
-                                    .onTapGesture {
-                                        shouldShowLastChance = false
-                                        self.lastChanceOffer = nil
-                                    }
-                                Spacer()
-                            }
-                        }
-                    }
-        })
+//        .sheet(item: $lastChanceOffer, onDismiss: {
+//            /// When the Last Chance Offer is dismissed, kill the onboarding flow
+//            shouldShowOnboarding = false
+//        }, content: { offering in
+//                PaywallView(offering: offering, fonts: CustomPaywallFontProvider(fontName: "Asap"))
+//                    .interactiveDismissDisabled()
+//                    .dynamicTypeSize(.medium...DynamicTypeSize.large)
+//                    .overlay {
+//                        HStack {
+//                            Spacer()
+//                            VStack {
+//                                DismissButton()
+//                                    .padding()
+//                                    .onTapGesture {
+//                                        shouldShowLastChance = false
+//                                        self.lastChanceOffer = nil
+//                                    }
+//                                Spacer()
+//                            }
+//                        }
+//                    }
+//        })
         .task {
             for await customerInfo in Purchases.shared.customerInfoStream {
                 let isSubscribed = customerInfo.entitlements["premium"]?.isActive == true
@@ -219,19 +216,18 @@ struct OnboardingView: View {
     }
     
     /// This grabs our LastChanceOffer and when the offer is fetched, the paywall appears
-    /// If there's a problem, the catch will just dismiss onboarding and user doesn't know anything
-    @MainActor
-    private func fetchLastChanceOffer() async {
-        do {
-            lastChanceOffer = try await Purchases.shared.offerings().offering(identifier: "Last Chance Offer")
-            shouldShowLastChance = (lastChanceOffer != nil)
-            
-        } catch {
-            print("ERROR fetching offering:", error)
-            shouldShowLastChance = false
-            shouldShowOnboarding = false
-        }
-    }
+//    @MainActor
+//    private func fetchLastChanceOffer() async {
+//        do {
+//            lastChanceOffer = try await Purchases.shared.offerings().offering(identifier: "Last Chance Offer")
+//            shouldShowLastChance = (lastChanceOffer != nil)
+//
+//        } catch {
+//            print("ERROR fetching offering:", error)
+//            shouldShowLastChance = false
+//            shouldShowOnboarding = false
+//        }
+//    }
 }
 
 struct PageView: View {
