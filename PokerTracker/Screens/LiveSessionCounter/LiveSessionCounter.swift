@@ -170,11 +170,10 @@ struct LiveSessionCounter: View {
                 .foregroundColor(.brandPrimary)
                 .frame(width: 22, height: 22)
                 .onTapGesture {
-                    let impact = UIImpactFeedbackGenerator(style: .soft)
-                    impact.impactOccurred()
                     timerViewModel.togglePause()
                 }
                 .symbolEffect(.bounce, value: timerViewModel.isPaused)
+                .sensoryFeedback(.success, trigger: timerViewModel.isPaused)
             
             Image(systemName: "dollarsign.arrow.circlepath")
                 .resizable()
