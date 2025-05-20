@@ -24,10 +24,12 @@ final class BackupManager {
     private let maxBackups = 12
     private var docs: URL { fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0] }
     private var sessionsURL: URL { docs.appendingPathComponent("sessions_v2.json") }
+    private var transactionsURL : URL { docs.appendingPathComponent("transactions.json") }
     private var bankrollsURL: URL { docs.appendingPathComponent("bankrolls.json") }
 
     private struct CombinedBackup: Codable {
         let sessions: [PokerSession_v2]
+        let transactions: [BankrollTransaction]
         let bankrolls: [Bankroll]
     }
 
@@ -41,29 +43,40 @@ final class BackupManager {
             return
         }
         
-        // 1) Load your live data
+        // 1) Load your live sessions
         guard
             let sessionData = try? Data(contentsOf: sessionsURL),
             let sessions = try? JSONDecoder().decode([PokerSession_v2].self, from: sessionData),
-            let bankrollData = try? Data(contentsOf: bankrollsURL),
-            let bankrolls = try? JSONDecoder().decode([Bankroll].self, from: bankrollData)
+            !sessions.isEmpty
                 
         else {
-            print("Backup failed: couldn’t decode one of the files.")
+            print("Backup skipped: no valid sessions to back up.")
             return
         }
         
-        // 2) Create combined struct
-        let combined = CombinedBackup(sessions: sessions, bankrolls: bankrolls)
+        // 2) Load bankrolls (optional)
+        var bankrolls: [Bankroll] = []
+        if let bankrollData = try? Data(contentsOf: bankrollsURL), let decodedBankrolls = try? JSONDecoder().decode([Bankroll].self, from: bankrollData) {
+            bankrolls = decodedBankrolls
+        }
+        
+        var transactions: [BankrollTransaction] = []
+        if let transactionsData = try? Data(contentsOf: transactionsURL), let decodedTransactions = try? JSONDecoder().decode([BankrollTransaction].self, from: transactionsData) {
+            transactions = decodedTransactions
+        }
+        
+        // 3) Create combined struct
+        let combined = CombinedBackup(sessions: sessions, transactions: transactions, bankrolls: bankrolls)
         guard let backupData = try? JSONEncoder().encode(combined) else {
             print("Backup failed: couldn’t encode combined backup.")
             return
         }
         
-        // 3) Write it out
+        // 4) Write it out
         let stamp = dateFormatter.string(from: now)
         let backupName = "data_backup_\(stamp).json"
         let backupURL = docs.appendingPathComponent(backupName)
+        
         do {
             try backupData.write(to: backupURL)
             UserDefaults.standard.set(now, forKey: lastBackupKey)
@@ -107,7 +120,6 @@ final class BackupManager {
 
         // 2) Merge bankrolls
         var updated = viewModel.bankrolls
-
         for backupBankroll in combined.bankrolls {
             if let idx = updated.firstIndex(where: { $0.id == backupBankroll.id }) {
                 // Merge sessions for that existing bankroll
@@ -129,9 +141,19 @@ final class BackupManager {
                 print("Added new bankroll “\(backupBankroll.name)” with \(backupBankroll.sessions.count) sessions.")
             }
         }
+        
+        // 3) Merge top-level transactions (not tied to any bankroll)
+        let existingTransactionIDs = Set(viewModel.transactions.map { $0.id })
+        let newTransactions = combined.transactions.filter { !existingTransactionIDs.contains($0.id) }
+
+        viewModel.transactions.append(contentsOf: newTransactions)
+        viewModel.transactions.sort { $0.date > $1.date }
+
+        print("Restored \(newTransactions.count) top-level transactions.")
 
         viewModel.bankrolls = updated
         viewModel.saveNewSessions()
+        viewModel.saveTransactions()
         viewModel.saveBankrolls()
         viewModel.writeToWidget()
     }

@@ -21,6 +21,15 @@ struct CellView: View {
             if viewStyle == .standard {
                 Image(systemName: pokerSession.isTournament == true ? "person.2.fill" : "suit.club.fill")
                     .imageRowStyle(isTournament: pokerSession.isTournament)
+                    .overlay {
+                        if let moodImage = pokerSession.moodImageName {
+                            Image(moodImage)
+                                .resizable()
+                                .frame(width: 18, height: 18)
+                                .offset(x: 2, y: 12)
+                                .shadow(color: .black, radius: 6, x: 0, y: 0)
+                          }
+                    }
             }
             
             VStack (alignment: .leading, spacing: 2) {
@@ -114,7 +123,7 @@ struct CellView: View {
 
 struct CellView_Previews: PreviewProvider {
     static var previews: some View {
-        CellView(pokerSession: MockData.sampleTournament, currency: .USD, viewStyle: .constant(.standard))
+        CellView(pokerSession: MockData.sampleSession, currency: .USD, viewStyle: .constant(.standard))
             .previewLayout(.sizeThatFits)
             .preferredColorScheme(.dark)
     }

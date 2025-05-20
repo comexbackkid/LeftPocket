@@ -635,7 +635,7 @@ enum SessionFilter: String, CaseIterable {
     var lineChartAreaColors: [Color] {
         switch self {
         case .tournaments:
-            return [.donutChartOrange,
+            return [.donutChartOrange.opacity(0.85),
                     .donutChartOrange.opacity(0.25),
                     .clear,
                     .clear]

@@ -66,7 +66,7 @@ struct BankrollLineChart: View {
                     
                     AreaMark(x: .value("Time", index), y: .value("Profit", total))
                         .foregroundStyle(areaGradient)
-                        .opacity(0.25)
+                        .opacity(0.35)
                     
                     if let profit = annotationProfit, selectedIndex == index {
                         
@@ -100,7 +100,7 @@ struct BankrollLineChart: View {
                         if showYAxis {
                             if let intValue = value.as(Int.self) {
                                 Text(intValue.axisShortHand(viewModel.userCurrency))
-                                    .font(.custom("AsapCondensed-Bold", size: 12, relativeTo: .caption2))
+                                    .font(.custom("AsapCondensed-Light", size: 12, relativeTo: .caption2))
                                     .padding(.leading, 12)
                             }
                         }

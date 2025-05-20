@@ -6,19 +6,33 @@
 //
 
 import SwiftUI
+import HealthKit
+import RevenueCat
+import RevenueCatUI
 
 struct LiveSessionInitialBuyIn: View {
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var vm: SessionsListViewModel
+    @EnvironmentObject var hkManager: HealthKitManager
+    @EnvironmentObject var subManager: SubscriptionManager
     @ObservedObject var timerViewModel: TimerViewModel
     @State private var alertItem: AlertItem?
     @State private var initialBuyInField: String = ""
+    @State private var selectedMood: HKStateOfMind.Label?
+    @State private var selectedValence: Double?
+    @State private var animateEmoji = false
+    @State private var showPaywall = false
     @Binding var buyInConfirmationSound: Bool
-    
-    private var isPad: Bool {
-        UIDevice.current.userInterfaceIdiom == .pad
-    }
+    @FocusState var isFocused: Bool
+    private var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
+    private let moodChoices: [(label: HKStateOfMind.Label, imageName: String, valence: Double)] = [
+        (.angry, "mood_angry", -0.9),
+        (.indifferent,   "mood_unsure",  -0.6),
+        (.drained,    "mood_tired",  -0.3),
+        (.happy,   "mood_happy",   0.6),
+        (.excited,   "mood_elated",  0.9)
+    ]
     
     var body: some View {
         
@@ -26,17 +40,18 @@ struct LiveSessionInitialBuyIn: View {
             
             title
             
-            VStack (spacing: 10) {
-                
-                instructions
-            }
+            instructions
             
             inputFields
+            
+            moodSelection
             
             saveButton
             
             Spacer()
+            
         }
+        .sensoryFeedback(.selection, trigger: selectedMood)
         .dynamicTypeSize(.medium)
         .ignoresSafeArea()
         .alert(item: $alertItem) { alert in
@@ -45,6 +60,10 @@ struct LiveSessionInitialBuyIn: View {
         .onAppear(perform: {
             buyInConfirmationSound = false
         })
+        .scrollDismissesKeyboard(.immediately)
+        .onTapGesture {
+            isFocused = false
+        }
     }
     
     var title: some View {
@@ -76,7 +95,7 @@ struct LiveSessionInitialBuyIn: View {
             }
         }
         .padding(.horizontal)
-        .padding(.bottom, 30)
+        .padding(.bottom, 20)
     }
     
     var inputFields: some View {
@@ -89,11 +108,86 @@ struct LiveSessionInitialBuyIn: View {
             TextField("Initial Buy In", text: $initialBuyInField)
                 .font(.custom("Asap-Regular", size: 17))
                 .keyboardType(.numberPad)
+                .focused($isFocused, equals: true)
         }
         .padding(18)
         .background(.gray.opacity(0.2))
         .cornerRadius(15)
         .padding(.horizontal)
+    }
+    
+    var moodSelection: some View {
+        
+        VStack {
+            Text("How Do You Feel?")
+                .foregroundStyle(.primary)
+                .font(.custom("Asap-Regular", size: 16, relativeTo: .callout))
+                .padding(.top)
+            
+            if !hkManager.isStateOfMindAuthorized {
+                Text("Enable health permissions from iOS Settings.")
+                    .captionStyle()
+                    .padding(.horizontal, 30)
+                    .foregroundStyle(.secondary)
+                    .padding(.bottom, 4)
+            }
+            
+            HStack(spacing: 16) {
+                ForEach(moodChoices, id: \.label) { choice in
+                    Button {
+                        if hkManager.isStateOfMindAuthorized && subManager.isSubscribed {
+                            selectedMood = choice.label
+                            selectedValence = choice.valence
+                            animateEmoji.toggle()
+                            
+                        } else if !hkManager.isStateOfMindAuthorized && subManager.isSubscribed {
+                            hkManager.requestAuthorization()
+                            
+                        } else if !subManager.isSubscribed {
+                            showPaywall = true
+                        }
+                        
+                    } label: {
+                        Image(choice.imageName)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 32, height: 32)
+                            .opacity(selectedMood == choice.label ? 1.0 : 0.5)
+                            .phaseAnimator(MoodAnimationPhase.allCases, trigger: selectedMood) { content, phase in
+                                content
+                                    .scaleEffect(selectedMood == choice.label ? phase.scaleAmount : 1.0)
+                            } animation: { phase in
+                                phase.animation
+                            }
+                    }
+                }
+            }
+            .padding(.bottom, 6)
+        }
+        .padding(.top, 4)
+        .fullScreenCover(isPresented: $showPaywall, content: {
+            PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
+                .dynamicTypeSize(.large)
+                .overlay {
+                    HStack {
+                        Spacer()
+                        VStack {
+                            DismissButton()
+                                .padding(.horizontal)
+                                .onTapGesture {
+                                    showPaywall = false
+                            }
+                            Spacer()
+                        }
+                    }
+                }
+        })
+        .task {
+            for await customerInfo in Purchases.shared.customerInfoStream {
+                showPaywall = showPaywall && customerInfo.activeSubscriptions.isEmpty
+                await subManager.checkSubscriptionStatus()
+            }
+        }
     }
     
     var saveButton: some View {
@@ -126,12 +220,65 @@ struct LiveSessionInitialBuyIn: View {
     
     private func saveButtonPressed() {
         guard isValidForm else { return }
-        timerViewModel.addInitialBuyIn(initialBuyInField)
+        let moodRaw = selectedMood?.rawValue
+        
+        Task {
+            if let mood = selectedMood, let valence = selectedValence {
+                let sample = HKStateOfMind(date: Date(), kind: .momentaryEmotion, valence: valence, labels: [mood], associations: [])
+                
+                do {
+                    try await hkManager.saveStateOfMindSample(sample)
+                    
+                    print("State of mind saved! (Mood: \(mood), Valence: \(valence))")
+                    
+                } catch {
+                    print("Failed saving mood: ",error)
+                }
+            }
+        }
+        
+        timerViewModel.addInitialBuyIn(initialBuyInField, mood: moodRaw)
         dismiss()
     }
 }
 
+extension HealthKitManager {
+    func saveStateOfMindSample(_ sample: HKStateOfMind) async throws {
+        try await store.save(sample)
+    }
+}
+
+enum MoodAnimationPhase: CaseIterable {
+    case start, expand, contract, overshoot, settle
+
+    var scaleAmount: CGFloat {
+        switch self {
+        case .start: return 1.0
+        case .expand: return 1.3
+        case .contract: return 0.8
+        case .overshoot: return 1.1
+        case .settle: return 1.0
+        }
+    }
+
+    var animation: Animation {
+        switch self {
+        case .start: return .smooth
+        case .expand: return .easeOut(duration: 0.2)
+        case .contract: return .easeInOut(duration: 0.1)
+        case .overshoot: return .easeIn(duration: 0.1)
+        case .settle: return .easeOut(duration: 0.1)
+        }
+    }
+}
+
 #Preview {
-    LiveSessionInitialBuyIn(timerViewModel: TimerViewModel(), buyInConfirmationSound: .constant(false))
-        .environmentObject(SessionsListViewModel())
+        LiveSessionInitialBuyIn(timerViewModel: TimerViewModel(), buyInConfirmationSound: .constant(false))
+            .environmentObject(SessionsListViewModel())
+            .environmentObject(HealthKitManager())
+            .environmentObject(SubscriptionManager())
+            .frame(height: 420)
+            .preferredColorScheme(.dark)
+            .background(.ultraThinMaterial)
+            .clipShape(.rect(cornerRadius: 20))
 }

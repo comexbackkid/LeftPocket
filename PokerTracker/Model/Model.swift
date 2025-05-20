@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import HealthKit
 
 // MARK: OLD POKERSESSION MODEL
 
@@ -116,6 +117,8 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     let tags: [String]
     let highHandBonus: Int
     let handsPerHour: Int?
+    let totalPausedTime: TimeInterval?
+    let moodLabelRaw: Int?
     
     // Tournament Handling
     let isTournament: Bool
@@ -132,28 +135,42 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
     
     // Individual Session duration
     var sessionDuration: DateComponents {
+        // Calculate raw duration (including any paused time)
+        let rawDayOneDuration = Calendar.current.dateComponents([.hour, .minute, .second], from: self.startTime, to: self.endTime)
         
-        let dayOneDuration = Calendar.current.dateComponents([.hour, .minute], from: self.startTime, to: self.endTime)
+        // Convert raw duration to seconds
+        let rawDayOneSeconds = (rawDayOneDuration.hour ?? 0) * 3600 + (rawDayOneDuration.minute ?? 0) * 60 + (rawDayOneDuration.second ?? 0)
         
-        // Check if it's a Multi-Day Tournament, might want to re-label some variables here given new functionality in NewSessionViewModel
-        if let tournamentDays = self.tournamentDays, tournamentDays > 1 {
-            if let startTimeDayTwo = self.startTimeDayTwo, let endTimeDayTwo = self.endTimeDayTwo {
-                
-                let dayTwoDuration = Calendar.current.dateComponents([.hour, .minute], from: startTimeDayTwo, to: endTimeDayTwo)
-                
-                // Sum the durations from day one and day two
-                let totalMinutes = (dayOneDuration.minute ?? 0) + (dayTwoDuration.minute ?? 0)
-                let totalHours = (dayOneDuration.hour ?? 0) + (dayTwoDuration.hour ?? 0) + (totalMinutes / 60)
-                let remainingMinutes = totalMinutes % 60
-                
-                return DateComponents(hour: totalHours, minute: remainingMinutes)
-                
-            } else {
-                return dayOneDuration
-            }
+        // Adjust for paused time if available
+        let adjustedDayOneSeconds: Int
+        if let pausedTime = totalPausedTime, pausedTime > 0 {
+            adjustedDayOneSeconds = max(0, rawDayOneSeconds - Int(pausedTime))
+            
         } else {
-            return dayOneDuration
+            adjustedDayOneSeconds = rawDayOneSeconds
         }
+        
+        // Handle multi-day tournaments
+        guard let tournamentDays = self.tournamentDays, tournamentDays > 1, let startTimeDayTwo = self.startTimeDayTwo, let endTimeDayTwo = self.endTimeDayTwo else {
+            // Single day session - return adjusted duration
+            let hours = adjustedDayOneSeconds / 3600
+            let minutes = (adjustedDayOneSeconds % 3600) / 60
+            return DateComponents(hour: hours, minute: minutes)
+        }
+        
+        // Multi-day tournament - calculate day two duration
+        let rawDayTwoDuration = Calendar.current.dateComponents([.hour, .minute, .second], from: startTimeDayTwo, to: endTimeDayTwo)
+        
+        let rawDayTwoSeconds = (rawDayTwoDuration.hour ?? 0) * 3600 +
+        (rawDayTwoDuration.minute ?? 0) * 60 +
+        (rawDayTwoDuration.second ?? 0)
+        
+        // Sum adjusted durations from both days
+        let totalSeconds = adjustedDayOneSeconds + rawDayTwoSeconds
+        let hours = totalSeconds / 3600
+        let minutes = (totalSeconds % 3600) / 60
+        
+        return DateComponents(hour: hours, minute: minutes)
     }
     
     // Individual Session playing time formatted for Session Detail View
@@ -190,6 +207,23 @@ struct PokerSession_v2: Hashable, Codable, Identifiable {
         let totalHours = sessionDuration.durationInHours == 0 ? 1 : sessionDuration.durationInHours
         let bigBlindWin = Float(self.profit) / Float(bigBlind)
         return Double(bigBlindWin) / Double(totalHours)
+    }
+    
+    // Mood Convenience:
+    var moodLabel: HKStateOfMind.Label? {
+        guard let val = moodLabelRaw else { return nil }
+        return HKStateOfMind.Label(rawValue: val)
+    }
+    
+    var moodImageName: String? {
+        switch moodLabel {
+        case .angry: return "mood_angry"
+        case .discouraged: return "mood_unsure"
+        case .drained: return "mood_tired"
+        case .joyful: return "mood_happy"
+        case .excited: return "mood_elated"
+        default: return nil
+        }
     }
 }
 

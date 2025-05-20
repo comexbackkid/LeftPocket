@@ -74,7 +74,7 @@ struct BarChartWeeklySessionCount: View {
                     AxisValueLabel() {
                         if let intValue = value.as(Int.self) {
                             Text("\(intValue)h")
-                                .font(.custom("AsapCondensed-Bold", size: 12, relativeTo: .caption2))
+                                .font(.custom("AsapCondensed-Light", size: 12, relativeTo: .caption2))
                                 .padding(.trailing, 10)
                         }
                     }
@@ -83,13 +83,13 @@ struct BarChartWeeklySessionCount: View {
             
             HStack {
                 Text("Jan")
-                    .font(.custom("AsapCondensed-Bold", size: 12, relativeTo: .caption2))
+                    .font(.custom("AsapCondensed-Light", size: 12, relativeTo: .caption2))
                     .foregroundStyle(.secondary)
                 
                 Spacer()
                 
                 Text("Dec")
-                    .font(.custom("AsapCondensed-Bold", size: 12, relativeTo: .caption2))
+                    .font(.custom("AsapCondensed-Light", size: 12, relativeTo: .caption2))
                     .foregroundStyle(.secondary)
             }
             .padding(.leading, 26)

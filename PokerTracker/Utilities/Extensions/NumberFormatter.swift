@@ -9,7 +9,6 @@ import Foundation
 
 // Use to correctly position - or + and $ with Int and return as String
 extension Int {
-    
     public func asCurrency() -> String {
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = .currency
@@ -20,7 +19,6 @@ extension Int {
 
 // Styling for CustomChart axis labels
 extension Int {
-    
     func axisShortHand(_ symbol: CurrencyType) -> String {
         let number = Double(self)
         let sign = (self < 0) ? "-" : ""
@@ -107,7 +105,6 @@ extension Int {
 }
 
 extension Double {
-    
     public func asPercent() -> String {
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = .percent
@@ -117,11 +114,24 @@ extension Double {
 }
 
 extension Float {
-    
     public func asPercent() -> String {
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = .percent
         numFormatter.maximumFractionDigits = 0
         return numFormatter.string(from: NSNumber(value: self)) ?? "0%"
+    }
+}
+
+extension TimeInterval {
+    var abbreviatedTime: String {
+        let totalMinutes = Int(self) / 60
+        let hours = totalMinutes / 60
+        let minutes = totalMinutes % 60
+        
+        if hours > 0 {
+            return "\(hours)h \(minutes)m"
+        } else {
+            return "\(minutes)m"
+        }
     }
 }

@@ -89,6 +89,8 @@ struct AddNewSessionView: View {
                 newSession.cashRebuys = timerViewModel.rebuyTotalForSession == 0 ? "" : String(timerViewModel.rebuyTotalForSession)
                 newSession.rebuyCount = String(timerViewModel.totalRebuys.count)
                 newSession.notes = timerViewModel.notes.joined(separator: "\n\n")
+                newSession.totalPausedTime = timerViewModel.totalPausedTime
+                newSession.moodLabelRaw = timerViewModel.moodLabelRaw
             }
         }
         .fullScreenCover(isPresented: $showPaywall, content: {

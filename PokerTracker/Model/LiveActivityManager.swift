@@ -11,7 +11,7 @@ import ActivityKit
 
 class LiveActivityManager {
        
-    static let shared = LiveActivityManager() // Singleton instance
+    static let shared = LiveActivityManager()
     
     private init() {}
     
@@ -24,6 +24,7 @@ class LiveActivityManager {
         do {
             let state = LiveSessionWidgetAttributes.TimerStatus(startTime: startTime, elapsedTime: elapsedTime)
             activity = try Activity<LiveSessionWidgetAttributes>.request(attributes: attributes, content: .init(state: state, staleDate: nil), pushType: nil)
+            
         } catch {
             print(error.localizedDescription)
         }

@@ -12,8 +12,12 @@ import HealthKit
 class HealthKitManager: ObservableObject {
     
     let store = HKHealthStore()
-    let types: Set = [HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!, HKObjectType.categoryType(forIdentifier: .mindfulSession)!]
-    let typesToShare: Set = [HKObjectType.categoryType(forIdentifier: .mindfulSession)!]
+
+    private let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
+    private let mindfulSessionType = HKObjectType.categoryType(forIdentifier: .mindfulSession)!
+    private let stateOfMindType = HKObjectType.stateOfMindType()
+    private var typesToRead: Set<HKObjectType> { [sleepType, mindfulSessionType, stateOfMindType] }
+    private var typesToShare: Set<HKSampleType> { [mindfulSessionType, stateOfMindType] }
     
     @Published var sleepData: [SleepMetric] = []
     @Published var mindfulMinutes: Double = 0.0
@@ -27,6 +31,10 @@ class HealthKitManager: ObservableObject {
         return store.authorizationStatus(for: type) == .sharingAuthorized
     }
     
+    var isStateOfMindAuthorized: Bool {
+        store.authorizationStatus(for: stateOfMindType) == .sharingAuthorized
+    }
+    
     func checkAuthorizationStatus() async {
         guard HKHealthStore.isHealthDataAvailable() else {
             DispatchQueue.main.async {
@@ -37,7 +45,7 @@ class HealthKitManager: ObservableObject {
         }
         
         await withCheckedContinuation { continuation in
-            store.getRequestStatusForAuthorization(toShare: typesToShare, read: types) { (status, error) in
+            store.getRequestStatusForAuthorization(toShare: typesToShare, read: typesToRead) { (status, error) in
                 DispatchQueue.main.async {
                     
                     if error != nil {
@@ -61,7 +69,7 @@ class HealthKitManager: ObservableObject {
     }
     
     func requestAuthorization() {
-        store.requestAuthorization(toShare: typesToShare, read: types) { (success, error) in
+        store.requestAuthorization(toShare: typesToShare, read: typesToRead) { (success, error) in
             DispatchQueue.main.async {
                 if success {
                     self.authorizationStatus = .sharingAuthorized
@@ -215,30 +223,4 @@ extension HKCategoryValueSleepAnalysis {
     static func predicateForSamples(equalTo values: Set<HKCategoryValueSleepAnalysis>) -> NSPredicate {
         return NSPredicate(format: "value IN %@", values.map { $0.rawValue })
     }
-}
-
-enum HKError: Error {
-    case authNotDetermined
-    case mindfulMinutesNotDetermined
-    case sharingDenied
-    case noData
-    case unableToQuerySleepData
-    case unableToCompleteRequest
-    
-    var description: String {
-            switch self {
-            case .authNotDetermined:
-                return "An error occurred. HealthKit authorization could not be determined. You may need to allow access from the iOS Health app settings."
-            case .mindfulMinutesNotDetermined:
-                return" An error occurred. HealthKit authorization could not be determined. You may need to allow access from the iOS Health app settings."
-            case .sharingDenied:
-                return "An error occurred. HealthKit authorization was denied."
-            case .noData:
-                return "An error occurred. HealthKit returned no sleep data."
-            case .unableToQuerySleepData:
-                return "An error occurred. Unable to query sleep data from device."
-            case .unableToCompleteRequest:
-                return "An error occurred. Unable to complete request."
-            }
-        }
 }

@@ -54,7 +54,6 @@ struct LeftPocketApp: App {
     init() {
         configureTips()
         
-        // This helps kill the stale Activity, but we aren't yet bothering to restart a new one, it glitches the app
         Task {
             let existingActivities = Activity<LiveSessionWidgetAttributes>.activities
             if !existingActivities.isEmpty {

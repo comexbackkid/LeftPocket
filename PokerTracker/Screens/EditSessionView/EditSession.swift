@@ -71,6 +71,9 @@ struct EditSession: View {
             if let endTimeDayTwo = pokerSession.endTimeDayTwo {
                 editSession.endTimeDayTwo = endTimeDayTwo
             }
+            if let pausedTime = pokerSession.totalPausedTime {
+                editSession.totalPausedTime = pausedTime
+            }
             if let id = viewModel.bankrollID(for: pokerSession) {
                 editSession.selectedBankrollID = id
                 editSession.selectedBankroll = .custom(id)
@@ -78,6 +81,7 @@ struct EditSession: View {
                 editSession.selectedBankrollID = nil
                 editSession.selectedBankroll = .default
             }
+            editSession.moodLabelRaw = pokerSession.moodLabelRaw
         }
     }
     

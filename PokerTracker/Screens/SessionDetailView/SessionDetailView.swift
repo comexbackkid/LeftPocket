@@ -51,7 +51,7 @@ struct SessionDetailView: View {
         .accentColor(.brandPrimary)
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .toolbar {
-            ShareLink(item: takeScreenshot(), preview: SharePreview("Share My Session", image: Image("appicon-tiny"))) {
+            ShareLink(item: takeScreenshot(), preview: SharePreview("Shared Session from \(pokerSession.location.name)", image: Image("appicon-tiny"))) {
                 Image(systemName: "paperplane.fill")
                     .fontWeight(.medium)
                     .tint(.brandPrimary)
@@ -168,7 +168,7 @@ struct SessionDetailView: View {
             tags
                 .animation(.spring.speed(2), value: actionDropDownMenuSelected)
         }
-        .padding(.horizontal, 30)
+        .padding(.horizontal, 20)
         .padding(.top, 20)
         .padding(.bottom, activeSheet == .recentSession ? 0 : 20)
     }
@@ -177,64 +177,71 @@ struct SessionDetailView: View {
         
         HStack(spacing: 0) {
             
-            VStack (spacing: 10) {
+            VStack (alignment: .leading, spacing: 1) {
                 
-                Image(systemName: "clock")
-                    .font(.title2)
-                    .opacity(0.3)
-                    .padding(.bottom, 1)
+                Text("Duration")
+                    .captionStyle()
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
                 
                 Text(pokerSession.playingTIme)
-                    .fontWeight(.semibold)
+                    .font(.custom("Asap-Bold", size: 22))
+                    .minimumScaleFactor(0.9)
+                    .lineLimit(1)
 
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
-            .padding(.vertical, 20)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.3)
+            .padding(.vertical, 26)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             
             Spacer()
             
-            VStack (spacing: 10) {
-                Image(systemName: "trophy.fill")
-                    .font(.title2)
-                    .opacity(0.3)
-                    .padding(.bottom, 1)
+            VStack (alignment: .leading, spacing: 1) {
+                
+                Text("Profit")
+                    .captionStyle()
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
                 
                 Text(pokerSession.profit.currencyShortHand(vm.userCurrency))
                     .profitColor(total: pokerSession.profit)
-                    .fontWeight(.semibold)
+                    .font(.custom("Asap-Bold", size: 22))
+                    .minimumScaleFactor(0.9)
+                    .lineLimit(1)
                 
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
-            .padding(.vertical, 20)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.3)
+            .padding(.vertical, 26)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             
             Spacer()
             
-            VStack (spacing: 10) {
-                Image(systemName: "gauge.high")
-                    .font(.title2)
-                    .opacity(0.3)
-                    .padding(.bottom, 1)
-                
-                Text(pokerSession.hourlyRate.axisShortHand(vm.userCurrency) + " / Hr")
-                    .profitColor(total: pokerSession.hourlyRate)
-                    .fontWeight(.semibold)
+            VStack (alignment: .leading, spacing: 1) {
+
+                Text("Hourly")
+                    .captionStyle()
+                    .foregroundStyle(.secondary)
                     .lineLimit(1)
                 
+                Text(pokerSession.hourlyRate.axisShortHand(vm.userCurrency))
+                    .profitColor(total: pokerSession.hourlyRate)
+                    .font(.custom("Asap-Bold", size: 22))
+                    .minimumScaleFactor(0.9)
+                    .lineLimit(1)
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
-            .padding(.vertical, 20)
+           
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.3)
+            .padding(.vertical, 26)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .body))
-        .padding(.horizontal, 30)
+        .padding(.horizontal, 20)
         .padding(.top, 12)
         .dynamicTypeSize(.large)
         
@@ -244,67 +251,74 @@ struct SessionDetailView: View {
         
         HStack(spacing: 0) {
             
-            VStack (spacing: 10)  {
+            VStack (alignment: .leading, spacing: 1)  {
                 
-                Image(systemName: "clock")
-                    .font(.title2)
-                    .opacity(0.3)
-                    .padding(.bottom, 1)
+                Text("Duration")
+                    .captionStyle()
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
                 
                 Text(pokerSession.playingTIme)
-                    .fontWeight(.semibold)
+                    .font(.custom("Asap-Bold", size: 22))
+                    .minimumScaleFactor(0.9)
+                    .lineLimit(1)
                 
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
-            .padding(.vertical, 20)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.3)
+            .padding(.vertical, 26)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             
             Spacer()
             
-            VStack (spacing: 10) {
-                Image(systemName: "trophy.fill")
-                    .font(.title2)
-                    .opacity(0.3)
-                    .padding(.bottom, 1)
+            VStack (alignment: .leading, spacing: 1) {
+                
+                Text("Profit")
+                    .captionStyle()
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
                 
                 Text(pokerSession.profit.currencyShortHand(vm.userCurrency))
                     .profitColor(total: pokerSession.profit)
-                    .fontWeight(.semibold)
+                    .font(.custom("Asap-Bold", size: 22))
+                    .minimumScaleFactor(0.9)
+                    .lineLimit(1)
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
-            .padding(.vertical, 20)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.3)
+            .padding(.vertical, 26)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             
             Spacer()
             
-            VStack (spacing: 10) {
-                Image(systemName: "person.2.fill")
-                    .font(.title2)
-                    .opacity(0.3)
-                    .padding(.bottom, 1)
+            VStack (alignment: .leading, spacing: 1) {
+                
+                Text("Place")
+                    .captionStyle()
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
                 
                 HStack (spacing: 0) {
                     if let finish = pokerSession.finish {
                         Text("\(finish) / ")
-                            .fontWeight(.semibold)
                     }
                     Text("\(pokerSession.entrants ?? 0)")
-                        .fontWeight(.semibold)
                 }
+                .font(.custom("Asap-Bold", size: 22))
+                .minimumScaleFactor(0.9)
+                .lineLimit(1)
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.26)
-            .padding(.vertical, 20)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.3)
+            .padding(.vertical, 26)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
             .cornerRadius(12)
             .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
             
         }
         .font(.custom("Asap-Regular", size: 16, relativeTo: .body))
-        .padding(.horizontal, 30)
+        .padding(.horizontal, 20)
         .padding(.top, 12)
         .dynamicTypeSize(.large)
     }
@@ -398,6 +412,21 @@ struct SessionDetailView: View {
             }
             
             Divider()
+            
+            if let breakTime = pokerSession.totalPausedTime {
+                HStack {
+                    Text("Breaks")
+                        .bodyStyle()
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
+                    
+                    Text(breakTime.abbreviatedTime)
+                        .bodyStyle()
+                }
+                
+                Divider()
+            }
             
             if pokerSession.isTournament == true {
                 
@@ -663,7 +692,7 @@ struct SessionDetailView: View {
             
             Spacer()
             
-            ShareLink(item: takeScreenshot(), preview: SharePreview("Share My Session", image: Image("appicon-tiny"))) {
+            ShareLink(item: takeScreenshot(), preview: SharePreview("Shared Session from \(pokerSession.location.name)", image: Image("appicon-tiny"))) {
                 ShareButton()
                     .padding(.trailing, 10)
                     .popoverTip(shareTip)
@@ -818,9 +847,8 @@ struct TransferableImage: Transferable {
 
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        
         SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
-//            .preferredColorScheme(.dark)
+            .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
     }
 }

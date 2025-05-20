@@ -27,12 +27,8 @@ struct OnboardingView: View {
         "metrics-screen": AVPlayer(url: Bundle.main.url(forResource: "metrics-screen", withExtension: "mp4")!),
         "health-metrics": AVPlayer(url: Bundle.main.url(forResource: "health-metrics", withExtension: "mp4")!)
     ]
-    private var isZoomed: Bool {
-        UIScreen.main.scale < UIScreen.main.nativeScale
-    }
-    var isPad: Bool {
-        UIDevice.current.userInterfaceIdiom == .pad
-    }
+    private var isZoomed: Bool { UIScreen.main.scale < UIScreen.main.nativeScale }
+    var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
     
     var body: some View {
         
@@ -71,7 +67,7 @@ struct OnboardingView: View {
                      shouldShowOnboarding: $shouldShowOnboarding).contentShape(Rectangle()).gesture(DragGesture()).tag(6)
             
             PageView(title: "Boost Your Mental Game",
-                     subtitle: Text("For an optimal experience, Left Pocket requests access to your Health info. This allows us to display your sleep hours and mindful minutes in our Health Analytics page, and integrate these numbers measured by other devices."),
+                     subtitle: Text("Left Pocket requests access to your health info. This allows us to display your sleep hours, mindful minutes, and mood in our Health Analytics section, integrating numbers measured by other devices and apps. Your data is private and secure."),
                      videoURL: "health-metrics",
                      showDismissButton: true, player: players["health-metrics"],
                      skipAction: { fetchCurrentOffer() },
@@ -95,7 +91,7 @@ struct OnboardingView: View {
 //            Task {
 //                if !subManager.isSubscribed {
 //                    await fetchLastChanceOffer()
-//                    
+//
 //                } else {
 //                    /// If they did subscribe, kill the onboarding flow
 //                    shouldShowOnboarding = false
@@ -225,7 +221,7 @@ struct OnboardingView: View {
 //        do {
 //            lastChanceOffer = try await Purchases.shared.offerings().offering(identifier: "Last Chance Offer")
 //            shouldShowLastChance = (lastChanceOffer != nil)
-//            
+//
 //        } catch {
 //            print("ERROR fetching offering:", error)
 //            shouldShowLastChance = false

@@ -12,7 +12,6 @@ struct LiveSessionCounter: View {
     
     @Environment(\.colorScheme) var colorScheme
     @ObservedObject var timerViewModel: TimerViewModel
-    
     @State private var showRebuyModal = false
     @State private var showSessionDefaultsView = false
     @State private var showNewNoteView = false
@@ -25,7 +24,7 @@ struct LiveSessionCounter: View {
     
     var body: some View {
         
-        HStack (spacing: 10) {
+        HStack (spacing: 11) {
             
             locationImage
             
@@ -33,93 +32,28 @@ struct LiveSessionCounter: View {
             
             Spacer()
             
-            Text(timerViewModel.liveSessionTimer)
-                .font(.custom("Asap-Regular", size: 26))
+            timerElements
             
-            Image(systemName: "dollarsign.arrow.circlepath")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .foregroundColor(.brandPrimary)
-                .fontWeight(.medium)
-                .frame(width: 24, height: 24)
-                .onTapGesture {
-                    let impact = UIImpactFeedbackGenerator(style: .soft)
-                    impact.impactOccurred()
-                    showRebuyModal = true
-                }
         }
         .dynamicTypeSize(.medium)
         .padding(10)
         .background(.ultraThinMaterial)
         .cornerRadius(16)
+        .onAppear { loadUserDefaults() }
+        .contextMenu { menuItems }
+        .padding(.horizontal)
         .sheet(isPresented: $showNewNoteView, onDismiss: {
-            if noteConfirmationSound {
-                playNoteSound()
-            }
+            if noteConfirmationSound { playNoteSound() }
         }, content: {
             LiveSessionNote(noteConfirmationSound: $noteConfirmationSound, timerViewModel: timerViewModel)
         })
-        .contextMenu {
-            
-            let totalBuyInForLiveSession = timerViewModel.totalBuyInForLiveSession
-            
-            Menu {
-                ForEach(Array(timerViewModel.totalRebuys.enumerated()), id: \.offset) { index, rebuy in
-                    if rebuy == Int(timerViewModel.initialBuyInAmount) {
-                        Text("Rebuy for $\(rebuy)")
-                    } else {
-                        Text("Topped off $\(rebuy)")
-                    }
-                }
-                
-            } label: {
-                Text("In the Game For $\(totalBuyInForLiveSession)")
-                    .foregroundStyle(.red)
-            }
-            
-            Divider()
-            
-            Button {
-                showSessionDefaultsView = true
-                
-            } label: {
-                HStack {
-                    Text("Update Session Details")
-                    Image(systemName: "suit.club.fill")
-                }
-            }
-            
-            Button {
-                showNewNoteView = true
-                
-            } label: {
-                HStack {
-                    Text("Add Note")
-                    Image(systemName: "pencil.line")
-                }
-            }
-            
-            Button {
-                showRebuyModal = true
-                
-            } label: {
-                HStack {
-                    Text("Add Rebuy")
-                    Image(systemName: "dollarsign.arrow.circlepath")
-                }
-            }
-        }
         .sheet(isPresented: $showRebuyModal, onDismiss: {
-            if rebuyConfirmationSound {
-                playRebuySound()
-            }
+            if rebuyConfirmationSound { playRebuySound() }
         }, content: {
             LiveSessionRebuyModal(timerViewModel: timerViewModel, rebuyConfirmationSound: $rebuyConfirmationSound)
                 .presentationDetents([.height(360), .large])
                 .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
         })
-        .padding(.horizontal)
-        .onAppear { loadUserDefaults() }
         .sheet(isPresented: $showSessionDefaultsView, onDismiss: {
             sessionDefaultCounter += 1
             loadUserDefaults()
@@ -137,7 +71,7 @@ struct LiveSessionCounter: View {
                     Image(localImage)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 40, height: 39)
+                        .frame(width: 38, height: 38)
                         .clipShape(.rect(cornerRadius: 7))
                     
                 } else if let importedImagePath = location.importedImage {
@@ -145,14 +79,14 @@ struct LiveSessionCounter: View {
                         Image(uiImage: uiImage)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 39, height: 39)
+                            .frame(width: 38, height: 38)
                             .clipShape(.rect(cornerRadius: 7))
                         
                     } else {
                         Image("defaultlocation-header")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 39, height: 39)
+                            .frame(width: 38, height: 38)
                             .clipShape(.rect(cornerRadius: 7))
                     }
                     
@@ -160,7 +94,7 @@ struct LiveSessionCounter: View {
                     Image("defaultlocation-header")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 39, height: 39)
+                        .frame(width: 38, height: 38)
                         .clipShape(.rect(cornerRadius: 7))
                 }
 
@@ -168,7 +102,7 @@ struct LiveSessionCounter: View {
                 Image("defaultlocation-header")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 39, height: 39)
+                    .frame(width: 38, height: 38)
                     .clipShape(.rect(cornerRadius: 7))
             }
         }
@@ -212,6 +146,100 @@ struct LiveSessionCounter: View {
         }
     }
     
+    var timerText: some View {
+        
+        Text(timerViewModel.liveSessionTimer)
+            .font(.custom("Asap-Light", size: 26))
+            .contentTransition(.numericText())
+            .phaseAnimator([timerViewModel.isPaused, false]) { content, phase in
+                content
+                    .opacity(phase ? 0.2 : 1.0)
+                    .animation(.easeInOut(duration: 1.0), value: phase)
+            }
+    }
+    
+    var timerElements: some View {
+        
+        HStack (spacing: 10) {
+            
+            timerText
+            
+            Image(systemName: timerViewModel.isPaused ? "play.fill" : "pause.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .foregroundColor(.brandPrimary)
+                .frame(width: 22, height: 22)
+                .onTapGesture {
+                    timerViewModel.togglePause()
+                }
+                .symbolEffect(.bounce, value: timerViewModel.isPaused)
+                .sensoryFeedback(.success, trigger: timerViewModel.isPaused)
+            
+            Image(systemName: "dollarsign.arrow.circlepath")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .foregroundColor(.brandPrimary)
+                .fontWeight(.medium)
+                .frame(width: 24, height: 24)
+                .onTapGesture {
+                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                    impact.impactOccurred()
+                    showRebuyModal = true
+                }
+        }
+    }
+    
+    @ViewBuilder
+    var menuItems: some View {
+        
+        let totalBuyInForLiveSession = timerViewModel.totalBuyInForLiveSession
+        Menu {
+            ForEach(Array(timerViewModel.totalRebuys.enumerated()), id: \.offset) { index, rebuy in
+                if rebuy == Int(timerViewModel.initialBuyInAmount) {
+                    Text("Rebuy for $\(rebuy)")
+                } else {
+                    Text("Topped off $\(rebuy)")
+                }
+            }
+            
+        } label: {
+            Text("In the Game For $\(totalBuyInForLiveSession)")
+                .foregroundStyle(.red)
+        }
+        
+        Divider()
+        
+        Button {
+            showSessionDefaultsView = true
+            
+        } label: {
+            HStack {
+                Text("Update Session Details")
+                Image(systemName: "suit.club.fill")
+            }
+        }
+        
+        Button {
+            showNewNoteView = true
+            
+        } label: {
+            HStack {
+                Text("Add Note")
+                Image(systemName: "pencil.line")
+            }
+        }
+        
+        Button {
+            showRebuyModal = true
+            
+        } label: {
+            HStack {
+                Text("Add Rebuy")
+                Image(systemName: "dollarsign.arrow.circlepath")
+            }
+        }
+    }
+    
     private func loadUserDefaults() {
         
         let defaults = UserDefaults.standard
@@ -220,6 +248,7 @@ struct LiveSessionCounter: View {
         if let encodedLocation = defaults.object(forKey: "locationDefault") as? Data,
            let decodedLocation = try? JSONDecoder().decode(LocationModel_v2.self, from: encodedLocation) {
             location = decodedLocation
+            
         } else {
             location = LocationModel_v2(name: "")
             print("No default location found.")
@@ -229,6 +258,7 @@ struct LiveSessionCounter: View {
         if let encodedSessionType = defaults.object(forKey: "sessionTypeDefault") as? Data,
            let decodedSessionType = try? JSONDecoder().decode(SessionType.self, from: encodedSessionType) {
             sessionType = decodedSessionType
+            
         } else {
             sessionType = nil
         }

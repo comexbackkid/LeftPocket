@@ -84,7 +84,7 @@ struct SessionDefaultsView: View {
                 }
                 .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
                 .background(Color.brandBackground)
-                .padding(.bottom, 20)
+                .padding(.bottom, 60)
             }
             .onAppear {
                 loadUserDefaults()

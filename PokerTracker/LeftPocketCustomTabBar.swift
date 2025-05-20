@@ -63,10 +63,14 @@ struct LeftPocketCustomTabBar: View {
             VStack {
                 
                 Spacer()
-                                
-                tips
-                
-                if isCounting { LiveSessionCounter(timerViewModel: timerViewModel) }
+
+                ZStack {
+                    tips
+                    
+                    LiveSessionCounter(timerViewModel: timerViewModel)
+                        .offset(y: isCounting ? 0 : 120)
+                        .animation(.spring(duration: 0.5), value: isCounting)
+                }
                 
                 tabBar
             }
@@ -205,12 +209,14 @@ struct LeftPocketCustomTabBar: View {
         }
         
         .sheet(isPresented: $showBuyInScreen, onDismiss: {
+            timerViewModel.startSession()
+            LiveActivityManager.shared.startActivity(startTime: Date(), elapsedTime: timerViewModel.liveSessionTimer)
             if buyInConfirmationSound {
                 playBuyInCashSound()
             }
         }, content: {
             LiveSessionInitialBuyIn(timerViewModel: timerViewModel, buyInConfirmationSound: $buyInConfirmationSound)
-                .presentationDetents([.height(320), .large])
+                .presentationDetents([.height(390), .large])
                 .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                 .interactiveDismissDisabled()
         })
@@ -271,8 +277,6 @@ struct LeftPocketCustomTabBar: View {
             showPaywall = true
             
         } else {
-            timerViewModel.startSession()
-            LiveActivityManager.shared.startActivity(startTime: Date(), elapsedTime: timerViewModel.liveSessionTimer)
             showBuyInScreen = true
         }
     }
@@ -328,6 +332,7 @@ struct LeftPocketCustomTabBar: View {
                 .font(.system(size: index == 2 ? 28 : 22, weight: .black))
                 .foregroundColor(selectedTab == index ? .brandPrimary : Color(.systemGray3))
         }
+        
         Spacer()
     }
     
@@ -374,6 +379,7 @@ struct LeftPocketCustomTabBar: View {
             Image(systemName: isCounting ? "stop.fill" : "cross.fill")
                 .font(.system(size: 28, weight: .medium))
                 .foregroundColor(Color(.systemGray3))
+                .frame(height: 28)
             Spacer()
             
         }
@@ -397,8 +403,9 @@ struct LeftPocketCustomTabBar: View {
         } label: {
             Spacer()
             Image(systemName: "stop.fill")
-                .font(.system(size: 30, weight: .black))
+                .font(.system(size: 28, weight: .medium))
                 .foregroundColor(Color(.systemGray3))
+                .frame(height: 28)
             Spacer()
             
         }
@@ -426,6 +433,6 @@ struct LeftPocketCustomTabBar_Previews: PreviewProvider {
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
             .environmentObject(QAService())
-//            .preferredColorScheme(.dark)
+            .preferredColorScheme(.dark)
     }
 }

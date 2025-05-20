@@ -158,8 +158,8 @@ struct MeditationView: View {
                 Spacer()
                 
                 Button {
-                    let impact = UIImpactFeedbackGenerator(style: .medium)
-                    impact.impactOccurred()
+//                    let impact = UIImpactFeedbackGenerator(style: .medium)
+//                    impact.impactOccurred()
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0.5)) {
                         isPressed = true
                     }
@@ -181,6 +181,7 @@ struct MeditationView: View {
                         .animation(.none, value: isPlaying)
                 }
                 .allowsHitTesting(hkManager.isMindfulnessAuthorized ? true : false)
+                .sensoryFeedback(.success, trigger: isPlaying)
                 
                 Spacer()
                 
