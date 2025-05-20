@@ -143,6 +143,13 @@ struct BarChartByYear: View {
                     .offset(y: -20)
                 }
             }
+//            .background(
+//                Circle()
+//                    .fill(Color.lightGreen)
+//                    .frame(width: 150, height: 150)
+//                    .blur(radius: 80, opaque: false)
+//                    .opacity(0.3)
+//            )
         }
     }
     

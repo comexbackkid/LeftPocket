@@ -37,7 +37,6 @@ struct RedeemOfferCode: View {
         .navigationBarTitleDisplayMode(.inline)
         .onChange(of: subManager.isSubscribed) { isSubscribed in
             if isSubscribed {
-                message = "Offer code redeemed successfully! Enjoy Left Pocket Pro."
                 showAlertModal = true
                 
             } else {
@@ -45,7 +44,7 @@ struct RedeemOfferCode: View {
             }
         }
         .sheet(isPresented: $showAlertModal, content: {
-            AlertModal(message: message, image: "checkmark.circle", imageColor: .green)
+            AlertModal(message: "Offer code redeemed successfully! Enjoy Left Pocket Pro.", image: "checkmark.circle", imageColor: .green)
                 .presentationDetents([.height(280)])
                 .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                 .presentationDragIndicator(.visible)
@@ -89,11 +88,6 @@ struct RedeemOfferCode: View {
             PrimaryButton(title: "Redeem Offer Code")
         }
         .padding(.horizontal)
-    }
-
-    private func redeemOfferCode() {
-        let paymentQueue = SKPaymentQueue.default()
-        paymentQueue.presentCodeRedemptionSheet()
     }
 }
 
