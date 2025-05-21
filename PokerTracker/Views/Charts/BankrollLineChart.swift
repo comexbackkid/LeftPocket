@@ -236,17 +236,16 @@ struct BankrollLineChart: View {
                     
                     if let profit = annotationProfit {
                         if selectedIndex != 0 {
-                            Image(systemName: profit >= 0 ? "arrow.up.right" : "arrow.down.right")
-                                .chartIntProfitColor(amountText: profit,
-                                                     defaultProfit: defaultProfit)
+                            Image(systemName: "arrow.up.right")
+                                .chartIntProfitColor(amountText: profit, defaultProfit: defaultProfit)
+                                .rotationEffect(.degrees(profit < 0 ? 90 : 0))
                                 .animation(.default.speed(2), value: profit)
                         }
                         Text(
                             "\(abs(profit).formatted(.currency(code: viewModel.userCurrency.rawValue).precision(.fractionLength(0))))"
                         )
                         .font(.custom("Asap-Medium", size: 17))
-                        .chartIntProfitColor(amountText: profit,
-                                             defaultProfit: defaultProfit)
+                        .chartIntProfitColor(amountText: profit, defaultProfit: defaultProfit)
                         
                     } else {
                         // fallback: show last data point
