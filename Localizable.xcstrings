@@ -1,0 +1,6326 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
+          }
+        }
+      }
+    },
+    " ›" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " ›"
+          }
+        }
+      }
+    },
+    " / " : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " / "
+          }
+        }
+      }
+    },
+    " %lldx " : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " %lldx "
+          }
+        }
+      }
+    },
+    " • " : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " • "
+          }
+        }
+      }
+    },
+    " from %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " de %@"
+          }
+        }
+      }
+    },
+    "__Annual Report__ %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "__Relatório Anual__ %@"
+          }
+        }
+      }
+    },
+    "__Game Stakes__ %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "__Valores de Aposta__%@"
+          }
+        }
+      }
+    },
+    "__Health Analytics__ %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "__Análise de Saúde__ %@"
+          }
+        }
+      }
+    },
+    "__Location Statistics__ %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "__Estatísticas de Localização__ %@"
+          }
+        }
+      }
+    },
+    "__Monthly Snapshot__ %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "__Instantâneo Mensal__ %@"
+          }
+        }
+      }
+    },
+    "__Tags Report__ %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "__Relatório de Etiquetas__ %@"
+          }
+        }
+      }
+    },
+    "__Tournament Report__ %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "__Relatório do Torneio__ %@"
+          }
+        }
+      }
+    },
+    "__Weekday Statistics__ %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "__Estatísticas da Semana__ %@"
+          }
+        }
+      }
+    },
+    "-" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "-"
+          }
+        }
+      }
+    },
+    "-%@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "-%@"
+          }
+        }
+      }
+    },
+    ".5" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".5"
+          }
+        }
+      }
+    },
+    ".05" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".05"
+          }
+        }
+      }
+    },
+    ".10" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".10"
+          }
+        }
+      }
+    },
+    ".20" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".20"
+          }
+        }
+      }
+    },
+    ".25" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ".25"
+          }
+        }
+      }
+    },
+    "›" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "›"
+          }
+        }
+      }
+    },
+    "(Includes High Hands)" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(Inclui Mãos Altas)"
+          }
+        }
+      }
+    },
+    "(Includes Tournament Buy Ins)" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(Inclui preço da entradas de Torneios)"
+          }
+        }
+      }
+    },
+    "**Chart Locations**\nFrom the Dashboard & Metrics view you can get a look at your bankroll progress as a line chart. In the Metrics view, you will also find a bar chart of your net profits by month. Additionally, there is a line chart in the Annual Report that can be filtered by year." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "**Localização dos Gráficos**\nNa visualização Painel e Métricas, você pode visualizar o progresso do seu saldo em um gráfico de linhas. Na visualização Métricas, você também encontrará um gráfico de barras com seus lucros líquidos por mês. Além disso, há um gráfico de linhas no Relatório Anual que pode ser filtrado por ano."
+          }
+        }
+      }
+    },
+    "**Interactivity**\nIf you're on the latest version of iOS, most of the charts in Left Pocket are interactive. Simply tap & hold on the chart for an annotation with more detail to appear." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "**Interatividade**\nSe você estiver usando a versão mais recente do iOS, a maioria dos gráficos no Left Pocket são interativos. Basta tocar e segurar o gráfico para que uma anotação com mais detalhes apareça."
+          }
+        }
+      }
+    },
+    "#" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "#"
+          }
+        }
+      }
+    },
+    "%" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%"
+          }
+        }
+      }
+    },
+    "%.0f" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%.0f"
+          }
+        }
+      }
+    },
+    "%.0f min" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%.0f mínimo"
+          }
+        }
+      }
+    },
+    "%.0fh" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%.0fh"
+          }
+        }
+      }
+    },
+    "%.0fm" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%.0fm"
+          }
+        }
+      }
+    },
+    "%.2f" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%.2f"
+          }
+        }
+      }
+    },
+    "%@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
+    },
+    "%@ - %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ - %2$@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ - %2$@"
+          }
+        }
+      }
+    },
+    "%@ hrs" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ hrs"
+          }
+        }
+      }
+    },
+    "%@ Over Time" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Ao longo do Tempo"
+          }
+        }
+      }
+    },
+    "%lld" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld"
+          }
+        }
+      }
+    },
+    "%lld / " : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld / "
+          }
+        }
+      }
+    },
+    "%lld of %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld de %2$lld"
+          }
+        }
+      }
+    },
+    "%lldh" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lldh"
+          }
+        }
+      }
+    },
+    "•" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "•"
+          }
+        }
+      }
+    },
+    "+" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+"
+          }
+        }
+      }
+    },
+    "✨  Try Left Pocket Pro  ✨" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "✨ Tentar Left Pocket Pró ✨"
+          }
+        }
+      }
+    },
+    "🎉" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🎉"
+          }
+        }
+      }
+    },
+    "🎉  Well Done!" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🎉 Bom trabalho!"
+          }
+        }
+      }
+    },
+    "$" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "$"
+          }
+        }
+      }
+    },
+    "$%lld" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "R$%lld"
+          }
+        }
+      }
+    },
+    "1" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1"
+          }
+        }
+      }
+    },
+    "1.0" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1.0"
+          }
+        }
+      }
+    },
+    "1.1" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1.1"
+          }
+        }
+      }
+    },
+    "1.2" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1.2"
+          }
+        }
+      }
+    },
+    "1.3" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1.3"
+          }
+        }
+      }
+    },
+    "1.4" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1.4"
+          }
+        }
+      }
+    },
+    "1.5" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1.5"
+          }
+        }
+      }
+    },
+    "1/2" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1/2"
+          }
+        }
+      }
+    },
+    "1/3" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1/3"
+          }
+        }
+      }
+    },
+    "2" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2"
+          }
+        }
+      }
+    },
+    "2/2" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2/2"
+          }
+        }
+      }
+    },
+    "2/3" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2/3"
+          }
+        }
+      }
+    },
+    "2/5" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2/5"
+          }
+        }
+      }
+    },
+    "3" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3"
+          }
+        }
+      }
+    },
+    "4" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4"
+          }
+        }
+      }
+    },
+    "4.7" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4.7"
+          }
+        }
+      }
+    },
+    "5" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5"
+          }
+        }
+      }
+    },
+    "5/5" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5/5"
+          }
+        }
+      }
+    },
+    "5/10" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5/10"
+          }
+        }
+      }
+    },
+    "6" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6"
+          }
+        }
+      }
+    },
+    "7" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "7"
+          }
+        }
+      }
+    },
+    "8" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "8"
+          }
+        }
+      }
+    },
+    "9" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "9"
+          }
+        }
+      }
+    },
+    "10" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10"
+          }
+        }
+      }
+    },
+    "10/10" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10/10"
+          }
+        }
+      }
+    },
+    "10/20" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10/20"
+          }
+        }
+      }
+    },
+    "15" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "15"
+          }
+        }
+      }
+    },
+    "20" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "20"
+          }
+        }
+      }
+    },
+    "20/40" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "20/40"
+          }
+        }
+      }
+    },
+    "25" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "25"
+          }
+        }
+      }
+    },
+    "25/50" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "25/50"
+          }
+        }
+      }
+    },
+    "30" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30"
+          }
+        }
+      }
+    },
+    "35" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "35"
+          }
+        }
+      }
+    },
+    "40" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "40"
+          }
+        }
+      }
+    },
+    "50" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "50"
+          }
+        }
+      }
+    },
+    "60" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "60"
+          }
+        }
+      }
+    },
+    "75" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "75"
+          }
+        }
+      }
+    },
+    "80" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "80"
+          }
+        }
+      }
+    },
+    "100" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100"
+          }
+        }
+      }
+    },
+    "125" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "125"
+          }
+        }
+      }
+    },
+    "150" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "150"
+          }
+        }
+      }
+    },
+    "175" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "175"
+          }
+        }
+      }
+    },
+    "200" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "200"
+          }
+        }
+      }
+    },
+    "400" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "400"
+          }
+        }
+      }
+    },
+    "500" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "500"
+          }
+        }
+      }
+    },
+    "1000" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1000"
+          }
+        }
+      }
+    },
+    "A bankroll with this name already exists, please choose another." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Já existe um bankroll com este nome, por favor escolha outro."
+          }
+        }
+      }
+    },
+    "A few locations come pre-loaded onto Left Pocket by default, however, you can easily add your own custom locations. They can be added from two different places.\n\nTo add a location:" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alguns locais vêm pré-carregados no Left Pocket por padrão, mas você pode facilmente adicionar seus próprios locais personalizados. Eles podem ser adicionados de dois lugares diferentes.\n\nPara adicionar um local:"
+          }
+        }
+      }
+    },
+    "A snapshot of your poker bankroll." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um instantâneo do seu dinheiro atual de pôquer."
+          }
+        }
+      }
+    },
+    "Action Sold" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ação vendida"
+          }
+        }
+      }
+    },
+    "Add a Session" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar uma sessão"
+          }
+        }
+      }
+    },
+    "Add Bankroll" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar Dinheiro Atual"
+          }
+        }
+      }
+    },
+    "Add Completed Session" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar sessão concluída"
+          }
+        }
+      }
+    },
+    "Add Game" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar jogo"
+          }
+        }
+      }
+    },
+    "Add Location" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar local"
+          }
+        }
+      }
+    },
+    "Add New Location" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar novo local"
+          }
+        }
+      }
+    },
+    "Add Note" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar nota"
+          }
+        }
+      }
+    },
+    "Add Rebuy" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar recompra"
+          }
+        }
+      }
+    },
+    "Add Session Details" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione detalhes da sessão"
+          }
+        }
+      }
+    },
+    "Add Stakes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar valores de aposta"
+          }
+        }
+      }
+    },
+    "Add your own venue, casino, platform, or home game. If you want to delete a Location, tap and hold its thumbnail." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione seu próprio local, cassino, plataforma ou jogo em casa. Se quiser excluir um local, toque e segure sua miniatura."
+          }
+        }
+      }
+    },
+    "After navigating to the Sessions List view, you'll see all of your logged poker Sessions, the most recent at the top. \n\nTo start filtering:" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Após navegar até a Lista de Sessões, você verá todas as suas Sessões de Poker registradas, com as mais recentes no topo.\n\nPara começar a filtrar:"
+          }
+        }
+      }
+    },
+    "After you've enabled multiple bankrolls, press the %@ button to add a new bankroll." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depois de habilitar vários dinheiro atual, pressione o botão %@ para adicionar um novo dinheiro atual."
+          }
+        }
+      }
+    },
+    "All" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos"
+          }
+        }
+      }
+    },
+    "All your important player metrics, bankroll data, and advanced reporting." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas as suas métricas importantes de jogadores, dados de dinheiro atual e relatórios avançados."
+          }
+        }
+      }
+    },
+    "Allow Notifications" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permitir notificações"
+          }
+        }
+      }
+    },
+    "Also on this screen is a progress indicator letting you know when it's safe to move up in stakes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Também nesta tela há um indicador de progresso que permite que você saiba quando é seguro aumentar as apostas"
+          }
+        }
+      }
+    },
+    "Amount" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quantia"
+          }
+        }
+      }
+    },
+    "An error occurred while restoring your backup. Contact support for assistance." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocorreu um erro ao restaurar seu backup. Entre em contato com o suporte para obter assistência."
+          }
+        }
+      }
+    },
+    "Annual Report" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relatório anual"
+          }
+        }
+      }
+    },
+    "Are you starting off with a bankroll today?" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você vai começar com um dinheiro atual hoje?"
+          }
+        }
+      }
+    },
+    "Are you sure you want to delete?" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tem certeza de que deseja excluir?"
+          }
+        }
+      }
+    },
+    "Are You Sure?" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tem certeza?"
+          }
+        }
+      }
+    },
+    "Ask Each Time" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pergunte sempre"
+          }
+        }
+      }
+    },
+    "audioguy13, 1/11/2022" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "audioguy13, 1/11/2022"
+          }
+        }
+      }
+    },
+    "Automatic backups of your session data are generated every month. After 30 days you will see your backups on this screen." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backups automáticos dos dados da sua sessão são gerados mensalmente. Após 30 dias, você verá seus backups nesta tela."
+          }
+        }
+      }
+    },
+    "Automatic backups of your sessions are generated every thirty days. If you need to restore your data, tap here to browse your backed up files." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backups automáticos das suas sessões são gerados a cada trinta dias. Se precisar restaurar seus dados, toque aqui para navegar pelos arquivos de backup."
+          }
+        }
+      }
+    },
+    "Average" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Média"
+          }
+        }
+      }
+    },
+    "Avg %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Média %@"
+          }
+        }
+      }
+    },
+    "Avg. BB / Hr" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BB / Hr médio"
+          }
+        }
+      }
+    },
+    "Avg. Buy In" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "preço da entrada média"
+          }
+        }
+      }
+    },
+    "Avg. Customer Rating" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avaliação média do cliente"
+          }
+        }
+      }
+    },
+    "Avg. Duration" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duração média"
+          }
+        }
+      }
+    },
+    "Avg. ROI" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ROI médio"
+          }
+        }
+      }
+    },
+    "Backups" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cópias de segurança"
+          }
+        }
+      }
+    },
+    "Bankroll" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dinheiro atual"
+          }
+        }
+      }
+    },
+    "Bankroll & Metrics" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dinheiro atual e Métricas"
+          }
+        }
+      }
+    },
+    "Bankroll Management" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestão de Dinheiro atual"
+          }
+        }
+      }
+    },
+    "Bankroll management for aspiring players." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestão de dinheiro atual para jogadores aspirantes."
+          }
+        }
+      }
+    },
+    "Bankroll Name" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome da Dinheiro atual"
+          }
+        }
+      }
+    },
+    "Bankroll Picker" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seletor de Dinheiro atual"
+          }
+        }
+      }
+    },
+    "Bankrolls" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dinheiro atuales"
+          }
+        }
+      }
+    },
+    "BB" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BB"
+          }
+        }
+      }
+    },
+    "BB / Hr" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BB / Hr"
+          }
+        }
+      }
+    },
+    "Because of the variance in tournaments, only your cash session data is compiled and used in this view." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devido à variação nos torneios, somente os dados da sua sessão de dinheiro são compilados e usados ​​nesta visualização."
+          }
+        }
+      }
+    },
+    "Best Location" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Melhor localização"
+          }
+        }
+      }
+    },
+    "Big Blind" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "aposta grande"
+          }
+        }
+      }
+    },
+    "Big Blinds / Hr" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "aposta grande / Hr"
+          }
+        }
+      }
+    },
+    "Biggest Session" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maior sessão"
+          }
+        }
+      }
+    },
+    "Biggest Win" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maior vitória"
+          }
+        }
+      }
+    },
+    "Bink exports currently do not contain specific start & end times. For that reason, all Sessions will default to 12:00pm and end according to their duration." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atualmente, as exportações do Bink não contêm horários de início e término específicos. Por esse motivo, todas as Sessões serão definidas por padrão para 12h e encerradas de acordo com sua duração."
+          }
+        }
+      }
+    },
+    "Bink Poker" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bink Poker"
+          }
+        }
+      }
+    },
+    "Bink Poker Import" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bink Poker Import"
+          }
+        }
+      }
+    },
+    "Bounties" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recompensas"
+          }
+        }
+      }
+    },
+    "Bounties Collected" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recompensas coletadas"
+          }
+        }
+      }
+    },
+    "Breaks" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "intervolos"
+          }
+        }
+      }
+    },
+    "Browse & Filter" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navegue e filtre"
+          }
+        }
+      }
+    },
+    "Bucket" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Balde"
+          }
+        }
+      }
+    },
+    "Bullets Fired" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Balas disparadas"
+          }
+        }
+      }
+    },
+    "Buy In" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "preço da entrada"
+          }
+        }
+      }
+    },
+    "Buy Ins" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "preços da entrada"
+          }
+        }
+      }
+    },
+    "By continuing you agree to Left Pocket's Terms of Use and our [Privacy Policy](https://getleftpocket.com/#privacy)." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao continuar, você concorda com os Termos de Uso do Left Pocket e nossos [política de Privacidade](https://getleftpocket.com/#privacy)."
+          }
+        }
+      }
+    },
+    "By default, every Session is shown" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por padrão, cada sessão é mostrada"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar"
+          }
+        }
+      }
+    },
+    "Cash Game" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jogo a dinheiro"
+          }
+        }
+      }
+    },
+    "Cash Out" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sacar"
+          }
+        }
+      }
+    },
+    "Cash Profit" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lucro em dinheiro"
+          }
+        }
+      }
+    },
+    "Charts" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gráficos"
+          }
+        }
+      }
+    },
+    "Check back to see how these numbers impact your results over time." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verifique novamente para ver como esses números impactam seus resultados ao longo do tempo."
+          }
+        }
+      }
+    },
+    "Check permissions in iOS Settings." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verifique as permissões nas Configurações do iOS."
+          }
+        }
+      }
+    },
+    "Choose either the small, or medium-sized widget" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha o widget pequeno ou médio"
+          }
+        }
+      }
+    },
+    "Choose File > Export To… > CSV…" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione Arquivo > Exportar para… > CSV…"
+          }
+        }
+      }
+    },
+    "Choose from our own curated ambient meditation tracks to start a new mindfulness session before you play." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha entre nossas próprias faixas de meditação ambiente selecionadas para iniciar uma nova sessão de atenção plena antes de tocar."
+          }
+        }
+      }
+    },
+    "Choose from the game stakes below." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha entre as valores de aposta abaixo."
+          }
+        }
+      }
+    },
+    "Choose from the list below. Each app handles their data differently, and you'll need to lightly modify the contents of their exported file before importing." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha na lista abaixo. Cada aplicativo lida com seus dados de forma diferente, e você precisará modificar levemente o conteúdo do arquivo exportado antes de importar."
+          }
+        }
+      }
+    },
+    "Choose Stakes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolher valores de aposta"
+          }
+        }
+      }
+    },
+    "Choose the report you want" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione o relatório que deseja"
+          }
+        }
+      }
+    },
+    "Clear Filters" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limpar filtros"
+          }
+        }
+      }
+    },
+    "Clear Your Mind" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limpe sua mente"
+          }
+        }
+      }
+    },
+    "Click here to reach out to the developer for any bugs or future feature requests." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clique aqui para entrar em contato com o desenvolvedor sobre quaisquer bugs ou solicitações de recursos futuros."
+          }
+        }
+      }
+    },
+    "Click the Add Widget button" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clique no botão Adicionar widget"
+          }
+        }
+      }
+    },
+    "Congratulations!" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parabéns!"
+          }
+        }
+      }
+    },
+    "Congratulations! You're almost done." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parabéns! Você está quase terminando."
+          }
+        }
+      }
+    },
+    "Continue" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuar"
+          }
+        }
+      }
+    },
+    "Currency" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moeda"
+          }
+        }
+      }
+    },
+    "Custom Amount" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valor personalizado"
+          }
+        }
+      }
+    },
+    "Custom Locations" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Locais personalizados"
+          }
+        }
+      }
+    },
+    "Custom Markup" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marcação personalizada"
+          }
+        }
+      }
+    },
+    "Customize the layout of your Dashboard. Note: The percentage change displayed for each metric reflects the increase or decrease from the previous year." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personalize o layout do seu Painel. Observação: a variação percentual exibida para cada métrica reflete o aumento ou a diminuição em relação ao ano anterior."
+          }
+        }
+      }
+    },
+    "Daily Meditation" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meditação Diária"
+          }
+        }
+      }
+    },
+    "Daily Volume" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volume Diário"
+          }
+        }
+      }
+    },
+    "Dark Mode" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modo escuro"
+          }
+        }
+      }
+    },
+    "Dashboard Layout" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Layout do painel"
+          }
+        }
+      }
+    },
+    "Date" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data"
+          }
+        }
+      }
+    },
+    "Date Range" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Período"
+          }
+        }
+      }
+    },
+    "Dates" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datas"
+          }
+        }
+      }
+    },
+    "Day" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dia"
+          }
+        }
+      }
+    },
+    "Day %lld" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dia %lld"
+          }
+        }
+      }
+    },
+    "Days" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dias"
+          }
+        }
+      }
+    },
+    "Dec" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dezembro"
+          }
+        }
+      }
+    },
+    "Default" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Padrão"
+          }
+        }
+      }
+    },
+    "Delete" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Excluir"
+          }
+        }
+      }
+    },
+    "Delete Location" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Excluir local"
+          }
+        }
+      }
+    },
+    "Delete Session" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Excluir sessão"
+          }
+        }
+      }
+    },
+    "Delete Transaction" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Excluir transação"
+          }
+        }
+      }
+    },
+    "Deposit" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depósito"
+          }
+        }
+      }
+    },
+    "Details" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detalhes"
+          }
+        }
+      }
+    },
+    "Did You Know?" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você sabia?"
+          }
+        }
+      }
+    },
+    "Done" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feito"
+          }
+        }
+      }
+    },
+    "Duration" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duração"
+          }
+        }
+      }
+    },
+    "During a Live Session, tap the %@ button, or tap & hold on the counter to add a rebuy" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durante uma sessão ao vivo, toque no botão %@ ou toque e segure no contador para adicionar uma recompra"
+          }
+        }
+      }
+    },
+    "Edit Session" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar sessão"
+          }
+        }
+      }
+    },
+    "Edit Sessions" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar sessões"
+          }
+        }
+      }
+    },
+    "Email Support" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suporte por e-mail"
+          }
+        }
+      }
+    },
+    "Enable health permissions from iOS Settings." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Habilite permissões de saúde nas Configurações do iOS."
+          }
+        }
+      }
+    },
+    "Enable health permissions to see your sleep data. Swipe left or right on the chart to navigate." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ative as permissões de saúde para ver seus dados de sono. Deslize para a esquerda ou direita no gráfico para navegar."
+          }
+        }
+      }
+    },
+    "Enable notifications to crush Live Sessions." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ative as notificações para arrasar nas Sessões ao Vivo."
+          }
+        }
+      }
+    },
+    "End" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fim"
+          }
+        }
+      }
+    },
+    "End Date" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data de término"
+          }
+        }
+      }
+    },
+    "Enter any \"off-the-felt\" expenses like meals, travel, memberships, or bankroll transactions. These do not affect your performance stats." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insira quaisquer despesas \"inesperadas\", como refeições, viagens, assinaturas ou transações financeiras. Elas não afetam suas estatísticas de desempenho."
+          }
+        }
+      }
+    },
+    "Enter Buy In" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite preço da entrada"
+          }
+        }
+      }
+    },
+    "Enter details from your Session. Set your own Session Defaults from the Settings %@ screen." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite os detalhes da sua Sessão. Defina seus próprios Padrões de Sessão na tela Configurações %@."
+          }
+        }
+      }
+    },
+    "Enter the amount of markup you're charging for this tournament package." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite o valor da margem de lucro que você está cobrando por este pacote de torneio."
+          }
+        }
+      }
+    },
+    "Enter the name of the location, and import a photo from your photo library. If you don't choose an image, a default graphic will be provided. " : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite o nome do local e importe uma foto da sua biblioteca de fotos. Se você não escolher uma imagem, um gráfico padrão será fornecido."
+          }
+        }
+      }
+    },
+    "Enter the name of your new bankroll. This can't be changed later." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite o nome do seu novo dinheiro atual. Ele não poderá ser alterado posteriormente."
+          }
+        }
+      }
+    },
+    "Enter Transaction" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite transação"
+          }
+        }
+      }
+    },
+    "Enter your custom game type below and then tap the Save Game button." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite seu tipo de jogo personalizado abaixo e toque no botão Salvar jogo."
+          }
+        }
+      }
+    },
+    "Enter your rebuy amount, then press Add Rebuy. Tournament rebuys must equal your initial buy in amount." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite o valor da sua recompra e clique em Adicionar Recompra. As recompras do torneio devem ser iguais ao valor da sua compra inicial."
+          }
+        }
+      }
+    },
+    "Enter your starting stack below. You can add rebuys and top-offs later." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite seu estoque inicial abaixo. Você pode adicionar recompras e recargas posteriormente."
+          }
+        }
+      }
+    },
+    "Entry Title" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Título da entrada"
+          }
+        }
+      }
+    },
+    "Erase All Data" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagar todos os dados"
+          }
+        }
+      }
+    },
+    "Error" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro"
+          }
+        }
+      }
+    },
+    "Error. Video file not found." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erro. Arquivo de vídeo não encontrado."
+          }
+        }
+      }
+    },
+    "Establish your focus & headspace before you play." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estabeleça seu foco e estado mental antes de jogar."
+          }
+        }
+      }
+    },
+    "Ever wonder how sleep, mindfulness & mood affects your poker game?" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você já se perguntou como o sono, a atenção plena e o humor afetam seu jogo de pôquer?"
+          }
+        }
+      }
+    },
+    "EXAMINE" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "EXAMINAR"
+          }
+        }
+      }
+    },
+    "Excellent and easy to use app for keeping track of your game play. Highly recommend for any poker player." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicativo excelente e fácil de usar para acompanhar seu jogo. Altamente recomendado para qualquer jogador de pôquer."
+          }
+        }
+      }
+    },
+    "Expense" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Despesa"
+          }
+        }
+      }
+    },
+    "Expenses" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Despesas"
+          }
+        }
+      }
+    },
+    "Export CSV from Poker Bankroll Tracker." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar CSV do Poker Bankroll Tracker."
+          }
+        }
+      }
+    },
+    "Export Sessions" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar sessões"
+          }
+        }
+      }
+    },
+    "Export Transactions" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar transações"
+          }
+        }
+      }
+    },
+    "Failed to save image." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falha ao salvar a imagem."
+          }
+        }
+      }
+    },
+    "Filter by Year" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtrar por ano"
+          }
+        }
+      }
+    },
+    "Filter Sessions" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtrar sessões"
+          }
+        }
+      }
+    },
+    "Find the right headspace before you sit down at the poker table in just 5 minutes." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encontre o estado de espírito certo antes de se sentar à mesa de pôquer em apenas 5 minutos."
+          }
+        }
+      }
+    },
+    "Forest Ambiance" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ambiente Florestal"
+          }
+        }
+      }
+    },
+    "From Bink, navigate to Settings and tap User. Then, tap Export Sessions (CSV)." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Bink, navegue até Configurações e toque em Usuário. Em seguida, toque em Exportar Sessões (CSV)."
+          }
+        }
+      }
+    },
+    "From the list, choose the app that you're exporting data from, and carefully follow the directions provided" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na lista, escolha o aplicativo do qual você está exportando os dados e siga cuidadosamente as instruções fornecidas"
+          }
+        }
+      }
+    },
+    "From the Settings %@ screen importing old data from other apps is super easy. You can be up and running in a matter of seconds." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importar dados antigos de outros aplicativos na tela de Configurações %@ é super fácil. Você pode começar a usar em questão de segundos."
+          }
+        }
+      }
+    },
+    "From your iOS Home Screen, tap & hold anywhere on your wallpaper then press the Plus button in the upper left" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na tela inicial do iOS, toque e segure em qualquer lugar do seu papel de parede e pressione o botão Mais no canto superior esquerdo"
+          }
+        }
+      }
+    },
+    "Gain a deeper understanding of how your health habits affect your poker game. Start by assessing your sleep numbers and mindful minutes below." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entenda melhor como seus hábitos de saúde afetam seu jogo de pôquer. Comece avaliando seus números de sono e minutos de atenção plena abaixo."
+          }
+        }
+      }
+    },
+    "Game" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jogo"
+          }
+        }
+      }
+    },
+    "Game Stakes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valores de aposta"
+          }
+        }
+      }
+    },
+    "Game Type" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tipo de jogo"
+          }
+        }
+      }
+    },
+    "Generate a report and include every column." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gere um relatório e inclua todas as colunas."
+          }
+        }
+      }
+    },
+    "Gitgudumiss, 2/12/2025" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gitgudumiss, 2/12/2025"
+          }
+        }
+      }
+    },
+    "Go to Settings & tap Import Data" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vá para Configurações e toque em Importar dados"
+          }
+        }
+      }
+    },
+    "Go to Settings & tap Locations" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vá para Configurações e toque em Locais"
+          }
+        }
+      }
+    },
+    "Great app!" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ótimo aplicativo!"
+          }
+        }
+      }
+    },
+    "Great tool" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ótima ferramenta"
+          }
+        }
+      }
+    },
+    "Gross Income" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renda Bruta"
+          }
+        }
+      }
+    },
+    "Hands Dealt" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mãos distribuídas"
+          }
+        }
+      }
+    },
+    "Hands Per Hour" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mãos por hora"
+          }
+        }
+      }
+    },
+    "Having an iCloud account already set up on your iPhone will speed up the entire process" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ter uma conta iCloud já configurada no seu iPhone irá acelerar todo o processo"
+          }
+        }
+      }
+    },
+    "Health Analytics" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Análise de Saúde"
+          }
+        }
+      }
+    },
+    "Health permissions denied. Update from iOS Settings." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permissões de saúde negadas. Atualização nas configurações do iOS."
+          }
+        }
+      }
+    },
+    "Help the Left Pocket community grow by spreading the love and leaving us a 5-star review." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajude a comunidade Left Pocket a crescer espalhando amor e deixando uma avaliação de 5 estrelas."
+          }
+        }
+      }
+    },
+    "Hide your bankroll in your Dasbhoard to conceal sensitive information." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esconda seu dinheiro atual no seu Dashboard para ocultar informações confidenciais."
+          }
+        }
+      }
+    },
+    "High Hand Bonus" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bônus de Mão Alta"
+          }
+        }
+      }
+    },
+    "High Hand Bonus (Optional)" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bônus de mão alta (Opcional)"
+          }
+        }
+      }
+    },
+    "High Hand Bonuses" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bônus de Mão Alta"
+          }
+        }
+      }
+    },
+    "Hourly" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De hora em hora"
+          }
+        }
+      }
+    },
+    "Hourly Rate" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taxa horária"
+          }
+        }
+      }
+    },
+    "Hours" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Horas"
+          }
+        }
+      }
+    },
+    "Hours Played" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Horas Jogadas"
+          }
+        }
+      }
+    },
+    "Hours Played by Day" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Horas Jogadas por Dia"
+          }
+        }
+      }
+    },
+    "How Do You Feel?" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como Você Está se Sentindo?"
+          }
+        }
+      }
+    },
+    "How is this calculated?" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como isso é calculado?"
+          }
+        }
+      }
+    },
+    "How would you describe your risk tolerance?" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como você descreveria sua tolerância a riscos?"
+          }
+        }
+      }
+    },
+    "How-To Guide" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guia prático"
+          }
+        }
+      }
+    },
+    "If you have backed up data from a previous Left Pocket CSV export you can import the data from this screen. Follow the steps below." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se você tiver feito backup de dados de uma exportação anterior do Left Pocket CSV, poderá importar os dados desta tela. Siga os passos abaixo."
+          }
+        }
+      }
+    },
+    "If you need additional help, feel free to reach out to Support via email." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se precisar de ajuda adicional, sinta-se à vontade para entrar em contato com o Suporte por e-mail."
+          }
+        }
+      }
+    },
+    "If you'd prefer to skip ahead and hurt our feelings, tap \"Skip to the End\" below." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se você preferir avançar e nos magoar, toque em \"Ir para o final\" abaixo."
+          }
+        }
+      }
+    },
+    "If you're importing a CSV that contains Sessions with notes, you'll need to either remove all commas from the notes column, or just delete the cell contents." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se estiver importando um CSV que contém Sessões com notas, você precisará remover todas as vírgulas da coluna de notas ou apenas excluir o conteúdo da célula."
+          }
+        }
+      }
+    },
+    "If you're ready to end your Live Session, tap Yes & then input Session details on the next screen." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se você estiver pronto para encerrar sua Sessão ao vivo, toque em Sim e insira os detalhes da sessão na próxima tela."
+          }
+        }
+      }
+    },
+    "Image Added!" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imagem adicionada!"
+          }
+        }
+      }
+    },
+    "Image could not be saved. Please try again later." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível salvar a imagem. Tente novamente mais tarde."
+          }
+        }
+      }
+    },
+    "Import Data" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importar dados"
+          }
+        }
+      }
+    },
+    "Imported Sessions and their relevant data will be loaded into Left Pocket" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As sessões importadas e seus dados relevantes serão carregados no Left Pocket"
+          }
+        }
+      }
+    },
+    "Importing Data" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importando Dados"
+          }
+        }
+      }
+    },
+    "Improve your focus, attention, & mood before you hit the tables. Develop a pre-game mindfulness routine to help boost your results." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Melhore seu foco, atenção e humor antes de entrar nas mesas. Desenvolva uma rotina de atenção plena antes do jogo para ajudar a impulsionar seus resultados."
+          }
+        }
+      }
+    },
+    "in %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "em %@"
+          }
+        }
+      }
+    },
+    "In addition to Left Pocket exports, you can also import CSV data from other poker bankroll apps like Pokerbase, Poker Income, Poker Bankroll Tracker, & Poker Analytics. It's best to start your journey here if you have a lot of data you want migrated over.\n\nTo import data:" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Além das exportações do Left Pocket, você também pode importar dados CSV de outros aplicativos de bankroll de pôquer, como Pokerbase, Poker Income, Poker Bankroll Tracker e Poker Analytics. É melhor começar sua jornada aqui se você tiver muitos dados para migrar.\n\nPara importar dados:"
+          }
+        }
+      }
+    },
+    "In Poker Analytics, from Settings navigate to Export Data. Choose Sessions (CSV)." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Poker Analytics, em Configurações, navegue até Exportar Dados. Selecione Sessões (CSV)."
+          }
+        }
+      }
+    },
+    "In Settings %@ you can toggle push notifications, import & export data, set your Session Defaults, & more." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em Configurações %@ você pode alternar notificações push, importar e exportar dados, definir seus Padrões de Sessão e muito mais."
+          }
+        }
+      }
+    },
+    "In the Game For" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No jogo para"
+          }
+        }
+      }
+    },
+    "In the Game For $%lld" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No jogo por R$%lld"
+          }
+        }
+      }
+    },
+    "In the top menu bar, tap the %@ button for filtering options, or the %@ button to view Transactions" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "In the top menu bar, tap the %1$@ button for filtering options, or the %2$@ button to view Transactions"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na barra de menu superior, toque no botão %1$@ para opções de filtragem ou no botão %2$@ para visualizar transações"
+          }
+        }
+      }
+    },
+    "In the upper right, tap the %@ button and enter the name of the location" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No canto superior direito, toque no botão %@ e digite o nome do local"
+          }
+        }
+      }
+    },
+    "Incognito Bankroll" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dinheiro atual Anônimo"
+          }
+        }
+      }
+    },
+    "Index" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Índice"
+          }
+        }
+      }
+    },
+    "Initial Buy In" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preço da entrada Inicial"
+          }
+        }
+      }
+    },
+    "Insightful charts, progress rings, and crucial player metrics will advise when it's safe to take a shot at higher stakes." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gráficos esclarecedores, anéis de progresso e métricas cruciais dos jogadores irão aconselhá-lo quando for seguro tentar apostas mais altas."
+          }
+        }
+      }
+    },
+    "Invalid Bankroll" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dinheiro atual Inválido"
+          }
+        }
+      }
+    },
+    "Invalid Character" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caractere Inválido"
+          }
+        }
+      }
+    },
+    "Invalid Form" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Formulário Inválido"
+          }
+        }
+      }
+    },
+    "Invalid Rebuy" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recompra Inválida"
+          }
+        }
+      }
+    },
+    "Invalid Stakes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "valores de aposta Inválida"
+          }
+        }
+      }
+    },
+    "ITM Ratio" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Índice ITM"
+          }
+        }
+      }
+    },
+    "Jan" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Janeiro"
+          }
+        }
+      }
+    },
+    "Jot down any hand histories or player notes here. All notes will be automatically saved to your Live Session once it's ended." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anote aqui o histórico de mãos ou as notas dos jogadores. Todas as notas serão salvas automaticamente na sua Sessão Ao Vivo assim que ela terminar."
+          }
+        }
+      }
+    },
+    "Last 60 Days of Sleep" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Últimos 60 dias de sono"
+          }
+        }
+      }
+    },
+    "Last Session" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Última Sessão"
+          }
+        }
+      }
+    },
+    "Leave a Review" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixe um comentário"
+          }
+        }
+      }
+    },
+    "Leave a Review?" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixar um comentário?"
+          }
+        }
+      }
+    },
+    "Left Pocket" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Left Pocket"
+          }
+        }
+      }
+    },
+    "Left Pocket allows you to log a completed poker Session, or begin a new Live Session from any screen in the app.\n\nTo begin:" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Left Pocket permite que você registre uma Sessão de Poker concluída ou inicie uma nova Sessão Ao Vivo em qualquer tela do aplicativo.\n\nPara começar:"
+          }
+        }
+      }
+    },
+    "Left Pocket can help make sure you're fresh & on top of your game during Live Sessions with gentle reminders & check ins. Tap the button below to allow notifications." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Left Pocket pode ajudar você a se manter atualizado e em dia durante as Sessões Ao Vivo com lembretes e check-ins. Toque no botão abaixo para ativar as notificações."
+          }
+        }
+      }
+    },
+    "Left Pocket Import" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importer de Left Pocket"
+          }
+        }
+      }
+    },
+    "Left Pocket offers a variety of advanced metrics & analytics to help with your study and progress as a player. More metrics & data points are added regularly. Most recently, Sleep Analytics. If you have any suggestions, feel free to reach out to us.\n\nTo begin:" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Left Pocket oferece uma variedade de métricas e análises avançadas para ajudar nos seus estudos e progresso como jogador. Mais métricas e pontos de dados são adicionados regularmente. Mais recentemente, o Sleep Analytics. Se tiver alguma sugestão, entre em contato conosco.\n\nPara começar:"
+          }
+        }
+      }
+    },
+    "Left Pocket requests access to your health info. This allows us to display your sleep hours, mindful minutes, and mood in our Health Analytics section, integrating numbers measured by other devices and apps. Your data is private and secure." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Left Pocket solicita acesso às suas informações de saúde. Isso nos permite exibir suas horas de sono, minutos de atenção plena e humor em nossa seção de Análise de Saúde, integrando números medidos por outros dispositivos e aplicativos. Seus dados são privados e seguros."
+          }
+        }
+      }
+    },
+    "Let's Begin" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vamos começar"
+          }
+        }
+      }
+    },
+    "Let's Do It" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vamos fazê-lo"
+          }
+        }
+      }
+    },
+    "Live" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao vivo"
+          }
+        }
+      }
+    },
+    "Live Cash Session at" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sessão de dinheiro ao vivo em"
+          }
+        }
+      }
+    },
+    "Live Hands Per Hour" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mãos ao vivo por hora"
+          }
+        }
+      }
+    },
+    "Live Session at" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sessão ao vivo em"
+          }
+        }
+      }
+    },
+    "Live Session started at" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A sessão ao vivo começou às"
+          }
+        }
+      }
+    },
+    "Live Tournament at" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Torneio ao vivo em"
+          }
+        }
+      }
+    },
+    "Location" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Localização"
+          }
+        }
+      }
+    },
+    "Location Name" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome do local"
+          }
+        }
+      }
+    },
+    "Location Not Selected" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local não selecionado"
+          }
+        }
+      }
+    },
+    "Location Statistics" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estatísticas de localização"
+          }
+        }
+      }
+    },
+    "Locations" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Locais"
+          }
+        }
+      }
+    },
+    "Locations can also be added directly from the New Session screen, by tapping the location dropdown menu." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os locais também podem ser adicionados diretamente na tela Nova Sessão, tocando no menu suspenso de locais."
+          }
+        }
+      }
+    },
+    "Logging Sessions" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrando Sessões"
+          }
+        }
+      }
+    },
+    "Make your selection below." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faça sua seleção abaixo."
+          }
+        }
+      }
+    },
+    "Manage all your data from this screen. To bring in data from another tracker, tap Import Data below." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerencie todos os seus dados nesta tela. Para importar dados de outro rastreador, toque em \"Importar Dados\" abaixo."
+          }
+        }
+      }
+    },
+    "Manage Bankrolls" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerenciar Dinheiros atuales"
+          }
+        }
+      }
+    },
+    "Manage Data" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerenciar dados"
+          }
+        }
+      }
+    },
+    "Manage Locations" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gerenciar locais"
+          }
+        }
+      }
+    },
+    "Markup" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marcação"
+          }
+        }
+      }
+    },
+    "Markup Amount" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valor de marcação"
+          }
+        }
+      }
+    },
+    "Markup Earned" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marcação obtida"
+          }
+        }
+      }
+    },
+    "MEDITATION" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MEDITAÇÃO"
+          }
+        }
+      }
+    },
+    "Meditation Card" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cartão de Meditação"
+          }
+        }
+      }
+    },
+    "Metrics" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Métricos"
+          }
+        }
+      }
+    },
+    "Mindful Poker Sessions" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sessões de pôquer conscientes"
+          }
+        }
+      }
+    },
+    "Mindfulness" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atenção plena"
+          }
+        }
+      }
+    },
+    "Minutes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minutos"
+          }
+        }
+      }
+    },
+    "Month" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mês"
+          }
+        }
+      }
+    },
+    "Month Picker" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seletor de mês"
+          }
+        }
+      }
+    },
+    "Monthly Snapshot" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instantâneo Mensal"
+          }
+        }
+      }
+    },
+    "Monthly Totals" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Totais Mensais"
+          }
+        }
+      }
+    },
+    "More about Transactions" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mais sobre Transações"
+          }
+        }
+      }
+    },
+    "Most Recent Session" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sessão mais recente"
+          }
+        }
+      }
+    },
+    "Moto508, 1/12/2025" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moto508, 1/12/2025"
+          }
+        }
+      }
+    },
+    "MTT" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MTT"
+          }
+        }
+      }
+    },
+    "Multi-Day" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vários dias"
+          }
+        }
+      }
+    },
+    "Multiple Bankrolls" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vários Dinheiro atual"
+          }
+        }
+      }
+    },
+    "My Bankroll" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minha dinheiro atual"
+          }
+        }
+      }
+    },
+    "My Bankrolls" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minha Dinheiro atuales"
+          }
+        }
+      }
+    },
+    "My Locations" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meus locais"
+          }
+        }
+      }
+    },
+    "My Reports" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meus relatórios"
+          }
+        }
+      }
+    },
+    "N/A" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "N/D"
+          }
+        }
+      }
+    },
+    "Name" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome"
+          }
+        }
+      }
+    },
+    "Net Profit" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lucro líquido"
+          }
+        }
+      }
+    },
+    "New Game Type" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Novo tipo de jogo"
+          }
+        }
+      }
+    },
+    "New Location" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Novo local"
+          }
+        }
+      }
+    },
+    "New Note" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nova nota"
+          }
+        }
+      }
+    },
+    "New Session" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nova sessão"
+          }
+        }
+      }
+    },
+    "New Stakes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nova valores de aposta"
+          }
+        }
+      }
+    },
+    "New Transaction" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nova Transação"
+          }
+        }
+      }
+    },
+    "Next" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Próximo"
+          }
+        }
+      }
+    },
+    "No backups generated yet" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum backup gerado ainda"
+          }
+        }
+      }
+    },
+    "No chart data to display." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum dado gráfico para exibir."
+          }
+        }
+      }
+    },
+    "No Locations" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem locais"
+          }
+        }
+      }
+    },
+    "No mindfulness data to display." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum dado de atenção plena para exibir."
+          }
+        }
+      }
+    },
+    "No Selection" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem seleção"
+          }
+        }
+      }
+    },
+    "No Sessions" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem sessões"
+          }
+        }
+      }
+    },
+    "No sleep data to display." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum dado de sono para exibir."
+          }
+        }
+      }
+    },
+    "No tags found" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhuma tag encontrada"
+          }
+        }
+      }
+    },
+    "No thanks, skip to the end" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não, obrigado, pule para o final"
+          }
+        }
+      }
+    },
+    "No, thank you" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não, obrigado"
+          }
+        }
+      }
+    },
+    "No. of Cashes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de saques"
+          }
+        }
+      }
+    },
+    "No. of Entrants" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de participantes"
+          }
+        }
+      }
+    },
+    "No. of Entries" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de inscrições"
+          }
+        }
+      }
+    },
+    "No. of Sessions" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de sessões"
+          }
+        }
+      }
+    },
+    "No. of Tournaments" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de torneios"
+          }
+        }
+      }
+    },
+    "None" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum"
+          }
+        }
+      }
+    },
+    "None found!" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhum encontrado!"
+          }
+        }
+      }
+    },
+    "Notes (Optional)" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notas (Opcional)"
+          }
+        }
+      }
+    },
+    "Notifications" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notificações"
+          }
+        }
+      }
+    },
+    "of mindfulness added" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "de atenção plena adicionada"
+          }
+        }
+      }
+    },
+    "Ok" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ok"
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "One of the better apps out to track your wins and losses and keep track of your poker bankroll. It’s aesthetically pleasing and looks like they are frequently updating!" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um dos melhores apps para acompanhar suas vitórias e derrotas e gerenciar seu dinheiro atual. É visualmente agradável e está sempre sendo atualizado!"
+          }
+        }
+      }
+    },
+    "Online" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On-line"
+          }
+        }
+      }
+    },
+    "Online ands Per Hour" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mãos on-line por hora"
+          }
+        }
+      }
+    },
+    "Open the Annual Report, and at the bottom click the Export as CSV button. You will be able to save a CSV of your sessions from the previous year." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abra o Relatório Anual e, na parte inferior, clique no botão Exportar como CSV. Você poderá salvar um arquivo CSV das suas sessões do ano anterior."
+          }
+        }
+      }
+    },
+    "Open the file as a spreadsheet on your computer or iPhone. The following columns must be cleared of data in order to process the file: sessionnote, notes, chipgraph, and updatetimes. DO NOT remove the columns entirely, just the contents in the cells." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abra o arquivo como uma planilha no seu computador ou iPhone. As seguintes colunas precisam ser limpas para processar o arquivo: sessionnote, notes, chipgraph e updatetimes. NÃO remova as colunas completamente, apenas o conteúdo das células."
+          }
+        }
+      }
+    },
+    "Open the Settings app" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abra o aplicativo Configurações"
+          }
+        }
+      }
+    },
+    "Open the spreadsheet on your computer, or from your iPhone in the Numbers app. Make sure the notes column is completely empty. There should be a total of 14 columns in all." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abra a planilha no seu computador ou no seu iPhone no app Numbers. Certifique-se de que a coluna de notas esteja completamente vazia. Deve haver um total de 14 colunas."
+          }
+        }
+      }
+    },
+    "per Hour" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "por hora"
+          }
+        }
+      }
+    },
+    "Picker" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seletor"
+          }
+        }
+      }
+    },
+    "Place" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lugar"
+          }
+        }
+      }
+    },
+    "Player Profit" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lucro do Jogador"
+          }
+        }
+      }
+    },
+    "Player Stats" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estatísticas do Jogador"
+          }
+        }
+      }
+    },
+    "Please be sure to follow each step and read carefully. Poker Analytics allows for exporting of session comments and you will need to account for how the text is formatted." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siga cada passo e leia com atenção. O Poker Analytics permite a exportação de comentários da sessão, e você precisará levar em conta a formatação do texto."
+          }
+        }
+      }
+    },
+    "Please be sure to follow each step and read carefully. Unfortunately exports from Pokerbase do not include tournament info, or stakes info. If you only played one game stake, you can select it from the picker below and it'll be applied to your entire import." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siga cada passo e leia com atenção. Infelizmente, as exportações do Pokerbase não incluem informações sobre torneios ou apostas. Se você jogou apenas uma partida, pode selecioná-la no seletor abaixo e ela será aplicada a toda a sua importação."
+          }
+        }
+      }
+    },
+    "Please be sure to follow each step and read carefully. You'll need to lightly modify your file before import." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siga cada passo e leia com atenção. Você precisará modificar levemente o arquivo antes de importar."
+          }
+        }
+      }
+    },
+    "Please enter a Location name." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por favor, digite um nome de local."
+          }
+        }
+      }
+    },
+    "Please enter a Transaction amount." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por favor digite um valor de Transação."
+          }
+        }
+      }
+    },
+    "Please enter the number of Entrants." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por favor digite o número de participantes"
+          }
+        }
+      }
+    },
+    "Please enter where you finished." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por favor digite onde você terminou."
+          }
+        }
+      }
+    },
+    "Please enter your Buy In amount." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite o valor do seu preço da entrada."
+          }
+        }
+      }
+    },
+    "Please select ›" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione ›"
+          }
+        }
+      }
+    },
+    "Please select a Date." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione uma data."
+          }
+        }
+      }
+    },
+    "Please select a Location. To add your own, select Add New Location from the dropdown menu." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione um local. Para adicionar o seu, selecione Adicionar novo local no menu suspenso."
+          }
+        }
+      }
+    },
+    "Please select a Session Type." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione um tipo de sessão."
+          }
+        }
+      }
+    },
+    "Please select a Transaction type." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione um tipo de Transação."
+          }
+        }
+      }
+    },
+    "Please select the Game Type." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione o tipo de jogo."
+          }
+        }
+      }
+    },
+    "Please select the Tournament Size." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione o tamanho do torneio."
+          }
+        }
+      }
+    },
+    "Please select the Tournament Speed." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione a Velocidade do Torneio."
+          }
+        }
+      }
+    },
+    "Please select your Stakes. To add your own, select Add Stakes from the dropdown menu." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione suas Apostas. Para adicionar as suas, selecione Adicionar Apostas no menu suspenso."
+          }
+        }
+      }
+    },
+    "Poker Analytics 6" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poker Analytics 6"
+          }
+        }
+      }
+    },
+    "Poker Analytics 6 Import" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poker Analytics 6 Importar"
+          }
+        }
+      }
+    },
+    "Poker Bankroll Tracker" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poker Bankroll Tracker"
+          }
+        }
+      }
+    },
+    "Poker Bankroll Tracker Import" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poker Bankroll Tracker Importar"
+          }
+        }
+      }
+    },
+    "Poker Mindfulness" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atenção plena de Pôquer"
+          }
+        }
+      }
+    },
+    "Poker players best friend" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Melhor amigo dos jogadores de pôquer"
+          }
+        }
+      }
+    },
+    "Pokerbase" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokerbase"
+          }
+        }
+      }
+    },
+    "Pokerbase Import" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokerbase Importar"
+          }
+        }
+      }
+    },
+    "Popular" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Popular"
+          }
+        }
+      }
+    },
+    "Press the Save Location button" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pressione o botão Salvar local"
+          }
+        }
+      }
+    },
+    "Pressing Yes below will delete all your saved Session data and Transactions. This action can't be undone." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clicar em Sim abaixo excluirá todos os dados de Sessão e Transações salvos. Esta ação não pode ser desfeita."
+          }
+        }
+      }
+    },
+    "Pressing Yes below will restore your data from the selected backup and merge with your current session data." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clicar em Sim abaixo restaurará seus dados do backup selecionado e os mesclará com os dados da sessão atual."
+          }
+        }
+      }
+    },
+    "PREV" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ANTERIOR"
+          }
+        }
+      }
+    },
+    "Pro users can export the Annual Report" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuários Pro podem exportar o Relatório Anual"
+          }
+        }
+      }
+    },
+    "Profit" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lucro"
+          }
+        }
+      }
+    },
+    "Profit By Stakes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lucro por valores de aposta"
+          }
+        }
+      }
+    },
+    "Profit Per 100 Hands" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lucro por 100 mãos"
+          }
+        }
+      }
+    },
+    "Profit Per Session" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lucro por sessão"
+          }
+        }
+      }
+    },
+    "Proportion" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proporção"
+          }
+        }
+      }
+    },
+    "Punts" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Punts"
+          }
+        }
+      }
+    },
+    "Push Notifications" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notificações push"
+          }
+        }
+      }
+    },
+    "Read through the following documentation to get the most out of Left Pocket, so that you can put the most into your’s." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leia a documentação a seguir para aproveitar ao máximo o Left Pocket e investir o máximo no seu."
+          }
+        }
+      }
+    },
+    "Rebuy / Top Off" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recomprar / Completar"
+          }
+        }
+      }
+    },
+    "Rebuy for $%lld" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recomprar por R$%lld"
+          }
+        }
+      }
+    },
+    "Rebuys" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recompra"
+          }
+        }
+      }
+    },
+    "Rebuys / Top Offs" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recompras / Recargas"
+          }
+        }
+      }
+    },
+    "Redeem Offer Code" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resgatar código de oferta"
+          }
+        }
+      }
+    },
+    "Reports" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relatórios"
+          }
+        }
+      }
+    },
+    "Reset" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reiniciar"
+          }
+        }
+      }
+    },
+    "Restore Data" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurar dados"
+          }
+        }
+      }
+    },
+    "Restore from Backup" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurar do backup"
+          }
+        }
+      }
+    },
+    "Results for" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resultados para"
+          }
+        }
+      }
+    },
+    "REVIEW" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ANÁLISE"
+          }
+        }
+      }
+    },
+    "Risk Tolerance" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tolerância ao Risco"
+          }
+        }
+      }
+    },
+    "ROI" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ROI"
+          }
+        }
+      }
+    },
+    "Runtime %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tempo de execução %@"
+          }
+        }
+      }
+    },
+    "Save or upload the CSV file to your iCloud Drive in UTF-8 format." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salve ou carregue o arquivo CSV no seu iCloud Drive no formato UTF-8."
+          }
+        }
+      }
+    },
+    "Save the CSV file to a folder in your iCloud Drive using UTF-8 encoding." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salve o arquivo CSV em uma pasta no seu iCloud Drive usando a codificação UTF-8."
+          }
+        }
+      }
+    },
+    "Save this CSV file on your iCloud Drive." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salve este arquivo CSV no seu iCloud Drive."
+          }
+        }
+      }
+    },
+    "Save this new file to a folder in your iCloud Drive." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salve este novo arquivo em uma pasta no seu iCloud Drive."
+          }
+        }
+      }
+    },
+    "Scroll down to Left Pocket, and then Disable Notifications" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Role para baixo até Left Pocket, e depois Desativar Notificações"
+          }
+        }
+      }
+    },
+    "Scroll down to view your profit chart, player stats, monthly snapshot, and at the bottom, your reports" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Role para baixo para ver seu gráfico de lucro, estatísticas do jogador, instantâneo mensal e, na parte inferior, seus relatórios"
+          }
+        }
+      }
+    },
+    "Search for Left Pocket" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Procure pelo Left Pocket"
+          }
+        }
+      }
+    },
+    "Select a session to view details" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione uma sessão para ver detalhes"
+          }
+        }
+      }
+    },
+    "Select Bankroll" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione a Dinheiro atual"
+          }
+        }
+      }
+    },
+    "Select Game Type" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione o tipo de jogo"
+          }
+        }
+      }
+    },
+    "Select Location" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione o local"
+          }
+        }
+      }
+    },
+    "Select Session Type" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione o tipo de sessão"
+          }
+        }
+      }
+    },
+    "Select Stakes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione o valores de aposta"
+          }
+        }
+      }
+    },
+    "Select View Style" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione o estilo de visualização"
+          }
+        }
+      }
+    },
+    "Selected Date" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data selecionada"
+          }
+        }
+      }
+    },
+    "Selected Month" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mês selecionado"
+          }
+        }
+      }
+    },
+    "Session" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sessão"
+          }
+        }
+      }
+    },
+    "Session Defaults" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Padrões de sessão"
+          }
+        }
+      }
+    },
+    "Session Filter" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtro de sessão"
+          }
+        }
+      }
+    },
+    "Session Notes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notas da sessão"
+          }
+        }
+      }
+    },
+    "Session Start" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Início da sessão"
+          }
+        }
+      }
+    },
+    "Session Type" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tipo de sessão"
+          }
+        }
+      }
+    },
+    "Sessions" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sessões"
+          }
+        }
+      }
+    },
+    "Sessions Played" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sessões reproduzidas"
+          }
+        }
+      }
+    },
+    "Set your default Session info here. These values will automatically pre-populate whenever you log a completed Session, or start a Live Session." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Defina aqui as informações padrão da sua Sessão. Esses valores serão preenchidos automaticamente sempre que você registrar uma Sessão concluída ou iniciar uma Sessão ao Vivo."
+          }
+        }
+      }
+    },
+    "Settings" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurações"
+          }
+        }
+      }
+    },
+    "Share Your Session" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartilhe sua sessão"
+          }
+        }
+      }
+    },
+    "Shared Session from %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sessão compartilhada de %@"
+          }
+        }
+      }
+    },
+    "Show Hands Per Hour" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar ponteiros por hora"
+          }
+        }
+      }
+    },
+    "Sit & Go" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sentar e ir"
+          }
+        }
+      }
+    },
+    "Sit tight while we configure the app for you. This will only take a few seconds." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aguarde enquanto configuramos o aplicativo para você. Isso levará apenas alguns segundos."
+          }
+        }
+      }
+    },
+    "Size" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamanho"
+          }
+        }
+      }
+    },
+    "Skip this step, I'll decide later" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pule esta etapa, decidirei mais tarde"
+          }
+        }
+      }
+    },
+    "Sleep" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dormir"
+          }
+        }
+      }
+    },
+    "Sleep & Mindfulness Correlation" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Correlação entre sono e meditação"
+          }
+        }
+      }
+    },
+    "Small Blind" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aposta pequena"
+          }
+        }
+      }
+    },
+    "Speed" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velocidade"
+          }
+        }
+      }
+    },
+    "Stakes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "valores de aposta"
+          }
+        }
+      }
+    },
+    "Stakes Picker" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecionador de valores de aposta"
+          }
+        }
+      }
+    },
+    "Staking" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estacamento"
+          }
+        }
+      }
+    },
+    "Standard" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Padrão"
+          }
+        }
+      }
+    },
+    "Start" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Começar"
+          }
+        }
+      }
+    },
+    "Start / End" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Início / Fim"
+          }
+        }
+      }
+    },
+    "Start a Live Session" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciar uma sessão ao vivo"
+          }
+        }
+      }
+    },
+    "Start a Meditation" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comece uma Meditação"
+          }
+        }
+      }
+    },
+    "Start Date" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data de Início"
+          }
+        }
+      }
+    },
+    "Start Tracking Sleep" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comece a monitorar o sono"
+          }
+        }
+      }
+    },
+    "Start your mindfulness practice here. Press the Stop button to end early & dismiss this screen." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comece sua prática de mindfulness aqui. Pressione o botão Parar para encerrar mais cedo e fechar esta tela."
+          }
+        }
+      }
+    },
+    "Starting Amount" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valor Inicial"
+          }
+        }
+      }
+    },
+    "Success!" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sucesso!"
+          }
+        }
+      }
+    },
+    "Super Turbo" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Superturbo"
+          }
+        }
+      }
+    },
+    "Swipe left on a Session in the list to either make edits, or delete it." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deslize para a esquerda em uma sessão na lista para fazer edições ou excluí-la."
+          }
+        }
+      }
+    },
+    "System Sounds" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sons do sistema"
+          }
+        }
+      }
+    },
+    "Table Expenses (Rake, tips)" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Despesas de mesa (Rake, gorjetas)"
+          }
+        }
+      }
+    },
+    "Tag Name" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome da etiqueta"
+          }
+        }
+      }
+    },
+    "Tag Selection" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleção de tags"
+          }
+        }
+      }
+    },
+    "Tags" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etiquetas"
+          }
+        }
+      }
+    },
+    "Tags (Optional)" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etiquetas (Opcional)"
+          }
+        }
+      }
+    },
+    "Tags Report" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relatório de Etiquetas"
+          }
+        }
+      }
+    },
+    "Tap %@ to filter by location, game type, stakes, date range, etc." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque em %@ para filtrar por localização, tipo de jogo, apostas, intervalo de datas, etc."
+          }
+        }
+      }
+    },
+    "Tap a Session to view its details" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque em uma sessão para ver seus detalhes"
+          }
+        }
+      }
+    },
+    "Tap for Video Tutorial" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque para ver o tutorial em vídeo"
+          }
+        }
+      }
+    },
+    "Tap here to quickly review your last Session, hand notes, and key stats." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque aqui para revisar rapidamente sua última sessão, notas de mão e estatísticas principais."
+          }
+        }
+      }
+    },
+    "Tap on Notifications" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque em Notificações"
+          }
+        }
+      }
+    },
+    "Tap Save Session" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque em Salvar sessão"
+          }
+        }
+      }
+    },
+    "Tap the %@ button above to get started\nwith adding your own locations." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque no botão %@ acima para começar\na adicionar seus próprios locais."
+          }
+        }
+      }
+    },
+    "Tap the %@ button at the bottom of the navigation bar & choose Live or Completed Session" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque no botão %@ na parte inferior da barra de navegação e escolha Sessão ao vivo ou concluída"
+          }
+        }
+      }
+    },
+    "Tap the %@ button below to get started.\nDuring a Live Session, add rebuys by\npressing the %@ button." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Tap the %1$@ button below to get started.\nDuring a Live Session, add rebuys by\npressing the %2$@ button."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque no botão %1$@ abaixo para começar.\nDurante uma Sessão ao Vivo, adicione recompras\npressionando o botão %2$@."
+          }
+        }
+      }
+    },
+    "Tap the %@ button to start a Live Session, log a completed one, or enter a Transaction." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque no botão %@ para iniciar uma Sessão ao vivo, registrar uma concluída ou inserir uma Transação."
+          }
+        }
+      }
+    },
+    "Tap the %@ icon in the navigation bar" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque no ícone %@ na barra de navegação"
+          }
+        }
+      }
+    },
+    "Tap the button below and you'll be prompted to enter in the offer code that you were given. For any problems, contact support via email from your Settings screen." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque no botão abaixo e será solicitado que você insira o código de oferta recebido. Para qualquer problema, entre em contato com o suporte por e-mail na tela de Configurações."
+          }
+        }
+      }
+    },
+    "Tap the Import CSV Data button below." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque no botão Importar dados CSV abaixo."
+          }
+        }
+      }
+    },
+    "Tap the paper airplane button to share this Session with friends or on social media." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque no botão do avião de papel para compartilhar esta Sessão com amigos ou nas redes sociais."
+          }
+        }
+      }
+    },
+    "Tap to Add Image" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque para adicionar imagem"
+          }
+        }
+      }
+    },
+    "Tap to view your bankroll progress, player metrics, analytics, & reports." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque para ver o progresso do seu dinheiro atual, métricas do jogador, análises e relatórios."
+          }
+        }
+      }
+    },
+    "The Game Type field is empty. Please enter a valid game type." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O campo Tipo de Jogo está vazio. Insira um tipo de jogo válido."
+          }
+        }
+      }
+    },
+    "The Game Type you've entered already exists." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O tipo de jogo que você inseriu já existe."
+          }
+        }
+      }
+    },
+    "The Start Time for Day 2 of a Multi-Day Tournament can't precede the End Time of Day 1." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O horário de início do Dia 2 de um torneio de vários dias não pode preceder o horário de término do Dia 1."
+          }
+        }
+      }
+    },
+    "The three columns below represent your net profit, hourly rate, and total hours for each month." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As três colunas abaixo representam seu lucro líquido, taxa horária e total de horas de cada mês."
+          }
+        }
+      }
+    },
+    "There are numerous filtering and reporting options available which are free for all users. They can all be found at the bottom of the Metrics view, under the section titled, My Reports.\n\nTo gather reports:" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Há diversas opções de filtragem e geração de relatórios disponíveis, gratuitas para todos os usuários. Todas elas podem ser encontradas na parte inferior da visualização de Métricas, na seção \"Meus Relatórios\".\n\nPara coletar relatórios:"
+          }
+        }
+      }
+    },
+    "These stakes already exist." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Essas valores de aposta já existem."
+          }
+        }
+      }
+    },
+    "This action can't be undone, and you will lose all Sessions in this bankroll." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta ação não pode ser desfeita e você perderá todas as Sessões neste saldo."
+          }
+        }
+      }
+    },
+    "This app is constantly improving with player feedback, and it's clear that the team behind it is dedicated to providing the best experience." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este aplicativo está em constante aprimoramento com base no feedback dos jogadores, e está claro que a equipe por trás dele está dedicada a proporcionar a melhor experiência."
+          }
+        }
+      }
+    },
+    "This will help us establish a target bankroll size prior to jumping stakes." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Isso nos ajudará a estabelecer uma meta de tamanho de dinheiro atual antes de aumentar as apostas."
+          }
+        }
+      }
+    },
+    "Time" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tempo"
+          }
+        }
+      }
+    },
+    "To add a location, press %@ above. Tap & hold a thumbnail to delete. If you imported data, be sure names match exactly." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para adicionar um local, pressione %@ acima. Toque e segure uma miniatura para excluí-la. Se você importou dados, certifique-se de que os nomes correspondam exatamente."
+          }
+        }
+      }
+    },
+    "To disable notifications, or to re-enable them after disabling, you must do so from your device settings. Follow the steps below." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para desativar as notificações ou reativá-las após desativá-las, você deve fazê-lo nas configurações do seu dispositivo. Siga os passos abaixo."
+          }
+        }
+      }
+    },
+    "To edit or delete a Session, swipe left on it from the Sessions List view" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para editar ou excluir uma sessão, deslize para a esquerda na visualização da Lista de Sessões"
+          }
+        }
+      }
+    },
+    "Top Location Win Ratio" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maior taxa de ganho de localização"
+          }
+        }
+      }
+    },
+    "Topped off $%lld" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Completou R$%lld"
+          }
+        }
+      }
+    },
+    "Total" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total"
+          }
+        }
+      }
+    },
+    "Total Action Sold" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total de Ação Vendida"
+          }
+        }
+      }
+    },
+    "Total Buy In" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total de Preço da Entrada"
+          }
+        }
+      }
+    },
+    "Total Buy Ins" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total de Preço da Entradas"
+          }
+        }
+      }
+    },
+    "Total Elapsed Time" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tempo Total Decorrido"
+          }
+        }
+      }
+    },
+    "Total Hands Dealt" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total de Mãos Distribuídas"
+          }
+        }
+      }
+    },
+    "Total Hours Played" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total de Horas Jogadas"
+          }
+        }
+      }
+    },
+    "Total No. of Sessions" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total de Sessões"
+          }
+        }
+      }
+    },
+    "Total Playing Time" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tempo Total de Jogo"
+          }
+        }
+      }
+    },
+    "Total Profit" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lucro Total"
+          }
+        }
+      }
+    },
+    "Total ROI" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ROI Total"
+          }
+        }
+      }
+    },
+    "Total Winnings" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ganhos Totais"
+          }
+        }
+      }
+    },
+    "Tournament" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Torneio"
+          }
+        }
+      }
+    },
+    "Tournament Notes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notas do Torneio"
+          }
+        }
+      }
+    },
+    "Tournament Payout" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagamento do Torneio"
+          }
+        }
+      }
+    },
+    "Tournament Profit" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lucro do Torneio"
+          }
+        }
+      }
+    },
+    "Tournament Report" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Relatório do Torneio"
+          }
+        }
+      }
+    },
+    "Tournament ROI" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ROI do Torneio"
+          }
+        }
+      }
+    },
+    "Tournament Winnings" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Premiações de Torneios"
+          }
+        }
+      }
+    },
+    "Tournaments" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Torneios"
+          }
+        }
+      }
+    },
+    "Try Left Pocket Pro" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Experimente o Left Pocket Pro"
+          }
+        }
+      }
+    },
+    "Turbo" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turbo"
+          }
+        }
+      }
+    },
+    "Type" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tipo"
+          }
+        }
+      }
+    },
+    "Type here..." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite aqui..."
+          }
+        }
+      }
+    },
+    "Uh oh!" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ah, não!"
+          }
+        }
+      }
+    },
+    "Uh Oh!" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ah, não!"
+          }
+        }
+      }
+    },
+    "Uh oh! There was a problem." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ah, não! Ocorreu um problema."
+          }
+        }
+      }
+    },
+    "Under \"Text Encoding,\" choose Unicode (UTF-8) from the menu." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em \"Codificação de texto\", escolha Unicode (UTF-8) no menu."
+          }
+        }
+      }
+    },
+    "Unsupported" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não Compatível"
+          }
+        }
+      }
+    },
+    "Update Session Details" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atualizar Detalhes da Sessão"
+          }
+        }
+      }
+    },
+    "Upgrade to Pro" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atualizar para Pro"
+          }
+        }
+      }
+    },
+    "Use System Display" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar Exibição do Sistema"
+          }
+        }
+      }
+    },
+    "Use Tags to group like Sessions together. For example, \"100 Hr. Bankroll Challenge\" or, \"Vegas Trip 2024.\"" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use etiquetas para agrupar sessões semelhantes. Por exemplo, \"Desafio de 100 horas de Dinheiro atual\" ou \"Viagem a Las Vegas 2024\"."
+          }
+        }
+      }
+    },
+    "Use the pickers below to filter your Sessions by a specific date range & then press Submit." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use os seletores abaixo para filtrar suas Sessões por um intervalo de datas específico e pressione Enviar."
+          }
+        }
+      }
+    },
+    "Use the sliders below to input your own stakes. Press Save Stakes & they'll be added to the list of available stakes when logging your cash sessions." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use os controles deslizantes abaixo para inserir suas próprias apostas. Clique em \"Salvar Apostas\" e elas serão adicionadas à lista de apostas disponíveis ao registrar suas sessões de dinheiro."
+          }
+        }
+      }
+    },
+    "Use this screen if you want to manage separate bankrolls. For example, you may have a different bankroll for tracking online poker." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use esta tela se quiser gerenciar dinheiro atual separados. Por exemplo, você pode ter um dinheiro atual diferente para acompanhar o pôquer online."
+          }
+        }
+      }
+    },
+    "Using Left Pocket" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usando o Left Pocket"
+          }
+        }
+      }
+    },
+    "Using Meditations" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usando Meditações"
+          }
+        }
+      }
+    },
+    "Using System Display will override Dark Mode and use your current device preferences." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar a Tela do Sistema substituirá o Modo Escuro e usará as preferências atuais do seu dispositivo."
+          }
+        }
+      }
+    },
+    "Using This Table" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usando esta Tabela"
+          }
+        }
+      }
+    },
+    "Value" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valor"
+          }
+        }
+      }
+    },
+    "View your " : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veja o seu"
+          }
+        }
+      }
+    },
+    "Wait! Are You Sure?" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espere! Tem certeza?"
+          }
+        }
+      }
+    },
+    "We need to ask a few questions to customize your experience." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Precisamos fazer algumas perguntas para personalizar sua experiência."
+          }
+        }
+      }
+    },
+    "We've got your back! Get subtle reminders to stretch, hydrate, and avoid tilt." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estamos aqui para ajudar! Receba lembretes sutis para alongar, hidratar e evitar inclinações."
+          }
+        }
+      }
+    },
+    "Week" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semana"
+          }
+        }
+      }
+    },
+    "Weekday Statistics" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estatísticas dos dias da semana"
+          }
+        }
+      }
+    },
+    "Weekly Volume" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volume Semanal"
+          }
+        }
+      }
+    },
+    "WELCOME TO LEFT POCKET" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BEM-VINDO AO LEFT POCKET"
+          }
+        }
+      }
+    },
+    "What is your primary focus with poker right now?" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qual é seu foco principal no pôquer atualmente?"
+          }
+        }
+      }
+    },
+    "What's New in Left Pocket" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que há de novo no Left Pocket"
+          }
+        }
+      }
+    },
+    "When finished, press the %@ button, enter the details from your Session, & jot down any notes into the Notes field" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando terminar, pressione o botão %@, insira os detalhes da sua sessão e anote as notas no campo Notas."
+          }
+        }
+      }
+    },
+    "When logging Multi-Day Tournaments, ensure start and end times do not overlap. Check your selections and try again." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao registrar torneios de vários dias, certifique-se de que os horários de início e término não se sobreponham. Verifique suas seleções e tente novamente."
+          }
+        }
+      }
+    },
+    "When logging Multi-Day Tournaments, you need to enter at least two start & end times. Tap the green checkmark when complete." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao registrar Torneios de Vários Dias, você precisa inserir pelo menos dois horários de início e término. Toque na marca de seleção verde ao concluir."
+          }
+        }
+      }
+    },
+    "When offering staking, you need to complete both the name & the percent field." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao oferecer staking, você precisa preencher tanto o nome quanto o campo de porcentagem."
+          }
+        }
+      }
+    },
+    "When playing a Tournament, your Rebuy must be equal to your initial Buy In." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao jogar um torneio, sua recompra deve ser igual ao seu preço da entrada inicial."
+          }
+        }
+      }
+    },
+    "Widgets" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgets"
+          }
+        }
+      }
+    },
+    "Widgets are available to all users and come in two sizes for your Home Screen – small or medium. The Left Pocket widget provides a glance at your profit chart, along with some key player stats.\n\nTo activate widgets:" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os widgets estão disponíveis para todos os usuários e vêm em dois tamanhos para a sua Tela Inicial: pequeno ou médio. O widget do Bolso Esquerdo oferece uma visão geral do seu gráfico de lucros, juntamente com algumas estatísticas importantes dos jogadores.\n\nPara ativar os widgets:"
+          }
+        }
+      }
+    },
+    "Win Ratio" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proporção de Vitórias"
+          }
+        }
+      }
+    },
+    "Winnings" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ganhos"
+          }
+        }
+      }
+    },
+    "Withdrawal" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "a Retirada"
+          }
+        }
+      }
+    },
+    "Year Filter" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtro de Ano"
+          }
+        }
+      }
+    },
+    "Yes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sim"
+          }
+        }
+      }
+    },
+    "You can also add an image from your iOS Photo Library" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você também pode adicionar uma imagem da sua biblioteca de fotos do iOS"
+          }
+        }
+      }
+    },
+    "You can filter your Sessions by cash or tournaments, location, stakes, game type, and by date range" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você pode filtrar suas sessões por dinheiro ou torneios, localização, apostas, tipo de jogo e intervalo de datas"
+          }
+        }
+      }
+    },
+    "You can skip this step, and import data later from a different bankroll tracker." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você pode pular esta etapa e importar dados mais tarde de um rastreador de dinheiro atual diferente."
+          }
+        }
+      }
+    },
+    "You have access to detailed reports on an annual basis, monthly, by location, game stakes, & a tournament report" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você tem acesso a relatórios detalhados anuais, mensais, por localização, apostas de jogo e um relatório de torneio"
+          }
+        }
+      }
+    },
+    "You logged %@ of meditation minutes today. Continue doing this before you play poker and keep working to improve your focus & headspace.\n" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você registrou %@ minutos de meditação hoje. Continue praticando isso antes de jogar pôquer e continue se esforçando para melhorar seu foco e sua mente."
+          }
+        }
+      }
+    },
+    "You perform the best between %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você tem o melhor desempenho entre %@"
+          }
+        }
+      }
+    },
+    "You'll find charts and graphs throughout the app, most notably in the Dashboard view, the Metrics view, your Annual Report, and on the iOS Home Screen widget." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você encontrará gráficos e tabelas em todo o aplicativo, principalmente na visualização do Painel, na visualização de Métricas, no seu Relatório Anual e no widget da Tela Inicial do iOS."
+          }
+        }
+      }
+    },
+    "You've entered an invalid character. Please try again." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você digitou um caractere inválido. Tente novamente."
+          }
+        }
+      }
+    },
+    "You've played %lld Session%@ this month" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You've played %1$lld Session%2$@ this month"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você jogou %1$lld Session%2$@ este mês"
+          }
+        }
+      }
+    },
+    "You've selected the staking option but no stakers found. Make sure to press the + button next to staker's name after entering their info." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você selecionou a opção de staking, mas nenhum staker foi encontrado. Certifique-se de pressionar o botão + ao lado do nome do staker após inserir as informações."
+          }
+        }
+      }
+    },
+    "Your End Time cannot precede the Start Time." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu Horário de Término não pode preceder o Horário de Início."
+          }
+        }
+      }
+    },
+    "Your Finish" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu acabamento"
+          }
+        }
+      }
+    },
+    "Your finish must be lower than the number of Entrants." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sua pontuação deve ser menor que o número de inscritos."
+          }
+        }
+      }
+    },
+    "Your Session duration must exceed one minute." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A duração da sua sessão deve exceder um minuto."
+          }
+        }
+      }
+    },
+    "Your Weekday Data" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seus dados da semana"
+          }
+        }
+      }
+    },
+    "YTD" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "YTD"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

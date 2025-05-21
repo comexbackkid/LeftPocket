@@ -36,6 +36,8 @@
 		7C1C14DF2DCD1C9A0079EAA3 /* HealthKitErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1C14DE2DCD1C9A0079EAA3 /* HealthKitErrors.swift */; };
 		7C1DF2B52CC6D63100E3D69E /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1DF2B42CC6D63100E3D69E /* AudioManager.swift */; };
 		7C20CFB2271E2D1600739764 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20CFB1271E2D1600739764 /* OnboardingView.swift */; };
+		7C20F5C22DDDF34900D37E42 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7C20F5C12DDDF34900D37E42 /* Localizable.xcstrings */; };
+		7C20F5C32DDDF34900D37E42 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7C20F5C12DDDF34900D37E42 /* Localizable.xcstrings */; };
 		7C23A4C328A3DEE100FB5604 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C23A4C228A3DEE100FB5604 /* AppGroup.swift */; };
 		7C23A4C428A3DEE100FB5604 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C23A4C228A3DEE100FB5604 /* AppGroup.swift */; };
 		7C25CB5327887D9200866511 /* CustomPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C25CB5227887D9200866511 /* CustomPicker.swift */; };
@@ -342,6 +344,7 @@
 		7C1C14DE2DCD1C9A0079EAA3 /* HealthKitErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitErrors.swift; sourceTree = "<group>"; };
 		7C1DF2B42CC6D63100E3D69E /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		7C20CFB1271E2D1600739764 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		7C20F5C12DDDF34900D37E42 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		7C23A4C028A3DB3600FB5604 /* LeftPocket.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LeftPocket.entitlements; sourceTree = "<group>"; };
 		7C23A4C128A3DB8200FB5604 /* LeftPocketWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LeftPocketWidgetExtension.entitlements; sourceTree = "<group>"; };
 		7C23A4C228A3DEE100FB5604 /* AppGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
@@ -910,6 +913,7 @@
 		7C63948926C14E8300939F40 = {
 			isa = PBXGroup;
 			children = (
+				7C20F5C12DDDF34900D37E42 /* Localizable.xcstrings */,
 				7C63FC382B35EF1200FE731C /* StoreKitTestCertificate.cer */,
 				7C23A4C128A3DB8200FB5604 /* LeftPocketWidgetExtension.entitlements */,
 				7C23A4C028A3DB3600FB5604 /* LeftPocket.entitlements */,
@@ -1281,6 +1285,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"pt-BR",
 			);
 			mainGroup = 7C63948926C14E8300939F40;
 			packageReferences = (
@@ -1320,6 +1325,7 @@
 				7CAFE0522B2CAC1B00B7338D /* Asap-SemiBoldItalic.ttf in Resources */,
 				7CAFE04E2B2CAC1B00B7338D /* Asap-LightItalic.ttf in Resources */,
 				7C1587FA28A2DD5E00B11F77 /* Assets.xcassets in Resources */,
+				7C20F5C22DDDF34900D37E42 /* Localizable.xcstrings in Resources */,
 				7CAFE01D2B2CA9E300B7338D /* AsapCondensed-Italic.ttf in Resources */,
 				7CAFE0212B2CA9E300B7338D /* OFL.txt in Resources */,
 				7CAFE0152B2CA9E300B7338D /* AsapCondensed-BoldItalic.ttf in Resources */,
@@ -1379,6 +1385,7 @@
 				7CDE39C12CE6991F006C3391 /* beach.mp3 in Resources */,
 				7CDE39C22CE6991F006C3391 /* city.mp3 in Resources */,
 				7CDE39C32CE6991F006C3391 /* snow.mp3 in Resources */,
+				7C20F5C32DDDF34900D37E42 /* Localizable.xcstrings in Resources */,
 				7CDE39C42CE6991F006C3391 /* forest.mp3 in Resources */,
 				7CAFE0082B2CA9E300B7338D /* AsapCondensed-LightItalic.ttf in Resources */,
 				7CAFE01E2B2CA9E300B7338D /* AsapCondensed-Medium.ttf in Resources */,
@@ -1735,6 +1742,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1791,6 +1799,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};

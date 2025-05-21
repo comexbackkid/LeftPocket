@@ -162,7 +162,7 @@ struct UserSettings: View {
                         hideBankroll.toggle()
                     })
                     
-                    Text("Hide your bankroll in your Dasbhoard to conceal sensitive information.")
+                    Text("Hide your bankroll in your Dashboard to conceal sensitive information.")
                         .calloutStyle()
                         .opacity(0.8)
                         .padding(.top, 1)
@@ -637,5 +637,6 @@ struct UserSettings_Previews: PreviewProvider {
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
             .preferredColorScheme(.dark)
+            .environment(\.locale, Locale(identifier: "PT"))
     }
 }
