@@ -152,6 +152,7 @@ class TimerViewModel: ObservableObject {
         initialBuyInAmount = UserDefaults.standard.string(forKey: "initialBuyInAmount") ?? ""
         totalRebuys = UserDefaults.standard.array(forKey: "totalRebuys") as? [Int] ?? []
         notes = UserDefaults.standard.stringArray(forKey: "liveSessionNotes") ?? []
+        moodLabelRaw = UserDefaults.standard.integer(forKey: "liveSessionMood")
     }
     
     @objc func fileAccessAvailable() {
@@ -204,6 +205,7 @@ class TimerViewModel: ObservableObject {
         UserDefaults.standard.set(initialBuyInAmount, forKey: "initialBuyInAmount")
         UserDefaults.standard.set(totalRebuys, forKey: "totalRebuys")
         UserDefaults.standard.set(notes, forKey: "liveSessionNotes")
+        UserDefaults.standard.set(moodLabelRaw, forKey: "liveSessionMood")
         startUpdatingTimer()
         scheduleStandardUserNotifications()
     }
@@ -267,6 +269,7 @@ class TimerViewModel: ObservableObject {
         UserDefaults.standard.removeObject(forKey: "isPaused")
         UserDefaults.standard.removeObject(forKey: "totalPausedTime")
         UserDefaults.standard.removeObject(forKey: "pauseStartTime")
+        UserDefaults.standard.removeObject(forKey: "liveSessionMood")
         cancelUserNotifications()
     }
     
@@ -286,6 +289,7 @@ class TimerViewModel: ObservableObject {
         UserDefaults.standard.removeObject(forKey: "initialBuyInAmount")
         UserDefaults.standard.removeObject(forKey: "totalRebuys")
         UserDefaults.standard.removeObject(forKey: "liveSessionNotes")
+        UserDefaults.standard.removeObject(forKey: "liveSessionMood")
     }
     
     func addInitialBuyIn(_ amount: String, mood: Int? = nil) {

@@ -1908,7 +1908,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Modo escuro"
+            "value" : "Modo Escuro"
           }
         }
       }
@@ -1918,7 +1918,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Layout do painel"
+            "value" : "Layout do Painel"
           }
         }
       }
@@ -2128,7 +2128,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Suporte por e-mail"
+            "value" : "Suporte por E-mail"
           }
         }
       }
@@ -2674,11 +2674,22 @@
       }
     },
     "Hide your bankroll in your Dasbhoard to conceal sensitive information." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Esconda seu dinheiro atual no seu Dashboard para ocultar informações confidenciais."
+          }
+        }
+      }
+    },
+    "Hide your bankroll in your Dashboard to conceal sensitive information." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esconda seu dinheiro atual no seu Painel para ocultar informações confidenciais."
           }
         }
       }
@@ -2798,7 +2809,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Guia prático"
+            "value" : "Guia Prático"
           }
         }
       }
@@ -3144,7 +3155,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deixe um comentário"
+            "value" : "Deixe um Comentário"
           }
         }
       }
@@ -3404,7 +3415,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gerenciar dados"
+            "value" : "Gerenciar Dados"
           }
         }
       }
@@ -3414,7 +3425,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gerenciar locais"
+            "value" : "Gerenciar Locais"
           }
         }
       }
@@ -4464,7 +4475,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notificações push"
+            "value" : "Notificações Push"
           }
         }
       }
@@ -4524,7 +4535,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Resgatar código de oferta"
+            "value" : "Resgatar Código de Oferta"
           }
         }
       }
@@ -4794,7 +4805,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Padrões de sessão"
+            "value" : "Padrões de Sessão"
           }
         }
       }
