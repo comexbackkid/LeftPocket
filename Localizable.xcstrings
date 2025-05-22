@@ -2503,6 +2503,9 @@
         }
       }
     },
+    "Feeling Stuck?" : {
+
+    },
     "Filter by Year" : {
       "localizations" : {
         "pt-BR" : {
@@ -4700,6 +4703,9 @@
         }
       }
     },
+    "Redeem 10% OFF" : {
+
+    },
     "Redeem Offer Code" : {
       "localizations" : {
         "pt-BR" : {
@@ -6055,6 +6061,9 @@
           }
         }
       }
+    },
+    "Try CORE by Red Chip Poker, the most comprehensive A-Z poker course ever created." : {
+
     },
     "Try Left Pocket Pro" : {
       "localizations" : {

@@ -515,6 +515,6 @@ struct ContentView_Previews: PreviewProvider {
             .environmentObject(SubscriptionManager())
             .environmentObject(HealthKitManager())
             .preferredColorScheme(.dark)
-            .environment(\.locale, Locale(identifier: "PT"))
+//            .environment(\.locale, Locale(identifier: "PT"))
     }
 }

@@ -40,6 +40,7 @@ struct LeftPocketCustomTabBar: View {
     @State private var showSessionDefaultsView = false
     @State private var playbackMode = LottiePlaybackMode.paused(at: .progress(0))
     @State private var isAnimating = false
+    @State private var showPromoModal = false
     
     let addSessionTip = AddSessionTip()
     var isCounting: Bool { timerViewModel.isCounting }
@@ -122,6 +123,12 @@ struct LeftPocketCustomTabBar: View {
                     isAnimating = true
                 }
         }
+        .sheet(isPresented: $showPromoModal) {
+            PromoModal(message: "Try CORE by Red Chip Poker, the most comprehensive A-Z poker course ever created.", image: "rcp-logo")
+                .presentationDragIndicator(.visible)
+                .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
+                .presentationDetents([.height(350)])
+        }
     }
     
     var tabBar: some View {
@@ -190,6 +197,9 @@ struct LeftPocketCustomTabBar: View {
             timerViewModel.resetTimer()
             if audioConfirmation {
                 playSound()
+            }
+            if viewModel.winStreak() < -2 {
+                showPromoModal = true
             }
         }, content: {
             if isPad {
@@ -434,6 +444,6 @@ struct LeftPocketCustomTabBar_Previews: PreviewProvider {
             .environmentObject(SubscriptionManager())
             .environmentObject(QAService())
             .preferredColorScheme(.dark)
-            .environment(\.locale, Locale(identifier: "PT"))
+//            .environment(\.locale, Locale(identifier: "PT"))
     }
 }

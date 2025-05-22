@@ -38,6 +38,7 @@
 		7C20CFB2271E2D1600739764 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20CFB1271E2D1600739764 /* OnboardingView.swift */; };
 		7C20F5C22DDDF34900D37E42 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7C20F5C12DDDF34900D37E42 /* Localizable.xcstrings */; };
 		7C20F5C32DDDF34900D37E42 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7C20F5C12DDDF34900D37E42 /* Localizable.xcstrings */; };
+		7C20F5C82DDF8E3F00D37E42 /* PromoModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C20F5C72DDF8E3F00D37E42 /* PromoModal.swift */; };
 		7C23A4C328A3DEE100FB5604 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C23A4C228A3DEE100FB5604 /* AppGroup.swift */; };
 		7C23A4C428A3DEE100FB5604 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C23A4C228A3DEE100FB5604 /* AppGroup.swift */; };
 		7C25CB5327887D9200866511 /* CustomPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C25CB5227887D9200866511 /* CustomPicker.swift */; };
@@ -345,6 +346,7 @@
 		7C1DF2B42CC6D63100E3D69E /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		7C20CFB1271E2D1600739764 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		7C20F5C12DDDF34900D37E42 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		7C20F5C72DDF8E3F00D37E42 /* PromoModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoModal.swift; sourceTree = "<group>"; };
 		7C23A4C028A3DB3600FB5604 /* LeftPocket.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LeftPocket.entitlements; sourceTree = "<group>"; };
 		7C23A4C128A3DB8200FB5604 /* LeftPocketWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LeftPocketWidgetExtension.entitlements; sourceTree = "<group>"; };
 		7C23A4C228A3DEE100FB5604 /* AppGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
@@ -830,6 +832,7 @@
 				7CEB761E26D9A77E006170EF /* Alerts.swift */,
 				7CDB04802776141C008C5233 /* AppReviewRequest.swift */,
 				7C13FDEF2BF4D07600497DF5 /* AlertModal.swift */,
+				7C20F5C72DDF8E3F00D37E42 /* PromoModal.swift */,
 			);
 			path = Alerts;
 			sourceTree = "<group>";
@@ -1457,6 +1460,7 @@
 				7CB587362D4287C600BCE642 /* MigrationHandler.swift in Sources */,
 				7C13FDF02BF4D07600497DF5 /* AlertModal.swift in Sources */,
 				7CD2B1582C1BB5B300A90C79 /* PopoverView.swift in Sources */,
+				7C20F5C82DDF8E3F00D37E42 /* PromoModal.swift in Sources */,
 				7CB3EB9D26C3093D009E8DF3 /* CellView.swift in Sources */,
 				7C3EF3E52C64E5D700835467 /* EditSession.swift in Sources */,
 				7C18FC152D9ADECF00E837AE /* ManageBankrolls.swift in Sources */,

@@ -849,7 +849,6 @@ struct AddNewSessionView: View {
                 HStack {
                     Text(vm.userCurrency.symbol)
                         .font(.callout)
-                        .font(.callout)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
                         .frame(width: 15)
