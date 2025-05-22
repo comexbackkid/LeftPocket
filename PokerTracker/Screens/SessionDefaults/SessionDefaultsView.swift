@@ -24,7 +24,7 @@ struct SessionDefaultsView: View {
     @State var size = ""
     @State var currency: CurrencyType = .USD
     @State var handsPerHour: Int = 25
-    @State var resultMessage: String = ""
+    @State var resultMessage: LocalizedStringResource = ""
     @State var errorMessage: String?
     @State var showAlertModal = false
     @State var addStakesIsShowing = false

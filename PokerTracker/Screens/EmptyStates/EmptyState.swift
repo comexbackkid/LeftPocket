@@ -9,7 +9,7 @@ import SwiftUI
 
 struct EmptyState: View {
     
-    let title: String
+    let title: LocalizedStringResource
     
     var body: some View {
         

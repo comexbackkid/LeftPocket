@@ -133,7 +133,7 @@ struct LiveSessionCounter: View {
                     .minimumScaleFactor(0.9)
             }
             
-            if let location {
+            if let location = location, !location.name.isEmpty {
                 Text(location.name.isEmpty ? "Location Not Selected" : location.name)
                     .captionStyle()
                     .lineLimit(1)
@@ -300,4 +300,5 @@ struct LiveSessionCounter: View {
 #Preview {
     LiveSessionCounter(timerViewModel: TimerViewModel())
         .preferredColorScheme(.dark)
+//        .environment(\.locale, Locale(identifier: "PT"))
 }

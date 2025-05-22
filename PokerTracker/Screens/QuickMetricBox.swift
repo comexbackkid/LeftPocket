@@ -11,7 +11,7 @@ struct QuickMetricBox: View {
     
     @Environment(\.colorScheme) var colorScheme
     
-    let title: String
+    let title: LocalizedStringResource
     let metric: String
     let percentageChange: Double
     

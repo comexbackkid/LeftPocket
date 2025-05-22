@@ -221,5 +221,6 @@ struct ImportView_Previews: PreviewProvider {
     static var previews: some View {
         ImportView()
             .preferredColorScheme(.dark)
+            .environment(\.locale, Locale(identifier: "PT"))
     }
 }

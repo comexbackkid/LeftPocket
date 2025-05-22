@@ -478,7 +478,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "$"
+            "value" : "R$"
           }
         }
       }
@@ -998,7 +998,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adicionar uma sessão"
+            "value" : "Adicionar uma Sessão"
           }
         }
       }
@@ -1018,7 +1018,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adicionar sessão concluída"
+            "value" : "Adicionar Sessão Concluída"
           }
         }
       }
@@ -1028,7 +1028,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adicionar jogo"
+            "value" : "Adicionar Jogo"
           }
         }
       }
@@ -1038,7 +1038,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adicionar local"
+            "value" : "Adicionar Local"
           }
         }
       }
@@ -1048,7 +1048,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adicionar novo local"
+            "value" : "Adicionar Novo Local"
           }
         }
       }
@@ -1058,7 +1058,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adicionar nota"
+            "value" : "Adicionar Nota"
           }
         }
       }
@@ -1068,7 +1068,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adicionar recompra"
+            "value" : "Adicionar Recompra"
           }
         }
       }
@@ -1078,7 +1078,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adicione detalhes da sessão"
+            "value" : "Adicione Detalhes da Sessão"
           }
         }
       }
@@ -1088,7 +1088,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Adicionar valores de aposta"
+            "value" : "Adicionar Valores de aposta"
           }
         }
       }
@@ -1129,6 +1129,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Todos"
+          }
+        }
+      }
+    },
+    "All Sessions" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas as Sessões"
+          }
+        }
+      }
+    },
+    "All sessions imported successfully." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas as sessões importadas com sucesso."
+          }
+        }
+      }
+    },
+    "All Transactions" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas as Transacções"
           }
         }
       }
@@ -1298,7 +1328,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "preço da entrada média"
+            "value" : "Preço da Entrada média"
           }
         }
       }
@@ -1329,6 +1359,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ROI médio"
+          }
+        }
+      }
+    },
+    "Avg. Session Profit" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lucro Médio da Sessão"
           }
         }
       }
@@ -1448,7 +1488,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Melhor localização"
+            "value" : "Melhor Localização"
           }
         }
       }
@@ -1458,7 +1498,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "aposta grande"
+            "value" : "Aposta grande"
           }
         }
       }
@@ -1468,7 +1508,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "aposta grande / Hr"
+            "value" : "Aposta grande / Hr"
           }
         }
       }
@@ -1548,7 +1588,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "intervolos"
+            "value" : "Intervolos"
           }
         }
       }
@@ -1588,7 +1628,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "preço da entrada"
+            "value" : "Preço da entrada"
           }
         }
       }
@@ -1598,7 +1638,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "preços da entrada"
+            "value" : "Preços da entrada"
           }
         }
       }
@@ -1858,7 +1898,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Locais personalizados"
+            "value" : "Locais Personalizados"
           }
         }
       }
@@ -1919,6 +1959,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Layout do Painel"
+          }
+        }
+      }
+    },
+    "Dashboard layout saved successfully." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Layout do painel salvo com sucesso."
           }
         }
       }
@@ -2018,7 +2068,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Excluir local"
+            "value" : "Excluir Local"
           }
         }
       }
@@ -2118,7 +2168,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Editar sessões"
+            "value" : "Editar Sessões"
           }
         }
       }
@@ -2149,6 +2199,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ative as permissões de saúde para ver seus dados de sono. Deslize para a esquerda ou direita no gráfico para navegar."
+          }
+        }
+      }
+    },
+    "Enable Multiple Bankrolls" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Habilitar Múltiplos Dinheiro Actuales"
+          }
+        }
+      }
+    },
+    "Enable Notfications" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Habilitar Notificações"
           }
         }
       }
@@ -2198,7 +2268,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Digite preço da entrada"
+            "value" : "Digite Preço da Entrada"
           }
         }
       }
@@ -2393,6 +2463,16 @@
         }
       }
     },
+    "Export Results" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resultados da Exportação"
+          }
+        }
+      }
+    },
     "Export Sessions" : {
       "localizations" : {
         "pt-BR" : {
@@ -2449,6 +2529,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Encontre o estado de espírito certo antes de se sentar à mesa de pôquer em apenas 5 minutos."
+          }
+        }
+      }
+    },
+    "Finish" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminar"
+          }
+        }
+      }
+    },
+    "First session in the books! Consider sharing your progress with friends – accountability increases our chance of success by 65%!" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Primeira sessão salva! Considere compartilhar seu progresso com os amigos - a responsabilidade aumenta nossa chance de sucesso em 65%!"
           }
         }
       }
@@ -2729,7 +2829,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "De hora em hora"
+            "value" : "Taxa Horária"
           }
         }
       }
@@ -2884,12 +2984,22 @@
         }
       }
     },
+    "Import CSV Data" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importar Dados CSV"
+          }
+        }
+      }
+    },
     "Import Data" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Importar dados"
+            "value" : "Importar Dados"
           }
         }
       }
@@ -3095,7 +3205,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "valores de aposta Inválida"
+            "value" : "Valores de aposta Inválida"
           }
         }
       }
@@ -3325,7 +3435,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nome do local"
+            "value" : "Nome do Local"
           }
         }
       }
@@ -3335,7 +3445,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Local não selecionado"
+            "value" : "Local não Selecionado"
           }
         }
       }
@@ -3345,7 +3455,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Estatísticas de localização"
+            "value" : "Estatísticas de Localização"
           }
         }
       }
@@ -3366,6 +3476,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Os locais também podem ser adicionados diretamente na tela Nova Sessão, tocando no menu suspenso de locais."
+          }
+        }
+      }
+    },
+    "Log Your Mood" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registre seu Humor"
           }
         }
       }
@@ -3540,6 +3660,16 @@
         }
       }
     },
+    "Monthly Profit" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lucro Mensal"
+          }
+        }
+      }
+    },
     "Monthly Snapshot" : {
       "localizations" : {
         "pt-BR" : {
@@ -3645,7 +3775,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Meus locais"
+            "value" : "Meus Locais"
           }
         }
       }
@@ -3655,7 +3785,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Meus relatórios"
+            "value" : "Meus Relatórios"
           }
         }
       }
@@ -3705,7 +3835,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Novo local"
+            "value" : "Novo Local"
           }
         }
       }
@@ -3715,7 +3845,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nova nota"
+            "value" : "Nova Nota"
           }
         }
       }
@@ -3725,7 +3855,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nova sessão"
+            "value" : "Nova Sessão"
           }
         }
       }
@@ -3735,7 +3865,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nova valores de aposta"
+            "value" : "Nova Valores de aposta"
           }
         }
       }
@@ -3785,7 +3915,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sem locais"
+            "value" : "Sem Locais"
           }
         }
       }
@@ -3805,7 +3935,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sem seleção"
+            "value" : "Sem Seleção"
           }
         }
       }
@@ -3815,7 +3945,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sem sessões"
+            "value" : "Sem Sessões"
           }
         }
       }
@@ -3846,6 +3976,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Não, obrigado, pule para o final"
+          }
+        }
+      }
+    },
+    "No Transactions" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhuma Transação"
           }
         }
       }
@@ -3950,12 +4090,42 @@
         }
       }
     },
+    "Notifications Allowed" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notificações Permitidas"
+          }
+        }
+      }
+    },
+    "Notifications successfully enabled." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notificações ativadas com sucesso."
+          }
+        }
+      }
+    },
     "of mindfulness added" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "de atenção plena adicionada"
+          }
+        }
+      }
+    },
+    "Offer code redeemed successfully! Enjoy Left Pocket Pro." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Código de oferta resgatado com sucesso! Desfrute de Left Pocket Pro."
           }
         }
       }
@@ -4425,7 +4595,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lucro por valores de aposta"
+            "value" : "Lucro por Valores de aposta"
           }
         }
       }
@@ -4435,7 +4605,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lucro por 100 mãos"
+            "value" : "Lucro por 100 Mãos"
           }
         }
       }
@@ -4445,7 +4615,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lucro por sessão"
+            "value" : "Lucro por Sessão"
           }
         }
       }
@@ -4630,12 +4800,102 @@
         }
       }
     },
+    "Save" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvar"
+          }
+        }
+      }
+    },
+    "Save Bankroll" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvar Dinheiro Actual"
+          }
+        }
+      }
+    },
+    "Save Changes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvar Alterações"
+          }
+        }
+      }
+    },
+    "Save Game" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvar Jogo"
+          }
+        }
+      }
+    },
+    "Save Layout" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvar Layout"
+          }
+        }
+      }
+    },
+    "Save Location" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvar Localização"
+          }
+        }
+      }
+    },
+    "Save Note" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvar Nota"
+          }
+        }
+      }
+    },
     "Save or upload the CSV file to your iCloud Drive in UTF-8 format." : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Salve ou carregue o arquivo CSV no seu iCloud Drive no formato UTF-8."
+          }
+        }
+      }
+    },
+    "Save Session" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvar Sessão"
+          }
+        }
+      }
+    },
+    "Save Stakes" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvar Valores de Aposta"
           }
         }
       }
@@ -4666,6 +4926,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Salve este novo arquivo em uma pasta no seu iCloud Drive."
+          }
+        }
+      }
+    },
+    "Save Transaction" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvar Transação"
           }
         }
       }
@@ -4735,7 +5005,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Selecione o local"
+            "value" : "Selecione o Local"
           }
         }
       }
@@ -4755,7 +5025,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Selecione o valores de aposta"
+            "value" : "Selecione o Valores de aposta"
           }
         }
       }
@@ -4810,6 +5080,26 @@
         }
       }
     },
+    "Session Defaults have been saved." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os Padrões de sessão foram salvos."
+          }
+        }
+      }
+    },
+    "Session Defaults reset." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Padrões de Sessão Redefinir."
+          }
+        }
+      }
+    },
     "Session Filter" : {
       "localizations" : {
         "pt-BR" : {
@@ -4825,7 +5115,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notas da sessão"
+            "value" : "Notas da Sessão"
           }
         }
       }
@@ -4846,6 +5136,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tipo de sessão"
+          }
+        }
+      }
+    },
+    "sessions" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sessões"
           }
         }
       }
@@ -5005,7 +5305,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "valores de aposta"
+            "value" : "Valores de aposta"
           }
         }
       }
@@ -5015,7 +5315,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Selecionador de valores de aposta"
+            "value" : "Selecionador de Valores de aposta"
           }
         }
       }
@@ -5116,6 +5416,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Valor Inicial"
+          }
+        }
+      }
+    },
+    "Submit" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar"
           }
         }
       }
@@ -5371,7 +5681,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toque para adicionar imagem"
+            "value" : "Toque para Adicionar Imagem"
           }
         }
       }
@@ -5736,6 +6046,16 @@
         }
       }
     },
+    "transactions" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transações"
+          }
+        }
+      }
+    },
     "Try Left Pocket Pro" : {
       "localizations" : {
         "pt-BR" : {
@@ -6091,7 +6411,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ao jogar um torneio, sua recompra deve ser igual ao seu preço da entrada inicial."
+            "value" : "Ao jogar um Torneio, sua recompra deve ser igual ao seu Preço da entrada inicial."
           }
         }
       }
@@ -6226,12 +6546,42 @@
         }
       }
     },
+    "You successfully deleted your data." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você excluiu seus dados com sucesso."
+          }
+        }
+      }
+    },
+    "You successfully restored your data." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você restaurou seus dados com sucesso."
+          }
+        }
+      }
+    },
     "You'll find charts and graphs throughout the app, most notably in the Dashboard view, the Metrics view, your Annual Report, and on the iOS Home Screen widget." : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você encontrará gráficos e tabelas em todo o aplicativo, principalmente na visualização do Painel, na visualização de Métricas, no seu Relatório Anual e no widget da Tela Inicial do iOS."
+          }
+        }
+      }
+    },
+    "You've enabled multiple bankrolls." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você ativou vários dinheiro actuales."
           }
         }
       }
@@ -6268,6 +6618,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você selecionou a opção de staking, mas nenhum staker foi encontrado. Certifique-se de pressionar o botão + ao lado do nome do staker após inserir as informações."
+          }
+        }
+      }
+    },
+    "Your data was exported successfully." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seus dados foram exportados com sucesso."
           }
         }
       }

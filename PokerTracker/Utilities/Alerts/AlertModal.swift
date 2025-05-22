@@ -12,11 +12,11 @@ struct AlertModal: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isAnimating = false
     
-    let message: String
+    let message: LocalizedStringResource
     let image: String?
     let imageColor: Color?
     
-    init(message: String, image: String? = nil, imageColor: Color? = nil) {
+    init(message: LocalizedStringResource, image: String? = nil, imageColor: Color? = nil) {
         self.message = message
         self.image = image
         self.imageColor = imageColor

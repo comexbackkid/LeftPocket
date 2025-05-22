@@ -472,7 +472,7 @@ struct SessionsListView: View {
     var startingScreen: some View {
         
         VStack {
-            var title: String {
+            var title: LocalizedStringResource {
                 switch listFilter {
                 case .sessions: "No Sessions"
                 case .transactions: "No Transactions"
@@ -491,7 +491,7 @@ struct SessionsListView: View {
     var screenTitle: some View {
         
         HStack (alignment: .center) {
-            Text(listFilter == .sessions ? sessionFilter.titleString : "All Transactions")
+            Text(listFilter.description)
                 .titleStyle()
             
             Spacer()
@@ -678,10 +678,10 @@ enum BankrollSelection: Hashable, RawRepresentable {
     }
 }
 
-enum ListFilter: String, CaseIterable {
+enum ListFilter: LocalizedStringResource, CaseIterable {
     case sessions, transactions
     
-    var description: String {
+    var description: LocalizedStringResource {
         switch self {
         case .sessions: return "All Sessions"
         case .transactions: return "All Transactions"
@@ -695,5 +695,6 @@ struct SessionsView_Previews: PreviewProvider {
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
             .preferredColorScheme(.dark)
+//            .environment(\.locale, Locale(identifier: "PT"))
     }
 }

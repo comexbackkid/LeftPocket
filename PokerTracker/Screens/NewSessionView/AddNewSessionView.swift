@@ -1376,5 +1376,6 @@ struct AddNewSessionView_Previews: PreviewProvider {
             .environmentObject(SubscriptionManager())
             .environmentObject(TimerViewModel())
             .preferredColorScheme(.dark)
+//            .environment(\.locale, Locale(identifier: "PT"))
     }
 }

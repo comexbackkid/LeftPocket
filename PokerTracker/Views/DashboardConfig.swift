@@ -261,4 +261,5 @@ struct DashboardConfig: View {
 #Preview {
     DashboardConfig()
         .preferredColorScheme(.dark)
+//        .environment(\.locale, Locale(identifier: "PT"))
 }

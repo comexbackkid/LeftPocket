@@ -637,6 +637,6 @@ struct UserSettings_Previews: PreviewProvider {
             .environmentObject(SessionsListViewModel())
             .environmentObject(SubscriptionManager())
             .preferredColorScheme(.dark)
-            .environment(\.locale, Locale(identifier: "PT"))
+//            .environment(\.locale, Locale(identifier: "PT"))
     }
 }

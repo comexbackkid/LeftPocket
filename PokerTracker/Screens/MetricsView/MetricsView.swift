@@ -368,5 +368,6 @@ struct MetricsView_Previews: PreviewProvider {
             .environmentObject(SubscriptionManager())
             .environmentObject(HealthKitManager())
             .preferredColorScheme(.dark)
+            .environment(\.locale, Locale(identifier: "PT"))
     }
 }

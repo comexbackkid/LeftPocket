@@ -151,5 +151,6 @@ struct NewLocationView_Previews: PreviewProvider {
         NewLocationView(addLocationIsShowing: .constant(true))
             .environmentObject(SessionsListViewModel())
             .preferredColorScheme(.dark)
+//            .environment(\.locale, Locale(identifier: "PT"))
     }
 }

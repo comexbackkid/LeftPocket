@@ -434,5 +434,6 @@ struct LeftPocketCustomTabBar_Previews: PreviewProvider {
             .environmentObject(SubscriptionManager())
             .environmentObject(QAService())
             .preferredColorScheme(.dark)
+            .environment(\.locale, Locale(identifier: "PT"))
     }
 }

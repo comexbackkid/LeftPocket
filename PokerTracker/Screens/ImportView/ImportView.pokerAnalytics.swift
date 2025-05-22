@@ -16,7 +16,7 @@ struct PokerAnalyticsImportView: View {
     @State private var showFileImporter = false
     @State private var showAlertModal = false
     @State private var errorMessage: String?
-    @State private var showSuccessMessage = ""
+    @State private var showSuccessMessage: LocalizedStringResource = ""
     @State private var playbackMode = LottiePlaybackMode.paused(at: .progress(0))
     
     var body: some View {

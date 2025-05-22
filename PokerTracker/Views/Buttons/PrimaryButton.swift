@@ -9,10 +9,10 @@ import SwiftUI
 
 struct PrimaryButton: View {
     
-    let title: String
+    let title: LocalizedStringResource
     let color: Color?
     
-    init(title: String, color: Color? = nil) {
+    init(title: LocalizedStringResource, color: Color? = nil) {
         self.title = title
         self.color = color
     }
@@ -34,5 +34,6 @@ struct PrimaryButton_Previews: PreviewProvider {
     static var previews: some View {
         PrimaryButton(title: "Primary Button")
             .previewLayout(.sizeThatFits)
+            .environment(\.locale, Locale(identifier: "PT"))
     }
 }
