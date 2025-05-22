@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PopoverView: View {
     
-    let bodyText: String
+    let bodyText: LocalizedStringResource
     
     var body: some View {
         

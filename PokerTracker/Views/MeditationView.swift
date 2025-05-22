@@ -105,7 +105,7 @@ struct MeditationView: View {
         
         VStack (spacing: 0) {
             
-            Text(meditation.title)
+            Text(LocalizedStringResource(stringLiteral: meditation.title))
                 .font(.custom("Asap-Black", size: 34))
                 .bold()
                 .foregroundStyle(.white)
@@ -309,4 +309,5 @@ struct MeditationView: View {
     MeditationView(passedMeditation: .constant(.forest), meditation: Meditation.forest)
         .environmentObject(HealthKitManager())
         .preferredColorScheme(.dark)
+//        .environment(\.locale, Locale(identifier: "PT"))
 }

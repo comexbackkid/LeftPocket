@@ -186,7 +186,7 @@ struct SessionDetailView: View {
                 
                 Text(pokerSession.playingTIme)
                     .font(.custom("Asap-Bold", size: 22))
-                    .minimumScaleFactor(0.9)
+                    .minimumScaleFactor(0.8)
                     .lineLimit(1)
 
             }
@@ -208,7 +208,7 @@ struct SessionDetailView: View {
                 Text(pokerSession.profit.currencyShortHand(vm.userCurrency))
                     .profitColor(total: pokerSession.profit)
                     .font(.custom("Asap-Bold", size: 22))
-                    .minimumScaleFactor(0.9)
+                    .minimumScaleFactor(0.8)
                     .lineLimit(1)
                 
             }
@@ -230,7 +230,7 @@ struct SessionDetailView: View {
                 Text(pokerSession.hourlyRate.axisShortHand(vm.userCurrency))
                     .profitColor(total: pokerSession.hourlyRate)
                     .font(.custom("Asap-Bold", size: 22))
-                    .minimumScaleFactor(0.9)
+                    .minimumScaleFactor(0.8)
                     .lineLimit(1)
             }
            
@@ -260,7 +260,7 @@ struct SessionDetailView: View {
                 
                 Text(pokerSession.playingTIme)
                     .font(.custom("Asap-Bold", size: 22))
-                    .minimumScaleFactor(0.9)
+                    .minimumScaleFactor(0.8)
                     .lineLimit(1)
                 
             }
@@ -282,7 +282,7 @@ struct SessionDetailView: View {
                 Text(pokerSession.profit.currencyShortHand(vm.userCurrency))
                     .profitColor(total: pokerSession.profit)
                     .font(.custom("Asap-Bold", size: 22))
-                    .minimumScaleFactor(0.9)
+                    .minimumScaleFactor(0.8)
                     .lineLimit(1)
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.3)
@@ -307,7 +307,7 @@ struct SessionDetailView: View {
                     Text("\(pokerSession.entrants ?? 0)")
                 }
                 .font(.custom("Asap-Bold", size: 22))
-                .minimumScaleFactor(0.9)
+                .minimumScaleFactor(0.8)
                 .lineLimit(1)
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.3)

@@ -11,13 +11,13 @@ struct AdditionalMetricsCardView: View {
     
     @Environment(\.colorScheme) var colorScheme
     
-    let title: String
+    let title: LocalizedStringResource
     let description: String
     let image: String
     let color: Color
     let premium: Bool?
     
-    init(title: String, description: String, image: String, color: Color, premium: Bool? = nil) {
+    init(title: LocalizedStringResource, description: String, image: String, color: Color, premium: Bool? = nil) {
         self.title = title
         self.description = description
         self.image = image
