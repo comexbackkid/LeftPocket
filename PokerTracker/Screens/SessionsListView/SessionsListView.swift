@@ -14,6 +14,7 @@ struct SessionsListView: View {
     @Environment(\.openURL) var openURL
     @AppStorage("viewStyle") var viewStyle: ViewStyle = .standard
     @AppStorage("redchipPromoPresentationCount") private var redchipPromoPresentationCount = 0
+    @AppStorage("hasClickedRedChipPromo") private var hasClickedRedChipPromo: Bool = false
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
     @State var activeSheet: Sheet?
@@ -119,7 +120,7 @@ struct SessionsListView: View {
                         List {
                             screenTitle
                             
-                            if redchipPromoPresentationCount >= 2 { promoLink }
+                            if redchipPromoPresentationCount >= 2, !hasClickedRedChipPromo { promoLink }
                             
                             ForEach(filteredSessions) { session in
                                 NavigationLink(destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session).onAppear(perform: {
@@ -288,6 +289,7 @@ struct SessionsListView: View {
         
         Button {
             
+            hasClickedRedChipPromo = true
             guard let url = URL(string: "https://redchippoker.com/checkout/?rid=po68r2&coupon=LeftPocket") else {
                 return
             }

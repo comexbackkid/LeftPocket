@@ -10,12 +10,15 @@ import SwiftUI
 struct PromoModal: View {
     
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
     @State private var isAnimating = false
+    @Binding var hasClickedRedChipPromo: Bool
     
     let message: LocalizedStringResource
     let image: String?
     
-    init(message: LocalizedStringResource, image: String? = nil) {
+    init(hasClickedRedChipPromo: Binding<Bool>, message: LocalizedStringResource, image: String? = nil) {
+        self._hasClickedRedChipPromo = hasClickedRedChipPromo
         self.message = message
         self.image = image
     }
@@ -42,6 +45,14 @@ struct PromoModal: View {
             Button {
                 let impact = UIImpactFeedbackGenerator(style: .soft)
                 impact.impactOccurred()
+                hasClickedRedChipPromo = true
+                
+                guard let url = URL(string: "https://redchippoker.com/checkout/?rid=po68r2&coupon=LeftPocket") else {
+                    dismiss()
+                    return
+                }
+                
+                openURL(url)
                 dismiss()
                 
             } label: {
@@ -90,6 +101,8 @@ struct PromoModal: View {
 }
 
 #Preview {
-    PromoModal(message: "Try CORE by Red Chip Poker, the most comprehensive A-Z poker course ever created.", image: "rcp-logo")
+    PromoModal(hasClickedRedChipPromo: .constant(false),
+               message: "Try CORE by Red Chip Poker, the most comprehensive A-Z poker course ever created.",
+               image: "rcp-logo")
         .frame(height: 360)
 }

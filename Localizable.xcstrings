@@ -2453,6 +2453,9 @@
         }
       }
     },
+    "Exclusive Red Chip Promo" : {
+
+    },
     "Expense" : {
       "localizations" : {
         "pt-BR" : {
@@ -4801,6 +4804,9 @@
         }
       }
     },
+    "Redeem Left Pocket Offer Code" : {
+
+    },
     "Redeem Offer Code" : {
       "localizations" : {
         "pt-BR" : {
@@ -6209,6 +6215,9 @@
           }
         }
       }
+    },
+    "Try CORE for $1" : {
+
     },
     "Try CORE for Just $1" : {
 

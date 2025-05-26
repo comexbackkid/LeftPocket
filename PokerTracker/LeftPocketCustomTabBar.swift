@@ -21,6 +21,7 @@ struct LeftPocketCustomTabBar: View {
     @AppStorage("systemThemeEnabled") private var systemThemeEnabled = false
     @AppStorage("pushNotificationsAllowed") private var notificationsAllowed: Bool?
     @AppStorage("redchipPromoPresentationCount") private var redchipPromoPresentationCount = 0
+    @AppStorage("hasClickedRedChipPromo") private var hasClickedRedChipPromo: Bool = false
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var qaService: QAService
@@ -125,7 +126,7 @@ struct LeftPocketCustomTabBar: View {
                 }
         }
         .sheet(isPresented: $showPromoModal) {
-            PromoModal(message: "Try CORE by Red Chip Poker, the most comprehensive A-Z poker course ever created.", image: "rcp-logo")
+            PromoModal(hasClickedRedChipPromo: $hasClickedRedChipPromo, message: "Try CORE by Red Chip Poker, the most comprehensive A-Z poker course ever created.", image: "rcp-logo")
                 .presentationDragIndicator(.visible)
                 .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                 .presentationDetents([.height(340)])
@@ -199,7 +200,7 @@ struct LeftPocketCustomTabBar: View {
             if audioConfirmation {
                 playSound()
             }
-            if viewModel.winStreak() < -2, redchipPromoPresentationCount < 2 {
+            if viewModel.winStreak() == -3, redchipPromoPresentationCount < 2, !hasClickedRedChipPromo {
                 showPromoModal = true
                 redchipPromoPresentationCount += 1
             }
