@@ -20,6 +20,7 @@ struct LeftPocketCustomTabBar: View {
     @AppStorage("isDarkMode") private var isDarkMode = true
     @AppStorage("systemThemeEnabled") private var systemThemeEnabled = false
     @AppStorage("pushNotificationsAllowed") private var notificationsAllowed: Bool?
+    @AppStorage("redchipPromoPresentationCount") private var redchipPromoPresentationCount = 0
     @EnvironmentObject var subManager: SubscriptionManager
     @EnvironmentObject var viewModel: SessionsListViewModel
     @EnvironmentObject var qaService: QAService
@@ -127,7 +128,7 @@ struct LeftPocketCustomTabBar: View {
             PromoModal(message: "Try CORE by Red Chip Poker, the most comprehensive A-Z poker course ever created.", image: "rcp-logo")
                 .presentationDragIndicator(.visible)
                 .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
-                .presentationDetents([.height(350)])
+                .presentationDetents([.height(340)])
         }
     }
     
@@ -198,8 +199,9 @@ struct LeftPocketCustomTabBar: View {
             if audioConfirmation {
                 playSound()
             }
-            if viewModel.winStreak() < -2 {
+            if viewModel.winStreak() < -2, redchipPromoPresentationCount < 2 {
                 showPromoModal = true
+                redchipPromoPresentationCount += 1
             }
         }, content: {
             if isPad {

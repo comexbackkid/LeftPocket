@@ -11,7 +11,9 @@ import TipKit
 
 struct SessionsListView: View {
     
+    @Environment(\.openURL) var openURL
     @AppStorage("viewStyle") var viewStyle: ViewStyle = .standard
+    @AppStorage("redchipPromoPresentationCount") private var redchipPromoPresentationCount = 0
     @EnvironmentObject var vm: SessionsListViewModel
     @EnvironmentObject var subManager: SubscriptionManager
     @State var activeSheet: Sheet?
@@ -116,6 +118,8 @@ struct SessionsListView: View {
                     } else {
                         List {
                             screenTitle
+                            
+                            if redchipPromoPresentationCount >= 2 { promoLink }
                             
                             ForEach(filteredSessions) { session in
                                 NavigationLink(destination: SessionDetailView(activeSheet: $activeSheet, pokerSession: session).onAppear(perform: {
@@ -278,6 +282,42 @@ struct SessionsListView: View {
                 }
             }
         }
+    }
+    
+    var promoLink: some View {
+        
+        Button {
+            
+            guard let url = URL(string: "https://redchippoker.com/checkout/?rid=po68r2&coupon=LeftPocket") else {
+                return
+            }
+            
+            openURL(url)
+            
+        } label: {
+            HStack {
+                
+                Spacer()
+                
+                HStack {
+                    
+                    Image("rcp-icon")
+                        .resizable()
+                        .frame(width: 18, height: 18)
+                    
+                    Text("Try CORE by Red Chip Poker for $1")
+                        .captionStyle()
+                }
+                .padding(8)
+                .padding(.horizontal, 12)
+                .background(.ultraThinMaterial)
+                .clipShape(.rect(cornerRadius: 15))
+                .padding(.bottom, 6)
+                
+            }
+            
+        }
+        .listRowBackground(Color.brandBackground)
     }
     
     var toolbarFilter: some View {

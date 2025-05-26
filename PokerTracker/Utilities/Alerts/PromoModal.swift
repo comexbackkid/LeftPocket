@@ -45,7 +45,7 @@ struct PromoModal: View {
                 dismiss()
                 
             } label: {
-                PrimaryButton(title: "Redeem 10% OFF")
+                PrimaryButton(title: "Try CORE for Just $1")
             }
             .padding(.horizontal)
             .padding(.bottom, 25)

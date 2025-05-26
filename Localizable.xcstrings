@@ -1188,7 +1188,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Permitir notificações"
+            "value" : "Permitir Notificações"
           }
         }
       }
@@ -1268,7 +1268,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pergunte sempre"
+            "value" : "Pergunte Sempre"
           }
         }
       }
@@ -1588,7 +1588,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recompensas coletadas"
+            "value" : "Recompensas Coletadas"
           }
         }
       }
@@ -1638,7 +1638,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Balas disparadas"
+            "value" : "Balas Disparadas"
           }
         }
       }
@@ -1648,7 +1648,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Preço da entrada"
+            "value" : "Preço da Entrada"
           }
         }
       }
@@ -1658,7 +1658,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Preços da entrada"
+            "value" : "Preços da Entrada"
           }
         }
       }
@@ -1718,7 +1718,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lucro em dinheiro"
+            "value" : "Lucro em Dinheiro"
           }
         }
       }
@@ -1838,7 +1838,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Limpe sua mente"
+            "value" : "Limpe sua Mente"
           }
         }
       }
@@ -4791,6 +4791,7 @@
       }
     },
     "Redeem 10% OFF" : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -6196,6 +6197,9 @@
         }
       }
     },
+    "Try CORE by Red Chip Poker for $1" : {
+
+    },
     "Try CORE by Red Chip Poker, the most comprehensive A-Z poker course ever created." : {
       "localizations" : {
         "pt-BR" : {
@@ -6205,6 +6209,9 @@
           }
         }
       }
+    },
+    "Try CORE for Just $1" : {
+
     },
     "Try Left Pocket Pro" : {
       "localizations" : {
