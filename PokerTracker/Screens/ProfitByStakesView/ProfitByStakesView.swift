@@ -434,11 +434,7 @@ struct ProfitByStakesView: View {
         formatter.numberStyle = .currency
         
         guard !sessions.isEmpty else { return 0 }
-        
-        var bankroll: Int {
-            
-            sessions.map { Int($0.profit) }.reduce(0, +)
-        }
+        var bankroll: Int { sessions.map { Int($0.profit) }.reduce(0, +) }
 
         return bankroll
     }
