@@ -18,7 +18,6 @@ struct OnboardingView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var shouldShowOnboarding: Bool
     @State private var selectedPage: Int = 0
-    @State private var showPaywall = false
     @State private var shouldShowLastChance = false
     @State private var lastChanceOffer: Offering?
     @State private var paywallOffering: Offering?
@@ -88,15 +87,6 @@ struct OnboardingView: View {
         })
         .fullScreenCover(item: $paywallOffering, onDismiss: {
             shouldShowOnboarding = false
-//            Task {
-//                if !subManager.isSubscribed {
-//                    await fetchLastChanceOffer()
-//
-//                } else {
-//                    /// If they did subscribe, kill the onboarding flow
-//                    shouldShowOnboarding = false
-//                }
-//            }
         }, content: { offering in
             if isPad {
                 if #available(iOS 18.0, *) {
@@ -153,42 +143,21 @@ struct OnboardingView: View {
                     }
             }
         })
-//        .sheet(item: $lastChanceOffer, onDismiss: {
-//            /// When the Last Chance Offer is dismissed, kill the onboarding flow
-//            shouldShowOnboarding = false
-//        }, content: { offering in
-//                PaywallView(offering: offering, fonts: CustomPaywallFontProvider(fontName: "Asap"))
-//                    .interactiveDismissDisabled()
-//                    .dynamicTypeSize(.medium...DynamicTypeSize.large)
-//                    .overlay {
-//                        HStack {
-//                            Spacer()
-//                            VStack {
-//                                DismissButton()
-//                                    .padding()
-//                                    .onTapGesture {
-//                                        shouldShowLastChance = false
-//                                        self.lastChanceOffer = nil
-//                                    }
-//                                Spacer()
-//                            }
-//                        }
-//                    }
-//        })
-        .task {
-            for await customerInfo in Purchases.shared.customerInfoStream {
-                let isSubscribed = customerInfo.entitlements["premium"]?.isActive == true
-                
-                /// If at any point they subscribe, dismiss any and all paywalls, kill the onboarding flow, and proceed to the app
-                if isSubscribed {
-                    showPaywall = false
-                    lastChanceOffer = nil
-                    shouldShowOnboarding = false
-                }
-                
-                await subManager.checkSubscriptionStatus()
-            }
-        }
+//        .task {
+//            for await customerInfo in Purchases.shared.customerInfoStream {
+//                let isSubscribed = customerInfo.entitlements["premium"]?.isActive == true
+//                
+//                /// If at any point they subscribe, dismiss any and all paywalls, kill the onboarding flow, and proceed to the app
+//                /// This is actually causing the onboarding to dismiss if the user redeems an offer outside the app
+//                if isSubscribed {
+//                    showPaywall = false
+//                    lastChanceOffer = nil
+//                    shouldShowOnboarding = false
+//                }
+//                
+//                await subManager.checkSubscriptionStatus()
+//            }
+//        }
     }
     
     func nextPage() {
@@ -203,14 +172,18 @@ struct OnboardingView: View {
         }
     }
     
-    /// First, grab the current paywall offering
     private func fetchCurrentOffer() {
-        Task {
-            do {
-                self.paywallOffering = try await Purchases.shared.offerings().current
-                
-            } catch {
-                print("ERROR: \(error)")
+        if subManager.isSubscribed {
+            shouldShowOnboarding = false
+            
+        } else {
+            Task {
+                do {
+                    self.paywallOffering = try await Purchases.shared.offerings().current
+                    
+                } catch {
+                    print("ERROR: \(error)")
+                }
             }
         }
     }
