@@ -143,6 +143,9 @@ struct OnboardingView: View {
                     }
             }
         })
+        .task {
+            await subManager.checkSubscriptionStatus()
+        }
 //        .task {
 //            for await customerInfo in Purchases.shared.customerInfoStream {
 //                let isSubscribed = customerInfo.entitlements["premium"]?.isActive == true
