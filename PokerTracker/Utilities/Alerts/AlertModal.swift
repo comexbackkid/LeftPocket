@@ -12,14 +12,22 @@ struct AlertModal: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isAnimating = false
     
+    let alertTitle: LocalizedStringResource?
     let message: LocalizedStringResource
     let image: String?
     let imageColor: Color?
+    let buttonText: LocalizedStringResource?
+    var actionToPerform: (() -> Void)?
+    var cancelButton: Bool?
     
-    init(message: LocalizedStringResource, image: String? = nil, imageColor: Color? = nil) {
+    init(alertTitle: LocalizedStringResource? = nil, message: LocalizedStringResource, image: String? = nil, imageColor: Color? = nil, buttonText: LocalizedStringResource? = nil, actionToPerform: (() -> Void)? = nil, cancelButton: Bool? = nil) {
+        self.alertTitle = alertTitle
         self.message = message
         self.image = image
         self.imageColor = imageColor
+        self.buttonText = buttonText
+        self.actionToPerform = actionToPerform
+        self.cancelButton = cancelButton
     }
     
     var body: some View {
@@ -48,17 +56,36 @@ struct AlertModal: View {
             
             Spacer()
             
-            Button {
-                let impact = UIImpactFeedbackGenerator(style: .soft)
-                impact.impactOccurred()
-                dismiss()
+            VStack {
+                Button {
+                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                    impact.impactOccurred()
+                    if let customAction = actionToPerform {
+                        customAction()
+                        
+                    } else {
+                        dismiss()
+                    }
+                    
+                } label: {
+                    PrimaryButton(title: buttonText ?? "OK")
+                }
                 
-            } label: {
-                PrimaryButton(title: "OK")
+                if cancelButton == true {
+                    Button(role: .cancel) {
+                        let impact = UIImpactFeedbackGenerator(style: .soft)
+                        impact.impactOccurred()
+                        dismiss()
+                        
+                    } label: {
+                        Text("Cancel")
+                            .buttonTextStyle()
+                    }
+                    .tint(.red)
+                }
             }
             .padding(.horizontal)
-            .padding(.bottom, 25)
-            
+            .padding(.bottom, 30)
         }
         .dynamicTypeSize(.medium...DynamicTypeSize.large)
         .ignoresSafeArea()
@@ -70,7 +97,7 @@ struct AlertModal: View {
             
             Spacer()
             
-            Text("Success!")
+            Text(alertTitle ?? "Success!")
                 .font(.custom("Asap-Black", size: 30))
                 .bold()
                 .padding(.bottom, 5)
@@ -99,6 +126,6 @@ struct AlertModal: View {
 }
 
 #Preview {
-    AlertModal(message: "Enter alert message here.", image: "checkmark.circle", imageColor: Color.green)
-        .frame(height: 300)
+    AlertModal(message: "Enter alert message here.", image: "checkmark.circle", imageColor: Color.green, actionToPerform: {})
+        .frame(height: 360)
 }

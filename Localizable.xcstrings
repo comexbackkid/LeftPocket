@@ -1863,6 +1863,16 @@
         }
       }
     },
+    "Compose in Your Mail App" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Componha no seu aplicativo de e-mail"
+          }
+        }
+      }
+    },
     "Congratulations!" : {
       "localizations" : {
         "pt-BR" : {
@@ -2454,7 +2464,14 @@
       }
     },
     "Exclusive Red Chip Promo" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Promoção exclusiva do Red Chip"
+          }
+        }
+      }
     },
     "Expense" : {
       "localizations" : {
@@ -3589,6 +3606,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Registrando Sessões"
+          }
+        }
+      }
+    },
+    "Mail is not configured for sending directly from the app. Please attach CSV file manually after pressing the button below." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O e-mail não está configurado para envio direto do aplicativo. Anexe o arquivo CSV manualmente após clicar no botão abaixo."
           }
         }
       }
@@ -4805,7 +4832,14 @@
       }
     },
     "Redeem Left Pocket Offer Code" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resgatar código de oferta Left Pocket"
+          }
+        }
+      }
     },
     "Redeem Offer Code" : {
       "localizations" : {
@@ -6204,7 +6238,14 @@
       }
     },
     "Try CORE by Red Chip Poker for $1" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Experimente o CORE da Red Chip Poker por US$ 1"
+          }
+        }
+      }
     },
     "Try CORE by Red Chip Poker, the most comprehensive A-Z poker course ever created." : {
       "localizations" : {
@@ -6217,10 +6258,24 @@
       }
     },
     "Try CORE for $1" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Experimente o CORE por $1"
+          }
+        }
+      }
     },
     "Try CORE for Just $1" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Experimente o CORE por US$ 1"
+          }
+        }
+      }
     },
     "Try Left Pocket Pro" : {
       "localizations" : {
@@ -6328,6 +6383,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atualizar para Pro"
+          }
+        }
+      }
+    },
+    "Upload File via Email" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregar arquivo por e-mail"
           }
         }
       }
@@ -6468,6 +6533,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Estamos aqui para ajudar! Receba lembretes sutis para alongar, hidratar e evitar inclinações."
+          }
+        }
+      }
+    },
+    "We've hit a snag with the import. Please review the instructions and try again. Or, send in your file via email and we'll process it for you in under 2 hours." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocorreu um problema na importação. Revise as instruções e tente novamente. Ou envie seu arquivo por e-mail e o processaremos em menos de 2 horas."
           }
         }
       }

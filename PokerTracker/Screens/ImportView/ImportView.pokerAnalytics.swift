@@ -7,15 +7,19 @@
 
 import SwiftUI
 import Lottie
+import MessageUI
 
 struct PokerAnalyticsImportView: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @Environment(\.openURL) private var openURL
+    @Environment(\.openURL) var openURL
     @EnvironmentObject var vm: SessionsListViewModel
     @State private var showFileImporter = false
     @State private var showAlertModal = false
     @State private var errorMessage: String?
+    @State private var showImportError = false
+    @State private var failedFileURL: URL? = nil
+    @State private var showMailComposer = false
     @State private var showSuccessMessage: LocalizedStringResource = ""
     @State private var playbackMode = LottiePlaybackMode.paused(at: .progress(0))
     
@@ -45,20 +49,69 @@ struct PokerAnalyticsImportView: View {
                 .padding(.horizontal)
                 
                 importButton
-                
-                if let errorMessage {
-                    VStack {
-                        Text("Uh oh! There was a problem.")
-                        Text(errorMessage)
-                        Image(systemName: "x.circle")
-                            .resizable()
-                            .frame(width: 50, height: 50)
-                            .padding(.top, 1)
-                            .foregroundColor(.red)
-                    }
-                }
+
             }
             .padding(.bottom)
+        }
+        .sheet(isPresented: $showImportError, content: {
+            AlertModal(alertTitle: "Uh oh!",
+                       message: "We've hit a snag with the import. Please review the instructions and try again. Or, send in your file via email and we'll process it for you in under 2 hours.",
+                       image: "exclamationmark.triangle",
+                       imageColor: .orange,
+                       buttonText: "Upload File via Email",
+                       actionToPerform: {
+                showImportError = false
+                showMailComposer = true
+            },
+                       cancelButton: true)
+            .presentationDetents([.height(400)])
+            .presentationBackground(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
+            .presentationDragIndicator(.visible)
+        })
+        .sheet(isPresented: $showMailComposer) {
+            if MFMailComposeViewController.canSendMail() {
+                MailView(
+                    recipients: ["leftpocketpoker@gmail.com"],
+                    subject: "CSV Import Failure – Poker Analytics 6",
+                    body: """
+                            Hello,
+                            
+                            My Poker Analytics 6 CSV Import failed. Please find the attached file for processing.
+                            
+                            You can send the new file to this email address.
+                            
+                            """,
+                    attachmentURL: failedFileURL
+                    
+                ) { result, error in
+                    showMailComposer = false
+                }
+                
+            } else {
+                // Fallback: open a mailto: link so the user's default mail client appears
+                VStack(spacing: 16) {
+                    Text("Mail is not configured for sending directly from the app. Please attach CSV file manually after pressing the button below.")
+                        .font(.callout)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                    
+                    Button("Compose in Your Mail App") {
+                        // Construct a mailto: URL
+                        let to = "leftpocketpoker@gmail.com"
+                        let subject = "CSV Import Failure – Poker Analytics 6"
+                        if let mailtoURL = URL(string: "mailto:\(to)?subject=\(subject)") {
+                            openURL(mailtoURL)
+                        }
+                        showMailComposer = false
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 12)
+                    .background(Color.brandPrimary)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+                }
+                .padding()
+            }
         }
         .background(Color.brandBackground)
         .overlay {
@@ -169,6 +222,8 @@ struct PokerAnalyticsImportView: View {
             do {
                 let selectedURL = try result.get()
                 
+                failedFileURL = selectedURL
+                
                 if selectedURL.startAccessingSecurityScopedResource() {
                     let csvData = try Data(contentsOf: selectedURL)
                     let csvImporter = CSVImporter()
@@ -185,22 +240,22 @@ struct PokerAnalyticsImportView: View {
                 selectedURL.stopAccessingSecurityScopedResource()
                 
             } catch let error as URLError {
-                // Handle URLError from the fileImporter
                 errorMessage = "URL Error: \(error.localizedDescription)"
+                showImportError = true
                 print("URL Error: \(error)")
                 
             } catch let error as CSVImporter.ImportError {
-                // Handle specific CSV import errors from our class
                 switch error {
                 case .invalidData: errorMessage = "Error: Invalid Data"
                 case .parsingFailed: errorMessage = "Error: Parsing Failed"
                 case .saveFailed: errorMessage = "Error: Failed to Save Data"
                 }
+                showImportError = true
                 print("CSV Import Error: \(error)")
                 
             } catch {
-                // Handle other errors
                 errorMessage = error.localizedDescription
+                showImportError = true
                 print("Error importing file: \(error)")
             }
         })
