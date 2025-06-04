@@ -655,17 +655,25 @@ class CSVImporter {
 
     // Poker Bankroll Tracker date conversion
     func convertToDate(_ rawDate: String) -> Date? {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        if let date = dateFormatter.date(from: rawDate) {
-            return date
-            
-        } else {
-            print("Error: Unable to convert string to Date.")
-            return nil
+        let formats = [
+            "yyyy-MM-dd HH:mm:ss",
+            "M/d/yy H:mm",
+            "M/d/yy H:mm:ss"
+        ]
+
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = .current
+
+        for fmt in formats {
+            formatter.dateFormat = fmt
+            if let date = formatter.date(from: rawDate) {
+                return date
+            }
         }
+
+        print("Error: couldn’t parse “\(rawDate)”")
+        return nil
     }
     
     // Pokerbase date conversion

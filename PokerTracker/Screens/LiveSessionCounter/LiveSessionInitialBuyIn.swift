@@ -28,9 +28,9 @@ struct LiveSessionInitialBuyIn: View {
     private var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
     private let moodChoices: [(label: HKStateOfMind.Label, imageName: String, valence: Double)] = [
         (.angry, "mood_angry", -0.9),
-        (.indifferent,   "mood_unsure",  -0.6),
+        (.discouraged,   "mood_unsure",  -0.6),
         (.drained,    "mood_tired",  -0.3),
-        (.happy,   "mood_happy",   0.6),
+        (.joyful,   "mood_happy",   0.6),
         (.excited,   "mood_elated",  0.9)
     ]
     
