@@ -284,6 +284,7 @@ struct AddNewTransaction: View {
                     })
                 .padding(.bottom, 10)
             
+            let tagsList = vm.allSessions.filter({ !$0.tags.isEmpty }).map({ $0.tags[0] }).uniqued()
             HStack {
                 Image(systemName: "tag.fill")
                     .font(.caption2)
@@ -299,6 +300,34 @@ struct AddNewTransaction: View {
             .cornerRadius(15)
             .padding(.bottom, 10)
             .overlay {
+                if !tagsList.isEmpty && subManager.isSubscribed {
+                    HStack {
+                        Spacer()
+                        Menu {
+                            ForEach(tagsList, id: \.self) { tag in
+                                Button(tag) {
+                                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                                    impact.impactOccurred()
+                                    tags = ""
+                                    tags = tag
+                                }
+                            }
+                            
+                        } label: {
+                            Image(systemName: "clock.arrow.circlepath")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .fontWeight(.bold)
+                                .frame(height: 20)
+                                .padding(.bottom, 10)
+                                .padding(.trailing, 20)
+                        }
+                        .buttonStyle(.plain)
+                        .foregroundStyle(Color.brandPrimary)
+                    }
+                }
+            }
+            .overlay {
                 if !subManager.isSubscribed {
                     HStack {
                         Spacer()
@@ -310,7 +339,7 @@ struct AddNewTransaction: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(height: 20)
                                 .padding(.bottom, 10)
-                                .padding(.trailing, 40)
+                                .padding(.trailing, 20)
                         }
                         .buttonStyle(.plain)
                     }

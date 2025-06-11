@@ -300,16 +300,23 @@ struct SessionDetailView: View {
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
                 
-                HStack (spacing: 0) {
+                HStack (alignment: .lastTextBaseline, spacing: 0) {
                     if let finish = pokerSession.finish {
                         Text("\(finish) / ")
                     }
-                    Text("\(pokerSession.entrants ?? 0)")
+                    
+                    if let entrants = pokerSession.entrants, entrants > 1000 {
+                        Text(pokerSession.entrants ?? 0, format: .number.notation(.compactName).precision(.significantDigits(2)))
+                            .font(.custom("Asap-Regular", size: 12))
+                    } else {
+                        Text("\(pokerSession.entrants ?? 0)")
+                    }
                 }
                 .font(.custom("Asap-Bold", size: 22))
                 .minimumScaleFactor(0.8)
                 .lineLimit(1)
             }
+            .padding(.horizontal, 8)
             .frame(maxWidth: UIScreen.main.bounds.width * 0.3)
             .padding(.vertical, 26)
             .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.35 : 0.75))
@@ -847,7 +854,7 @@ struct TransferableImage: Transferable {
 
 struct SessionDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleSession)
+        SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: MockData.sampleTournamentTwo)
             .preferredColorScheme(.dark)
             .environmentObject(SessionsListViewModel())
     }
