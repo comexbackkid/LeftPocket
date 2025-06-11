@@ -105,7 +105,7 @@ struct LeftPocketCustomTabBar: View {
             
             // If user has been using the app, we tell the Tips they are not a new user
             AddSessionTip.newUser = viewModel.sessions.count > 0 ? false : true
-
+            showLiveSessionCounter = timerViewModel.shouldShowLiveSessionCounter
             UNUserNotificationCenter.current().getNotificationSettings { settings in
                 if settings.authorizationStatus != .authorized {
                     notificationsAllowed = false
