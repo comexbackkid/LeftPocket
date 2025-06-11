@@ -72,7 +72,7 @@ struct LeftPocketImportView: View {
                     body: """
                             Hello,
                             
-                            My Poker Analytics 6 CSV Import failed. Please find the attached file for processing.
+                            My Left Pocket CSV Import failed. Please find the attached file for processing.
                             
                             You can send the new file to this email address.
                             
