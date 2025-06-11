@@ -34,6 +34,7 @@ struct LeftPocketCustomTabBar: View {
     @State var showNewTransaction = false
     @State private var audioPlayer: AVAudioPlayer?
     @State private var audioConfirmation = false
+    @State private var showLiveSessionCounter = false
     @State private var showAlert = false
     @State private var showFirstSessionSuccessModal = false
     @State private var showBuyInScreen = false
@@ -68,11 +69,14 @@ struct LeftPocketCustomTabBar: View {
                 Spacer()
 
                 ZStack {
+                    
                     tips
                     
-                    LiveSessionCounter(timerViewModel: timerViewModel)
-                        .offset(y: isCounting ? 0 : 120)
-                        .animation(.spring(duration: 0.5), value: isCounting)
+                    if showLiveSessionCounter {
+                        LiveSessionCounter(timerViewModel: timerViewModel)
+                            .offset(y: isCounting ? 0 : 120)
+                            .animation(.spring(duration: 0.5), value: isCounting)
+                    }
                 }
                 
                 tabBar
@@ -291,6 +295,7 @@ struct LeftPocketCustomTabBar: View {
             
         } else {
             showBuyInScreen = true
+            showLiveSessionCounter = true
         }
     }
     
@@ -428,6 +433,7 @@ struct LeftPocketCustomTabBar: View {
                 timerViewModel.stopTimer()
                 LiveActivityManager.shared.endActivity()
                 isPresented = true
+                showLiveSessionCounter = false
             }
             
             Button("Cancel", role: .cancel) {

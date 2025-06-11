@@ -60,7 +60,7 @@ struct SessionDefaultsView: View {
                         Button(role: .cancel) {
                             let impact = UIImpactFeedbackGenerator(style: .soft)
                             impact.impactOccurred()
-                            dismiss()
+                            if isPresentedAsSheet == true { dismiss() }
                             
                         } label: {
                             Text("Cancel")
@@ -126,7 +126,7 @@ struct SessionDefaultsView: View {
                 DismissButton()
                     .shadow(color: Color.black.opacity(0.1), radius: 8)
                     .onTapGesture {
-                        dismiss()
+                        if isPresentedAsSheet == true { dismiss() }
                     }
             }
             Spacer()
