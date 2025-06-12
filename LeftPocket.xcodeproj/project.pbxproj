@@ -64,6 +64,7 @@
 		7C3F43AA27284CD800A9C842 /* NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43A927284CD800A9C842 /* NumberFormatter.swift */; };
 		7C3F43AC2728512700A9C842 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F43AB2728512700A9C842 /* LocationModel.swift */; };
 		7C3FFA862BC894C500EABD49 /* BarChartByStakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3FFA852BC894C500EABD49 /* BarChartByStakes.swift */; };
+		7C41F5742DFB0BBA00622EAD /* EditLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C41F5732DFB0BBA00622EAD /* EditLocation.swift */; };
 		7C4254A12784E25C00B5DA79 /* ProfitByYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4254A02784E25C00B5DA79 /* ProfitByYear.swift */; };
 		7C441B3E2DB52D26001F0115 /* ImportView.binkPoker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C441B3D2DB52D21001F0115 /* ImportView.binkPoker.swift */; };
 		7C441B402DB52D71001F0115 /* ImportView.pokerBankrollTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C441B3F2DB52D6B001F0115 /* ImportView.pokerBankrollTracker.swift */; };
@@ -372,6 +373,7 @@
 		7C3F43A927284CD800A9C842 /* NumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatter.swift; sourceTree = "<group>"; };
 		7C3F43AB2728512700A9C842 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModel.swift; sourceTree = "<group>"; };
 		7C3FFA852BC894C500EABD49 /* BarChartByStakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartByStakes.swift; sourceTree = "<group>"; };
+		7C41F5732DFB0BBA00622EAD /* EditLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditLocation.swift; sourceTree = "<group>"; };
 		7C4254A02784E25C00B5DA79 /* ProfitByYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitByYear.swift; sourceTree = "<group>"; };
 		7C441B3D2DB52D21001F0115 /* ImportView.binkPoker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportView.binkPoker.swift; sourceTree = "<group>"; };
 		7C441B3F2DB52D6B001F0115 /* ImportView.pokerBankrollTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportView.pokerBankrollTracker.swift; sourceTree = "<group>"; };
@@ -976,6 +978,7 @@
 		7C65B186272C3A4300AFE796 /* NewLocationView */ = {
 			isa = PBXGroup;
 			children = (
+				7C41F5732DFB0BBA00622EAD /* EditLocation.swift */,
 				7C65B187272C3A5A00AFE796 /* NewLocationView.swift */,
 				7C88340F2735BB5D0093B201 /* NewLocationViewModel.swift */,
 			);
@@ -1602,6 +1605,7 @@
 				7C63FC3F2B3640FF00FE731C /* SubscriptionManager.swift in Sources */,
 				7CEB761F26D9A77E006170EF /* Alerts.swift in Sources */,
 				7C9BBF1A2DB443AC00B13638 /* OnboardingView.riskTolerance.swift in Sources */,
+				7C41F5742DFB0BBA00622EAD /* EditLocation.swift in Sources */,
 				7C8647812B29277900F48951 /* WelcomeScreen.swift in Sources */,
 				7CD2EEC72BE8F0DB00AEE64E /* AppDelegate.swift in Sources */,
 				7C030BF22DBC82B70097E47B /* BackupManager.swift in Sources */,

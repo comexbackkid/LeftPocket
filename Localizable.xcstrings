@@ -2183,6 +2183,9 @@
         }
       }
     },
+    "Edit Location" : {
+
+    },
     "Edit Session" : {
       "localizations" : {
         "pt-BR" : {
@@ -5817,6 +5820,9 @@
         }
       }
     },
+    "Tap the edit button below to edit the location name or update its photo." : {
+
+    },
     "Tap the Import CSV Data button below." : {
       "localizations" : {
         "pt-BR" : {
@@ -5968,6 +5974,7 @@
       }
     },
     "To add a location, press %@ above. Tap & hold a thumbnail to delete. If you imported data, be sure names match exactly." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
@@ -5976,6 +5983,9 @@
           }
         }
       }
+    },
+    "To add a location, press %@ above. Tap & hold a thumbnail to modify it. If you imported data, be sure names match exactly." : {
+
     },
     "To disable notifications, or to re-enable them after disabling, you must do so from your device settings. Follow the steps below." : {
       "localizations" : {

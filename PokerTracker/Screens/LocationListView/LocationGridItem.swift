@@ -11,6 +11,8 @@ struct LocationGridItem: View {
     
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var vm: SessionsListViewModel
+    @State private var showEditLocation = false
+    @State private var showDeleteWarning = false
 
     let location: LocationModel_v2
     
@@ -23,7 +25,7 @@ struct LocationGridItem: View {
                     .locationGridThumbnail(colorScheme: colorScheme)
                     .contextMenu {
                         Button(role: .destructive) {
-                            delete()
+                            showDeleteWarning = true
                         } label: { Label("Delete Location", systemImage: "trash") }
                     }
                 
@@ -33,8 +35,12 @@ struct LocationGridItem: View {
                         .locationGridThumbnail(colorScheme: colorScheme)
                         .contextMenu {
                             Button(role: .destructive) {
-                                delete()
+                                showDeleteWarning = true
                             } label: { Label("Delete Location", systemImage: "trash") }
+                            
+                            Button {
+                                showEditLocation = true
+                            } label: { Label("Edit Location", systemImage: "pencil") }
                         }
                     
                 } else {
@@ -42,8 +48,12 @@ struct LocationGridItem: View {
                         .locationGridThumbnail(colorScheme: colorScheme)
                         .contextMenu {
                             Button(role: .destructive) {
-                                delete()
+                                showDeleteWarning = true
                             } label: { Label("Delete Location", systemImage: "trash") }
+                            
+                            Button {
+                                showEditLocation = true
+                            } label: { Label("Edit Location", systemImage: "pencil") }
                         }
                 }
                 
@@ -52,8 +62,12 @@ struct LocationGridItem: View {
                     .locationGridThumbnail(colorScheme: colorScheme)
                     .contextMenu {
                         Button(role: .destructive) {
-                            delete()
+                            showDeleteWarning = true
                         } label: { Label("Delete Location", systemImage: "trash") }
+                        
+                        Button {
+                            showEditLocation = true
+                        } label: { Label("Edit Location", systemImage: "pencil") }
                     }
             }
             
@@ -68,6 +82,15 @@ struct LocationGridItem: View {
                 .opacity(0.75)
                 .lineLimit(1)
                 .padding(.bottom, 20)
+        }
+        .sheet(isPresented: $showEditLocation) {
+            EditLocation(location: location)
+                .presentationDragIndicator(.visible)
+        }
+        .confirmationDialog("Are you sure you want to delete?", isPresented: $showDeleteWarning, titleVisibility: .visible) {
+            Button("Delete Location", role: .destructive) {
+                delete()
+            }
         }
     }
     
