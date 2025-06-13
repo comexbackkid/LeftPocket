@@ -393,6 +393,8 @@ struct SleepAnalytics: View {
                     .padding(.trailing, 10)
                     .padding(.top, 20)
                     .onTapGesture {
+                        let impact = UIImpactFeedbackGenerator(style: .soft)
+                        impact.impactOccurred()
                         dismiss()
                     }
             }

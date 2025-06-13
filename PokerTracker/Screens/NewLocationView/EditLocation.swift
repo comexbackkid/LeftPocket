@@ -59,6 +59,7 @@ struct EditLocation: View {
         }
         .dynamicTypeSize(.small...DynamicTypeSize.xLarge)
         .accentColor(.brandPrimary)
+        .errorAlert(error: $photoError)
         .onChange(of: photoPickerItem) { _, newItem in
             Task { await loadPhoto(newItem) }
         }
@@ -128,7 +129,7 @@ struct EditLocation: View {
     
     var description: some View {
         
-        Text("Tap the edit button below to edit the location name or update its photo.")
+        Text("Tap the pencil button below to change the Location's photo to a new one.")
             .bodyStyle()
             .padding(.horizontal)
             .padding(.bottom, 40)

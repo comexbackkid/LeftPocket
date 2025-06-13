@@ -718,6 +718,8 @@ struct SessionDetailView: View {
                 .padding(.trailing, 10)
                 .padding(.top, 10)
                 .onTapGesture {
+                    let impact = UIImpactFeedbackGenerator(style: .soft)
+                    impact.impactOccurred()
                     activeSheet = nil
                     dismiss()
                 }

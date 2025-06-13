@@ -5820,9 +5820,6 @@
         }
       }
     },
-    "Tap the edit button below to edit the location name or update its photo." : {
-
-    },
     "Tap the Import CSV Data button below." : {
       "localizations" : {
         "pt-BR" : {
@@ -5842,6 +5839,9 @@
           }
         }
       }
+    },
+    "Tap the pencil button below to change the Location's photo to a new one." : {
+
     },
     "Tap to Add Image" : {
       "localizations" : {
