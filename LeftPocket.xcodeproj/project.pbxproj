@@ -1646,7 +1646,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 5.6.5;
+				MARKETING_VERSION = 5.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1681,7 +1681,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 5.6.5;
+				MARKETING_VERSION = 5.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket.LeftPocketWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1837,7 +1837,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.6.5;
+				MARKETING_VERSION = 5.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1869,7 +1869,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.6.5;
+				MARKETING_VERSION = 5.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrisnachtrieb.LeftPocket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

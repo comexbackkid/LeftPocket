@@ -59,5 +59,5 @@ struct LineChartFullScreen: View {
 #Preview {
     LineChartFullScreen(lineChartFullScreen: .constant(true))
         .environmentObject(SessionsListViewModel())
-        .preferredColorScheme(.dark)
+//        .preferredColorScheme(.dark)
 }

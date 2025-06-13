@@ -32,7 +32,7 @@ struct SleepCardView: View {
                             .lineLimit(1)
                             .foregroundStyle(.white)
                         
-                        Text("Ever wonder how sleep, mindfulness & mood affects your poker game?")
+                        Text("Ever wonder how sleep, mindfulness and mood affect your poker game?")
                             .calloutStyle()
                             .opacity(0.7)
                             .foregroundStyle(.white)
