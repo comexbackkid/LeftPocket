@@ -89,7 +89,7 @@ struct BankrollLineChartSimple: View {
                     AxisValueLabel() {
                         if let intValue = value.as(Int.self) {
                             Text(intValue.axisShortHand(viewModel.userCurrency))
-                                .font(.custom("AsapCondensed-Light", size: 12, relativeTo: .caption2))
+                                .font(.custom("Asap-Light", size: 12, relativeTo: .caption2))
                                 .padding(.leading, 12)
                         }
                     }

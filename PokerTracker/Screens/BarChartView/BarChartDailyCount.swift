@@ -81,7 +81,7 @@ struct BarChartDailyCount: View {
                 AxisValueLabel {
                     if let intVal = value.as(Int.self) {
                         Text("\(intVal)h")
-                            .font(.custom("AsapCondensed-Light", size: 12, relativeTo: .caption2))
+                            .font(.custom("Asap-Light", size: 12, relativeTo: .caption2))
                             .padding(.trailing)
                     }
                 }

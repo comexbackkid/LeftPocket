@@ -86,7 +86,7 @@ struct BarChartByWeekDay: View {
                     AxisValueLabel() {
                         if let day = value.as(String.self) {
                             Text(day)
-                                .font(.custom("AsapCondensed-Light", size: 12, relativeTo: .caption2))
+                                .font(.custom("Asap-Light", size: 12, relativeTo: .caption2))
                                 .padding(.top, 10)
                         }
                     }
@@ -98,7 +98,7 @@ struct BarChartByWeekDay: View {
                     AxisValueLabel() {
                         if let doubleValue = value.as(Double.self) {
                             Text("\(Int(doubleValue))h")
-                                .font(.custom("AsapCondensed-Light", size: 12, relativeTo: .caption2))
+                                .font(.custom("Asap-Light", size: 12, relativeTo: .caption2))
                                 .padding(.trailing, 15)
                         }
                     }

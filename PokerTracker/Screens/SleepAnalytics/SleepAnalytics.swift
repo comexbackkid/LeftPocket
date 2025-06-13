@@ -448,7 +448,7 @@ struct SleepAnalytics: View {
             .chartXAxis {
                 AxisMarks(preset: .aligned) {
                     AxisValueLabel(format: .dateTime.month(.defaultDigits).day(), verticalSpacing: 10)
-                        .font(.custom("AsapCondensed-Light", size: 12, relativeTo: .caption2))
+                        .font(.custom("Asap-Light", size: 12, relativeTo: .caption2))
                 }
             }
             .chartYAxis {
@@ -459,7 +459,7 @@ struct SleepAnalytics: View {
                     AxisValueLabel {
                         if let value = value.as(Double.self), value != 0 {
                             Text("\(value, specifier: "%.0f")h")
-                                .font(.custom("AsapCondensed-Light", size: 12, relativeTo: .caption2))
+                                .font(.custom("Asap-Light", size: 12, relativeTo: .caption2))
                                 .padding(.leading, 18)
                         }
                     }
