@@ -108,6 +108,7 @@ struct SessionsListView: View {
         NavigationSplitView {
             
             ZStack {
+                
                 switch listFilter {
                 case .sessions:
                     if vm.allSessions.isEmpty {
@@ -127,8 +128,6 @@ struct SessionsListView: View {
                                     tappedSession = session
                                 })) {
                                     CellView(pokerSession: session, currency: vm.userCurrency, viewStyle: $viewStyle)
-                                        .popoverTip(editTip)
-                                        .tipViewStyle(CustomTipViewStyle())
                                 }
                                 .listRowBackground(Color.brandBackground)
                                 .listRowInsets(EdgeInsets(top: 4, leading: 12, bottom: 4, trailing: 12))
@@ -214,6 +213,18 @@ struct SessionsListView: View {
                         }
                         .listStyle(.plain)
                         .padding(.bottom, 50)
+                    }
+                }
+                
+                // Show Edit Tip when new user hits 2 Sessions
+                if vm.allSessions.count == 2 {
+                    VStack {
+                        TipView(editTip, arrowEdge: .bottom)
+                            .tipViewStyle(CustomTipViewStyle())
+                            .padding(.horizontal, 20)
+                            .padding(.top, 10)
+                        
+                        Spacer()
                     }
                 }
             }

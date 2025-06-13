@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 struct SessionDetailView: View {
     
@@ -28,7 +29,6 @@ struct SessionDetailView: View {
             ScrollView (.vertical) {
                 
                 scrollViewContent
-                
             }
             .background(colorScheme == .dark ? .regularMaterial : .thickMaterial)
             .background(locationBackground())
@@ -43,6 +43,18 @@ struct SessionDetailView: View {
                     shareButton
                     
                     editButton
+                    
+                    Spacer()
+                }
+            }
+            
+            if activeSheet == .recentSession {
+                VStack {
+                    TipView(shareTip, arrowEdge: .trailing)
+                        .tipViewStyle(CustomTipViewStyle())
+                        .padding(.horizontal, 20)
+                        .padding(.trailing, 35)
+                        .padding(.top, 20)
                     
                     Spacer()
                 }
@@ -702,8 +714,6 @@ struct SessionDetailView: View {
             ShareLink(item: takeScreenshot(), preview: SharePreview("Shared Session from \(pokerSession.location.name)", image: Image("appicon-tiny"))) {
                 ShareButton()
                     .padding(.trailing, 10)
-                    .popoverTip(shareTip)
-                    .tipViewStyle(CustomTipViewStyle())
             }
         }
     }
