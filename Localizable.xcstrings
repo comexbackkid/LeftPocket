@@ -1104,7 +1104,14 @@
       }
     },
     "Add your own casino, platform, or home game. If you want to modify a Location, tap and hold its thumbnail." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione seu próprio cassino, plataforma ou jogo em casa. Se quiser modificar um local, toque e segure a miniatura dele."
+          }
+        }
+      }
     },
     "Add your own venue, casino, platform, or home game. If you want to delete a Location, tap and hold its thumbnail." : {
       "extractionState" : "stale",
@@ -2188,7 +2195,14 @@
       }
     },
     "Edit Location" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar localização"
+          }
+        }
+      }
     },
     "Edit Session" : {
       "localizations" : {
@@ -5845,7 +5859,14 @@
       }
     },
     "Tap the pencil button below to change the Location's photo to a new one." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque no botão de lápis abaixo para alterar a foto do local para uma nova."
+          }
+        }
+      }
     },
     "Tap to Add Image" : {
       "localizations" : {
@@ -5977,19 +5998,15 @@
         }
       }
     },
-    "To add a location, press %@ above. Tap & hold a thumbnail to delete. If you imported data, be sure names match exactly." : {
-      "extractionState" : "stale",
+    "To add a location, press %@ above. Tap & hold a thumbnail to modify it. If you imported data, be sure names match exactly." : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Para adicionar um local, pressione %@ acima. Toque e segure uma miniatura para excluí-la. Se você importou dados, certifique-se de que os nomes correspondam exatamente."
+            "value" : "Para adicionar um local, pressione %@ acima. Toque e segure uma miniatura para modificá-la. Se você importou dados, certifique-se de que os nomes correspondam exatamente."
           }
         }
       }
-    },
-    "To add a location, press %@ above. Tap & hold a thumbnail to modify it. If you imported data, be sure names match exactly." : {
-
     },
     "To disable notifications, or to re-enable them after disabling, you must do so from your device settings. Follow the steps below." : {
       "localizations" : {
