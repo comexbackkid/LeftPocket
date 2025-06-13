@@ -46,6 +46,8 @@ struct LineChartFullScreen: View {
     var dismissButton: some View {
         
         Button {
+            let impact = UIImpactFeedbackGenerator(style: .soft)
+            impact.impactOccurred()
             dismiss.callAsFunction()
             
         } label: {

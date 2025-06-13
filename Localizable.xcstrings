@@ -1103,7 +1103,11 @@
         }
       }
     },
+    "Add your own casino, platform, or home game. If you want to modify a Location, tap and hold its thumbnail." : {
+
+    },
     "Add your own venue, casino, platform, or home game. If you want to delete a Location, tap and hold its thumbnail." : {
+      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
