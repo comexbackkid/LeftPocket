@@ -160,10 +160,13 @@ struct MindfulnessAnalytics: View {
                     Button {
                         let impact = UIImpactFeedbackGenerator(style: .soft)
                         impact.impactOccurred()
+                        
                         if subManager.isSubscribed == true {
                             selectedMeditation = meditation
+                            
                         } else if !subManager.isSubscribed && meditation.premium != true {
                             selectedMeditation = meditation
+                            
                         } else {
                             showPaywall = true
                         }

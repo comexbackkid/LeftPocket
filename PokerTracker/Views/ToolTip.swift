@@ -15,12 +15,14 @@ struct ToolTipView: View {
     let message: String
     let color: Color
     let premium: Bool?
+    let isLink: Bool?
     
-    init(image: String, message: String, color: Color, premium: Bool? = nil) {
+    init(image: String, message: String, color: Color, premium: Bool? = nil, isLink: Bool? = nil) {
         self.image = image
         self.message = message
         self.color = color
         self.premium = premium
+        self.isLink = isLink
     }
     
     var body: some View {
@@ -36,6 +38,7 @@ struct ToolTipView: View {
             Text(message)
                 .calloutStyle()
                 .blur(radius: premium == true ? 3 : 0)
+                .padding(.trailing, isLink == true ? 25 : 0)
             
             Spacer()
             
@@ -48,5 +51,5 @@ struct ToolTipView: View {
 }
 
 #Preview {
-    ToolTipView(image: "clock", message: "You need to play longer so you stop sucking at poker!", color: .blue)
+    ToolTipView(image: "clock", message: "Dude, you need to play longer so you stop sucking at poker!", color: .blue)
 }

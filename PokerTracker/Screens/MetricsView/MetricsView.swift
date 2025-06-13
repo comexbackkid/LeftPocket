@@ -158,7 +158,18 @@ struct MetricsView: View {
         } label: {
             ToolTipView(image: "figure.mind.and.body",
                         message: hkManager.isMindfulnessAuthorized ? message : altMessage,
-                        color: .mint)
+                        color: .mint,
+                        isLink: true)
+            .overlay {
+                HStack {
+                    Spacer()
+                    Image(systemName: "arrow.right.circle.fill")
+                        .bold()
+                        .imageScale(.large)
+                        .foregroundStyle(Color.gray)
+                        .padding(.trailing)
+                }
+            }
         }
         .buttonStyle(.plain)
     }
