@@ -111,6 +111,7 @@ struct LocationGridView: View {
             .foregroundColor(.brandPrimary)
             .sheet(isPresented: $addLocationIsShowing, content: {
                 NewLocationView(addLocationIsShowing: $addLocationIsShowing)
+                    .presentationDragIndicator(.visible)
             })
         }
         .fullScreenCover(isPresented: $showPaywall, content: {

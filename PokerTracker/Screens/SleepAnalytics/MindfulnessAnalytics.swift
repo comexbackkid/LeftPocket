@@ -17,7 +17,6 @@ struct MindfulnessAnalytics: View {
     @EnvironmentObject var hkManager: HealthKitManager
     @EnvironmentObject var subManager: SubscriptionManager
     @Environment(\.colorScheme) var colorScheme
-    
     @State private var showMeditationView = false
     @State private var showError = false
     @State private var showPaywall = false
@@ -68,6 +67,11 @@ struct MindfulnessAnalytics: View {
         .sheet(item: $selectedSession) { session in
             SessionDetailView(activeSheet: .constant(.recentSession), pokerSession: session)
                 .presentationDragIndicator(.visible)
+        }
+        .task {
+            if !hkManager.isMindfulnessAuthorized {
+                hkManager.requestAuthorization()
+            }
         }
     }
     

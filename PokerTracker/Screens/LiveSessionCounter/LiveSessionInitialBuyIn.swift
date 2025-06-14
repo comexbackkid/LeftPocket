@@ -57,13 +57,9 @@ struct LiveSessionInitialBuyIn: View {
         .alert(item: $alertItem) { alert in
             Alert(title: alert.title, message: alert.message, dismissButton: alert.dismissButton)
         }
-        .onAppear(perform: {
-            buyInConfirmationSound = false
-        })
+        .onAppear(perform: { buyInConfirmationSound = false })
         .scrollDismissesKeyboard(.immediately)
-        .onTapGesture {
-            isFocused = false
-        }
+        .onTapGesture { isFocused = false }
     }
     
     var title: some View {
