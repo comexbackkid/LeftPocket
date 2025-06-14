@@ -312,7 +312,7 @@ struct ProfitByMonth: View {
                 QuickMetricBox(title: "Win Ratio", metric: winRatio, percentageChange: 0.0)
                     .padding(.top, 15)
             }
-            .padding(.bottom, 70)
+            .padding(.bottom, 80)
         }
     }
     
