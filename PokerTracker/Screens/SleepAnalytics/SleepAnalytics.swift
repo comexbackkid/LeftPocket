@@ -391,6 +391,8 @@ struct SleepAnalytics: View {
     var articleCard: some View {
         
         Button {
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
             showArticle = true
             
         } label: {

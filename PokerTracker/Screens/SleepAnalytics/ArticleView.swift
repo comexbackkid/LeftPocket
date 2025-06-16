@@ -41,9 +41,7 @@ struct ArticleView: View {
         }
         .ignoresSafeArea()
         .background(Color.brandBackground)
-        .overlay {
-            dismissButton
-        }
+        .overlay { dismissButton }
     }
     
     var dismissButton: some View {
@@ -71,6 +69,8 @@ struct ArticleView: View {
                 return
             }
             
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
             openURL(url)
             
         } label: {

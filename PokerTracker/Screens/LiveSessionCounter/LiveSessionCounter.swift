@@ -38,7 +38,7 @@ struct LiveSessionCounter: View {
         .dynamicTypeSize(.medium)
         .padding(10)
         .background(.ultraThinMaterial)
-        .cornerRadius(16)
+        .cornerRadius(12)
         .onAppear { loadUserDefaults() }
         .contextMenu { menuItems }
         .padding(.horizontal)
