@@ -25,10 +25,12 @@ struct SleepAnalytics: View {
     @State private var trigger = false
     @State private var showError = false
     @State private var showPaywall = false
+    @State private var showArticle = false
     @State private var howThisWorksPopup = false
     @State private var comparisonPopup = false
     @State private var rawSelectedDate: Date?
     @State private var chartData: [SleepMetric] = []
+    @Namespace var articleAnimation
     @Binding var activeSheet: Sheet?
 
     // Using this Dictionary to speed up matching a green day or red day
@@ -70,11 +72,11 @@ struct SleepAnalytics: View {
                         
                         VStack (spacing: 22) {
                             
-                            recentSleepSession
+//                            recentSleepSession
                             
-                            if !subManager.isSubscribed { upgradeButton }
+//                            if !subManager.isSubscribed { upgradeButton }
 
-                            sleepChart
+//                            sleepChart
                                                         
                             lowSleepToolTip
                             
@@ -84,6 +86,8 @@ struct SleepAnalytics: View {
                                 mindfulnessCard
                             }
                             .buttonStyle(.plain)
+        
+                            articleCard
                         }
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationTitle("")
@@ -107,6 +111,10 @@ struct SleepAnalytics: View {
                       message: Text(hkManager.errorMsg ?? "An unknown error occurred."),
                       dismissButton: .default(Text("Ok")))
             }
+            .sheet(isPresented: $showArticle, content: {
+                ArticleView(article: Articles.sleepArticle)
+                    .navigationTransition(.zoom(sourceID: Articles.sleepArticle.id, in: articleAnimation))
+            })
             .fullScreenCover(isPresented: $showPaywall, content: {
                 PaywallView(fonts: CustomPaywallFontProvider(fontName: "Asap"))
                     .dynamicTypeSize(.large)
@@ -356,6 +364,7 @@ struct SleepAnalytics: View {
                     
                     Text("Establish your focus & headspace before you play.")
                         .calloutStyle()
+                        .multilineTextAlignment(.leading)
                         .foregroundStyle(Color.white)
                         .opacity(0.5)
                 }
@@ -379,6 +388,19 @@ struct SleepAnalytics: View {
                 }
         )
         .cornerRadius(12)
+    }
+    
+    var articleCard: some View {
+        
+        Button {
+            showArticle = true
+            
+        } label: {
+            ArticleCard(image: "meditation-beach",
+                        title: "Sleep Deprivation is Real",
+                        subtitle: "Are you getting the full six hours of sleep your body needs?")
+            .matchedTransitionSource(id: Articles.sleepArticle.id, in: articleAnimation)
+        }
     }
     
     var dismissButton: some View {

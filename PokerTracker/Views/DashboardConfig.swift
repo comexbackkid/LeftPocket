@@ -73,7 +73,7 @@ struct DashboardConfig: View {
     
     var statsList: some View {
         
-        VStack (spacing: 15) {
+        VStack (spacing: 12) {
             
             HStack {
                 Text("Player Profit")

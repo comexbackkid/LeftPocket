@@ -152,6 +152,10 @@
 		7C9BBF1C2DB443E200B13638 /* OnboardingView.startingBankroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9BBF1B2DB443DB00B13638 /* OnboardingView.startingBankroll.swift */; };
 		7C9BBF1E2DB4443600B13638 /* OnboardingView.poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9BBF1D2DB4442B00B13638 /* OnboardingView.poll.swift */; };
 		7C9D32772B261FA700900C8C /* AdditionalMetricsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */; };
+		7C9F89FF2E005DB200E449AA /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9F89FE2E005DB200E449AA /* ArticleView.swift */; };
+		7C9F8A012E00654200E449AA /* ArticleCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9F8A002E00654200E449AA /* ArticleCard.swift */; };
+		7C9F8A032E00670B00E449AA /* Articles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9F8A022E00670300E449AA /* Articles.swift */; };
+		7C9F8A052E00688900E449AA /* ArticleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9F8A042E00688900E449AA /* ArticleModel.swift */; };
 		7C9FEC7E2C1F68B70062208B /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9FEC7D2C1F68B70062208B /* ImageSaver.swift */; };
 		7CA784922DEBA72E00BB6C46 /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA784912DEBA72A00BB6C46 /* MailView.swift */; };
 		7CA7F8152B6FF5FB00F976EE /* Tips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CA7F8142B6FF5FB00F976EE /* Tips.swift */; };
@@ -458,6 +462,10 @@
 		7C9BBF1B2DB443DB00B13638 /* OnboardingView.startingBankroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.startingBankroll.swift; sourceTree = "<group>"; };
 		7C9BBF1D2DB4442B00B13638 /* OnboardingView.poll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.poll.swift; sourceTree = "<group>"; };
 		7C9D32762B261FA700900C8C /* AdditionalMetricsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalMetricsCardView.swift; sourceTree = "<group>"; };
+		7C9F89FE2E005DB200E449AA /* ArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleView.swift; sourceTree = "<group>"; };
+		7C9F8A002E00654200E449AA /* ArticleCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCard.swift; sourceTree = "<group>"; };
+		7C9F8A022E00670300E449AA /* Articles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Articles.swift; sourceTree = "<group>"; };
+		7C9F8A042E00688900E449AA /* ArticleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleModel.swift; sourceTree = "<group>"; };
 		7C9FEC7D2C1F68B70062208B /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		7CA784912DEBA72A00BB6C46 /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
 		7CA7F8142B6FF5FB00F976EE /* Tips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tips.swift; sourceTree = "<group>"; };
@@ -767,6 +775,7 @@
 				7C68FE4226D7CEA40019BA53 /* RecentSessionCardView.swift */,
 				7CBBA3B62BF40CA700733D53 /* SleepCardView.swift */,
 				7CEDC87D2DB9076A008117C3 /* MeditationCard.swift */,
+				7C9F8A002E00654200E449AA /* ArticleCard.swift */,
 			);
 			path = CardViews;
 			sourceTree = "<group>";
@@ -811,6 +820,7 @@
 		7C2614D026D9318A00986183 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7C9F8A022E00670300E449AA /* Articles.swift */,
 				7CD2EEC62BE8F0DB00AEE64E /* AppDelegate.swift */,
 				7C1DF2B42CC6D63100E3D69E /* AudioManager.swift */,
 				7C18FC112D9ACE0E00E837AE /* BankrollModel.swift */,
@@ -827,6 +837,7 @@
 				7C8549312C47ED830038ADB4 /* SceneDelegate.swift */,
 				7CB587312D426AF500BCE642 /* TransactionModel.swift */,
 				7C8549332C47EDD40038ADB4 /* QuickActionTypes.swift */,
+				7C9F8A042E00688900E449AA /* ArticleModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1123,6 +1134,7 @@
 		7CA940F72BECF8C5009B54BA /* SleepAnalytics */ = {
 			isa = PBXGroup;
 			children = (
+				7C9F89FE2E005DB200E449AA /* ArticleView.swift */,
 				7CA940FA2BECF925009B54BA /* HealthMetricModel.swift */,
 				7CA940F82BECF8E3009B54BA /* SleepAnalytics.swift */,
 				7CA9900D2CC2E5D400446D66 /* MindfulnessAnalytics.swift */,
@@ -1472,6 +1484,7 @@
 				7C18FC152D9ADECF00E837AE /* ManageBankrolls.swift in Sources */,
 				7C5C79962B2780210088A841 /* UserSettings.swift in Sources */,
 				7CAB7EF92D452654008A84F9 /* EditSessionViewModel.swift in Sources */,
+				7C9F89FF2E005DB200E449AA /* ArticleView.swift in Sources */,
 				7C6394A926C14F6400939F40 /* SessionsListView.swift in Sources */,
 				7CA9900E2CC2E5D400446D66 /* MindfulnessAnalytics.swift in Sources */,
 				7CD7468C28A6CFA200D5A2D0 /* FailureView.swift in Sources */,
@@ -1515,6 +1528,7 @@
 				7C441B3E2DB52D26001F0115 /* ImportView.binkPoker.swift in Sources */,
 				7CED6EA827517D7F00E18053 /* Array+Ext.swift in Sources */,
 				7C2E6BF92B711C89002C01C9 /* ImportView.swift in Sources */,
+				7C9F8A032E00670B00E449AA /* Articles.swift in Sources */,
 				7C0208DB26F24B4900AC6151 /* Date+Ext.swift in Sources */,
 				7C3F43AA27284CD800A9C842 /* NumberFormatter.swift in Sources */,
 				7CA7F8182B6FFAA700F976EE /* CSVImport.swift in Sources */,
@@ -1526,6 +1540,7 @@
 				7C5D5D332BE2B6A8003DC94D /* HealthKitManager.swift in Sources */,
 				7C6E75BB2BAA16BE006173A4 /* LiveSessionCounter.swift in Sources */,
 				7C6394A726C14F5600939F40 /* MetricsView.swift in Sources */,
+				7C9F8A012E00654200E449AA /* ArticleCard.swift in Sources */,
 				7C96E69B2DC43C82003317AF /* BarChartDailyCount.swift in Sources */,
 				7CB587322D426AF500BCE642 /* TransactionModel.swift in Sources */,
 				7C6E75BE2BAA1DE7006173A4 /* LiveSessionCounterViewModel.swift in Sources */,
@@ -1550,6 +1565,7 @@
 				7C12A58B2CB1CABE00CA8922 /* DashboardConfig.swift in Sources */,
 				7CBEF44627596DEE00744F4A /* Colors+Ext.swift in Sources */,
 				7C455DF02C98CD50008C1446 /* LiveSessionInitialBuyIn.swift in Sources */,
+				7C9F8A052E00688900E449AA /* ArticleModel.swift in Sources */,
 				7C1941252BDAA33E00377364 /* BestTimeOfDay.swift in Sources */,
 				7CB3EB9F26C310F5009E8DF3 /* SessionDetailView.swift in Sources */,
 				7C79447E2DCFD82200643BFD /* ArrowButton.swift in Sources */,

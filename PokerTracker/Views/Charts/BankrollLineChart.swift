@@ -19,14 +19,13 @@ struct BankrollLineChart: View {
     @AppStorage("dateRangeSelection") private var chartRange: RangeSelection = .all
     @AppStorage("chartBankrollFilter") private var bankrollFilter: BankrollSelection = .default
     
-    // Optional year selector, only used in Annual Report View. Overrides dateRange if used
+    // Optional custom range, only used in Annual Report View
     var customDateRange: [PokerSession_v2]?
     private var data: [Int] { viewModel.bankrollLineChartData }
     private var annotationProfit: Int? {
         guard let i = selectedIndex, data.indices.contains(i) else { return nil }
         return data[i]
     }
-    
     let showTitle: Bool
     let showYAxis: Bool
     let showRangeSelector: Bool
@@ -191,12 +190,7 @@ struct BankrollLineChart: View {
                     let impact = UIImpactFeedbackGenerator(style: .soft)
                     impact.impactOccurred()
                     chartRange = range
-                    
-                    viewModel.refreshFiltered(
-                        bankroll: bankrollFilter,
-                        range:   chartRange,
-                        session: chartSessionFilter
-                    )
+                    viewModel.refreshFiltered(bankroll: bankrollFilter, range: chartRange, session: chartSessionFilter)
                     
                 } label: {
                     Text("\(range.displayName)")
