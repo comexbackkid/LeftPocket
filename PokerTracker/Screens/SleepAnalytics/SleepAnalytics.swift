@@ -72,13 +72,11 @@ struct SleepAnalytics: View {
                         
                         VStack (spacing: 22) {
                             
-//                            recentSleepSession
-                            
-//                            if !subManager.isSubscribed { upgradeButton }
-
-//                            sleepChart
-                                                        
                             lowSleepToolTip
+                            
+                            if !subManager.isSubscribed { upgradeButton }
+
+                            sleepChart
                             
                             sleepPerformanceToolTip
                             
@@ -380,7 +378,7 @@ struct SleepAnalytics: View {
         .foregroundStyle(.white)
         .padding(20)
         .background(
-            Image("nightsky")
+            Image("meditation-forest")
                 .centerCropped()
                 .overlay {
                     LinearGradient(colors: [.black, .clear], startPoint: .bottom, endPoint: .top)
@@ -396,9 +394,9 @@ struct SleepAnalytics: View {
             showArticle = true
             
         } label: {
-            ArticleCard(image: "meditation-beach",
-                        title: "Sleep Deprivation is Real",
-                        subtitle: "Are you getting the full six hours of sleep your body needs?")
+            ArticleCard(image: "sleep-guy",
+                        title: "How Sleep Affects Self-Control",
+                        subtitle: "Are you getting the full six to seven hours of sleep your body needs?")
             .matchedTransitionSource(id: Articles.sleepArticle.id, in: articleAnimation)
         }
     }

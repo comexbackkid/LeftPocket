@@ -7,7 +7,17 @@
 
 struct Articles {
     
-    static let sleepArticle = Article(title: "Sleep Deprivation is Real",
-                                      image: "meditation-beach",
-                                      articleText: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed congue mi ligula, sit amet ullamcorper neque tincidunt at. Pellentesque egestas diam nisi, non porta magna ullamcorper eget. Praesent fermentum vestibulum aliquet. Quisque imperdiet erat vitae purus egestas, eu consectetur dolor dictum.\n\nAenean blandit massa mi, ut convallis dui porta vitae. Quisque vel fringilla tortor, id aliquam quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla quis purus vitae diam auctor convallis vel ut eros. Sed maximus imperdiet cursus. Sed hendrerit neque nisl, quis facilisis libero aliquet lacinia.\n\nMorbi dapibus elit enim, non tempus ligula maximus et. Maecenas maximus nisl nec purus sodales molestie. Cras erat quam, iaculis vitae nibh a, porta vehicula nisl. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam vulputate dapibus ex malesuada posuere. Mauris vitae velit vulputate, bibendum tortor eget, porta justo. Suspendisse potenti.")
+    static let sleepArticle = Article(title: "How Sleep Affects Self-Control",
+                                      image: "sleep-guy",
+                                      articleText: """
+Many poker players pride themselves on grinding long sessions, sometimes through the night. But pushing your body and mind past the point of exhaustion doesn’t win you more pots – it just quietly erodes your edge.
+
+As Dr. Patricia Cardner and Jonathan Little write in Positive Poker, “With enough sleep deprivation, both judgement and performance will decline.” That drop-off is subtle at first, but dangerous. Even mild sleep loss reduces your willpower, increases emotional reactivity, and makes it harder to resist tilt, distractions, or poor decisions.
+
+Sleep is where your brain resets and restores higher-level thinking. It’s when the prefrontal cortex – the part of your brain responsible for focus, planning, and emotional regulation – recovers its strength. Without enough rest, it can’t properly manage the amygdala, your brain’s fight-or-flight center. That imbalance can cause you to misread situations, take unnecessary risks, or lose patience at critical moments.
+
+If you’re serious about improving your game, protecting your sleep is one of the most underrated strategies available. The best decisions at the table come from a sharp, focused mind—and that starts with how well you sleep away from it.
+
+For further reading, it's highly recommended that you grab a copy of Positive Poker and see how else you might be tilting without even realizing it. Tap the link below.
+""")
 }

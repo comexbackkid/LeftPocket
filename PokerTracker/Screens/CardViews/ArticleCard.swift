@@ -73,7 +73,7 @@ struct ArticleCard: View {
                     .font(.headline)
                     .foregroundColor(.white).opacity(0.5)
                 
-                Text("Keys to Sleep")
+                Text("Positive Poker")
                     .signInTitleStyle()
                     .fontWeight(.heavy)
                     .foregroundColor(Color(.white))

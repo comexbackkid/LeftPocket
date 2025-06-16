@@ -825,6 +825,7 @@ struct GraphicHeaderView: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(height: 430)
                     .clipped()
+                    .stretchy()
                 
             } else if let importedImagePath = location.importedImage {
                 if let uiImage = ImageLoader.loadImage(from: importedImagePath) {
@@ -833,6 +834,7 @@ struct GraphicHeaderView: View {
                         .aspectRatio(contentMode: .fill)
                         .frame(height: 430)
                         .clipped()
+                        .stretchy()
                     
                 } else {
                     Image("defaultlocation-header")
@@ -840,6 +842,7 @@ struct GraphicHeaderView: View {
                         .aspectRatio(contentMode: .fill)
                         .frame(height: 430)
                         .clipped()
+                        .stretchy()
                 }
                 
             } else {
@@ -848,6 +851,7 @@ struct GraphicHeaderView: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(height: 430)
                     .clipped()
+                    .stretchy()
             }
         }
         .frame(maxWidth: UIScreen.main.bounds.width)
@@ -860,6 +864,25 @@ struct TransferableImage: Transferable {
     static var transferRepresentation: some TransferRepresentation {
         DataRepresentation(exportedContentType: .png) { item in
             item.data
+        }
+    }
+}
+
+extension View {
+    
+    func stretchy() -> some View {
+        visualEffect { effect, geometry in
+            let currentHeight = geometry.size.height
+            let scrollOffset = geometry.frame(in: .scrollView).minY
+            let positiveOffset = max(0, scrollOffset)
+            
+            let newHeight = currentHeight + positiveOffset
+            let scaleFactor = newHeight / currentHeight
+            
+            return effect.scaleEffect(
+                x: scaleFactor, y: scaleFactor,
+                anchor: .bottom
+            )
         }
     }
 }
