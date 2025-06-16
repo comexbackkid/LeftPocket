@@ -14,7 +14,6 @@ struct ProfitByStakesView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var subManager: SubscriptionManager
     @ObservedObject var viewModel: SessionsListViewModel
-    
     @State private var yearFilter: String? = nil
     @State private var metricFilter = "Total"
     @State private var showPaywall = false
@@ -380,16 +379,16 @@ struct ProfitByStakesView: View {
     
     private func bbPerHourByStakes(stakes: String, sessions: [PokerSession_v2]) -> Double {
         
-        guard !sessions.isEmpty else { return 0 }
-        guard !sessions.filter({ $0.stakes == stakes }).isEmpty else { return 0 }
+        let sessionsAtStakes = sessions.filter { $0.stakes == stakes }
+        guard !sessionsAtStakes.isEmpty else { return 0 }
         
-        guard let lastSlashIndex = stakes.lastIndex(of: "/"),
-              let bigBlind = Int(stakes[lastSlashIndex...].trimmingCharacters(in: .punctuationCharacters)) else {
-              
-            return 0
-        }
+        // New approach here guarding against Big Blind being 0
+        guard let slashIndex = stakes.lastIndex(of: "/") else { return 0 }
+        let rawBB = stakes[stakes.index(after: slashIndex)...].trimmingCharacters(in: .punctuationCharacters)
+        guard let bigBlind = Int(rawBB), bigBlind > 0 else { return 0 }
         
         let hoursPlayed = sessions.filter({ $0.stakes == stakes }).map { $0.sessionDuration.durationInHours }.reduce(0, +)
+        guard hoursPlayed > 0 else { return 0 }
         let profit = sessions.filter({ $0.stakes == stakes }).map { $0.profit }.reduce(0, +)
         let bigBlindsWon = Float(profit / bigBlind)
         
