@@ -619,6 +619,91 @@ class CSVImporter {
         return importedSessions
     }
     
+    // MARK: Regroup Poker Tools Import
+    
+    func importCSVFromRegroup(data: Data) throws -> [PokerSession_v2] {
+        
+        guard let csvString = String(data: data, encoding: .utf8) else {
+            throw ImportError.invalidData
+        }
+        
+        let rows = csvString.components(separatedBy: "\n")
+        var importedSessions: [PokerSession_v2] = []
+        
+        // Ignore the first row (indexes), start at the second row
+        for rowIndex in 1..<rows.count {
+            
+            let row = rows[rowIndex]
+            let columns = row.components(separatedBy: ",")
+            
+            if columns.count == 12 {
+                
+                // Extract only relevant data and create a PokerSession object
+                let dateString = columns[0].trimmingCharacters(in: .init(charactersIn: "\""))
+                let durationString = columns[6].trimmingCharacters(in: .init(charactersIn: "\""))
+                let startDate = convertToDateFromRegroup(dateString) ?? Date()
+                let startTime = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: startDate) ?? Date().modifyTime(minutes: -300)
+                
+                // Parse the duration and calculate end time
+                let duration = Double(durationString) ?? 0.0
+                let durationHours = Int(duration)
+                let durationMinutes = Int((duration.truncatingRemainder(dividingBy: 1)) * 60)
+                let endTime = Calendar.current.date(byAdding: .hour, value: durationHours, to: Calendar.current.date(byAdding: .minute, value: durationMinutes, to: startTime) ?? Date()) ?? Date()
+                let game = columns[2].trimmingCharacters(in: .init(charactersIn: "\""))
+                let location = LocationModel_v2(name: columns[3].trimmingCharacters(in: .init(charactersIn: "\"")))
+                let smallBlind = Double(columns[9].trimmingCharacters(in: CharacterSet(charactersIn: "\""))) ?? 0
+                let bigBlind = Double(columns[8].trimmingCharacters(in: CharacterSet(charactersIn: "\""))) ?? 0
+                let stakes = "\(smallBlind.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(smallBlind)) : String(smallBlind))/\(bigBlind.truncatingRemainder(dividingBy: 1) == 0 ? String(Int(bigBlind)) : String(bigBlind))"
+                let buyInString = columns[4].trimmingCharacters(in: .init(charactersIn: "\""))
+                let buyIn = Int(Double(buyInString) ?? 0)
+                let cashOutString = columns[7].trimmingCharacters(in: .init(charactersIn: "\""))
+                let cashOut = Int(Double(cashOutString) ?? 0)
+                let profit = cashOut - buyIn
+                let expensesString = columns[5].trimmingCharacters(in: .init(charactersIn: "\""))
+                let expenses = Int(Double(expensesString) ?? 0)
+                
+                // Tournament Data
+                let sessionType = columns[1].trimmingCharacters(in: .init(charactersIn: "\""))
+                
+                let session = PokerSession_v2(location: location,
+                                              date: startDate,
+                                              startTime: startTime,
+                                              endTime: endTime,
+                                              game: game == "NLH" ? "NL Texas Hold Em" : game,
+                                              stakes: stakes,
+                                              buyIn: buyIn,
+                                              cashOut: cashOut,
+                                              profit: profit,
+                                              expenses: expenses,
+                                              notes: "",
+                                              tags: [],
+                                              highHandBonus: 0,
+                                              handsPerHour: 25,
+                                              totalPausedTime: nil,
+                                              moodLabelRaw: nil,
+                                              isTournament: sessionType == "TOURNAMENT" ? true : false,
+                                              rebuyCount: nil,
+                                              bounties: nil,
+                                              tournamentSize: sessionType == "TOURNAMENT" ? "MTT" : nil,
+                                              tournamentSpeed: sessionType == "TOURNAMENT" ? "Standard" : nil,
+                                              entrants: nil,
+                                              finish: nil,
+                                              tournamentDays: sessionType == "TOURNAMENT" ? 1 : nil,
+                                              startTimeDayTwo: nil,
+                                              endTimeDayTwo: nil,
+                                              stakers: nil)
+                
+                importedSessions.append(session)
+                
+            } else {
+                print("Column count: \(columns.count)")
+                throw ImportError.parsingFailed
+            }
+        }
+        
+        return importedSessions
+    }
+    
     // MARK: DATE CONVERSIONS
     
     // Bink Poker date conversion (e.g. "02/12/2025")
@@ -702,6 +787,21 @@ class CSVImporter {
             return date
         } else {
             print("Error: Unable to convert string to Date.")
+            return nil
+        }
+    }
+    
+    // Regroup Poker Tools date conversion
+    func convertToDateFromRegroup(_ rawDate: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        
+        if let date = dateFormatter.date(from: rawDate) {
+            return date
+        } else {
+            print("Error: Unable to convert string to Date: \(rawDate)")
             return nil
         }
     }

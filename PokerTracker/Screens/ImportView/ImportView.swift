@@ -181,6 +181,36 @@ struct ImportView: View {
             Divider()
             
             NavigationLink {
+                RegroupImportView()
+            } label: {
+                HStack {
+                    VStack (alignment: .leading) {
+                        HStack {
+                            
+                            Image(systemName: "tray.and.arrow.down.fill")
+                                .frame(width: 20)
+                                .fontWeight(.black)
+                                .padding(.trailing, 5)
+                                .foregroundColor(.secondary)
+                            
+                            Text("Regroup Poker Tools")
+                                .bodyStyle()
+                                .bold()
+                            
+                            Spacer()
+                            
+                            Text("›")
+                                .font(.title2)
+                        }
+                    }
+                    Spacer()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Divider()
+            
+            NavigationLink {
                 LeftPocketImportView()
             } label: {
                 HStack {

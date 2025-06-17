@@ -2674,6 +2674,9 @@
         }
       }
     },
+    "From Regroup, navigate to Settings and tap the Export CSV button." : {
+
+    },
     "From the list, choose the app that you're exporting data from, and carefully follow the directions provided" : {
       "localizations" : {
         "pt-BR" : {
@@ -4361,6 +4364,9 @@
         }
       }
     },
+    "Open the spreadsheet on your computer, or from your iPhone in the Numbers app. Make sure the notes column is completely empty. There should be a total of 12 columns in all." : {
+
+    },
     "Open the spreadsheet on your computer, or from your iPhone in the Numbers app. Make sure the notes column is completely empty. There should be a total of 14 columns in all." : {
       "localizations" : {
         "pt-BR" : {
@@ -4901,6 +4907,15 @@
           }
         }
       }
+    },
+    "Regroup Poker Tools" : {
+
+    },
+    "Regroup Poker Tools exports currently do not contain specific start & end times. For that reason, all Sessions will default to 12:00pm and end according to their duration." : {
+
+    },
+    "Regroup Poker Tools Import" : {
+
     },
     "Reports" : {
       "localizations" : {
