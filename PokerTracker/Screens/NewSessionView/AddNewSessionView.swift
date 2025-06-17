@@ -1327,8 +1327,8 @@ struct AddNewSessionView: View {
                 impact.impactOccurred()
                 newSession.savedButtonPressed(viewModel: vm) {
                     dismiss()
+                    audioConfirmation = true
                 }
-                audioConfirmation = true
                 timerViewModel.liveSessionStartTime = nil
                 
             } label: {

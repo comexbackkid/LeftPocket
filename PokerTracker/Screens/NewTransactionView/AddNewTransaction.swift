@@ -402,7 +402,6 @@ struct AddNewTransaction: View {
                 let impact = UIImpactFeedbackGenerator(style: .heavy)
                 impact.impactOccurred()
                 saveButtonPressed()
-                audioConfirmation = true
                 
             } label: {
                 PrimaryButton(title: "Save Transaction")
@@ -425,6 +424,7 @@ struct AddNewTransaction: View {
     
     private func saveButtonPressed() {
         guard isValidForm else { return }
+        audioConfirmation = true
         let newTransaction = vm.createTransaction(
             date: date,
             type: type!,
