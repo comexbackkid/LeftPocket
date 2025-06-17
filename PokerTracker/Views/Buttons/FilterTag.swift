@@ -19,7 +19,7 @@ struct FilterTag: View {
                 .captionStyle()
         }
         .frame(height: 20)
-        .padding(.horizontal, 20)
+        .padding(.horizontal, 16)
         .background(Color.secondary)
         .clipShape(.capsule)
         .dynamicTypeSize(.large)

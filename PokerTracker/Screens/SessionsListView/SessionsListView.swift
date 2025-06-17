@@ -551,15 +551,41 @@ struct SessionsListView: View {
             
             if let tagsFilter {
                 if listFilter == .sessions {
-                    FilterTag(type: "Tag", filterName: "\(tagsFilter)")
+                    FilterTag(type: "Tag", filterName: " \(tagsFilter)")
                         .truncationMode(.tail)
                         .lineLimit(1)
                         .padding(.bottom)
                 }
             }
             
+            if let stakesFilter {
+                if listFilter == .sessions {
+                    FilterTag(type: "Stakes", filterName: " \(stakesFilter)")
+                        .truncationMode(.tail)
+                        .lineLimit(1)
+                        .padding(.bottom)
+                }
+            }
+            
+            if let gameTypeFilter {
+                if listFilter == .sessions {
+                    FilterTag(type: "Game", filterName: " \(gameTypeFilter)")
+                        .truncationMode(.tail)
+                        .lineLimit(1)
+                        .padding(.bottom)
+                }
+            }
+            
+            if locationFilter != nil {
+                if listFilter == .sessions {
+                    FilterTag(type: "Location", filterName: " Custom")
+                        .truncationMode(.tail)
+                        .lineLimit(1)
+                        .padding(.bottom)
+                }
+            }
             if startDate != nil {
-                FilterTag(type: "Dates", filterName: "Custom")
+                FilterTag(type: "Dates", filterName: " Custom")
                     .truncationMode(.tail)
                     .lineLimit(1)
                     .padding(.bottom)

@@ -1695,7 +1695,14 @@
       }
     },
     "by Dr. Patricia Cardner & Jonathan Little" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "por Dra. Patricia Cardner e Jonathan Little"
+          }
+        }
+      }
     },
     "Cancel" : {
       "localizations" : {
@@ -4675,10 +4682,24 @@
       }
     },
     "Positive Poker" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Positive Poker"
+          }
+        }
+      }
     },
     "Positive Poker: A Modern Psychological Approach To Mastering Your Mental Game" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Positive Poker: A Modern Psychological Approach To Mastering Your Mental Game"
+          }
+        }
+      }
     },
     "Press the Save Location button" : {
       "localizations" : {
@@ -5602,7 +5623,14 @@
       }
     },
     "STUDY" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ESTUDAR"
+          }
+        }
+      }
     },
     "Submit" : {
       "localizations" : {

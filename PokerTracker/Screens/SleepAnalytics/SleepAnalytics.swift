@@ -398,7 +398,7 @@ struct SleepAnalytics: View {
         } label: {
             ArticleCard(image: "sleep-guy",
                         title: "How Sleep Affects Self-Control",
-                        subtitle: "Are you getting the full six to seven hours of sleep your body needs?")
+                        subtitle: "A lack of sleep is impacting you in ways you may not even realize.")
             .matchedTransitionSource(id: Articles.sleepArticle.id, in: articleAnimation)
         }
     }
