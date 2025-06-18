@@ -82,6 +82,7 @@ struct SleepAnalytics: View {
                             
                             NavigationLink(destination: MindfulnessAnalytics()) {
                                 mindfulnessCard
+                                    .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
         
@@ -466,7 +467,6 @@ struct SleepAnalytics: View {
             .chartXVisibleDomain(length: 86400*7)
             .chartScrollPosition(initialX: Date().modifyDays(days: -1))
             .chartScrollTargetBehavior(.paging)
-            .chartXSelection(value: $rawSelectedDate)
             .chartXAxis {
                 AxisMarks(preset: .aligned) {
                     AxisValueLabel(format: .dateTime.month(.defaultDigits).day(), verticalSpacing: 10)
