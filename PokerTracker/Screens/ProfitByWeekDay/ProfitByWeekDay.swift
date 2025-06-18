@@ -191,16 +191,18 @@ struct ProfitByWeekDay: View {
     
     private var dayOfWeekChart: some View {
         
-        let chartData = vm.allSessions.filter {( yearFilter == nil || $0.date.getYear() == yearFilter!) && !$0.isTournament }
-        
-        return BarChartByWeekDay(showTitle: true, dateRange: chartData)
-            .padding(.horizontal, 20)
-            .padding(.vertical, 20)
-            .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
-            .cornerRadius(12)
-            .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
-            .frame(height: 250)
-            .padding(.top, 15)
+        Group {
+            let chartData = vm.allSessions.filter {( yearFilter == nil || $0.date.getYear() == yearFilter!) && !$0.isTournament }
+            
+            BarChartByWeekDay(showTitle: true, dateRange: chartData)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 20)
+                .background(colorScheme == .dark ? Color.black.opacity(0.5) : Color.white)
+                .cornerRadius(12)
+                .shadow(color: colorScheme == .dark ? Color(.clear) : Color(.lightGray).opacity(0.25), radius: 12, x: 0, y: 0)
+                .frame(height: 250)
+                .padding(.top, 15)
+        }
         
     }
 

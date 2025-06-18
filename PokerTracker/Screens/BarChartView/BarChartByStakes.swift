@@ -20,14 +20,13 @@ struct BarChartByStakes: View {
         VStack {
             
             let stakesList = Set(viewModel.allCashSessions().map { $0.stakes })
-            let stakesProfits = Dictionary(grouping: filteredSessions, by: { $0.stakes })
-                .mapValues { sessions in
-                    sessions.reduce(0) { $0 + $1.profit }
-                }
+            let stakesProfits = Dictionary(grouping: filteredSessions, by: { $0.stakes }).mapValues { sessions in
+                sessions.reduce(0) { $0 + $1.profit }
+            }
             let stakesCount = stakesList.count
             let baseHeight: CGFloat = 50
             let minHeight: CGFloat = 150
-            
+
             // Calculate the height based on the number of stakes, ensuring a minimum height
             let chartHeight = max(minHeight, CGFloat(stakesCount) * baseHeight)
             
@@ -49,7 +48,7 @@ struct BarChartByStakes: View {
                         y: .value("Stakes", stake), height: 20.0
                     )
                     .foregroundStyle(totalProfit >= 0 ? .teal : .pink)
-                    .cornerRadius(25)
+                    .cornerRadius(6)
                 }
             }
             .padding(.horizontal, 15)

@@ -202,19 +202,6 @@ struct BankrollLineChart: View {
             
             Spacer()
             
-            if viewModel.lineChartFullScreen == false {
-                Button {
-                    withAnimation(.easeInOut(duration: 0.35)) {
-                        let impact = UIImpactFeedbackGenerator(style: .soft)
-                        impact.impactOccurred()
-                        minimizeLineChart.toggle()
-                    }
-                    
-                } label: {
-                    Image(systemName: "rectangle.expand.vertical")
-                }
-                .tint(.brandPrimary)
-            }
         }
         .padding(.top, 20)
     }
@@ -257,8 +244,27 @@ struct BankrollLineChart: View {
             Spacer()
             
             if showToggleAndFilter {
-                fullScreenToggleButton
-                filterButton
+                
+                HStack (alignment: .center) {
+                    
+                    if viewModel.lineChartFullScreen == false {
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.35)) {
+                                let impact = UIImpactFeedbackGenerator(style: .soft)
+                                impact.impactOccurred()
+                                minimizeLineChart.toggle()
+                            }
+                            
+                        } label: {
+                            Image(systemName: "rectangle.expand.vertical")
+                        }
+                        .tint(.brandPrimary)
+                    }
+                    
+                    fullScreenToggleButton
+                    
+                    filterButton
+                }
             }
         }
         .padding(.bottom, 6)
