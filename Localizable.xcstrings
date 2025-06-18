@@ -2674,8 +2674,26 @@
         }
       }
     },
+    "From Regroup Poker Tools, navigate to Settings and tap the Export CSV button." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Regroup Poker Tools, navegue até Configurações e toque no botão Exportar CSV."
+          }
+        }
+      }
+    },
     "From Regroup, navigate to Settings and tap the Export CSV button." : {
-
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em Regroup, navegue até Configurações e toque no botão Exportar CSV."
+          }
+        }
+      }
     },
     "From the list, choose the app that you're exporting data from, and carefully follow the directions provided" : {
       "localizations" : {
@@ -4365,7 +4383,14 @@
       }
     },
     "Open the spreadsheet on your computer, or from your iPhone in the Numbers app. Make sure the notes column is completely empty. There should be a total of 12 columns in all." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abra a planilha no seu computador ou no seu iPhone no app Numbers. Certifique-se de que a coluna de notas esteja completamente vazia. Deve haver um total de 12 colunas."
+          }
+        }
+      }
     },
     "Open the spreadsheet on your computer, or from your iPhone in the Numbers app. Make sure the notes column is completely empty. There should be a total of 14 columns in all." : {
       "localizations" : {
@@ -4877,17 +4902,6 @@
         }
       }
     },
-    "Redeem 10% OFF" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resgate 10% DE DESCONTO"
-          }
-        }
-      }
-    },
     "Redeem Left Pocket Offer Code" : {
       "localizations" : {
         "pt-BR" : {
@@ -4909,13 +4923,34 @@
       }
     },
     "Regroup Poker Tools" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Regroup Poker Tools"
+          }
+        }
+      }
     },
     "Regroup Poker Tools exports currently do not contain specific start & end times. For that reason, all Sessions will default to 12:00pm and end according to their duration." : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As exportações do Regroup Poker Tools atualmente não contêm horários de início e término específicos. Por esse motivo, todas as sessões serão iniciadas por padrão às 12h e encerradas de acordo com sua duração."
+          }
+        }
+      }
     },
     "Regroup Poker Tools Import" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Regroup Poker Tools Import"
+          }
+        }
+      }
     },
     "Reports" : {
       "localizations" : {

@@ -179,7 +179,7 @@ struct MetricsView: View {
         Group {
             if !subManager.isSubscribed {
                 ToolTipView(image: "stopwatch",
-                            message: "You tend to play better when your Session lasts \(viewModel.bestSessionLength()).",
+                            message: "You tend to play better when your session lasts \(viewModel.bestSessionLength()).",
                             color: .brandPrimary,
                             premium: subManager.isSubscribed ? false : true)
                 .overlay {
