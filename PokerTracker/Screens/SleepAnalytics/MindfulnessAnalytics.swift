@@ -48,10 +48,11 @@ struct MindfulnessAnalytics: View {
                                 color: .donutChartPurple)
                     
                     meditationClasses
-                                        
-                    recentMeditations
+                    
                 }
                 .padding(.horizontal)
+                
+                recentMeditations
             }
         }
         .onChange(of: hkManager.errorMsg, perform: { _ in
@@ -242,6 +243,7 @@ struct MindfulnessAnalytics: View {
                 
                 Spacer()
             }
+            .padding(.horizontal)
             
             let matchedSessions = viewModel.allSessions.prefix(10).filter { session in
                 hkManager.totalMindfulMinutesPerDay.keys.contains { isSameDay($0, session.date) }
@@ -252,9 +254,10 @@ struct MindfulnessAnalytics: View {
                     .bodyStyle()
                     .padding(.top, 1)
                     .foregroundStyle(.secondary)
+                    .padding(.horizontal)
             }
             
-            ScrollView(.horizontal) {
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(matchedSessions, id: \.id) { session in
                         ZStack {
@@ -330,6 +333,7 @@ struct MindfulnessAnalytics: View {
                         }
                     }
                 }
+                .padding(.horizontal)
             }
             .padding(.bottom, 60)
         }
